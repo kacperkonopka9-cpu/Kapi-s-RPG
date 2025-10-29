@@ -20,19 +20,7 @@ Pulled into the cursed land of Barovia by mysterious mists, the player becomes t
 
 3. **Free Will vs. Fate** - Are the players and NPCs truly free, or are they pawns in Strahd's eternal game? Can mortals defy a predetermined cycle?
 
-4. **Redemption and Sacrifice** - Many Barovians are broken by their circumstances. Can anyone find redemption? What must be sacrificed to save others?
-
-5. **The Price of Power** - The Amber Temple and dark gifts tempt players with power at terrible costs. How much of yourself will you trade for strength?
-
-### Tone and Atmosphere
-
-**Gothic Horror with Melancholic Beauty**
-
-The narrative tone is oppressive yet hauntingly beautiful—Barovia is a land of vibrant autumnal colors drained of joy, where every sunset might be your last. The atmosphere balances genuine horror (body horror, psychological dread, existential terror) with tragic romanticism (doomed love, noble sacrifice, corrupted beauty).
-
-**Emotional Palette:**
-- Melancholy and isolation
-- Creeping dread and paranoia
+4. **Redemption and Sacrifice** - Many Barovians are bro
 - Brief moments of warmth that make the darkness more poignant
 - Tragic inevitability tinged with defiant hope
 - Gothic grandeur amid decay
