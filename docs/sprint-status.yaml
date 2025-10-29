@@ -1,0 +1,123 @@
+# generated: 2025-10-29
+# project: Kapi-s-RPG
+# project_key: Kapi-s-RPG
+# tracking_system: file-system
+# story_location: {project-root}/docs/stories
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Epic tech context created (required before drafting stories)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder
+#   - ready-for-dev: Draft approved and story context created
+#   - in-progress: Developer actively working on implementation
+#   - review: Under SM review (via code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically drafts next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
+
+generated: 2025-10-29
+project: Kapi-s-RPG
+project_key: Kapi-s-RPG
+tracking_system: file-system
+story_location: "{project-root}/docs/stories"
+
+development_status:
+  # Epic 1: Core Engine & Location System (MVP Foundation)
+  # Estimated Stories: 8-12
+  epic-1: contexted
+  1-1-location-folder-structure: backlog
+  1-2-location-data-parser: backlog
+  1-3-context-loader-module: backlog
+  1-4-basic-slash-commands: backlog
+  1-5-llm-narrator-integration: backlog
+  1-6-location-navigation: backlog
+  1-7-session-logging-system: backlog
+  1-8-git-auto-save: backlog
+  1-9-test-locations-setup: backlog
+  1-10-location-state-persistence: backlog
+  epic-1-retrospective: optional
+
+  # Epic 2: Game Calendar & Dynamic World System
+  # Estimated Stories: 6-10
+  epic-2: backlog
+  2-1-calendar-data-structure: backlog
+  2-2-time-advancement-module: backlog
+  2-3-event-scheduler: backlog
+  2-4-npc-schedule-tracking: backlog
+  2-5-calendar-slash-commands: backlog
+  2-6-event-execution-engine: backlog
+  2-7-state-auto-update: backlog
+  2-8-moon-phase-weather: backlog
+  2-9-world-state-propagation: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: D&D 5e Mechanics Integration
+  # Estimated Stories: 10-15
+  epic-3: backlog
+  3-1-dice-rolling-module: backlog
+  3-2-character-sheet-parser: backlog
+  3-3-ability-checks-handler: backlog
+  3-4-skill-check-system: backlog
+  3-5-combat-manager: backlog
+  3-6-spell-database: backlog
+  3-7-spellcasting-module: backlog
+  3-8-inventory-management: backlog
+  3-9-level-up-calculator: backlog
+  3-10-mechanics-slash-commands: backlog
+  3-11-hp-death-saves: backlog
+  3-12-condition-tracking: backlog
+  3-13-rest-mechanics: backlog
+  3-14-equipment-system: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: Curse of Strahd Content Implementation
+  # Estimated Stories: 12-18
+  epic-4: backlog
+  4-1-village-of-barovia-location: backlog
+  4-2-castle-ravenloft-structure: backlog
+  4-3-vallaki-location: backlog
+  4-4-krezk-location: backlog
+  4-5-major-locations-batch-1: backlog
+  4-6-major-locations-batch-2: backlog
+  4-7-strahd-npc-profile: backlog
+  4-8-ireena-npc-profile: backlog
+  4-9-major-npcs-batch-1: backlog
+  4-10-major-npcs-batch-2: backlog
+  4-11-main-quest-system: backlog
+  4-12-artifact-quests: backlog
+  4-13-side-quests-batch-1: backlog
+  4-14-monster-statblocks: backlog
+  4-15-item-database: backlog
+  4-16-tarokka-reading-system: backlog
+  4-17-strahd-ai-behavior: backlog
+  epic-4-retrospective: optional
+
+  # Epic 5: LLM-DM Integration & VS Code Workflows
+  # Estimated Stories: 8-12
+  epic-5: backlog
+  5-1-intelligent-context-loader: backlog
+  5-2-context-caching-strategy: backlog
+  5-3-llm-prompt-templates: backlog
+  5-4-enhanced-slash-commands: backlog
+  5-5-vs-code-ui-improvements: backlog
+  5-6-session-management: backlog
+  5-7-performance-optimization: backlog
+  5-8-character-sheet-sidebar: backlog
+  5-9-quest-tracker-panel: backlog
+  5-10-calendar-widget: backlog
+  5-11-markdown-preview-styling: backlog
+  epic-5-retrospective: optional
