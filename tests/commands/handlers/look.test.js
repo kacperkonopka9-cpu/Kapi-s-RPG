@@ -71,8 +71,8 @@ describe('lookHandler', () => {
     await lookHandler(deps, []);
 
     const narrative = deps.outputChannel.mock.calls[0][0];
-    expect(narrative).toContain('NPCs present: 1');
-    expect(narrative).toContain('Items visible: 1');
+    expect(narrative).toContain('**NPCs present:** 1');
+    expect(narrative).toContain('**Items visible:** 1');
   });
 
   test('should record look action in session', async () => {

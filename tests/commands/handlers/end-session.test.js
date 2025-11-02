@@ -80,8 +80,8 @@ describe('endSessionHandler', () => {
     const summary = deps.outputChannel.mock.calls[0][0];
     expect(summary).toContain('Session Ended');
     expect(summary).toContain('Duration:');
-    expect(summary).toContain('Actions Taken: 12');
-    expect(summary).toContain('Locations Visited: 2');
+    expect(summary).toContain('**Actions Taken:** 12');
+    expect(summary).toContain('**Locations Visited:** 2');
     expect(summary).toContain('abc123def456');
   });
 
@@ -120,6 +120,6 @@ describe('endSessionHandler', () => {
 
     const summary = deps.outputChannel.mock.calls[0][0];
     // Duration should be ~45 minutes
-    expect(summary).toMatch(/Duration: 4[45] minutes/);
+    expect(summary).toMatch(/\*\*Duration:\*\* 4[45] minutes/);
   });
 });
