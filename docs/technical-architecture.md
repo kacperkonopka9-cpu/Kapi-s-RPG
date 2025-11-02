@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-This Technical Architecture Document defines the implementation design for Kapi-s-RPG, an LLM-powered D&D 5e solo RPG platform. The system uses a folder-based persistent world architecture where each game location exists as a structured directory containing markdown files for NPCs, items, events, and state. A dynamic game calendar system tracks in-world time and triggers scheduled events. The Claude API serves as the Dungeon Master, generating narrative responses by loading location context from files.
+This Technical Architecture Document defines the implementation design for Kapi-s-RPG, an LLM-powered D&D 5e solo RPG platform. The system uses a folder-based persistent world architecture where each game location exists as a structured directory containing markdown files for NPCs, items, events, and state. A dynamic game calendar system tracks in-world time and triggers scheduled events. Claude Code extension serves as the Dungeon Master, generating narrative responses by loading location context from files.
 
 **Key Architectural Principles:**
 - **File-First Design**: All game state persisted in human-readable markdown/YAML files
@@ -46,7 +46,7 @@ This Technical Architecture Document defines the implementation design for Kapi-
 │  └──────┬────────────────────────────┬───────────────────┘ │
 │         │                            │                       │
 │  ┌──────▼───────────┐        ┌──────▼─────────────────────┐│
-│  │  File System     │        │   Claude API (LLM-DM)      ││
+│  │  File System     │        │ Claude Code Ext (LLM-DM)   ││
 │  │  (World Data)    │        │   - Narrative Generation   ││
 │  │  - Locations/    │        │   - NPC Dialogue           ││
 │  │  - Characters/   │        │   - Event Descriptions     ││
@@ -76,11 +76,12 @@ This Technical Architecture Document defines the implementation design for Kapi-
 - Calendar data in YAML
 - Git repository for version control
 
-**Layer 4: LLM Integration (Claude API)**
+**Layer 4: LLM Integration (Claude Code Extension)**
 - System prompts define DM persona
-- Context injection from location files
-- Dynamic narrative generation
+- Context injection from location files via VS Code Extension API
+- Dynamic narrative generation through Claude Code
 - NPC dialogue and reactions
+- No separate API key required (uses Claude Code's authentication)
 
 ---
 
@@ -91,7 +92,7 @@ This Technical Architecture Document defines the implementation design for Kapi-
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
 | **Platform** | VS Code | Latest | Development environment and game interface |
-| **LLM Provider** | Claude API | Sonnet 4 | Dungeon Master AI (narrative generation) |
+| **LLM Provider** | Claude Code Extension | Latest | Dungeon Master AI (narrative generation) |
 | **Version Control** | Git | 2.x | Save system and world state management |
 | **Data Format** | Markdown | CommonMark | Human-readable content files |
 | **Configuration** | YAML | 1.2 | Structured data (calendar, NPCs, stats) |
@@ -114,9 +115,10 @@ This Technical Architecture Document defines the implementation design for Kapi-
 - Dungeon Master's Guide
 - Curse of Strahd campaign materials (`.claude/RPG-engine/D&D 5e collection/4 Curse of Strahd/`)
 
-**Claude API Access:**
-- API key required for LLM integration
-- Configured in VS Code settings or environment variables
+**Claude Code Extension:**
+- Claude Code extension required for LLM integration (no separate API key)
+- Must be installed and authenticated in VS Code
+- Available from VS Code marketplace
 
 ---
 
@@ -1920,7 +1922,7 @@ The implementation follows a 5-epic structure aligned with the GDD:
 - **npm:** v9 or higher
 - **Git:** v2.x
 - **VS Code:** Latest stable version
-- **Claude API Access:** API key from Anthropic
+- **Claude Code Extension:** Must be installed and authenticated
 
 **Recommended VS Code Extensions:**
 - ESLint
@@ -2460,33 +2462,38 @@ const context = await PerformanceMonitor.measure(
 
 ## 15. Security Considerations
 
-### 15.1 API Key Protection
+### 15.1 Claude Code Extension Integration
 
-**Never commit API keys to Git:**
-```bash
-# .gitignore
-.env
-.env.local
-.env.*.local
-api-keys.txt
-config/secrets.yaml
-```
+**No API Keys Required:**
+- Game uses Claude Code extension's existing authentication
+- No separate API key management needed
+- Users authenticate once with Claude Code extension
 
-**Use environment variables:**
+**Extension Detection and Validation:**
 ```javascript
-require('dotenv').config();
+// Check if Claude Code extension is available
+const vscode = require('vscode');
 
-const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;
+function validateClaudeCodeExtension() {
+  const claudeCodeExt = vscode.extensions.getExtension('anthropic.claude-code');
 
-if (!CLAUDE_API_KEY) {
-  throw new Error('CLAUDE_API_KEY not found in environment variables');
+  if (!claudeCodeExt) {
+    throw new Error('Claude Code extension not found. Please install it from VS Code marketplace.');
+  }
+
+  if (!claudeCodeExt.isActive) {
+    throw new Error('Claude Code extension is not active. Please ensure it is enabled.');
+  }
+
+  return claudeCodeExt;
 }
 ```
 
-**Key rotation:**
-- Rotate API keys every 90 days
-- Use separate keys for development and production
-- Monitor API usage for anomalies
+**Extension Dependency Management:**
+- Clearly document Claude Code as required dependency
+- Check extension availability at game startup
+- Provide helpful error messages if extension not found
+- No security concerns around API key storage or rotation
 
 ### 15.2 Input Validation
 

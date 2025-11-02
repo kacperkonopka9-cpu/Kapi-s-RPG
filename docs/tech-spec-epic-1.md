@@ -18,7 +18,7 @@ Epic 1 establishes the foundational architecture for Kapi-s-RPG, an LLM-powered 
 - ✅ Location data parser that reads and validates location files
 - ✅ Context loader module that builds optimized LLM prompts from location data with priority-based loading
 - ✅ Basic VS Code slash commands: `/start-session`, `/look`, `/travel [location]`, `/end-session`
-- ✅ LLM narrator integration with Claude API (system prompts, context injection, response handling)
+- ✅ LLM narrator integration with Claude Code extension (system prompts, context injection, response handling)
 - ✅ Simple navigation system allowing movement between connected locations
 - ✅ Session logging to markdown files with timestamp and player actions
 - ✅ Git auto-save creating commits at session end with descriptive messages
@@ -68,15 +68,16 @@ Epic 1 establishes the foundational architecture for Kapi-s-RPG, an LLM-powered 
 
 **Architectural Constraints:**
 - **File-First Design:** All game state stored in markdown/YAML files (no database)
-- **Context Limits:** LLM prompts must stay under 4096 tokens (Claude API limit)
+- **Context Limits:** LLM prompts must stay under 4096 tokens (Claude model limit)
 - **Separation of Concerns:** Location data separate from game logic
 - **Human-Readable:** All data files must be editable in text editor
 - **Git-Compatible:** File formats must work well with version control (plain text only)
+- **Claude Code Dependency:** Requires Claude Code extension to be installed for LLM functionality
 
 **Technology Stack Alignment:**
 - Node.js 18+ for game engine (Architecture §3.1)
-- Claude API (Sonnet 4) for LLM-DM (Architecture §3.1)
-- VS Code extension API for slash commands (Architecture §3.1)
+- Claude Code extension for LLM-DM (no separate API key required)
+- VS Code extension API for slash commands and Claude Code integration (Architecture §3.1)
 - Markdown/YAML for data files (Architecture §3.1)
 - Git for version control (Architecture §3.1)
 
@@ -88,7 +89,7 @@ Epic 1 establishes the foundational architecture for Kapi-s-RPG, an LLM-powered 
 |--------|---------------|--------|---------|----------------|
 | **LocationLoader** | Load and parse location files from disk | Location ID (string) | LocationData object | `src/data/location-loader.js` |
 | **ContextBuilder** | Build LLM prompts from location data with priority-based loading | LocationData, CharacterData | LLMPrompt (string, <3000 tokens) | `src/core/context-loader.js` |
-| **LLMNarrator** | Send prompts to Claude API and process responses | LLMPrompt, UserAction | NarrativeResponse (string) | `src/core/llm-narrator.js` |
+| **LLMNarrator** | Send prompts to Claude Code extension and process responses | LLMPrompt, UserAction | NarrativeResponse (string) | `src/core/llm-narrator.js` |
 | **SessionManager** | Manage game sessions (start, resume, end) | Session commands | Session state updates | `src/core/session-manager.js` |
 | **NavigationHandler** | Handle location traversal and validation | Travel commands, current location | New location ID, validation errors | `src/core/navigation-handler.js` |
 | **StateManager** | Update and persist State.md files | Location ID, state changes | Updated State.md file | `src/core/state-manager.js` |
@@ -303,23 +304,23 @@ class ContextBuilder {
 ```javascript
 class LLMNarrator {
   /**
-   * Send prompt to Claude API and get narrative response
+   * Send prompt to Claude Code extension and get narrative response
    * @param {LLMPrompt} prompt - Formatted prompt
    * @returns {Promise<NarrativeResponse>} LLM-generated narrative
-   * @throws {APIError} If Claude API fails
+   * @throws {ExtensionError} If Claude Code extension is not available
    * @throws {TokenLimitError} If prompt exceeds limits
    */
   async generateNarrative(prompt: LLMPrompt): Promise<NarrativeResponse>
 
   /**
-   * Configure API settings
-   * @param {Object} config - API configuration
+   * Check if Claude Code extension is available
+   * @returns {Promise<boolean>} True if Claude Code is installed and accessible
    */
-  configure(config: { apiKey, model, maxTokens, temperature })
+  async isClaudeCodeAvailable(): Promise<boolean>
 
   /**
-   * Test API connection
-   * @returns {Promise<boolean>} True if API is accessible
+   * Test Claude Code connection
+   * @returns {Promise<boolean>} True if Claude Code can respond to prompts
    */
   async testConnection(): Promise<boolean>
 }
@@ -448,7 +449,7 @@ User: /start-session
   │
   ├─> LLMNarrator.generateNarrative(prompt)
   │   │
-  │   ├─> Send to Claude API
+  │   ├─> Send to Claude Code extension via VS Code API
   │   ├─> Wait for response
   │   └─> Return narrative description
   │
@@ -609,13 +610,13 @@ User: /travel invalid-location
   └─> Display error to user (don't crash)
 ```
 
-**Error: Claude API Failure**
+**Error: Claude Code Extension Not Available**
 ```
-LLMNarrator attempts API call
+LLMNarrator attempts to call Claude Code
   │
-  ├─> Claude API returns 503 error
+  ├─> Claude Code extension not responding or not installed
   │
-  ├─> LLMNarrator catches APIError
+  ├─> LLMNarrator catches ExtensionError
   │   │
   │   ├─> Log error details
   │   ├─> Check retry policy (max 3 retries with exponential backoff)
@@ -687,31 +688,23 @@ LLMNarrator attempts API call
 **Authentication & Authorization:**
 - **No user authentication required** - Single-player local game
 - **File system permissions** - Rely on OS-level file access controls
-- **No network exposure** - Only outbound HTTPS to Claude API
+- **No API keys required** - Uses Claude Code extension's existing authentication
+- **Claude Code Dependency** - Requires user to have Claude Code extension installed and authenticated
 
-**API Key Protection (Architecture §15.1):**
-
-1. **Storage:**
-   - Store Claude API key in `.env` file (never committed to Git)
-   - Add `.env` to `.gitignore` on project initialization
-   - Use `dotenv` package to load environment variables
-
-2. **Validation:**
-   ```javascript
-   const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;
-   if (!CLAUDE_API_KEY) {
-     throw new Error('CLAUDE_API_KEY not found. Create .env file with API key.');
-   }
-   ```
-
-3. **Key Rotation:**
-   - Document API key rotation procedure in README
-   - Support for multiple environment files (`.env.development`, `.env.production`)
+**Extension Integration:**
+- **Claude Code Required** - Game extension depends on Claude Code being installed
+- **Extension Detection:**
+  ```javascript
+  const claudeCodeExt = vscode.extensions.getExtension('anthropic.claude-code');
+  if (!claudeCodeExt) {
+    throw new Error('Claude Code extension not found. Please install it from VS Code marketplace.');
+  }
+  ```
 
 **Data Handling:**
 - **Local-First Design** - All game data stored locally, never transmitted except:
-  - Location descriptions sent to Claude API as prompt context
-  - LLM-generated narratives received from Claude API
+  - Location descriptions sent to Claude Code extension as prompt context
+  - LLM-generated narratives received from Claude Code extension
 - **No telemetry or analytics** - Zero data collection
 - **No cloud backups** - Player controls all data (Architecture §15.3)
 
@@ -741,12 +734,11 @@ LLMNarrator attempts API call
    - No executable code injection (markdown/YAML parsing only)
 
 **Threat Model:**
-- **Low Risk** - Local single-player game with no network exposure
-- **Primary Threat** - API key leakage (mitigated by .gitignore)
-- **Secondary Threat** - Malicious location files (user controls all data)
+- **Low Risk** - Local single-player game with minimal network exposure
+- **Primary Threat** - Malicious location files (user controls all data, mitigated by input validation)
+- **Secondary Threat** - Claude Code extension not available (mitigated by graceful error handling)
 
 **Related Architecture Sections:**
-- Architecture §15.1: API Key Protection
 - Architecture §15.2: Input Validation
 - Architecture §15.3: Data Privacy
 
@@ -759,11 +751,11 @@ LLMNarrator attempts API call
 
 **Failure Modes & Recovery:**
 
-1. **Claude API Unavailable (503, timeout)**
-   - **Detection:** HTTP error codes, request timeout (30s)
+1. **Claude Code Extension Unavailable (not installed, not responding)**
+   - **Detection:** Extension API returns undefined, command not found, or timeout (30s)
    - **Recovery:** 3 retries with exponential backoff (1s, 2s, 4s)
-   - **Fallback:** Display error message, preserve session state, allow retry
-   - **Impact:** Session paused until API returns
+   - **Fallback:** Display error message with instructions to install Claude Code, preserve session state
+   - **Impact:** Session paused until Claude Code is available
 
 2. **Location File Missing/Corrupted**
    - **Detection:** File read error, YAML parse error
@@ -924,9 +916,8 @@ LLMNarrator attempts API call
 | Dependency | Version | Purpose | Source | License |
 |------------|---------|---------|--------|---------|
 | **Node.js** | 18+ | Runtime environment | https://nodejs.org | MIT |
-| **@anthropic-ai/sdk** | ^0.30.0 | Claude API client | npm | MIT |
+| **VS Code Extension API** | ^1.80.0 | Extension development and Claude Code integration | VS Code | MIT |
 | **yaml** | ^2.3.4 | YAML parsing | npm | ISC |
-| **dotenv** | ^16.3.1 | Environment variable loading | npm | BSD-2-Clause |
 | **marked** | ^11.0.0 | Markdown parsing (optional) | npm | MIT |
 | **chokidar** | ^3.5.3 | File watching | npm | MIT |
 
@@ -946,20 +937,24 @@ LLMNarrator attempts API call
 | **Git** | 2.x+ | Version control and save system | Pre-installed (assumed) |
 | **VS Code** | Latest stable | Game interface | Required (user must install) |
 
-**API Integrations:**
+**Extension Integrations:**
 
-**Claude API (Anthropic):**
+**Claude Code Extension (Anthropic):**
 - **Purpose:** LLM-powered Dungeon Master narrative generation
-- **Endpoint:** `https://api.anthropic.com/v1/messages`
-- **Authentication:** Bearer token (API key in .env)
-- **Model:** `claude-sonnet-4-20250514`
-- **Rate Limits:**
-  - 50 requests per minute (Tier 1)
-  - 10,000 tokens per minute input
-  - 40,000 tokens per minute output
-- **Cost:** ~$3 per million input tokens, ~$15 per million output tokens
-- **Documentation:** https://docs.anthropic.com/claude/reference
-- **Error Handling:** 3 retries with exponential backoff
+- **Integration Method:** VS Code Extension API (inter-extension communication)
+- **Extension ID:** `anthropic.claude-code`
+- **Authentication:** Uses Claude Code's existing authentication (no separate API key)
+- **Model:** Uses whatever model the user has configured in Claude Code (typically Claude Sonnet)
+- **Rate Limits:** Subject to Claude Code's limits (transparent to game)
+- **Cost:** Covered by user's Claude subscription (no additional API costs)
+- **Detection:**
+  ```javascript
+  const ext = vscode.extensions.getExtension('anthropic.claude-code');
+  if (!ext || !ext.isActive) {
+    throw new Error('Claude Code extension not available');
+  }
+  ```
+- **Error Handling:** 3 retries with exponential backoff if extension doesn't respond
 
 **Internal Integrations:**
 
@@ -992,18 +987,18 @@ kapi-s-rpg/
 │   ├── session-2025-10-29.md
 │   ├── performance.log
 │   └── error.log
-├── .env                    # API keys (READ by Epic 1)
+├── .env                    # Configuration (optional, can store preferences)
 └── .git/                   # Version control (READ/WRITE by Epic 1)
 ```
 
 **Configuration Files:**
 
-1. **`.env` (Required):**
+1. **`.env` (Optional):**
    ```
-   CLAUDE_API_KEY=sk-ant-xxxxx
-   CLAUDE_MODEL=claude-sonnet-4-20250514
-   MAX_TOKENS=4096
-   TEMPERATURE=0.7
+   # Game configuration (no API keys needed - uses Claude Code extension)
+   LOG_LEVEL=info
+   DEBUG_MODE=false
+   MAX_SESSION_DURATION_HOURS=8
    ```
 
 2. **`package.json` (Generated):**
@@ -1024,15 +1019,15 @@ kapi-s-rpg/
 **Dependency Installation:**
 ```bash
 # Install production dependencies
-npm install @anthropic-ai/sdk yaml dotenv marked chokidar
+npm install yaml marked chokidar
 
 # Install development dependencies
-npm install --save-dev jest nodemon eslint prettier
+npm install --save-dev jest nodemon eslint prettier @types/vscode
 ```
 
 **Version Pinning Strategy:**
-- **Exact versions** for critical dependencies (@anthropic-ai/sdk)
-- **Caret (^) versions** for stable libraries (yaml, dotenv)
+- **Exact versions** for critical dependencies (VS Code Extension API via engines field)
+- **Caret (^) versions** for stable libraries (yaml, marked, chokidar)
 - **No wildcards** - Reproducible builds required
 
 **Security Scanning:**
@@ -1138,15 +1133,16 @@ Actions: [N]
 ### AC-8: LLM Narrator Integration
 **Given** a valid LLMPrompt with < 3000 tokens
 **When** LLMNarrator.generateNarrative() is called
-**Then** prompt must be sent to Claude API (claude-sonnet-4-20250514)
+**Then** prompt must be sent to Claude Code extension
+**And** Claude Code extension must be detected and available
 **And** system prompt must include DM persona from Architecture §6.2
 **And** context must include current location description and state
-**And** API response must be returned as NarrativeResponse
+**And** Claude Code response must be returned as NarrativeResponse
 **And** 95% of responses must complete in < 5 seconds
-**And** if API fails: 3 retries with exponential backoff (1s, 2s, 4s)
+**And** if Claude Code fails: 3 retries with exponential backoff (1s, 2s, 4s)
 **And** if all retries fail: user-friendly error message without losing session state
 
-**Verification Method:** Integration tests with Claude API + error injection tests
+**Verification Method:** Integration tests with mocked Claude Code + manual testing with real extension
 
 ### AC-9: File Watcher Reload
 **Given** an active session with location data loaded and cached
@@ -1216,14 +1212,15 @@ Actions: [N]
 
 ### Risks
 
-**R-1: Claude API Rate Limiting (HIGH)**
-- **Description:** Epic 1 testing may hit Claude API rate limits (50 req/min, 10K tokens/min input)
-- **Impact:** Test suite failures, development delays, increased API costs during testing
+**R-1: Claude Code Extension Dependency (HIGH)**
+- **Description:** Game requires Claude Code extension to be installed and working, creating external dependency
+- **Impact:** Users without Claude Code cannot play; extension updates could break integration
 - **Mitigation:**
-  - Implement API call throttling in tests
-  - Use mock LLM responses for unit tests (only integration tests hit real API)
-  - Monitor token usage during development
-  - Consider Claude API tier upgrade if needed
+  - Clear documentation requiring Claude Code installation
+  - Check for extension availability at startup with helpful error messages
+  - Use mock LLM responses for unit tests (only integration tests use real Claude Code)
+  - Monitor Claude Code API stability and adapt as needed
+  - Consider fallback to API key method if Claude Code integration proves unstable
 - **Owner:** Developer
 
 **R-2: Token Budget Exceeded for Large Locations (MEDIUM)**
@@ -1275,16 +1272,17 @@ Actions: [N]
 **A-2: Development Environment**
 - Developer has Windows/macOS/Linux with Node.js 18+ installed
 - Developer has VS Code installed and configured
-- Developer has Claude API access (API key available)
+- Developer has Claude Code extension installed and authenticated
 - Developer has Git installed and configured
 
-**A-3: API Costs Acceptable**
-- ~$20-50/month API costs acceptable for development and playtesting
-- Epic 1 testing will consume ~10K-20K tokens (~$0.30-$0.60)
-- Production gameplay ~$3-5 per 10-hour campaign
+**A-3: Claude Code Extension Availability**
+- Claude Code extension remains stable and available throughout development
+- Claude Code provides adequate API for inter-extension communication
+- Claude Code's LLM access is sufficient for game narrative generation
+- No separate API costs since game uses user's existing Claude subscription
 
 **A-4: LLM Consistency**
-- Claude Sonnet 4 generates sufficiently consistent narratives
+- Claude (via Claude Code) generates sufficiently consistent narratives
 - No fine-tuning or custom models required
 - System prompt alone provides adequate DM persona
 - Quality validation by manual playtesting
@@ -1370,13 +1368,13 @@ Actions: [N]
 
 **Integration Tests (20% coverage goal):**
 - **Scope:** Module interactions with real dependencies
-- **Framework:** Jest with real file I/O, mocked Claude API
+- **Framework:** Jest with real file I/O, mocked Claude Code extension
 - **Setup:** Create temporary test directories with sample locations
 - **Files:**
   - `tests/integration/start-session.test.js` - Full session start workflow
   - `tests/integration/navigation.test.js` - Travel command end-to-end
   - `tests/integration/file-watcher.test.js` - File change detection
-  - `tests/integration/llm-narrator.test.js` - Real Claude API calls (rate-limited)
+  - `tests/integration/llm-narrator.test.js` - Real Claude Code extension calls (manual testing only)
 - **Focus:**
   - Workflow correctness (Start → Travel → Look → End)
   - File I/O performance (meet <100ms targets)
@@ -1417,8 +1415,9 @@ tests/fixtures/locations/
 
 **Mock LLM Responses:**
 - Predefined narrative responses for unit tests
-- Avoid hitting Claude API during unit tests (cost + speed)
-- Integration tests use real API (rate-limited, run nightly)
+- Avoid calling Claude Code extension during unit tests (speed + reliability)
+- Integration tests use mocked extension responses (fast, deterministic)
+- Manual testing with real Claude Code extension (weekly verification)
 
 ### Test Execution
 
@@ -1461,7 +1460,7 @@ npm run test:watch    # Watch mode for TDD
 2. **Malformed YAML** - Should display clear error message
 3. **Missing location folder** - Should return user-friendly error
 4. **Token budget exceeded** - Should truncate Priority 2 data
-5. **Claude API timeout** - Should retry 3 times then fail gracefully
+5. **Claude Code extension timeout** - Should retry 3 times then fail gracefully
 6. **Git not installed** - Should detect and warn user
 7. **Disk full** - Should warn and enter read-only mode
 8. **Very long session (100+ actions)** - Should not crash or slow down
@@ -1489,7 +1488,7 @@ Before Epic 1 sign-off:
 - [ ] Verify Git commits created correctly
 - [ ] Edit location file during session, verify reload
 - [ ] Kill process mid-session, verify recovery
-- [ ] Test with slow network (Claude API latency)
+- [ ] Test Claude Code extension availability detection
 - [ ] Test error scenarios (missing files, invalid data)
 - [ ] Verify session logs readable and complete
 - [ ] Review LLM narrative quality (immersive? consistent?)
