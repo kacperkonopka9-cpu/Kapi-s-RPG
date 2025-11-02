@@ -1,0 +1,28 @@
+# Location Metadata
+
+location_name: "[Full Location Name]"
+location_type: "[Settlement/Dungeon/Wilderness/Building/Room/Region]"
+region: "[Parent region name, e.g., Barovia]"
+size: "[Tiny/Small/Medium/Large/Huge]"
+population: 0  # Number of inhabitants (0 if uninhabited)
+danger_level: 1  # 1-5 scale (1=safe, 5=deadly)
+recommended_level: "1-3"  # Recommended character level range
+
+# Location Hierarchy (NEW)
+parent_location: null  # Location ID this is contained within (null if top-level region)
+sub_locations: []  # Array of location IDs contained within this location
+location_level: "settlement"  # One of: region, settlement, building, room
+
+# Connected Locations (for travel between peer locations)
+connected_locations:
+  - name: "[Connected Location Name]"
+    direction: "[North/South/East/West/Northeast/etc.]"
+    travel_time: "[X hours/minutes]"
+  - name: "[Another Connected Location]"
+    direction: "[Direction]"
+    travel_time: "[Duration]"
+
+# Discovery and Visit Tracking
+fast_travel_available: true  # Can player fast-travel here?
+discovered: false  # Has player discovered this location?
+first_visit_date: null  # Will be set on first visit (YYYY-MM-DD format)

@@ -1,0 +1,261 @@
+<story-context id="1-3-context-loader-module" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>3</storyId>
+    <title>Context Loader Module</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-3-context-loader-module.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine developer</asA>
+    <iWant>to build optimized LLM prompts from location data with priority-based loading under a 3000 token budget</iWant>
+    <soThat>the game can generate narrative descriptions without exceeding Claude API context limits while ensuring critical location information is always included</soThat>
+    <tasks>
+      <task id="1">Create LLMPrompt and CharacterData schemas - Update src/data/schemas.js with LLMPrompt, CharacterData, PlayerAction schemas</task>
+      <task id="2">Create ContextBuilder class structure - Implement src/core/context-builder.js with constructor, token budget constants, priority tiers</task>
+      <task id="3">Implement estimateTokens() method - Use 1 token ≈ 4 characters heuristic with ±10% accuracy</task>
+      <task id="4">Implement getSystemPrompt() method - Define DM persona, Curse of Strahd context, D&D 5e rules (<500 tokens)</task>
+      <task id="5">Implement Priority 1 content builder - Always include Description variants, State, character context, recent actions (~1500-2000 tokens)</task>
+      <task id="6">Implement Priority 2 content builder - Conditionally include NPCs and Items with truncation logic (~500-1000 tokens)</task>
+      <task id="7">Implement buildPrompt() main method - Orchestrate system prompt, Priority 1, Priority 2, validate <3000 tokens</task>
+      <task id="8">Implement helper methods - formatRecentActions, selectDescriptionVariant, formatNPCs, formatItems, truncateToTokenLimit</task>
+      <task id="9">Integration with LocationLoader - Import and use LocationLoader from Story 1.2, test with Village of Barovia</task>
+      <task id="10">Error handling and validation - Validate inputs, handle missing variants gracefully, throw descriptive errors</task>
+      <task id="11">Write unit tests - Test all methods, token budget enforcement, estimation accuracy, graceful degradation (90% coverage)</task>
+      <task id="12">Integration tests with real data - Test with Village of Barovia, multiple variants, various NPC/action counts</task>
+      <task id="13">Performance testing - Measure buildPrompt() execution time, ensure <50ms requirement</task>
+      <task id="14">Documentation and exports - Export classes, add JSDoc, document token tiers and truncation strategy</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-3" priority="primary">
+      <given>a loaded LocationData object</given>
+      <when>ContextBuilder.buildPrompt() is called</when>
+      <then>the resulting LLMPrompt must contain &lt; 3000 tokens</then>
+      <and>Priority 1 items (Description.md, State.md) must always be included</and>
+      <and>Priority 2 items (NPCs.md, Items.md) must be included if space allows</and>
+      <and>token estimation must be within ±10% of actual token count</and>
+      <verification>Unit tests with various location sizes, integration tests with Village of Barovia</verification>
+    </criterion>
+    <criterion id="AC-1">ContextBuilder class implements complete API as specified in tech spec</criterion>
+    <criterion id="AC-2">buildPrompt() accepts LocationData, CharacterData (stub), and recentActions array</criterion>
+    <criterion id="AC-3a">System prompt with DM persona is generated correctly</criterion>
+    <criterion id="AC-4">Priority 1 content (Description variants, State, character context) always included</criterion>
+    <criterion id="AC-5">Priority 2 content (NPCs, Items) included conditionally based on token budget</criterion>
+    <criterion id="AC-6">Priority 3 content (Events) deferred for Epic 2 but architecture ready</criterion>
+    <criterion id="AC-7">estimateTokens() method uses 1 token ≈ 4 characters heuristic</criterion>
+    <criterion id="AC-8">Token estimation accuracy within ±10% of actual count</criterion>
+    <criterion id="AC-9">Graceful degradation when content exceeds budget (truncate or omit Priority 2)</criterion>
+    <criterion id="AC-10">Description variant selection based on context (initial vs return visits)</criterion>
+    <criterion id="AC-11">Recent actions (last 5) included in prompt for context continuity</criterion>
+    <criterion id="AC-12">LLMPrompt object structure matches schema (systemPrompt, context fields)</criterion>
+    <criterion id="AC-13">Integration with LocationLoader from Story 1.2</criterion>
+    <criterion id="AC-14">Proper error handling for invalid inputs</criterion>
+    <criterion id="AC-15">Test coverage ≥ 90% for ContextBuilder module</criterion>
+    <criterion id="AC-16">Performance: buildPrompt() completes in &lt; 50ms</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-3: Context Builder Token Budget</section>
+        <snippet>Defines ContextBuilder.buildPrompt() requirements: result must contain &lt;3000 tokens, Priority 1 (Description, State) always included, Priority 2 (NPCs, Items) if space allows, token estimation within ±10% accuracy. Specifies priority-based loading strategy and graceful degradation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces - ContextBuilder API</section>
+        <snippet>Complete API specification: buildPrompt(location, character, recentActions) returns LLMPrompt, estimateTokens(text) returns number, getSystemPrompt() returns DM persona string. Method signatures, parameter types, return types, and JSDoc comments defined.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Data Models and Contracts - LLMPrompt Schema</section>
+        <snippet>LLMPrompt schema: { systemPrompt: string, context: { currentLocation: string, locationState: string, visibleNPCs: Array, availableItems: string, recentEvents: string } }. Defines structure for prompts sent to Claude API.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Performance Requirements - Context Loading Efficiency</section>
+        <snippet>Priority-based loading ensures critical data fits in budget. Token estimation: 1 token ≈ 4 characters. Graceful degradation: truncate or omit Priority 2 if exceeds budget. Target: 95% of prompts stay under 3000 tokens. System prompt ~400-500 tokens, Priority 1 ~1500-2000 tokens, Priority 2 ~500-1000 tokens.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing - Start Session</section>
+        <snippet>Workflow shows ContextBuilder.buildPrompt() called after LocationLoader.loadLocation(). Context builder receives LocationData, builds system prompt (DM persona), adds Priority 1 (Description + State), adds Priority 2 (NPCs if space), estimates tokens (&lt;3000), returns LLMPrompt for LLMNarrator.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-2-location-data-parser.md</path>
+        <title>Story 1.2: Location Data Parser (Completed)</title>
+        <section>Dev Agent Record - Completion Notes</section>
+        <snippet>Created LocationLoader class (src/data/location-loader.js, 700 lines) with loadLocation() method returning LocationData. Created schemas.js (171 lines) with LocationData, NPCData, ItemData, LocationState types. Village of Barovia has 4 NPCs, 7 events, description variants (initial, return, morning, night). Performance: 11-43ms. All schemas use JSDoc.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-2-location-data-parser.md</path>
+        <title>Story 1.2: Location Data Parser (Completed)</title>
+        <section>Dev Agent Record - File List</section>
+        <snippet>Files available for reuse: src/data/schemas.js (add LLMPrompt schema here), src/data/location-loader.js (import LocationLoader class), tests/data/location-loader.test.js (reference for Jest patterns, 22 tests, 91.92% coverage).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>class</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>29-700</lines>
+        <reason>Import and use loadLocation() method to get LocationData for integration tests. Provides access to Village of Barovia data for token budget testing.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/schemas.js</path>
+        <kind>typedef</kind>
+        <symbol>LocationData</symbol>
+        <lines>8-21</lines>
+        <reason>Input type for ContextBuilder.buildPrompt(). Contains description, descriptionVariants, npcs, items, state, metadata fields needed for prompt construction.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/schemas.js</path>
+        <kind>typedef</kind>
+        <symbol>NPCData</symbol>
+        <lines>34-50</lines>
+        <reason>Reference for NPC field structure when formatting Priority 2 content. Includes npcId, name, type, dialogue, stats fields.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/schemas.js</path>
+        <kind>typedef</kind>
+        <symbol>ItemData</symbol>
+        <lines>71-82</lines>
+        <reason>Reference for Item field structure when formatting Priority 2 content. Includes itemId, name, description, price, hidden fields.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/schemas.js</path>
+        <kind>typedef</kind>
+        <symbol>LocationState</symbol>
+        <lines>97-110</lines>
+        <reason>Used in Priority 1 content. Contains weather, locationStatus, changesSinceLastVisit, npcPositions, activeQuests for state context.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/data/location-loader.test.js</path>
+        <kind>test</kind>
+        <symbol>Integration Tests - Village of Barovia</symbol>
+        <lines>32-88</lines>
+        <reason>Reference for Jest testing patterns. Shows how to load Village of Barovia, verify data structure, test performance. Established patterns: describe/test blocks, beforeEach setup, integration tests with real data.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/village-of-barovia</path>
+        <kind>test-data</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Complete location with all 6 files for integration testing. Contains 4 NPCs, 7 events, description variants, state data. Use to test token budget enforcement and Priority 2 truncation with realistic data.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0">Testing framework (already installed and configured from Story 1.2)</package>
+        <package name="fs" version="builtin">Not needed (ContextBuilder works with in-memory LocationData objects)</package>
+        <package name="path" version="builtin">Not needed (no file operations in ContextBuilder)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Token Budget: Hard limit of 3000 tokens per prompt (Claude API constraint). Prompts exceeding limit will fail API calls.</constraint>
+    <constraint>Priority-Based Loading: Three-tier system (Priority 1 always, Priority 2 conditional, Priority 3 deferred). Never truncate Priority 1 content.</constraint>
+    <constraint>Token Estimation: Use 1 token ≈ 4 characters heuristic. Must be within ±10% accuracy of actual token count when measured.</constraint>
+    <constraint>Graceful Degradation: If total exceeds 3000 tokens, truncate Priority 2 Items first, then NPCs, then omit all Priority 2. Log warnings when truncation occurs.</constraint>
+    <constraint>DM Persona: System prompt must establish Dungeon Master personality, Curse of Strahd setting context, and brief D&D 5e rules. Keep under 500 tokens.</constraint>
+    <constraint>Context Continuity: Recent actions (last 5) must be included in Priority 1 for narrative coherence across player interactions.</constraint>
+    <constraint>Performance: buildPrompt() must complete in &lt;50ms. Non-blocking operation critical for real-time gameplay experience.</constraint>
+    <constraint>Integration: Must work with LocationData from Story 1.2 LocationLoader. Access fields: description, descriptionVariants, npcs, items, state.</constraint>
+    <constraint>Error Handling: Validate locationData is defined and has required fields. Throw descriptive errors for invalid inputs. Handle missing description variants gracefully.</constraint>
+    <constraint>Testing: Minimum 90% code coverage for ContextBuilder module. Include unit tests, integration tests with real data, performance tests.</constraint>
+    <constraint>Module Location: ContextBuilder goes in src/core/context-builder.js. Update schemas.js in src/data/ with LLMPrompt schema.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>ContextBuilder.buildPrompt</name>
+      <kind>class-method</kind>
+      <signature>buildPrompt(location: LocationData, character: CharacterData|null, recentActions: Array&lt;PlayerAction&gt;): LLMPrompt</signature>
+      <path>docs/tech-spec-epic-1.md (lines 279-285)</path>
+      <notes>Main method. Accepts LocationData from LocationLoader, CharacterData (stub null for Epic 1), recent actions array. Returns LLMPrompt object with systemPrompt and context fields. Enforces 3000 token budget.</notes>
+    </interface>
+    <interface>
+      <name>ContextBuilder.estimateTokens</name>
+      <kind>class-method</kind>
+      <signature>estimateTokens(text: string): number</signature>
+      <path>docs/tech-spec-epic-1.md (lines 287-292)</path>
+      <notes>Estimate token count using 1 token ≈ 4 characters heuristic. Returns conservative estimate. Must be within ±10% of actual count.</notes>
+    </interface>
+    <interface>
+      <name>ContextBuilder.getSystemPrompt</name>
+      <kind>class-method</kind>
+      <signature>getSystemPrompt(): string</signature>
+      <path>docs/tech-spec-epic-1.md (lines 294-299)</path>
+      <notes>Returns system prompt with DM persona, Curse of Strahd setting, D&D 5e rules. Keep under 500 tokens. Sets tone for LLM narrative generation.</notes>
+    </interface>
+    <interface>
+      <name>LLMPrompt</name>
+      <kind>data-schema</kind>
+      <signature>{ systemPrompt: string, context: { currentLocation: string, locationState: string, visibleNPCs: Array&lt;string&gt;, availableItems: string, recentEvents: string } }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 193-201)</path>
+      <notes>Output schema for buildPrompt(). systemPrompt contains DM instructions. context contains Priority 1 and Priority 2 content formatted for Claude API.</notes>
+    </interface>
+    <interface>
+      <name>CharacterData</name>
+      <kind>data-schema</kind>
+      <signature>{ name: string, level: number } (stub for Epic 1, expanded in Epic 3)</signature>
+      <path>NEW - to be defined in src/data/schemas.js</path>
+      <notes>Stub schema for Epic 1. Will be expanded in Epic 3 with full character sheet fields (class, stats, inventory, etc.). For Epic 1, only name and level used in Priority 1 content.</notes>
+    </interface>
+    <interface>
+      <name>PlayerAction</name>
+      <kind>data-schema</kind>
+      <signature>{ actionType: string, actionText: string, timestamp: number, locationId: string }</signature>
+      <path>NEW - to be defined in src/data/schemas.js</path>
+      <notes>Schema for recent player actions included in Priority 1 for context continuity. Last 5 actions formatted and included in prompt.</notes>
+    </interface>
+    <interface>
+      <name>LocationLoader.loadLocation</name>
+      <kind>class-method</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js (lines 51-110)</path>
+      <notes>Import from Story 1.2. Use in integration tests to load Village of Barovia data. Returns LocationData with all fields populated.</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest testing framework (already configured). Follow patterns from Story 1.2: describe/test blocks, beforeEach/afterAll for setup/cleanup, integration tests with Village of Barovia data. Target 90% code coverage. Unit tests for individual methods (estimateTokens, getSystemPrompt, priority builders, helpers). Integration tests with real LocationData from LocationLoader. Performance tests to measure buildPrompt() execution time (&lt;50ms). Test error handling for invalid inputs. Test token budget enforcement (&lt;3000 tokens). Test graceful degradation when content exceeds budget.
+    </standards>
+    <locations>
+      tests/core/context-builder.test.js (primary test file)
+      game-data/locations/village-of-barovia (test data for integration tests)
+    </locations>
+    <ideas>
+      <idea ac="AC-3">Integration test: Build prompt with Village of Barovia, verify total tokens &lt;3000, verify Priority 1 always included</idea>
+      <idea ac="AC-3">Unit test: Build prompt with minimal location (Priority 1 only), verify no Priority 2 content, tokens &lt;1500</idea>
+      <idea ac="AC-3">Unit test: Build prompt with oversized location (many NPCs/Items), verify graceful degradation (Priority 2 truncated/omitted)</idea>
+      <idea ac="AC-7,AC-8">Unit test: Test estimateTokens() with various text lengths (100, 500, 1000, 5000 chars), verify ±10% accuracy</idea>
+      <idea ac="AC-3a">Unit test: Test getSystemPrompt() returns valid string &lt;500 tokens with DM persona and Curse of Strahd context</idea>
+      <idea ac="AC-4">Unit test: Build prompt, verify Priority 1 includes description, state, character context, recent actions</idea>
+      <idea ac="AC-5">Unit test: Build prompt with medium location, verify Priority 2 NPCs and Items included when budget allows</idea>
+      <idea ac="AC-9">Unit test: Test truncation logic - verify Items truncated before NPCs, NPCs truncated before Priority 1</idea>
+      <idea ac="AC-10">Unit test: Test description variant selection - verify initial variant on first visit, return variant on subsequent visits</idea>
+      <idea ac="AC-11">Unit test: Test recent actions formatting - verify last 5 actions included, formatted correctly</idea>
+      <idea ac="AC-12">Unit test: Verify LLMPrompt structure matches schema (systemPrompt and context fields present)</idea>
+      <idea ac="AC-13">Integration test: Load Village of Barovia with LocationLoader, pass to buildPrompt(), verify integration works</idea>
+      <idea ac="AC-14">Error test: Call buildPrompt() with null locationData, expect descriptive error</idea>
+      <idea ac="AC-14">Error test: Call buildPrompt() with locationData missing description field, expect graceful fallback</idea>
+      <idea ac="AC-15">Coverage test: Run Jest with --coverage, verify ≥90% coverage for context-builder.js</idea>
+      <idea ac="AC-16">Performance test: Measure buildPrompt() execution time with Village of Barovia, assert &lt;50ms</idea>
+      <idea ac="AC-16">Performance test: Measure buildPrompt() with large location (10+ NPCs, 20+ items), verify still &lt;50ms</idea>
+    </ideas>
+  </tests>
+</story-context>

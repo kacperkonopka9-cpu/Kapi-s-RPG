@@ -1,0 +1,19 @@
+{
+  "name": "kapi-s-rpg",
+  "version": "0.1.0",
+  "description": "Kapi's solo RPG - A text-based D&D 5e Curse of Strahd campaign powered by LLM",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "validate-location": "node scripts/validate-location.js"
+  },
+  "keywords": ["rpg", "dnd", "curse-of-strahd", "llm", "text-based"],
+  "author": "Kapi",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

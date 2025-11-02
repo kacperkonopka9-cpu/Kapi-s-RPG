@@ -1,0 +1,282 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Basic Slash Commands</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-4-basic-slash-commands.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player</asA>
+    <iWant>to interact with the game using simple VS Code slash commands (`/start-session`, `/look`, `/travel [location]`, `/end-session`)</iWant>
+    <soThat>I can start sessions, navigate locations, and save my progress without leaving my code editor</soThat>
+    <tasks>
+  <task id="1" ac="8,9">Create VS Code extension structure</task>
+  <task id="2" ac="8">Implement CommandRouter class</task>
+  <task id="3" ac="4,11">Implement start-session command handler</task>
+  <task id="4" ac="5,11,12">Implement travel command handler</task>
+  <task id="5" ac="6,11">Implement look command handler</task>
+  <task id="6" ac="7,11">Implement end-session command handler</task>
+  <task id="7" ac="10,13">Implement VS Code UI integration</task>
+  <task id="8" ac="15">Integration with previous stories</task>
+  <task id="9" ac="12">Error handling and validation</task>
+  <task id="10" ac="14">Write unit tests</task>
+  <task id="11" ac="4,5,6,7">Integration tests</task>
+  <task id="12" ac="8">Documentation and exports</task>
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+  <criterion id="AC-4" priority="P0" type="functional">
+    <name>Start Session Command</name>
+    <given>the game is not currently in a session</given>
+    <when>user executes `/start-session`</when>
+    <then>
+      - new SessionState must be created with unique UUID
+      - currentLocationId must be set to "village-of-barovia"
+      - location data must be loaded
+      - LLM must generate initial narrative description
+      - narrative must be displayed to user in VS Code
+      - entire operation must complete in &lt; 3 seconds
+      - session log must be created at logs/session-YYYY-MM-DD.md
+    </then>
+    <verification>Integration tests + manual testing</verification>
+  </criterion>
+
+  <criterion id="AC-5" priority="P0" type="functional">
+    <name>Travel Between Locations</name>
+    <given>an active session at location A</given>
+    <when>user executes `/travel location-b`</when>
+    <then>
+      - system must validate location-b exists
+      - system must validate location-b is connected to location A (check metadata.yaml)
+      - if valid: currentLocationId must update to location-b
+      - if valid: location-b data must be loaded
+      - if valid: LLM must generate arrival narrative
+      - if invalid: user-friendly error message must display
+      - travel action must be logged to session log
+      - entire operation must complete in &lt; 1 second (excluding LLM call)
+    </then>
+    <verification>Manual testing with valid/invalid locations + unit tests</verification>
+  </criterion>
+
+  <criterion id="AC-6" priority="P0" type="functional">
+    <name>Look Command</name>
+    <given>an active session at any location</given>
+    <when>user executes `/look`</when>
+    <then>
+      - current location data must be reloaded from disk
+      - LLM must generate refreshed location description
+      - narrative must be displayed to user
+      - action must be logged to session log
+      - operation must complete in &lt; 5 seconds total
+    </then>
+    <verification>Manual testing + integration tests</verification>
+  </criterion>
+
+  <criterion id="AC-7" priority="P0" type="functional">
+    <name>End Session with Auto-Save</name>
+    <given>an active session with N actions taken</given>
+    <when>user executes `/end-session`</when>
+    <then>
+      - session endTime must be recorded
+      - session summary must be written to log file
+      - Git auto-save must create commit with format: [AUTO-SAVE] Session YYYY-MM-DD
+      - commit hash must be displayed to user
+      - session state must be cleared from memory
+      - entire operation must complete in &lt; 5 seconds
+    </then>
+    <verification>Manual testing + verify Git commit created with correct message</verification>
+  </criterion>
+
+  <criterion id="AC-8" priority="P1" type="technical">CommandRouter class implements command parsing and routing</criterion>
+  <criterion id="AC-9" priority="P1" type="technical">All 4 commands registered with VS Code extension API</criterion>
+  <criterion id="AC-10" priority="P1" type="functional">Commands accessible via VS Code command palette</criterion>
+  <criterion id="AC-11" priority="P1" type="functional">Commands provide user feedback (success/error messages)</criterion>
+  <criterion id="AC-12" priority="P1" type="technical">Error handling for invalid command arguments</criterion>
+  <criterion id="AC-13" priority="P1" type="non-functional">Command execution does not block VS Code UI</criterion>
+  <criterion id="AC-14" priority="P1" type="testing">Test coverage ≥ 90% for command handlers</criterion>
+  <criterion id="AC-15" priority="P1" type="integration">Integration with SessionManager, LocationLoader, ContextBuilder from previous stories</criterion>
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>Command Signatures (VS Code Extension)</section>
+    <snippet>Defines 4 command contributions: kapi-rpg.startSession, kapi-rpg.look, kapi-rpg.travel (with locationId arg), kapi-rpg.endSession</snippet>
+  </doc>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>Workflow 1: Start Session</section>
+    <snippet>Complete sequence: CommandRouter → SessionManager.startSession → LocationLoader → ContextBuilder → LLMNarrator → SessionLogger → Display narrative. Must complete in &lt; 3 seconds.</snippet>
+  </doc>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>Workflow 2: Travel Between Locations</section>
+    <snippet>Sequence: CommandRouter.parseCommand → NavigationHandler.travel (validate connectivity) → SessionManager.updateCurrentLocation → LocationLoader → ContextBuilder → LLMNarrator → Display. Must complete in &lt; 1 second excluding LLM.</snippet>
+  </doc>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>Workflow 3: Look Around</section>
+    <snippet>Sequence: CommandRouter → SessionManager.getCurrentSession → LocationLoader.loadLocation (triggers file reload) → ContextBuilder (use "return" variant) → LLMNarrator → Display. Must complete in &lt; 5 seconds.</snippet>
+  </doc>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>Workflow 4: End Session (Auto-Save)</section>
+    <snippet>Sequence: SessionManager.endSession → SessionLogger.finalize → GitIntegration.createAutoSave (git commit with [AUTO-SAVE] format) → Display summary (duration, actions, locations, commit hash). Must complete in &lt; 5 seconds.</snippet>
+  </doc>
+  <doc>
+    <path>docs/tech-spec-epic-1.md</path>
+    <title>Epic 1 Technical Specification</title>
+    <section>AC-4, AC-5, AC-6, AC-7</section>
+    <snippet>Primary acceptance criteria defining exact behavior for all 4 commands including timing requirements, validation, and error handling</snippet>
+  </doc>
+  <doc>
+    <path>docs/technical-architecture.md</path>
+    <title>Technical Architecture</title>
+    <section>Layer 1: User Interface (VS Code)</section>
+    <snippet>VS Code serves as platform with slash commands for game actions, markdown preview for narrative display, and file explorer for world navigation</snippet>
+  </doc>
+</docs>
+    <code>
+  <artifact>
+    <path>src/data/location-loader.js</path>
+    <kind>service</kind>
+    <symbol>LocationLoader</symbol>
+    <lines>54-700</lines>
+    <reason>Required for loading location data in /start-session, /travel, and /look commands. Use loadLocation(locationId) method.</reason>
+  </artifact>
+  <artifact>
+    <path>src/core/context-builder.js</path>
+    <kind>service</kind>
+    <symbol>ContextBuilder</symbol>
+    <lines>105-609</lines>
+    <reason>Required for building LLM prompts in all commands. Use buildPrompt(location, character, recentActions) method (now synchronous).</reason>
+  </artifact>
+  <artifact>
+    <path>src/data/schemas.js</path>
+    <kind>types</kind>
+    <symbol>LocationData, LLMPrompt, CharacterData, PlayerAction</symbol>
+    <lines>1-229</lines>
+    <reason>Type definitions for all data structures used by commands. Import for JSDoc type annotations.</reason>
+  </artifact>
+  <artifact>
+    <path>tests/core/context-builder.test.js</path>
+    <kind>test</kind>
+    <symbol>ContextBuilder tests</symbol>
+    <lines>1-481</lines>
+    <reason>Reference for test patterns: Jest with describe/test blocks, mocked dependencies, 90%+ coverage target.</reason>
+  </artifact>
+</code>
+    <dependencies>
+  <node>
+    <dependency name="js-yaml" version="^4.1.0" type="production">YAML parsing for location metadata</dependency>
+    <dependency name="jest" version="^29.7.0" type="development">Testing framework</dependency>
+    <dependency name="vscode" version="latest" type="peerDependency">VS Code Extension API for command registration and UI integration</dependency>
+  </node>
+  <frameworks>
+    <framework name="Node.js" version="18+">JavaScript runtime environment</framework>
+    <framework name="VS Code Extension API" version="latest">Command palette, output channels, status bar integration</framework>
+    <framework name="Jest" version="29.7.0">Unit and integration testing with mocks</framework>
+  </frameworks>
+  <notes>
+    - VS Code extension requires package.json "engines" field with vscode version
+    - VS Code extension requires "contributes.commands" for command registration
+    - VS Code extension requires "activationEvents" to specify when extension loads
+    - SessionManager, NavigationHandler, SessionLogger, GitIntegration will be stubbed (not yet implemented)
+  </notes>
+</dependencies>
+  </artifacts>
+
+  <constraints>
+  <constraint>VS Code Extension API: Commands must be registered with vscode.commands.registerCommand() and defined in package.json contributions</constraint>
+  <constraint>Non-Blocking Execution: Command handlers must be async to prevent blocking VS Code UI</constraint>
+  <constraint>Error Handling: Commands must never crash VS Code extension - all errors caught and displayed to user with user-friendly messages</constraint>
+  <constraint>Session State Management: Commands must check for active session before execution (except /start-session)</constraint>
+  <constraint>Performance: Start &lt; 3s, Travel &lt; 1s (excluding LLM), Look &lt; 5s, End &lt; 5s</constraint>
+  <constraint>User Feedback: All commands must provide clear feedback via VS Code output channel or notifications</constraint>
+  <constraint>Dependency Injection: Command handlers receive dependencies via constructor for testability</constraint>
+  <constraint>Stubbing Strategy: SessionManager, NavigationHandler, SessionLogger, GitIntegration not yet implemented - create stubs in src/stubs/ directory</constraint>
+  <constraint>Testing: Jest framework with describe/test blocks, 90%+ code coverage target, mock all external dependencies</constraint>
+  <constraint>JSDoc Documentation: Follow established pattern from Story 1.2 and 1.3 - complete type annotations and usage examples</constraint>
+  <constraint>Integration: Must use existing LocationLoader and ContextBuilder - do not recreate functionality</constraint>
+</constraints>
+  <interfaces>
+  <interface>
+    <name>LocationLoader.loadLocation</name>
+    <kind>async function</kind>
+    <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+    <path>src/data/location-loader.js</path>
+    <notes>Load complete location data from disk. Returns cached data if available. Throws LocationNotFoundError if location doesn't exist.</notes>
+  </interface>
+  <interface>
+    <name>ContextBuilder.buildPrompt</name>
+    <kind>synchronous function</kind>
+    <signature>buildPrompt(location: LocationData, character: CharacterData|null, recentActions: PlayerAction[]): LLMPrompt</signature>
+    <path>src/core/context-builder.js</path>
+    <notes>Builds token-budgeted LLM prompt (&lt; 3000 tokens). Returns LLMPrompt object with systemPrompt and context fields. NOTE: Changed from async to sync in Story 1.3.</notes>
+  </interface>
+  <interface>
+    <name>ContextBuilder.estimateTokens</name>
+    <kind>function</kind>
+    <signature>estimateTokens(text: string): number</signature>
+    <path>src/core/context-builder.js</path>
+    <notes>Estimates token count using 1 token ≈ 4 characters heuristic with 5% overhead.</notes>
+  </interface>
+  <interface>
+    <name>ContextBuilder.getSystemPrompt</name>
+    <kind>function</kind>
+    <signature>getSystemPrompt(): string</signature>
+    <path>src/core/context-builder.js</path>
+    <notes>Returns DM persona system prompt with Curse of Strahd setting and D&D 5e rules.</notes>
+  </interface>
+  <interface>
+    <name>VS Code Extension API</name>
+    <kind>VS Code API</kind>
+    <signature>vscode.commands.registerCommand(command: string, callback: Function)</signature>
+    <path>VS Code API</path>
+    <notes>Register commands with VS Code. Use vscode.window.createOutputChannel for narrative display. Commands must be async to avoid blocking UI.</notes>
+  </interface>
+</interfaces>
+  <tests>
+    <standards>Jest testing framework (v29.7.0) with describe/test blocks. 90%+ code coverage target for all command handlers. Mock all external dependencies (SessionManager, LocationLoader, ContextBuilder, NavigationHandler, SessionLogger, GitIntegration) using Jest mocks. Unit tests focus on individual handlers in isolation. Integration tests verify command workflows end-to-end with stub services. Follow test patterns established in Story 1.2 and 1.3: comprehensive edge case coverage, error handling validation, performance benchmarks for timing requirements.</standards>
+    <locations>
+    <location>tests/commands/router.test.js</location>
+    <location>tests/commands/handlers/*.test.js</location>
+    <location>tests/integration/commands.test.js</location>
+  </locations>
+    <ideas>
+    <test ac="AC-8" priority="high">CommandRouter.parseCommand() correctly extracts command and arguments from various input formats</test>
+    <test ac="AC-8" priority="high">CommandRouter.routeCommand() dispatches to correct handler based on command name</test>
+    <test ac="AC-4" priority="high">/start-session creates SessionState with UUID, sets currentLocationId to "village-of-barovia", displays narrative in &lt; 3 seconds</test>
+    <test ac="AC-4" priority="high">/start-session creates session log file at logs/session-YYYY-MM-DD.md</test>
+    <test ac="AC-4" priority="medium">/start-session error handling when location doesn't exist or LLM fails</test>
+    <test ac="AC-5" priority="high">/travel validates target location exists and is connected to current location</test>
+    <test ac="AC-5" priority="high">/travel updates currentLocationId and displays arrival narrative on success</test>
+    <test ac="AC-5" priority="high">/travel displays user-friendly error for invalid/unconnected locations</test>
+    <test ac="AC-5" priority="medium">/travel completes in &lt; 1 second excluding LLM call (performance benchmark)</test>
+    <test ac="AC-6" priority="high">/look reloads location data from disk (cache invalidation test)</test>
+    <test ac="AC-6" priority="high">/look generates refreshed narrative and logs action</test>
+    <test ac="AC-6" priority="medium">/look completes in &lt; 5 seconds total (performance benchmark)</test>
+    <test ac="AC-7" priority="high">/end-session records endTime, writes session summary, creates Git commit with correct format</test>
+    <test ac="AC-7" priority="high">/end-session displays commit hash and clears session state</test>
+    <test ac="AC-7" priority="medium">/end-session handles Git errors gracefully (warn but don't block)</test>
+    <test ac="AC-9,AC-10" priority="high">All 4 commands registered with VS Code and accessible via command palette</test>
+    <test ac="AC-11" priority="high">All commands provide user feedback via output channel or notifications</test>
+    <test ac="AC-12" priority="high">Commands validate session state and display error if no active session (except /start-session)</test>
+    <test ac="AC-12" priority="high">/travel validates locationId argument is provided</test>
+    <test ac="AC-13" priority="medium">Commands execute asynchronously without blocking VS Code UI</test>
+    <test ac="AC-14" priority="high">Test coverage ≥ 90% for CommandRouter and all handlers</test>
+    <test ac="AC-15" priority="high">Integration test: /start-session → /travel → /look → /end-session sequence</test>
+  </ideas>
+  </tests>
+</story-context>

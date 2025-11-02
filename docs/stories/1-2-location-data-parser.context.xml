@@ -1,0 +1,288 @@
+<story-context id="1-2-location-data-parser" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Location Data Parser</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-2-location-data-parser.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine developer</asA>
+    <iWant>to load and parse location data from the 6-file folder structure into structured JavaScript objects</iWant>
+    <soThat>the game engine can access location information programmatically for narrative generation and gameplay logic</soThat>
+    <tasks>
+      <task id="1">Create data schemas module (src/data/schemas.js) - Define LocationData, NPCData, ItemData, EventData, LocationState, LocationMetadata schemas matching tech spec</task>
+      <task id="2">Create LocationLoader class (src/data/location-loader.js) - Implement constructor with base path configuration and file path resolution</task>
+      <task id="3">Implement loadLocation() method - Read all 6 files, parse content, assemble LocationData object, handle errors</task>
+      <task id="4">Implement Description.md parser - Extract description and descriptionVariants (initial, return, morning, night)</task>
+      <task id="5">Implement NPCs.md parser - Parse markdown sections into array of NPCData objects with all fields</task>
+      <task id="6">Implement Items.md parser - Parse Available Items and Hidden Items sections into ItemData array</task>
+      <task id="7">Implement Events.md parser - Parse Scheduled/Conditional/Recurring events into EventData array</task>
+      <task id="8">Implement State.md parser - Use js-yaml to parse YAML into LocationState object</task>
+      <task id="9">Implement metadata.yaml parser - Use js-yaml to parse YAML into LocationMetadata object with hierarchy fields</task>
+      <task id="10">Implement error handling - Create LocationNotFoundError and LocationParseError custom classes, add try-catch blocks</task>
+      <task id="11">Implement validateLocation() method - Reuse validation script logic to check folder structure</task>
+      <task id="12">Implement listLocations() method - Read game-data/locations/ directory and return valid location IDs</task>
+      <task id="13">Implement reloadLocation() method - Add in-memory cache, invalidate on reload</task>
+      <task id="14">Write unit tests (tests/data/location-loader.test.js) - Test all methods with Village of Barovia and edge cases, achieve 95% coverage</task>
+      <task id="15">Performance testing - Measure loadLocation() execution time, ensure &lt; 100ms requirement</task>
+      <task id="16">Create module exports and documentation - Export classes, add JSDoc comments</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-2" priority="primary">
+      <given>a valid location folder exists (e.g., "village-of-barovia")</given>
+      <when>LocationLoader.loadLocation("village-of-barovia") is called</when>
+      <then>all 6 files must be read from disk</then>
+      <and>content must be parsed into LocationData object</and>
+      <and>operation must complete in &lt; 100ms</and>
+      <and>LocationData object must match schema defined in Epic 1 Tech Spec</and>
+      <verification>Unit tests + integration tests with real location files</verification>
+    </criterion>
+    <criterion id="AC-1">LocationLoader class implements complete API as specified in tech spec</criterion>
+    <criterion id="AC-2a">All 6 location files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml) are read correctly</criterion>
+    <criterion id="AC-3">Description.md content is parsed into description and descriptionVariants fields</criterion>
+    <criterion id="AC-4">NPCs.md is parsed into array of NPCData objects</criterion>
+    <criterion id="AC-5">Items.md is parsed into array of ItemData objects</criterion>
+    <criterion id="AC-6">Events.md is parsed into array of EventData objects</criterion>
+    <criterion id="AC-7">State.md is parsed into LocationState object</criterion>
+    <criterion id="AC-8">metadata.yaml is parsed into LocationMetadata object with hierarchy fields</criterion>
+    <criterion id="AC-9">File paths are preserved in LocationData.filePaths for debugging</criterion>
+    <criterion id="AC-10">Proper error handling for missing files (LocationNotFoundError)</criterion>
+    <criterion id="AC-11">Proper error handling for malformed files (LocationParseError)</criterion>
+    <criterion id="AC-12">validateLocation() method validates folder structure using existing validation script</criterion>
+    <criterion id="AC-13">listLocations() method returns all valid location IDs from game-data/locations/</criterion>
+    <criterion id="AC-14">reloadLocation() method invalidates cache and re-reads from disk</criterion>
+    <criterion id="AC-15">All parsing operations use js-yaml library for YAML content</criterion>
+    <criterion id="AC-16">Test coverage ≥ 95% for LocationLoader module</criterion>
+    <criterion id="AC-17">Integration tests use Village of Barovia example location</criterion>
+    <criterion id="AC-18">Performance requirement: loadLocation() completes in &lt; 100ms</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-2: Location Data Loading</section>
+        <snippet>Defines LocationLoader API with loadLocation(), validateLocation(), listLocations(), reloadLocation() methods. Specifies LocationData schema with 6 file types parsed into structured objects. Performance requirement: &lt; 100ms load time.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Data Models and Contracts - LocationData Schema</section>
+        <snippet>Complete schema definition for LocationData object including locationId, locationName, description, descriptionVariants, npcs, items, events, state, metadata, and filePaths fields. NPCData, ItemData, EventData, LocationState, and LocationMetadata schemas also defined.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces - LocationLoader API</section>
+        <snippet>Detailed API specification with method signatures, parameter types, return types, error handling (LocationNotFoundError, LocationParseError), and JSDoc comments. Includes loadLocation(locationId), validateLocation(locationId), listLocations(), reloadLocation(locationId) methods.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>4.2 - Location File Specifications</section>
+        <snippet>Defines the 6-file folder structure for locations: Description.md (narrative content with sections), NPCs.md (NPC data), Items.md (available and hidden items), Events.md (scheduled/conditional/recurring events), State.md (mutable state tracking), metadata.yaml (hierarchy and connections).</snippet>
+      </doc>
+      <doc>
+        <path>docs/creating-locations.md</path>
+        <title>Creating Locations Guide</title>
+        <section>Required Files - File Structure and Content</section>
+        <snippet>Comprehensive guide on location file structure with detailed examples. Describes required sections for Description.md (Overview, Initial Description, Return Description, Time-Based Variants, Points of Interest). Documents location hierarchy system with 4 levels: region, settlement, building, room.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-1-location-folder-structure.md</path>
+        <title>Story 1.1: Location Folder Structure (Completed)</title>
+        <section>Dev Agent Record - File List</section>
+        <snippet>Previous story created: 6 template files in templates/location/, Village of Barovia example in game-data/locations/village-of-barovia/, validation script at scripts/validate-location.js, tests at tests/data/validate-location.test.js. All files available for reference and reuse.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>validation-script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>115-317</lines>
+        <reason>Contains validation logic for checking location folder structure. Can be reused or referenced for validateLocation() method implementation. Includes file existence checks, YAML parsing, section validation, and hierarchy field validation.</reason>
+      </artifact>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>validation-script</kind>
+        <symbol>validateLocationHierarchy</symbol>
+        <lines>247-317</lines>
+        <reason>Validates location hierarchy fields (parent_location, sub_locations, location_level). Logic can be adapted for metadata.yaml parser to ensure hierarchy fields are correct.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/Description.md</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template defining expected structure of Description.md with all required sections. Parser should handle this exact structure.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/NPCs.md</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template defining NPC data format with Type, Age, Location, Status, Relationship, Quest Connection, Description, Dialogue, Stats, AI Behavior Notes fields.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/Items.md</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template defining Items.md structure with Available Items and Hidden Items sections.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/Events.md</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template defining Events.md structure with Scheduled Events, Conditional Events, and Recurring Events sections.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/State.md</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template for State.md YAML structure with Last Updated, Current Date/Time, Weather, Location Status, Changes Since Last Visit, NPC Positions, Active Quests fields.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/metadata.yaml</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Template for metadata.yaml with location_name, location_type, region, population, danger_level, recommended_level, parent_location, sub_locations, location_level, connected_locations fields.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/village-of-barovia</path>
+        <kind>example-data</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Complete reference implementation with all 6 files populated. Use for integration testing and as example data for parser development. Contains 4 NPCs, 7+ events, hidden items, and proper hierarchy configuration.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/data/validate-location.test.js</path>
+        <kind>test</kind>
+        <symbol>createTestLocation</symbol>
+        <lines>305-330</lines>
+        <reason>Helper function for creating test locations with various configurations. Can be adapted for LocationLoader tests to create mock location data.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for State.md and metadata.yaml (already installed from Story 1.1)</package>
+        <package name="fs" version="builtin">Node.js file system operations for reading location files</package>
+        <package name="fs.promises" version="builtin">Async file operations for performance</package>
+        <package name="path" version="builtin">Path resolution for location folder paths</package>
+        <package name="jest" version="^29.7.0">Testing framework (already configured from Story 1.1)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>File-First Design: All location data must be read from markdown/YAML files in game-data/locations/. No database or in-memory generation.</constraint>
+    <constraint>Schema Compliance: LocationData object must exactly match schema defined in tech spec (docs/tech-spec-epic-1.md#Data-Models-and-Contracts)</constraint>
+    <constraint>Performance: loadLocation() must complete in &lt; 100ms for typical location (tested with Village of Barovia)</constraint>
+    <constraint>Error Handling: Must use custom error classes (LocationNotFoundError, LocationParseError) with helpful messages including file paths and context</constraint>
+    <constraint>Testing: Minimum 95% code coverage for LocationLoader module</constraint>
+    <constraint>Caching: Implement in-memory cache to avoid redundant disk I/O. Cache must be invalidatable via reloadLocation()</constraint>
+    <constraint>YAML Parsing: Must use js-yaml library for all YAML content (State.md, metadata.yaml)</constraint>
+    <constraint>Hierarchy Support: Parser must handle location hierarchy fields (parent_location, sub_locations, location_level) with 4 valid levels: region, settlement, building, room</constraint>
+    <constraint>Module Location: LocationLoader class goes in src/data/location-loader.js, schemas in src/data/schemas.js</constraint>
+    <constraint>Reuse Validation Logic: Can reference or reuse validation logic from scripts/validate-location.js for validateLocation() method</constraint>
+    <constraint>Test Data: Integration tests must use real Village of Barovia location from game-data/locations/village-of-barovia/</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation</name>
+      <kind>class-method</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 244-252)</path>
+      <notes>Load complete location data from disk. Throws LocationNotFoundError if location doesn't exist, LocationParseError if files are malformed.</notes>
+    </interface>
+    <interface>
+      <name>LocationLoader.validateLocation</name>
+      <kind>class-method</kind>
+      <signature>async validateLocation(locationId: string): Promise&lt;ValidationResult&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 254-259)</path>
+      <notes>Validate location folder structure. Returns ValidationResult with list of missing/invalid files.</notes>
+    </interface>
+    <interface>
+      <name>LocationLoader.listLocations</name>
+      <kind>class-method</kind>
+      <signature>async listLocations(): Promise&lt;Array&lt;string&gt;&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 261-265)</path>
+      <notes>Get all available location IDs from game-data/locations/ directory.</notes>
+    </interface>
+    <interface>
+      <name>LocationLoader.reloadLocation</name>
+      <kind>class-method</kind>
+      <signature>async reloadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 267-271)</path>
+      <notes>Reload location from disk, invalidating cache.</notes>
+    </interface>
+    <interface>
+      <name>LocationData</name>
+      <kind>data-schema</kind>
+      <signature>{ locationId, locationName, description, descriptionVariants, npcs, items, events, state, metadata, filePaths }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 120-145)</path>
+      <notes>Primary data structure returned by loadLocation(). Must match tech spec schema exactly.</notes>
+    </interface>
+    <interface>
+      <name>NPCData</name>
+      <kind>data-schema</kind>
+      <signature>{ npcId, name, type, age, gender, currentLocation, status, attitudeTowardPlayer, questConnection, description, dialogue, stats, aiBehaviorNotes }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 148-172)</path>
+      <notes>Schema for individual NPC data parsed from NPCs.md</notes>
+    </interface>
+    <interface>
+      <name>LocationState</name>
+      <kind>data-schema</kind>
+      <signature>{ locationId, lastUpdated, currentDate, currentTime, weather, locationStatus, changesSinceLastVisit, npcPositions, activeQuests, customFlags }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 175-189)</path>
+      <notes>Schema for location state parsed from State.md YAML content</notes>
+    </interface>
+    <interface>
+      <name>LocationMetadata</name>
+      <kind>data-schema</kind>
+      <signature>Includes parent_location, sub_locations, location_level (region/settlement/building/room), connected_locations</signature>
+      <path>docs/tech-spec-epic-1.md, templates/location/metadata.yaml</path>
+      <notes>Schema for metadata parsed from metadata.yaml. Must include location hierarchy fields.</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest testing framework (already configured). Follow testing patterns established in Story 1.1 (tests/data/validate-location.test.js). Create helper functions for generating test data. Test both unit level (individual parsers) and integration level (complete loadLocation() workflow). Use Village of Barovia as real-world integration test case. Ensure 95% code coverage. Test all error paths (missing files, malformed YAML, missing sections). Measure performance to ensure &lt; 100ms requirement is met.
+    </standards>
+    <locations>
+      tests/data/location-loader.test.js (primary test file)
+      tests/data/test-locations/ (directory for test location data)
+    </locations>
+    <ideas>
+      <idea ac="AC-2">Integration test: Load Village of Barovia and verify all fields are correctly parsed into LocationData object matching schema</idea>
+      <idea ac="AC-2">Performance test: Measure execution time of loadLocation("village-of-barovia") and assert &lt; 100ms</idea>
+      <idea ac="AC-3">Unit test: Parse Description.md with all sections and verify descriptionVariants.initial, return, morning, night are extracted correctly</idea>
+      <idea ac="AC-4">Unit test: Parse NPCs.md with 4 NPCs from Village of Barovia, verify all NPC fields (npcId, name, type, dialogue, stats) are correct</idea>
+      <idea ac="AC-5">Unit test: Parse Items.md with available and hidden items, verify DC requirements for hidden items</idea>
+      <idea ac="AC-6">Unit test: Parse Events.md with scheduled/conditional/recurring events, verify all event types are handled</idea>
+      <idea ac="AC-7">Unit test: Parse State.md YAML content using js-yaml, verify all LocationState fields</idea>
+      <idea ac="AC-8">Unit test: Parse metadata.yaml with hierarchy fields (parent_location, sub_locations, location_level), verify parsing and validation</idea>
+      <idea ac="AC-9">Unit test: Verify LocationData.filePaths contains paths to all 6 source files</idea>
+      <idea ac="AC-10">Error test: Call loadLocation() with non-existent location ID, expect LocationNotFoundError</idea>
+      <idea ac="AC-11">Error test: Create location with malformed YAML in metadata.yaml, expect LocationParseError</idea>
+      <idea ac="AC-12">Unit test: Call validateLocation() on valid location, expect ValidationResult with no errors</idea>
+      <idea ac="AC-12">Unit test: Call validateLocation() on invalid location (missing files), expect ValidationResult with errors</idea>
+      <idea ac="AC-13">Unit test: Call listLocations() and verify it returns array including "village-of-barovia"</idea>
+      <idea ac="AC-14">Cache test: Load location twice, verify second call uses cache (faster). Then call reloadLocation() and verify fresh data is loaded.</idea>
+      <idea ac="AC-16">Coverage test: Run Jest with --coverage flag and verify ≥ 95% coverage for location-loader.js</idea>
+    </ideas>
+  </tests>
+</story-context>

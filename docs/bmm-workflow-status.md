@@ -12,8 +12,8 @@ WORKFLOW_PATH: game-design.yaml
 ## Current State
 
 CURRENT_PHASE: 4
-CURRENT_WORKFLOW: tech-spec
-CURRENT_AGENT: analyst
+CURRENT_WORKFLOW: create-story
+CURRENT_AGENT: sm
 PHASE_1_COMPLETE: true
 PHASE_2_COMPLETE: true
 PHASE_3_COMPLETE: true
@@ -21,10 +21,10 @@ PHASE_4_COMPLETE: false
 
 ## Next Action
 
-NEXT_ACTION: Generate Technical Specification from Architecture document - break down into epics and stories
-NEXT_COMMAND: tech-spec
-NEXT_AGENT: analyst
+NEXT_ACTION: Create first story (1-1-location-folder-structure) from Epic 1 tech spec
+NEXT_COMMAND: create-story
+NEXT_AGENT: sm
 
 ---
 
-_Last Updated: 2025-10-29_
+_Last Updated: 2025-11-02_

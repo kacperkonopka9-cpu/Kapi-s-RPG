@@ -1,0 +1,40 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest
+
+PASS tests/data/validate-location.test.js
+  Location Validation Script
+    Valid Location Tests
+      √ Village of Barovia should pass all validation checks (22 ms)
+      √ Valid location with all files present should pass (15 ms)
+    Missing Files Tests
+      √ Missing Description.md should fail validation (16 ms)
+      √ Missing NPCs.md should fail validation (16 ms)
+      √ Missing metadata.yaml should fail validation (18 ms)
+      √ Missing multiple files should report all missing files (17 ms)
+    Empty Files Tests
+      √ Empty Description.md should fail validation (12 ms)
+      √ Empty metadata.yaml should fail validation (15 ms)
+    Description.md Section Tests
+      √ Missing required sections in Description.md should fail (18 ms)
+      √ Description.md with all sections should pass (14 ms)
+    Malformed YAML Tests
+      √ Invalid YAML in metadata.yaml should fail (14 ms)
+    Location Hierarchy Validation Tests
+      √ Missing parent_location field should fail (16 ms)
+      √ Missing sub_locations field should fail (16 ms)
+      √ Missing location_level field should fail (18 ms)
+      √ Invalid location_level value should fail (15 ms)
+      √ Valid hierarchy with null parent (region level) should pass (17 ms)
+      √ Valid hierarchy with parent and children (settlement level) should pass (14 ms)
+      √ Empty sub_locations for room level should pass with success (14 ms)
+      √ Warning if parent_location references non-existent location (14 ms)
+    Non-existent Location Tests
+      √ Non-existent folder should fail validation (6 ms)
+      √ File instead of directory should fail validation (3 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       21 passed, 21 total
+Snapshots:   0 total
+Time:        1.32 s, estimated 3 s
+Ran all test suites.

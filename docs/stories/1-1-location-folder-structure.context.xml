@@ -1,0 +1,328 @@
+<story-context id="1-1-location-folder-structure" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Location Folder Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-1-location-folder-structure.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game developer</asA>
+    <iWant>to establish the standardized folder structure for game locations with required files</iWant>
+    <soThat>all location data follows a consistent, parseable format that can be loaded by the game engine</soThat>
+    <tasks>
+      <task id="1" status="pending">Create directory structure and templates (AC: #1)</task>
+      <task id="2" status="pending">Create Description.md template (AC: #1, #3)</task>
+      <task id="3" status="pending">Create NPCs.md template (AC: #1, #4)</task>
+      <task id="4" status="pending">Create Items.md template (AC: #1, #5)</task>
+      <task id="5" status="pending">Create Events.md template (AC: #1, #6)</task>
+      <task id="6" status="pending">Create State.md template (AC: #1, #7)</task>
+      <task id="7" status="pending">Create metadata.yaml template with location hierarchy fields (AC: #1, #8)</task>
+      <task id="8" status="pending">Populate Village of Barovia example with hierarchy (AC: #2, #9, #10)</task>
+      <task id="9" status="pending">Create validation script with hierarchy validation (AC: #9, #10, #11)</task>
+      <task id="10" status="pending">Create location creation documentation (AC: #12)</task>
+      <task id="11" status="pending">Write unit tests for validation including hierarchy tests (AC: #9, #10, #11)</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" priority="critical">
+      <given>the game-data/locations directory exists</given>
+      <when>I create a new location</when>
+      <then>the location folder must contain exactly 6 files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</then>
+      <and>each file must be parseable (valid markdown/YAML)</and>
+      <and>files must follow the specifications in Architecture §4.2</and>
+      <verification>Automated validation script checks all location folders</verification>
+    </criterion>
+    <criterion id="AC-2" priority="high">Location folder follows naming convention: kebab-case (e.g., village-of-barovia)</criterion>
+    <criterion id="AC-3" priority="high">Each of the 6 required files exists and is non-empty</criterion>
+    <criterion id="AC-4" priority="medium">Description.md contains sections: Overview, Initial Description, Return Description, Time-Based Variants, Points of Interest</criterion>
+    <criterion id="AC-5" priority="medium">NPCs.md follows YAML format with sections for each NPC</criterion>
+    <criterion id="AC-6" priority="medium">Items.md follows YAML format listing available and hidden items</criterion>
+    <criterion id="AC-7" priority="medium">Events.md follows YAML format defining scheduled, conditional, and recurring events</criterion>
+    <criterion id="AC-8" priority="medium">State.md follows YAML format tracking current location state</criterion>
+    <criterion id="AC-9" priority="medium">metadata.yaml contains all required fields: location_name, location_type, region, connected_locations, etc.</criterion>
+    <criterion id="AC-10" priority="critical">metadata.yaml includes location hierarchy fields: parent_location, sub_locations, location_level</criterion>
+    <criterion id="AC-11" priority="critical">Location hierarchy is properly defined (tavern → village → region)</criterion>
+    <criterion id="AC-12" priority="high">Files can be loaded and parsed without errors</criterion>
+    <criterion id="AC-13" priority="medium">Folder structure is documented for future location creation</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>§4.2 Location File Specifications</section>
+        <snippet>Defines the exact structure for all 6 location files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml) with complete examples for Village of Barovia. Specifies markdown format for Description.md and YAML formats for all other files. Includes metadata.yaml structure with location_name, location_type, region, population, danger_level, connected_locations array.</snippet>
+        <relevance>Primary reference for file structure specifications and format requirements</relevance>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-1: Location Folder Structure</section>
+        <snippet>Authoritative acceptance criteria stating location folder must contain exactly 6 files, each parseable, following Architecture §4.2. Verification method: automated validation script checks all location folders. Complete traceability mapping to architecture sections and test approach.</snippet>
+        <relevance>Defines the acceptance criteria this story must satisfy</relevance>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Data Models and Contracts - LocationData Schema</section>
+        <snippet>Defines LocationData object structure with fields: locationId, locationName, description (object with initial, return, morning, night variants), npcs (array), items (array), events (array), state (object), metadata (object). All fields must be populated from the 6 location files.</snippet>
+        <relevance>Defines the data model that will consume the location folder structure</relevance>
+      </doc>
+      <doc>
+        <path>docs/GDD.md</path>
+        <title>Game Design Document</title>
+        <section>Epic 1: Core Engine & Location System</section>
+        <snippet>Epic 1 goal: Build foundational folder-based world architecture. Key deliverable: Location folder structure with NPCs.md, Items.md, Events.md, State.md files. Success criteria: Can navigate between locations, interact with NPCs, and see world state persist across sessions. Estimated 8-12 stories.</snippet>
+        <relevance>Provides epic-level context and success criteria</relevance>
+      </doc>
+    </docs>
+
+    <code>
+      <!-- No existing code artifacts - this is the first story creating the foundation -->
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="js-yaml" version="^4.1.0" purpose="YAML parsing and validation for location files"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architectural" priority="critical">
+      <rule>File-First Design: All game data must be stored in human-readable markdown/YAML files (no database)</rule>
+      <source>docs/tech-spec-epic-1.md - Key Architectural Constraints</source>
+    </constraint>
+    <constraint type="architectural" priority="critical">
+      <rule>Git-Compatible: File formats must work well with version control (plain text only)</rule>
+      <source>docs/tech-spec-epic-1.md - Key Architectural Constraints</source>
+    </constraint>
+    <constraint type="architectural" priority="high">
+      <rule>Human-Readable: All data files must be editable in text editor without special tools</rule>
+      <source>docs/tech-spec-epic-1.md - Key Architectural Constraints</source>
+    </constraint>
+    <constraint type="architectural" priority="high">
+      <rule>Separation of Concerns: Location data separate from game logic</rule>
+      <source>docs/tech-spec-epic-1.md - Key Architectural Constraints</source>
+    </constraint>
+    <constraint type="architectural" priority="critical">
+      <rule>Standardization: All locations follow identical structure for consistent parsing</rule>
+      <source>docs/tech-spec-epic-1.md - Key Architectural Constraints</source>
+    </constraint>
+    <constraint type="naming" priority="high">
+      <rule>Location folders must use kebab-case naming convention (e.g., village-of-barovia)</rule>
+      <source>docs/stories/1-1-location-folder-structure.md - AC-2</source>
+    </constraint>
+    <constraint type="hierarchy" priority="critical">
+      <rule>Location hierarchy must have 4 levels: region → settlement → building → room</rule>
+      <source>docs/stories/1-1-location-folder-structure.md - Dev Notes: Location Hierarchy System</source>
+    </constraint>
+    <constraint type="hierarchy" priority="critical">
+      <rule>connected_locations defines travel between peer locations; parent_location/sub_locations defines containment hierarchy</rule>
+      <source>docs/stories/1-1-location-folder-structure.md - Dev Notes: Navigation Rules</source>
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="LocationData">
+      <kind>Data Structure</kind>
+      <signature>
+        {
+          locationId: string,
+          locationName: string,
+          description: {
+            initial: string,
+            return: string,
+            morning: string,
+            night: string,
+            pointsOfInterest: Array&lt;string&gt;
+          },
+          npcs: Array&lt;NPCData&gt;,
+          items: Array&lt;ItemData&gt;,
+          events: Array&lt;EventData&gt;,
+          state: LocationState,
+          metadata: LocationMetadata
+        }
+      </signature>
+      <path>docs/tech-spec-epic-1.md</path>
+      <usage>This data structure will be populated by loading the 6 location files</usage>
+    </interface>
+
+    <interface name="LocationMetadata">
+      <kind>Data Structure</kind>
+      <signature>
+        {
+          location_name: string,
+          location_type: string,
+          region: string,
+          size: string,
+          population: number,
+          danger_level: number,
+          recommended_level: string,
+          parent_location: string | null,
+          sub_locations: Array&lt;string&gt;,
+          location_level: "region" | "settlement" | "building" | "room",
+          connected_locations: Array&lt;{name: string, direction: string, travel_time: string}&gt;,
+          fast_travel_available: boolean,
+          discovered: boolean,
+          first_visit_date: string
+        }
+      </signature>
+      <path>docs/technical-architecture.md + docs/stories/1-1-location-folder-structure.md</path>
+      <usage>metadata.yaml file structure with location hierarchy fields</usage>
+    </interface>
+
+    <interface name="ValidationScript">
+      <kind>Node.js Script</kind>
+      <signature>validateLocation(locationPath: string): ValidationResult</signature>
+      <path>scripts/validate-location.js (to be created)</path>
+      <usage>Automated validation of location folder structure, file presence, YAML parsing, and hierarchy validation</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing follows Jest framework with 95% code coverage target for validation logic. Tests must verify file presence, YAML parsing, required sections in Description.md, and location hierarchy validation (parent_location, sub_locations, location_level fields). Test location: tests/data/validate-location.test.js
+    </standards>
+
+    <locations>
+      <location>tests/data/validate-location.test.js</location>
+    </locations>
+
+    <ideas>
+      <idea ac="AC-1" priority="critical">
+        Test validation script with valid Village of Barovia location - all 6 files present, all parseable
+      </idea>
+      <idea ac="AC-1" priority="high">
+        Test validation script with missing files - should fail and report which files are missing
+      </idea>
+      <idea ac="AC-1" priority="high">
+        Test validation script with malformed YAML - should fail with parse error
+      </idea>
+      <idea ac="AC-4" priority="medium">
+        Test validation script with missing required sections in Description.md - should fail
+      </idea>
+      <idea ac="AC-3" priority="high">
+        Test validation script with empty files - should fail (files must be non-empty)
+      </idea>
+      <idea ac="AC-10,AC-11" priority="critical">
+        Test hierarchy validation: missing parent_location field should fail
+      </idea>
+      <idea ac="AC-10,AC-11" priority="critical">
+        Test hierarchy validation: missing sub_locations field should fail
+      </idea>
+      <idea ac="AC-10,AC-11" priority="critical">
+        Test hierarchy validation: invalid location_level value should fail (must be region/settlement/building/room)
+      </idea>
+      <idea ac="AC-10,AC-11" priority="medium">
+        Test hierarchy validation: null parent_location valid for region level
+      </idea>
+      <idea ac="AC-10,AC-11" priority="medium">
+        Test hierarchy validation: valid parent and children for settlement level
+      </idea>
+      <idea ac="AC-10,AC-11" priority="low">
+        Test hierarchy validation: warn if parent_location references non-existent location
+      </idea>
+      <idea ac="AC-12" priority="high">
+        Integration test: Load Village of Barovia using js-yaml and verify all fields parse correctly
+      </idea>
+    </ideas>
+  </tests>
+
+  <projectStructure>
+    <directoryLayout>
+      game-data/
+        locations/
+          [location-name]/        # kebab-case folder
+            Description.md        # Narrative content
+            NPCs.md              # NPC data (YAML)
+            Items.md             # Item listings (YAML)
+            Events.md            # Event triggers (YAML)
+            State.md             # Current state (YAML)
+            metadata.yaml        # Metadata &amp; hierarchy
+
+      templates/
+        location/
+          Description.md         # Template file
+          NPCs.md               # Template file
+          Items.md              # Template file
+          Events.md             # Template file
+          State.md              # Template file
+          metadata.yaml         # Template file
+
+      scripts/
+        validate-location.js    # Validation script
+
+      tests/
+        data/
+          validate-location.test.js  # Unit tests
+
+      docs/
+        creating-locations.md   # Documentation guide
+    </directoryLayout>
+
+    <keyFiles>
+      <file path="templates/location/metadata.yaml" purpose="Template defining location hierarchy fields and all metadata structure"/>
+      <file path="game-data/locations/village-of-barovia/metadata.yaml" purpose="Example location with hierarchy: parent=barovia-region, level=settlement, children=[tavern, mansion, church]"/>
+      <file path="scripts/validate-location.js" purpose="Validation script checking 6 files, YAML parsing, hierarchy fields"/>
+      <file path="docs/creating-locations.md" purpose="Guide for creating new locations with hierarchy examples"/>
+    </keyFiles>
+  </projectStructure>
+
+  <locationHierarchySystem>
+    <levels>
+      <level name="region" example="barovia-region" characteristics="Top-level area, parent_location=null, contains settlements"/>
+      <level name="settlement" example="village-of-barovia" characteristics="Village/town/city, parent=region, contains buildings"/>
+      <level name="building" example="blood-of-vine-tavern" characteristics="Structure within settlement, parent=settlement, contains rooms"/>
+      <level name="room" example="tavern-common-room" characteristics="Individual room, parent=building, sub_locations=[]"/>
+    </levels>
+
+    <navigationRules>
+      <rule type="connected">Use connected_locations for travel between peer locations (village to village, tavern to mansion)</rule>
+      <rule type="hierarchy">Use parent_location/sub_locations for containment (tavern is IN village, village is IN region)</rule>
+      <rule type="travel">Players fast-travel to settlements, then navigate to buildings within</rule>
+    </navigationRules>
+
+    <example>
+      barovia-region (level: region, parent: null)
+      └─ village-of-barovia (level: settlement, parent: barovia-region)
+         ├─ blood-of-vine-tavern (level: building, parent: village-of-barovia)
+         │  └─ tavern-common-room (level: room, parent: blood-of-vine-tavern)
+         ├─ burgomaster-mansion (level: building, parent: village-of-barovia)
+         └─ church (level: building, parent: village-of-barovia)
+    </example>
+  </locationHierarchySystem>
+
+  <implementationNotes>
+    <note priority="critical">Start with template files first, then populate Village of Barovia example - templates ensure consistency</note>
+    <note priority="high">Validate early: Run validation script after each file is created to catch errors immediately</note>
+    <note priority="high">Follow Architecture §4.2 specifications strictly - exact section names, field names, YAML structure</note>
+    <note priority="medium">Village of Barovia serves as reference implementation for all future locations</note>
+    <note priority="critical">Location hierarchy is NEW requirement - ensure parent_location, sub_locations, location_level in metadata.yaml template</note>
+    <note priority="high">Validation script must check hierarchy fields exist and location_level is valid enum value</note>
+    <note priority="low">Optional: Create blood-of-vine-tavern sub-location to demonstrate building-level hierarchy</note>
+  </implementationNotes>
+
+  <devStrategy>
+    <approach>Template-first, then example, then validation, then tests</approach>
+    <steps>
+      <step order="1">Create directory structure (game-data/locations, templates/location)</step>
+      <step order="2">Create all 6 template files following Architecture §4.2 exactly</step>
+      <step order="3">Add hierarchy fields to metadata.yaml template (parent_location, sub_locations, location_level)</step>
+      <step order="4">Populate Village of Barovia example with Curse of Strahd content</step>
+      <step order="5">Set Village hierarchy: parent=barovia-region, level=settlement, children=[tavern, mansion, church]</step>
+      <step order="6">Write validation script with hierarchy checks</step>
+      <step order="7">Run validation on Village of Barovia - should pass</step>
+      <step order="8">Write documentation guide explaining hierarchy system</step>
+      <step order="9">Write unit tests with hierarchy test cases</step>
+      <step order="10">Verify 95% test coverage</step>
+    </steps>
+  </devStrategy>
+
+</story-context>
