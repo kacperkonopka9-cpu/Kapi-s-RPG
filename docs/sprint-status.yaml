@@ -45,7 +45,7 @@ development_status:
   1-4-basic-slash-commands: done
   1-5-llm-narrator-integration: done
   1-6-location-navigation: review
-  1-7-session-logging-system: in-progress
+  1-7-session-logging-system: review
   1-8-git-auto-save: backlog
   1-9-test-locations-setup: backlog
   1-10-location-state-persistence: backlog
