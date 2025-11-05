@@ -1,0 +1,28 @@
+# Location Metadata
+
+location_name: "Market Square"
+location_type: "Settlement"
+region: "Test Region"
+size: "Medium"
+population: 200
+danger_level: 1
+recommended_level: "1-3"
+
+# Location Hierarchy
+parent_location: null  # Top-level test location
+sub_locations: []  # No sub-locations
+location_level: "settlement"  # This is a settlement-level location
+
+# Connected Locations (peer locations for travel)
+connected_locations:
+  - name: "The Crossroads Inn"
+    direction: "South"
+    travel_time: "15 minutes"
+  - name: "Ancient Library"
+    direction: "East"
+    travel_time: "20 minutes"
+
+# Discovery and Visit Tracking
+fast_travel_available: true
+discovered: false  # Not yet discovered
+first_visit_date: null

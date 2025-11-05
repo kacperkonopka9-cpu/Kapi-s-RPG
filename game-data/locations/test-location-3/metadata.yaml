@@ -1,0 +1,25 @@
+# Location Metadata
+
+location_name: "Ancient Library"
+location_type: "Building"
+region: "Test Region"
+size: "Medium"
+population: 15
+danger_level: 0
+recommended_level: "1-4"
+
+# Location Hierarchy
+parent_location: null  # Top-level test location
+sub_locations: []  # No sub-locations
+location_level: "building"  # This is a building-level location
+
+# Connected Locations (peer locations for travel)
+connected_locations:
+  - name: "Market Square"
+    direction: "West"
+    travel_time: "20 minutes"
+
+# Discovery and Visit Tracking
+fast_travel_available: true
+discovered: false  # Not yet discovered
+first_visit_date: null

@@ -12,7 +12,7 @@ const { endSessionHandler } = require('../../src/commands/handlers/end-session')
 const { SessionManager } = require('../../src/stubs/session-manager');
 const { NavigationHandler } = require('../../src/stubs/navigation-handler');
 const { SessionLogger } = require('../../src/core/session-logger'); // Real implementation (Story 1.7)
-const { GitIntegration } = require('../../src/stubs/git-integration');
+const { GitIntegration } = require('../../src/utils/git-utils'); // Real implementation (Story 1.8)
 const { LocationLoader } = require('../../src/data/location-loader');
 const { ContextBuilder } = require('../../src/core/context-builder');
 

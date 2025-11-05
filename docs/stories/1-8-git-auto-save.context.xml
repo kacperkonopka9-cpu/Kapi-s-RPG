@@ -1,0 +1,231 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>8</storyId>
+    <title>Git Auto-Save</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-8-git-auto-save.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player</asA>
+    <iWant>my session progress to be automatically committed to Git when I end a session</iWant>
+    <soThat>I have a version-controlled history of my gameplay and can recover from mistakes</soThat>
+    <tasks>
+      ### Core Implementation
+      - Task 1: Create GitIntegration module (src/utils/git-utils.js) with constructor and dependency injection
+      - Task 2: Implement isGitAvailable() method to check Git installation
+      - Task 3: Implement createAutoSave(sessionState) method with git add, commit, hash extraction
+      - Task 4: Build commit message helper with proper formatting
+      - Task 5: Error handling and validation for Git failures
+
+      ### Integration
+      - Task 6: Integrate with end-session command handler (import and call createAutoSave)
+      - Task 7: Update end-session handler summary display with commit hash
+
+      ### Testing
+      - Task 8: Write unit tests (tests/utils/git-utils.test.js) with mocked child_process
+      - Task 9: Write integration tests (tests/integration/git-integration.test.js) with real Git
+      - Task 10: Update end-session integration tests to expect Git integration
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    - AC-1: Git Auto-Save on Session End - Run after log finalized, stage all changes, create commit, return hash, complete in &lt; 5s
+    - AC-2: Commit Message Format - Multi-line format: [AUTO-SAVE] Session YYYY-MM-DD / Location / Duration / Actions
+    - AC-3: Git Detection and Error Handling - Detect Git unavailability, log warning, return error, don't block gameplay
+    - AC-4: Commit Hash Display - Return short hash (7 chars), display to user in session summary
+    - AC-5: API Implementation - Expose createAutoSave(sessionState) and isGitAvailable() with dependency injection
+    - AC-6: Integration with End-Session Workflow - Call after SessionLogger.finalize(), handle success/error cases
+    - AC-7: Test Coverage - Achieve ≥90% coverage with edge case testing
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Acceptance Criteria → AC-7: End Session with Auto-Save</section>
+        <snippet>Git auto-save must create commit with format [AUTO-SAVE] Session YYYY-MM-DD, Location, Duration, Actions. Commit hash must be displayed to user. Entire operation must complete in &lt; 5 seconds. Session state cleared from memory.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing → Workflow 4: End Session</section>
+        <snippet>GitIntegration.createAutoSave(sessionState) runs after SessionLogger.finalize(). Executes git add ., builds multi-line commit message from session state, runs git commit, extracts and returns commit hash. Displayed in session summary with duration, actions, log path.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces → GitIntegration API</section>
+        <snippet>GitIntegration class at src/utils/git-utils.js. Method createAutoSave(sessionState) returns GitCommitResult with success, commitHash, error. Used in end session workflow. Dependencies injected for testability.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Error Handling → Git Commit Failure</section>
+        <snippet>Detection: Git command returns non-zero exit code. Recovery: Retry once, then warn user but allow session to end. Fallback: Session log saved, but no Git commit created. Impact: Manual commit required, but no data loss.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-7-session-logging-system.md</path>
+        <title>Story 1.7: Session Logging System</title>
+        <section>Story Completion Notes</section>
+        <snippet>Patterns from Story 1.7: Dependency injection pattern (constructor accepts deps for testability), graceful error handling (return success:false, log warnings, never throw), performance monitoring, test coverage 98.97%, unit tests with mocks + integration tests with real operations.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/stubs/git-integration.js</path>
+        <kind>stub class</kind>
+        <symbol>GitIntegration</symbol>
+        <lines>20-75</lines>
+        <reason>Existing stub implementation to be replaced. Provides interface contract: createAutoSave(sessionState) returns GitCommitResult with success, commitHash, error. Shows commit message format, git add/commit workflow, error handling pattern. Uses execSync from child_process.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/end-session.js</path>
+        <kind>command handler</kind>
+        <symbol>endSessionHandler</symbol>
+        <lines>23-96</lines>
+        <reason>End-session handler depends on GitIntegration. Line 54 calls gitIntegration.createAutoSave(finalSessionState). Lines 70-78 handle success/error display. Must maintain interface compatibility when replacing stub. Shows integration pattern and summary formatting.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/session-logger.js</path>
+        <kind>service class</kind>
+        <symbol>SessionLogger</symbol>
+        <lines>205-235</lines>
+        <reason>SessionLogger.finalize() is called before GitIntegration.createAutoSave() in end-session workflow. Returns log file path. GitIntegration runs after log is closed to ensure all session data committed together.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/core/session-logger.test.js</path>
+        <kind>test file</kind>
+        <symbol>SessionLogger tests</symbol>
+        <lines>1-625</lines>
+        <reason>Example of 98.97% test coverage pattern from Story 1.7. Shows comprehensive test structure with mocked dependencies (child_process equivalent: fs), error scenario testing, performance validation. Model for GitIntegration tests achieving 90%+ coverage.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>child_process (built-in)</package>
+        <usage>Subprocess execution for Git commands (git add, git commit, git rev-parse). Use execSync for synchronous operations since session is ending.</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Test framework for unit and integration tests (90%+ coverage requirement). Mock child_process in unit tests.</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Performance target: createAutoSave() must complete in &lt; 5 seconds total per AC-1 (git add &lt; 2s, git commit &lt; 2s)
+    - Graceful fallback: If Git not installed or commit fails, log warning but don't block session end per AC-3
+    - Interface compatibility: Must match existing GitIntegration stub interface used by end-session.js handler (createAutoSave method signature, GitCommitResult format)
+    - Synchronous operations acceptable: Git commands run synchronously using execSync since session is ending (no concurrent actions)
+    - Dependency injection: Constructor accepts childProcess and cwd parameters for testability (matches SessionLogger pattern from Story 1.7)
+    - Commit message format: Multi-line with [AUTO-SAVE] prefix, ISO date format (YYYY-MM-DD), location, duration, actions per AC-2
+    - Error message clarity: User-friendly messages explaining Git failures (not installed, no repo, no changes)
+    - Security: Sanitize commit messages to prevent command injection, escape special characters
+    - Test coverage: ≥ 90% statement coverage required per AC-7
+    - No blocking on failure: Session must end successfully even if Git operations fail
+    - Short hash format: Return 7-character commit hash (git rev-parse --short HEAD)
+    - Cache Git availability: isGitAvailable() result can be cached after first check for performance
+    - Stub replacement: Real implementation replaces src/stubs/git-integration.js but stub can remain for reference
+    - Module location: Place at src/utils/git-utils.js per tech spec module definition (line 96)
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>GitIntegration.createAutoSave()</name>
+      <kind>method signature</kind>
+      <signature>createAutoSave(sessionState: SessionState): GitCommitResult</signature>
+      <path>docs/tech-spec-epic-1.md (lines 551-560)</path>
+      <notes>Core Git auto-save method. Accepts sessionState with endTime, startTime, currentLocationId, actionCount. Stages all changes (git add .), builds commit message, creates commit, extracts hash. Returns GitCommitResult with success, commitHash (7 chars), error. Synchronous operation. Performance target: &lt; 5 seconds total.</notes>
+    </interface>
+    <interface>
+      <name>GitIntegration.isGitAvailable()</name>
+      <kind>method signature</kind>
+      <signature>isGitAvailable(): boolean</signature>
+      <path>docs/stories/1-8-git-auto-save.md (Task 2)</path>
+      <notes>Checks if Git is installed on system. Runs git --version command. Returns true if command succeeds (exit code 0), false otherwise. Result can be cached for performance. Used by createAutoSave() to detect Git availability before attempting operations.</notes>
+    </interface>
+    <interface>
+      <name>GitCommitResult</name>
+      <kind>type definition</kind>
+      <signature>{ success: boolean, commitHash: string|null, error: string|null }</signature>
+      <path>src/stubs/git-integration.js (lines 10-14)</path>
+      <notes>Return type for createAutoSave() method. success indicates if commit was created. commitHash contains 7-character short hash if successful or null if failed. error contains user-friendly message if failed or null if successful.</notes>
+    </interface>
+    <interface>
+      <name>Commit Message Format</name>
+      <kind>data structure</kind>
+      <signature>
+[AUTO-SAVE] Session 2025-11-05
+Location: Village of Barovia
+Duration: 45 minutes
+Actions: 12
+      </signature>
+      <path>docs/tech-spec-epic-1.md (lines 1122-1126)</path>
+      <notes>Multi-line Git commit message format. First line: [AUTO-SAVE] Session YYYY-MM-DD (ISO date). Second line: Location: [location display name or ID]. Third line: Duration: [X minutes]. Fourth line: Actions: [N]. Each field on separate line for readability in Git history.</notes>
+    </interface>
+    <interface>
+      <name>SessionState</name>
+      <kind>type definition</kind>
+      <signature>{ sessionId: string, startTime: Date, endTime: Date, currentLocationId: string, actionCount: number, visitedLocations: string[] }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 216-225)</path>
+      <notes>Session state object passed to createAutoSave(). Contains session metadata needed for commit message: dates for duration calculation, currentLocationId for location field, actionCount for actions field. Finalized by SessionManager.endSession() before Git integration.</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Project uses Jest v29.7.0 for all testing. Test structure follows AAA pattern (Arrange-Act-Assert) with describe blocks for grouping by method/feature. Tests organized in tests/utils/ for utility module unit tests and tests/integration/ for integration tests. Mock external dependencies (child_process.execSync) in unit tests using jest.fn(). Use real Git commands in integration tests with temp repository. Performance assertions included in tests to validate timing requirements (&lt;5s for createAutoSave, &lt;100ms for isGitAvailable). All modules target ≥90% statement coverage. Test naming: "should [expected behavior] when [condition]". Use beforeEach for test setup, afterEach for cleanup. Comprehensive error scenario testing required (Git not installed, commit failures, permission errors, no changes to commit).</standards>
+    <locations>
+      tests/utils/git-utils.test.js - Unit tests for GitIntegration class
+      tests/integration/git-integration.test.js - Integration tests for complete auto-save workflow
+      tests/integration/commands.test.js - End-session tests including Git integration
+    </locations>
+    <ideas>
+      AC-1: Git Auto-Save on Session End
+      - Unit test: createAutoSave() stages all changes with git add .
+      - Unit test: createAutoSave() creates commit with proper message format
+      - Unit test: createAutoSave() extracts and returns commit hash (7 chars)
+      - Unit test: createAutoSave() completes in &lt; 5 seconds
+      - Integration test: Complete auto-save workflow with real Git repo
+
+      AC-2: Commit Message Format
+      - Unit test: Commit message has [AUTO-SAVE] prefix
+      - Unit test: Commit message includes ISO date format (YYYY-MM-DD)
+      - Unit test: Commit message is multi-line with location, duration, actions
+      - Integration test: Verify commit message in actual Git history
+
+      AC-3: Git Detection and Error Handling
+      - Unit test: isGitAvailable() returns true when Git installed
+      - Unit test: isGitAvailable() returns false when Git not installed
+      - Unit test: createAutoSave() returns error when Git unavailable
+      - Unit test: createAutoSave() logs warning on failure but doesn't throw
+      - Integration test: Graceful fallback when Git commands fail
+
+      AC-4: Commit Hash Display
+      - Unit test: createAutoSave() returns short hash (7 chars)
+      - Unit test: Commit hash extracted from git rev-parse HEAD output
+      - Integration test: Commit hash displayed in end-session summary
+
+      AC-5: API Implementation
+      - Unit test: Constructor accepts childProcess and cwd dependencies
+      - Unit test: createAutoSave() returns GitCommitResult object
+      - Unit test: isGitAvailable() caches result for performance
+
+      AC-6: Integration with End-Session Workflow
+      - Integration test: end-session handler calls createAutoSave after finalize
+      - Integration test: Success case displays commit hash in summary
+      - Integration test: Error case displays warning but session ends successfully
+
+      AC-7: Test Coverage
+      - Jest coverage report validates 90%+ statement coverage
+      - All public methods covered (createAutoSave, isGitAvailable)
+      - All error paths tested (Git not installed, no repo, commit failures)
+      - Edge cases: no changes to commit, permission errors, detached HEAD
+    </ideas>
+  </tests>
+</story-context>

@@ -44,10 +44,10 @@ development_status:
   1-3-context-loader-module: done
   1-4-basic-slash-commands: done
   1-5-llm-narrator-integration: done
-  1-6-location-navigation: review
-  1-7-session-logging-system: review
-  1-8-git-auto-save: backlog
-  1-9-test-locations-setup: backlog
+  1-6-location-navigation: done
+  1-7-session-logging-system: done
+  1-8-git-auto-save: done
+  1-9-test-locations-setup: in-progress
   1-10-location-state-persistence: backlog
   epic-1-retrospective: optional
 

@@ -1,0 +1,25 @@
+# Location Metadata
+
+location_name: "The Crossroads Inn"
+location_type: "Building"
+region: "Test Region"
+size: "Small"
+population: 12
+danger_level: 0
+recommended_level: "1-2"
+
+# Location Hierarchy
+parent_location: null  # Top-level test location
+sub_locations: []  # No sub-locations
+location_level: "building"  # This is a building-level location
+
+# Connected Locations (peer locations for travel)
+connected_locations:
+  - name: "Market Square"
+    direction: "North"
+    travel_time: "15 minutes"
+
+# Discovery and Visit Tracking
+fast_travel_available: true
+discovered: false  # Not yet discovered
+first_visit_date: null

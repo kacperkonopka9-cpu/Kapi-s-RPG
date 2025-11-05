@@ -1,0 +1,417 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>9</storyId>
+    <title>Test Locations Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-9-test-locations-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>complete test locations with all required files in game-data/locations</iWant>
+    <soThat>integration tests pass and the game is playable for end-to-end testing</soThat>
+    <tasks>
+      <task id="1" tag="setup">
+        <goal>Analyze current test location state</goal>
+        <subtasks>
+          <subtask>Document what exists in game-data/test-locations vs game-data/locations</subtask>
+          <subtask>Identify which tests are failing and what they expect</subtask>
+          <subtask>Determine if we move/copy/create locations</subtask>
+          <subtask>Review village-of-barovia as template</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1</acceptanceCriteria>
+      </task>
+      <task id="2" tag="planning">
+        <goal>Design test location content</goal>
+        <subtasks>
+          <subtask>Design generic location themes (not Curse of Strahd specific)</subtask>
+          <subtask>Plan NPC roles and descriptions</subtask>
+          <subtask>Plan minimal items and events</subtask>
+          <subtask>Ensure content supports LLM narrative generation</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-3, AC-4, AC-5</acceptanceCriteria>
+      </task>
+      <task id="3" tag="creation">
+        <goal>Create test-location-1 (starting point)</goal>
+        <subtasks>
+          <subtask>Create directory structure in game-data/locations/test-location-1/</subtask>
+          <subtask>Write Description.md with all required sections</subtask>
+          <subtask>Write NPCs.md with 1-2 NPCs</subtask>
+          <subtask>Write Items.md with minimal items (1 available, 1 hidden)</subtask>
+          <subtask>Write Events.md with 1 minimal event</subtask>
+          <subtask>Create State.md with initialized YAML</subtask>
+          <subtask>Write metadata.yaml with connectivity to test-location-2</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1, AC-3, AC-4, AC-5, AC-6</acceptanceCriteria>
+      </task>
+      <task id="4" tag="creation">
+        <goal>Create test-location-2 (hub location)</goal>
+        <subtasks>
+          <subtask>Create directory structure in game-data/locations/test-location-2/</subtask>
+          <subtask>Write Description.md with all required sections</subtask>
+          <subtask>Write NPCs.md with 1-2 NPCs</subtask>
+          <subtask>Write Items.md with minimal items</subtask>
+          <subtask>Write Events.md with 1 minimal event</subtask>
+          <subtask>Create State.md with initialized YAML</subtask>
+          <subtask>Write metadata.yaml with connectivity to test-location-1 and test-location-3</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1, AC-3, AC-4, AC-5, AC-6</acceptanceCriteria>
+      </task>
+      <task id="5" tag="creation">
+        <goal>Create test-location-3 (end point)</goal>
+        <subtasks>
+          <subtask>Create directory structure in game-data/locations/test-location-3/</subtask>
+          <subtask>Write Description.md with all required sections</subtask>
+          <subtask>Write NPCs.md with 1-2 NPCs</subtask>
+          <subtask>Write Items.md with minimal items</subtask>
+          <subtask>Write Events.md with 1 minimal event</subtask>
+          <subtask>Create State.md with initialized YAML</subtask>
+          <subtask>Write metadata.yaml with connectivity to test-location-2</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1, AC-3, AC-4, AC-5, AC-6</acceptanceCriteria>
+      </task>
+      <task id="6" tag="validation">
+        <goal>Validate all test locations</goal>
+        <subtasks>
+          <subtask>Run validate-location script on test-location-1</subtask>
+          <subtask>Run validate-location script on test-location-2</subtask>
+          <subtask>Run validate-location script on test-location-3</subtask>
+          <subtask>Fix any validation errors</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-8</acceptanceCriteria>
+      </task>
+      <task id="7" tag="testing">
+        <goal>Update/verify LocationLoader integration tests</goal>
+        <subtasks>
+          <subtask>Verify LocationLoader can load all test locations</subtask>
+          <subtask>Verify all files parse correctly</subtask>
+          <subtask>Check parsing of Description, NPCs, Items, Events, State</subtask>
+          <subtask>Verify metadata parsing with connectivity</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-7</acceptanceCriteria>
+      </task>
+      <task id="8" tag="testing">
+        <goal>Fix LLM Narrator integration tests</goal>
+        <subtasks>
+          <subtask>Run llm-narrator.test.js to verify tests pass</subtask>
+          <subtask>Update test paths if needed (game-data/test-locations → game-data/locations)</subtask>
+          <subtask>Verify LLM can generate narratives from test location content</subtask>
+          <subtask>Ensure all 14 failing tests now pass</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-7</acceptanceCriteria>
+      </task>
+      <task id="9" tag="testing">
+        <goal>Verify Navigation integration tests</goal>
+        <subtasks>
+          <subtask>Run navigation integration tests</subtask>
+          <subtask>Verify travel between test-location-1, 2, 3 works</subtask>
+          <subtask>Verify getConnectedLocations returns correct data</subtask>
+          <subtask>Ensure bidirectional connectivity works</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-2, AC-7</acceptanceCriteria>
+      </task>
+      <task id="10" tag="testing">
+        <goal>End-to-end playtest verification</goal>
+        <subtasks>
+          <subtask>Manually test start session at test-location-1</subtask>
+          <subtask>Travel to test-location-2</subtask>
+          <subtask>Travel to test-location-3</subtask>
+          <subtask>Verify LLM narratives are coherent</subtask>
+          <subtask>Verify state persistence works</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-7</acceptanceCriteria>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="AC-1" tag="structure">
+      <title>Test Location Directory Structure</title>
+      <given>the game-data/locations directory exists</given>
+      <when>Story 1.9 is complete</when>
+      <then>
+        <assertion>test-location-1 (starting point) exists in game-data/locations/</assertion>
+        <assertion>test-location-2 (connected to 1 and 3) exists in game-data/locations/</assertion>
+        <assertion>test-location-3 (end point) exists in game-data/locations/</assertion>
+        <assertion>each location has all 6 required files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</assertion>
+        <assertion>all files pass LocationLoader validation</assertion>
+      </then>
+      <verification>Run location validation script on each test location</verification>
+    </ac>
+    <ac id="AC-2" tag="connectivity">
+      <title>Location Connectivity</title>
+      <given>test locations are created</given>
+      <when>metadata.yaml files are examined</when>
+      <then>
+        <assertion>test-location-1 → test-location-2 (bidirectional)</assertion>
+        <assertion>test-location-2 → test-location-3 (bidirectional)</assertion>
+        <assertion>test-location-2 → test-location-1 (bidirectional)</assertion>
+        <assertion>metadata.yaml includes connected_locations arrays</assertion>
+        <assertion>metadata.yaml includes location hierarchy fields (parent_location, sub_locations, location_level)</assertion>
+      </then>
+      <verification>Navigation integration tests</verification>
+    </ac>
+    <ac id="AC-3" tag="content">
+      <title>Description Content (Partial per Q-5)</title>
+      <given>each test location</given>
+      <when>Description.md is loaded</when>
+      <then>
+        <assertion>file contains ## Overview section (2-3 paragraphs describing the location)</assertion>
+        <assertion>file contains ## Key Features section (3-5 bullet points)</assertion>
+        <assertion>file contains ## Atmosphere section (1-2 paragraphs for mood/ambiance)</assertion>
+        <assertion>file contains ## Exits section (list of connected locations with descriptions)</assertion>
+        <assertion>content is sufficient for LLM to generate coherent narratives</assertion>
+        <assertion>content is generic/reusable (not Curse of Strahd specific)</assertion>
+      </then>
+      <verification>LocationLoader tests + LLM Narrator integration tests</verification>
+    </ac>
+    <ac id="AC-4" tag="content">
+      <title>NPC Content (Partial per Q-5)</title>
+      <given>each test location</given>
+      <when>NPCs.md is loaded</when>
+      <then>
+        <assertion>file contains 1-2 NPCs per location</assertion>
+        <assertion>each NPC has Name, Role/occupation, Brief description (1-2 sentences), Location/usual position</assertion>
+        <assertion>NPCs are generic/reusable</assertion>
+      </then>
+      <verification>LocationLoader NPC parsing tests</verification>
+    </ac>
+    <ac id="AC-5" tag="content">
+      <title>Minimal Items and Events</title>
+      <given>each test location</given>
+      <when>Items.md and Events.md are loaded</when>
+      <then>
+        <assertion>Items.md has at least 1 available item and 1 hidden item</assertion>
+        <assertion>Events.md has at least 1 event (scheduled, conditional, or recurring)</assertion>
+        <assertion>content can be minimal placeholders (sufficient for parsing, not gameplay)</assertion>
+      </then>
+      <verification>LocationLoader item/event parsing tests</verification>
+    </ac>
+    <ac id="AC-6" tag="state">
+      <title>State Files Initialized</title>
+      <given>each test location</given>
+      <when>State.md is created</when>
+      <then>
+        <assertion>file exists with initialized state structure (visited: false, discovered_items: [], completed_events: [], npc_states: {}, custom_state: {}, last_updated: null)</assertion>
+        <assertion>State.md is valid YAML frontmatter</assertion>
+      </then>
+      <verification>StateManager tests</verification>
+    </ac>
+    <ac id="AC-7" tag="integration">
+      <title>Integration Tests Pass</title>
+      <given>all test locations are created</given>
+      <when>integration test suite runs</when>
+      <then>
+        <assertion>LLM Narrator integration tests pass (currently 14 failing)</assertion>
+        <assertion>LocationLoader integration tests pass</assertion>
+        <assertion>Navigation integration tests continue passing</assertion>
+      </then>
+      <verification>npm test -- llm-narrator.test.js</verification>
+    </ac>
+    <ac id="AC-8" tag="validation">
+      <title>Location Validation</title>
+      <given>test locations are created</given>
+      <when>validation script runs</when>
+      <then>
+        <assertion>all 6 required files present</assertion>
+        <assertion>Description.md has all required sections</assertion>
+        <assertion>metadata.yaml has required fields</assertion>
+        <assertion>no syntax errors in any files</assertion>
+      </then>
+      <verification>npm run validate-location test-location-1</verification>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-10: Test Locations Playable</section>
+        <snippet>3-5 test locations required with complete, valid data files. Locations must be connected via metadata.yaml. LLM must generate coherent narratives.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Q-5: Test Location Scope</section>
+        <snippet>Recommendation: Option B - Partial content (Description + NPCs fully populated, minimal Items/Events). Sufficient for testing while avoiding premature Epic 4 work.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Data Models and Contracts</section>
+        <snippet>LocationData schema defines 6 required files per location: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml with specific content structure.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-2-location-data-parser.md</path>
+        <title>Story 1.2: Location Data Parser (LocationLoader)</title>
+        <section>Implementation</section>
+        <snippet>LocationLoader validates and parses all 6 location files. Implements caching, error handling, and graceful fallbacks for missing optional content.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-6-location-navigation.md</path>
+        <title>Story 1.6: Location Navigation</title>
+        <section>Implementation</section>
+        <snippet>NavigationHandler validates location connectivity via metadata.yaml. Ensures bidirectional travel and verifies connected_locations arrays.</snippet>
+      </doc>
+      <doc>
+        <path>game-data/locations/village-of-barovia</path>
+        <title>Village of Barovia (Template Location)</title>
+        <section>Complete Location Example</section>
+        <snippet>Existing complete location with all 6 files. Use as template for content structure, formatting, and LLM-friendly narrative style.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-50</lines>
+        <reason>Defines REQUIRED_FILES constant and location validation logic. Test locations must pass LocationLoader validation.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/navigation-handler.js</path>
+        <kind>service</kind>
+        <symbol>NavigationHandler</symbol>
+        <lines>1-100</lines>
+        <reason>Validates location connectivity via metadata.yaml. Test locations must have proper connected_locations arrays for bidirectional travel.</reason>
+      </artifact>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>1-80</lines>
+        <reason>Validation script checks all 6 required files, Description.md sections, and metadata.yaml fields. Use to verify test locations meet requirements.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/llm-narrator.test.js</path>
+        <kind>test</kind>
+        <symbol>LLM Narrator Integration Tests</symbol>
+        <lines>65-302</lines>
+        <reason>14 failing tests reference test-location-1 and test-location-2. These locations must exist in game-data/locations/ with valid, parseable content.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/village-of-barovia</path>
+        <kind>data</kind>
+        <symbol>Template Location</symbol>
+        <lines>all</lines>
+        <reason>Complete reference location with all 6 files properly formatted. Use as template for content structure, markdown formatting, and LLM-friendly narrative style.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="fs">Node.js built-in</package>
+        <package name="path">Node.js built-in</package>
+        <package name="js-yaml">^4.1.0 (location metadata parsing)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="file-structure">Each location must have exactly 6 files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</constraint>
+    <constraint type="content-scope">Per Q-5 decision: Description + NPCs fully populated, Items/Events minimal (sufficient for parsing, not full gameplay)</constraint>
+    <constraint type="description-sections">Description.md must include: ## Overview, ## Initial Description, ## Return Description, ## Time-Based Variants (### Morning, ### Night), ## Points of Interest</constraint>
+    <constraint type="metadata-fields">metadata.yaml must include: location_name, location_type, region, parent_location, sub_locations, location_level, connected_locations</constraint>
+    <constraint type="connectivity">Locations must be bidirectionally connected: test-location-1 ↔ test-location-2 ↔ test-location-3</constraint>
+    <constraint type="location-level">Valid location_level values: region, settlement, building, room</constraint>
+    <constraint type="state-format">State.md must use YAML frontmatter with keys: visited, discovered_items, completed_events, npc_states, custom_state, last_updated</constraint>
+    <constraint type="content-style">Content must be generic/reusable (not Curse of Strahd specific) and support LLM narrative generation</constraint>
+    <constraint type="testing">All test locations must pass: LocationLoader validation, Navigation tests, LLM Narrator integration tests (14 currently failing)</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <note>Test locations must be loadable via this API. Returns parsed location with all 6 file contents.</note>
+    </interface>
+    <interface>
+      <name>NavigationHandler.travel(targetLocationId, currentLocationId)</name>
+      <kind>function</kind>
+      <signature>travel(targetLocationId: string, currentLocationId: string): TravelResult</signature>
+      <path>src/core/navigation-handler.js</path>
+      <note>Validates location connectivity. Test locations must have proper metadata.yaml connected_locations arrays.</note>
+    </interface>
+    <interface>
+      <name>validate-location script</name>
+      <kind>CLI command</kind>
+      <signature>node scripts/validate-location.js &lt;location-path&gt;</signature>
+      <path>scripts/validate-location.js</path>
+      <note>Use to validate test locations: npm run validate-location test-location-1</note>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing approach for Story 1.9 focuses on validation and integration testing rather than unit tests, since this story creates data files (not code).
+
+      **Validation Testing:**
+      - Use scripts/validate-location.js to verify all 6 required files present
+      - Check Description.md has all required sections (## Overview, ## Initial Description, etc.)
+      - Verify metadata.yaml has required fields and valid connected_locations arrays
+      - Confirm State.md has valid YAML frontmatter
+
+      **Integration Testing:**
+      - LocationLoader must successfully load all 3 test locations (tests/integration/location-loader.test.js)
+      - NavigationHandler must validate bidirectional connectivity between test-location-1 ↔ 2 ↔ 3 (tests/integration/navigation.test.js)
+      - LLM Narrator tests must pass with test location content (tests/integration/llm-narrator.test.js) - 14 tests currently failing
+
+      **Manual Testing:**
+      - End-to-end playtest: start session at test-location-1, travel to 2, travel to 3
+      - Verify LLM generates coherent narratives from test location content
+      - Confirm state persistence works across locations
+    </standards>
+    <locations>
+      - tests/integration/llm-narrator.test.js (14 failing tests)
+      - tests/integration/location-loader.test.js
+      - tests/integration/navigation.test.js
+      - scripts/validate-location.js (validation script)
+    </locations>
+    <ideas>
+      <testIdea ac="AC-1">
+        <description>Run validate-location script on each test location</description>
+        <command>npm run validate-location test-location-1 (repeat for 2, 3)</command>
+        <expectedResult>All 6 files present, Description sections valid, metadata fields complete</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-2">
+        <description>Verify location connectivity in metadata.yaml</description>
+        <approach>Read metadata.yaml for each location, verify connected_locations arrays match bidirectional connectivity</approach>
+        <expectedResult>test-location-1.connected_locations includes test-location-2, and vice versa</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-3">
+        <description>Verify Description.md content structure</description>
+        <approach>Parse Description.md for each location, check for required sections</approach>
+        <expectedResult>All sections present: Overview, Initial Description, Return Description, Time-Based Variants, Points of Interest</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-4">
+        <description>Verify NPC content in NPCs.md</description>
+        <approach>Parse NPCs.md for each location, count NPC entries</approach>
+        <expectedResult>Each location has 1-2 NPCs with Name, Role, Location, Description fields</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-5">
+        <description>Verify minimal Items and Events</description>
+        <approach>Check Items.md has at least 1 available + 1 hidden item; Events.md has at least 1 event</approach>
+        <expectedResult>Parsing succeeds, minimal content present</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-6">
+        <description>Verify State.md YAML frontmatter</description>
+        <approach>Parse State.md with js-yaml, verify required keys present</approach>
+        <expectedResult>visited: false, discovered_items: [], completed_events: [], npc_states: {}, custom_state: {}, last_updated: null</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-7">
+        <description>Run LLM Narrator integration tests</description>
+        <command>npm test -- llm-narrator.test.js</command>
+        <expectedResult>All 42 tests pass (currently 14 failing due to missing test-location-1)</expectedResult>
+      </testIdea>
+      <testIdea ac="AC-8">
+        <description>Run full validation suite</description>
+        <command>npm run validate-location test-location-N for all 3 locations</command>
+        <expectedResult>Zero validation errors for all test locations</expectedResult>
+      </testIdea>
+    </ideas>
+  </tests>
+</story-context>
