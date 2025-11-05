@@ -1,0 +1,1366 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest
+
+PASS tests/commands/handlers/look.test.js
+PASS tests/commands/router.test.js
+PASS tests/commands/handlers/end-session.test.js
+  ● Console
+
+    console.warn
+      [Git] Auto-save failed: Git not available
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at Object.endSessionHandler (tests/commands/handlers/end-session.test.js:102:26)
+
+FAIL tests/integration/llm-narrator.test.js
+  ● Console
+
+    console.log
+      ✅ Session started: fc737c7f-9d7e-4798-8fa6-26ed82482d4f
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: 0f28d3ea-bff7-4a80-bde3-e38b81df9660
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      🎲 LLM Request 8a6a0488...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8a6a0488] LLM response: 5ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+  ● LLM Narrator Integration Tests › Complete Workflow: ContextBuilder → LLMNarrator › should generate narrative from location data
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:65:45)
+
+  ● LLM Narrator Integration Tests › Complete Workflow: ContextBuilder → LLMNarrator › should respect token budget from ContextBuilder
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:95:45)
+
+  ● LLM Narrator Integration Tests › Complete Workflow: ContextBuilder → LLMNarrator › should handle various location sizes
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:110:47)
+
+  ● LLM Narrator Integration Tests › Session Integration › should integrate with SessionManager for action tracking
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:126:45)
+
+  ● LLM Narrator Integration Tests › Session Integration › should preserve session state through LLM errors
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:165:45)
+
+  ● LLM Narrator Integration Tests › Performance Testing (AC-13) › should complete 95% of responses under 5 seconds
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:184:45)
+
+  ● LLM Narrator Integration Tests › Performance Testing (AC-13) › should track performance metrics
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:203:45)
+
+  ● LLM Narrator Integration Tests › Error Recovery (AC-8, AC-12) › should retry on transient failures
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:221:45)
+
+  ● LLM Narrator Integration Tests › Error Recovery (AC-8, AC-12) › should provide clear error messages after max retries
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:240:45)
+
+  ● LLM Narrator Integration Tests › Error Recovery (AC-8, AC-12) › should handle malformed responses
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:259:45)
+
+  ● LLM Narrator Integration Tests › System Prompt Integration (AC-11) › should include DM persona in prompts
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:282:45)
+
+  ● LLM Narrator Integration Tests › Edge Cases › should handle empty recent actions
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:305:45)
+
+  ● LLM Narrator Integration Tests › Edge Cases › should handle null character data
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:314:45)
+
+  ● LLM Narrator Integration Tests › Concurrent Requests › should handle multiple concurrent narrative generations
+
+    LocationNotFoundError: Location not found: test-location-1 (searched in C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\game-data\locations)
+
+    [0m [90m 79 |[39m     [90m// Verify location folder exists[39m
+     [90m 80 |[39m     [36mif[39m ([33m![39mfs[33m.[39mexistsSync(locationPath)) {
+    [31m[1m>[22m[39m[90m 81 |[39m       [36mthrow[39m [36mnew[39m [33mLocationNotFoundError[39m(locationId[33m,[39m [36mthis[39m[33m.[39mbasePath)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 82 |[39m     }
+     [90m 83 |[39m
+     [90m 84 |[39m     [36mif[39m ([33m![39mfs[33m.[39mstatSync(locationPath)[33m.[39misDirectory()) {[0m
+
+      at LocationLoader.loadLocation (src/data/location-loader.js:81:13)
+      at Object.loadLocation (tests/integration/llm-narrator.test.js:346:45)
+
+FAIL tests/data/location-loader.test.js
+  ● LocationLoader › Error Handling › should throw LocationParseError for malformed YAML in metadata
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\bad-yaml\Items.md'
+
+    [0m [90m 138 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'Description.md'[39m)[33m,[39m [32m'# Test\n## Overview\nTest'[39m)[33m;[39m
+     [90m 139 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'NPCs.md'[39m)[33m,[39m [32m'# NPCs'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 140 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'Items.md'[39m)[33m,[39m [32m'# Items'[39m)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 141 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'Events.md'[39m)[33m,[39m [32m'# Events'[39m)[33m;[39m
+     [90m 142 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'State.md'[39m)[33m,[39m [32m'# State'[39m)[33m;[39m
+     [90m 143 |[39m       fs[33m.[39mwriteFileSync(path[33m.[39mjoin(locationPath[33m,[39m [32m'metadata.yaml'[39m)[33m,[39m [32m'invalid: yaml: content:\n  - this is broken'[39m)[33m;[39m[0m
+
+      at Object.writeFileSync (tests/data/location-loader.test.js:140:10)
+
+  ● LocationLoader › Error Handling › should throw LocationParseError for invalid location_level
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › NPC Parser › should parse NPCs with all fields
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\incomplete-description'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Helper Methods › extractList() should parse bullet lists
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\region-level'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+PASS tests/commands/handlers/travel.test.js
+FAIL tests/data/validate-location.test.js
+  ● Location Validation Script › Missing Files Tests › Missing NPCs.md should fail validation
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 15 |[39m   beforeEach(() [33m=>[39m {
+     [90m 16 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 17 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 18 |[39m     }
+     [90m 19 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 20 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/validate-location.test.js:17:10)
+
+  ● Location Validation Script › Description.md Section Tests › Missing required sections in Description.md should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 135 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 136 |[39m
+    [31m[1m>[22m[39m[90m 137 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required section'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                               [31m[1m^[22m[39m
+     [90m 138 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 139 |[39m     })[33m;[39m
+     [90m 140 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:137:79)
+
+  ● Location Validation Script › Malformed YAML Tests › Invalid YAML in metadata.yaml should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'Failed to parse metadata.yaml'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                    [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:162:84)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing parent_location field should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 174 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 175 |[39m
+    [31m[1m>[22m[39m[90m 176 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required field: parent_location'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                              [31m[1m^[22m[39m
+     [90m 177 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 178 |[39m     })[33m;[39m
+     [90m 179 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:176:94)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing sub_locations field should fail
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-sublocations\Events.md'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:181:28)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing location_level field should fail
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-level\metadata.yaml'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:193:28)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Valid hierarchy with null parent (region level) should pass
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 226 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 227 |[39m
+    [31m[1m>[22m[39m[90m 228 |[39m       expect(result[33m.[39msuccess[33m.[39msome(s [33m=>[39m s[33m.[39mincludes([32m'parent_location is null (valid for region level)'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                                        [31m[1m^[22m[39m
+     [90m 229 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 230 |[39m     })[33m;[39m
+     [90m 231 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:228:104)
+
+PASS tests/commands/handlers/start-session.test.js
+PASS tests/core/context-builder.test.js
+  ● Console
+
+    console.warn
+      [ContextBuilder] Priority 2 content truncated due to token budget constraints
+
+    [0m [90m 375 |[39m     [90m// Log warning if content was truncated[39m
+     [90m 376 |[39m     [36mif[39m (wasTruncated) {
+    [31m[1m>[22m[39m[90m 377 |[39m       console[33m.[39mwarn([32m'[ContextBuilder] Priority 2 content truncated due to token budget constraints'[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 378 |[39m     }
+     [90m 379 |[39m
+     [90m 380 |[39m     [36mreturn[39m {[0m
+
+      at ContextBuilder.warn [as buildPriority2Content] (src/core/context-builder.js:377:15)
+      at ContextBuilder.buildPriority2Content [as buildPrompt] (src/core/context-builder.js:163:34)
+      at Object.buildPrompt (tests/core/context-builder.test.js:418:30)
+
+PASS tests/core/session-manager.test.js
+  ● Console
+
+    console.log
+      ✅ Session started: be000c71-cbbf-4d0f-87a0-099077592a10
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: village-of-barovia
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: d044380e-d80c-466f-bea5-d96ad12977b6
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: d044380e-d80c-466f-bea5-d96ad12977b6
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 1f07083a-45f5-4c44-8726-a26e810bbf22
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location2
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: 57df52a6-cea3-4b05-b7d1-550502a8d011
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: fd9a8714-b4bd-45b7-9f18-53e4c9ce0778
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session ended: fd9a8714-b4bd-45b7-9f18-53e4c9ce0778
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: dc03b42f-1065-45d4-be7d-a21389f44695
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location2
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: f268db6f-08e2-4341-b86f-5edc32fd8626
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: 1bfc6bcd-278c-4e90-8e59-642eda2db9a9
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: cc5c44c3-126b-4d55-b209-55b0e401300c
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      ✅ Session started: f92459ae-9f47-43fb-a9c6-8e6c4e4ca7b0
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      📍 Location changed: location-2 → location-3
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      ✅ Session started: 5bebf307-5efd-4e25-b5d3-1a451bf34825
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      📍 Location changed: location-2 → location-1
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      ✅ Session started: 07df448d-2fd0-45bb-8c78-e19dafde436c
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: 07df448d-2fd0-45bb-8c78-e19dafde436c
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 429ec380-dfd2-4d3a-8c08-8b17b793d6c6
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Test action
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: 3bcb7961-2499-4123-9830-ac1acd574526
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Look around
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: 9249f328-ec2b-4b23-b355-440c09dd2e72
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Simple action
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: 5d454cc3-923f-4082-9564-685639fb113b
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 0
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#3): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#4): Action 3
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#5): Action 4
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#6): Action 5
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#7): Action 6
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#8): Action 7
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#9): Action 8
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#10): Action 9
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#11): Action 10
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#12): Action 11
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#13): Action 12
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#14): Action 13
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#15): Action 14
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: d848a35a-400e-4f53-b319-ed14d960b88c
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: d848a35a-400e-4f53-b319-ed14d960b88c
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: aa4f8a49-8200-4c52-b9f4-8c3a050fc025
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: ad121a90-cac5-4cb8-98bc-dfa65f9e256e
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 0
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#3): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#4): Action 3
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#5): Action 4
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#6): Action 5
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#7): Action 6
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#8): Action 7
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#9): Action 8
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#10): Action 9
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: f992c4c6-53a0-4cc3-8abc-f54a1bedf8c9
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 0
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#3): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#4): Action 3
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#5): Action 4
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#6): Action 5
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#7): Action 6
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#8): Action 7
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#9): Action 8
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#10): Action 9
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: 0d4bd7fa-eb28-4cf1-83ca-a67c965c162b
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: 80139f3a-1d1d-4709-998e-76b0edbaead1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: 80139f3a-1d1d-4709-998e-76b0edbaead1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 24613fc7-88eb-4186-9a32-4bfc33add22d
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session ended: 24613fc7-88eb-4186-9a32-4bfc33add22d
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 2
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: c9852d36-c0bd-421f-aa53-626c9f9588c8
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: c9852d36-c0bd-421f-aa53-626c9f9588c8
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 91bffbbf-2868-4f55-9a95-30fb9fad1fe0
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session ended: 91bffbbf-2868-4f55-9a95-30fb9fad1fe0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 94c27be8-0ad8-424e-a253-4dd62a74c242
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: 94c27be8-0ad8-424e-a253-4dd62a74c242
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: 61359d6a-1fd1-4e16-b556-7f989272b05c
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      ✅ Session started: 00b3ed86-8c84-4285-a522-3fa98b4e5c9d
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session started: 02197d97-ba42-4b3f-a12d-d60ec12d1555
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: test-location
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      ✅ Session ended: 02197d97-ba42-4b3f-a12d-d60ec12d1555
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:169:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:170:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:171:13)
+
+    console.log
+      🗺️  Locations visited: 1
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:172:13)
+
+    console.log
+      ✅ Session started: c22d60af-d8a1-45e4-bcff-722b92c9b943
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      📍 Location changed: location-1 → location-2
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:95:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+    console.log
+      ✅ Session started: cdbc17be-84ba-415b-9b24-6723230af8c4
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:58:13)
+
+    console.log
+      📍 Initial location: location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:59:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:133:13)
+
+PASS tests/integration/navigation.test.js
+  ● Console
+
+    console.warn
+      [NavigationHandler] No connected_locations specified for test-location-isolated. Allowing travel (permissive fallback).
+
+    [0m [90m 114 |[39m       [36mif[39m (connectedLocations[33m.[39mlength [33m===[39m [35m0[39m) {
+     [90m 115 |[39m         [36mconst[39m durationMs [33m=[39m performance[33m.[39mnow() [33m-[39m startTime[33m;[39m
+    [31m[1m>[22m[39m[90m 116 |[39m         console[33m.[39mwarn([32m`[NavigationHandler] No connected_locations specified for ${currentLocationId}. Allowing travel (permissive fallback).`[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 117 |[39m         [36mreturn[39m {
+     [90m 118 |[39m           success[33m:[39m [36mtrue[39m[33m,[39m
+     [90m 119 |[39m           error[33m:[39m [36mnull[39m[33m,[39m[0m
+
+      at NavigationHandler.warn [as travel] (src/core/navigation-handler.js:116:17)
+      at Object.travel (tests/integration/navigation.test.js:219:40)
+
+PASS tests/core/navigation-handler.test.js
+PASS tests/core/context-builder.integration.test.js
+  ● Console
+
+    console.log
+      Token breakdown:
+
+      at Object.log (tests/core/context-builder.integration.test.js:49:15)
+
+    console.log
+        System Prompt: 492
+
+      at Object.log (tests/core/context-builder.integration.test.js:50:15)
+
+    console.log
+        Priority 1: 505
+
+      at Object.log (tests/core/context-builder.integration.test.js:51:15)
+
+    console.log
+        Priority 2: 563
+
+      at Object.log (tests/core/context-builder.integration.test.js:52:15)
+
+    console.log
+        Total: 1560
+
+      at Object.log (tests/core/context-builder.integration.test.js:53:15)
+
+    console.log
+      Token estimation accuracy:
+
+      at Object.log (tests/core/context-builder.integration.test.js:185:15)
+
+    console.log
+        Actual chars: 4417
+
+      at Object.log (tests/core/context-builder.integration.test.js:186:15)
+
+    console.log
+        Estimated tokens: 1560
+
+      at Object.log (tests/core/context-builder.integration.test.js:187:15)
+
+    console.log
+        Actual tokens (approx): 1159.4625
+
+      at Object.log (tests/core/context-builder.integration.test.js:188:15)
+
+    console.log
+        Accuracy: 134.5%
+
+      at Object.log (tests/core/context-builder.integration.test.js:189:15)
+
+    console.log
+      buildPrompt() execution time: 0.16ms
+
+      at Object.log (tests/core/context-builder.integration.test.js:216:15)
+
+    console.warn
+      [ContextBuilder] Priority 2 content truncated due to token budget constraints
+
+    [0m [90m 375 |[39m     [90m// Log warning if content was truncated[39m
+     [90m 376 |[39m     [36mif[39m (wasTruncated) {
+    [31m[1m>[22m[39m[90m 377 |[39m       console[33m.[39mwarn([32m'[ContextBuilder] Priority 2 content truncated due to token budget constraints'[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 378 |[39m     }
+     [90m 379 |[39m
+     [90m 380 |[39m     [36mreturn[39m {[0m
+
+      at ContextBuilder.warn [as buildPriority2Content] (src/core/context-builder.js:377:15)
+      at ContextBuilder.buildPriority2Content [as buildPrompt] (src/core/context-builder.js:163:34)
+      at Object.buildPrompt (tests/core/context-builder.integration.test.js:250:15)
+
+    console.log
+      buildPrompt() with large location: 6.21ms
+
+      at Object.log (tests/core/context-builder.integration.test.js:254:15)
+
