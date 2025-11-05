@@ -43,7 +43,7 @@ development_status:
   1-2-location-data-parser: done
   1-3-context-loader-module: done
   1-4-basic-slash-commands: review
-  1-5-llm-narrator-integration: backlog
+  1-5-llm-narrator-integration: in-progress
   1-6-location-navigation: backlog
   1-7-session-logging-system: backlog
   1-8-git-auto-save: backlog

@@ -1,0 +1,201 @@
+<story-context id="1-5-llm-narrator-integration" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>5</storyId>
+    <title>LLM Narrator Integration</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-5-llm-narrator-integration.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player</asA>
+    <iWant>the game to use Claude Code extension to generate immersive narrative responses to my actions</iWant>
+    <soThat>I can experience dynamic, contextual storytelling during my D&D sessions</soThat>
+    <tasks>
+      - Task 1: Create LLMNarrator module (AC: #8, #9)
+      - Task 2: Implement Claude Code extension detection (AC: #8, #10)
+      - Task 3: Create DM system prompt (AC: #8, #11)
+      - Task 4: Implement generateNarrative() method (AC: #8, #12)
+      - Task 5: Implement retry logic with exponential backoff (AC: #8)
+      - Task 6: Integration with ContextBuilder (AC: #15)
+      - Task 7: Replace stub SessionManager (AC: #8)
+      - Task 8: Performance monitoring and logging (AC: #13)
+      - Task 9: Error handling and user feedback (AC: #12)
+      - Task 10: Write unit tests (AC: #14)
+      - Task 11: Write integration tests (AC: #8)
+      - Task 12: Manual testing with real Claude Code (AC: #8)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC-8 (Primary): LLM Narrator Integration
+    - Given: valid LLMPrompt with &lt; 3000 tokens
+    - When: LLMNarrator.generateNarrative() is called
+    - Then: prompt sent to Claude Code extension
+    - And: Claude Code extension detected and available
+    - And: system prompt includes DM persona from Architecture §6.2
+    - And: context includes current location description and state
+    - And: Claude Code response returned as NarrativeResponse
+    - And: 95% of responses complete in &lt; 5 seconds
+    - And: if Claude Code fails, 3 retries with exponential backoff (1s, 2s, 4s)
+    - And: if all retries fail, user-friendly error without losing session state
+
+    Additional Success Criteria:
+    - #9: LLMNarrator class implements API from tech-spec-epic-1.md
+    - #10: Extension detection checks for Claude Code at startup
+    - #11: System prompt includes DM persona and game instructions
+    - #12: Error handling prevents session state loss on LLM failures
+    - #13: Response times monitored and logged
+    - #14: Test coverage ≥ 90% for LLMNarrator module
+    - #15: Integration with ContextBuilder from Story 1.3
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/claude-code-integration-guide.md</path>
+        <title>Claude Code Integration Guide</title>
+        <section>Full Document</section>
+        <snippet>Technical guide for integrating with Claude Code extension. Covers 3 implementation approaches: VS Code Command Execution (recommended), Extension API Direct Call, and Webview Communication. Includes code examples, error handling patterns (3 retries with 1s, 2s, 4s exponential backoff), and testing strategies.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-8 LLM Narrator Integration</section>
+        <snippet>Authoritative acceptance criteria: generateNarrative() must send prompt to Claude Code, detect extension availability, include DM persona system prompt, return response in &lt;5s (95%), implement 3 retries with exponential backoff, preserve session state on failures. LLMNarrator API defined: generateNarrative(), isClaudeCodeAvailable(), testConnection().</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces → LLMNarrator API</section>
+        <snippet>Complete API signatures with JSDoc comments. Methods: generateNarrative(prompt: LLMPrompt) returns Promise&lt;NarrativeResponse&gt;, isClaudeCodeAvailable() returns Promise&lt;boolean&gt;, testConnection() returns Promise&lt;boolean&gt;. Throws ExtensionError if Claude Code not available, TokenLimitError if exceeds limits.</snippet>
+      </doc>
+      <doc>
+        <path>docs/narrative-design.md</path>
+        <title>Narrative Design Document</title>
+        <section>DM Persona and Writing Style</section>
+        <snippet>DM tone: Gothic horror with Eastern European folklore influence. Writing style: Rich sensory prose (150-300 words per location), evocative rather than explicit horror, dark poetry, NPCs speak with distinct voices reflecting trauma. Core themes: Hope vs. Despair, Obsession and Corruption, Free Will vs. Fate.</snippet>
+      </doc>
+      <doc>
+        <path>docs/narrative-design.md</path>
+        <title>Narrative Design Document</title>
+        <section>Strahd's Character</section>
+        <snippet>Complex villain portrayal: charming and cultured (patron of arts, gracious host), terrifying and ruthless (kills without hesitation), melancholic and self-aware (knows he's a monster), obsessed and delusional (believes Ireena will love him). Use as reference for system prompt personality.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Performance Requirements</section>
+        <snippet>Target metrics: LLM Response Time &lt;5s (95th percentile), Session Start &lt;3s, Context Token Budget &lt;3000 tokens (P0 Critical). Use Claude Sonnet 4, set max_tokens: 4096, temperature: 0.7. Implement 3-retry policy with exponential backoff (1s, 2s, 4s). Log all operations &gt;1s to performance.log.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/stubs/session-manager.js</path>
+        <kind>service</kind>
+        <symbol>SessionManager</symbol>
+        <lines>1-103</lines>
+        <reason>MUST REPLACE with real implementation. Interface to maintain: startSession(initialLocationId), getCurrentSession(), updateCurrentLocation(locationId), recordAction(action), endSession(). Returns SessionState objects with sessionId, currentLocationId, startTime, endTime, actionCount, visitedLocations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/schemas.js</path>
+        <kind>type-definitions</kind>
+        <symbol>LLMPrompt, SessionState, CharacterData, PlayerAction</symbol>
+        <lines>163-222</lines>
+        <reason>Type definitions for LLMPrompt structure (systemPrompt, contextDescription, metadata with token counts), SessionState structure, and PlayerAction for recordAction(). Use these types in LLMNarrator and SessionManager implementations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/context-builder.js</path>
+        <kind>service</kind>
+        <symbol>ContextBuilder.buildPrompt()</symbol>
+        <lines>unknown</lines>
+        <reason>Story 1.3 implementation. Use buildPrompt(location, characterData, recentActions) to generate LLMPrompt objects with &lt;3000 tokens. Synchronous method (async removed in review). Returns LLMPrompt with systemPrompt and context sections already formatted.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/*.js</path>
+        <kind>handler</kind>
+        <symbol>startSessionHandler, travelHandler, lookHandler, endSessionHandler</symbol>
+        <lines>all</lines>
+        <reason>Story 1.4 command handlers expect SessionManager and (future) LLMNarrator via dependency injection. Currently use stub SessionManager - must integrate real SessionManager and LLMNarrator. Handlers are async and handle errors gracefully.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for location metadata and config files</package>
+        <package name="jest" version="^29.7.0" dev="true">Testing framework - use for unit and integration tests</package>
+        <package name="crypto" builtin="true">Built-in Node.js module - use randomUUID() for session IDs</package>
+      </node>
+      <vscode>
+        <api>VS Code Extension API - vscode.extensions.getExtension(), vscode.commands.executeCommand()</api>
+        <extension name="anthropic.claude-code">EXTERNAL DEPENDENCY - Claude Code extension must be installed and active</extension>
+      </vscode>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Claude Code extension must be installed and active (external dependency)
+    - All prompts must stay under 3000 tokens (enforced by ContextBuilder)
+    - 95% of LLM responses must complete in &lt;5 seconds
+    - Must implement exactly 3 retries with exponential backoff (1s, 2s, 4s delays)
+    - Never lose session state on LLM failures (critical reliability requirement)
+    - Error messages must be user-friendly, not technical stack traces
+    - Extension detection must happen at initialization, not per-request
+    - Real SessionManager must replace stub from Story 1.4
+    - Must maintain interface compatibility with command handlers from Story 1.4
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>SessionManager API (MUST maintain compatibility)</name>
+      <kind>class-interface</kind>
+      <signature>
+        startSession(initialLocationId: string): SessionState
+        getCurrentSession(): SessionState|null
+        updateCurrentLocation(locationId: string): void
+        recordAction(action: Object): void
+        endSession(): SessionState
+      </signature>
+      <path>src/stubs/session-manager.js (to be replaced at src/core/session-manager.js)</path>
+    </interface>
+    <interface>
+      <name>LLMNarrator API (NEW - to be implemented)</name>
+      <kind>class-interface</kind>
+      <signature>
+        async generateNarrative(prompt: LLMPrompt): Promise&lt;NarrativeResponse&gt;
+        async isClaudeCodeAvailable(): Promise&lt;boolean&gt;
+        async testConnection(): Promise&lt;boolean&gt;
+      </signature>
+      <path>src/core/llm-narrator.js (NEW)</path>
+    </interface>
+    <interface>
+      <name>ContextBuilder.buildPrompt()</name>
+      <kind>function-signature</kind>
+      <signature>buildPrompt(location: LocationData, character: CharacterData|null, recentActions: PlayerAction[]): LLMPrompt</signature>
+      <path>src/core/context-builder.js</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use Jest testing framework (v29.7.0). Target 90%+ code coverage for LLMNarrator and SessionManager modules. Mock VS Code Extension API using jest.mock('vscode'). Follow patterns from Story 1.3 and 1.4 (91.22% coverage achieved). All tests must be async/await compatible. Integration tests use real ContextBuilder and LocationLoader but mock Claude Code responses.</standards>
+    <locations>
+      - tests/core/llm-narrator.test.js (NEW - unit tests)
+      - tests/core/session-manager.test.js (NEW - unit tests)
+      - tests/integration/llm-narrator.test.js (NEW - integration tests with mocked Claude Code)
+      - tests/commands/handlers/*.test.js (UPDATE - integrate real SessionManager)
+    </locations>
+    <ideas>
+      <test ac="AC-8" desc="Test generateNarrative() with mocked Claude Code extension - verify prompt sent, response received, token tracking works"/>
+      <test ac="AC-8" desc="Test extension detection - mock vscode.extensions.getExtension() returning undefined, expect error"/>
+      <test ac="AC-8" desc="Test retry logic - simulate 2 failures then success, verify exponential backoff delays (1s, 2s)"/>
+      <test ac="AC-8" desc="Test timeout handling - simulate Claude Code not responding for 30s, verify error thrown"/>
+      <test ac="AC-11" desc="Test system prompt includes DM persona and game instructions"/>
+      <test ac="AC-12" desc="Test error preserves session state - simulate LLM failure, verify getCurrentSession() returns same state"/>
+      <test ac="AC-13" desc="Test performance monitoring - verify response times logged to console/performance.log"/>
+      <test ac="AC-14" desc="Unit test coverage - aim for 90%+ coverage on LLMNarrator class"/>
+      <test ac="AC-15" desc="Integration test - ContextBuilder.buildPrompt() → LLMNarrator.generateNarrative() with real location data"/>
+      <test ac="SessionManager" desc="Test startSession() creates valid SessionState with UUID, timestamp, initial location"/>
+      <test ac="SessionManager" desc="Test recordAction() increments actionCount and stores action details"/>
+      <test ac="SessionManager" desc="Test endSession() sets endTime and clears current session"/>
+    </ideas>
+  </tests>
+</story-context>
