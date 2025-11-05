@@ -1,0 +1,22 @@
+# Node modules and dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Session logs (don't commit gameplay logs)
+logs/*.md
+
+# Test coverage
+coverage/
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/

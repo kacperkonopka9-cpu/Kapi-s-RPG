@@ -1364,3 +1364,1963 @@ PASS tests/core/context-builder.integration.test.js
 
       at Object.log (tests/core/context-builder.integration.test.js:254:15)
 
+PASS tests/integration/commands.test.js (5.498 s)
+  ● Console
+
+    console.warn
+      [Git] Auto-save failed: Git not available
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:224:35)
+
+PASS tests/core/llm-narrator.test.js (20.456 s)
+  ● Console
+
+    console.error
+      Error checking Claude Code availability: Error: Test error
+          at Object.get isActive [as isActive] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:90:17)
+          at LLMNarrator.isActive [as isClaudeCodeAvailable] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:137:39)
+          at Object.isClaudeCodeAvailable (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:94:40)
+          at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+          at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+          at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+          at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+          at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+          at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+          at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+    [0m [90m 137 |[39m       [36mreturn[39m [36mthis[39m[33m.[39mclaudeCodeExtension[33m.[39misActive[33m;[39m
+     [90m 138 |[39m     } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 139 |[39m       console[33m.[39merror([32m'Error checking Claude Code availability:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 140 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 141 |[39m     }
+     [90m 142 |[39m   }[0m
+
+      at LLMNarrator.error [as isClaudeCodeAvailable] (src/core/llm-narrator.js:139:15)
+      at Object.isClaudeCodeAvailable (tests/core/llm-narrator.test.js:94:40)
+
+    console.log
+      🎲 LLM Request 9e12c6ab...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9e12c6ab] LLM response: 2ms, 10 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 36af1846...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [36af1846] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [36af1846] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [36af1846] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.error
+      Connection test failed: Error: Claude Code extension failed after 3 attempts. Please ensure Claude Code is installed, authenticated, and responding. Request ID: 36af1846-14dc-4cf8-a4ce-cfb834a9080a. Last error: Claude Code API call failed: Connection failed
+          at LLMNarrator.generateNarrative (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:241:30)
+          at LLMNarrator.testConnection (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:167:24)
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:113:22) {
+        requestId: '36af1846-14dc-4cf8-a4ce-cfb834a9080a'
+      }
+
+    [0m [90m 168 |[39m       [36mreturn[39m response[33m.[39mnarrative[33m.[39mtoLowerCase()[33m.[39mincludes([32m'successful'[39m)[33m;[39m
+     [90m 169 |[39m     } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 170 |[39m       console[33m.[39merror([32m'Connection test failed:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 171 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 172 |[39m     }
+     [90m 173 |[39m   }[0m
+
+      at LLMNarrator.error [as testConnection] (src/core/llm-narrator.js:170:15)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      🎲 LLM Request 11397690...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [11397690] LLM response: 1ms, 150 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7835280c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [7835280c] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Attempt 1 failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:164:22)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [7835280c] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Attempt 2 failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:164:22)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.log
+      ✅ [7835280c] LLM response: 3021ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e8b2430e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [e8b2430e] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [e8b2430e] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [e8b2430e] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      🎲 LLM Request 3c75911f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [3c75911f] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [3c75911f] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [3c75911f] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      🎲 LLM Request 917746ca...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [917746ca] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f0e2a101...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f0e2a101] LLM response: 6000ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 182c87f3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [182c87f3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 60dec3a8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [60dec3a8] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1c65b06c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1c65b06c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 48e6016a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [48e6016a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 741a3e21...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [741a3e21] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5f8ef15e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5f8ef15e] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b69d5a03...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b69d5a03] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fbde97fc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fbde97fc] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fd14c981...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fd14c981] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b85dd310...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b85dd310] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 48c72836...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [48c72836] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 645dfd68...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [645dfd68] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 47dd97bf...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [47dd97bf] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ac0d7de7...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ac0d7de7] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 084ee0ad...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [084ee0ad] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 16ae3896...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [16ae3896] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 07b5f0b3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [07b5f0b3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d756189a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d756189a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7f2f2be9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7f2f2be9] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2e80ace1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2e80ace1] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 655f34f5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [655f34f5] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bd6bed7a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bd6bed7a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request dd6aa35c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [dd6aa35c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4543451a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4543451a] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 94100c03...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [94100c03] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4bda3a40...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4bda3a40] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3eba92bb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3eba92bb] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 00eb1c4c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [00eb1c4c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4219a98b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4219a98b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f3ef84c2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f3ef84c2] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 795eb994...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [795eb994] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a6e8d688...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a6e8d688] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 22b24281...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [22b24281] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d4eaac7a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d4eaac7a] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8a56e7c3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8a56e7c3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 070b93af...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [070b93af] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request af66162b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [af66162b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 625b437c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [625b437c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 97e40d7d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [97e40d7d] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f60deedd...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f60deedd] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9912b5b8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9912b5b8] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3cfac189...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3cfac189] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 23568302...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [23568302] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request af696fc2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [af696fc2] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2c034703...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2c034703] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request faec79a5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [faec79a5] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0fee8e7e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0fee8e7e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 84e3f086...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [84e3f086] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ddbd35ad...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ddbd35ad] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fbd0a143...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fbd0a143] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d2213132...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d2213132] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 24c87fa2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [24c87fa2] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f65938a4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f65938a4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 15857bd8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [15857bd8] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e2740461...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e2740461] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d34ccfaa...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d34ccfaa] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4787eff3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4787eff3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c777444d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c777444d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 56a038c3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [56a038c3] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2c85a11f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2c85a11f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request caf08820...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [caf08820] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7f970209...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7f970209] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b0159471...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b0159471] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d38e39e4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d38e39e4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 18f08bcc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [18f08bcc] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d4185809...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d4185809] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4cbbebaf...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4cbbebaf] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 117897e4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [117897e4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a6159055...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a6159055] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 59ca8a3b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [59ca8a3b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b7cec1b9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b7cec1b9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 054a6bcb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [054a6bcb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3254a204...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3254a204] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request daddb7af...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [daddb7af] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1d16001e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1d16001e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8e743840...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8e743840] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 18bd2de4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [18bd2de4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 33423e35...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [33423e35] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a9926788...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a9926788] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 24432314...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [24432314] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8d4618ae...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8d4618ae] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5c30ae93...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5c30ae93] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 61acdc3f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [61acdc3f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7d60ae93...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7d60ae93] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7df63614...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7df63614] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6214c1d9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6214c1d9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e335f1a6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e335f1a6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 73af20fd...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [73af20fd] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1f824f8f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1f824f8f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9594313e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9594313e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 965b2214...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [965b2214] LLM response: 3ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1473aa43...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1473aa43] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9e161ccc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9e161ccc] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 21527b59...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [21527b59] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request da6d8821...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [da6d8821] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 828a8139...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [828a8139] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 74e01e26...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [74e01e26] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3d5d2eb4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3d5d2eb4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request cbab8ca5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [cbab8ca5] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a2720ed5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a2720ed5] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9d905114...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9d905114] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fdb2a60a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fdb2a60a] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 59e8e08c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [59e8e08c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6b8a2b5a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6b8a2b5a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1ab14317...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1ab14317] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 428c5743...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [428c5743] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5007b55c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5007b55c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 455ddf02...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [455ddf02] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d9b8b69b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d9b8b69b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c6ca88f5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c6ca88f5] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 519e04ee...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [519e04ee] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bf87d77e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bf87d77e] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7d172f98...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7d172f98] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6147b71c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6147b71c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 02ec9ac5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [02ec9ac5] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request be7d2959...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [be7d2959] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0be432ee...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0be432ee] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 61bf6b95...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [61bf6b95] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8823ff3b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8823ff3b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c097b04b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c097b04b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 47b4342b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [47b4342b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 907fd612...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [907fd612] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ca50a816...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ca50a816] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d8bde81d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d8bde81d] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f7eaf187...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f7eaf187] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c6b836f9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c6b836f9] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3f8e0122...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3f8e0122] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4dfee826...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4dfee826] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4bed6918...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4bed6918] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c10a6f15...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c10a6f15] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d480d382...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d480d382] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6cb7971f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6cb7971f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 042ffa09...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [042ffa09] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request cb64814e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [cb64814e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5fadc813...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5fadc813] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 26c6a33c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [26c6a33c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ee4546fe...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ee4546fe] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d62fa310...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d62fa310] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fa5f871c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fa5f871c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e7a2273a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e7a2273a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d65884ab...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d65884ab] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 57abaec7...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [57abaec7] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request fef47ff8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [fef47ff8] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 09c27098...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [09c27098] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 18601f1d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [18601f1d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 48b1c3cb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [48b1c3cb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2d662e91...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2d662e91] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d5d0f9a8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d5d0f9a8] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3393d78a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3393d78a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 69cf5cb9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [69cf5cb9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request cbe183f1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [cbe183f1] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7c725ff9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7c725ff9] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9f5fb581...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9f5fb581] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 42d0bef2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [42d0bef2] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 378b4fa2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [378b4fa2] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bb504bf9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bb504bf9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e01b2b8e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e01b2b8e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e3d13063...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e3d13063] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request acc0280c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [acc0280c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7fa6b807...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7fa6b807] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2e713632...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2e713632] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b00c6397...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b00c6397] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+
+Test Suites: 3 failed, 12 passed, 15 total
+Tests:       25 failed, 1 skipped, 278 passed, 304 total
+Snapshots:   0 total
+Time:        21.551 s
+Ran all test suites.

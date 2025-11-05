@@ -1,0 +1,295 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>7</storyId>
+    <title>Session Logging System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-7-session-logging-system.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player</asA>
+    <iWant>my session actions to be automatically logged</iWant>
+    <soThat>I can review my adventure history and track my progress through the campaign</soThat>
+    <tasks>
+      ### Core Implementation
+      - Task 1: Create logs/ directory structure (logs/.gitkeep, update .gitignore, document in README)
+      - Task 2: Implement SessionLogger module class with constructor and dependency injection
+      - Task 3: Implement initializeLog(sessionId) method with file creation and session header
+      - Task 4: Implement log(action) method with immediate write and markdown formatting
+      - Task 5: Implement finalize() method with session summary
+
+      ### Integration
+      - Task 6: Integrate with start-session command handler (initializeLog)
+      - Task 7: Integrate with travel command handler (log action)
+      - Task 8: Integrate with look command handler (log action)
+      - Task 9: Integrate with end-session command handler (finalize)
+
+      ### Testing
+      - Task 10: Write unit tests (≥90% coverage, mocked dependencies)
+      - Task 11: Write integration tests (real file system, complete workflows)
+      - Task 12: Run test suite and verify coverage
+
+      ### Documentation
+      - Task 13: Update technical documentation (architecture, API reference, troubleshooting)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    - AC-1: Log File Creation - Create logs/session-YYYY-MM-DD.md with session header, append if exists
+    - AC-2: Action Logging - Write action entry immediately with timestamp, type, location, narrative, tokens
+    - AC-3: Session Finalization - Append summary with total actions, tokens, duration
+    - AC-4: API Implementation - Expose initializeLog(), log(), finalize() with dependency injection
+    - AC-5: Workflow Integration - Call logger from start/travel/look/end workflows
+    - AC-6: Error Handling - Graceful fallback on file system errors, warn but don't block
+    - AC-7: Test Coverage - Achieve ≥90% coverage with edge case testing
+    - AC-8: Markdown Format Validation - Valid syntax, proper heading hierarchy, human-readable
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Acceptance Criteria → AC-11: Session Logging Complete</section>
+        <snippet>**Given** any player action during a session **When** action is executed (start, travel, look, end) **Then** action must be logged to logs/session-YYYY-MM-DD.md **And** log entry must include: timestamp, action type, location, LLM response, tokens used **And** log file must be valid markdown **And** log must be written immediately (not buffered until session end)</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces → SessionLogger API</section>
+        <snippet>SessionLogger class with initializeLog(sessionId) creates/opens log file, log(action) appends entry immediately, finalize() writes summary and closes. Constructor accepts basePath for dependency injection. Located at src/core/session-logger.js. Integrates with all four workflows (start/travel/look/end).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing → Workflow 1: Start Session</section>
+        <snippet>SessionLogger.initializeLog() called when session starts. Creates logs/session-YYYY-MM-DD.md with session header. If file exists (multiple sessions same day), appends with separator. Returns logger instance stored in session state.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing → Workflow 2: Travel Between Locations</section>
+        <snippet>After LLM narrative generation, SessionLogger.log() called with action: { type: 'travel', locationId, narrative, tokensUsed }. Entry written immediately to log file with timestamp and markdown formatting.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing → Workflow 3: Look at Location</section>
+        <snippet>After LLM narrative generation, SessionLogger.log() called with action: { type: 'look', locationId, narrative, tokensUsed }. Immediate write to session log.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>Logging and Monitoring → Session Logs</section>
+        <snippet>Session logs at logs/session-YYYY-MM-DD.md in markdown format with timestamps. Content includes player actions, LLM responses, token counts, location changes. Write immediately (not buffered). Multiple sessions same day append to file with session separator.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/stubs/session-logger.js</path>
+        <kind>stub class</kind>
+        <symbol>SessionLogger</symbol>
+        <lines>14-86</lines>
+        <reason>Existing stub implementation to be replaced. Provides interface contract: constructor(logsBasePath), initializeLog(sessionId) returns log path, log(action) appends entry, finalize(sessionState) writes summary. Shows expected log format and file structure. Dependency injection pattern with basePath parameter.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/start-session.js</path>
+        <kind>command handler</kind>
+        <symbol>startSessionHandler</symbol>
+        <lines>24-46</lines>
+        <reason>Start session handler depends on SessionLogger. Line 45 calls sessionLogger.initializeLog(sessionState.sessionId). Expects logger to create log file and return path. Must maintain interface compatibility when replacing stub. Shows workflow integration point.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/look.js</path>
+        <kind>command handler</kind>
+        <symbol>lookHandler</symbol>
+        <lines>24-50</lines>
+        <reason>Look handler uses SessionLogger. Will call sessionLogger.log() after LLM narrative generation. Shows action logging pattern with location context. Requires immediate write, no buffering.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/travel.js</path>
+        <kind>command handler</kind>
+        <symbol>travelHandler</symbol>
+        <lines>1-50</lines>
+        <reason>Travel handler uses SessionLogger. Will call sessionLogger.log() after navigation and LLM response. Action type='travel' with locationId and narrative. Part of AC-5 workflow integration.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/end-session.js</path>
+        <kind>command handler</kind>
+        <symbol>endSessionHandler</symbol>
+        <lines>1-50</lines>
+        <reason>End session handler calls sessionLogger.finalize(). Must write session summary (total actions, tokens, duration) and clear logger from session state. Critical integration point for AC-3.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/core/navigation-handler.test.js</path>
+        <kind>test file</kind>
+        <symbol>NavigationHandler tests</symbol>
+        <lines>1-461</lines>
+        <reason>Example of 95.5% test coverage pattern from Story 1.6. Shows comprehensive test structure: Constructor, method tests, error scenarios, edge cases, performance testing, graceful fallback pattern. Model for SessionLogger tests achieving 90%+ coverage target.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>fs (built-in)</package>
+        <usage>File system operations for creating logs directory, writing/appending to log files, checking file existence. Synchronous operations acceptable for small log entries (< 5KB).</usage>
+      </node>
+      <node>
+        <package>path (built-in)</package>
+        <usage>Path manipulation for constructing log file paths (logs/session-YYYY-MM-DD.md), cross-platform path handling.</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Test framework for unit and integration tests (90%+ coverage requirement). Mock fs operations in unit tests.</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Performance target: log() must complete in < 20ms (fast, called frequently after each action)
+    - Graceful fallback: If file system errors occur, log warning to console but don't block gameplay per AC-6
+    - Immediate writes: Use fs.appendFileSync() for synchronous writes, no buffering until session end per AC-2
+    - Interface compatibility: Must match existing SessionLogger stub interface used by command handlers (initializeLog, log, finalize signatures)
+    - Log file format: Valid markdown with proper heading hierarchy (h1 for session, h2 for actions) per AC-8
+    - Date-based naming: logs/session-YYYY-MM-DD.md format, append if multiple sessions same day
+    - Dependency injection: Constructor accepts basePath parameter for testability (matches NavigationHandler pattern from Story 1.6)
+    - JSDoc types: Comprehensive JSDoc comments for all public methods per established pattern (Stories 1.4, 1.5, 1.6)
+    - Test coverage: ≥ 90% statement coverage required per AC-7
+    - No database: All logs to file system (file-first architecture constraint)
+    - Markdown safety: Sanitize narrative text to prevent markdown injection (escape special chars)
+    - Token tracking: Accept tokensUsed in action object, track total tokens in session per AC-2
+    - Stub replacement: Real implementation replaces src/stubs/session-logger.js but stub can remain for reference
+    - Directory creation: Create logs/ directory if doesn't exist, handle ENOENT gracefully
+    - Session separator: Use horizontal rule (---) between sessions in same-day file per AC-1
+    - Human-readable: Format timestamps as ISO 8601, use clear section headers per AC-8
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>SessionLogger.initializeLog()</name>
+      <kind>method signature</kind>
+      <signature>initializeLog(sessionId: string): string</signature>
+      <path>docs/tech-spec-epic-1.md (lines 1168-1176)</path>
+      <notes>Creates or opens log file at logs/session-YYYY-MM-DD.md. If file exists, appends with horizontal rule separator. Writes session header with ID and start time. Returns log file path. Synchronous operation. Must handle directory creation gracefully. Performance target: &lt; 50ms.</notes>
+    </interface>
+    <interface>
+      <name>SessionLogger.log()</name>
+      <kind>method signature</kind>
+      <signature>log(action: ActionEntry): { success: boolean, error?: string }</signature>
+      <path>docs/tech-spec-epic-1.md (lines 1168-1176)</path>
+      <notes>Appends action entry to log file immediately (no buffering). ActionEntry object includes: type (start/travel/look/end), locationId, narrative, tokensUsed. Formats as markdown section with timestamp (ISO 8601), action type, location, narrative, tokens. Uses fs.appendFileSync() for immediate write. Returns success status. Performance target: &lt; 20ms.</notes>
+    </interface>
+    <interface>
+      <name>SessionLogger.finalize()</name>
+      <kind>method signature</kind>
+      <signature>finalize(): string</signature>
+      <path>docs/tech-spec-epic-1.md (lines 1168-1176)</path>
+      <notes>Writes session summary section with total actions, total tokens, session duration (minutes), end time. Adds horizontal rule separator for next session. Returns log file path. Clears internal state. Synchronous operation. Performance target: &lt; 50ms.</notes>
+    </interface>
+    <interface>
+      <name>ActionEntry</name>
+      <kind>type definition</kind>
+      <signature>{ type: 'start'|'travel'|'look'|'end', locationId: string, narrative: string, tokensUsed?: number }</signature>
+      <path>docs/stories/1-7-session-logging-system.md (Task 4)</path>
+      <notes>Action object passed to log() method. type indicates action category, locationId is current location, narrative is LLM-generated text, tokensUsed is optional token count. All fields used in log entry formatting.</notes>
+    </interface>
+    <interface>
+      <name>Log file format</name>
+      <kind>data structure</kind>
+      <signature>
+# Session: session-abc123
+**Start Time**: 2025-11-05T14:30:00.000Z
+
+---
+
+## [14:30:05] Action: start
+**Location**: village-of-barovia
+**Narrative**: You find yourself...
+**Tokens**: 245
+
+## Session Summary
+- **Total Actions**: 5
+- **Total Tokens**: 1,234
+- **Duration**: 15 minutes
+- **End Time**: 2025-11-05T14:45:30.000Z
+
+---
+      </signature>
+      <path>docs/stories/1-7-session-logging-system.md (Log Format Example)</path>
+      <notes>Markdown structure with h1 for session header, h2 for actions with HH:MM:SS timestamp, bold labels for fields, horizontal rules between sessions. Human-readable format. Valid markdown syntax per AC-8.</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Project uses Jest v29.7.0 for all testing. Test structure follows AAA pattern (Arrange-Act-Assert) with describe blocks for grouping by method/feature. Tests organized in tests/core/ for unit tests and tests/integration/ for integration tests. Mock external dependencies (fs, path) in unit tests using jest.fn(). Use real implementations in integration tests with temp directories. Performance assertions included in tests to validate timing requirements (&lt;20ms for log, &lt;50ms for init/finalize). All modules target ≥90% statement coverage. Test naming: "should [expected behavior] when [condition]". Use beforeEach for test setup, afterEach for cleanup. Comprehensive error scenario testing required (missing dirs, write failures, concurrent access).</standards>
+    <locations>
+      tests/core/session-logger.test.js - Unit tests for SessionLogger class
+      tests/integration/session-logging.test.js - Integration tests for complete session workflow
+      logs/ - Directory created during tests (cleanup in afterEach)
+    </locations>
+    <ideas>
+      AC-1: Log File Creation
+      - Unit test: initializeLog() creates logs/session-YYYY-MM-DD.md with correct header
+      - Unit test: initializeLog() creates logs/ directory if doesn't exist
+      - Unit test: initializeLog() appends to existing file with horizontal rule separator
+      - Unit test: initializeLog() completes in &lt; 50ms
+      - Unit test: initializeLog() handles ENOENT (missing directory) gracefully
+      - Integration test: Multiple sessions on same day append to same file
+
+      AC-2: Action Logging
+      - Unit test: log() appends entry with timestamp, type, location, narrative, tokens
+      - Unit test: log() formats as valid markdown with h2 heading
+      - Unit test: log() completes in &lt; 20ms
+      - Unit test: log() writes immediately (fs.appendFileSync called)
+      - Unit test: log() increments actionCount and tokenCount
+      - Unit test: log() handles missing tokensUsed (optional field)
+      - Unit test: log() sanitizes narrative to prevent markdown injection
+      - Unit test: log() returns success=true on successful write
+      - Integration test: Log entry readable and properly formatted in actual file
+
+      AC-3: Session Finalization
+      - Unit test: finalize() writes summary section with correct stats
+      - Unit test: finalize() calculates session duration correctly
+      - Unit test: finalize() adds horizontal rule separator
+      - Unit test: finalize() completes in &lt; 50ms
+      - Unit test: finalize() clears internal state after write
+      - Integration test: Finalized log file valid markdown with complete structure
+
+      AC-4: API Implementation
+      - Unit test: Constructor accepts basePath parameter (dependency injection)
+      - Unit test: initializeLog() returns logger instance (this) for chaining
+      - Unit test: All methods handle undefined/null inputs gracefully
+      - Integration test: SessionLogger integrates with all command handlers
+
+      AC-5: Workflow Integration
+      - Integration test: start-session handler calls initializeLog()
+      - Integration test: travel handler calls log() with type='travel'
+      - Integration test: look handler calls log() with type='look'
+      - Integration test: end-session handler calls finalize()
+      - Integration test: Complete session workflow generates valid log
+
+      AC-6: Error Handling
+      - Unit test: File system errors (EACCES, ENOSPC) log warning but return success=false
+      - Unit test: Missing logs/ directory created automatically
+      - Unit test: Write failures don't throw exceptions (graceful fallback)
+      - Unit test: Concurrent writes handled safely
+      - Integration test: Gameplay continues even with log write failures
+
+      AC-7: Test Coverage
+      - Jest coverage report validates 90%+ statement coverage
+      - All public methods covered (initializeLog, log, finalize)
+      - All error paths tested (missing files, write errors, parse errors)
+      - Edge cases: empty narrative, very long narrative, special characters
+
+      AC-8: Markdown Format Validation
+      - Unit test: Log file has valid markdown syntax
+      - Unit test: Heading hierarchy correct (h1 session, h2 actions)
+      - Unit test: ISO 8601 timestamp format used
+      - Unit test: Special characters escaped properly
+      - Integration test: Log file renders correctly in markdown preview
+    </ideas>
+  </tests>
+</story-context>
