@@ -1,0 +1,355 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>6</storyId>
+    <title>Location Navigation</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-6-location-navigation.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player</asA>
+    <iWant>to travel between connected locations using the `/travel` command with proper validation</iWant>
+    <soThat>I can explore the game world safely with clear error messages when travel is not possible</soThat>
+    <tasks>
+      - Task 1: Create NavigationHandler module (AC: #16, #19)
+        - Create src/core/navigation-handler.js file
+        - Implement NavigationHandler class constructor (basePath injection)
+        - Define travel(targetLocationId, currentLocationId) method signature
+        - Define getConnectedLocations(locationId) method signature
+        - Define canTravel(from, to) method signature
+        - Export NavigationHandler class
+
+      - Task 2: Implement travel() method (AC: #16, #18)
+        - Accept targetLocationId and currentLocationId parameters
+        - Validate targetLocationId is not empty
+        - Load current location's metadata.yaml file
+        - Parse metadata to extract connected_locations array
+        - Validate target exists in game-data/locations directory
+        - Check if target is in connected_locations list
+        - Return NavigationResult with success/error/targetLocationId
+
+      - Task 3: Implement getConnectedLocations() method (AC: #17)
+        - Accept locationId parameter
+        - Load location's metadata.yaml file
+        - Parse connected_locations array
+        - For each connected location, load its metadata to get displayName
+        - Build array of ConnectedLocation objects
+        - Sort results alphabetically by displayName
+        - Return array of ConnectedLocation objects
+
+      - Task 4: Implement canTravel() helper method (AC: #16)
+        - Accept from and to location IDs
+        - Load from location's metadata
+        - Check if to is in connected_locations
+        - Return boolean (true if travel allowed)
+        - Handle missing metadata gracefully
+
+      - Task 5: Error handling and validation (AC: #21, #22)
+        - Handle missing metadata.yaml files (graceful fallback)
+        - Handle corrupted YAML files (parse errors)
+        - Validate location directories exist
+        - Handle missing connected_locations field in metadata
+        - Provide clear, user-friendly error messages
+        - Log technical errors to console for debugging
+
+      - Task 6: Performance monitoring (AC: #23)
+        - Add timing measurements for travel() method
+        - Log operations > 100ms to console.warn
+        - Track metadata file read times
+        - Add performance metrics to NavigationResult
+
+      - Task 7: Integration with LocationLoader (AC: #20)
+        - Import LocationLoader (or access via dependency injection)
+        - Use LocationLoader.loadLocation() to validate target exists
+        - Coordinate with LocationLoader's caching strategy
+        - Share basePath configuration
+
+      - Task 8: Replace stub in command handlers (AC: #25)
+        - Update src/commands/handlers/travel.js to use real NavigationHandler
+        - Remove src/stubs/navigation-handler.js (or mark deprecated)
+        - Update dependency injection in command handler tests
+        - Verify travel command works end-to-end
+
+      - Task 9: Write unit tests (AC: #24)
+        - Create tests/core/navigation-handler.test.js file
+        - Test travel() with valid connected locations
+        - Test travel() with invalid/disconnected locations
+        - Test travel() with non-existent target
+        - Test getConnectedLocations() with various metadata
+        - Test canTravel() helper method
+        - Test error handling (missing metadata, corrupt YAML)
+        - Test performance targets (<100ms for travel, <50ms for getConnectedLocations)
+        - Ensure 90%+ code coverage
+
+      - Task 10: Write integration tests (AC: #16, #17, #18)
+        - Create tests/integration/navigation.test.js file
+        - Test complete travel workflow with real test locations
+        - Test navigation between 3+ connected locations
+        - Test error scenarios with real location data
+        - Verify integration with LocationLoader
+        - Test travel command handler end-to-end
+
+      - Task 11: Create/update test location data (AC: #16)
+        - Ensure test-location-1 and test-location-2 have metadata.yaml
+        - Add connected_locations field to test location metadata
+        - Create at least 3 connected test locations for integration tests
+        - Add displayName and description to each location's metadata
+        - Validate all test locations have required fields
+
+      - Task 12: Documentation and exports (AC: #19)
+        - Export NavigationHandler from navigation-handler.js
+        - Add JSDoc comments for all public methods
+        - Document NavigationResult and ConnectedLocation types
+        - Add usage examples in comments
+        - Update integration notes in story file
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC-16 (Primary): Location Connectivity Validation
+    - Given: An active session at a specific location
+    - When: User executes /travel [target-location]
+    - Then: System must load current location's metadata.yaml
+    - And: System must check if target location exists in connected_locations list
+    - And: If connected - allow travel and return success
+    - And: If not connected - display error "You cannot travel to [target] from here. Available exits: [list]"
+    - And: If target doesn't exist - display error "Location [target] does not exist"
+    - And: Entire validation must complete in < 100ms
+    - Verification: Unit tests + integration tests with multiple test locations
+
+    AC-17: Get Connected Locations
+    - Given: An active session at any location
+    - When: getConnectedLocations() is called
+    - Then: System must return array of ConnectedLocation objects
+    - And: Each object must include locationId, displayName, description (from metadata.yaml)
+    - And: Results must be sorted alphabetically by displayName
+    - And: Operation must complete in < 50ms
+    - Verification: Unit tests with various location configurations
+
+    AC-18: Travel Success Workflow
+    - Given: A valid travel request to a connected location
+    - When: travel() succeeds
+    - Then: NavigationResult must include success=true
+    - And: targetLocationId must be set to destination
+    - And: error must be null
+    - And: Result must indicate travel direction if available in metadata
+    - Verification: Integration tests with real location data
+
+    AC-19: NavigationHandler class implements the API defined in tech-spec-epic-1.md
+    AC-20: Integration with LocationLoader for metadata validation
+    AC-21: Error handling for missing/corrupted metadata files
+    AC-22: Graceful fallback if metadata.yaml is missing (allow travel with warning)
+    AC-23: Performance monitoring logs operations > 100ms
+    AC-24: Test coverage ≥ 90% for NavigationHandler module
+    AC-25: Travel command handler in Story 1.4 integrated with real NavigationHandler
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>APIs and Interfaces → NavigationHandler API</section>
+        <snippet>Defines NavigationHandler class with travel(targetLocationId, currentLocationId), getConnectedLocations(locationId), and canTravel(from, to) methods. Returns NavigationResult with success/error/targetLocationId. Performance target: location navigation < 1 second total.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Workflows and Sequencing → Workflow 2: Travel Between Locations</section>
+        <snippet>Defines complete travel workflow: parse command → NavigationHandler.travel() validates connectivity by checking metadata.yaml connected_locations list → update session → load new location → generate narrative. NavigationHandler loads current location metadata.yaml and checks connected_locations list.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Acceptance Criteria → AC-5: Travel Between Locations</section>
+        <snippet>System must validate location exists and is connected by checking metadata.yaml. If valid: update currentLocationId, load location, generate narrative. If invalid: user-friendly error. Travel action logged. Entire operation < 1s excluding LLM. Verification via integration test: navigation.test.js</snippet>
+      </doc>
+      <doc>
+        <path>docs/creating-locations.md</path>
+        <title>Creating Locations Guide</title>
+        <section>Navigation Rules → Connections (Travel)</section>
+        <snippet>Two types of relationships: 1) Containment (hierarchy) uses parent_location/sub_locations. 2) Connections (travel) uses connected_locations for peer location travel. metadata.yaml connected_locations is an array with name, direction, travel_time for each connection. Used for "Where can I go from here?"</snippet>
+      </doc>
+      <doc>
+        <path>docs/creating-locations.md</path>
+        <title>Creating Locations Guide</title>
+        <section>Required Files → metadata.yaml</section>
+        <snippet>metadata.yaml required fields include connected_locations array with name, direction, travel_time for each connection. parent_location defines hierarchy. location_level is region/settlement/building/room. All fields required for validation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-4-basic-slash-commands.md</path>
+        <title>Story 1.4: Basic Slash Commands</title>
+        <section>Task 4: Implement travel command handler</section>
+        <snippet>Travel handler at src/commands/handlers/travel.js validates targetLocationId argument, calls NavigationHandler.travel() to validate connectivity, updates SessionManager currentLocation on success, generates narrative. Currently uses stub NavigationHandler at src/stubs/navigation-handler.js (to be replaced in Story 1.6).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/stubs/navigation-handler.js</path>
+        <kind>stub class</kind>
+        <symbol>NavigationHandler</symbol>
+        <lines>22-85</lines>
+        <reason>Existing stub implementation to be replaced. Provides interface contract: constructor(basePath), travel(targetLocationId, currentLocationId) returns NavigationResult. Current stub checks fs.existsSync and reads metadata.yaml to validate connected_locations. Permissive fallback if metadata missing.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/travel.js</path>
+        <kind>command handler</kind>
+        <symbol>travelHandler</symbol>
+        <lines>25-122</lines>
+        <reason>Travel command handler that depends on NavigationHandler. Line 63 calls navigationHandler.travel(). Expects NavigationResult with success/error/targetLocationId. Must maintain interface compatibility when replacing stub. Includes performance monitoring (<1s target) and error handling.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service class</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>54-62</lines>
+        <reason>LocationLoader class with constructor(basePath) and loadLocation(locationId) method. Throws LocationNotFoundError if location doesn't exist. Has in-memory cache. NavigationHandler should coordinate with this for location existence validation. Shares basePath configuration pattern.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>error class</kind>
+        <symbol>LocationNotFoundError</symbol>
+        <lines>26-33</lines>
+        <reason>Custom error for missing locations. NavigationHandler should use similar error pattern or leverage LocationLoader for existence checks.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/core/session-manager.test.js</path>
+        <kind>test file</kind>
+        <symbol>SessionManager tests</symbol>
+        <lines>1-380</lines>
+        <reason>Example of 100% test coverage pattern. Shows comprehensive test structure: Constructor, method tests, error scenarios, edge cases, performance testing. Model for NavigationHandler tests achieving 90%+ coverage target.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/core/llm-narrator.test.js</path>
+        <kind>test file</kind>
+        <symbol>LLMNarrator tests</symbol>
+        <lines>1-370</lines>
+        <reason>Example of 91.34% coverage with mocked dependencies. Shows performance testing pattern (AC-13) and error handling verification. Model for NavigationHandler unit tests with mocked fs/yaml operations.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <usage>Parse metadata.yaml files for connected_locations validation</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Test framework for unit and integration tests (90%+ coverage requirement)</usage>
+      </node>
+      <node>
+        <package>fs (built-in)</package>
+        <usage>File system operations for checking location directory existence and reading metadata.yaml</usage>
+      </node>
+      <node>
+        <package>path (built-in)</package>
+        <usage>Path manipulation for constructing location folder paths</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Performance target: travel() must complete in < 100ms (< 1s total workflow including LLM per AC-5)
+    - Graceful fallback: If metadata.yaml missing, allow travel with warning (don't block gameplay) per AC-22
+    - Interface compatibility: Must match existing NavigationHandler stub interface used by travel.js handler (travel method signature, NavigationResult format)
+    - Synchronous file reads acceptable: metadata.yaml files are small (<5KB), synchronous fs.readFileSync is acceptable for performance target
+    - Error message format: User-friendly messages with actionable information (e.g., "Available exits: [list]") per AC-16
+    - Validation order: Check target exists first, then check connectivity (fail fast pattern)
+    - Dependency injection: Constructor accepts basePath parameter for testability (matches LocationLoader pattern)
+    - JSDoc types: Comprehensive JSDoc comments for all public methods per established pattern (Stories 1.4, 1.5)
+    - Test coverage: ≥ 90% statement coverage required per AC-24
+    - No database: All data from file system (file-first architecture constraint)
+    - metadata.yaml format: connected_locations can be simple string array OR array of objects with name/direction/travel_time
+    - Stub replacement: Real implementation replaces src/stubs/navigation-handler.js but stub can remain for reference
+    - Path normalization: Use consistent path.join() pattern, handle Windows/Unix path separators
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>NavigationHandler.travel()</name>
+      <kind>method signature</kind>
+      <signature>travel(targetLocationId: string, currentLocationId: string): NavigationResult</signature>
+      <path>docs/tech-spec-epic-1.md (lines 375-376)</path>
+      <notes>Core navigation validation method. Returns NavigationResult with success boolean, error string or null, targetLocationId string or null. Must be synchronous (stub is synchronous, handler expects sync return).</notes>
+    </interface>
+    <interface>
+      <name>NavigationHandler.getConnectedLocations()</name>
+      <kind>method signature</kind>
+      <signature>async getConnectedLocations(locationId: string): Promise&lt;Array&lt;ConnectedLocation&gt;&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 378-382)</path>
+      <notes>Returns array of ConnectedLocation objects sorted alphabetically by displayName. Each object includes locationId, displayName, description, optional direction and exitDescription. Performance target: < 50ms per AC-17.</notes>
+    </interface>
+    <interface>
+      <name>NavigationHandler.canTravel()</name>
+      <kind>method signature</kind>
+      <signature>async canTravel(from: string, to: string): Promise&lt;boolean&gt;</signature>
+      <path>docs/tech-spec-epic-1.md (lines 384-391)</path>
+      <notes>Helper method to check if travel is possible between two locations. Returns true if target in connected_locations, false otherwise. Handles missing metadata gracefully.</notes>
+    </interface>
+    <interface>
+      <name>NavigationResult</name>
+      <kind>type definition</kind>
+      <signature>{ success: boolean, error: string|null, targetLocationId: string|null, durationMs?: number, availableExits?: Array&lt;ConnectedLocation&gt; }</signature>
+      <path>src/stubs/navigation-handler.js (lines 11-16)</path>
+      <notes>Return type for travel() method. success indicates if travel allowed. error contains user-friendly message if failed. targetLocationId is destination if successful or null if failed. Optional durationMs for performance tracking (AC-23). Optional availableExits for error messages showing alternatives (AC-16).</notes>
+    </interface>
+    <interface>
+      <name>ConnectedLocation</name>
+      <kind>type definition</kind>
+      <signature>{ locationId: string, displayName: string, description: string, direction?: string|null, exitDescription?: string|null }</signature>
+      <path>docs/stories/1-6-location-navigation.md (Dev Notes section)</path>
+      <notes>Represents a connected location. locationId is folder name, displayName is human-readable name from metadata, description is brief summary, direction is optional compass direction, exitDescription is optional exit path description.</notes>
+    </interface>
+    <interface>
+      <name>metadata.yaml connected_locations</name>
+      <kind>data structure</kind>
+      <signature>connected_locations: Array&lt;string&gt; OR Array&lt;{name: string, direction: string, travel_time: string}&gt;</signature>
+      <path>docs/creating-locations.md (lines 179-183)</path>
+      <notes>Two valid formats: 1) Simple string array of location IDs for basic connectivity. 2) Array of objects with name (location ID), direction, travel_time for detailed exit information. NavigationHandler must support both formats.</notes>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Project uses Jest v29.7.0 for all testing. Test structure follows AAA pattern (Arrange-Act-Assert) with describe blocks for grouping by method/feature. Tests organized in tests/core/ for unit tests and tests/integration/ for integration tests. Mock external dependencies (fs, yaml) in unit tests using jest.fn(). Use real implementations in integration tests with test data in game-data/test-locations/. Performance assertions included in tests to validate timing requirements. All modules target ≥90% statement coverage. Test naming: "should [expected behavior] when [condition]". Use beforeEach for test setup, afterEach for cleanup. Comprehensive error scenario testing required.</standards>
+    <locations>
+      tests/core/navigation-handler.test.js - Unit tests for NavigationHandler class
+      tests/integration/navigation.test.js - Integration tests for complete travel workflow
+      game-data/test-locations/ - Test location data with metadata.yaml files
+    </locations>
+    <ideas>
+      AC-16: Location Connectivity Validation
+      - Unit test: travel() with valid connected location returns success=true
+      - Unit test: travel() with non-existent target returns success=false, error message
+      - Unit test: travel() with disconnected location returns success=false, lists available exits
+      - Unit test: travel() completes in < 100ms
+      - Unit test: travel() with missing metadata.yaml returns success=true with warning (graceful fallback)
+      - Unit test: travel() with corrupted metadata.yaml handles error gracefully
+      - Integration test: Travel between 3 connected test locations end-to-end
+
+      AC-17: Get Connected Locations
+      - Unit test: getConnectedLocations() returns array of ConnectedLocation objects
+      - Unit test: getConnectedLocations() results sorted alphabetically by displayName
+      - Unit test: getConnectedLocations() completes in < 50ms
+      - Unit test: getConnectedLocations() handles both string array and object array formats in metadata
+      - Unit test: getConnectedLocations() with missing metadata returns empty array
+
+      AC-18: Travel Success Workflow
+      - Integration test: Successful travel returns NavigationResult with success=true, targetLocationId set, error=null
+      - Integration test: NavigationResult includes direction if available in metadata
+
+      AC-24: Test Coverage ≥ 90%
+      - Jest coverage report validates 90%+ statement coverage
+      - All public methods covered (travel, getConnectedLocations, canTravel)
+      - All error paths tested (missing files, parse errors, validation failures)
+      - Edge cases: empty connected_locations, null metadata, invalid YAML
+
+      AC-25: Integration with travel.js handler
+      - Integration test: travel command handler with real NavigationHandler
+      - Verify interface compatibility: NavigationResult format matches handler expectations
+      - Test error propagation from NavigationHandler to handler output
+    </ideas>
+  </tests>
+</story-context>

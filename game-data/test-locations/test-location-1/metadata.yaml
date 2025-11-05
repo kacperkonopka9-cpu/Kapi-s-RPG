@@ -1,0 +1,17 @@
+location_name: "Test Location 1"
+location_type: "Settlement"
+region: "Test Region"
+population: 100
+danger_level: 1
+recommended_level: "1-3"
+
+# HIERARCHY FIELDS
+parent_location: null
+sub_locations: []
+location_level: "settlement"
+
+# CONNECTIONS (string array format - simple)
+connected_locations:
+  - test-location-2
+
+description: "A test location for navigation testing"

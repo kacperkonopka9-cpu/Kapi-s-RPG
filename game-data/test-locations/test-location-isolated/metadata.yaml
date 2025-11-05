@@ -1,0 +1,16 @@
+location_name: "Test Location Isolated"
+location_type: "Settlement"
+region: "Test Region"
+population: 50
+danger_level: 1
+recommended_level: "1"
+
+# HIERARCHY FIELDS
+parent_location: null
+sub_locations: []
+location_level: "settlement"
+
+# CONNECTIONS (empty - isolated location)
+connected_locations: []
+
+description: "An isolated test location with no connections"

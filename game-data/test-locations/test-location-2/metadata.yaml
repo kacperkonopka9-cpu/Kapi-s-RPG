@@ -1,0 +1,22 @@
+location_name: "Test Location 2"
+location_type: "Settlement"
+region: "Test Region"
+population: 200
+danger_level: 2
+recommended_level: "2-4"
+
+# HIERARCHY FIELDS
+parent_location: null
+sub_locations: []
+location_level: "settlement"
+
+# CONNECTIONS (object array format - with directions)
+connected_locations:
+  - name: "test-location-1"
+    direction: "East"
+    travel_time: "1 hour"
+  - name: "test-location-3"
+    direction: "West"
+    travel_time: "2 hours"
+
+description: "A second test location for navigation testing"
