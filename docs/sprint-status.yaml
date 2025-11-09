@@ -62,7 +62,7 @@ development_status:
   2-6-event-execution-engine: done
   2-7-state-auto-update: done
   2-8-moon-phase-weather: done
-  2-9-world-state-propagation: backlog
+  2-9-world-state-propagation: done  # Duplicate of 2-7 (WorldStatePropagator delivered in state-auto-update)
   epic-2-retrospective: optional
 
   # Epic 3: D&D 5e Mechanics Integration
