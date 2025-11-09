@@ -1,0 +1,272 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.5</storyId>
+    <title>Calendar Slash Commands</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-5-calendar-slash-commands.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player</asA>
+    <iWant>a `/calendar` slash command that displays the current game date, time, upcoming events, weather, and moon phase in a clear, formatted view</iWant>
+    <soThat>I can quickly check the current state of the game world and see what events are coming up without having to inspect raw YAML files</soThat>
+    <tasks>
+### Module Setup
+- Create calendar commands module (AC: #1)
+  - Create `src/commands/calendar-commands.js`
+  - Implement class constructor with dependency injection ({calendarManager, moonPhaseCalculator, weatherGenerator})
+  - Implement `registerCalendarCommands(commandRegistry)` function
+  - Register `/calendar` command handler
+  - Add JSDoc documentation for all public methods
+  - Add error handling wrapper for command execution
+
+### Calendar Command Implementation
+- Implement `/calendar` display command (AC: #2, #3, #4, #5, #6)
+  - Implement `displayCalendar()` method
+  - Load calendar data from CalendarManager
+  - Format current date/time section with day name
+  - Call MoonPhaseCalculator.getCurrentPhase() and format moon phase section with emoji
+  - Call WeatherGenerator.getCurrentWeather() and format weather section with emoji
+  - Extract next 5 upcoming events from calendar.scheduledEvents
+  - Sort events by triggerDate/triggerTime chronologically
+  - Format events list with recurring indicators
+  - Determine current season from calendar month
+  - Add seasonal effects descriptions
+  - Combine all sections into formatted markdown output
+  - Return formatted string
+
+### Season Logic
+- Implement season determination logic (AC: #6)
+  - Create `determineSeason(currentMonth)` helper method
+  - Map D&D calendar months to seasons
+  - Create seasonal effects descriptions for each season
+  - Return {season, effects} object
+
+### Testing
+- Create comprehensive test suite (AC: #1-8)
+  - Create `tests/commands/calendar-commands.test.js`
+  - Unit tests with mocked dependencies
+  - Integration tests with real CalendarManager
+  - Performance test: < 100ms execution time with 100+ events
+  - Verify all 8 ACs covered
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: Calendar Command Handler Module
+Create `src/commands/calendar-commands.js` with `registerCalendarCommands(commandRegistry)` function. Must use dependency injection pattern for CalendarManager, MoonPhaseCalculator, WeatherGenerator. All methods handle errors gracefully (return error messages, not throw).
+
+### AC-2: Calendar Display - Current Date/Time
+Output includes current date in readable format: "Terraday, 10th of Ches, 735 DR", current time in 24-hour format "14:30", current day name from calendar.currentDayName. Format must be LLM-friendly markdown with section header "## Current Date & Time".
+
+### AC-3: Calendar Display - Moon Phase
+Output includes current moon phase: "Full Moon 🌕", next phase: "Waning Gibbous on 17th of Ches". Moon phase must use emoji for visual clarity (🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔). Section header: "## Moon Phase".
+
+### AC-4: Calendar Display - Weather Conditions
+Output includes weather condition: "Light rain ☔", temperature: "45°F", visibility: "Moderate". Weather condition must use appropriate emoji (☀️ ☁️ 🌧️ ⛈️ 🌨️ 🌫️). Section header: "## Current Weather".
+
+### AC-5: Calendar Display - Upcoming Events
+Output lists next 5 upcoming events (chronological order). Each event shows: event name, trigger date, trigger time. Format: "- **[Event Name]** on [Date] at [Time]". If event is recurring, show "(Recurring - [interval])". If no upcoming events, show "No events scheduled in the next 10 days". Section header: "## Upcoming Events".
+
+### AC-6: Calendar Display - Seasonal Information
+Output includes current season: "Spring", seasonal effects: "Mild temperatures, frequent rain, flowers blooming". Seasonal effects must be descriptive and LLM-friendly. Section header: "## Season & Effects". Season determination based on Barovian/D&D calendar months.
+
+### AC-7: Performance Requirement
+Command must complete in < 100ms (measured from execution to output ready). Must not block other player actions. Performance target must be met even with full calendar (100+ events).
+
+### AC-8: Error Handling
+If calendar.yaml file is missing or corrupted, return user-friendly error message. Error must suggest fix: "Calendar not found. Run /initialize-calendar to create one." Must not crash or throw unhandled exception. Must log error details to console for debugging.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Game Calendar & Dynamic World System</title>
+        <section>AC-11: Calendar Command Display</section>
+        <snippet>Calendar command must display current date, time, day name, moon phase, next 5 upcoming events with dates/times, current weather conditions, current season and seasonal effects. Command must execute in &lt; 100ms. Module: CalendarCommandHandler at src/commands/calendar-commands.js.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Game Calendar & Dynamic World System</title>
+        <section>Services and Modules</section>
+        <snippet>CalendarCommandHandler handles `/calendar` and `/advance-time` commands. Inputs: Command string, args. Outputs: Display output. Dependencies: TimeManager, CalendarManager, EventScheduler, NPCScheduleTracker, MoonPhaseCalculator, WeatherGenerator.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>Command System Architecture</section>
+        <snippet>Command handlers registered with CommandRouter. Pattern: router.registerHandler(commandName, handlerFunction). Handlers receive dependencies and args, return formatted output or error messages.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-1-calendar-data-structure.md</path>
+        <title>Story 2.1: Calendar Data Structure</title>
+        <section>CalendarManager API</section>
+        <snippet>CalendarManager provides loadCalendar(), saveCalendar(), createCalendar() methods. Returns calendar object with current.date, current.time, current.day_of_week, events[], npc_schedules[], moon{}, weather{}. Follows dependency injection pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-4-npc-schedule-tracking.md</path>
+        <title>Story 2.4: NPC Schedule Tracking</title>
+        <section>Learnings - Error Handling Pattern</section>
+        <snippet>All methods return {success, data, error} objects - never throw exceptions. Graceful error handling prevents crashes. Use try-catch internally but always return structured response.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-4-basic-slash-commands.md</path>
+        <title>Story 1.4: Basic Slash Commands</title>
+        <section>Command Handler Pattern</section>
+        <snippet>Command handlers follow pattern: async function handler(deps, args) { ... return output; }. Register with CommandRouter.registerHandler(). Use dependency injection for testability. Return formatted markdown strings for LLM narrator display.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/commands/router.js</path>
+        <kind>service</kind>
+        <symbol>CommandRouter</symbol>
+        <lines>1-120</lines>
+        <reason>Command registration pattern - use registerHandler() to register /calendar command. Provides parseCommand() for command parsing.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/handlers/look.js</path>
+        <kind>handler</kind>
+        <symbol>lookHandler</symbol>
+        <lines>1-50</lines>
+        <reason>Example command handler pattern - shows how to format markdown output, use dependencies, handle errors gracefully.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-500</lines>
+        <reason>Calendar data access - provides loadCalendar() method returning calendar object with current.date, current.time, events[], moon{}, weather{}. Use dependency injection pattern matching this service.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>service</kind>
+        <symbol>TimeManager</symbol>
+        <lines>1-300</lines>
+        <reason>Time utilities - provides date/time formatting methods if needed. Follows same dependency injection pattern.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-400</lines>
+        <reason>Event querying - may provide methods to filter/sort upcoming events chronologically. Reference for event data structure.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/npc-schedule-tracker.js</path>
+        <kind>service</kind>
+        <symbol>NPCScheduleTracker</symbol>
+        <lines>1-700</lines>
+        <reason>Example of Epic 2 service pattern - dependency injection, error handling returning {success, data, error}, comprehensive JSDoc, graceful degradation.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/commands/router.test.js</path>
+        <kind>test</kind>
+        <symbol>CommandRouter tests</symbol>
+        <lines>1-200</lines>
+        <reason>Test pattern for command system - shows how to mock dependencies, test handler registration, test command execution.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/calendar-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>CalendarManager tests</symbol>
+        <lines>1-400</lines>
+        <reason>Test pattern for calendar services - shows unit testing with mocks, integration testing with temp files.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <usage>Date formatting and manipulation (if needed for date display)</usage>
+      </node>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <usage>YAML parsing (used by CalendarManager)</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Testing framework for unit and integration tests</usage>
+        <dev>true</dev>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Follow Epic 1 command handler pattern: async function handler(deps, args) returning formatted markdown
+- Use CommandRouter.registerHandler() for command registration
+- Implement dependency injection pattern matching CalendarManager, NPCScheduleTracker
+- All methods must return {success, data, error} objects or formatted strings - never throw exceptions
+- Performance requirement: < 100ms execution time (minimize file I/O, use loaded calendar)
+- Output format: LLM-friendly markdown with emoji for visual clarity
+- Error handling: User-friendly messages with suggested fixes
+- JSDoc documentation required for all public methods
+- Testing: Unit tests with mocks, integration tests with real dependencies
+- Barovian/D&D calendar months: Hammer, Alturiak, Ches, Tarsakh, Mirtul, Kythorn, Flamerule, Eleasis, Eleint, Marpenoth, Uktar, Nightal
+- Season mapping: Spring (Ches, Tarsakh, Mirtul), Summer (Kythorn, Flamerule, Eleasis), Fall (Eleint, Marpenoth, Uktar), Winter (Nightal, Hammer, Alturiak)
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>registerCalendarCommands</name>
+      <kind>function</kind>
+      <signature>function registerCalendarCommands(commandRegistry, dependencies)</signature>
+      <path>src/commands/calendar-commands.js (to be created)</path>
+      <description>Registers /calendar command with CommandRouter. Takes dependencies object {calendarManager, moonPhaseCalculator, weatherGenerator}.</description>
+    </interface>
+    <interface>
+      <name>CommandRouter.registerHandler</name>
+      <kind>method</kind>
+      <signature>registerHandler(commandName: string, handler: Function): void</signature>
+      <path>src/commands/router.js</path>
+      <description>Register command handler. Handler signature: async (deps, args) => string|Object</description>
+    </interface>
+    <interface>
+      <name>CalendarManager.loadCalendar</name>
+      <kind>method</kind>
+      <signature>async loadCalendar(): Promise&lt;{success: boolean, calendar: Object, error?: string}&gt;</signature>
+      <path>src/calendar/calendar-manager.js</path>
+      <description>Load calendar from calendar.yaml. Returns calendar object with current{date, time, day_of_week, season}, events[], moon{}, weather{}.</description>
+    </interface>
+    <interface>
+      <name>MoonPhaseCalculator.getCurrentPhase</name>
+      <kind>method</kind>
+      <signature>getCurrentPhase(currentDate): {phase: string, emoji: string, nextPhase: string, nextPhaseDate: string}</signature>
+      <path>To be created (Story 2.8 or similar)</path>
+      <description>Returns current moon phase info with emoji. Phase values: new, waxing_crescent, first_quarter, waxing_gibbous, full, waning_gibbous, last_quarter, waning_crescent.</description>
+    </interface>
+    <interface>
+      <name>WeatherGenerator.getCurrentWeather</name>
+      <kind>method</kind>
+      <signature>getCurrentWeather(currentDate, season, moonPhase): {condition: string, emoji: string, temperature: number, visibility: string}</signature>
+      <path>To be created (Story 2.8 or similar)</path>
+      <description>Returns current weather conditions with emoji. Condition values: clear, cloudy, foggy, light_rain, heavy_rain, light_snow, heavy_snow, thunderstorm, blizzard.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Use Jest testing framework. Unit tests with mocked dependencies for fast, isolated testing. Integration tests with real CalendarManager, temp calendar files. Mock MoonPhaseCalculator and WeatherGenerator until implemented (return stub data). Test all 8 ACs. Performance tests measure execution time (< 100ms target). Error handling tests verify graceful degradation. Follow established pattern from tests/commands/router.test.js and tests/calendar/calendar-manager.test.js.</standards>
+    <locations>
+      <location>tests/commands/calendar-commands.test.js (unit tests)</location>
+      <location>tests/integration/calendar-commands.test.js (integration tests)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Unit test: Constructor with dependency injection, registerCalendarCommands() registers handler</idea>
+      <idea ac="AC-2">Unit test: Date/time formatting with mock calendar data (various dates/times)</idea>
+      <idea ac="AC-3">Unit test: Moon phase display with all 8 phases, emoji mapping</idea>
+      <idea ac="AC-4">Unit test: Weather display with all condition types, emoji mapping</idea>
+      <idea ac="AC-5">Unit test: Upcoming events list (0 events, 3 events, 7 events - show only 5), recurring indicators, chronological sorting</idea>
+      <idea ac="AC-6">Unit test: Season determination for all 12 months, seasonal effects for all 4 seasons</idea>
+      <idea ac="AC-7">Performance test: Measure execution time with 100+ events calendar, verify < 100ms</idea>
+      <idea ac="AC-8">Unit test: Missing calendar file error, corrupted YAML error, user-friendly messages</idea>
+      <idea ac="integration">Integration test: Full /calendar command with real CalendarManager, verify all sections present</idea>
+      <idea ac="integration">Integration test: Command registration with CommandRouter.routeCommand()</idea>
+    </ideas>
+  </tests>
+</story-context>

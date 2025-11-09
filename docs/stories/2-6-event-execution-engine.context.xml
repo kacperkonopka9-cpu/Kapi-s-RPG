@@ -1,0 +1,269 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.6</storyId>
+    <title>Event Execution Engine</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-6-event-execution-engine.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master</asA>
+    <iWant>an event execution engine that loads event definitions from Events.md files and applies state changes when triggered</iWant>
+    <soThat>scheduled events can automatically update the world state (NPC statuses, location states) without manual intervention</soThat>
+    <tasks>
+### Module Setup
+- Create EventExecutor module (AC: #1)
+  - Create `src/calendar/event-executor.js`
+  - Implement EventExecutor class with constructor
+  - Add dependency injection for {locationLoader, stateManager, calendarManager}
+  - Add JSDoc documentation for all public methods
+  - Export EventExecutor class
+  - Add error handling wrapper pattern
+
+### Event Definition Loading
+- Implement loadEventDefinition method (AC: #2)
+  - Implement `loadEventDefinition(eventId, locationId)` async method
+  - Use LocationLoader to resolve location path
+  - Read Events.md file from location folder
+  - Parse YAML block using regex pattern
+  - Find event matching eventId in parsed YAML
+  - Return EventDefinition object
+  - Handle missing Events.md and missing eventId gracefully
+  - Add input validation for parameters
+
+### Event Execution Logic
+- Implement execute method (AC: #3, #5, #8)
+  - Implement `execute(event, gameState)` async method
+  - Load event definition using loadEventDefinition()
+  - Initialize executionStartTime for performance tracking
+  - Create effectsApplied array to track successful effects
+  - Iterate through event.effects array
+  - For each effect, call appropriate handler based on effect.type
+  - Collect all state updates in stateUpdates array
+  - Calculate executionTimeMs
+  - Return EventExecutionResult
+  - Wrap in try-catch for error handling
+
+### Effect Handlers
+- Implement effect type handlers (AC: #3, #4)
+  - Implement `applyNPCStatusEffect(effect, gameState)` method
+  - Implement `applyStateUpdateEffect(effect, locationId)` method
+  - Load location State.md file, parse, update flags, append to history, save
+  - Implement `applyQuestTriggerEffect(effect, gameState)` method
+  - Return stateUpdate object for each successful effect
+
+### Narrative Generation
+- Implement generateEventNarrative method (AC: #6)
+  - Load narrativeTemplate from event definition
+  - Replace {{variables}} with actual values
+  - Handle playerPresent true/false for different perspectives
+  - Handle missing narrativeTemplate with generic description
+
+### Testing
+- Create comprehensive test suite (AC: #1-8)
+  - Unit tests: Constructor, loadEventDefinition, execute(), effect handlers, narratives, error handling
+  - Integration tests: Full event execution with real location files, State.md updates
+  - Performance test: < 500ms execution time with 5 effects
+  - Verify all 8 ACs covered
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: EventExecutor Module Creation
+Create `src/calendar/event-executor.js` exporting EventExecutor class. Use dependency injection for LocationLoader, StateManager, CalendarManager. All methods return {success, data, error} objects (never throw).
+
+### AC-2: Load Event Definition from Events.md
+loadEventDefinition(eventId, locationId) loads Events.md from location folder, parses YAML block for matching eventId, returns EventDefinition object with: name, description, effects[], narrativeTemplate. Handle missing Events.md and missing eventId gracefully (return error).
+
+### AC-3: Execute Event and Apply State Updates
+execute() method applies each effect in effects array. For "npc_status": update NPC status in world state. For "state_update": update location State.md. For "quest_trigger": activate quest. Complete in < 500ms. Return EventExecutionResult with applied updates.
+
+### AC-4: Update Location State.md Files
+When effect requires State.md update: load current State.md, append event outcome to state history, update relevant state flags, save updated State.md, preserve existing state data (no data loss).
+
+### AC-5: Event Execution Result
+Return EventExecutionResult object with: success (boolean), executedAt (timestamp), effectsApplied (array), stateUpdates (array). If error: include error message and errorType. Include executionTimeMs for performance tracking.
+
+### AC-6: Generate Event Narrative
+generateEventNarrative() returns LLM-friendly narrative description. Replace {{variables}} with actual values. If playerPresent=true: narrative addresses player. If playerPresent=false: observer perspective. Handle missing narrativeTemplate (use generic description).
+
+### AC-7: Error Handling and Rollback
+On execution failure: catch error and return {success: false, error}. Do NOT partially apply effects (all-or-nothing). Log error details to console. Mark event as "failed" in calendar. Must not crash the system.
+
+### AC-8: Performance Requirement
+Event execution with multiple effects (3-5 state updates) must complete in < 500ms. Must not block time advancement. Performance target must be met with realistic event complexity.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Game Calendar & Dynamic World System</title>
+        <section>AC-4: Event Execution and State Update (lines 1150-1159)</section>
+        <snippet>Event execution engine loads event definitions from Events.md, applies effects (NPC status updates, State.md updates, quest triggers), completes in < 500ms, returns EventExecutionResult with applied updates.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Game Calendar & Dynamic World System</title>
+        <section>EventExecutor API (lines 397-433)</section>
+        <snippet>EventExecutor class with execute(event, gameState), loadEventDefinition(eventId, locationId), generateEventNarrative(event, playerPresent) methods. Returns EventExecutionResult with success, executedAt, effectsApplied, stateUpdates, executionTimeMs.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Game Calendar & Dynamic World System</title>
+        <section>Event Execution Workflow (lines 625-670)</section>
+        <snippet>EventScheduler detects triggered event → EventExecutor.loadEventDefinition() loads Events.md → EventExecutor.execute() applies effects → For each effect: load data, apply change, save, track in stateUpdates → Return EventExecutionResult → WorldStatePropagator.propagateChange() cascades effects.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-5-calendar-slash-commands.md</path>
+        <title>Story 2.5: Calendar Slash Commands</title>
+        <section>Dev Agent Record - Learnings</section>
+        <snippet>Error handling pattern: All methods return {success, data, error} objects - never throw exceptions. YAML parsing: Use regex `/###\s+Section\s*\n```yaml\s*\n([\s\S]*?)\n```/i` for extracting YAML blocks from markdown. Performance optimization: Use in-memory operations, minimize file I/O. Dependency injection pattern matching CalendarManager, NPCScheduleTracker.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-3-event-scheduler.md</path>
+        <title>Story 2.3: Event Scheduler</title>
+        <section>EventScheduler API</section>
+        <snippet>EventScheduler provides checkForTriggeredEvents(currentTime, oldTime) method that returns array of triggered events. Each triggered event includes eventId, name, triggerDate, triggerTime, locationId, status.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-1-calendar-data-structure.md</path>
+        <title>Story 2.1: Calendar Data Structure</title>
+        <section>CalendarManager API</section>
+        <snippet>CalendarManager provides loadCalendar(), saveCalendar(), updateEventStatus() methods. Returns calendar object with events[], npc_schedules[], moon{}, weather{}. Follows dependency injection pattern.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-500</lines>
+        <reason>LocationLoader class from Epic 1 provides methods to load location files (Events.md, State.md, NPCs.md). Use for loading Events.md from location folder. Pattern: await locationLoader.loadFile(locationId, 'Events.md').</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-600</lines>
+        <reason>CalendarManager from Story 2-1 provides loadCalendar(), saveCalendar(), updateEventStatus() methods. Use for updating event status to "completed" or "failed" after execution. Follow dependency injection pattern established in this module.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-400</lines>
+        <reason>EventScheduler from Story 2-3 detects triggered events and calls EventExecutor. Reference for understanding event data structure: {eventId, name, triggerDate, triggerTime, locationId, status}.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/npc-schedule-tracker.js</path>
+        <kind>service</kind>
+        <symbol>NPCScheduleTracker</symbol>
+        <lines>1-700</lines>
+        <reason>Example of Epic 2 service pattern - dependency injection, error handling returning {success, data, error}, comprehensive JSDoc, graceful degradation. Use as template for EventExecutor structure.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/event-scheduler.test.js</path>
+        <kind>test</kind>
+        <symbol>EventScheduler tests</symbol>
+        <lines>1-300</lines>
+        <reason>Test pattern for calendar services - shows how to mock dependencies, test event triggering, test error cases. Follow established testing patterns for EventExecutor tests.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <usage>YAML parsing for Events.md files</usage>
+      </node>
+      <node>
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <usage>Date/time manipulation for event timestamps</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Testing framework for unit and integration tests</usage>
+        <dev>true</dev>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Follow Epic 2 service pattern: dependency injection, error handling with {success, data, error} objects, never throw exceptions
+- Use YAML parsing pattern from Story 2-5: `/###\s+Events\s*\n```yaml\s*\n([\s\S]*?)\n```/i` for extracting YAML blocks from Events.md markdown files
+- Performance requirement: < 500ms execution time (AC-8) - optimize file I/O by batching state updates
+- Error handling philosophy: Never partially apply effects (all-or-nothing atomicity), return {success: false, error} on any failure
+- Use LocationLoader from Epic 1 for loading Events.md files (do not recreate file loading logic)
+- Follow established test patterns from Story 2-3, 2-4, 2-5: unit tests with mocks, integration tests with real files, performance tests
+- JSDoc documentation required for all public methods
+- Event execution must be deterministic (same event with same game state produces same result)
+- Mark event status as "completed" on success, "failed" on error in calendar.yaml
+- All file paths must be project-relative (not absolute paths)
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>EventExecutor.execute</name>
+      <kind>method</kind>
+      <signature>async execute(event: ScheduledEvent, gameState: Object): Promise&lt;EventExecutionResult&gt;</signature>
+      <path>src/calendar/event-executor.js (to be created)</path>
+      <description>Execute event and apply world state changes. Returns {success, executedAt, effectsApplied, stateUpdates, executionTimeMs, narrative}.</description>
+    </interface>
+    <interface>
+      <name>EventExecutor.loadEventDefinition</name>
+      <kind>method</kind>
+      <signature>async loadEventDefinition(eventId: string, locationId: string): Promise&lt;{success: boolean, definition?: EventDefinition, error?: string}&gt;</signature>
+      <path>src/calendar/event-executor.js (to be created)</path>
+      <description>Load event definition from location Events.md file. Returns EventDefinition with {eventId, name, description, effects[], narrativeTemplate}.</description>
+    </interface>
+    <interface>
+      <name>EventExecutor.generateEventNarrative</name>
+      <kind>method</kind>
+      <signature>async generateEventNarrative(event: ScheduledEvent, playerPresent: boolean): Promise&lt;string&gt;</signature>
+      <path>src/calendar/event-executor.js (to be created)</path>
+      <description>Generate LLM-friendly narrative description of event. Replaces {{variables}} in narrativeTemplate. Returns formatted markdown string.</description>
+    </interface>
+    <interface>
+      <name>LocationLoader.loadFile</name>
+      <kind>method</kind>
+      <signature>async loadFile(locationId: string, fileName: string): Promise&lt;string&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <description>Load file from location folder. Use for loading Events.md and State.md files.</description>
+    </interface>
+    <interface>
+      <name>CalendarManager.updateEventStatus</name>
+      <kind>method</kind>
+      <signature>async updateEventStatus(eventId: string, status: string): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/calendar/calendar-manager.js</path>
+      <description>Update event status in calendar.yaml. Use to mark event as "completed" or "failed" after execution.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Use Jest testing framework. Unit tests with mocked dependencies (LocationLoader, StateManager, CalendarManager) for isolated testing. Integration tests with real location files (Events.md, State.md) and temp directories. Performance tests measure execution time with realistic event complexity (3-5 effects, < 500ms target). Error handling tests verify graceful degradation and rollback behavior. Follow established pattern from tests/calendar/event-scheduler.test.js and tests/calendar/npc-schedule-tracker.test.js.</standards>
+    <locations>
+      <location>tests/calendar/event-executor.test.js (unit tests)</location>
+      <location>tests/integration/event-execution.test.js (integration tests - optional, can be in main test file)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Unit test: Constructor with dependency injection, verify dependencies stored</idea>
+      <idea ac="AC-2">Unit test: loadEventDefinition() with sample Events.md, verify EventDefinition structure</idea>
+      <idea ac="AC-2">Unit test: loadEventDefinition() error cases (missing Events.md, missing eventId, invalid YAML)</idea>
+      <idea ac="AC-3">Unit test: execute() with npc_status effect, verify NPC status updated</idea>
+      <idea ac="AC-3">Unit test: execute() with state_update effect, verify State.md updated</idea>
+      <idea ac="AC-3">Unit test: execute() with quest_trigger effect, verify quest activated</idea>
+      <idea ac="AC-4">Integration test: Full event execution updates State.md file, verify state history appended</idea>
+      <idea ac="AC-5">Unit test: EventExecutionResult structure validation (success, executedAt, effectsApplied, stateUpdates, executionTimeMs)</idea>
+      <idea ac="AC-6">Unit test: generateEventNarrative() with template variables, verify replacements</idea>
+      <idea ac="AC-6">Unit test: generateEventNarrative() with playerPresent true/false, verify perspective</idea>
+      <idea ac="AC-7">Unit test: Error handling with simulated file write error, verify rollback and {success: false}</idea>
+      <idea ac="AC-8">Performance test: Execute event with 5 effects, measure executionTimeMs < 500ms</idea>
+      <idea ac="integration">Integration test: Full event execution flow from EventScheduler trigger to State.md update</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -27,7 +27,17 @@
       "Bash(done)",
       "Bash(node:*)",
       "Bash(cat:*)",
-      "Bash(cmd /c:*)"
+      "Bash(cmd /c:*)",
+      "Bash(nul)",
+      "Bash(findstr:*)",
+      "Bash(dir:*)",
+      "SlashCommand(/bmad:bmm:workflows:solutioning-gate-check)",
+      "SlashCommand(/bmad:bmm:workflows:workflow-init)",
+      "SlashCommand(/bmad:bmm:workflows:workflow-status)",
+      "SlashCommand(/bmad:bmm:workflows:retrospective)",
+      "Bash(if not exist \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\src\\calendar\" mkdir \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\src\\calendar\")",
+      "Bash(test-output-2.txt)",
+      "Bash(powershell -Command \"(Get-Content ''C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\docs\\stories\\2-6-event-execution-engine.md'' | Select-String -Pattern ''## '' -Context 0,1).Line\")"
     ],
     "deny": [],
     "ask": []

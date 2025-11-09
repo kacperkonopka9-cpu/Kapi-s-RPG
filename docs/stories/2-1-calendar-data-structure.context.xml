@@ -1,0 +1,291 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.1</storyId>
+    <title>Calendar Data Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-1-calendar-data-structure.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine</asA>
+    <iWant>a calendar data structure that tracks in-game date/time, events, NPC schedules, moon phases, and weather</iWant>
+    <soThat>the world can evolve dynamically and time-based gameplay features can function</soThat>
+    <tasks>
+- Task 1: Create CalendarManager module (AC: #1, #2, #3)
+  - Create src/calendar/ directory
+  - Create src/calendar/calendar-manager.js
+  - Implement class constructor with dependency injection (fs, path, yaml)
+  - Implement createCalendar(initialDate, initialTime) method
+  - Implement loadCalendar() method
+  - Implement saveCalendar() method
+  - Implement getCurrentTime() method
+  - Implement updateCurrentTime(newDate, newTime) method
+  - Add YAML schema validation using js-yaml SAFE_SCHEMA
+  - Add error handling for all file operations
+
+- Task 2: Implement calendar schema validation (AC: #2, #3)
+  - Create schema validator for calendar.yaml structure
+  - Validate current block (date, time, day_of_week, season)
+  - Validate advancement block (mode, auto_advance flags)
+  - Validate moon block (phase, days_until_full, dates)
+  - Validate weather block (current, temperature, wind, visibility)
+  - Validate enum values (seasons, moon phases, weather conditions, advancement modes)
+  - Validate date format (YYYY-MM-DD)
+  - Validate time format (HH:MM)
+
+- Task 3: Create unit tests (AC: #1, #3, #6, #7)
+  - Create tests/calendar/calendar-manager.test.js
+  - Test createCalendar() creates valid calendar.yaml
+  - Test loadCalendar() reads and parses correctly
+  - Test saveCalendar() writes atomically
+  - Test getCurrentTime() returns correct timestamp
+  - Test updateCurrentTime() updates state
+  - Test error handling (missing file, malformed YAML, invalid dates)
+  - Test schema validation (reject invalid enum values)
+  - Test performance (< 50ms load, < 100ms save)
+  - Verify 90%+ code coverage
+
+- Task 4: Create integration test (AC: #4, #5)
+  - Create tests/integration/calendar-init.test.js
+  - Test: Initialize calendar with specific date/time
+  - Test: Load existing calendar and verify data integrity
+  - Test: Save calendar and reload to verify persistence
+  - Test: Multiple save/load cycles maintain data accuracy
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: CalendarManager Module Creation
+- Given no calendar management exists
+- When Story 2.1 is implemented
+- Then src/calendar/calendar-manager.js must be created
+- And CalendarManager must provide methods: createCalendar, loadCalendar, saveCalendar, getCurrentTime, updateCurrentTime
+- And all methods must handle errors gracefully (return success/failure, not throw)
+- And CalendarManager must use dependency injection pattern (like StateManager)
+- Verification: Unit tests with 90%+ coverage
+
+AC-2: calendar.yaml Schema Implementation
+- Given calendar system initializes
+- When createCalendar() is called
+- Then calendar.yaml must be created at project root with structure including: current (date, time, day_of_week, season), advancement (mode, auto_advance flags), moon (current_phase, days_until_full), weather (current, temperature, wind, visibility), events, npc_schedules, history, metadata
+- Verification: Schema validation tests
+
+AC-3: YAML Frontmatter Integration
+- Given StateManager uses YAML frontmatter pattern (Epic 1 learning)
+- When calendar data is persisted
+- Then CalendarManager must use js-yaml library with SAFE_SCHEMA
+- And YAML must be human-readable and Git-friendly
+- And All enum fields must validate against allowed values
+- And Date/time fields must validate format (YYYY-MM-DD, HH:MM)
+- Verification: YAML parsing tests, validation tests
+
+AC-4: Calendar Initialization
+- Given game starts for first time
+- When createCalendar(initialDate, initialTime) is called
+- Then calendar.yaml must be created with current time set to provided values, advancement mode defaulted to "hybrid", moon phase calculated from initial date, weather initialized based on season, empty events/schedules/history arrays, metadata tracking campaign start
+- Verification: Integration test creating fresh calendar
+
+AC-5: Calendar Loading and Persistence
+- Given calendar.yaml exists
+- When loadCalendar() is called
+- Then file must be read and parsed into Calendar object, all fields validated against schema, operation must complete in < 50ms
+- When saveCalendar() is called
+- Then Calendar object must be serialized to YAML, file write must be atomic, operation must complete in < 100ms
+- Verification: Unit tests, performance benchmarks
+
+AC-6: Error Handling
+- Given various error conditions
+- When CalendarManager operations are called
+- Then must handle: calendar.yaml missing (create with defaults), calendar.yaml malformed (log error, return default), invalid date/time values (validate and reject), file write permissions denied (return error with clear message)
+- And all errors must return {success: false, error: message}
+- And no errors should crash the game or throw exceptions
+- Verification: Unit tests with error scenarios
+
+AC-7: Test Coverage
+- Given CalendarManager implementation is complete
+- When test suite runs
+- Then CalendarManager unit tests must achieve 90%+ code coverage, all validation edge cases tested, performance tests verify < 50ms load, < 100ms save
+- Verification: npm test + coverage report
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/calendar-schema-design.md</path>
+        <title>Calendar Schema Design - Epic 2</title>
+        <section>Complete Schema Definition</section>
+        <snippet>Defines calendar.yaml structure including current (date, time, day_of_week, season), advancement (mode, auto_advance flags), moon (phases, cycle tracking), weather (current conditions, forecast), events (datetime, recurring, conditional triggers), npc_schedules, and metadata. All fields validated with enum values and format checks.</snippet>
+      </doc>
+      <doc>
+        <path>docs/yaml-frontmatter-pattern.md</path>
+        <title>YAML Frontmatter Pattern - Best Practices</title>
+        <section>Epic 1 Implementation: State.md</section>
+        <snippet>Established pattern using js-yaml with SAFE_SCHEMA for security. Read/write helpers handle frontmatter extraction, atomic file operations, and graceful error handling. Used successfully in StateManager with 98.88% test coverage.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Services and Modules</section>
+        <snippet>CalendarManager owns loading, validating, and persisting calendar.yaml. Located at src/calendar/calendar-manager.js. Inputs: calendar.yaml path. Outputs: Calendar object. Uses dependency injection pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Data Models and Contracts</section>
+        <snippet>Calendar schema includes currentDate (YYYY-MM-DD), currentTime (HH:MM), advancement mode (manual/automatic/hybrid), scheduledEvents array, npcSchedules map, moonPhases object, currentSeason, and eventHistory array.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>Architecture Principles</section>
+        <snippet>File-First Design principle: All game state persisted in human-readable markdown/YAML files. Git as save system. Separation of concerns between game mechanics and narrative generation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/1-10-location-state-persistence.md</path>
+        <title>Story 1-10: Location State Persistence</title>
+        <section>Story Completion Notes</section>
+        <snippet>StateManager implemented with dependency injection (constructor accepts fs, path, yaml, locationsDir). Uses js-yaml SAFE_SCHEMA. Graceful error handling returns {success, error} objects. Achieved 98.88% test coverage. Pattern to reuse for CalendarManager.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>53-68</lines>
+        <reason>Reference implementation for CalendarManager pattern. Uses dependency injection (constructor accepts fs, path, yaml, locationsDir), YAML SAFE_SCHEMA parsing, graceful error handling with {success, error} returns. Achieved 98.88% test coverage - CalendarManager should follow same patterns.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>_parseStateFile</symbol>
+        <lines>115-150</lines>
+        <reason>YAML frontmatter parsing pattern to reuse. Handles missing frontmatter, malformed YAML, and safe parsing with yaml.load(content, {schema: yaml.SAFE_SCHEMA}). CalendarManager will use similar parsing for calendar.yaml.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/utils/time-mock.js</path>
+        <kind>test-utility</kind>
+        <symbol>TimeMock, CalendarMock</symbol>
+        <lines>1-385</lines>
+        <reason>Time mocking utilities for deterministic testing. TimeMock provides advanceMinutes/Hours/Days, getCurrentDate/Time, getDayOfWeek, getSeason. CalendarMock adds getMoonPhase, getDaysUntilFullMoon. Essential for testing CalendarManager time calculations.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing with SAFE_SCHEMA for calendar.yaml</package>
+        <package name="jest" version="^29.7.0">Test framework for unit and integration tests</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Use dependency injection pattern: constructor(deps = {}) accepting {fs, path, yaml, calendarPath}
+- Return {success, error} objects - NEVER throw exceptions
+- Use js-yaml with SAFE_SCHEMA only (security requirement)
+- YAML dump options: sortKeys: true, lineWidth: -1 (Git-friendly output)
+- Performance: loadCalendar < 50ms, saveCalendar < 100ms
+- Calendar file location: project root (not in game-data/ or docs/)
+- Atomic file operations: read → modify → write pattern
+- Validate all enum fields against allowed values before saving
+- Validate date format: YYYY-MM-DD, time format: HH:MM
+- 90%+ test coverage required on CalendarManager module
+- Follow StateManager patterns from Epic 1 (same error handling, same DI pattern)
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>CalendarManager</name>
+      <kind>class</kind>
+      <signature>
+constructor(deps = {fs, path, yaml, calendarPath})
+createCalendar(initialDate, initialTime) → {success, calendar?, error?}
+loadCalendar() → {success, calendar?, error?}
+saveCalendar(calendarData) → {success, error?}
+getCurrentTime() → {date, time}
+updateCurrentTime(newDate, newTime) → {success, error?}
+      </signature>
+      <path>src/calendar/calendar-manager.js</path>
+    </interface>
+    <interface>
+      <name>Calendar Schema</name>
+      <kind>yaml-structure</kind>
+      <signature>
+current: {date, time, day_of_week, season}
+advancement: {mode, auto_advance_on_travel, auto_advance_on_rest, default_action_minutes}
+moon: {current_phase, days_until_full, last_full_moon, next_full_moon}
+weather: {current, temperature, wind, visibility, last_updated}
+events: []
+npc_schedules: []
+history: []
+metadata: {campaign_start_date, real_world_session_count, total_in_game_hours}
+      </signature>
+      <path>docs/calendar-schema-design.md</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Jest test framework with ≥90% statement coverage target. Unit tests use mocked dependencies (fs, path, yaml) injected via constructor for isolation. Integration tests use real file operations with temporary directories. Test structure: describe blocks for grouping, beforeEach for fresh mocks, afterEach for cleanup. Mock console.warn to suppress expected warnings. Performance tests verify timing requirements (&lt; 50ms load, &lt; 100ms save). Pattern established in StateManager tests achieving 98.88% coverage.</standards>
+    <locations>
+- tests/calendar/calendar-manager.test.js (unit tests with mocks)
+- tests/integration/calendar-init.test.js (integration tests with real file I/O)
+    </locations>
+    <ideas>
+AC-1 Tests (CalendarManager Module):
+- Constructor initializes with default dependencies
+- Constructor accepts custom calendarPath
+- Constructor accepts dependency injection (fs, path, yaml)
+- createCalendar() creates calendar.yaml at project root
+- createCalendar() returns {success: true, calendar} on success
+- loadCalendar() reads and parses calendar.yaml
+- saveCalendar() writes calendar data atomically
+- getCurrentTime() returns {date, time}
+- updateCurrentTime() updates current time in calendar
+
+AC-2 Tests (Schema Implementation):
+- createCalendar() initializes all required schema fields
+- Schema includes current block with date, time, day_of_week, season
+- Schema includes advancement block with mode and flags
+- Schema includes moon block with phase and dates
+- Schema includes weather block with current conditions
+- Schema includes empty events, npc_schedules, history arrays
+- Schema includes metadata with campaign_start_date
+
+AC-3 Tests (YAML Integration):
+- loadCalendar() uses yaml.load with SAFE_SCHEMA
+- saveCalendar() uses yaml.dump with sortKeys: true
+- Malformed YAML returns default calendar structure
+- Invalid enum values rejected with error message
+- Invalid date format (not YYYY-MM-DD) rejected
+- Invalid time format (not HH:MM) rejected
+
+AC-4 Tests (Calendar Initialization):
+- createCalendar() sets current time to provided initialDate/initialTime
+- createCalendar() defaults advancement mode to "hybrid"
+- createCalendar() calculates moon phase from initial date
+- createCalendar() initializes weather based on season
+- createCalendar() creates empty events/schedules/history arrays
+- createCalendar() sets metadata.campaign_start_date
+
+AC-5 Tests (Loading and Persistence):
+- loadCalendar() completes in &lt; 50ms (performance test)
+- loadCalendar() validates all fields against schema
+- saveCalendar() completes in &lt; 100ms (performance test)
+- saveCalendar() writes atomically (read → modify → write)
+- Multiple save/load cycles maintain data accuracy
+
+AC-6 Tests (Error Handling):
+- Missing calendar.yaml creates default on first load
+- Malformed calendar.yaml logs warning and returns default
+- Invalid date value returns {success: false, error: message}
+- Invalid time value returns {success: false, error: message}
+- File write permission error returns clear error message
+- No errors throw exceptions (all return error objects)
+
+AC-7 Tests (Coverage):
+- Unit test suite achieves ≥90% statement coverage
+- All validation edge cases tested
+- Performance benchmarks verify timing requirements
+    </ideas>
+  </tests>
+</story-context>

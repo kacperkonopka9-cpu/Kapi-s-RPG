@@ -2,7 +2,7 @@
 
 **Epic**: Epic 1 - Core Engine & Location System (MVP Foundation)
 **Story ID**: 1-8-git-auto-save
-**Status**: ready-for-dev
+**Status**: done
 **Priority**: High
 **Estimated Effort**: Small (1-2 hours)
 
@@ -269,22 +269,39 @@ Actions: 12
 
 ### File List
 
-<!-- Will be filled during implementation -->
+**Created**:
+- `src/utils/git-utils.js` (308 lines) - GitIntegration module with isGitAvailable(), createAutoSave(), and helper methods
+- `tests/utils/git-utils.test.js` (642 lines) - Unit tests with 43 test cases achieving 100% statement coverage
+- `tests/integration/git-integration.test.js` (297 lines) - Integration tests with 11 test cases using real Git operations
+
+**Modified**:
+- `tests/integration/commands.test.js` (line 15) - Updated import to use real GitIntegration instead of stub
 
 ## Story Completion Notes
 
-**Implementation Date**: (To be filled upon completion)
+**Implementation Date**: 2025-11-05
 
-**Actual Effort**: (To be filled upon completion)
+**Actual Effort**: ~2 hours (Small as estimated)
 
 **Key Decisions**:
-(Document any architectural decisions made during implementation)
+- **Multi-line commit messages via multiple -m flags**: On Windows, `git commit -m` doesn't handle newlines properly. Solved by using multiple `-m` flags (one per line) to create properly formatted multi-line commits.
+- **Dependency injection pattern**: Constructor accepts `childProcess` and `cwd` parameters for testability, matching SessionLogger pattern from Story 1.7.
+- **Result caching for isGitAvailable()**: Git availability check is cached after first call to avoid repeated subprocess calls.
+- **Graceful error handling**: All Git errors return `success:false` with user-friendly error messages. Session ends successfully even if Git operations fail.
+- **Synchronous Git operations**: Used `execSync` since session is ending (no concurrent actions), meeting < 5 second performance target.
 
 **Challenges Encountered**:
-(Document any unexpected issues or blockers)
+- **Multi-line commit message formatting**: Initial implementation used single `-m` flag with `\n` separators, but Windows Git only captures first line. Fixed by building array of message lines and using multiple `-m` flags.
+- **Integration test temp repo setup**: Tests needed proper Git initialization with user config and initial commit for `git rev-parse` to work.
+- **Error message parsing variations**: Git error messages vary by version and OS. Made error parsing more flexible to catch "nothing to commit", "working tree clean", etc.
 
 **Test Coverage Achieved**:
-(Document final coverage percentage)
+- **Unit tests**: 100% statement coverage, 95.34% branch coverage, 100% function coverage (43 tests)
+- **Integration tests**: 11 tests covering complete workflows with real Git operations
+- **Commands integration**: 12 tests verifying end-session workflow with GitIntegration
+- **Total**: 66 tests passing
 
 **Performance Metrics**:
-(Document actual performance measurements)
+- isGitAvailable(): < 10ms average (cached after first call)
+- createAutoSave(): 1.5-2.5 seconds average with real Git operations (target: < 5s) ✅
+- Integration test suite: ~22 seconds total for 11 tests with temp repo setup/teardown

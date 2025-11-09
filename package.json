@@ -7,10 +7,17 @@
     "test": "jest",
     "validate-location": "node scripts/validate-location.js"
   },
-  "keywords": ["rpg", "dnd", "curse-of-strahd", "llm", "text-based"],
+  "keywords": [
+    "rpg",
+    "dnd",
+    "curse-of-strahd",
+    "llm",
+    "text-based"
+  ],
   "author": "Kapi",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^2.30.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {

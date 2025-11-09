@@ -1,0 +1,163 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>10</storyId>
+    <title>Location State Persistence</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-10-location-state-persistence.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player</asA>
+    <iWant>the game world to remember my actions across sessions</iWant>
+    <soThat>I can resume gameplay from where I left off with all discovered items, completed events, and visited locations intact</soThat>
+    <tasks>
+      <task id="1" ac="1,2">Create StateManager module with loadState, updateState, markVisited, addDiscoveredItem, completeEvent methods</task>
+      <task id="2" ac="1,2,6,7">Create unit tests for StateManager (90%+ coverage, test error handling)</task>
+      <task id="3" ac="3">Integrate StateManager with SessionManager (dependency injection, call on gameplay events)</task>
+      <task id="4" ac="3">Integrate StateManager with NavigationHandler (call markVisited after successful travel)</task>
+      <task id="5" ac="5">Update LocationLoader to expose state data in LocationData object</task>
+      <task id="6" ac="4,7">Create integration tests for state persistence (state-persistence.test.js)</task>
+      <task id="7" ac="4">Multi-session end-to-end test (session 1 with changes, commit, session 2 verify state restored)</task>
+      <task id="8" ac="7">Run full test suite, verify all existing tests pass, check 90%+ StateManager coverage</task>
+      <task id="9">Update documentation (tech-spec-epic-1.md mark AC-12 complete)</task>
+      <task id="10">Final verification (re-validate Story 1.9 AC-10, confirm Epic 1 100% complete)</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1" title="StateManager Module Implementation">
+      Create src/core/state-manager.js with methods: loadState(locationId), updateState(locationId, stateChanges), markVisited(locationId), addDiscoveredItem(locationId, itemId), completeEvent(locationId, eventId), updateNPCState(locationId, npcId, stateData), setCustomState(locationId, key, value). All methods use dependency injection pattern and return {success, error?} objects (no throws).
+    </ac>
+    <ac id="2" title="State File Read/Write Operations">
+      loadState reads State.md from game-data/locations/{locationId}/State.md, parses YAML frontmatter into state object (visited, discovered_items, completed_events, npc_states, custom_state, last_updated), completes in &lt;50ms. updateState loads existing state, merges changes, sets last_updated timestamp, writes back to State.md as valid YAML, uses atomic file writes.
+    </ac>
+    <ac id="3" title="Integration with SessionManager">
+      SessionManager calls StateManager.markVisited(locationId) when player travels. SessionManager calls addDiscoveredItem(locationId, itemId) when items discovered. SessionManager calls completeEvent(locationId, eventId) when events completed.
+    </ac>
+    <ac id="4" title="Multi-Session State Persistence (Tech Spec AC-12)">
+      Player completes session with state changes (visited 2 locations, discovered 1 item, completed 1 event), session ends with Git commit, new session starts, all location State.md files reflect previous changes, player resumes from exact world state.
+    </ac>
+    <ac id="5" title="LocationLoader Integration">
+      LocationLoader reads current state from State.md, state data included in LocationData object, LLM context builder has access to state data, LLM can reference state in narratives.
+    </ac>
+    <ac id="6" title="Error Handling and Edge Cases">
+      Handle: State.md missing (create with default), malformed YAML (log error, use default), location directory missing (return error), write permissions denied (return error), concurrent writes (last write wins). All errors return {success: false, error: message}.
+    </ac>
+    <ac id="7" title="Test Coverage and Validation">
+      StateManager unit tests achieve 90%+ coverage, all existing integration tests pass, state-persistence.test.js passes, multi-session playtest demonstrates persistence.
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-1.md" title="Epic 1 Technical Specification" section="AC-12: State Persistence Across Sessions">
+        Defines AC-12 requirement: "all location State.md files must reflect previous session changes" and "player can resume from exact world state where they left off". Verification via multi-session playtest. Components: StateManager, GitIntegration, SessionManager.
+      </doc>
+      <doc path="docs/tech-spec-epic-1.md" title="Epic 1 Technical Specification" section="Detailed Design - Services and Modules">
+        StateManager module specification: Responsibility "Update and persist State.md files", Inputs "Location ID (string), state changes (object)", Outputs "Updated State.md file", Location "src/core/state-manager.js".
+      </doc>
+      <doc path="docs/implementation-readiness-report-2025-11-08.md" title="Implementation Readiness Report" section="Critical Findings">
+        Solutioning gate check identified AC-12 as critical gap: StateManager module missing, State.md files never updated, blocks Epic 1 completion. Recommended action: Create Story 1-10, implement StateManager (est. 1-2 days).
+      </doc>
+      <doc path="docs/technical-architecture.md" title="Technical Architecture" section="§10.1 Git Version Control">
+        Git integration provides state persistence mechanism via auto-save commits. State changes committed to repository for version control and recovery.
+      </doc>
+      <doc path="docs/stories/1-9-test-locations-setup.md" title="Story 1.9 Test Locations" section="Completion Notes">
+        Created State.md structure in all test locations with initialized YAML: visited: false, discovered_items: [], completed_events: [], npc_states: {}, custom_state: {}, last_updated: null. Test locations: test-location-1, test-location-2, test-location-3.
+      </doc>
+      <doc path="docs/stories/1-2-location-data-parser.md" title="Story 1.2 Location Data Parser" section="LocationLoader">
+        LocationLoader already reads State.md files and parses YAML frontmatter. State data should be exposed in LocationData object for LLM context.
+      </doc>
+      <doc path="docs/stories/1-8-git-auto-save.md" title="Story 1.8 Git Auto-Save" section="Pattern Established">
+        GitIntegration uses dependency injection (constructor accepts deps), graceful error handling (return {success, error}, never throw), 90%+ test coverage. Follow this pattern for StateManager.
+      </doc>
+    </docs>
+    <code>
+      <artifact path="src/core/session-manager.js" kind="module" symbol="SessionManager" lines="all" reason="Primary integration point - must call StateManager methods when player takes actions (travel, discover items, complete events)"/>
+      <artifact path="src/core/navigation-handler.js" kind="module" symbol="NavigationHandler" lines="all" reason="Must call StateManager.markVisited() after successful travel between locations"/>
+      <artifact path="src/data/location-loader.js" kind="module" symbol="LocationLoader" lines="all" reason="Already reads State.md files, verify state data is exposed in LocationData object"/>
+      <artifact path="src/utils/git-utils.js" kind="module" symbol="GitIntegration" lines="all" reason="Reference implementation for dependency injection pattern, error handling, test coverage - follow same patterns"/>
+      <artifact path="src/core/context-builder.js" kind="module" symbol="ContextBuilder" lines="all" reason="May need to include state data in LLM prompts so narrator can reference visited locations, discovered items"/>
+      <artifact path="game-data/locations/test-location-1/State.md" kind="data" symbol="State.md" lines="all" reason="Example State.md file with initialized YAML structure - use as template for state operations"/>
+      <artifact path="tests/utils/git-utils.test.js" kind="test" symbol="GitIntegration tests" lines="all" reason="Reference for testing patterns - 100% coverage with dependency injection, mocking, temp directories"/>
+      <artifact path="tests/integration/navigation.test.js" kind="test" symbol="Navigation integration tests" lines="all" reason="Will need to verify state updates when traveling - 19 tests all passing"/>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0" usage="Parse and serialize YAML frontmatter in State.md files (already in use)"/>
+        <package name="jest" version="^29.7.0" usage="Test framework for unit and integration tests (already in use)"/>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Use dependency injection pattern: StateManager constructor accepts {fs, path, yaml, locationsDir} for testability (follow GitIntegration pattern)</constraint>
+    <constraint>Error handling: Return {success: boolean, error?: string} objects, NEVER throw exceptions (graceful degradation)</constraint>
+    <constraint>File operations: Use fs.promises for async/await pattern, atomic writes (no partial writes)</constraint>
+    <constraint>State schema: Match existing State.md YAML structure (visited, discovered_items, completed_events, npc_states, custom_state, last_updated)</constraint>
+    <constraint>Performance: State read/write must complete in &lt;50ms (small files, local disk)</constraint>
+    <constraint>Test coverage: Achieve 90%+ code coverage for StateManager module</constraint>
+    <constraint>Integration: StateManager must work with SessionManager, NavigationHandler, LocationLoader without breaking existing tests</constraint>
+    <constraint>Path validation: Validate locationId doesn't contain ../ or absolute paths (security)</constraint>
+    <constraint>YAML safety: Use js-yaml safe load/dump methods only (no code execution)</constraint>
+    <constraint>Array operations: addDiscoveredItem and completeEvent must check for duplicates before adding to arrays</constraint>
+    <constraint>Timestamp: Set last_updated to ISO 8601 format on every state change</constraint>
+    <constraint>Concurrent writes: Document that last write wins (no file locking in v1)</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="StateManager.loadState" kind="async method" signature="async loadState(locationId: string): Promise&lt;StateObject&gt;" path="src/core/state-manager.js">
+      Reads State.md from game-data/locations/{locationId}/State.md, parses YAML frontmatter, returns state object or default state if file missing/malformed.
+    </interface>
+    <interface name="StateManager.updateState" kind="async method" signature="async updateState(locationId: string, stateChanges: object): Promise&lt;{success: boolean, error?: string}&gt;" path="src/core/state-manager.js">
+      Loads existing state, merges stateChanges, sets last_updated timestamp, writes back to State.md as YAML frontmatter, returns success/error.
+    </interface>
+    <interface name="StateManager.markVisited" kind="async method" signature="async markVisited(locationId: string): Promise&lt;{success: boolean, error?: string}&gt;" path="src/core/state-manager.js">
+      Convenience method, calls updateState(locationId, {visited: true}). Called by NavigationHandler after successful travel.
+    </interface>
+    <interface name="StateManager.addDiscoveredItem" kind="async method" signature="async addDiscoveredItem(locationId: string, itemId: string): Promise&lt;{success: boolean, error?: string}&gt;" path="src/core/state-manager.js">
+      Loads state, appends itemId to discovered_items array (no duplicates), saves state. May be called by future story for item discovery.
+    </interface>
+    <interface name="StateManager.completeEvent" kind="async method" signature="async completeEvent(locationId: string, eventId: string): Promise&lt;{success: boolean, error?: string}&gt;" path="src/core/state-manager.js">
+      Loads state, appends eventId to completed_events array (no duplicates), saves state. May be called by future story for event completion.
+    </interface>
+    <interface name="StateObject" kind="type definition" signature="{visited: boolean, discovered_items: string[], completed_events: string[], npc_states: object, custom_state: object, last_updated: string | null}" path="src/core/state-manager.js">
+      State object schema matching State.md YAML frontmatter structure.
+    </interface>
+    <interface name="SessionManager integration point" kind="method call" signature="await stateManager.markVisited(locationId)" path="src/core/session-manager.js">
+      SessionManager must call StateManager.markVisited when player travels to new location.
+    </interface>
+    <interface name="NavigationHandler integration point" kind="method call" signature="await stateManager.markVisited(newLocationId)" path="src/core/navigation-handler.js">
+      NavigationHandler must call StateManager.markVisited after successful navigation.
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest testing framework (already in project). Follow patterns from git-utils.test.js: dependency injection with mocked dependencies (mock fs, path, yaml), temp directories for file operations, async/await test style, 90%+ code coverage. Integration tests use real test locations (test-location-1, 2, 3) and verify actual State.md files are updated. End-to-end test simulates full session lifecycle: start, travel, discover, complete, end, commit, start new session, verify state restored.
+    </standards>
+    <locations>
+      <location>tests/core/state-manager.test.js (unit tests)</location>
+      <location>tests/integration/state-persistence.test.js (integration tests)</location>
+      <location>tests/integration/navigation.test.js (update to verify state changes)</location>
+    </locations>
+    <ideas>
+      <idea ac="1,2">Unit test: loadState reads valid State.md file and parses YAML correctly</idea>
+      <idea ac="2,6">Unit test: loadState handles missing file by creating default state</idea>
+      <idea ac="2,6">Unit test: loadState handles malformed YAML by logging error and using default state</idea>
+      <idea ac="2">Unit test: updateState merges changes with existing state and updates timestamp</idea>
+      <idea ac="1">Unit test: markVisited sets visited flag to true</idea>
+      <idea ac="1">Unit test: addDiscoveredItem appends to array without duplicates</idea>
+      <idea ac="1">Unit test: completeEvent appends to array without duplicates</idea>
+      <idea ac="6">Unit test: Error handling for missing directory, write permissions</idea>
+      <idea ac="3">Integration test: Travel to location triggers markVisited and State.md updated</idea>
+      <idea ac="4">Integration test: Multi-session persistence - session 1 changes, session 2 verifies state restored</idea>
+      <idea ac="5">Integration test: LocationLoader exposes state data in LocationData object</idea>
+      <idea ac="7">Coverage test: Verify StateManager achieves 90%+ code coverage</idea>
+      <idea ac="4">End-to-end test: Complete gameplay session with state changes, Git commit, verify State.md files in commit</idea>
+    </ideas>
+  </tests>
+</story-context>

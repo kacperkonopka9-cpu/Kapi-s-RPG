@@ -1,0 +1,106 @@
+# Kapi's RPG - Game Calendar
+# Barovian Calendar System (D&D 5e / Curse of Strahd)
+
+current:
+  date: "0735-03-15"        # Ches (Spring month)
+  time: "14:30"             # 2:30 PM
+  day_of_week: "Fireday"    # Fifth day of the week
+
+# Moon phase system (affects lycanthropes, spells, atmosphere)
+moon:
+  current_phase: "waxing_gibbous"  # Almost full moon
+  days_until_full: 3
+  last_full_moon: "0735-03-02"
+  next_full_moon: "0735-03-18"
+
+# Current weather conditions
+weather:
+  current: "light_rain"     # Options: clear, partly_cloudy, cloudy, light_rain, rain, heavy_rain, thunderstorm, light_snow, snow, heavy_snow, blizzard, fog
+  temperature: 45           # Fahrenheit
+  visibility: "moderate"    # good, moderate, poor
+
+# Scheduled events
+events:
+  # Recurring weekly events
+  - eventId: "market-day-vallaki"
+    name: "Market Day in Vallaki"
+    triggerDate: "0735-03-17"
+    triggerTime: "09:00"
+    status: "pending"
+    recurring: true
+    recurInterval: "weekly"
+    description: "Weekly market in Vallaki's town square. Merchants, performers, and gossip."
+
+  - eventId: "church-service"
+    name: "Morning Service at St. Andral's Church"
+    triggerDate: "0735-03-16"
+    triggerTime: "06:00"
+    status: "pending"
+    recurring: true
+    recurInterval: "weekly"
+    description: "Father Lucian holds morning prayers at St. Andral's Church in Vallaki."
+
+  # One-time story events
+  - eventId: "full-moon-werewolf"
+    name: "Full Moon - Werewolf Activity Increases"
+    triggerDate: "0735-03-18"
+    triggerTime: "20:00"
+    status: "pending"
+    recurring: false
+    description: "The full moon rises. Werewolves become more aggressive and difficult to control."
+
+  - eventId: "strahd-dinner-invitation"
+    name: "Invitation to Dinner at Castle Ravenloft"
+    triggerDate: "0735-03-20"
+    triggerTime: "18:00"
+    status: "pending"
+    recurring: false
+    description: "Strahd von Zarovich has invited the party to dine at Castle Ravenloft."
+
+  - eventId: "festival-preparation"
+    name: "Festival of the Blazing Sun (Preparation)"
+    triggerDate: "0735-03-19"
+    triggerTime: "08:00"
+    status: "pending"
+    recurring: false
+    description: "Vallaki begins preparations for the Festival of the Blazing Sun. Baron Vallakovich demands perfection."
+
+  # Future monthly events
+  - eventId: "tax-collection"
+    name: "Monthly Tax Collection"
+    triggerDate: "0735-04-01"
+    triggerTime: "10:00"
+    status: "pending"
+    recurring: true
+    recurInterval: "monthly"
+    description: "Baron Vallakovich's tax collectors visit homes and businesses throughout Vallaki."
+
+  - eventId: "vistani-caravan"
+    name: "Vistani Caravan Arrives at Tser Pool"
+    triggerDate: "0735-03-22"
+    triggerTime: "16:00"
+    status: "pending"
+    recurring: false
+    description: "A Vistani caravan arrives at the Tser Pool encampment, bringing news from outside Barovia."
+
+# Barovian Calendar Reference
+# ===========================
+# Months (12 months, 30 days each):
+#   01 - Hammer (Deepwinter) - Winter
+#   02 - Alturiak (The Claw of Winter) - Winter
+#   03 - Ches (The Claw of the Sunsets) - Spring
+#   04 - Tarsakh (The Claw of the Storms) - Spring
+#   05 - Mirtul (The Melting) - Spring
+#   06 - Kythorn (The Time of Flowers) - Summer
+#   07 - Flamerule (Summertide) - Summer
+#   08 - Eleasis (Highsun) - Summer
+#   09 - Eleint (The Fading) - Fall
+#   10 - Marpenoth (Leaffall) - Fall
+#   11 - Uktar (The Rotting) - Fall
+#   12 - Nightal (The Drawing Down) - Winter
+#
+# Days of Week (7 days):
+#   Moonday, Terraday, Waterday, Thunderday, Fireday, Sunday, Starday
+#
+# Moon Phases (8 phases, ~30 day cycle):
+#   new, waxing_crescent, first_quarter, waxing_gibbous, full, waning_gibbous, last_quarter, waning_crescent

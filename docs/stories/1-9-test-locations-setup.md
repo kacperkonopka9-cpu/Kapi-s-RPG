@@ -1,6 +1,6 @@
 # Story 1.9: Test Locations Setup
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -172,36 +172,36 @@ last_updated: null
 
 ### Validation and Testing
 
-- [ ] **Task 6**: Validate all test locations (AC: #8)
-  - [ ] Run validate-location script on test-location-1
-  - [ ] Run validate-location script on test-location-2
-  - [ ] Run validate-location script on test-location-3
-  - [ ] Fix any validation errors
+- [x] **Task 6**: Validate all test locations (AC: #8)
+  - [x] Run validate-location script on test-location-1
+  - [x] Run validate-location script on test-location-2
+  - [x] Run validate-location script on test-location-3
+  - [x] Fix any validation errors
 
-- [ ] **Task 7**: Update/verify LocationLoader integration tests (AC: #7)
-  - [ ] Verify LocationLoader can load all test locations
-  - [ ] Verify all files parse correctly
-  - [ ] Check parsing of Description, NPCs, Items, Events, State
-  - [ ] Verify metadata parsing with connectivity
+- [x] **Task 7**: Update/verify LocationLoader integration tests (AC: #7)
+  - [x] Verify LocationLoader can load all test locations
+  - [x] Verify all files parse correctly
+  - [x] Check parsing of Description, NPCs, Items, Events, State
+  - [x] Verify metadata parsing with connectivity
 
-- [ ] **Task 8**: Fix LLM Narrator integration tests (AC: #7)
-  - [ ] Run llm-narrator.test.js to verify tests pass
-  - [ ] Update test paths if needed (game-data/test-locations → game-data/locations)
-  - [ ] Verify LLM can generate narratives from test location content
-  - [ ] Ensure all 14 failing tests now pass
+- [x] **Task 8**: Fix LLM Narrator integration tests (AC: #7)
+  - [x] Run llm-narrator.test.js to verify tests pass
+  - [x] Update test paths if needed (game-data/test-locations → game-data/locations)
+  - [x] Verify LLM can generate narratives from test location content
+  - [x] Ensure all 14 failing tests now pass
 
-- [ ] **Task 9**: Verify Navigation integration tests (AC: #2, #7)
-  - [ ] Run navigation integration tests
-  - [ ] Verify travel between test-location-1, 2, 3 works
-  - [ ] Verify getConnectedLocations returns correct data
-  - [ ] Ensure bidirectional connectivity works
+- [x] **Task 9**: Verify Navigation integration tests (AC: #2, #7)
+  - [x] Run navigation integration tests
+  - [x] Verify travel between test-location-1, 2, 3 works
+  - [x] Verify getConnectedLocations returns correct data
+  - [x] Ensure bidirectional connectivity works
 
-- [ ] **Task 10**: End-to-end playtest verification (AC: #7)
-  - [ ] Manually test start session at test-location-1
-  - [ ] Travel to test-location-2
-  - [ ] Travel to test-location-3
-  - [ ] Verify LLM narratives are coherent
-  - [ ] Verify state persistence works
+- [x] **Task 10**: End-to-end playtest verification (AC: #7)
+  - [x] Manually test start session at test-location-1
+  - [x] Travel to test-location-2
+  - [x] Travel to test-location-3
+  - [x] Verify LLM narratives are coherent
+  - [x] Verify state persistence works
 
 ## Dev Notes
 
@@ -424,12 +424,14 @@ exits:
 - Bidirectional connectivity established: test-location-1 ↔ test-location-2 ↔ test-location-3
 - Content is generic and LLM-friendly, not Curse of Strahd specific (reusable for future campaigns)
 
-**Remaining Work:**
-- Task 6: Validate all test locations using validate-location script
-- Task 7: Verify LocationLoader integration tests pass
-- Task 8: Run LLM Narrator integration tests (should fix 14 failing tests)
-- Task 9: Verify Navigation integration tests
-- Task 10: End-to-end playtest verification
+**Tasks 6-10 Completed:**
+- Validated all test locations using validate-location script: all 3 locations passed with 17 checks each (warnings about parent_location are acceptable)
+- Verified integration tests: LLM Narrator (15/15 passed), Navigation (19/19 passed), Commands (12/13 passed, 1 skipped)
+- Fixed malformed response handling bug in LLMNarrator: added validation to throw error and trigger retry when response lacks content
+- LLM Narrator tests fixed: went from 14 failing to 0 failing (all 15 tests pass)
+- End-to-end workflow verified: complete session flow (start → travel → look → end) works correctly
+- Overall test suite: 397/410 tests pass (97% pass rate)
+- Note: 12 failures in validate-location.test.js are unit tests for the validation script itself (out of scope for Story 1.9)
 
 ### File List
 
@@ -454,6 +456,6 @@ exits:
 - `game-data/locations/test-location-3/metadata.yaml` - Location metadata with connectivity to test-location-2
 
 **Modified:**
-- `docs/stories/1-9-test-locations-setup.md` - Updated tasks 1-5 as completed, added completion notes
-- `docs/sprint-status.yaml` - Updated story status to in-progress
-- `docs/stories/1-9-test-locations-setup.context.xml` - Context file generated
+- `src/core/llm-narrator.js` - Added malformed response validation to trigger retry logic when content is missing
+- `docs/stories/1-9-test-locations-setup.md` - Updated all tasks as completed, added completion notes
+- `docs/sprint-status.yaml` - Updated story status to done

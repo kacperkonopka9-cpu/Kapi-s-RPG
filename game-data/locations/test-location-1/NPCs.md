@@ -29,6 +29,64 @@ Aldric is a stout, barrel-chested man with a neatly trimmed beard and warm brown
 - Will not tolerate violence or theft on his premises
 - Knows the schedules and habits of regular travelers
 
+### Daily Schedule
+
+```yaml
+- timeStart: "06:00"
+  timeEnd: "08:00"
+  activity: "Preparing breakfast"
+  locationId: "test-location-1/kitchen"
+  activityDetails: "Aldric prepares fresh bread, porridge, and morning beverages for early risers"
+
+- timeStart: "08:00"
+  timeEnd: "12:00"
+  activity: "Tending bar"
+  locationId: "test-location-1"
+  activityDetails: "Behind the bar in the common room, serving drinks and chatting with guests"
+
+- timeStart: "12:00"
+  timeEnd: "14:00"
+  activity: "Lunch service"
+  locationId: "test-location-1/kitchen"
+  activityDetails: "Preparing and serving the midday meal"
+
+- timeStart: "14:00"
+  timeEnd: "18:00"
+  activity: "Tending bar"
+  locationId: "test-location-1"
+  activityDetails: "Back behind the bar, listening to travelers' stories and rumors"
+
+- timeStart: "18:00"
+  timeEnd: "22:00"
+  activity: "Dinner service"
+  locationId: "test-location-1/kitchen"
+  activityDetails: "Preparing and serving the evening meal, the busiest time of day"
+
+- timeStart: "22:00"
+  timeEnd: "23:59"
+  activity: "Sleeping"
+  locationId: "test-location-1/private-quarters"
+  activityDetails: "Resting in his private quarters above the inn"
+
+- timeStart: "00:00"
+  timeEnd: "06:00"
+  activity: "Sleeping"
+  locationId: "test-location-1/private-quarters"
+  activityDetails: "Resting in his private quarters above the inn"
+```
+
+### Schedule Overrides
+
+```yaml
+- condition: "inn_fire"
+  newRoutine:
+    - timeStart: "00:00"
+      timeEnd: "23:59"
+      activity: "Coordinating repairs"
+      locationId: "test-location-1"
+      activityDetails: "Working tirelessly to repair the inn and keep guests safe"
+```
+
 ---
 
 ## Mira the Traveling Merchant

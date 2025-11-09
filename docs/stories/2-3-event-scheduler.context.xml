@@ -1,0 +1,250 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>3</storyId>
+    <title>Event Scheduler</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-3-event-scheduler.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine</asA>
+    <iWant>an event scheduler that detects when scheduled events should trigger based on time, location, and game state conditions</iWant>
+    <soThat>story events, NPC activities, and world changes happen automatically at the correct moments during gameplay</soThat>
+    <tasks>
+      - Task 1: Create EventScheduler module (AC: #1, #2, #7) - 8 subtasks
+      - Task 2: Implement date/time and recurring event triggering (AC: #2, #3, #6) - 6 subtasks
+      - Task 3: Implement conditional and location-based triggering (AC: #4, #5) - 7 subtasks
+      - Task 4: Implement upcoming events query (AC: #8) - 6 subtasks
+      - Task 5: Create unit tests (AC: #1-#8) - 11 subtasks
+      - Task 6: Create integration test (AC: #9) - 6 subtasks
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC-1: EventScheduler Module Creation - Create module with 5 methods (checkTriggers, addEvent, updateEventStatus, removeEvent, getUpcomingEvents), dependency injection, graceful error handling
+    AC-2: Date/Time-Based Event Triggering - Detect events triggered between old and new timestamps, chronological + priority ordering, &lt;50ms for 100 events
+    AC-3: Recurring Event Handling - Support daily/weekly/monthly recurring events, maintain pending status after trigger
+    AC-4: Conditional Event Triggering - Support 4 condition types (player_enters_location, npc_status_changed, game_flag_set, time_elapsed_since)
+    AC-5: Location-Based Event Filtering - Filter events by locationId, support global events (null locationId)
+    AC-6: Event Priority and Ordering - Sort triggered events by priority (high first), maintain order for same priority
+    AC-7: Event Status Management - Update event status (pending/triggered/completed/failed), immutability
+    AC-8: Upcoming Events Query - Return events within lookahead window, sorted chronologically, &lt;20ms performance
+    AC-9: Integration with TimeManager and CalendarManager - Use TimeManager.calculateElapsed(), read calendar.events, return new calendar object
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>APIs and Interfaces - EventScheduler API</section>
+        <snippet>EventScheduler class with checkTriggers(), executeEvent(), addEvent(), updateEventStatus() methods. Detects triggered events when time advances based on date/time, conditional, and recurring triggers. Returns triggered events in priority order for sequential execution. Performance target: &lt;50ms for 100 events.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Data Models - ScheduledEvent Schema</section>
+        <snippet>ScheduledEvent fields: eventId, name, triggerDate, triggerTime, triggerCondition, conditionParams, locationId, eventType, status (pending/triggered/completed/failed), recurring (boolean), recurInterval (daily/weekly/monthly), effectScript, priority (number). Events can be date/time-based, conditional, or both.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Services and Modules - Event System</section>
+        <snippet>EventScheduler (Story 2-3) detects triggered events and returns them. EventExecutor (Story 2-6) applies event effects and updates game state. This separation allows EventScheduler to be pure logic without side effects.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Data Schema Design - calendar.yaml Events Block</section>
+        <snippet>calendar.yaml includes events array containing ScheduledEvent objects. EventScheduler reads this array, filters for triggered events, and returns updated calendar with status changes. CalendarManager handles persistence.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-1-calendar-data-structure.md</path>
+        <title>Story 2.1 - Calendar Data Structure</title>
+        <section>Completion Notes and Review</section>
+        <snippet>CalendarManager created at src/calendar/calendar-manager.js with createCalendar(), loadCalendar(), saveCalendar() methods. Uses YAML SAFE_SCHEMA, dependency injection pattern, graceful error handling with {success, error} objects. 96.4% test coverage achieved.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-2-time-advancement-module.md</path>
+        <title>Story 2.2 - Time Advancement Module</title>
+        <section>Completion Notes and Review</section>
+        <snippet>TimeManager created at src/calendar/time-manager.js with advanceTime(), calculateElapsed(), parseDuration(), getActionDuration(), addMinutes(), formatTimestamp() methods. Uses date-fns for date arithmetic, dependency injection, immutability (deep clone), graceful error handling. 86.2% test coverage, all performance targets met (&lt;50ms, &lt;10ms, &lt;5ms).</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>§5.3 Event Trigger Types and Processing Flow</section>
+        <snippet>Event triggers: date/time-based (most common), conditional (player location, NPC status, flags), recurring (daily/weekly/monthly), location-based (restricted to specific locationId). EventScheduler detects triggers, EventExecutor applies effects.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>module</kind>
+        <symbol>TimeManager</symbol>
+        <lines>58-572</lines>
+        <reason>REQUIRED DEPENDENCY - EventScheduler must use TimeManager.calculateElapsed() to compare if event.triggerDate/Time falls within old→new time range. Also use addMinutes() for lookahead timestamp calculations in getUpcomingEvents().</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>method</kind>
+        <symbol>calculateElapsed(startDate, startTime, endDate, endTime)</symbol>
+        <lines>353-419</lines>
+        <reason>Use this method to determine if event.triggerDate/triggerTime falls between oldTime and newTime in checkTriggers(). Returns {success, minutes}. Handles midnight, month-end, year-end boundaries.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>method</kind>
+        <symbol>addMinutes(date, time, minutes)</symbol>
+        <lines>202-256</lines>
+        <reason>Use this method to calculate lookahead timestamp in getUpcomingEvents(calendar, lookaheadMinutes). Returns {success, date, time} with new timestamp.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>module</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-800+</lines>
+        <reason>EventScheduler reads calendar.events array from CalendarManager-loaded calendar. Caller uses CalendarManager.saveCalendar() to persist event status changes. Follow same patterns (dependency injection, graceful error handling, immutability).</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/time-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>TimeManager unit tests</symbol>
+        <lines>1-564</lines>
+        <reason>REUSE TEST PATTERNS - Mock TimeManager in EventScheduler unit tests using jest.fn() for deterministic behavior. Test immutability, error handling, edge cases (midnight, month-end, year-end).</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/time-advance.test.js</path>
+        <kind>test</kind>
+        <symbol>TimeManager integration tests</symbol>
+        <lines>1-387</lines>
+        <reason>REUSE INTEGRATION PATTERNS - Use real TimeManager and CalendarManager in integration tests. Test load/save cycles, performance benchmarks (run 10-100 iterations and calculate averages).</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <dep ecosystem="node">
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <status>EXISTING (installed in Story 2-2)</status>
+        <usage>TimeManager uses date-fns for date arithmetic. EventScheduler uses TimeManager, so indirect dependency. No direct date-fns usage needed in EventScheduler.</usage>
+      </dep>
+      <dep ecosystem="node">
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <status>EXISTING (installed in Epic 1)</status>
+        <usage>CalendarManager uses js-yaml to parse calendar.yaml files. EventScheduler reads calendar.events from loaded calendar object, no direct YAML usage needed.</usage>
+      </dep>
+      <dep ecosystem="node">
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <status>EXISTING (dev dependency)</status>
+        <usage>Test framework. Use for unit tests (tests/calendar/event-scheduler.test.js) and integration tests (tests/integration/event-scheduling.test.js).</usage>
+      </dep>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1">Dependency Injection Pattern - EventScheduler constructor must accept {timeManager} for testability. Default to new TimeManager() if not provided: this.timeManager = deps.timeManager || new TimeManager();</constraint>
+    <constraint id="2">Immutability - NEVER mutate input calendar object. Deep clone before making changes: const newCalendar = JSON.parse(JSON.stringify(calendar)); Return new calendar with updated events.</constraint>
+    <constraint id="3">Graceful Error Handling - All public methods return {success, data, error} objects. NEVER throw exceptions. Validate inputs early (fail fast). Provide clear error messages with context.</constraint>
+    <constraint id="4">Leading Zeros in Dates - date-fns uses 'yyyy-MM-dd' format with leading zeros. Dates like "735-10-01" are stored as "0735-10-01" in calendar. Ensure string comparisons work correctly.</constraint>
+    <constraint id="5">Performance Targets - checkTriggers(): &lt;50ms for 100 events (filtering + sorting + condition evaluation). getUpcomingEvents(): &lt;20ms. addEvent/updateEventStatus/removeEvent: &lt;5ms. Test with 10-100 iterations and calculate averages.</constraint>
+    <constraint id="6">Event Capacity - Support up to 100 scheduled events per calendar (reasonable for campaign). Warn if calendar has &gt;100 events (potential performance issue).</constraint>
+    <constraint id="7">Trigger Condition Complexity - Simple conditions only (single equality checks). Complex boolean logic (AND/OR) deferred to Story 2-6 (EventExecutor). Condition evaluation must not throw errors (gracefully handle missing context fields).</constraint>
+    <constraint id="8">Date Range - Minimum year: 1, Maximum year: 9999 (matching TimeManager constraint). Support time ranges up to 1 week (10080 minutes) per TimeManager limit.</constraint>
+    <constraint id="9">Status Transition Rules - Events with status "completed" or "failed" must NOT trigger again (unless recurring). Recurring events maintain "pending" status after triggering. Non-recurring events transition: pending → triggered → completed/failed.</constraint>
+    <constraint id="10">File Locations - EventScheduler module: src/calendar/event-scheduler.js. Unit tests: tests/calendar/event-scheduler.test.js. Integration tests: tests/integration/event-scheduling.test.js.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>EventScheduler.checkTriggers(calendar, oldDate, oldTime, newDate, newTime, context)</name>
+      <kind>method</kind>
+      <signature>checkTriggers(calendar: Object, oldDate: string, oldTime: string, newDate: string, newTime: string, context: Object): {success: boolean, triggeredEvents?: Array, calendar?: Object, error?: string}</signature>
+      <path>src/calendar/event-scheduler.js (to be created)</path>
+      <description>Detects events triggered between two timestamps. Filters calendar.events for events where triggerDate/triggerTime falls within old→new range OR conditional triggers are met. Returns triggered events sorted by priority + chronological order, and new calendar with status updates.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.addEvent(calendar, event)</name>
+      <kind>method</kind>
+      <signature>addEvent(calendar: Object, event: ScheduledEvent): {success: boolean, calendar?: Object, error?: string}</signature>
+      <path>src/calendar/event-scheduler.js (to be created)</path>
+      <description>Adds new scheduled event to calendar.events array. Validates event structure (required fields: eventId, name, status). Returns new calendar with event added. Immutability enforced.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.updateEventStatus(calendar, eventId, status)</name>
+      <kind>method</kind>
+      <signature>updateEventStatus(calendar: Object, eventId: string, status: string): {success: boolean, calendar?: Object, error?: string}</signature>
+      <path>src/calendar/event-scheduler.js (to be created)</path>
+      <description>Updates event.status field for specified eventId. Validates status value (pending/triggered/completed/failed). Returns new calendar with updated event. Immutability enforced.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.removeEvent(calendar, eventId)</name>
+      <kind>method</kind>
+      <signature>removeEvent(calendar: Object, eventId: string): {success: boolean, calendar?: Object, error?: string}</signature>
+      <path>src/calendar/event-scheduler.js (to be created)</path>
+      <description>Removes event from calendar.events array by eventId. Returns new calendar without the event. Immutability enforced.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.getUpcomingEvents(calendar, lookaheadMinutes)</name>
+      <kind>method</kind>
+      <signature>getUpcomingEvents(calendar: Object, lookaheadMinutes: number): {success: boolean, events?: Array, error?: string}</signature>
+      <path>src/calendar/event-scheduler.js (to be created)</path>
+      <description>Returns events scheduled within next N minutes. Calculates future timestamp (currentDate/Time + lookaheadMinutes), filters events before that timestamp, sorts chronologically. Only includes pending events. Performance: &lt;20ms.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.calculateElapsed(startDate, startTime, endDate, endTime)</name>
+      <kind>method - external dependency</kind>
+      <signature>calculateElapsed(startDate: string, startTime: string, endDate: string, endTime: string): {success: boolean, minutes?: number, error?: string}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>REUSE from Story 2-2. Calculates minutes between two timestamps. Use this to determine if event.triggerDate/triggerTime falls within old→new time range in checkTriggers().</description>
+    </interface>
+    <interface>
+      <name>TimeManager.addMinutes(date, time, minutes)</name>
+      <kind>method - external dependency</kind>
+      <signature>addMinutes(date: string, time: string, minutes: number): {success: boolean, date?: string, time?: string, error?: string}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>REUSE from Story 2-2. Adds minutes to timestamp, handles date rollover. Use this to calculate lookahead timestamp in getUpcomingEvents().</description>
+    </interface>
+    <interface>
+      <name>calendar.events Array Structure</name>
+      <kind>data schema</kind>
+      <signature>events: Array&lt;ScheduledEvent&gt; where ScheduledEvent = {eventId, name, triggerDate, triggerTime, triggerCondition, conditionParams, locationId, eventType, status, recurring, recurInterval, effectScript, priority}</signature>
+      <path>calendar.yaml (loaded by CalendarManager)</path>
+      <description>EventScheduler reads calendar.events array, filters/sorts, and returns updated calendar with status changes. CalendarManager handles persistence via saveCalendar().</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest 29.7.0 for all tests. Target 90%+ code coverage. Follow patterns from Stories 2-1 and 2-2: mock dependencies (TimeManager) in unit tests using jest.fn() for deterministic behavior, use real dependencies in integration tests. Test both success and failure paths. Verify immutability (original calendar unchanged). Performance tests run 10-100 iterations and calculate averages to ensure stable measurements.
+    </standards>
+    <locations>
+      Unit tests: tests/calendar/event-scheduler.test.js
+      Integration tests: tests/integration/event-scheduling.test.js
+      Follow existing structure: tests/calendar/ for module unit tests, tests/integration/ for cross-module integration tests.
+    </locations>
+    <ideas>
+      Test Idea 1 (AC-1): Constructor accepts {timeManager} for dependency injection, defaults to real TimeManager if not provided.
+      Test Idea 2 (AC-2): checkTriggers() detects event with triggerDate "735-10-13" 06:00 when time advances from "735-10-12 23:00" to "735-10-13 08:00".
+      Test Idea 3 (AC-2): Multiple events at same timestamp sorted by priority (high priority first), same priority maintains array order.
+      Test Idea 4 (AC-3): Recurring daily event triggers on multiple consecutive days, status remains "pending" after each trigger.
+      Test Idea 5 (AC-3): Recurring weekly event triggers every 7 days, monthly event triggers on same day each month.
+      Test Idea 6 (AC-4): Conditional event with triggerCondition "player_enters_location" triggers when context.currentLocation matches conditionParams.locationId.
+      Test Idea 7 (AC-4): Conditional event does NOT trigger when condition not met (wrong location, flag false, etc.).
+      Test Idea 8 (AC-5): Location-specific event (locationId set) does NOT trigger when player at different location. Global event (locationId null) triggers regardless of location.
+      Test Idea 9 (AC-6): 5 events trigger simultaneously with different priorities, returned array sorted correctly (priority 10, 5, 3, 1, 0).
+      Test Idea 10 (AC-7): updateEventStatus() changes event.status from "pending" to "triggered", original calendar unchanged (immutability).
+      Test Idea 11 (AC-7): Event with status "completed" does NOT trigger again unless recurring.
+      Test Idea 12 (AC-8): getUpcomingEvents(calendar, 240) returns all events within next 4 hours, sorted chronologically, only pending events.
+      Test Idea 13 (AC-8): getUpcomingEvents() handles lookahead across midnight, month-end, year-end correctly.
+      Test Idea 14 (AC-9): Integration test: Load calendar with CalendarManager, advance time, call checkTriggers(), verify events triggered, save updated calendar.
+      Test Idea 15 (AC-2, AC-5): Performance test: checkTriggers() with 100 events completes in &lt;50ms (average over 10 runs).
+    </ideas>
+  </tests>
+</story-context>

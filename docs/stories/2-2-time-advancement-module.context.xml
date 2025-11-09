@@ -1,0 +1,295 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2</storyId>
+    <title>Time Advancement Module</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-2-time-advancement-module.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine</asA>
+    <iWant>a time advancement module that calculates new timestamps and manages three advancement modes (manual, automatic, hybrid)</iWant>
+    <soThat>time can progress realistically during gameplay actions like travel, rest, and exploration</soThat>
+    <tasks>
+### Task 1: Create TimeManager module (AC: #1, #2, #7)
+- Create `src/calendar/time-manager.js`
+- Implement class constructor with dependency injection (date-fns library)
+- Implement `advanceTime(calendar, minutes, reason)` method
+- Implement `addMinutes(date, time, minutes)` helper with rollover logic
+- Implement date validation (valid range, leap years)
+- Implement time normalization (leading zeros, overflow handling)
+- Add error handling for all operations (return {success, error})
+
+### Task 2: Implement duration parsing and elapsed time calculation (AC: #3, #4)
+- Implement `parseDuration(durationString)` method
+- Support multiple duration formats ("2 hours", "30 minutes", "1 day", "1 hour 30 minutes")
+- Implement `calculateElapsed(startDate, startTime, endDate, endTime)` method
+- Handle multi-day spans correctly
+- Handle leap year calculations using date-fns
+- Validate duration limits (reject > 1 week)
+
+### Task 3: Implement automatic time advancement (AC: #5, #6)
+- Implement `getActionDuration(actionType, context)` method
+- Define action type constants (TRAVEL, SEARCH, DIALOGUE, SHORT_REST, LONG_REST)
+- Implement travel time calculation (read from location metadata)
+- Implement hybrid mode logic (check auto_advance flags)
+- Add configuration validation (check calendar.advancement block)
+
+### Task 4: Create unit tests (AC: #1, #2, #3, #4, #7, #9)
+- Create `tests/calendar/time-manager.test.js`
+- Test `advanceTime()` with various durations
+- Test midnight rollover (23:00 + 2 hours → 01:00 next day)
+- Test month-end rollover (March 31 + 1 day → April 1)
+- Test year-end rollover (Dec 31 + 1 day → Jan 1 next year)
+- Test leap year handling (Feb 29, 2024 is valid)
+- Test `parseDuration()` with valid and invalid strings
+- Test `calculateElapsed()` across days, months
+- Test `getActionDuration()` for all action types
+- Test error handling (invalid dates, negative durations, duration limits)
+- Verify 90%+ code coverage
+
+### Task 5: Create integration test (AC: #5, #6, #8)
+- Create `tests/integration/time-advance.test.js`
+- Test: Load calendar, advance time, verify state updated
+- Test: Advance time across midnight, verify date increments
+- Test: Hybrid mode travel auto-advance
+- Test: Integration with CalendarManager (load/save cycle)
+- Test: metadata.total_in_game_hours increments correctly
+- Test: Travel time calculation from location metadata
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: TimeManager Module Creation
+TimeManager must provide methods: advanceTime(calendar, minutes, reason), calculateElapsed(startDate, startTime, endDate, endTime), parseDuration(durationString), getActionDuration(actionType, context), addMinutes(date, time, minutes), formatTimestamp(date, time). All methods must handle errors gracefully (return success/failure, not throw). Module must use dependency injection pattern like CalendarManager.
+
+### AC-2: Manual Time Advancement
+advanceTime(calendar, 120, "manual command") must calculate new timestamp. Handle edge cases: midnight rollover (23:00 + 120 min → 01:00 next day), month-end (2024-03-31 + 24 hours → April), year-end (2024-12-31 + 24 hours → 2025). Operation must complete in < 50ms.
+
+### AC-3: Duration String Parsing
+parseDuration() must parse: "2 hours" → 120 min, "30 minutes" → 30 min, "1 day" → 1440 min, "2 days" → 2880 min, "1 hour 30 minutes" → 90 min, "8 hours" → 480 min. Reject invalid durations, negative durations, and durations > 1 week (10080 min).
+
+### AC-4: Elapsed Time Calculation
+calculateElapsed() must calculate minutes between timestamps: same day, across midnight, across multiple days. Handle leap years correctly (2024 is leap year). Calculation must be bidirectional (negative if end < start).
+
+### AC-5: Automatic Time Advancement (Action-Based)
+getActionDuration(actionType, context) must return estimated minutes: "travel" (from location metadata), "search" (default_action_minutes × 3), "dialogue" (default_action_minutes × 1), "short_rest" (60 min), "long_rest" (480 min), "combat" (0 for now, Epic 3). Unknown action types use default_action_minutes.
+
+### AC-6: Hybrid Mode Behavior
+Hybrid mode rules: travel actions ALWAYS auto-advance, rest actions auto-advance if auto_advance_on_rest = true, other actions require manual advancement. Rules configurable via calendar.advancement block. Mode can be switched at runtime.
+
+### AC-7: Date/Time Validation and Normalization
+addMinutes() must validate and normalize: reject invalid dates/times, handle minute overflow, hour overflow, month overflow, leap year handling. All values use leading zeros (08:05 not 8:5). Date format YYYY-MM-DD, time format HH:MM.
+
+### AC-8: Integration with CalendarManager
+advanceTime() must update calendar.current.date, calendar.current.time, calendar.current.day_of_week, calendar.current.season. Original calendar object must not be mutated (return new object). metadata.total_in_game_hours must be incremented by minutes / 60. Reason string stored for logging/history.
+
+### AC-9: Test Coverage
+TimeManager unit tests must achieve 90%+ code coverage. All edge cases tested (midnight, month-end, year-end, leap year). Performance tests verify < 50ms calculation time. Integration tests verify CalendarManager integration.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Services and Modules - TimeManager</section>
+        <snippet>TimeManager module responsible for advancing time and calculating new timestamps. Provides advanceTime(calendar, minutes, reason), calculateElapsed(), parseDuration(), and getActionDuration(). Performance target: operations complete in &lt; 50ms. Location: src/calendar/time-manager.js</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>APIs and Interfaces - TimeManager API</section>
+        <snippet>Full API signatures defined: advanceTime() returns TimeAdvanceResult with new timestamp and elapsed time. calculateElapsed() calculates minutes between two timestamps. parseDuration() parses strings like "2 hours" into minutes. getActionDuration() estimates minutes for action types (travel, search, dialogue, rest).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>System Architecture Alignment - Time Advancement Modes</section>
+        <snippet>Three time advancement modes: manual (player explicit control), automatic (time advances based on actions), hybrid (automatic for travel/rest, manual for other actions - recommended default). Configured via calendar.advancement.mode.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Dependencies - date-fns</section>
+        <snippet>date-fns ^2.30.0 library for date/time calculations and parsing. Handles leap years, month lengths, DST automatically. MIT license.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Workflows - Manual Time Advancement</section>
+        <snippet>Workflow: User calls /advance-time → TimeManager.advanceTime() calculates new timestamp → calendar updated → events checked → calendar saved. Time advance must complete in &lt; 200ms total (50ms for calculation + event processing).</snippet>
+      </doc>
+      <doc>
+        <path>docs/calendar-schema-design.md</path>
+        <title>Calendar Schema Design</title>
+        <section>advancement block structure</section>
+        <snippet>calendar.advancement contains mode ("manual"|"automatic"|"hybrid"), auto_advance_on_travel (boolean), auto_advance_on_rest (boolean), default_action_minutes (number, default 10). This block configures TimeManager behavior.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>§5.2 Time Advancement Modes</section>
+        <snippet>Architecture defines hybrid mode as recommended default: automatic advancement for travel (based on connected_locations travel time) and rests (60 min short, 480 min long), manual for exploration and dialogue.</snippet>
+      </doc>
+      <doc>
+        <path>docs/yaml-frontmatter-pattern.md</path>
+        <title>YAML Frontmatter Pattern</title>
+        <section>Best Practices</section>
+        <snippet>Use js-yaml with SAFE_SCHEMA for security. Return {success, error} objects instead of throwing exceptions. Atomic file writes: read → modify → write. Graceful error handling for missing/malformed files.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-1-calendar-data-structure.md</path>
+        <title>Story 2-1: Calendar Data Structure</title>
+        <section>Completion Notes - Calendar Schema Established</section>
+        <snippet>calendar.current.date format: YYYY-MM-DD (regex validated). calendar.current.time format: HH:MM (regex validated, 0-23 hours, 0-59 min). calendar.current.day_of_week calculated from date (modulo arithmetic). calendar.current.season calculated from month (3-5 spring, 6-8 summer, 9-11 autumn, 12-2 winter). calendar.metadata.total_in_game_hours tracks game time.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>87-720</lines>
+        <reason>TimeManager will integrate with CalendarManager to read calendar.advancement config and update calendar.current state. CalendarManager provides loadCalendar() and saveCalendar() methods that TimeManager will use indirectly through caller.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>validation</kind>
+        <symbol>_isValidDateFormat, _isValidTimeFormat</symbol>
+        <lines>111-142</lines>
+        <reason>TimeManager should reuse these date/time validation patterns for consistency. Date format: YYYY-MM-DD regex, Time format: HH:MM with 0-23 hour range and 0-59 minute range.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>constants</kind>
+        <symbol>VALID_SEASONS, VALID_DAYS_OF_WEEK, VALID_ADVANCEMENT_MODES</symbol>
+        <lines>74-82</lines>
+        <reason>TimeManager needs these enums for calculating day_of_week and season when updating calendar.current. Also validates calendar.advancement.mode.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>constants</kind>
+        <symbol>DEFAULT_CALENDAR</symbol>
+        <lines>37-71</lines>
+        <reason>Provides calendar structure that TimeManager will modify. Shows calendar.advancement block with mode, auto_advance_on_travel, auto_advance_on_rest, default_action_minutes. Shows calendar.metadata.total_in_game_hours that TimeManager must increment.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/calendar-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>CalendarManager test suite</symbol>
+        <lines>1-676</lines>
+        <reason>Reference test patterns from CalendarManager tests (38 tests, 89.5% coverage). Follow same mocking patterns (jest.fn() for fs, path, yaml) and error handling tests. Use similar describe/test structure.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/calendar-init.test.js</path>
+        <kind>test</kind>
+        <symbol>CalendarManager integration tests</symbol>
+        <lines>1-353</lines>
+        <reason>Reference integration test patterns with real file I/O. Shows how to use temp directories with Date.now() suffix, create/load/save cycles, and performance benchmarking (lines 270-303).</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <npm>
+        <package name="date-fns" version="^2.30.0">Date/time calculations and parsing (handles leap years, month lengths). NEW dependency for this story.</package>
+        <package name="js-yaml" version="^2.3.4">YAML parsing (existing from Epic 1). Used for reading calendar.yaml via CalendarManager.</package>
+        <package name="jest" version="latest">Test framework (existing from Epic 1). Used for unit and integration tests.</package>
+      </npm>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Follow dependency injection pattern from CalendarManager: constructor accepts {dateFns, ...} for testability.</constraint>
+    <constraint>Return {success, error} objects for all methods. NEVER throw exceptions (graceful error handling pattern from Story 2-1).</constraint>
+    <constraint>Performance targets: advanceTime() &lt; 50ms, parseDuration() &lt; 5ms, calculateElapsed() &lt; 10ms (pure calculation, no I/O).</constraint>
+    <constraint>Do NOT mutate input calendar object. Return new object with updated values (immutability pattern).</constraint>
+    <constraint>Date format: YYYY-MM-DD with regex validation. Time format: HH:MM with 0-23 hour range, 0-59 minute range.</constraint>
+    <constraint>Duration limits: reject negative durations, reject durations &gt; 1 week (10080 minutes) with clear error message.</constraint>
+    <constraint>Date range: minimum year 1, maximum year 9999 to prevent overflow.</constraint>
+    <constraint>Use date-fns functions: add, differenceInMinutes, isValid, parse, format. Do NOT implement date arithmetic manually (leap years, month lengths handled by library).</constraint>
+    <constraint>TimeManager does NOT interact with CalendarManager directly. Caller loads calendar with CalendarManager, passes to TimeManager, then saves with CalendarManager.</constraint>
+    <constraint>All time calculations must be deterministic (same inputs always produce same outputs for testability).</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>TimeManager.advanceTime</name>
+      <kind>function</kind>
+      <signature>advanceTime(calendar, minutes, reason) → {success, calendar, reason}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Advances time by specified minutes. Returns new calendar object with updated current.date, current.time, current.day_of_week, current.season, metadata.total_in_game_hours. Does not mutate input. Validates minutes &gt; 0 and &lt;= 10080.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.calculateElapsed</name>
+      <kind>function</kind>
+      <signature>calculateElapsed(startDate, startTime, endDate, endTime) → {success, minutes}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Calculates minutes elapsed between two timestamps. Handles multi-day spans, leap years. Returns negative value if end &lt; start. Uses date-fns differenceInMinutes.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.parseDuration</name>
+      <kind>function</kind>
+      <signature>parseDuration(durationString) → {success, minutes}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Parses duration strings like "2 hours", "30 minutes", "1 day", "1 hour 30 minutes" into total minutes. Rejects invalid formats, negative durations, durations &gt; 1 week.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.getActionDuration</name>
+      <kind>function</kind>
+      <signature>getActionDuration(actionType, context) → {success, minutes}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Estimates minutes for action types. "travel" reads context.travelMinutes or context.metadata.connected_locations. "search" = default_action_minutes × 3. "dialogue" = default_action_minutes. "short_rest" = 60. "long_rest" = 480. "combat" = 0 (Epic 3). Unknown types use default_action_minutes.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.addMinutes</name>
+      <kind>function</kind>
+      <signature>addMinutes(date, time, minutes) → {success, date, time}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Adds minutes to timestamp, handling date/time rollover. Uses date-fns add(). Returns normalized values with leading zeros. Validates input date/time formats.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.formatTimestamp</name>
+      <kind>function</kind>
+      <signature>formatTimestamp(date, time) → string</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>Formats date and time for display (e.g., "735-10-1 14:30"). Simple concatenation with space separator.</description>
+    </interface>
+    <interface>
+      <name>CalendarManager.loadCalendar</name>
+      <kind>function (existing)</kind>
+      <signature>loadCalendar() → {success, calendar}</signature>
+      <path>src/calendar/calendar-manager.js</path>
+      <description>Loads calendar.yaml from disk. Returns calendar object with advancement block. TimeManager caller uses this to get current calendar state before calling advanceTime().</description>
+    </interface>
+    <interface>
+      <name>CalendarManager.saveCalendar</name>
+      <kind>function (existing)</kind>
+      <signature>saveCalendar(calendar) → {success}</signature>
+      <path>src/calendar/calendar-manager.js</path>
+      <description>Saves calendar object to calendar.yaml. TimeManager caller uses this after advanceTime() returns updated calendar. Atomic file write with YAML SAFE_SCHEMA.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+Unit tests use Jest with mocked dependencies (fs, path, yaml, date-fns). Integration tests use real file I/O with temp directories (suffix with Date.now()). Target 90%+ code coverage. Follow CalendarManager test patterns: describe blocks per method, edge case tests for midnight/month-end/year-end/leap-year, performance tests with benchmarking, error scenario tests returning {success: false, error}. Mock date-fns for deterministic tests (control current date/time). Use jest.fn() for dependency injection.</standards>
+    <locations>
+      <location>tests/calendar/time-manager.test.js</location>
+      <location>tests/integration/time-advance.test.js</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Unit test TimeManager constructor with default and injected dependencies</idea>
+      <idea ac="AC-2">Unit test advanceTime() same day (14:30 + 120 min → 16:30), midnight rollover (23:00 + 120 min → 01:00 next day), month-end (March 31 + 24 hours → April 1), year-end (Dec 31 + 24 hours → Jan 1 next year), leap year (Feb 28 2024 + 24 hours → Feb 29)</idea>
+      <idea ac="AC-3">Unit test parseDuration() valid formats ("2 hours" → 120, "30 minutes" → 30, "1 day" → 1440, "1 hour 30 minutes" → 90), invalid formats (return error), negative durations (reject), durations &gt; 1 week (reject with warning)</idea>
+      <idea ac="AC-4">Unit test calculateElapsed() same day, across midnight, across multiple days, leap year handling, bidirectional (negative if end &lt; start)</idea>
+      <idea ac="AC-5">Unit test getActionDuration() for each action type: travel (read from context), search (default × 3), dialogue (default × 1), short_rest (60), long_rest (480), combat (0), unknown type (default)</idea>
+      <idea ac="AC-6">Integration test hybrid mode: travel auto-advances, rest auto-advances if flag true, other actions return 0 (manual)</idea>
+      <idea ac="AC-7">Unit test addMinutes() validation: invalid dates rejected, invalid times rejected, minute overflow, hour overflow, month overflow, leap year handling, leading zeros</idea>
+      <idea ac="AC-8">Integration test: load calendar with CalendarManager, call advanceTime(), verify calendar.current.date/time/day_of_week/season updated, verify metadata.total_in_game_hours incremented, verify calendar not mutated, save with CalendarManager</idea>
+      <idea ac="AC-9">Performance test advanceTime() &lt; 50ms average over 10 iterations, parseDuration() &lt; 5ms, calculateElapsed() &lt; 10ms</idea>
+    </ideas>
+  </tests>
+</story-context>

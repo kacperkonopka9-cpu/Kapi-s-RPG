@@ -1,0 +1,309 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>4</storyId>
+    <title>NPC Schedule Tracking</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-4-npc-schedule-tracking.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game engine</asA>
+    <iWant>an NPC schedule tracking system that automatically updates NPC locations and activities based on the current time and game state</iWant>
+    <soThat>NPCs follow realistic daily routines, respond to world events, and create a living, dynamic world for the player to explore</soThat>
+    <tasks>
+      - Task 1: Create NPCScheduleTracker module (AC: #1, #2, #7) - 7 subtasks
+      - Task 2: Implement time-based location tracking (AC: #3) - 6 subtasks
+      - Task 3: Implement schedule override system (AC: #4) - 6 subtasks
+      - Task 4: Implement bulk NPC location updates (AC: #5) - 6 subtasks
+      - Task 5: Implement NPCs-at-location query (AC: #6) - 6 subtasks
+      - Task 6: Implement recurring event trigger date advancement (AC: #8) - 9 subtasks
+      - Task 7: Create unit tests (AC: #1-#4, #6, #8) - 10 subtasks
+      - Task 8: Create integration tests (AC: #5, #7, #9) - 9 subtasks
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC-1: NPCScheduleTracker Module Creation - Create module with 5 methods (getNPCLocation, updateAllNPCLocations, getNPCsAtLocation, loadNPCSchedule, evaluateScheduleOverrides), dependency injection, graceful error handling
+    AC-2: NPC Schedule Data Model - Define NPCSchedule {npcId, locationId, routine[], overrides[]} and ScheduleEntry {timeStart, timeEnd, activity, locationId, activityDetails}
+    AC-3: Time-Based Location Tracking - Calculate NPC location at specific time based on routine, handle edge cases (before first entry, after last entry, gaps)
+    AC-4: Schedule Override System - Replace base routine with override.newRoutine when game state condition met, first matching override wins
+    AC-5: Bulk NPC Location Updates - Update all NPC locations for new time, &lt;200ms for 50 NPCs, return Array&lt;NPCLocationUpdate&gt;, immutability
+    AC-6: NPCs-at-Location Query - Return array of npcIds present at location at specific time, &lt;50ms performance
+    AC-7: Integration with Location Files - Load NPC schedules from game-data/locations/{locationId}/NPCs.md using LocationLoader
+    AC-8: Recurring Event Trigger Date Advancement - Calculate next occurrence date for recurring events (daily/weekly/monthly), update event.triggerDate
+    AC-9: Performance and Scalability - Meet performance targets for 50 NPCs, constant memory usage
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Services and Modules - NPCScheduleTracker</section>
+        <snippet>NPCScheduleTracker tracks NPC locations based on time-of-day. Loads NPC schedules from game-data/locations/{locationId}/NPCs.md files. Supports schedule overrides based on game state conditions. Updates all NPC positions when time advances. Performance target: &lt;200ms for 50 NPCs bulk update, &lt;50ms for location query.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Data Models - NPCSchedule Schema</section>
+        <snippet>NPCSchedule: {npcId, locationId, routine: Array&lt;ScheduleEntry&gt;, overrides: Array&lt;ScheduleOverride&gt;}. ScheduleEntry: {timeStart, timeEnd, activity, locationId, activityDetails}. ScheduleOverride: {condition, newRoutine}. Supports conditional routine changes based on game state flags.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>APIs and Interfaces - NPCScheduleTracker API</section>
+        <snippet>getNPCLocation(npcId, date, time) returns {success, location, activity}. updateAllNPCLocations(calendar) returns {success, updates: Array&lt;NPCLocationUpdate&gt;}. getNPCsAtLocation(locationId, date, time) returns {success, npcIds: Array&lt;string&gt;}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Workflows and Sequencing - Workflow 4: NPC Schedule Tracking</section>
+        <snippet>Time advanced triggers NPCScheduleTracker.updateAllNPCLocations(). For each NPC with schedule: check overrides (e.g., burgomaster_dead), apply conditional routine, update NPCs.md in location, generate narrative if player present. Returns NPCLocationUpdate[] with NPC movements.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-1-calendar-data-structure.md</path>
+        <title>Story 2.1 - Calendar Data Structure</title>
+        <section>Completion Notes and Review</section>
+        <snippet>CalendarManager created at src/calendar/calendar-manager.js with createCalendar(), loadCalendar(), saveCalendar() methods. Uses YAML SAFE_SCHEMA, dependency injection, graceful error handling {success, error}. 96.4% test coverage. Immutability pattern with deep clone.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-2-time-advancement-module.md</path>
+        <title>Story 2.2 - Time Advancement Module</title>
+        <section>Completion Notes and Review</section>
+        <snippet>TimeManager created at src/calendar/time-manager.js. Key methods: advanceTime(), calculateElapsed(), parseDuration(), addMinutes(), formatTimestamp(). Uses date-fns for date arithmetic. Performance: &lt;50ms, &lt;10ms, &lt;5ms for respective operations. Deep clone pattern for immutability.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-3-event-scheduler.md</path>
+        <title>Story 2.3 - Event Scheduler</title>
+        <section>Completion Notes and Review</section>
+        <snippet>EventScheduler at src/calendar/event-scheduler.js. Methods: checkTriggers(), addEvent(), updateEventStatus(), removeEvent(), getUpcomingEvents(). Recurring events maintain "pending" status after triggering. Dependency injection pattern. Performance: 67.6ms &lt; 100ms for 100 events. Integration-test-focused approach recommended for complex mocked dependencies.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-3-event-scheduler.md</path>
+        <title>Story 2.3 - Event Scheduler</title>
+        <section>Advisory Notes</section>
+        <snippet>Recurring event trigger date advancement deferred to Story 2-4 (NPC Schedule Tracking). EventScheduler detects recurring events but doesn't auto-update triggerDate for next occurrence. This story must implement advanceRecurringEventDate() helper to calculate next occurrence based on recurInterval (daily/weekly/monthly).</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>module</kind>
+        <symbol>TimeManager</symbol>
+        <lines>58-572</lines>
+        <reason>REQUIRED DEPENDENCY - NPCScheduleTracker must use TimeManager.calculateElapsed() to compare if current time falls within schedule entry time range. Also use addMinutes() or date-fns functions for recurring event date advancement.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>method</kind>
+        <symbol>calculateElapsed(startDate, startTime, endDate, endTime)</symbol>
+        <lines>353-419</lines>
+        <reason>Use to determine if current time falls within schedule entry timeStart-timeEnd range. Returns {success, minutes}. Essential for time-based location tracking.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>method</kind>
+        <symbol>addMinutes(date, time, minutes)</symbol>
+        <lines>202-256</lines>
+        <reason>Use for recurring event date advancement. Add 1440 minutes (1 day) for daily recurring, 10080 minutes (7 days) for weekly. Returns {success, date, time}.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>module</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-800+</lines>
+        <reason>NPCScheduleTracker reads/writes calendar.npcSchedules or integrates with CalendarManager for persistence. Follow same patterns: dependency injection, graceful error handling, immutability.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>module</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-643</lines>
+        <reason>NPCScheduleTracker must integrate with EventScheduler to advance recurring event trigger dates. After EventScheduler.checkTriggers() detects recurring event, call NPCScheduleTracker.advanceRecurringEventDate() to update triggerDate for next occurrence.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>constants</kind>
+        <symbol>RECUR_INTERVALS</symbol>
+        <lines>42-48</lines>
+        <reason>Reuse RECUR_INTERVALS constants (DAILY, WEEKLY, MONTHLY) when implementing recurring event date advancement. Ensure consistency with EventScheduler.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>module</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-400+</lines>
+        <reason>REQUIRED DEPENDENCY - Use LocationLoader to read NPCs.md files from game-data/locations/{locationId}/. Dependency inject into NPCScheduleTracker constructor. LocationLoader provides file reading with error handling.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/village-of-barovia/NPCs.md</path>
+        <kind>data</kind>
+        <symbol>NPC schedules</symbol>
+        <lines>1-100+</lines>
+        <reason>EXAMPLE NPC SCHEDULE FILE - Reference for understanding NPC schedule data format. NPCScheduleTracker must parse this file structure to extract routine and overrides.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/time-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>TimeManager unit tests</symbol>
+        <lines>1-564</lines>
+        <reason>REUSE TEST PATTERNS - Mock TimeManager in NPCScheduleTracker unit tests using jest.fn(). Test immutability, error handling, edge cases (time boundaries).</reason>
+      </artifact>
+      <artifact>
+        <path>tests/calendar/event-scheduler.test.js</path>
+        <kind>test</kind>
+        <symbol>EventScheduler unit tests</symbol>
+        <lines>1-786</lines>
+        <reason>REUSE TEST PATTERNS - Integration-test-focused approach for complex dependencies. When mocking becomes fragile, prioritize integration tests with real dependencies.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/event-scheduling.test.js</path>
+        <kind>test</kind>
+        <symbol>EventScheduler integration tests</symbol>
+        <lines>1-455</lines>
+        <reason>REUSE INTEGRATION PATTERNS - Use real TimeManager, CalendarManager, LocationLoader in integration tests. Test load/save cycles, performance benchmarks (run 10 iterations, calculate averages).</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <dep ecosystem="node">
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <status>EXISTING (installed in Story 2-2)</status>
+        <usage>Use addDays() and addMonths() for recurring event date advancement. addDays(date, 1) for daily, addDays(date, 7) for weekly, addMonths(date, 1) for monthly. Handles month-end edge cases correctly.</usage>
+      </dep>
+      <dep ecosystem="node">
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <status>EXISTING (installed in Epic 1)</status>
+        <usage>May be needed to parse YAML frontmatter in NPCs.md files if schedule data stored in YAML format. Use SAFE_SCHEMA for security.</usage>
+      </dep>
+      <dep ecosystem="node">
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <status>EXISTING (dev dependency)</status>
+        <usage>Test framework. Use for unit tests (tests/calendar/npc-schedule-tracker.test.js) and integration tests (tests/integration/npc-schedule-tracking.test.js).</usage>
+      </dep>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1">Dependency Injection Pattern - NPCScheduleTracker constructor must accept {timeManager, locationLoader} for testability. Default to real instances if not provided: this.timeManager = deps.timeManager || new TimeManager(); this.locationLoader = deps.locationLoader || new LocationLoader();</constraint>
+    <constraint id="2">Immutability - NEVER mutate input calendar or schedule objects. Deep clone before making changes: const newCalendar = JSON.parse(JSON.stringify(calendar)); Return new objects with updates applied.</constraint>
+    <constraint id="3">Graceful Error Handling - All public methods return {success, data, error} objects. NEVER throw exceptions. Validate inputs early (fail fast). Provide clear error messages with context.</constraint>
+    <constraint id="4">Performance Targets - updateAllNPCLocations(): &lt;200ms for 50 NPCs (bulk operation with file I/O). getNPCLocation(): &lt;10ms per NPC (pure calculation). getNPCsAtLocation(): &lt;50ms. advanceRecurringEventDate(): &lt;5ms. Test with 10 iterations, calculate averages.</constraint>
+    <constraint id="5">NPC Capacity - Support up to 50 NPCs with schedules per location/campaign. Warn if exceeds 100 NPCs (potential performance degradation). Consider caching NPC schedules in calendar.npcSchedules Map.</constraint>
+    <constraint id="6">Schedule Entry Constraints - timeStart and timeEnd must be valid "HH:MM" format (00:00 to 23:59). timeStart must be &lt; timeEnd (no overnight entries spanning midnight - split into two entries). locationId can reference any location in game-data/locations/.</constraint>
+    <constraint id="7">Override Condition Complexity - Simple boolean conditions only (check single game state flag). Complex boolean logic (AND/OR) deferred to future story. Condition evaluation must not throw errors (gracefully handle missing fields).</constraint>
+    <constraint id="8">Date Range - Minimum year: 1, Maximum year: 9999 (matching TimeManager constraint). Support recurring events up to 1 year in advance (12 monthly occurrences). Use date-fns addMonths() for month-end edge cases (e.g., Jan 31 + 1 month = Feb 28/29).</constraint>
+    <constraint id="9">File Locations - NPCScheduleTracker module: src/calendar/npc-schedule-tracker.js. Unit tests: tests/calendar/npc-schedule-tracker.test.js. Integration tests: tests/integration/npc-schedule-tracking.test.js.</constraint>
+    <constraint id="10">Integration-Test-Focused Approach - When TimeManager/LocationLoader mock complexity high, prioritize integration tests with real dependencies. Story 2-3 demonstrated integration tests more valuable than fragile unit test mocks.</constraint>
+    <constraint id="11">Recurring Event Integration - After EventScheduler.checkTriggers() detects recurring event trigger, NPCScheduleTracker (or helper) must calculate next occurrence and update event.triggerDate. Integration test with EventScheduler required to verify end-to-end flow.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>NPCScheduleTracker.getNPCLocation(npcId, currentDate, currentTime)</name>
+      <kind>method</kind>
+      <signature>getNPCLocation(npcId: string, currentDate: string, currentTime: string): {success: boolean, location?: string, activity?: string, activityDetails?: string, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Get NPC's current location and activity based on time. Loads NPC schedule from NPCs.md, finds matching ScheduleEntry for current time, applies overrides if needed. Returns {success, location, activity, activityDetails}.</description>
+    </interface>
+    <interface>
+      <name>NPCScheduleTracker.updateAllNPCLocations(calendar)</name>
+      <kind>method</kind>
+      <signature>updateAllNPCLocations(calendar: Object): {success: boolean, updates?: Array&lt;NPCLocationUpdate&gt;, calendar?: Object, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Update all NPC locations for current calendar time. Iterates all NPCs, calls getNPCLocation() for each, builds array of updates {npcId, oldLocation, newLocation, activity}. Returns updated calendar (immutable) and updates array. Performance: &lt;200ms for 50 NPCs.</description>
+    </interface>
+    <interface>
+      <name>NPCScheduleTracker.getNPCsAtLocation(locationId, date, time)</name>
+      <kind>method</kind>
+      <signature>getNPCsAtLocation(locationId: string, date: string, time: string): {success: boolean, npcIds?: Array&lt;string&gt;, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Get all NPCs present at location at specific time. Loads all NPC schedules, calculates location for each at specified time, filters by locationId. Returns array of npcIds. Performance: &lt;50ms.</description>
+    </interface>
+    <interface>
+      <name>NPCScheduleTracker.loadNPCSchedule(npcId)</name>
+      <kind>method</kind>
+      <signature>loadNPCSchedule(npcId: string): {success: boolean, schedule?: NPCSchedule, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Load NPC's schedule from NPCs.md file in their home location. Uses LocationLoader to read file, parses schedule structure, validates entries. Returns {success, schedule: {npcId, locationId, routine[], overrides[]}}.</description>
+    </interface>
+    <interface>
+      <name>NPCScheduleTracker.evaluateScheduleOverrides(npcSchedule, gameState)</name>
+      <kind>method</kind>
+      <signature>evaluateScheduleOverrides(npcSchedule: NPCSchedule, gameState: Object): {success: boolean, routine?: Array&lt;ScheduleEntry&gt;, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Apply conditional overrides to NPC routine. Checks each override condition against gameState flags. Returns effective routine (base or override). First matching override wins.</description>
+    </interface>
+    <interface>
+      <name>NPCScheduleTracker.advanceRecurringEventDate(event, calendar)</name>
+      <kind>method</kind>
+      <signature>advanceRecurringEventDate(event: Object, calendar: Object): {success: boolean, event?: Object, error?: string}</signature>
+      <path>src/calendar/npc-schedule-tracker.js (to be created)</path>
+      <description>Calculate next occurrence date for recurring event. Parses event.recurInterval (daily/weekly/monthly), uses date-fns to add appropriate duration to event.triggerDate. Returns updated event with new triggerDate. Called after EventScheduler triggers recurring event.</description>
+    </interface>
+    <interface>
+      <name>TimeManager.calculateElapsed(startDate, startTime, endDate, endTime)</name>
+      <kind>method - external dependency</kind>
+      <signature>calculateElapsed(startDate: string, startTime: string, endDate: string, endTime: string): {success: boolean, minutes?: number, error?: string}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>REUSE from Story 2-2. Calculate minutes between two timestamps. Use to determine if current time falls within schedule entry time range (timeStart <= current &lt; timeEnd).</description>
+    </interface>
+    <interface>
+      <name>TimeManager.addMinutes(date, time, minutes)</name>
+      <kind>method - external dependency</kind>
+      <signature>addMinutes(date: string, time: string, minutes: number): {success: boolean, date?: string, time?: string, error?: string}</signature>
+      <path>src/calendar/time-manager.js</path>
+      <description>REUSE from Story 2-2. Add minutes to timestamp, handles date rollover. Use for daily/weekly recurring event advancement (1440 min = 1 day, 10080 min = 7 days).</description>
+    </interface>
+    <interface>
+      <name>LocationLoader file reading methods</name>
+      <kind>module - external dependency</kind>
+      <signature>Various file reading methods with error handling</signature>
+      <path>src/data/location-loader.js</path>
+      <description>REUSE from Epic 1. Dependency inject LocationLoader to read NPCs.md files from game-data/locations/{locationId}/. Provides error handling for missing files.</description>
+    </interface>
+    <interface>
+      <name>NPCSchedule Data Model</name>
+      <kind>data schema</kind>
+      <signature>{npcId: string, locationId: string, routine: Array&lt;ScheduleEntry&gt;, overrides: Array&lt;ScheduleOverride&gt;} where ScheduleEntry = {timeStart, timeEnd, activity, locationId, activityDetails} and ScheduleOverride = {condition, newRoutine}</signature>
+      <path>NPCs.md files in game-data/locations/*/</path>
+      <description>NPC schedule data structure. Loaded from NPCs.md files, validated by loadNPCSchedule(). Routine entries define time-based locations/activities. Overrides conditionally replace routine based on game state.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest 29.7.0 for all tests. Target 90%+ code coverage. Follow patterns from Stories 2-1, 2-2, 2-3: mock dependencies (TimeManager, LocationLoader) in unit tests using jest.fn() for deterministic behavior, use real dependencies in integration tests. Test both success and failure paths. Verify immutability (original objects unchanged). Performance tests run 10 iterations and calculate averages. Integration-test-focused approach: when mock complexity high (like TimeManager.calculateElapsed in Story 2-3), prioritize integration tests with real dependencies.
+    </standards>
+    <locations>
+      Unit tests: tests/calendar/npc-schedule-tracker.test.js
+      Integration tests: tests/integration/npc-schedule-tracking.test.js
+      Test NPC schedules: game-data/locations/test-location-*/NPCs.md (create test files as needed)
+      Follow existing structure: tests/calendar/ for module unit tests, tests/integration/ for cross-module integration tests.
+    </locations>
+    <ideas>
+      Test Idea 1 (AC-1): Constructor accepts {timeManager, locationLoader} for dependency injection, defaults to real instances if not provided.
+      Test Idea 2 (AC-2): loadNPCSchedule() loads valid schedule from NPCs.md file, validates structure (timeStart &lt; timeEnd, valid times).
+      Test Idea 3 (AC-3): getNPCLocation() at "07:00" returns NPC at "chapel" when schedule has entry "06:00-08:00" at chapel.
+      Test Idea 4 (AC-3): getNPCLocation() at "05:00" (before first entry) returns NPC at home locationId.
+      Test Idea 5 (AC-3): getNPCLocation() at "23:00" (after last entry) returns NPC at last known location.
+      Test Idea 6 (AC-4): evaluateScheduleOverrides() replaces routine when game state condition "burgomaster_dead" = true.
+      Test Idea 7 (AC-4): evaluateScheduleOverrides() uses base routine when condition false or undefined.
+      Test Idea 8 (AC-5): updateAllNPCLocations() updates 10 NPCs in &lt;200ms, returns Array&lt;NPCLocationUpdate&gt;, immutability verified.
+      Test Idea 9 (AC-6): getNPCsAtLocation("blood-of-vine-tavern", date, "20:00") returns 3 npcIds when 3 NPCs scheduled there.
+      Test Idea 10 (AC-7): Integration test: Load real NPC schedule from test NPCs.md file using LocationLoader.
+      Test Idea 11 (AC-8): advanceRecurringEventDate() for daily event adds 1 day to triggerDate (1440 minutes).
+      Test Idea 12 (AC-8): advanceRecurringEventDate() for weekly event adds 7 days (10080 minutes).
+      Test Idea 13 (AC-8): advanceRecurringEventDate() for monthly event adds 1 month using date-fns addMonths(), handles month-end edge case (Jan 31 → Feb 28).
+      Test Idea 14 (AC-9): Performance test: updateAllNPCLocations() with 50 NPCs completes in &lt;200ms (average over 10 runs).
+      Test Idea 15 (AC-9): Performance test: getNPCsAtLocation() completes in &lt;50ms (average over 10 runs).
+    </ideas>
+  </tests>
+</story-context>

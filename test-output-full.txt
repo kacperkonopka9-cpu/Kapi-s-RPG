@@ -1,0 +1,296 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest --testPathPattern=event-scheduler --coverage
+
+FAIL tests/calendar/event-scheduler.test.js
+  EventScheduler
+    Constructor
+      √ should initialize with default TimeManager (7 ms)
+      √ should accept dependency injection (2 ms)
+    checkTriggers() - Date/Time-Based
+      √ should detect event triggered within time range (4 ms)
+      √ should NOT trigger event outside time range (1 ms)
+      × should trigger multiple events and sort by priority (7 ms)
+      × should update triggered event status to "triggered" (2 ms)
+      √ should not mutate input calendar (2 ms)
+    checkTriggers() - Recurring Events
+      √ should trigger recurring event and keep status pending (2 ms)
+      × should NOT trigger completed non-recurring event (2 ms)
+      × should trigger completed recurring event (1 ms)
+    checkTriggers() - Conditional Triggers
+      × should trigger player_enters_location condition (1 ms)
+      × should NOT trigger player_enters_location if already at location (1 ms)
+      × should trigger game_flag_set condition (1 ms)
+      × should NOT trigger game_flag_set if flag is false (1 ms)
+      × should trigger npc_status_changed condition (1 ms)
+      √ should trigger time_elapsed_since condition (1 ms)
+    checkTriggers() - Location Filtering
+      × should NOT trigger location-specific event when player elsewhere (1 ms)
+      × should trigger location-specific event when player at location
+      × should trigger global event (locationId null) regardless of location (2 ms)
+    checkTriggers() - Priority Ordering
+      √ should sort by priority descending (high first) (1 ms)
+      √ should sort chronologically when same priority (21 ms)
+    checkTriggers() - Error Handling
+      √ should reject invalid calendar (1 ms)
+      √ should reject calendar missing events array
+      √ should reject invalid date/time parameters
+    addEvent()
+      √ should add event to calendar (1 ms)
+      √ should not mutate input calendar (1 ms)
+      √ should reject event with missing eventId (1 ms)
+      √ should reject event with missing name
+      √ should reject event with invalid status (1 ms)
+      √ should reject duplicate eventId (1 ms)
+    updateEventStatus()
+      √ should update event status (1 ms)
+      √ should not mutate input calendar (1 ms)
+      √ should reject invalid status value
+      √ should reject non-existent eventId (1 ms)
+    removeEvent()
+      √ should remove event from calendar (1 ms)
+      √ should not mutate input calendar (1 ms)
+      √ should reject non-existent eventId (1 ms)
+    getUpcomingEvents()
+      √ should return events within lookahead window (1 ms)
+      × should only return pending events (2 ms)
+      √ should sort events chronologically (1 ms)
+      √ should reject invalid lookaheadMinutes (1 ms)
+
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should trigger multiple events and sort by priority
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 2
+    Received length: 1
+    Received array:  [{"eventId": "evt_001", "name": "Morning event", "priority": 5, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "06:00"}]
+
+    [0m [90m 142 |[39m
+     [90m 143 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 144 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m2[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 145 |[39m       [90m// Higher priority first (evt_001 has priority 5, evt_002 has priority 3)[39m
+     [90m 146 |[39m       expect(result[33m.[39mtriggeredEvents[[35m0[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_001'[39m)[33m;[39m
+     [90m 147 |[39m       expect(result[33m.[39mtriggeredEvents[[35m1[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_002'[39m)[33m;[39m[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:144:38)
+
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should update triggered event status to "triggered"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       )[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39mcalendar[33m.[39mevents[[35m0[39m][33m.[39mstatus)[33m.[39mtoBe([32m'triggered'[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:162:30)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should NOT trigger completed non-recurring event
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 225 |[39m
+     [90m 226 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 227 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 228 |[39m     })[33m;[39m
+     [90m 229 |[39m
+     [90m 230 |[39m     test([32m'should trigger completed recurring event'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:227:38)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should trigger completed recurring event
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 244 |[39m       )[33m;[39m
+     [90m 245 |[39m
+    [31m[1m>[22m[39m[90m 246 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 247 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 248 |[39m     })[33m;[39m
+     [90m 249 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:246:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger player_enters_location condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 275 |[39m       )[33m;[39m
+     [90m 276 |[39m
+    [31m[1m>[22m[39m[90m 277 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 278 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 279 |[39m     })[33m;[39m
+     [90m 280 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:277:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger player_enters_location if already at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 300 |[39m       )[33m;[39m
+     [90m 301 |[39m
+    [31m[1m>[22m[39m[90m 302 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 303 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 304 |[39m     })[33m;[39m
+     [90m 305 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:302:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger game_flag_set condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 324 |[39m       )[33m;[39m
+     [90m 325 |[39m
+    [31m[1m>[22m[39m[90m 326 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 327 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 328 |[39m     })[33m;[39m
+     [90m 329 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:326:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger game_flag_set if flag is false
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 348 |[39m       )[33m;[39m
+     [90m 349 |[39m
+    [31m[1m>[22m[39m[90m 350 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 351 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 352 |[39m     })[33m;[39m
+     [90m 353 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:350:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger npc_status_changed condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 374 |[39m       )[33m;[39m
+     [90m 375 |[39m
+    [31m[1m>[22m[39m[90m 376 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 377 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_005'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 378 |[39m     })[33m;[39m
+     [90m 379 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:376:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should NOT trigger location-specific event when player elsewhere
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 433 |[39m
+     [90m 434 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 435 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 436 |[39m     })[33m;[39m
+     [90m 437 |[39m
+     [90m 438 |[39m     test([32m'should trigger location-specific event when player at location'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:435:38)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger location-specific event when player at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 452 |[39m       )[33m;[39m
+     [90m 453 |[39m
+    [31m[1m>[22m[39m[90m 454 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 455 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 456 |[39m     })[33m;[39m
+     [90m 457 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:454:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger global event (locationId null) regardless of location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 472 |[39m       )[33m;[39m
+     [90m 473 |[39m
+    [31m[1m>[22m[39m[90m 474 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 475 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 476 |[39m     })[33m;[39m
+     [90m 477 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:474:30)
+
+  ● EventScheduler › getUpcomingEvents() › should only return pending events
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 758 |[39m
+     [90m 759 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 760 |[39m       expect(result[33m.[39mevents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m [90m// evt_001 is completed[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 761 |[39m     })[33m;[39m
+     [90m 762 |[39m
+     [90m 763 |[39m     test([32m'should sort events chronologically'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:760:29)
+
+--------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------------------------------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                                                                       
+--------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------------------------------------------
+All files           |   44.54 |    45.88 |   60.71 |   44.55 |                                                                                                                         
+ event-scheduler.js |    76.7 |    72.16 |     100 |   76.16 | 133,140,153,164-187,204-212,236,245,286,345,352,359,405,423,430,437,469,486,493,500,525,542,549,556,578,594,615,621,631 
+ time-manager.js    |    5.51 |     2.34 |    8.33 |    5.71 | 77-562                                                                                                                  
+--------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------------------------------------------
+Test Suites: 1 failed, 1 total
+Tests:       13 failed, 28 passed, 41 total
+Snapshots:   0 total
+Time:        2.533 s, estimated 5 s
+Ran all test suites matching /event-scheduler/i.

@@ -12,7 +12,7 @@ WORKFLOW_PATH: game-design.yaml
 ## Current State
 
 CURRENT_PHASE: 4
-CURRENT_WORKFLOW: create-story
+CURRENT_WORKFLOW: code-review
 CURRENT_AGENT: sm
 PHASE_1_COMPLETE: true
 PHASE_2_COMPLETE: true
@@ -21,10 +21,10 @@ PHASE_4_COMPLETE: false
 
 ## Next Action
 
-NEXT_ACTION: Create first story (1-1-location-folder-structure) from Epic 1 tech spec
-NEXT_COMMAND: create-story
+NEXT_ACTION: Code review Story 2-5 (calendar-slash-commands), then continue with next story in Epic 2
+NEXT_COMMAND: /bmad:bmm:workflows:code-review
 NEXT_AGENT: sm
 
 ---
 
-_Last Updated: 2025-11-02_
+_Last Updated: 2025-11-09_
