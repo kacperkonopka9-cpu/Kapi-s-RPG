@@ -50,28 +50,32 @@ const SEASON_DATA = {
 };
 
 /**
- * Moon phase emoji mapping
+ * Moon phase emoji mapping (supports both old and new schema)
  */
 const MOON_PHASE_EMOJI = {
   'new': '🌑',
+  'new_moon': '🌑', // Story 2-8 new schema
   'waxing_crescent': '🌒',
   'first_quarter': '🌓',
   'waxing_gibbous': '🌔',
   'full': '🌕',
+  'full_moon': '🌕', // Story 2-8 new schema
   'waning_gibbous': '🌖',
   'last_quarter': '🌗',
   'waning_crescent': '🌘'
 };
 
 /**
- * Moon phase display names
+ * Moon phase display names (supports both old and new schema)
  */
 const MOON_PHASE_NAMES = {
   'new': 'New Moon',
+  'new_moon': 'New Moon', // Story 2-8 new schema
   'waxing_crescent': 'Waxing Crescent',
   'first_quarter': 'First Quarter',
   'waxing_gibbous': 'Waxing Gibbous',
   'full': 'Full Moon',
+  'full_moon': 'Full Moon', // Story 2-8 new schema
   'waning_gibbous': 'Waning Gibbous',
   'last_quarter': 'Last Quarter',
   'waning_crescent': 'Waning Crescent'
@@ -247,19 +251,53 @@ function formatDateTimeSection(calendar) {
 function formatMoonPhaseSection(calendar, moonPhaseCalculator) {
   let phaseData;
 
-  if (moonPhaseCalculator && typeof moonPhaseCalculator.getCurrentPhase === 'function') {
+  // Story 2-8: Check for new moonPhases schema first
+  if (calendar.moonPhases && calendar.moonPhases.currentPhase) {
+    const currentPhase = calendar.moonPhases.currentPhase;
+    const nextFullMoon = calendar.moonPhases.nextFullMoon;
+    const isWerewolfNight = calendar.moonPhases.isWerewolfNight;
+
+    // Calculate days until full moon
+    let daysUntilFull = 0;
+    if (nextFullMoon && calendar.current?.date) {
+      try {
+        const currentDate = new Date(calendar.current.date);
+        const fullMoonDate = new Date(nextFullMoon);
+        const diff = fullMoonDate.getTime() - currentDate.getTime();
+        daysUntilFull = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      } catch (e) {
+        daysUntilFull = 0;
+      }
+    }
+
+    phaseData = {
+      phase: currentPhase,
+      emoji: MOON_PHASE_EMOJI[currentPhase] || '🌑',
+      phaseName: MOON_PHASE_NAMES[currentPhase] || 'Unknown Phase',
+      daysUntilFull,
+      isWerewolfNight
+    };
+  } else if (moonPhaseCalculator && typeof moonPhaseCalculator.getCurrentPhase === 'function') {
     // Use real calculator
     phaseData = moonPhaseCalculator.getCurrentPhase(calendar.current?.date);
-  } else {
-    // Use calendar moon data or stub
-    const currentPhase = calendar.moon?.current_phase || 'new';
-    const daysUntilFull = calendar.moon?.days_until_full || 14;
+  } else if (calendar.moon) {
+    // Fallback to old moon data schema
+    const currentPhase = calendar.moon.current_phase || 'new';
+    const daysUntilFull = calendar.moon.days_until_full || 14;
 
     phaseData = {
       phase: currentPhase,
       emoji: MOON_PHASE_EMOJI[currentPhase] || '🌑',
       phaseName: MOON_PHASE_NAMES[currentPhase] || 'New Moon',
       daysUntilFull
+    };
+  } else {
+    // Default stub if no moon data exists
+    phaseData = {
+      phase: 'new',
+      emoji: '🌑',
+      phaseName: 'New Moon',
+      daysUntilFull: 14
     };
   }
 
@@ -268,10 +306,16 @@ function formatMoonPhaseSection(calendar, moonPhaseCalculator) {
 
   let output = `## Moon Phase\n\n**Current Phase:** ${phaseName} ${emoji}`;
 
-  if (phaseData.nextPhase && phaseData.nextPhaseDate) {
-    output += `\n**Next Phase:** ${phaseData.nextPhaseName || phaseData.nextPhase} on ${phaseData.nextPhaseDate}`;
-  } else if (phaseData.daysUntilFull !== undefined) {
-    output += `\n**Days until Full Moon:** ${phaseData.daysUntilFull}`;
+  if (phaseData.daysUntilFull !== undefined && phaseData.daysUntilFull >= 0) {
+    if (phaseData.daysUntilFull === 0) {
+      output += `\n**Tonight is the Full Moon!**`;
+    } else {
+      output += `\n**Days until Full Moon:** ${phaseData.daysUntilFull}`;
+    }
+  }
+
+  if (phaseData.isWerewolfNight) {
+    output += `\n**⚠️ Werewolf Activity:** High (Full Moon)`;
   }
 
   return output;
@@ -286,16 +330,30 @@ function formatMoonPhaseSection(calendar, moonPhaseCalculator) {
 function formatWeatherSection(calendar, weatherGenerator) {
   let weatherData;
 
-  if (weatherGenerator && typeof weatherGenerator.getCurrentWeather === 'function') {
+  // Story 2-8: Check for new weather schema with description field
+  if (calendar.weather && calendar.weather.condition) {
+    const condition = calendar.weather.condition;
+    const temperature = calendar.weather.temperature !== undefined ? calendar.weather.temperature : 50;
+    const visibility = calendar.weather.visibility || 'Clear';
+    const description = calendar.weather.description || '';
+
+    weatherData = {
+      condition: condition,
+      emoji: WEATHER_EMOJI[condition.toLowerCase().replace(/\s/g, '_')] || '☀️',
+      temperature,
+      visibility,
+      description
+    };
+  } else if (weatherGenerator && typeof weatherGenerator.getCurrentWeather === 'function') {
     // Use real generator
     const season = determineSeason(calendar.current?.date).season;
-    const moonPhase = calendar.moon?.current_phase || 'new';
+    const moonPhase = calendar.moon?.current_phase || calendar.moonPhases?.currentPhase || 'new';
     weatherData = weatherGenerator.getCurrentWeather(calendar.current?.date, season, moonPhase);
-  } else {
-    // Use calendar weather data
-    const condition = calendar.weather?.current || 'clear';
-    const temperature = calendar.weather?.temperature !== undefined ? calendar.weather.temperature : 50;
-    const visibility = calendar.weather?.visibility || 'good';
+  } else if (calendar.weather) {
+    // Fallback to old weather schema
+    const condition = calendar.weather.current || 'clear';
+    const temperature = calendar.weather.temperature !== undefined ? calendar.weather.temperature : 50;
+    const visibility = calendar.weather.visibility || 'good';
 
     weatherData = {
       condition: condition,
@@ -303,12 +361,30 @@ function formatWeatherSection(calendar, weatherGenerator) {
       temperature,
       visibility
     };
+  } else {
+    // Default stub if no weather data exists
+    weatherData = {
+      condition: 'Clear',
+      emoji: '☀️',
+      temperature: 50,
+      visibility: 'Clear'
+    };
   }
 
-  const emoji = weatherData.emoji || WEATHER_EMOJI[weatherData.condition] || '☀️';
+  const emoji = weatherData.emoji || WEATHER_EMOJI[weatherData.condition.toLowerCase().replace(/\s/g, '_')] || '☀️';
+  // Normalize condition name: convert underscores to spaces and title case
   const conditionName = weatherData.condition.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  // Normalize visibility: title case
+  const visibilityDisplay = weatherData.visibility.charAt(0).toUpperCase() + weatherData.visibility.slice(1);
 
-  return `## Current Weather\n\n**Condition:** ${conditionName} ${emoji}\n**Temperature:** ${weatherData.temperature}°F\n**Visibility:** ${weatherData.visibility.charAt(0).toUpperCase() + weatherData.visibility.slice(1)}`;
+  let output = `## Current Weather\n\n**Condition:** ${conditionName} ${emoji}\n**Temperature:** ${weatherData.temperature}°F\n**Visibility:** ${visibilityDisplay}`;
+
+  // Story 2-8: Add atmospheric description if available
+  if (weatherData.description) {
+    output += `\n\n${weatherData.description}`;
+  }
+
+  return output;
 }
 
 /**

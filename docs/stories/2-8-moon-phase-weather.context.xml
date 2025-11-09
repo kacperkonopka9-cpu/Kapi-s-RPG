@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<story-context>
+  <metadata>
+    <story-id>2-8-moon-phase-weather</story-id>
+    <epic>Epic 2 - Game Calendar &amp; Dynamic World System</epic>
+    <title>Moon Phase &amp; Weather System</title>
+    <status>ready-for-dev</status>
+    <priority>Medium</priority>
+    <estimated-effort>Medium (5-7 hours)</estimated-effort>
+    <generated-date>2025-11-09</generated-date>
+  </metadata>
+
+  <story>
+    <description>
+      As a **game master**,
+      I want **the calendar system to track moon phases and generate atmospheric weather conditions**,
+      so that **the game world feels dynamic and immersive with moon-dependent encounters (werewolves) and weather that enriches narrative descriptions**.
+    </description>
+
+    <user-value>
+      - Creates immersive atmosphere through dynamic weather descriptions
+      - Enables moon-dependent encounters (werewolves on full moon nights)
+      - Enriches LLM-generated narratives with environmental context
+      - Adds strategic depth (full moon = clear skies for visibility vs werewolf risk)
+    </user-value>
+  </story>
+
+  <acceptance-criteria>
+    <criterion id="AC-1">
+      <title>MoonPhaseCalculator Module Creation</title>
+      <given>the calendar system needs to track lunar cycles</given>
+      <when>Story 2.8 is implemented</when>
+      <then>
+        - `src/calendar/moon-phase-calculator.js` must be created
+        - must export `MoonPhaseCalculator` class
+        - must use dependency injection pattern from Epic 2
+        - all methods must return `{success, data, error}` objects
+      </then>
+      <verification-method>Unit tests with mocked dependencies</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1203-1211 (AC-9: Moon Phase Calculation)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-2">
+      <title>Moon Phase Calculation (Deterministic)</title>
+      <given>calendar tracks moon phases</given>
+      <when>`MoonPhaseCalculator.calculate(date)` is called</when>
+      <then>
+        - current moon phase must be returned (enum: new_moon, waxing_crescent, first_quarter, waxing_gibbous, full_moon, waning_gibbous, last_quarter, waning_crescent)
+        - next full moon date must be calculated and returned
+        - next new moon date must be calculated and returned
+        - calculation must be deterministic (same date always gives same phase)
+        - moon phase cycle must be ~28 days
+      </then>
+      <verification-method>Unit test with known moon phase dates</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1203-1211 (AC-9: Moon Phase Calculation)</tech-spec-reference>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:233-245 (MoonPhase Enum)</tech-spec-reference>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1349-1353 (A-5: Moon Phase Realism - simplified 28-day cycle)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-3">
+      <title>Full Moon Detection</title>
+      <given>time advances to a date matching nextFullMoon</given>
+      <when>moon phase is recalculated</when>
+      <then>
+        - currentPhase must update to "full_moon"
+        - next full moon must be recalculated (28 days later)
+        - werewolf encounter flag must be set to true
+        - weather must be overridden to "Clear skies" (for full moon visibility)
+      </then>
+      <verification-method>Integration test with time advancement</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:754-785 (Workflow 6: Moon Phase and Werewolf Encounters)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-4">
+      <title>WeatherGenerator Module Creation</title>
+      <given>the calendar system needs atmospheric weather</given>
+      <when>Story 2.8 is implemented</when>
+      <then>
+        - `src/calendar/weather-generator.js` must be created
+        - must export `WeatherGenerator` class
+        - must use dependency injection pattern from Epic 2
+        - all methods must return `{success, data, error}` objects
+      </then>
+      <verification-method>Unit tests with mocked dependencies</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1213-1221 (AC-10: Weather Generation)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-5">
+      <title>Weather Generation (Seasonal + Random)</title>
+      <given>time advances to a new date/time</given>
+      <when>`WeatherGenerator.generate(date, season, location)` is called</when>
+      <then>
+        - weather conditions must be returned: {condition, temperature, visibility, description}
+        - weather must respect seasonal patterns (cold in winter, warm in summer)
+        - weather must include LLM-friendly atmospheric description
+        - weather changes must be gradual (not random every hour)
+        - full moon must override weather to "Clear skies"
+      </then>
+      <verification-method>Unit test + integration test with seasons</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1213-1221 (AC-10: Weather Generation)</tech-spec-reference>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1355-1359 (A-6: Weather Consistency - gradual changes, seasonal patterns)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-6">
+      <title>Weather Schema Compliance</title>
+      <given>weather is generated</given>
+      <when>weather data is stored in calendar.yaml</when>
+      <then>
+        weather must conform to schema:
+        ```yaml
+        weather:
+          condition: string  # Clear, Overcast, Fog, Rain, Snow, Storm
+          temperature: number  # Fahrenheit
+          visibility: string  # Clear, Reduced, Poor
+          description: string  # LLM-friendly narrative description
+          lastUpdated: string  # ISO timestamp
+        ```
+      </then>
+      <verification-method>Schema validation test</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:247-256 (Weather Schema)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-7">
+      <title>Calendar Integration</title>
+      <given>MoonPhaseCalculator and WeatherGenerator are implemented</given>
+      <when>TimeManager advances time</when>
+      <then>
+        - moon phase must be recalculated automatically
+        - weather must be regenerated at appropriate intervals (every 6-12 hours)
+        - moon phase and weather must be stored in calendar.yaml
+        - `/calendar` command must display current moon phase and weather
+      </then>
+      <verification-method>Integration test with TimeManager</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1223-1232 (AC-11: Calendar Command Display)</tech-spec-reference>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:136-147 (Calendar Schema with moonPhases and weather)</tech-spec-reference>
+    </criterion>
+
+    <criterion id="AC-8">
+      <title>Performance Requirement</title>
+      <given>moon phase calculation or weather generation is called</given>
+      <when>operation completes</when>
+      <then>
+        - execution must complete in &lt; 50ms
+        - must not block time advancement
+      </then>
+      <verification-method>Performance test with timing assertions</verification-method>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:1230 (Calendar command must execute in &lt; 100ms total)</tech-spec-reference>
+      <tech-spec-reference>docs/tech-spec-epic-2.md:798 (Event Check: &lt; 50ms)</tech-spec-reference>
+    </criterion>
+  </acceptance-criteria>
+
+  <tasks>
+    <task id="task-1" status="pending">
+      <title>Create MoonPhaseCalculator module</title>
+      <acceptance-criteria>AC-1, AC-2</acceptance-criteria>
+      <subtasks>
+        <subtask>Create `src/calendar/moon-phase-calculator.js`</subtask>
+        <subtask>Implement MoonPhaseCalculator class with constructor</subtask>
+        <subtask>Add dependency injection (optional dependencies for testing)</subtask>
+        <subtask>Add JSDoc documentation for all public methods</subtask>
+        <subtask>Export MoonPhaseCalculator class</subtask>
+        <subtask>Add error handling wrapper pattern (return {success, data, error})</subtask>
+      </subtasks>
+    </task>
+
+    <task id="task-2" status="pending">
+      <title>Create WeatherGenerator module</title>
+      <acceptance-criteria>AC-4, AC-5</acceptance-criteria>
+      <subtasks>
+        <subtask>Create `src/calendar/weather-generator.js`</subtask>
+        <subtask>Implement WeatherGenerator class with constructor</subtask>
+        <subtask>Add dependency injection (optional random seed for testing)</subtask>
+        <subtask>Add JSDoc documentation for all public methods</subtask>
+        <subtask>Export WeatherGenerator class</subtask>
+        <subtask>Add error handling wrapper pattern (return {success, data, error})</subtask>
+      </subtasks>
+    </task>
+
+    <task id="task-3" status="pending">
+      <title>Implement moon phase calculation</title>
+      <acceptance-criteria>AC-2, AC-3</acceptance-criteria>
+      <subtasks>
+        <subtask>Implement `calculate(currentDate)` method</subtask>
+        <subtask>Define MoonPhase enum (8 phases)</subtask>
+        <subtask>Calculate days since reference new moon (use epoch date: 2000-01-06 as new moon)</subtask>
+        <subtask>Determine current phase based on lunar cycle position (28-day cycle)</subtask>
+        <subtask>Calculate next full moon date (advance to next full_moon in cycle)</subtask>
+        <subtask>Calculate next new moon date (advance to next new_moon in cycle)</subtask>
+        <subtask>Return {success: true, data: {currentPhase, nextFullMoon, nextNewMoon, isWerewolfNight}}</subtask>
+        <subtask>Make calculation deterministic (no randomness, pure function of date)</subtask>
+      </subtasks>
+    </task>
+
+    <task id="task-4" status="pending">
+      <title>Implement weather generation</title>
+      <acceptance-criteria>AC-5, AC-6</acceptance-criteria>
+      <subtasks>
+        <subtask>Implement `generate(currentDate, currentTime, season, location)` method</subtask>
+        <subtask>Define weather condition types (Clear, Overcast, Fog, Rain, Snow, Storm)</subtask>
+        <subtask>Implement seasonal temperature ranges: Spring: 40-65°F, Summer: 60-85°F, Fall: 35-60°F, Winter: 15-45°F</subtask>
+        <subtask>Implement weather condition probability by season (winter: snow/storm, spring: rain, summer: clear, fall: fog/overcast)</subtask>
+        <subtask>Generate LLM-friendly atmospheric description based on condition</subtask>
+        <subtask>Implement gradual weather transitions (cache previous weather, avoid drastic changes)</subtask>
+        <subtask>Check for full moon override (if full moon, force "Clear skies")</subtask>
+        <subtask>Return {success: true, data: {condition, temperature, visibility, description, lastUpdated}}</subtask>
+      </subtasks>
+    </task>
+
+    <task id="task-5" status="pending">
+      <title>Integrate with TimeManager and CalendarManager</title>
+      <acceptance-criteria>AC-7</acceptance-criteria>
+      <subtasks>
+        <subtask>Update TimeManager.advanceTime() to call MoonPhaseCalculator after date changes</subtask>
+        <subtask>Update TimeManager to call WeatherGenerator every 6-12 hours (configurable interval)</subtask>
+        <subtask>Store moon phase data in calendar.yaml under `moonPhases` section</subtask>
+        <subtask>Store weather data in calendar.yaml under `weather` section</subtask>
+        <subtask>Update CalendarManager.loadCalendar() to load moon/weather data</subtask>
+        <subtask>Update `/calendar` slash command to display moon phase and weather</subtask>
+        <subtask>Format moon phase display: "Moon: Waxing Gibbous (Full moon in 3 days)"</subtask>
+        <subtask>Format weather display: "Weather: Heavy fog, 45°F, reduced visibility"</subtask>
+      </subtasks>
+    </task>
+
+    <task id="task-6" status="pending">
+      <title>Create comprehensive test suite</title>
+      <acceptance-criteria>AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8</acceptance-criteria>
+      <subtasks>
+        <subtask>Create `tests/calendar/moon-phase-calculator.test.js`</subtask>
+        <subtask>Unit test: Constructor and dependency injection</subtask>
+        <subtask>Unit test: Deterministic phase calculation (same date → same phase)</subtask>
+        <subtask>Unit test: Full moon detection (specific dates)</subtask>
+        <subtask>Unit test: Phase cycle progression (28-day cycle)</subtask>
+        <subtask>Unit test: Next full/new moon calculations</subtask>
+        <subtask>Performance test: &lt; 50ms execution time</subtask>
+        <subtask>Create `tests/calendar/weather-generator.test.js`</subtask>
+        <subtask>Unit test: Constructor and dependency injection</subtask>
+        <subtask>Unit test: Seasonal temperature ranges</subtask>
+        <subtask>Unit test: Weather condition probabilities</subtask>
+        <subtask>Unit test: Full moon override (Clear skies)</subtask>
+        <subtask>Unit test: Gradual transitions (no drastic changes)</subtask>
+        <subtask>Unit test: LLM-friendly descriptions generated</subtask>
+        <subtask>Performance test: &lt; 50ms execution time</subtask>
+        <subtask>Create integration test: TimeManager + Moon + Weather</subtask>
+        <subtask>Integration test: Verify moon phase updates on time advance</subtask>
+        <subtask>Integration test: Verify weather regeneration intervals</subtask>
+        <subtask>Integration test: Verify calendar.yaml schema compliance</subtask>
+        <subtask>Integration test: Verify `/calendar` command displays moon/weather</subtask>
+        <subtask>Verify all 8 ACs covered</subtask>
+      </subtasks>
+    </task>
+  </tasks>
+
+  <documentation-artifacts>
+    <artifact id="tech-spec-epic-2">
+      <path>docs/tech-spec-epic-2.md</path>
+      <description>Technical Specification for Epic 2 - Game Calendar &amp; Dynamic World System</description>
+      <relevant-sections>
+        <section>
+          <title>Moon Phase Calculation (AC-9)</title>
+          <lines>1203-1211</lines>
+          <summary>
+            - Moon phase must update on time advancement
+            - Deterministic calculation (same date → same phase)
+            - Calculate next full moon and new moon dates
+            - Include moon phase in calendar display
+          </summary>
+        </section>
+        <section>
+          <title>Weather Generation (AC-10)</title>
+          <lines>1213-1221</lines>
+          <summary>
+            - Generate weather on time advancement
+            - Respect seasonal patterns (temperature, conditions)
+            - Include LLM-friendly atmospheric descriptions
+            - Full moon overrides weather to "Clear skies"
+          </summary>
+        </section>
+        <section>
+          <title>Calendar Command Display (AC-11)</title>
+          <lines>1223-1232</lines>
+          <summary>
+            - `/calendar` command displays current date, time, day name, moon phase
+            - List next 5 upcoming events with dates/times
+            - Show current weather conditions and season
+            - Execute in &lt; 100ms total
+          </summary>
+        </section>
+        <section>
+          <title>Calendar Schema (moonPhases and weather)</title>
+          <lines>136-147</lines>
+          <summary>
+            moonPhases:
+              currentPhase: string
+              nextFullMoon: string (ISO date)
+              nextNewMoon: string (ISO date)
+              isWerewolfNight: boolean
+
+            Note: Current calendar.yaml uses different structure (moon.current_phase, moon.days_until_full).
+            This story will align with tech spec schema.
+          </summary>
+        </section>
+        <section>
+          <title>MoonPhase Enum Definition</title>
+          <lines>233-245</lines>
+          <summary>
+            8 moon phases:
+            - NEW_MOON = "new_moon"
+            - WAXING_CRESCENT = "waxing_crescent"
+            - FIRST_QUARTER = "first_quarter"
+            - WAXING_GIBBOUS = "waxing_gibbous"
+            - FULL_MOON = "full_moon"
+            - WANING_GIBBOUS = "waning_gibbous"
+            - LAST_QUARTER = "last_quarter"
+            - WANING_CRESCENT = "waning_crescent"
+          </summary>
+        </section>
+        <section>
+          <title>Weather Schema</title>
+          <lines>247-256</lines>
+          <summary>
+            weather:
+              condition: string (Clear, Overcast, Fog, Rain, Snow, Storm)
+              temperature: number (Fahrenheit)
+              visibility: string (Normal, Reduced, Severely reduced)
+              travelDifficulty: string (Normal, Difficult, Treacherous)
+              atmosphericDescription: string (LLM-friendly prose)
+              gameplayEffects: Array&lt;string&gt; (Epic 3 feature, empty for now)
+          </summary>
+        </section>
+        <section>
+          <title>Workflow 6: Moon Phase and Werewolf Encounters</title>
+          <lines>754-785</lines>
+          <summary>
+            - Time advances to full moon date
+            - MoonPhaseCalculator.calculate() checks nextFullMoon
+            - Update currentPhase to "full_moon"
+            - Check for moon-dependent events (werewolf activity)
+            - Increase encounter chance (50% vs normal 20%)
+            - Override weather to "Clear skies" for visibility
+            - Display moon phase notification
+          </summary>
+        </section>
+        <section>
+          <title>Assumptions: Moon Phase Realism (A-5)</title>
+          <lines>1349-1353</lines>
+          <summary>
+            - Simplified lunar cycle (28 days exactly, not 29.5)
+            - Moon phase affects gameplay but not astronomically accurate
+            - Player prioritizes gameplay over realism
+            - Full moon = werewolves is sufficient fantasy logic
+          </summary>
+        </section>
+        <section>
+          <title>Assumptions: Weather Consistency (A-6)</title>
+          <lines>1355-1359</lines>
+          <summary>
+            - Weather changes gradually (not random every hour)
+            - Seasonal patterns are approximations (not meteorologically accurate)
+            - Weather primarily atmospheric (complex gameplay effects in Epic 3)
+            - Barovia's cursed nature means unusual weather is acceptable
+          </summary>
+        </section>
+        <section>
+          <title>Performance Target: Event Check</title>
+          <lines>798</lines>
+          <summary>
+            Event Check (single event trigger evaluation): &lt; 50ms (P0 - Critical)
+
+            This applies to moon phase calculation and weather generation as they are event-like operations.
+          </summary>
+        </section>
+      </relevant-sections>
+    </artifact>
+
+    <artifact id="story-2-7">
+      <path>docs/stories/2-7-state-auto-update.md</path>
+      <description>Story 2-7: State Auto-Update (WorldStatePropagator) - COMPLETED</description>
+      <relevant-sections>
+        <section>
+          <title>Learnings for Story 2-8</title>
+          <summary>
+            - WorldStatePropagator class available at src/calendar/world-state-propagator.js
+            - Epic 2 architectural pattern established: dependency injection, {success, data, error} return objects
+            - Testing pattern: comprehensive test suite with mocked dependencies for unit tests, real dependencies for integration
+            - Performance achieved: &lt; 2ms (far exceeding targets)
+            - Files to reuse:
+              * src/core/state-manager.js - for updating calendar.yaml with moon/weather data
+              * src/data/location-loader.js - if location-specific weather needed
+              * src/calendar/calendar-manager.js - for calendar data management
+              * src/calendar/time-manager.js - for time advancement integration
+            - Review findings: No blocking issues, excellent code quality
+            - Advisory: StateManager file writing stubs need actual implementation in future
+          </summary>
+        </section>
+      </relevant-sections>
+    </artifact>
+  </documentation-artifacts>
+
+  <code-artifacts>
+    <artifact id="calendar-manager">
+      <path>src/calendar/calendar-manager.js</path>
+      <description>CalendarManager - Manages game calendar state persistence</description>
+      <key-interfaces>
+        <interface>
+          <name>CalendarManager.loadCalendar()</name>
+          <signature>async loadCalendar(): Promise&lt;{success: boolean, data: Calendar, error: string}&gt;</signature>
+          <description>Load calendar.yaml from disk with all calendar state</description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+        <interface>
+          <name>CalendarManager.saveCalendar(calendar)</name>
+          <signature>async saveCalendar(calendar): Promise&lt;{success: boolean, data: null, error: string}&gt;</signature>
+          <description>Save calendar.yaml to disk with updated state</description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+        <interface>
+          <name>Calendar Schema (Current)</name>
+          <signature>
+            {
+              current: {date, time, day_of_week, season},
+              advancement: {mode, auto_advance_on_travel, auto_advance_on_rest, default_action_minutes},
+              moon: {current_phase, days_until_full, last_full_moon, next_full_moon},
+              weather: {current, temperature, wind, visibility, last_updated},
+              events: [],
+              npc_schedules: [],
+              history: [],
+              metadata: {campaign_start_date, real_world_session_count, total_in_game_hours}
+            }
+          </signature>
+          <description>
+            NOTE: Current moon schema differs from tech spec.
+            Current: moon.current_phase (string), moon.days_until_full (number)
+            Tech Spec: moonPhases.currentPhase (enum), moonPhases.nextFullMoon (ISO date), moonPhases.nextNewMoon (ISO date)
+
+            Story 2-8 will migrate to tech spec schema.
+          </description>
+        </interface>
+      </key-interfaces>
+      <integration-points>
+        - MoonPhaseCalculator will call saveCalendar() to persist moon phase data
+        - WeatherGenerator will call saveCalendar() to persist weather data
+        - TimeManager integration will trigger moon/weather updates
+      </integration-points>
+    </artifact>
+
+    <artifact id="time-manager">
+      <path>src/calendar/time-manager.js</path>
+      <description>TimeManager - Handles time advancement calculations</description>
+      <key-interfaces>
+        <interface>
+          <name>TimeManager.advanceTime(calendar, minutes, actionType)</name>
+          <signature>advanceTime(calendar, minutes, actionType): {success: boolean, data: Calendar, error: string}</signature>
+          <description>
+            Advance time by specified minutes, handle date/time rollover, update timestamps.
+            Pure function - does not mutate input calendar, returns new calendar object.
+          </description>
+          <return-type>{success, data: updatedCalendar, error} object</return-type>
+        </interface>
+        <interface>
+          <name>TimeManager.calculateElapsed(startDate, startTime, endDate, endTime)</name>
+          <signature>calculateElapsed(startDate, startTime, endDate, endTime): {success: boolean, data: {minutes, hours, days}, error: string}</signature>
+          <description>Calculate elapsed time between two timestamps</description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+      </key-interfaces>
+      <integration-points>
+        - TimeManager.advanceTime() will be extended to call MoonPhaseCalculator when date changes
+        - TimeManager.advanceTime() will be extended to call WeatherGenerator at intervals (every 6-12 hours)
+        - Integration will happen in Task 5
+      </integration-points>
+    </artifact>
+
+    <artifact id="state-manager">
+      <path>src/core/state-manager.js</path>
+      <description>StateManager - Manages location state persistence (YAML frontmatter)</description>
+      <key-interfaces>
+        <interface>
+          <name>StateManager.getState(locationId)</name>
+          <signature>async getState(locationId): Promise&lt;{success: boolean, data: State, error: string}&gt;</signature>
+          <description>Read State.md file for location and parse YAML frontmatter</description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+        <interface>
+          <name>StateManager.updateState(locationId, updates)</name>
+          <signature>async updateState(locationId, updates): Promise&lt;{success: boolean, data: State, error: string}&gt;</signature>
+          <description>Update State.md file with new state values (preserves narrative content)</description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+      </key-interfaces>
+      <integration-points>
+        - May be used for location-specific weather if needed (future enhancement)
+        - Pattern reference for YAML file handling
+      </integration-points>
+    </artifact>
+
+    <artifact id="world-state-propagator">
+      <path>src/calendar/world-state-propagator.js</path>
+      <description>WorldStatePropagator - Handles cascading state changes across game world (Story 2-7)</description>
+      <key-interfaces>
+        <interface>
+          <name>WorldStatePropagator.propagateChange(stateChange)</name>
+          <signature>async propagateChange(stateChange): Promise&lt;{success: boolean, data: {updatesApplied, propagationDepth, affectedCount}, error: string}&gt;</signature>
+          <description>
+            Propagate state changes through relationship graph using BFS algorithm.
+            Handles circular dependencies, generates updates for affected entities.
+          </description>
+          <return-type>{success, data, error} object</return-type>
+        </interface>
+      </key-interfaces>
+      <integration-points>
+        - Reference implementation for Epic 2 architectural patterns
+        - May be called if weather/moon events trigger world state changes
+      </integration-points>
+    </artifact>
+  </code-artifacts>
+
+  <dependencies>
+    <dependency>
+      <name>date-fns</name>
+      <version>^2.30.0</version>
+      <purpose>Date arithmetic for moon phase calculations (add, differenceInDays, parse, format)</purpose>
+      <installation-status>installed (used by TimeManager)</installation-status>
+    </dependency>
+    <dependency>
+      <name>js-yaml</name>
+      <version>^4.1.0</version>
+      <purpose>YAML parsing and serialization for calendar.yaml</purpose>
+      <installation-status>installed (used by CalendarManager and StateManager)</installation-status>
+    </dependency>
+    <dependency>
+      <name>jest</name>
+      <version>^29.7.0</version>
+      <purpose>Testing framework for unit and integration tests</purpose>
+      <installation-status>installed (dev dependency)</installation-status>
+    </dependency>
+  </dependencies>
+
+  <constraints>
+    <architectural-constraints>
+      <constraint>
+        <title>Epic 2 Dependency Injection Pattern</title>
+        <description>
+          All Epic 2 modules must use dependency injection:
+          - Constructor accepts optional `deps` object for all external dependencies
+          - Defaults to real dependencies if not provided
+          - Enables mocking in unit tests
+          - Example: constructor(deps = {}) { this.dateFns = deps.dateFns || require('date-fns'); }
+        </description>
+      </constraint>
+      <constraint>
+        <title>Epic 2 Error Handling Pattern</title>
+        <description>
+          All Epic 2 methods must return {success, data, error} objects:
+          - Never throw exceptions
+          - Return {success: true, data: result, error: null} on success
+          - Return {success: false, data: null, error: "message"} on failure
+          - Wrap all try-catch blocks with this pattern
+        </description>
+      </constraint>
+      <constraint>
+        <title>Calendar Schema Migration</title>
+        <description>
+          Story 2-8 will migrate calendar.yaml schema to match tech spec:
+
+          OLD (current calendar.yaml):
+            moon:
+              current_phase: string
+              days_until_full: number
+              last_full_moon: string
+              next_full_moon: string
+
+          NEW (tech spec lines 136-147):
+            moonPhases:
+              currentPhase: string (enum)
+              nextFullMoon: string (ISO date)
+              nextNewMoon: string (ISO date)
+              isWerewolfNight: boolean
+
+          This migration will be backward compatible (read both formats, write new format).
+        </description>
+      </constraint>
+    </architectural-constraints>
+
+    <performance-constraints>
+      <constraint>
+        <title>Moon Phase Calculation: &lt; 50ms</title>
+        <description>
+          MoonPhaseCalculator.calculate() must complete in &lt; 50ms.
+          This is a pure calculation (no I/O), should be very fast (&lt; 5ms expected).
+        </description>
+      </constraint>
+      <constraint>
+        <title>Weather Generation: &lt; 50ms</title>
+        <description>
+          WeatherGenerator.generate() must complete in &lt; 50ms.
+          This involves random number generation and string formatting, should be very fast (&lt; 10ms expected).
+        </description>
+      </constraint>
+      <constraint>
+        <title>Calendar Command: &lt; 100ms Total</title>
+        <description>
+          `/calendar` command must execute in &lt; 100ms total (load + calculate + format + display).
+          Moon phase and weather calculations are part of this budget.
+        </description>
+      </constraint>
+    </performance-constraints>
+
+    <safety-constraints>
+      <constraint>
+        <title>Deterministic Moon Phase Calculation</title>
+        <description>
+          Moon phase calculation MUST be deterministic:
+          - Same date input → same moon phase output (always)
+          - No randomness in phase calculation
+          - Use fixed epoch date (2000-01-06) as reference new moon
+          - 28-day cycle exactly (simplified from real 29.5 days)
+
+          Rationale: Players expect moon phases to be consistent across saves/sessions.
+        </description>
+      </constraint>
+      <constraint>
+        <title>Gradual Weather Transitions</title>
+        <description>
+          Weather changes must be gradual:
+          - Cache previous weather state
+          - Avoid drastic changes (e.g., no "Blizzard" → "Clear skies" in 1 hour)
+          - Allow 1-2 step transitions in condition severity
+          - Temperature changes limited to ±10°F per update
+
+          Rationale: Immersion - sudden weather changes break narrative flow.
+        </description>
+      </constraint>
+    </safety-constraints>
+
+    <testing-constraints>
+      <constraint>
+        <title>Unit Test Coverage: 100% for Public Methods</title>
+        <description>
+          All public methods must have unit tests:
+          - MoonPhaseCalculator.calculate() - test all 8 phases, determinism, edge cases
+          - WeatherGenerator.generate() - test all seasons, conditions, full moon override
+          - Constructor and dependency injection for both classes
+        </description>
+      </constraint>
+      <constraint>
+        <title>Integration Test Coverage: All ACs</title>
+        <description>
+          Integration tests must verify:
+          - TimeManager + MoonPhaseCalculator (moon phase updates on time advance)
+          - TimeManager + WeatherGenerator (weather updates at intervals)
+          - CalendarManager persistence (moon/weather data stored in calendar.yaml)
+          - `/calendar` command display (moon/weather shown correctly)
+        </description>
+      </constraint>
+      <constraint>
+        <title>Performance Tests Required</title>
+        <description>
+          Performance tests must verify:
+          - MoonPhaseCalculator.calculate() completes in &lt; 50ms
+          - WeatherGenerator.generate() completes in &lt; 50ms
+          - Use timing assertions with adequate tolerance (e.g., expect(duration).toBeLessThan(50))
+        </description>
+      </constraint>
+    </testing-constraints>
+
+    <integration-constraints>
+      <constraint>
+        <title>TimeManager Extension (Non-Breaking)</title>
+        <description>
+          Extending TimeManager.advanceTime() must not break existing functionality:
+          - Keep existing time advancement logic intact
+          - Add moon/weather updates as NEW steps (after time calculation)
+          - Ensure existing tests still pass
+          - Add new tests for moon/weather integration
+        </description>
+      </constraint>
+      <constraint>
+        <title>CalendarManager Schema Extension (Backward Compatible)</title>
+        <description>
+          Extending calendar.yaml schema must support old and new formats:
+          - CalendarManager.loadCalendar() must read both old (moon.*) and new (moonPhases.*) formats
+          - CalendarManager.saveCalendar() should write new format
+          - Migration should happen transparently on first save after Story 2-8
+        </description>
+      </constraint>
+    </integration-constraints>
+  </constraints>
+
+  <interfaces>
+    <interface id="moon-phase-calculator">
+      <name>MoonPhaseCalculator</name>
+      <path>src/calendar/moon-phase-calculator.js</path>
+      <description>Calculates moon phases based on in-game date</description>
+      <methods>
+        <method>
+          <name>constructor</name>
+          <signature>constructor(deps = {})</signature>
+          <parameters>
+            <parameter name="deps" type="Object" optional="true">
+              <description>Dependencies for injection (dateFns for testing)</description>
+            </parameter>
+          </parameters>
+          <returns>MoonPhaseCalculator instance</returns>
+        </method>
+        <method>
+          <name>calculate</name>
+          <signature>calculate(currentDate)</signature>
+          <parameters>
+            <parameter name="currentDate" type="string" optional="false">
+              <description>Current in-game date (format: "YYYY-MM-DD")</description>
+            </parameter>
+          </parameters>
+          <returns>
+            {
+              success: boolean,
+              data: {
+                currentPhase: string,  // MoonPhase enum value
+                nextFullMoon: string,  // ISO date
+                nextNewMoon: string,   // ISO date
+                isWerewolfNight: boolean  // true if currentPhase === "full_moon"
+              },
+              error: string | null
+            }
+          </returns>
+          <description>
+            Calculate current moon phase and next phase transition dates.
+            Deterministic: same date always returns same result.
+            28-day lunar cycle with reference new moon at 2000-01-06.
+          </description>
+        </method>
+      </methods>
+    </interface>
+
+    <interface id="weather-generator">
+      <name>WeatherGenerator</name>
+      <path>src/calendar/weather-generator.js</path>
+      <description>Generates atmospheric weather conditions based on season and moon phase</description>
+      <methods>
+        <method>
+          <name>constructor</name>
+          <signature>constructor(deps = {})</signature>
+          <parameters>
+            <parameter name="deps" type="Object" optional="true">
+              <description>Dependencies for injection (randomSeed for testing)</description>
+            </parameter>
+          </parameters>
+          <returns>WeatherGenerator instance</returns>
+        </method>
+        <method>
+          <name>generate</name>
+          <signature>generate(currentDate, currentTime, season, moonPhase, previousWeather = null)</signature>
+          <parameters>
+            <parameter name="currentDate" type="string" optional="false">
+              <description>Current in-game date (format: "YYYY-MM-DD")</description>
+            </parameter>
+            <parameter name="currentTime" type="string" optional="false">
+              <description>Current in-game time (format: "HH:MM")</description>
+            </parameter>
+            <parameter name="season" type="string" optional="false">
+              <description>Current season (spring, summer, autumn, winter)</description>
+            </parameter>
+            <parameter name="moonPhase" type="string" optional="false">
+              <description>Current moon phase (from MoonPhaseCalculator)</description>
+            </parameter>
+            <parameter name="previousWeather" type="Object" optional="true">
+              <description>Previous weather state for gradual transitions</description>
+            </parameter>
+          </parameters>
+          <returns>
+            {
+              success: boolean,
+              data: {
+                condition: string,  // Clear, Overcast, Fog, Rain, Snow, Storm
+                temperature: number,  // Fahrenheit
+                visibility: string,  // Clear, Reduced, Poor
+                description: string,  // LLM-friendly atmospheric prose
+                lastUpdated: string  // ISO timestamp
+              },
+              error: string | null
+            }
+          </returns>
+          <description>
+            Generate weather conditions respecting seasonal patterns and moon phase.
+            Full moon overrides weather to "Clear skies" for visibility.
+            Gradual transitions if previousWeather provided.
+          </description>
+        </method>
+      </methods>
+    </interface>
+
+    <interface id="time-manager-extended">
+      <name>TimeManager (Extended)</name>
+      <path>src/calendar/time-manager.js</path>
+      <description>TimeManager will be extended to trigger moon/weather updates</description>
+      <methods>
+        <method>
+          <name>advanceTime (EXISTING - EXTENDED)</name>
+          <signature>advanceTime(calendar, minutes, actionType)</signature>
+          <description>
+            EXISTING functionality:
+            - Advance time by minutes
+            - Handle date/time rollover
+            - Update timestamps
+
+            NEW functionality (Story 2-8):
+            - After time advancement, check if date changed
+            - If date changed, call MoonPhaseCalculator.calculate()
+            - Check if weather update interval reached (6-12 hours since last update)
+            - If interval reached, call WeatherGenerator.generate()
+            - Update calendar.moonPhases and calendar.weather
+            - Return updated calendar
+          </description>
+        </method>
+      </methods>
+    </interface>
+
+    <interface id="calendar-manager-extended">
+      <name>CalendarManager (Extended)</name>
+      <path>src/calendar/calendar-manager.js</path>
+      <description>CalendarManager will support new moonPhases and weather schema</description>
+      <methods>
+        <method>
+          <name>loadCalendar (EXISTING - BACKWARD COMPATIBLE)</name>
+          <signature>async loadCalendar()</signature>
+          <description>
+            EXISTING functionality:
+            - Load calendar.yaml from disk
+            - Parse YAML into Calendar object
+
+            NEW functionality (Story 2-8):
+            - Read both old (moon.*) and new (moonPhases.*) schema
+            - Migrate old format to new format in memory (transparent to caller)
+            - Load weather.* fields
+          </description>
+        </method>
+        <method>
+          <name>saveCalendar (EXISTING - EXTENDED)</name>
+          <signature>async saveCalendar(calendar)</signature>
+          <description>
+            EXISTING functionality:
+            - Save calendar.yaml to disk
+            - Serialize Calendar object to YAML
+
+            NEW functionality (Story 2-8):
+            - Write moonPhases.* fields (new schema)
+            - Write weather.* fields
+            - Remove old moon.* fields (migration complete)
+          </description>
+        </method>
+      </methods>
+    </interface>
+  </interfaces>
+
+  <test-plans>
+    <test-category name="Unit Tests - MoonPhaseCalculator">
+      <test id="test-moon-1" acceptance-criteria="AC-1">
+        <description>Constructor initializes with default dependencies</description>
+        <expected>MoonPhaseCalculator instance created with date-fns dependency</expected>
+      </test>
+      <test id="test-moon-2" acceptance-criteria="AC-1">
+        <description>Constructor accepts injected dependencies</description>
+        <expected>MoonPhaseCalculator uses mocked date-fns for testing</expected>
+      </test>
+      <test id="test-moon-3" acceptance-criteria="AC-2">
+        <description>Calculate moon phase for known new moon date (2000-01-06)</description>
+        <expected>Returns {currentPhase: "new_moon", isWerewolfNight: false}</expected>
+      </test>
+      <test id="test-moon-4" acceptance-criteria="AC-2">
+        <description>Calculate moon phase for known full moon date (2000-01-20)</description>
+        <expected>Returns {currentPhase: "full_moon", isWerewolfNight: true}</expected>
+      </test>
+      <test id="test-moon-5" acceptance-criteria="AC-2">
+        <description>Deterministic calculation - same date returns same phase</description>
+        <expected>Calling calculate("2024-03-15") 10 times returns identical results</expected>
+      </test>
+      <test id="test-moon-6" acceptance-criteria="AC-2">
+        <description>28-day lunar cycle progression</description>
+        <expected>Starting from new moon, advancing 28 days returns new moon again</expected>
+      </test>
+      <test id="test-moon-7" acceptance-criteria="AC-2">
+        <description>8 distinct moon phases</description>
+        <expected>Advancing through 28-day cycle hits all 8 phases in correct order</expected>
+      </test>
+      <test id="test-moon-8" acceptance-criteria="AC-2">
+        <description>Next full moon calculation</description>
+        <expected>From waxing_gibbous, nextFullMoon is 3-4 days ahead</expected>
+      </test>
+      <test id="test-moon-9" acceptance-criteria="AC-2">
+        <description>Next new moon calculation</description>
+        <expected>From full_moon, nextNewMoon is 14 days ahead</expected>
+      </test>
+      <test id="test-moon-10" acceptance-criteria="AC-3">
+        <description>Full moon detection sets werewolf flag</description>
+        <expected>When currentPhase === "full_moon", isWerewolfNight === true</expected>
+      </test>
+      <test id="test-moon-11" acceptance-criteria="AC-8">
+        <description>Performance test - calculation completes in &lt; 50ms</description>
+        <expected>100 calculations complete in &lt; 50ms total (avg &lt; 0.5ms each)</expected>
+      </test>
+    </test-category>
+
+    <test-category name="Unit Tests - WeatherGenerator">
+      <test id="test-weather-1" acceptance-criteria="AC-4">
+        <description>Constructor initializes with default dependencies</description>
+        <expected>WeatherGenerator instance created with default random seed</expected>
+      </test>
+      <test id="test-weather-2" acceptance-criteria="AC-4">
+        <description>Constructor accepts injected random seed</description>
+        <expected>WeatherGenerator uses seeded random for deterministic testing</expected>
+      </test>
+      <test id="test-weather-3" acceptance-criteria="AC-5">
+        <description>Winter generates cold temperatures (15-45°F)</description>
+        <expected>100 winter weather generations all within 15-45°F range</expected>
+      </test>
+      <test id="test-weather-4" acceptance-criteria="AC-5">
+        <description>Summer generates warm temperatures (60-85°F)</description>
+        <expected>100 summer weather generations all within 60-85°F range</expected>
+      </test>
+      <test id="test-weather-5" acceptance-criteria="AC-5">
+        <description>Winter has higher snow probability</description>
+        <expected>100 winter generations have &gt; 30% snow conditions</expected>
+      </test>
+      <test id="test-weather-6" acceptance-criteria="AC-5">
+        <description>Spring has higher rain probability</description>
+        <expected>100 spring generations have &gt; 30% rain conditions</expected>
+      </test>
+      <test id="test-weather-7" acceptance-criteria="AC-5">
+        <description>LLM-friendly descriptions generated</description>
+        <expected>Weather description is &gt; 20 characters, contains atmospheric prose</expected>
+      </test>
+      <test id="test-weather-8" acceptance-criteria="AC-5">
+        <description>Gradual weather transitions - no drastic changes</description>
+        <expected>From "Overcast 50°F", next weather is "Fog 45°F" (not "Blizzard 20°F")</expected>
+      </test>
+      <test id="test-weather-9" acceptance-criteria="AC-5">
+        <description>Full moon overrides weather to Clear skies</description>
+        <expected>When moonPhase === "full_moon", condition === "Clear" regardless of season</expected>
+      </test>
+      <test id="test-weather-10" acceptance-criteria="AC-6">
+        <description>Weather schema compliance - all fields present</description>
+        <expected>Result contains {condition, temperature, visibility, description, lastUpdated}</expected>
+      </test>
+      <test id="test-weather-11" acceptance-criteria="AC-8">
+        <description>Performance test - generation completes in &lt; 50ms</description>
+        <expected>100 generations complete in &lt; 50ms total (avg &lt; 0.5ms each)</expected>
+      </test>
+    </test-category>
+
+    <test-category name="Integration Tests - TimeManager + Moon + Weather">
+      <test id="test-integration-1" acceptance-criteria="AC-7">
+        <description>Time advancement triggers moon phase recalculation on date change</description>
+        <expected>
+          1. Load calendar with date "2024-03-14"
+          2. Advance time by 24 hours → date becomes "2024-03-15"
+          3. Verify MoonPhaseCalculator.calculate() was called
+          4. Verify calendar.moonPhases updated
+        </expected>
+      </test>
+      <test id="test-integration-2" acceptance-criteria="AC-7">
+        <description>Time advancement does NOT trigger moon recalculation if date unchanged</description>
+        <expected>
+          1. Load calendar with date "2024-03-14", time "10:00"
+          2. Advance time by 2 hours → time becomes "12:00", date still "2024-03-14"
+          3. Verify MoonPhaseCalculator.calculate() was NOT called
+        </expected>
+      </test>
+      <test id="test-integration-3" acceptance-criteria="AC-7">
+        <description>Time advancement triggers weather regeneration every 6-12 hours</description>
+        <expected>
+          1. Load calendar with weather.lastUpdated = "2024-03-14T08:00:00"
+          2. Advance time by 7 hours → "2024-03-14T15:00:00"
+          3. Verify WeatherGenerator.generate() was called
+          4. Verify weather.lastUpdated updated
+        </expected>
+      </test>
+      <test id="test-integration-4" acceptance-criteria="AC-7">
+        <description>Moon phase and weather data persisted in calendar.yaml</description>
+        <expected>
+          1. Trigger moon/weather updates via time advancement
+          2. CalendarManager.saveCalendar() called
+          3. Read calendar.yaml from disk
+          4. Verify moonPhases.* and weather.* fields present and correct
+        </expected>
+      </test>
+      <test id="test-integration-5" acceptance-criteria="AC-7">
+        <description>/calendar command displays moon phase and weather</description>
+        <expected>
+          Calendar display includes:
+          - "Moon: Waxing Gibbous (Full moon in 3 days)"
+          - "Weather: Heavy fog, 45°F, reduced visibility"
+        </expected>
+      </test>
+      <test id="test-integration-6" acceptance-criteria="AC-3">
+        <description>Full moon detection triggers werewolf flag and clear skies</description>
+        <expected>
+          1. Advance time to full moon date
+          2. Verify moonPhases.isWerewolfNight === true
+          3. Verify weather.condition === "Clear"
+          4. Verify weather.description mentions full moon
+        </expected>
+      </test>
+      <test id="test-integration-7" acceptance-criteria="AC-6">
+        <description>Calendar.yaml schema validation</description>
+        <expected>
+          1. Trigger moon/weather updates
+          2. Save calendar
+          3. Load calendar.yaml and validate against schema:
+             - moonPhases: {currentPhase, nextFullMoon, nextNewMoon, isWerewolfNight}
+             - weather: {condition, temperature, visibility, description, lastUpdated}
+        </expected>
+      </test>
+      <test id="test-integration-8" acceptance-criteria="AC-8">
+        <description>Performance test - time advancement with moon/weather updates &lt; 200ms</description>
+        <expected>
+          1. Advance time by 24 hours (triggers date change + moon + weather updates)
+          2. Measure total duration
+          3. Verify duration &lt; 200ms (TimeManager target from tech spec)
+        </expected>
+      </test>
+    </test-category>
+
+    <test-category name="Edge Cases and Error Handling">
+      <test id="test-edge-1" acceptance-criteria="AC-2">
+        <description>Invalid date format returns error</description>
+        <expected>MoonPhaseCalculator.calculate("invalid") returns {success: false, error: "..."}</expected>
+      </test>
+      <test id="test-edge-2" acceptance-criteria="AC-2">
+        <description>Null/undefined date returns error</description>
+        <expected>MoonPhaseCalculator.calculate(null) returns {success: false, error: "..."}</expected>
+      </test>
+      <test id="test-edge-3" acceptance-criteria="AC-5">
+        <description>Invalid season returns error</description>
+        <expected>WeatherGenerator.generate("2024-03-14", "08:00", "invalid_season") returns {success: false, error: "..."}</expected>
+      </test>
+      <test id="test-edge-4" acceptance-criteria="AC-5">
+        <description>No previous weather generates initial weather</description>
+        <expected>WeatherGenerator.generate(..., previousWeather: null) generates valid weather (no transitions)</expected>
+      </test>
+      <test id="test-edge-5" acceptance-criteria="AC-7">
+        <description>Calendar schema migration - old moon.* format</description>
+        <expected>
+          1. Create calendar.yaml with old moon.current_phase format
+          2. CalendarManager.loadCalendar() reads it
+          3. Migrates to moonPhases.currentPhase in memory
+          4. CalendarManager.saveCalendar() writes new format
+        </expected>
+      </test>
+    </test-category>
+  </test-plans>
+
+  <learnings-from-previous-stories>
+    <learning source="story-2-7-state-auto-update">
+      <title>WorldStatePropagator Implementation</title>
+      <description>
+        Story 2-7 implemented WorldStatePropagator class at src/calendar/world-state-propagator.js.
+        This establishes the Epic 2 architectural pattern that Story 2-8 must follow:
+        - Dependency injection via constructor (deps = {})
+        - All methods return {success, data, error} objects (never throw)
+        - Comprehensive test coverage (21 tests, 100% pass rate)
+        - Performance far exceeds targets (&lt; 2ms vs &lt; 1s target)
+      </description>
+    </learning>
+    <learning source="story-2-7-state-auto-update">
+      <title>Files to Reuse</title>
+      <description>
+        Story 2-7 identified these files for Story 2-8:
+        - src/core/state-manager.js - for updating calendar.yaml with moon/weather data
+        - src/data/location-loader.js - if location-specific weather needed
+        - src/calendar/calendar-manager.js - for calendar data management
+        - src/calendar/time-manager.js - for time advancement integration
+      </description>
+    </learning>
+    <learning source="story-2-7-state-auto-update">
+      <title>Testing Pattern</title>
+      <description>
+        Story 2-7 established testing pattern:
+        - Unit tests with mocked dependencies (isolate module under test)
+        - Integration tests with real dependencies (verify end-to-end behavior)
+        - Performance tests with timing assertions
+        - Edge case tests for error handling
+        - 100% AC coverage verification
+      </description>
+    </learning>
+    <learning source="story-2-7-state-auto-update">
+      <title>Review Findings</title>
+      <description>
+        Story 2-7 code review found:
+        - No blocking issues
+        - Excellent code quality
+        - Advisory: StateManager file writing stubs need actual implementation in future
+          (This means StateManager.updateState() may need real file I/O added, not just in-memory updates)
+      </description>
+    </learning>
+  </learnings-from-previous-stories>
+
+  <open-questions>
+    <question id="Q-1">
+      <title>Weather Update Interval</title>
+      <description>
+        AC-7 specifies "every 6-12 hours" for weather regeneration. Should this be:
+        A) Fixed 6 hours
+        B) Fixed 12 hours
+        C) Random between 6-12 hours
+        D) Configurable in calendar.yaml
+      </description>
+      <recommendation>Option B (Fixed 12 hours) - simpler, predictable, sufficient granularity</recommendation>
+    </question>
+    <question id="Q-2">
+      <title>Full Moon Weather Override - Partial Clear?</title>
+      <description>
+        AC-3 and AC-5 specify full moon overrides weather to "Clear skies".
+        Should this be absolute (always 100% clear) or allow partial clearing (mostly clear with some fog)?
+      </description>
+      <recommendation>Absolute "Clear" - simpler logic, matches werewolf visibility requirement</recommendation>
+    </question>
+    <question id="Q-3">
+      <title>Moon Phase Display Format</title>
+      <description>
+        AC-7 shows example: "Moon: Waxing Gibbous (Full moon in 3 days)"
+        Should we:
+        A) Use enum values directly (waxing_gibbous)
+        B) Use title case (Waxing Gibbous)
+        C) Use descriptive text ("Nearly full, waxing")
+      </description>
+      <recommendation>Option B (Title Case) - readable, professional, matches example in story</recommendation>
+    </question>
+  </open-questions>
+
+  <implementation-notes>
+    <note>
+      <title>Reference New Moon Date</title>
+      <description>
+        Use 2000-01-06 as epoch reference for new moon.
+        This is a known new moon date in astronomical records (simplified for fantasy calendar).
+      </description>
+    </note>
+    <note>
+      <title>28-Day Lunar Cycle</title>
+      <description>
+        Use exactly 28 days for lunar cycle (not realistic 29.5 days).
+        This aligns with tech spec assumption A-5 (lines 1349-1353): "Simplified lunar cycle (28 days exactly, not 29.5)".
+        Each phase lasts 3.5 days (28 / 8 phases).
+      </description>
+    </note>
+    <note>
+      <title>Weather Descriptions - LLM-Friendly</title>
+      <description>
+        Weather descriptions should be atmospheric prose suitable for LLM narratives:
+        - Good: "Heavy fog rolls across the valley, reducing visibility to mere feet. The air is cold and damp."
+        - Bad: "Fog. 45°F. Low visibility."
+
+        Include sensory details (visual, tactile, auditory) for immersion.
+      </description>
+    </note>
+    <note>
+      <title>Calendar Schema Migration Strategy</title>
+      <description>
+        CalendarManager changes for backward compatibility:
+        1. loadCalendar(): Check if calendar.moon exists (old format) or calendar.moonPhases exists (new format)
+        2. If old format, migrate: moonPhases.currentPhase = moon.current_phase, calculate nextFullMoon/nextNewMoon
+        3. saveCalendar(): Always write new format (moonPhases.*), delete old format (moon.*)
+        4. This ensures seamless migration on first save after Story 2-8
+      </description>
+    </note>
+  </implementation-notes>
+</story-context>

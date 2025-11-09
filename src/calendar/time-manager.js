@@ -61,9 +61,13 @@ class TimeManager {
    *
    * @param {Object} deps - Dependencies for injection (testing)
    * @param {Object} deps.dateFns - date-fns library (for mocking in tests)
+   * @param {Object} deps.moonPhaseCalculator - MoonPhaseCalculator instance (optional, for Story 2-8)
+   * @param {Object} deps.weatherGenerator - WeatherGenerator instance (optional, for Story 2-8)
    */
   constructor(deps = {}) {
     this.dateFns = deps.dateFns || { add, differenceInMinutes, parse, format, isValid };
+    this.moonPhaseCalculator = deps.moonPhaseCalculator || null;
+    this.weatherGenerator = deps.weatherGenerator || null;
   }
 
   /**
@@ -334,11 +338,92 @@ class TimeManager {
     const hoursElapsed = minutes / 60;
     newCalendar.metadata.total_in_game_hours += hoursElapsed;
 
+    // Story 2-8: Moon phase and weather updates
+    // Check if date changed (moon phase recalculation trigger)
+    const dateChanged = calendar.current.date !== addResult.date;
+
+    if (this.moonPhaseCalculator && dateChanged) {
+      const moonResult = this.moonPhaseCalculator.calculate(addResult.date);
+      if (moonResult.success) {
+        // Initialize moonPhases section if not exists (schema migration)
+        if (!newCalendar.moonPhases) {
+          newCalendar.moonPhases = {};
+        }
+
+        newCalendar.moonPhases.currentPhase = moonResult.data.currentPhase;
+        newCalendar.moonPhases.nextFullMoon = moonResult.data.nextFullMoon;
+        newCalendar.moonPhases.nextNewMoon = moonResult.data.nextNewMoon;
+        newCalendar.moonPhases.isWerewolfNight = moonResult.data.isWerewolfNight;
+
+        // Remove old moon.* schema fields (migration cleanup)
+        if (newCalendar.moon) {
+          delete newCalendar.moon;
+        }
+      }
+    }
+
+    // Story 2-8: Weather regeneration (every 12 hours)
+    if (this.weatherGenerator) {
+      const shouldUpdateWeather = this._shouldUpdateWeather(calendar, newCalendar);
+
+      if (shouldUpdateWeather) {
+        const currentMoonPhase = newCalendar.moonPhases?.currentPhase || 'new_moon';
+        const previousWeather = calendar.weather || null;
+
+        const weatherResult = this.weatherGenerator.generate(
+          addResult.date,
+          addResult.time,
+          newCalendar.current.season,
+          currentMoonPhase,
+          previousWeather
+        );
+
+        if (weatherResult.success) {
+          newCalendar.weather = weatherResult.data;
+        }
+      }
+    }
+
     return {
       success: true,
       calendar: newCalendar,
       reason: reason || 'time advancement'
     };
+  }
+
+  /**
+   * Checks if weather should be updated (every 12 hours)
+   *
+   * @param {Object} oldCalendar - Calendar before advancement
+   * @param {Object} newCalendar - Calendar after advancement
+   * @returns {boolean} True if weather should be updated
+   * @private
+   */
+  _shouldUpdateWeather(oldCalendar, newCalendar) {
+    // Update weather if no lastUpdated timestamp exists
+    if (!oldCalendar.weather || !oldCalendar.weather.lastUpdated) {
+      return true;
+    }
+
+    // Parse last updated timestamp
+    try {
+      const lastUpdated = new Date(oldCalendar.weather.lastUpdated);
+      const currentDateTime = this.dateFns.parse(
+        `${newCalendar.current.date} ${newCalendar.current.time}`,
+        'yyyy-M-d HH:mm',
+        new Date()
+      );
+
+      // Calculate hours since last update
+      const minutesSinceUpdate = this.dateFns.differenceInMinutes(currentDateTime, lastUpdated);
+      const hoursSinceUpdate = minutesSinceUpdate / 60;
+
+      // Update if 12+ hours have passed
+      return hoursSinceUpdate >= 12;
+    } catch (error) {
+      // If parsing fails, update weather to be safe
+      return true;
+    }
   }
 
   /**

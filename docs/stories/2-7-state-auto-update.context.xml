@@ -1,0 +1,428 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.7</storyId>
+    <title>State Auto-Update (World State Propagation)</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/2-7-state-auto-update.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master</asA>
+    <iWant>state changes to automatically propagate across the game world based on relationship graphs</iWant>
+    <soThat>NPC deaths, location changes, and faction shifts realistically cascade through connected entities without manual updates</soThat>
+    <tasks>
+      <moduleSetup>
+        <task id="1" title="Create WorldStatePropagator module" acs="1">
+          <subtask>Create src/calendar/world-state-propagator.js</subtask>
+          <subtask>Implement WorldStatePropagator class with constructor</subtask>
+          <subtask>Add dependency injection for {locationLoader, stateManager, calendarManager}</subtask>
+          <subtask>Add JSDoc documentation for all public methods</subtask>
+          <subtask>Export WorldStatePropagator class</subtask>
+          <subtask>Add error handling wrapper pattern (return {success, data, error})</subtask>
+        </task>
+      </moduleSetup>
+
+      <relationshipGraph>
+        <task id="2" title="Implement relationship data loading" acs="8">
+          <subtask>Implement loadRelationshipGraph(entityId, entityType) method</subtask>
+          <subtask>Load world-state.yaml if exists (contains NPC relationships, faction memberships)</subtask>
+          <subtask>Parse NPC files to extract family/friend relationships from metadata</subtask>
+          <subtask>Load quest definitions to find NPC dependencies (quest-giver, quest-target)</subtask>
+          <subtask>Build in-memory relationship map: {entityId: {relatedEntities: [], type: string}}</subtask>
+          <subtask>Handle missing world-state.yaml gracefully (create if needed)</subtask>
+          <subtask>Cache relationship graph for performance (invalidate on updates)</subtask>
+        </task>
+      </relationshipGraph>
+
+      <affectedEntityDiscovery>
+        <task id="3" title="Implement findAffectedEntities method" acs="8">
+          <subtask>Implement findAffectedEntities(stateChange) async method</subtask>
+          <subtask>Extract primaryEntity and changeType from StateChange</subtask>
+          <subtask>Query relationship graph for directly connected entities</subtask>
+          <subtask>Apply propagationRules filters (affectRelationships, affectQuests, affectFactions)</subtask>
+          <subtask>If affectedLocations specified, limit scope to those locations</subtask>
+          <subtask>Return array of AffectedEntity objects: {entityId, entityType, relationshipType, propagationLevel}</subtask>
+          <subtask>Handle empty relationship data (return empty array)</subtask>
+        </task>
+      </affectedEntityDiscovery>
+
+      <statePropagationLogic>
+        <task id="4" title="Implement propagateChange method" acs="2,3,5,6,7">
+          <subtask>Implement propagateChange(stateChange) async method</subtask>
+          <subtask>Call findAffectedEntities() to get propagation targets</subtask>
+          <subtask>Initialize propagation queue with affected entities (depth=1)</subtask>
+          <subtask>Initialize visited set for circular dependency detection</subtask>
+          <subtask>Initialize stateUpdates array to collect all changes</subtask>
+          <subtask>Process queue (breadth-first): Pop, check visited, check depth &gt; 10, generate update, add to queue if depth &lt; 10</subtask>
+          <subtask>Call applyUpdates() with collected stateUpdates</subtask>
+          <subtask>Return {success: true, updatesApplied: stateUpdates, propagationDepth: maxDepth}</subtask>
+          <subtask>Wrap in try-catch for error handling</subtask>
+        </task>
+      </statePropagationLogic>
+
+      <stateUpdateGenerators>
+        <task id="5" title="Implement state update generators" acs="2,3">
+          <subtask>Implement generateNPCDeathUpdate(affectedNPC, deceasedNPC) method</subtask>
+          <subtask>Determine relationship type (family, friend, ally, enemy)</subtask>
+          <subtask>Update emotional state based on relationship (grief, relief, indifference)</subtask>
+          <subtask>Update status if dependent on deceased (quest-giver death fails quest)</subtask>
+          <subtask>Return StateUpdate object for NPC file</subtask>
+          <subtask>Implement generateQuestActivationUpdate(questId, triggerReason) method</subtask>
+          <subtask>Load quest definition from quest files</subtask>
+          <subtask>Update quest status from "inactive" to "active"</subtask>
+          <subtask>Add activation timestamp and reason</subtask>
+          <subtask>Return StateUpdate object for active-quests.yaml</subtask>
+          <subtask>Implement generateFactionUpdateMethod(factionId, changeType) method</subtask>
+          <subtask>Update faction reputation or status</subtask>
+          <subtask>Propagate to faction members if needed</subtask>
+          <subtask>Return StateUpdate object for world-state.yaml</subtask>
+        </task>
+      </stateUpdateGenerators>
+
+      <filePersistence>
+        <task id="6" title="Implement applyUpdates method" acs="4">
+          <subtask>Implement applyUpdates(stateUpdates) async method</subtask>
+          <subtask>Group updates by file path (batch updates to same file)</subtask>
+          <subtask>For each file: Load current content, apply all updates, save updated file via StateManager</subtask>
+          <subtask>Update world-state.yaml with propagation history entry</subtask>
+          <subtask>Handle file write errors (rollback if any write fails)</subtask>
+          <subtask>Return {success: true, filesUpdated: count} or {success: false, error}</subtask>
+        </task>
+      </filePersistence>
+
+      <testing>
+        <task id="7" title="Create comprehensive test suite" acs="1,2,3,4,5,6,7,8">
+          <subtask>Create tests/calendar/world-state-propagator.test.js</subtask>
+          <subtask>Unit test: Constructor and dependency injection</subtask>
+          <subtask>Unit test: loadRelationshipGraph with sample world-state.yaml</subtask>
+          <subtask>Unit test: findAffectedEntities with various relationship types</subtask>
+          <subtask>Unit test: Propagation rules filtering (affectRelationships, affectQuests, affectFactions)</subtask>
+          <subtask>Unit test: Circular dependency detection and depth limiting</subtask>
+          <subtask>Unit test: generateNPCDeathUpdate for family relationships</subtask>
+          <subtask>Unit test: generateQuestActivationUpdate</subtask>
+          <subtask>Integration test: Full NPC death propagation (kolyan → ireena, ismark, quest)</subtask>
+          <subtask>Integration test: Quest activation propagates to NPCs</subtask>
+          <subtask>Integration test: File persistence (verify NPCs.md and active-quests.yaml updated)</subtask>
+          <subtask>Performance test: &lt; 1 second for 10 affected entities</subtask>
+          <subtask>Edge case: Empty relationship graph (no propagation)</subtask>
+          <subtask>Edge case: Missing world-state.yaml (create new file)</subtask>
+          <subtask>Error case: File write failure (rollback verification)</subtask>
+          <subtask>Verify all 8 ACs covered</subtask>
+        </task>
+      </testing>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1" title="WorldStatePropagator Module Creation">
+      <given>EventExecutor from Story 2-6 applies state changes</given>
+      <when>Story 2.7 is implemented</when>
+      <then>
+        <item>src/calendar/world-state-propagator.js must be created</item>
+        <item>Must export WorldStatePropagator class</item>
+        <item>Must use dependency injection for LocationLoader, StateManager</item>
+        <item>All methods must return {success, data, error} objects (never throw)</item>
+      </then>
+      <verification>Unit tests with mocked dependencies</verification>
+    </ac>
+
+    <ac id="2" title="Propagate NPC Death Effects">
+      <given>NPC "kolyan_indirovich" dies (status changed to "Dead")</given>
+      <when>WorldStatePropagator.propagateChange() is called</when>
+      <then>
+        <item>Related NPCs (ireena_kolyana, ismark_kolyanovich) must be updated</item>
+        <item>Relationship data must be read from world-state.yaml or NPC definitions</item>
+        <item>Each affected NPC's emotional state/status must reflect the loss</item>
+        <item>Propagation must handle missing relationship data gracefully</item>
+      </then>
+      <verification>Integration test with sample NPC relationship graph</verification>
+    </ac>
+
+    <ac id="3" title="Quest Status Propagation">
+      <given>NPC "kolyan_indirovich" dies</given>
+      <when>WorldStatePropagator.propagateChange() is called</when>
+      <then>
+        <item>Quest "escort_ireena" must change status to "Active"</item>
+        <item>Quest data must be updated in active-quests.yaml</item>
+        <item>Quest activation must be logged with timestamp and reason</item>
+        <item>Related quest triggers must be evaluated</item>
+      </then>
+      <verification>Integration test with quest dependency tracking</verification>
+    </ac>
+
+    <ac id="4" title="Persist State Updates to Files">
+      <given>Propagation identifies 3+ affected entities</given>
+      <when>WorldStatePropagator.applyUpdates() is called</when>
+      <then>
+        <item>All affected NPCs.md files must be written via StateManager</item>
+        <item>All affected State.md files must be updated</item>
+        <item>active-quests.yaml must be updated if quests affected</item>
+        <item>world-state.yaml must be updated with propagation history</item>
+        <item>File writes must be atomic (all-or-nothing)</item>
+      </then>
+      <verification>Integration test verifying file changes</verification>
+    </ac>
+
+    <ac id="5" title="Performance Requirement">
+      <given>State change affects 5-10 entities</given>
+      <when>WorldStatePropagator.propagateChange() completes</when>
+      <then>
+        <item>Propagation must complete in &lt; 1 second</item>
+        <item>Must not block event execution</item>
+        <item>Performance target must be met with realistic complexity</item>
+      </then>
+      <verification>Performance test with 10 affected entities</verification>
+    </ac>
+
+    <ac id="6" title="Propagation Rules Configuration">
+      <given>StateChange object includes propagationRules</given>
+      <when>Propagation executes</when>
+      <then>
+        <item>Must respect affectRelationships flag (only update related NPCs if true)</item>
+        <item>Must respect affectQuests flag (only update quests if true)</item>
+        <item>Must respect affectFactions flag (only update factions if true)</item>
+        <item>Must support affectedLocations array (limit propagation scope)</item>
+      </then>
+      <verification>Unit test with various propagation rule combinations</verification>
+    </ac>
+
+    <ac id="7" title="Circular Dependency Detection">
+      <given>Propagation might create circular dependencies (A affects B, B affects A)</given>
+      <when>Propagation executes</when>
+      <then>
+        <item>Must detect circular references and prevent infinite loops</item>
+        <item>Must limit propagation depth to maximum 10 levels</item>
+        <item>Must log warning if depth exceeds 5 levels</item>
+        <item>Must return all updates applied before hitting limit</item>
+      </then>
+      <verification>Unit test with circular relationship graph</verification>
+    </ac>
+
+    <ac id="8" title="Find Affected Entities">
+      <given>State change with primaryEntity "kolyan_indirovich"</given>
+      <when>WorldStatePropagator.findAffectedEntities() is called</when>
+      <then>
+        <item>Must return array of affected entities (NPCs, quests, locations, factions)</item>
+        <item>Must include relationship type (daughter, son, dependent_quest, etc.)</item>
+        <item>Must load relationship data from world-state.yaml and NPC files</item>
+        <item>Must handle missing or incomplete relationship data gracefully</item>
+      </then>
+      <verification>Unit test with sample relationship graph</verification>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Technical Specification - Epic 2</title>
+        <section>WorldStatePropagator API (lines 475-499)</section>
+        <snippet>Defines propagateChange(), findAffectedEntities(), and applyUpdates() methods. StateChange schema includes propagationRules for controlling cascade scope.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Technical Specification - Epic 2</title>
+        <section>StateChange Schema (lines 192-216)</section>
+        <snippet>Defines StateChange structure with changeType, primaryEntity, propagationRules (affectRelationships, affectQuests, affectFactions, affectedLocations), and stateUpdates array.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Technical Specification - Epic 2</title>
+        <section>AC-5: World State Propagation (lines 1161-1170)</section>
+        <snippet>Performance requirement: propagation must complete in &lt; 1 second. Example: kolyan_indirovich dies → ireena, ismark updated → escort_ireena quest activates. At least 3 state updates required.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Technical Specification - Epic 2</title>
+        <section>Risk R-1: Complex Event Dependencies (lines 1272-1280)</section>
+        <snippet>Mitigation: maximum chain depth 10 levels, detect circular dependencies, log warning if depth exceeds 5 levels, allow manual event disabling if problematic.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/cascading-state-architecture.md</path>
+        <title>Cascading State Architecture</title>
+        <section>Problem Statement &amp; Architecture Decision (lines 1-46)</section>
+        <snippet>Event-driven cascade system with ordered effect chains, dependency resolution via topological sort, transaction pattern for atomic updates, and cascade log for debugging. Target: &lt; 500ms for full cascade.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>Section 5: Calendar System &amp; World State Management</section>
+        <snippet>Describes calendar-driven world state, NPC schedules, event execution, and state propagation as core architecture components.</snippet>
+      </doc>
+
+      <doc>
+        <path>docs/stories/2-6-event-execution-engine.md</path>
+        <title>Story 2.6: Event Execution Engine</title>
+        <section>Dev Notes - Integration Point (lines 214-230)</section>
+        <snippet>EventExecutor.execute() applies immediate effects then calls WorldStatePropagator.propagateChange() AFTER primary effects but BEFORE marking event complete. Both use {success, data, error} return pattern.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-80</lines>
+        <reason>WorldStatePropagator will be called from EventExecutor.execute() after effects are applied. Must follow same dependency injection pattern and error handling.</reason>
+      </artifact>
+
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-100</lines>
+        <reason>WorldStatePropagator uses StateManager for all file updates (NPCs.md, State.md). Must use existing methods: getState(), updateState(), updateNPCState().</reason>
+      </artifact>
+
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-80</lines>
+        <reason>WorldStatePropagator uses LocationLoader to load NPC files and relationship data. Must use loadLocation() and parseNPCs() methods.</reason>
+      </artifact>
+
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-60</lines>
+        <reason>Optional dependency for logging propagation events to calendar history. Follows Epic 2 integration pattern.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0" usage="YAML parsing for world-state.yaml and active-quests.yaml"/>
+        <package name="date-fns" version="^2.30.0" usage="Timestamp handling for propagation history"/>
+      </node>
+
+      <testing>
+        <package name="jest" version="^29.7.0" usage="Testing framework for unit and integration tests"/>
+      </testing>
+
+      <internal>
+        <module name="LocationLoader" path="src/data/location-loader.js" usage="Load NPC files and relationship data"/>
+        <module name="StateManager" path="src/core/state-manager.js" usage="Update State.md and NPCs.md files"/>
+        <module name="CalendarManager" path="src/calendar/calendar-manager.js" usage="Optional: log propagation events to calendar history"/>
+        <module name="EventExecutor" path="src/calendar/event-executor.js" usage="Integration point: calls propagateChange() after effects applied"/>
+      </internal>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      <rule>Must use dependency injection pattern matching Epic 2 modules (EventExecutor, CalendarManager)</rule>
+      <rule>All methods must return {success, data, error} objects - never throw exceptions</rule>
+      <rule>Must use StateManager for ALL file updates (no direct fs writes)</rule>
+      <rule>Must use LocationLoader for ALL data loading (no direct file reads)</rule>
+    </constraint>
+
+    <constraint type="performance">
+      <rule>Propagation must complete in &lt; 1 second for 5-10 affected entities (AC-5)</rule>
+      <rule>Must cache relationship graph to avoid repeated loads</rule>
+      <rule>Must use breadth-first search for efficient propagation</rule>
+      <rule>Must batch file updates where possible (group updates by file path)</rule>
+    </constraint>
+
+    <constraint type="safety">
+      <rule>Circular dependency detection required - prevent infinite loops (AC-7)</rule>
+      <rule>Maximum propagation depth: 10 levels (AC-7)</rule>
+      <rule>Log warning if propagation depth exceeds 5 levels (AC-7)</rule>
+      <rule>Atomic file writes - all-or-nothing semantics (AC-4)</rule>
+      <rule>Rollback capability if any file write fails (AC-4)</rule>
+    </constraint>
+
+    <constraint type="testing">
+      <rule>Follow Epic 2 test pattern: mocks for unit tests, real dependencies for integration tests</rule>
+      <rule>Minimum 15 test cases covering all 8 acceptance criteria</rule>
+      <rule>Performance test verifying &lt; 1 second target with 10 entities</rule>
+      <rule>Edge cases: empty relationship graph, missing files, circular dependencies</rule>
+      <rule>Error cases: file write failures with rollback verification</rule>
+    </constraint>
+
+    <constraint type="integration">
+      <rule>Called from EventExecutor.execute() after primary effects applied</rule>
+      <rule>Must handle missing world-state.yaml gracefully (create if needed)</rule>
+      <rule>Must respect propagationRules flags in StateChange object (AC-6)</rule>
+      <rule>Must update world-state.yaml with propagation history for debugging</rule>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>EventExecutor.execute()</name>
+      <kind>Integration Point</kind>
+      <signature>async execute(eventId, locationId) → {success, data, error}</signature>
+      <path>src/calendar/event-executor.js</path>
+      <notes>EventExecutor calls WorldStatePropagator.propagateChange() after applying primary effects but before marking event complete</notes>
+    </interface>
+
+    <interface>
+      <name>StateManager.updateState()</name>
+      <kind>File Persistence</kind>
+      <signature>async updateState(locationId, stateUpdates) → {success, error}</signature>
+      <path>src/core/state-manager.js</path>
+      <notes>Use for updating State.md files with propagated state changes</notes>
+    </interface>
+
+    <interface>
+      <name>StateManager.updateNPCState()</name>
+      <kind>File Persistence</kind>
+      <signature>async updateNPCState(locationId, npcId, updates) → {success, error}</signature>
+      <path>src/core/state-manager.js</path>
+      <notes>Use for updating individual NPC emotional states and status in NPCs.md</notes>
+    </interface>
+
+    <interface>
+      <name>LocationLoader.loadLocation()</name>
+      <kind>Data Loading</kind>
+      <signature>async loadLocation(locationId) → LocationData</signature>
+      <path>src/data/location-loader.js</path>
+      <notes>Use to load NPC files and relationship metadata for building relationship graph</notes>
+    </interface>
+
+    <interface>
+      <name>WorldStatePropagator.propagateChange()</name>
+      <kind>New API</kind>
+      <signature>async propagateChange(stateChange) → {success, data, error}</signature>
+      <path>src/calendar/world-state-propagator.js</path>
+      <notes>Main entry point for state propagation. Called by EventExecutor after primary effects applied.</notes>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Jest testing framework (v29.7.0). Follow Epic 2 pattern: mocked dependencies for unit tests, real dependencies for integration tests. Use describe/beforeEach structure. Mock LocationLoader, StateManager, CalendarManager for unit tests. Create test fixtures for world-state.yaml and NPC relationship data. Performance tests use performance.now() timing. Minimum 15 test cases covering all 8 ACs.</standards>
+
+    <locations>tests/calendar/world-state-propagator.test.js (unit and integration tests), tests/integration/world-state-propagation.test.js (end-to-end integration tests)</locations>
+
+    <ideas>
+      <test ac="1" type="unit">Constructor validates dependencies (LocationLoader, StateManager required)</test>
+      <test ac="1" type="unit">All methods return {success, data, error} - no exceptions thrown</test>
+      <test ac="2" type="unit">generateNPCDeathUpdate creates appropriate emotional state (grief/relief based on relationship)</test>
+      <test ac="2" type="integration">Full NPC death propagation: kolyan dies → ireena grieving, ismark grieving</test>
+      <test ac="3" type="unit">generateQuestActivationUpdate sets quest status to active with timestamp</test>
+      <test ac="3" type="integration">Quest activation: kolyan dies → escort_ireena quest becomes Active</test>
+      <test ac="4" type="integration">File persistence: verify NPCs.md and active-quests.yaml updated correctly</test>
+      <test ac="4" type="unit">applyUpdates batches updates by file path (efficiency)</test>
+      <test ac="4" type="error">File write failure triggers rollback (atomic semantics)</test>
+      <test ac="5" type="performance">Propagation with 10 affected entities completes in &lt; 1 second</test>
+      <test ac="6" type="unit">Propagation respects affectRelationships=false (no NPC updates)</test>
+      <test ac="6" type="unit">Propagation respects affectQuests=false (no quest updates)</test>
+      <test ac="6" type="unit">Propagation respects affectedLocations array (scope limiting)</test>
+      <test ac="7" type="unit">Circular dependency detection prevents infinite loops (A→B→A)</test>
+      <test ac="7" type="unit">Maximum depth limit of 10 levels enforced</test>
+      <test ac="7" type="unit">Warning logged when propagation depth exceeds 5 levels</test>
+      <test ac="8" type="unit">findAffectedEntities returns entities with relationship types</test>
+      <test ac="8" type="unit">findAffectedEntities handles missing world-state.yaml gracefully</test>
+      <test ac="8" type="integration">Load relationship graph from world-state.yaml and NPC metadata</test>
+      <test type="edge">Empty relationship graph returns no updates (no propagation)</test>
+      <test type="edge">Missing world-state.yaml creates new file with default structure</test>
+    </ideas>
+  </tests>
+</story-context>
