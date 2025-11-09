@@ -296,8 +296,15 @@ Current context (location, NPCs, state) is provided in the user message.`;
           }
         );
 
+        const narrative = response.content || response.text || response.narrative;
+
+        // Validate response has content (retry if malformed)
+        if (!narrative || typeof narrative !== 'string' || narrative.trim() === '') {
+          throw new Error('Malformed response: missing or empty content field');
+        }
+
         return {
-          narrative: response.content || response.text || response.narrative,
+          narrative,
           tokensUsed: response.usage?.total_tokens || response.tokensUsed || 0
         };
       } catch (error) {

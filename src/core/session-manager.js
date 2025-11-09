@@ -5,9 +5,13 @@
  * Story 1.5: LLM Narrator Integration - Task 7
  * Replaces stub from src/stubs/session-manager.js
  * Maintains interface compatibility with command handlers from Story 1.4
+ *
+ * Story 1.10: Location State Persistence - Task 3
+ * Integrated with StateManager to persist location visits across sessions
  */
 
 const { randomUUID } = require('crypto');
+const StateManager = require('./state-manager');
 
 /**
  * @typedef {import('../data/schemas').SessionState} SessionState
@@ -22,12 +26,19 @@ const { randomUUID } = require('crypto');
  * - Maintain interface from stub for command handler compatibility
  * - Store comprehensive action history for context building
  * - Support session persistence (future: Epic 5)
+ * - Persist location state across sessions (Story 1.10)
  */
 class SessionManager {
-  constructor() {
+  /**
+   * Creates a new SessionManager instance
+   * @param {Object} [deps] - Dependencies for injection (testing)
+   * @param {StateManager} [deps.stateManager] - StateManager instance
+   */
+  constructor(deps = {}) {
     this.currentSession = null;
     this.actionHistory = []; // Store recent actions for context
     this.maxActionHistory = 10; // Keep last 10 actions for context
+    this.stateManager = deps.stateManager || new StateManager();
   }
 
   /**
@@ -79,7 +90,7 @@ class SessionManager {
    * @param {string} locationId - New location ID
    * @throws {Error} If no active session
    */
-  updateCurrentLocation(locationId) {
+  async updateCurrentLocation(locationId) {
     if (!this.currentSession) {
       throw new Error('No active session');
     }
@@ -90,6 +101,17 @@ class SessionManager {
     // Add to visited locations if first visit
     if (!this.currentSession.visitedLocations.includes(locationId)) {
       this.currentSession.visitedLocations.push(locationId);
+    }
+
+    // Persist state: Mark location as visited (Story 1.10)
+    try {
+      const result = await this.stateManager.markVisited(locationId);
+      if (!result.success) {
+        console.warn(`Warning: Failed to persist visited state for ${locationId}: ${result.error}`);
+      }
+    } catch (error) {
+      // Don't fail session on state persistence error (graceful degradation)
+      console.warn(`Warning: State persistence error for ${locationId}: ${error.message}`);
     }
 
     console.log(`📍 Location changed: ${previousLocation} → ${locationId}`);

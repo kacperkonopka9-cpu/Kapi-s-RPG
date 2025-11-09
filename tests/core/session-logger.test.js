@@ -13,6 +13,15 @@ describe('SessionLogger', () => {
   let mockPerformance;
   let logger;
 
+  // Helper: Generate expected log filename for today
+  const getExpectedLogFilename = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `session-${year}-${month}-${day}.md`;
+  };
+
   beforeEach(() => {
     // Mock fs module
     mockFs = {
@@ -94,7 +103,8 @@ describe('SessionLogger', () => {
 
       const logPath = logger.initializeLog('session-abc123');
 
-      expect(logPath).toBe('/test/logs/session-2025-11-05.md');
+      const expectedFilename = getExpectedLogFilename();
+      expect(logPath).toBe(`/test/logs/${expectedFilename}`);
       expect(mockFs.appendFileSync).toHaveBeenCalled();
       expect(logger.sessionId).toBe('session-abc123');
       expect(logger.startTime).toBeInstanceOf(Date);
@@ -397,7 +407,8 @@ describe('SessionLogger', () => {
 
       const logPath = logger.finalize();
 
-      expect(logPath).toBe('/test/logs/session-2025-11-05.md');
+      const expectedFilename = getExpectedLogFilename();
+      expect(logPath).toBe(`/test/logs/${expectedFilename}`);
       expect(mockFs.appendFileSync).toHaveBeenCalled();
 
       const summary = mockFs.appendFileSync.mock.calls[0][1];

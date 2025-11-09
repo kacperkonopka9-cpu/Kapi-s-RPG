@@ -1,4 +1,4 @@
-# generated: 2025-11-02
+# generated: 2025-11-08
 # project: Kapi-s-RPG
 # project_key: Kapi-s-RPG
 # tracking_system: file-system
@@ -29,7 +29,7 @@
 # - SM typically drafts next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
 
-generated: 2025-11-02
+generated: 2025-11-08
 project: Kapi-s-RPG
 project_key: Kapi-s-RPG
 tracking_system: file-system
@@ -47,19 +47,19 @@ development_status:
   1-6-location-navigation: done
   1-7-session-logging-system: done
   1-8-git-auto-save: done
-  1-9-test-locations-setup: in-progress
-  1-10-location-state-persistence: backlog
-  epic-1-retrospective: optional
+  1-9-test-locations-setup: done
+  1-10-location-state-persistence: done
+  epic-1-retrospective: completed
 
   # Epic 2: Game Calendar & Dynamic World System
   # Estimated Stories: 6-10
   epic-2: contexted
-  2-1-calendar-data-structure: backlog
-  2-2-time-advancement-module: backlog
-  2-3-event-scheduler: backlog
-  2-4-npc-schedule-tracking: backlog
-  2-5-calendar-slash-commands: backlog
-  2-6-event-execution-engine: backlog
+  2-1-calendar-data-structure: done
+  2-2-time-advancement-module: done
+  2-3-event-scheduler: done
+  2-4-npc-schedule-tracking: done
+  2-5-calendar-slash-commands: done
+  2-6-event-execution-engine: done
   2-7-state-auto-update: backlog
   2-8-moon-phase-weather: backlog
   2-9-world-state-propagation: backlog

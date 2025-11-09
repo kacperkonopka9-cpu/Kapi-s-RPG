@@ -75,8 +75,8 @@ async function travelHandler(deps, args) {
       to: targetLocationId
     });
 
-    // Step 3: Update current location
-    sessionManager.updateCurrentLocation(targetLocationId);
+    // Step 3: Update current location (async due to state persistence - Story 1.10)
+    await sessionManager.updateCurrentLocation(targetLocationId);
 
     // Step 4: Load new location data
     const locationData = await locationLoader.loadLocation(targetLocationId);

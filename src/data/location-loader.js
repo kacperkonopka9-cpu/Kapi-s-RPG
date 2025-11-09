@@ -397,6 +397,7 @@ class LocationLoader {
 
   /**
    * Parse State.md file
+   * Handles both YAML frontmatter (from StateManager - Story 1.10) and legacy markdown sections
    * @param {string} filePath - Path to State.md
    * @returns {LocationState} Location state object
    */
@@ -404,21 +405,57 @@ class LocationLoader {
     const content = fs.readFileSync(filePath, 'utf-8');
 
     try {
-      // Extract YAML content from markdown
-      // State.md may have markdown headers, extract the structured data
-      const sections = this.extractMarkdownSections(content);
+      let yamlState = null;
+      let narrativeContent = content;
 
-      // Build state object from sections
+      // Check for YAML frontmatter (Story 1.10 - StateManager format)
+      if (content.startsWith('---\n') || content.startsWith('---\r\n')) {
+        const lines = content.split('\n');
+        let endIndex = -1;
+
+        // Find the end of frontmatter
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i].trim() === '---') {
+            endIndex = i;
+            break;
+          }
+        }
+
+        if (endIndex !== -1) {
+          // Extract YAML content
+          const yamlContent = lines.slice(1, endIndex).join('\n');
+          narrativeContent = lines.slice(endIndex + 1).join('\n');
+
+          try {
+            // Parse YAML frontmatter
+            yamlState = yaml.load(yamlContent, { schema: yaml.SAFE_SCHEMA });
+          } catch (yamlError) {
+            console.warn(`Warning: Failed to parse YAML frontmatter in State.md: ${yamlError.message}`);
+          }
+        }
+      }
+
+      // Parse narrative sections (backward compatibility)
+      const sections = this.extractMarkdownSections(narrativeContent);
+
+      // Build state object, preferring YAML frontmatter if available
       const state = {
         locationId: '',
-        lastUpdated: sections['Last Updated']?.trim() || new Date().toISOString(),
+        lastUpdated: (yamlState?.last_updated) || sections['Last Updated']?.trim() || new Date().toISOString(),
         currentDate: sections['Current Date']?.trim() || '',
         currentTime: sections['Current Time']?.trim() || '',
         weather: sections['Weather']?.trim() || '',
         locationStatus: sections['Location Status']?.trim() || 'Normal',
         changesSinceLastVisit: this.extractList(sections['Changes Since Last Visit'] || ''),
         npcPositions: this.parseNPCPositions(sections['NPC Positions'] || ''),
-        activeQuests: this.extractList(sections['Active Quests'] || '')
+        activeQuests: this.extractList(sections['Active Quests'] || ''),
+
+        // Add YAML frontmatter fields if available (Story 1.10 - StateManager integration)
+        visited: yamlState?.visited || false,
+        discovered_items: yamlState?.discovered_items || [],
+        completed_events: yamlState?.completed_events || [],
+        npc_states: yamlState?.npc_states || {},
+        custom_state: yamlState?.custom_state || {}
       };
 
       return state;
