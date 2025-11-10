@@ -1,0 +1,111 @@
+name: "Kapi the Brave"
+race: "Human"
+class: "Fighter"
+level: 3
+experience: 1200
+background: "Soldier"
+alignment: "Lawful Good"
+
+abilities:
+  strength: 16
+  dexterity: 14
+  constitution: 15
+  intelligence: 10
+  wisdom: 12
+  charisma: 8
+
+hitPoints:
+  max: 31
+  current: 24
+  temporary: 0
+  hitDice:
+    total: 3
+    spent: 1
+    die: "d10"
+
+armorClass: 18
+
+proficiencies:
+  armor: ["light", "medium", "heavy", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "constitution"]
+  skills: ["athletics", "perception", "survival"]
+  tools: ["dice_set", "vehicles_land"]
+  languages: ["Common", "Dwarvish"]
+
+proficiencyBonus: 2
+
+spellcasting: null
+
+inventory:
+  equipped:
+    armor: "chain_mail"
+    mainHand: "longsword"
+    offHand: "shield"
+    ring1: null
+    ring2: null
+    amulet: null
+    cloak: "cloak_of_protection"
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "rope_hemp_50ft"
+      quantity: 1
+    - item: "rations"
+      quantity: 10
+    - item: "torch"
+      quantity: 5
+    - item: "bedroll"
+      quantity: 1
+    - item: "tinderbox"
+      quantity: 1
+  currency:
+    platinum: 0
+    gold: 150
+    electrum: 0
+    silver: 23
+    copper: 8
+
+weight:
+  current: 95.5
+  capacity: 240
+  pushDragLift: 480
+
+conditions: []
+
+exhaustionLevel: 0
+
+attunement:
+  items: ["cloak_of_protection"]
+  max: 3
+
+features:
+  - name: "Fighting Style (Defense)"
+    description: "+1 AC while wearing armor"
+    uses: null
+    maxUses: null
+    recharge: null
+  - name: "Second Wind"
+    description: "Regain 1d10 + fighter level HP as bonus action"
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+  - name: "Action Surge"
+    description: "Take one additional action on your turn"
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+deathSaves:
+  successes: 0
+  failures: 0
+
+inspiration: false
+
+metadata:
+  created: "2025-11-09T10:00:00Z"
+  lastPlayed: "2025-11-09T14:30:00Z"
+  campaign: "curse-of-strahd"
+  playerId: "kapi"
+  notes: "Human fighter dedicated to protecting the innocent. Former soldier turned adventurer."
