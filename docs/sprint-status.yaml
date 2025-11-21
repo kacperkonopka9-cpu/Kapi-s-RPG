@@ -63,55 +63,55 @@ development_status:
   2-7-state-auto-update: done
   2-8-moon-phase-weather: done
   2-9-world-state-propagation: done  # Duplicate of 2-7 (WorldStatePropagator delivered in state-auto-update)
-  epic-2-retrospective: optional
+  epic-2-retrospective: completed
 
   # Epic 3: D&D 5e Mechanics Integration
   # Estimated Stories: 10-15
-  epic-3: backlog
-  3-1-dice-rolling-module: backlog
-  3-2-character-sheet-parser: backlog
-  3-3-ability-checks-handler: backlog
-  3-4-skill-check-system: backlog
-  3-5-combat-manager: backlog
-  3-6-spell-database: backlog
-  3-7-spellcasting-module: backlog
-  3-8-inventory-management: backlog
-  3-9-level-up-calculator: backlog
-  3-10-mechanics-slash-commands: backlog
-  3-11-hp-death-saves: backlog
-  3-12-condition-tracking: backlog
-  3-13-rest-mechanics: backlog
-  3-14-equipment-system: backlog
-  epic-3-retrospective: optional
+  epic-3: contexted
+  3-1-dice-rolling-module: done
+  3-2-character-sheet-parser: done
+  3-3-ability-checks-handler: done
+  3-4-skill-check-system: done
+  3-5-combat-manager: done
+  3-6-spell-database: done
+  3-7-spellcasting-module: done
+  3-8-inventory-management: done
+  3-9-level-up-calculator: done
+  3-10-mechanics-slash-commands: done
+  3-11-hp-death-saves: done
+  3-12-condition-tracking: done
+  3-13-rest-mechanics: done
+  3-14-equipment-system: done
+  epic-3-retrospective: completed
 
   # Epic 4: Curse of Strahd Content Implementation
   # Estimated Stories: 12-18
-  epic-4: backlog
-  4-1-village-of-barovia-location: backlog
-  4-2-castle-ravenloft-structure: backlog
-  4-3-vallaki-location: backlog
-  4-4-krezk-location: backlog
-  4-5-major-locations-batch-1: backlog
-  4-6-major-locations-batch-2: backlog
-  4-7-strahd-npc-profile: backlog
-  4-8-ireena-npc-profile: backlog
-  4-9-major-npcs-batch-1: backlog
-  4-10-major-npcs-batch-2: backlog
-  4-11-main-quest-system: backlog
-  4-12-artifact-quests: backlog
-  4-13-side-quests-batch-1: backlog
-  4-14-monster-statblocks: backlog
-  4-15-item-database: backlog
-  4-16-tarokka-reading-system: backlog
-  4-17-strahd-ai-behavior: backlog
-  epic-4-retrospective: optional
+  epic-4: contexted
+  4-1-village-of-barovia-location: done
+  4-2-castle-ravenloft-structure: done
+  4-3-vallaki-location: done
+  4-4-krezk-location: done
+  4-5-major-locations-batch-1: done
+  4-6-major-locations-batch-2: done
+  4-7-strahd-npc-profile: done
+  4-8-ireena-npc-profile: done
+  4-9-major-npcs-batch-1: done
+  4-10-major-npcs-batch-2: done
+  4-11-main-quest-system: done
+  4-12-artifact-quests: done
+  4-13-side-quests-batch-1: done
+  4-14-monster-statblocks: done
+  4-15-item-database: done
+  4-16-tarokka-reading-system: done
+  4-17-strahd-ai-behavior: done
+  epic-4-retrospective: completed
 
   # Epic 5: LLM-DM Integration & VS Code Workflows
   # Estimated Stories: 8-12
-  epic-5: backlog
-  5-1-intelligent-context-loader: backlog
-  5-2-context-caching-strategy: backlog
-  5-3-llm-prompt-templates: backlog
+  epic-5: contexted
+  5-1-intelligent-context-loader: done
+  5-2-context-caching-strategy: done
+  5-3-llm-prompt-templates: done
   5-4-enhanced-slash-commands: backlog
   5-5-vs-code-ui-improvements: backlog
   5-6-session-management: backlog
@@ -121,3 +121,9 @@ development_status:
   5-10-calendar-widget: backlog
   5-11-markdown-preview-styling: backlog
   epic-5-retrospective: optional
+
+
+
+
+
+
