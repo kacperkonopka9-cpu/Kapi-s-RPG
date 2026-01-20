@@ -1,0 +1,172 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>7</storyId>
+    <title>Strahd NPC Profile</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-7-strahd-npc-profile.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player confronting the main villain of the Curse of Strahd campaign</asA>
+    <iWant>a complete and fully-integrated Strahd von Zarovich NPC profile with legendary creature mechanics</iWant>
+    <soThat>I can experience an authentic CR 15 legendary vampire encounter with tactical AI behavior, legendary/lair actions, and all vampire abilities functioning correctly within the Epic 3 mechanics system</soThat>
+    <tasks>
+- Task 1: Create Strahd NPC Profile File (AC: 1, 7)
+- Task 2: Define D&D 5e Stat Block (AC: 1)
+- Task 3: Define Legendary Actions (AC: 2)
+- Task 4: Define Lair Actions (AC: 3)
+- Task 5: Define Vampire Abilities (AC: 4)
+- Task 6: Define Spellcasting (AC: 5)
+- Task 7: Define AI Behavior System (5 Tactical Phases) (AC: 6)
+- Task 8: Add NPC Schedule and Location References (AC: 7)
+- Task 9: Integration Testing (AC: 8 - Integration Checkpoint)
+- Task 10: Schema Validation and Documentation (AC: 7, 8)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: Complete D&D 5e Stat Block - Strahd NPC profile contains full CR 15 stat block with abilities, HP, AC, saves, skills, immunities, resistances, legendary resistance (3/day), and spellcasting (9th level wizard)
+
+AC-2: Legendary Actions Implemented - Profile defines all 3 legendary actions (Move, Unarmed Strike, Bite) with costs, effects, and integration points for Epic 3 CombatManager legendary action system
+
+AC-3: Lair Actions Defined - Lair actions for Castle Ravenloft defined (initiative count 20) including all 3 options from Curse of Strahd module, integrated with Epic 2 EventScheduler for location-based triggers
+
+AC-4: Vampire Abilities Complete - All core vampire abilities documented: Charm, Children of the Night summons, Shapeshifting (bat/wolf/mist), Misty Escape, Spider Climb, Regeneration, Sunlight Sensitivity, Max HP Reduction Bite, Vampire Weaknesses
+
+AC-5: Spellcasting Integration - Strahd's 9th-level wizard spell list defined and integrated with Epic 3 SpellcastingModule, including prepared spells from Curse of Strahd statblock
+
+AC-6: AI Behavior System - aiBehaviorNotes section documents Strahd's 5-phase tactical combat system (Observation, Testing, Psychological Warfare, Engagement, Retreat) with triggers, objectives, and decision logic for LLM-DM guidance
+
+AC-7: NPC Profile Schema Compliance - Profile validates against templates/npc/npc-profile-template.yaml schema with all required fields (npcId, name, type, stats, dialogue, personality, motivations, schedule, location references)
+
+AC-8: Epic 1-3 Integration Checkpoint - Integration tests verify: CharacterManager loads profile, CombatManager handles legendary actions, SpellcastingModule casts spells, location references work (Castle Ravenloft, Village of Barovia), save/load persistence functions correctly
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="CharacterManager, CombatManager, SpellcastingModule">
+        Epic 3 CharacterManager loads NPC profiles from YAML files (characters/{id}.yaml schema). CombatManager handles legendary actions (3/round), lair actions (initiative 20), and legendary resistance tracking. SpellcastingModule supports 9th-level wizard spells with spell save DC and spell attack bonus. All systems use Result Object pattern returning {success, data, error}.
+      </doc>
+
+      <doc path="docs/tech-spec-epic-4.md" title="Epic 4 Technical Specification" section="NPC Profile Implementation">
+        Story 4-7 is an integration checkpoint validating Epic 3 systems can handle CR 15 legendary creatures. NPC profiles stored in game-data/npcs/{npc-id}.yaml. Must follow npc-profile-template.yaml schema with fields: npcId, name, type, abilities, hitPoints, armorClass, legendaryActions, lairActions, spellcasting, aiBehavior, schedule, dialogue, personality. Profile references from location NPCs.md files.
+      </doc>
+
+      <doc path="docs/strahd-mechanics-research.md" title="Strahd Mechanics Research" section="Complete Strahd Analysis">
+        Strahd von Zarovich CR 15 legendary vampire requires: Legendary Actions (Move, Unarmed Strike, Bite costs 2), Lair Actions (3 types on initiative 20 in Castle Ravenloft), Legendary Resistance (3/day), Regeneration (20 HP/turn), Vampire abilities (Charm DC 17, Children of Night, Shapechanger bat/wolf/mist, Misty Escape, Spider Climb), Sunlight Hypersensitivity (20 damage/turn + disadvantage), Running Water (20 acid/turn), Stake to Heart (paralyzed in coffin), Max HP Reduction Bite (necrotic damage reduces max HP). Spellcasting: 9th-level wizard, DC 18, +10 attack. Stats: STR 18, DEX 18, CON 18, INT 20, WIS 15, CHA 18. HP 144, AC 16.
+      </doc>
+
+      <doc path="docs/epic-4-content-audit.md" title="Epic 4 Content Audit" section="NPCs Tier 1">
+        Strahd von Zarovich: P0 priority, main villain, CR 15, legendary actions, spellcaster, located Castle Ravenloft. First NPC profile in Epic 4, establishes template for 52 total NPCs. Most complex NPC in campaign with 20+ special abilities.
+      </doc>
+
+      <doc path="templates/npc/npc-profile-template.yaml" title="NPC Profile Template" section="Schema Definition">
+        Complete NPC schema includes: Basic Info (npcId, name, race, class, level, alignment, npcType), Ability Scores (6 abilities), Hit Points (max, current, hitDice), Combat Stats (armorClass, proficiencyBonus), Proficiencies (armor, weapons, savingThrows, skills), Spellcasting (ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared), Features/Special Abilities, Legendary Actions (actionsPerRound, actions array with cost), Lair Actions (initiative, actions array), Personality (traits, ideals, bonds, flaws), Dialogue (greeting, combat, keyQuotes), AI Behavior (combatTactics, goals, motivations, fears), Schedule (time-based activities), Relationships (allies, enemies, family, faction). Template version 1.0.0 compatible with Epic 3 CharacterManager.
+      </doc>
+
+      <doc path="templates/npc/examples/ismark_kolyanovich.yaml" title="Ismark NPC Example" section="Reference Implementation">
+        Example major NPC showing Fighter class structure: level 4, proficiency bonus 2, features (Second Wind, Action Surge, Extra Attack), equipment (chain_shirt, longsword, shield), personality traits, dialogue examples, AI behavior (defensive tactics protecting Ireena), schedule (daily routine at mansion), quest involvement (quest_giver for bury_the_burgomaster and escort_ireena). Demonstrates proper YAML formatting and Epic 3 compatibility.
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" lines="all" reason="Loads and validates NPC profiles from YAML files. Strahd profile must be loadable by CharacterManager.loadCharacter(npcId). Calculates derived stats (proficiency bonus, ability modifiers, AC).">
+      </artifact>
+
+      <artifact path="src/mechanics/combat-manager.js" kind="service" symbol="CombatManager" lines="all" reason="Handles combat encounters including legendary actions and lair actions. Story 4-7 validates CombatManager can track Strahd's 3 legendary actions per round and lair actions on initiative count 20. Integration checkpoint for legendary creature mechanics.">
+      </artifact>
+
+      <artifact path="src/mechanics/spell-manager.js" kind="service" symbol="SpellManager" lines="all" reason="Manages spellcasting for NPCs. Strahd is 9th-level wizard with spell save DC 18 and +10 spell attack. Must load Strahd's prepared spell list from spell database and track spell slots.">
+      </artifact>
+
+      <artifact path="src/mechanics/hp-manager.js" kind="service" symbol="HPManager" lines="all" reason="Tracks HP, damage, healing. Strahd has custom mechanics: Regeneration (20 HP/turn), Max HP Reduction from Bite attack, Misty Escape at 0 HP. Integration tests verify these mechanics work with HPManager.">
+      </artifact>
+
+      <artifact path="src/mechanics/condition-tracker.js" kind="service" symbol="ConditionTracker" lines="all" reason="Tracks conditions. Strahd immune to charmed and frightened conditions. Sunlight Hypersensitivity applies disadvantage on attacks/checks. Running water location check needed.">
+      </artifact>
+
+      <artifact path="templates/npc/npc-profile-template.yaml" kind="file" symbol="NPC Schema" lines="all" reason="Schema that Strahd profile must validate against. Defines required fields: npcId, name, type, abilities, hitPoints, armorClass, legendaryActions (actionsPerRound, actions[]), lairActions (initiative, actions[]), spellcasting, aiBehavior, schedule, dialogue, personality, relationships.">
+      </artifact>
+
+      <artifact path="templates/npc/examples/ismark_kolyanovich.yaml" kind="file" symbol="Ismark Profile" lines="all" reason="Reference example showing proper NPC profile structure. Demonstrates Fighter class, features array, dialogue formatting, AI behavior notes, schedule integration with Epic 2.">
+      </artifact>
+
+      <artifact path="game-data/locations/castle-ravenloft/NPCs.md" kind="file" symbol="Castle Ravenloft NPCs" lines="all" reason="Location where Strahd NPC reference must be added. NPCs.md lists all NPCs present at location with npcId references.">
+      </artifact>
+
+      <artifact path="game-data/locations/village-of-barovia/NPCs.md" kind="file" symbol="Village NPCs" lines="all" reason="Optional Strahd encounter location. May add Strahd reference for occasional appearances in village.">
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for NPC profile files</package>
+        <package name="jest" version="^29.7.0">Testing framework for integration tests</package>
+        <package name="date-fns" version="^2.30.0">Date/time utilities for schedule parsing (Epic 2 dependency)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - NPC Profile must validate against templates/npc/npc-profile-template.yaml schema
+    - Legendary Actions: Exactly 3 per round, recharge at start of Strahd's turn, usable at end of other creatures' turns
+    - Lair Actions: Only active in Castle Ravenloft location, trigger on initiative count 20 (losing ties)
+    - Spellcasting: 9th-level wizard, spell save DC 18, spell attack bonus +10, spell IDs must reference Epic 3 spell database
+    - AI Behavior: Must document 5-phase tactical system (Observation, Testing, Psychological Warfare, Engagement, Retreat)
+    - Content Type: Pure YAML file creation, NO code changes allowed (Epic 4 content-only constraint)
+    - File Location: game-data/npcs/strahd_von_zarovich.yaml (new directory, create if not exists)
+    - Epic 3 Compatibility: Profile must load successfully with CharacterManager.loadCharacter('strahd_von_zarovich')
+    - Template Compliance: All required fields must be present (npcId, name, type, abilities, hitPoints, etc.)
+    - YAML Syntax: Proper indentation (2 spaces), valid YAML parseable by js-yaml
+    - Token Budget: NPC profiles don't have strict token limits but aim for clarity and completeness (estimated 800-1200 tokens)
+    - Integration Checkpoint: This story validates Epic 3 systems can handle legendary creatures - integration tests MUST pass
+  </constraints>
+
+  <interfaces>
+    <interface name="NPC Profile Schema" kind="YAML file format" signature="npc-profile-template.yaml structure" path="templates/npc/npc-profile-template.yaml">
+      Required top-level keys: name, npcId, race, class, level, alignment, npcType, abilities{strength,dexterity,constitution,intelligence,wisdom,charisma}, hitPoints{max,current,temporary,hitDice{total,spent,die}}, armorClass, proficiencies{armor[],weapons[],savingThrows[],skills[],tools[],languages[]}, proficiencyBonus, spellcasting{ability,spellSaveDC,spellAttackBonus,spellSlots{},spellsPrepared[],cantrips[]}, legendaryActions{actionsPerRound,actions[{name,cost,description}]}, lairActions{initiative,actions[{name,description}]}, features[{name,description,uses,maxUses,recharge}], specialAbilities[], personality{traits[],ideals[],bonds[],flaws[],mannerisms[],voiceDescription,appearanceNotes}, dialogue{greeting[],idle[],farewell[],combat[],keyQuotes[]}, relationships{allies[],enemies[],family[],faction}, aiBehavior{combatTactics,goals[],motivations[],fears[],knowledgeSecrets[],attitudeTowardPlayer,trustLevel,questInvolvement[],specialBehaviors[]}, schedule[{time,location,activity}], currentLocation, status, canMove, tetheredToLocation, metadata{created,source,pageReference,official,notes,dmReminders[],developmentStage}, templateVersion, compatibleWith
+    </interface>
+
+    <interface name="CharacterManager.loadCharacter" kind="function" signature="async loadCharacter(npcId: string): Promise&lt;ResultObject&gt;" path="src/mechanics/character-manager.js">
+      Loads NPC profile from game-data/npcs/{npcId}.yaml, parses YAML, validates schema, calculates derived stats (AC, proficiency bonus, ability modifiers). Returns {success: boolean, data: Character | null, error: string | null}. Strahd profile must load successfully with all legendary creature fields intact.
+    </interface>
+
+    <interface name="CombatManager Legendary Actions" kind="combat system extension" signature="Legendary action tracking for CR 15+ creatures" path="src/mechanics/combat-manager.js">
+      Epic 3 CombatManager must track: legendaryActionsPool (3 per round), legendaryActionsUsed, resetLegendaryActions() on creature's turn start, useLegendaryAction(actionName, cost) at end of other creatures' turns. Strahd profile defines 3 legendary actions: Move (cost 1), Unarmed Strike (cost 1), Bite (cost 2).
+    </interface>
+
+    <interface name="CombatManager Lair Actions" kind="combat system extension" signature="Lair action triggers on initiative 20" path="src/mechanics/combat-manager.js">
+      CombatManager adds pseudo-combatant "Lair" at initiative count 20 when location.isInCastleRavenloft === true. Lair actions: Solid Fog (fog cloud 20ft cube), Pass Through Walls (Strahd phase through solid objects), Control Doors (open/close doors, raise/lower portcullis 3d6 damage). Cannot repeat same action 2 rounds in row.
+    </interface>
+
+    <interface name="SpellcastingModule NPC Integration" kind="spell system" signature="Load NPC prepared spells and spell slots" path="src/mechanics/spell-manager.js">
+      SpellcastingModule.loadSpells(character) reads character.spellcasting{spellsPrepared[], cantrips[], spellSlots{}}. Strahd: cantrips[mage_hand, prestidigitation, ray_of_frost], spellsPrepared[comprehend_languages, fog_cloud, sleep, detect_thoughts, gust_of_wind, mirror_image, animate_dead, fireball, nondetection, blight, greater_invisibility, polymorph, animate_objects, scrying]. Spell save DC 18, spell attack +10.
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Epic 3 testing standards apply: Jest framework, integration tests in tests/integration/npcs/, unit tests for validation logic. Test approach: Result Object pattern (check success before accessing data), dependency injection (mock file system for unit tests, real I/O for integration tests), Arrange-Act-Assert pattern. Target 80%+ coverage for NPC integration tests. Run with 'npm test tests/integration/npcs/strahd-integration.test.js'.
+    </standards>
+
+    <locations>
+      - tests/integration/npcs/strahd-integration.test.js (new file)
+      - tests/mechanics/character-manager.test.js (existing, may extend)
+      - tests/integration/npc-schedule-tracking.test.js (existing, Epic 2 schedule integration)
+    </locations>
+
+    <ideas>
+      - AC-1 Test: CharacterManager.loadCharacter('strahd_von_zarovich') returns {success: true}, data contains all stat block fields (STR 18, DEX 18, CON 18, INT 20, WIS 15, CHA 18, HP max 144, AC 16)
+      - AC-2 Test: Loaded profile has legendaryActions object with actionsPerRound === 3, actions array length === 3 (Move, Unarmed Strike, Bite), Bite action has cost === 2
+      - AC-3 Test: Loaded profile has lairActions object with initiative === 20, actions array length === 3 (Fog, Pass Through Walls, Control Doors), location-gated to Castle Ravenloft
+      - AC-4 Test: Profile specialAbilities includes all vampire abilities (Charm, Children of Night, Shapechanger, Misty Escape, Spider Climb, Regeneration, Sunlight Hypersensitivity, Running Water damage, Vampire Weaknesses)
+      - AC-5 Test: Profile spellcasting has ability === 'intelligence', spellSaveDC === 18, spellAttackBonus === 10, spellsPrepared array length === 18 (cantrips + prepared spells), all spell IDs exist in spell database
+      - AC-6 Test: Profile aiBehavior documents 5 phases (Observation, Testing, Psychological Warfare, Engagement, Retreat) with triggers, objectives, decision logic
+      - AC-7 Test: YAML validation - parse profile with js-yaml, validate all required fields present, check no syntax errors, verify templateVersion === '1.0.0', compatibleWith === 'Epic 3 CharacterManager (Story 3-2)'
+      - AC-8 Integration Test: CombatManager can handle legendary actions (track pool, consume actions, reset on turn), lair actions trigger at initiative 20 in Castle Ravenloft location, location references resolve (Castle Ravenloft and Village of Barovia exist), StateManager can save/load Strahd HP and status, SpellcastingModule can cast Strahd's spells
+    </ideas>
+  </tests>
+</story-context>

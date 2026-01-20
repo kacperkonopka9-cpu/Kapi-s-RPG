@@ -1,0 +1,357 @@
+# Burgomaster Dmitri Krezkov - Leader of Krezk
+# Village of Krezk, Gatekeeper and Grieving Father
+# Epic 4 Story 4-9: Major NPCs Batch 1
+
+# === BASIC INFORMATION ===
+name: "Burgomaster Dmitri Krezkov"
+npcId: "burgomaster_dmitri_krezkov"
+race: "Human"
+age: 55
+class: null  # Commoner/Noble
+level: 2
+experience: null
+background: "Noble (Burgomaster)"
+alignment: "Lawful Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 11     # +0 modifier
+  dexterity: 10    # +0 modifier
+  constitution: 12  # +1 modifier
+  intelligence: 13  # +1 modifier
+  wisdom: 14       # +2 modifier
+  charisma: 12     # +1 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 9  # 2d8 (average, commoner noble)
+  current: 9
+  temporary: 0
+  hitDice:
+    total: 2
+    spent: 0
+    die: "d8"
+
+armorClass: 10  # No armor (simple clothing)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: []  # No armor proficiency
+  weapons: []  # No weapon proficiency
+  savingThrows: ["wisdom"]
+  skills: ["insight", "persuasion", "history"]
+  tools: []
+  languages: ["Common"]
+
+proficiencyBonus: 2  # Level 2 equivalent
+
+# === SPELLCASTING ===
+spellcasting: null  # Non-caster
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null  # Simple dignified clothing
+    mainHand: null
+    offHand: null
+    ring1: "family_heirloom_ring"
+    ring2: null
+    amulet: "burgomaster_seal"
+    cloak: "wool_cloak"
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "krezk_ledger"
+      quantity: 1
+    - item: "letters_from_abbey"
+      quantity: 3
+    - item: "ilyas_portrait"
+      quantity: 1
+  currency:
+    platinum: 0
+    gold: 30
+    electrum: 0
+    silver: 50
+    copper: 20
+
+weight:
+  current: 20
+  capacity: 165  # Str 11 * 15
+  pushDragLift: 330  # Str 11 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Position of Privilege"
+    description: "As burgomaster of Krezk, Dmitri commands authority in his village. Villagers defer to his judgment and he can call upon village militia if needed."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities: []
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Grief-stricken over son Ilya's death, consumes his thoughts"
+    - "Protective of Krezk villagers, prioritizes village safety"
+    - "Desperate hope that the Abbot can perform miracles"
+    - "Cautious with outsiders, won't risk village for strangers"
+
+  ideals:
+    - "Protection - Keep Krezk safe by staying small, quiet, and closed (Lawful)"
+    - "Hope - Belief the Abbot can bring miracles, including resurrection (Good)"
+    - "Duty - Responsibility to villagers outweighs personal desires (Lawful)"
+
+  bonds:
+    - "Ilya Krezkov - deceased son, body at Abbey, overwhelming grief"
+    - "Anna Krezkov - wife, shared grief over loss of son"
+    - "Krezk village - his responsibility and life's work"
+    - "The Abbot - complicated trust, hope for son's resurrection"
+
+  flaws:
+    - "Naive trust in the Abbot's goodness despite warnings"
+    - "Prioritizes Krezk villagers over outsiders to fault"
+    - "Desperate enough to make poor deals for son's resurrection"
+    - "Guilt over son's death consumes rational judgment"
+
+  mannerisms:
+    - "Touches portrait of Ilya in pocket when distressed"
+    - "Looks toward Abbey when discussing son"
+    - "Speaks with measured authority tempered by grief"
+    - "Sighs heavily when making difficult decisions"
+
+  voiceDescription: "Cautious and grieving. Speaks with measured authority of a village leader but voice cracks when discussing son. Slow, deliberate speech reflecting careful consideration."
+
+  appearanceNotes: "Weathered man in mid-50s with gray beard and deep lines of grief on face. Simple but dignified clothing befitting village burgomaster. Somber expression, dark circles under eyes from sleepless nights. Carries himself with quiet dignity despite visible sorrow. Family ring and burgomaster's seal worn with pride."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Halt! Krezk's gates are closed to outsiders. We have survived by staying small, staying quiet, staying closed. State your business or leave."
+    - "I am Burgomaster Dmitri Krezkov. These are my people, and I will not endanger them for strangers. What do you want?"
+    - "You seek entry to Krezk? Prove yourselves worthy. Bring us wine from the Wizard of Wines, and I shall consider it."
+
+  idle:
+    - "[Stares toward Abbey on hill]"
+    - "[Touches portrait of son in pocket]"
+    - "Ilya... my boy... if only..."
+    - "The Abbot promises much. Perhaps... perhaps there is hope."
+
+  farewell:
+    - "Go safely. Krezk's gates will open again only for those who prove themselves."
+    - "May you find what you seek, though I fear you seek only death in this cursed land."
+    - "Return with the wine, and we shall speak again."
+
+  questGiving:
+    - "Krezk needs wine. The Wizard of Wines vineyard has stopped deliveries. If you can restore the wine shipment, I will allow you entry - and perhaps shelter for your companion Ireena."
+    - "My son... Ilya... he died recently. The Abbot at the Abbey of St. Markovia has his body. The Abbot says... he says he might be able to bring him back. But he needs something. Will you help me?"
+
+  questComplete:
+    - "[After wine delivery] You have done Krezk a great service. The gates are open to you. Enter and rest. You have earned sanctuary here."
+    - "[If Ireena brought] The girl may stay. She will be safe here, as safe as anyone can be in this cursed land."
+
+  griefDialogue:
+    - "Ilya was everything to me. A good boy. Kind. He didn't deserve this fate."
+    - "My wife weeps day and night. We had such hopes for him. Now... now there is only the Abbot's promise."
+    - "I know I should bury him and let him rest. But what father wouldn't hope? What father wouldn't try everything?"
+    - "Every night I dream of him. His laughter. His smile. Then I wake and remember..."
+    - "They say I'm being foolish, that the Abbot cannot truly resurrect the dead. But I must try. For Anna. For myself."
+
+  abbeyWarnings:
+    - "The Abbot is... strange. Holy, yes, but strange. He has helped us, but I cannot say I fully understand him."
+    - "Some villagers fear the Abbey. They say odd things happen there. But the Abbot healed my niece when she was sick. He is good... I think."
+    - "Do not disturb the Abbot without good cause. He is powerful and not to be trifled with."
+
+  keyQuotes:
+    - "Krezk has survived by staying small, staying quiet, staying closed. I will not risk my people for strangers."
+    - "The Abbot... he promises he can bring my boy back. What father wouldn't hope?"
+    - "You ask me to choose between my son and my duty. I... I don't know which is right anymore."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "player_character"
+      relationship: "conditional ally"
+      notes: "Dmitri is initially hostile to outsiders. Becomes ally if party delivers wine to Krezk. Deeply grateful if party helps with Ilya situation. Can provide sanctuary and support."
+
+  family:
+    - npcId: "ilya_krezkov"
+      relationship: "son (deceased)"
+      notes: "Ilya died recently (exact cause varies by DM choice - illness, accident, or Strahd-related). Body is at Abbey. Dmitri desperate to resurrect him, making him vulnerable to Abbot's manipulation."
+
+    - npcId: "anna_krezkov"
+      relationship: "wife"
+      notes: "Shared grief over Ilya's death. Anna supports Dmitri's leadership but worries about his obsession with resurrection."
+
+  relationships:
+    - npcId: "the_abbot"
+      relationship: "complicated trust"
+      notes: "Dmitri trusts the Abbot because he wants to believe resurrection is possible. Unaware of Abbot's true nature (fallen angel creating flesh golem bride for Strahd). Tragic naivety."
+
+    - npcId: "davian_martikov"
+      relationship: "wine supplier"
+      notes: "Owner of Wizard of Wines vineyard. Dmitri depends on wine deliveries for village morale and trade. Concerned about stopped shipments."
+
+    - npcId: "ireena_kolyana"
+      relationship: "sanctuary seeker"
+      notes: "If party brings Ireena, Dmitri allows her to stay at Abbey (if wine quest completed). Sympathetic to her plight as fellow victim of Strahd's curse."
+
+  faction: "krezk_village_government"
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Non-combatant. Dmitri avoids combat entirely. If village attacked, he rallies militia and flees to safety with wife. Has no combat training or ability. Calls for guards if threatened personally. Focuses on protecting villagers over self."
+
+  goals:
+    - "Protect Krezk village from Strahd and outside threats"
+    - "Resurrect son Ilya through Abbot's promised miracle"
+    - "Maintain village stability and morale"
+    - "Keep village gates closed except to proven allies"
+
+  motivations:
+    - "Grief over Ilya's death drives desperate decisions"
+    - "Duty to protect Krezk villagers"
+    - "Hope that Abbot can perform miracles"
+    - "Love for wife Anna and desire to end her suffering"
+
+  fears:
+    - "Strahd's attention turning to Krezk"
+    - "Losing more villagers to Barovia's dangers"
+    - "Ilya being lost forever without resurrection attempt"
+    - "Making wrong choice between son and village"
+
+  knowledgeSecrets:
+    - "Knows wine shipments from Wizard of Wines have stopped"
+    - "Aware Ilya's body is at Abbey in Abbot's care"
+    - "Abbot promised possible resurrection but needs something first"
+    - "Doesn't realize Abbot is fallen angel with sinister plans"
+    - "Knows Krezk is safer than other villages due to isolation and walls"
+    - "Aware of Pool of Reflection's blessed nature near Krezk"
+    - "Some villagers distrust Abbey but Dmitri dismisses concerns"
+
+  attitudeTowardPlayer: "hostile"  # Initially, becomes friendly after wine quest
+
+  trustLevel: 2  # Starts very low (2), becomes 8 after wine delivery
+
+  questInvolvement:
+    - questId: "journey_to_krezk"
+      role: "gatekeeper"
+      notes: "Dmitri controls access to Krezk. Party must complete wine delivery quest to gain entry. Can be obstacle or helper depending on approach."
+
+    - questId: "wine_delivery_to_krezk"
+      role: "quest_giver"
+      notes: "Dmitri asks party to restore wine shipment from Wizard of Wines. Completing this quest opens Krezk gates and gains his trust."
+
+    - questId: "ilyas_resurrection"
+      role: "quest_target"
+      notes: "Tragic quest hook. Abbot manipulates Dmitri's grief to get materials for flesh golem bride for Strahd. Dmitri is pawn in larger scheme. Resolution varies (genuine resurrection impossible, mercy killing, or reveal Abbot's true plan)."
+
+    - questId: "ireena_sanctuary_krezk"
+      role: "helper"
+      notes: "If wine delivered and Ireena brought to Krezk, Dmitri allows her to stay at Abbey. This leads to Pool of Reflection ending (Ireena reunites with Sergei's spirit)."
+
+  specialBehaviors:
+    - "Refuses entry to Krezk without wine delivery (gatekeeper role)"
+    - "Speaks of Ilya frequently, unable to move past grief"
+    - "Trusts Abbot naively, dismisses warnings about Abbey"
+    - "Torn between duty to village and hope for son's resurrection"
+    - "Shows compassion to Ireena if party earns his trust"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  - time: "06:00"
+    location: "krezk"
+    activity: "Morning prayers for Ilya, breakfast with Anna"
+
+  - time: "08:00"
+    location: "krezk"
+    activity: "Meet with village elders, discuss village matters"
+
+  - time: "10:00"
+    location: "krezk"
+    activity: "Inspect village walls and gates, ensure security"
+
+  - time: "12:00"
+    location: "krezk"
+    activity: "Midday meal, review village ledger"
+
+  - time: "14:00"
+    location: "krezk"
+    activity: "Visit Abbey, speak with Abbot about Ilya"
+
+  - time: "16:00"
+    location: "krezk"
+    activity: "Return to village, address villager concerns"
+
+  - time: "18:00"
+    location: "krezk"
+    activity: "Evening meal with Anna, quiet grief"
+
+  - time: "20:00"
+    location: "krezk"
+    activity: "Final rounds of village, ensure gates locked"
+
+  - time: "22:00"
+    location: "krezk"
+    activity: "Sleepless night, stare at Ilya's portrait, pray for miracle"
+
+# === LOCATION & STATUS ===
+currentLocation: "krezk"  # Village square or burgomaster's home
+status: "alive"
+canMove: true  # Can move within Krezk but rarely leaves village
+tetheredToLocation: "krezk"  # Won't abandon village
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  wine_delivered: false
+  krezk_gates_opened: false
+  ilya_resurrection_quest_active: false
+  ireena_at_abbey: false
+  trust_with_player: 2  # 1-10, increases after wine quest
+  mood: "grieving"  # grieving → hopeful (if resurrection possible) → devastated (if not)
+  relationship_with_player: "hostile"  # hostile → ally
+
+# === QUEST INVOLVEMENT ===
+questInvolvement:
+  - questId: "abbey_investigation"
+    role: "quest_trigger"
+    description: "Dmitri mentions the strange Abbot at the Abbey of St. Markovia, triggering the party's investigation into the Abbot's true nature and his plan to create Vasilka"
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.143-145"
+  official: true
+
+  notes: "Burgomaster Dmitri Krezkov is the leader of the isolated village of Krezk. He is a cautious, grief-stricken father whose son Ilya recently died. The Abbot at the Abbey of St. Markovia has Ilya's body and has promised possible resurrection, making Dmitri vulnerable to manipulation. He guards Krezk's gates fiercely but will allow entry to those who restore wine shipments. He is a tragic figure caught between duty and desperate hope."
+
+  dmReminders:
+    - "Dmitri is not villain - he's desperate grieving father making understandable choices"
+    - "Wine delivery quest is gate to accessing Krezk and Abbey content"
+    - "Ilya resurrection subplot is tragic - Abbot is using Dmitri's grief for sinister purposes"
+    - "Dmitri can provide sanctuary for Ireena at Abbey, leading to Pool of Reflection ending"
+    - "If party exposes Abbot's true plan, Dmitri is devastated but grateful"
+    - "Dmitri's arc is about accepting loss vs. desperate hope - powerful roleplay opportunity"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

@@ -1,0 +1,410 @@
+# Ireena Kolyana - Tatyana Reincarnation
+# Central Quest NPC - Curse of Strahd
+# Epic 4 Story 4-8: Companion NPC Profile
+
+# === BASIC INFORMATION ===
+name: "Ireena Kolyana"
+npcId: "ireena_kolyana"
+race: "Human"
+age: 26
+class: null  # Noble (NPC class variant, non-combatant)
+level: 2
+experience: null
+background: "Noble (Burgomaster's Daughter)"
+alignment: "Neutral Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10     # +0 modifier
+  dexterity: 12    # +1 modifier
+  constitution: 10  # +0 modifier
+  intelligence: 13  # +1 modifier
+  wisdom: 14       # +2 modifier
+  charisma: 16     # +3 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 9  # 2d8 (avg 9, non-combatant noble)
+  current: 9
+  temporary: 0
+  hitDice:
+    total: 2
+    spent: 0
+    die: "d8"
+
+armorClass: 12  # 10 (base) + 1 (DEX) + 1 (elegant dress provides minimal protection)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: []  # No armor proficiency (noble)
+  weapons: ["simple"]  # Basic self-defense
+  savingThrows: ["wisdom", "charisma"]
+  skills: ["insight", "persuasion", "history", "perception"]
+  tools: []
+  languages: ["Common", "Elvish"]
+
+proficiencyBonus: 2  # Level 2 equivalent
+
+# === SPELLCASTING ===
+spellcasting: null  # Non-caster
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null  # Elegant dress (no armor value)
+    mainHand: "dagger"  # Hidden, rarely used
+    offHand: null
+    ring1: null
+    ring2: null
+    amulet: "silver_necklace"  # Family heirloom (50 gp)
+    cloak: null
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "family_portrait"
+      quantity: 1
+    - item: "letter_from_father"
+      quantity: 1
+  currency:
+    platinum: 0
+    gold: 0
+    electrum: 0
+    silver: 10
+    copper: 0
+
+weight:
+  current: 15
+  capacity: 150  # Str * 15
+  pushDragLift: 300  # Str * 30
+
+# === CONDITIONS & STATUS ===
+conditions: ["frightened"]  # Ongoing fear from Strahd's pursuit
+exhaustionLevel: 1  # Sleepless nights from nightmares
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Noble Bearing"
+    description: "Ireena carries herself with quiet dignity despite her fear, commanding respect from commoners and nobles alike"
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Position of Privilege"
+    description: "As burgomaster's daughter, Ireena can secure an audience with local authorities and gain assistance from nobility"
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Tatyana's Soul (Hidden)"
+    description: "Ireena is the reincarnation of Tatyana, Sergei's beloved. She doesn't consciously know this, but experiences déjà vu and dreams at key locations"
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Strahd's Charm Vulnerability"
+    description: "Ireena must make a DC 17 Wisdom saving throw to resist Strahd's Charm ability, causing sleepwalking when she fails"
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Compassionate despite trauma - helps others even while terrified herself"
+    - "Protective of innocents, especially her brother Ismark"
+    - "Haunted by recurring nightmares of Strahd entering her room"
+    - "Refuses to surrender to despair, maintains hope in Barovia's darkness"
+
+  ideals:
+    - "Hope - Despite Barovia's darkness, hope must survive"
+    - "Freedom - No one should be forced into servitude or slavery"
+    - "Family - Brother Ismark is all she has left, must protect him"
+
+  bonds:
+    - "Father's memory and his sacrifice to protect her from Strahd"
+    - "Village of Barovia - her home, despite its darkness and danger"
+    - "Mysterious connection to Strahd she doesn't understand but fears"
+
+  flaws:
+    - "Guilt over father's death - believes she caused it by attracting Strahd's attention"
+    - "Nightmares plague her sleep due to Strahd's psychic influence"
+    - "Fears she's cursed and brings danger to those who help her"
+
+  mannerisms:
+    - "Touches neck when anxious (unconsciously covering bite scars)"
+    - "Avoids mirrors (unsettled by resemblance to Tatyana portraits she doesn't remember seeing)"
+    - "Stares at horizon as if searching for escape from Barovia"
+    - "Voice trembles when discussing Strahd directly"
+
+  voiceDescription: "Soft but determined voice with underlying fear. Speaks formally when stressed, drops formality when trusting. Voice trembles when discussing Strahd."
+
+  appearanceNotes: "Striking young woman with auburn hair and haunting green eyes shadowed by exhaustion. Deep blue dress torn at hem, dusted with ash. Two barely-healed bite marks on neck mark Strahd's attention. Dark circles under eyes from sleepless nights. Carries herself with quiet dignity and fierce determination despite visible fear."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "You're not from Barovia, are you? I can see it in your eyes—you still have hope. I pray that Strahd does not extinguish it."
+    - "Strangers in Barovia... You must be either very brave or very foolish. Perhaps both, like me."
+    - "Welcome to the Village of Barovia. I wish I could say you've found sanctuary, but nowhere in this land is safe from HIM."
+
+  idle:
+    - "[Stares out window with haunted expression]"
+    - "[Unconsciously touches bite marks on neck]"
+    - "[Whispers prayer to the Morninglord]"
+    - "I dreamed of her again last night. The woman who looks like me... Tatyana. Who is she?"
+
+  farewell:
+    - "Please... be careful out there. Strahd's eyes are everywhere."
+    - "Thank you for everything. I pray we meet again under better circumstances."
+    - "May the Morninglord light your path through this darkness."
+
+  questGiving:
+    - "My father is dying. He has protected me from... from HIM for so long, but now Father is too weak. When he's gone, nothing will stop Strahd from taking me. Please, my brother Ismark and I need help."
+    - "[If father dead] The nightmare isn't over. Strahd will come for me again. He always does. I must reach the Abbey in Krezk—perhaps the Abbot can protect me where my father could not."
+
+  questComplete:
+    - "[After burial] Thank you for honoring Father's memory. He gave everything to keep me safe. Now... now I must leave this cursed place before Strahd claims me."
+    - "[Arriving in Vallaki] This town seems almost... normal. Children playing. People smiling, even if forced. Maybe there's safety here. Maybe I can finally rest."
+    - "[At Pool of Reflection] I see her now. Tatyana. She was me... or I was her. All those lives, all that suffering. If I enter the pool, will it finally end? Will Strahd's curse break? Or will I simply... cease to be?"
+
+  combat:
+    - "I'm no warrior, but I won't let him take me without a fight!"
+    - "[Frightened] Please, I don't want to hurt anyone!"
+    - "[If protecting others] Stay behind me! I won't let you suffer for my curse!"
+
+  strahd:
+    - "He... he comes to me in the night. At first, I thought it was nightmares, but then Father found me at the window, sleepwalking. The bite marks... they're real."
+    - "He calls me 'Tatyana.' I don't know who that is, but the name fills me with dread and... something else. A memory I can't quite grasp."
+    - "Strahd says he loves me, but this isn't love. It's obsession, possession. He doesn't see ME—he sees someone who died centuries ago."
+
+  travel:
+    - "I've dreamed of leaving Barovia my whole life, but now that I'm doing it, I fear I'm bringing the curse with me. What if Strahd follows? What if more innocents die because of me?"
+    - "Every mile we travel, I feel both farther from safety and closer to something... familiar. As if I've walked this road before, though I know I haven't."
+
+  romance:
+    - "[If player romance develops] You make me feel safe. In all my life, only Father and Ismark have done that. But I fear for you—everyone Strahd sees as a rival meets a terrible fate."
+    - "I don't know if I can love anyone while this shadow hangs over me. But you... you make me want to hope again."
+
+  keyQuotes:
+    - "Hope is the candle we must protect in this land of eternal night."
+    - "I am not Tatyana. I am Ireena Kolyana, daughter of Kolyan Indirovich, and I will not surrender my soul."
+    - "He can take my blood, but he cannot take my will. I choose my own fate."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "player_character"
+      relationship: "neutral → ally → companion (dynamic)"
+      notes: "Trust grows through quest progression. Gratitude for protection. Potential romance option if player earns high trust."
+
+    - npcId: "father_lucian_petrovich"
+      relationship: "protector"
+      notes: "Offers sanctuary at St. Andral's Church in Vallaki until bones are stolen. Ireena trusts him as man of faith."
+
+    - npcId: "burgomaster_dmitri_krezkov"
+      relationship: "sanctuary seeker"
+      notes: "Burgomaster of Krezk. Allows Ireena to stay at Abbey. Sympathetic to her plight."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "stalker / obsessed pursuer"
+      notes: "Sees Ireena as Tatyana reincarnation. Has bitten her twice. Obsessed with possessing her. Ireena is terrified but defiant. Uses Charm to make her sleepwalk to Castle Ravenloft."
+
+  family:
+    - npcId: "ismark_kolyanovich"
+      relationship: "brother (younger)"
+      notes: "Fiercely protective of Ireena. Only family left alive. Mutual trust and love. Ismark will risk his life to keep her safe from Strahd."
+
+    - npcId: "kolyan_indirovich"
+      relationship: "father (deceased)"
+      notes: "Sacrificed himself protecting Ireena from Strahd. Died from exhaustion and stress. Buried in Village of Barovia church cemetery. Ireena deeply mourns him."
+
+    - npcId: "sergei_von_zarovich"
+      relationship: "past life beloved (unknown to Ireena consciously)"
+      notes: "Tatyana's original love, murdered by Strahd on their wedding day. Sergei's spirit appears at Pool of Reflection to reunite with Ireena/Tatyana. Connection Ireena feels as déjà vu and dreams."
+
+  faction: null  # Not affiliated with any faction, but protected by various NPCs and religious figures
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Non-combatant. Ireena avoids combat when possible. If forced into battle, uses Dodge action or attempts to flee. Will only fight if cornered or protecting innocents, using dagger defensively. Prefers to let companions handle combat while she assists non-combatants."
+
+  goals:
+    - "Survive Strahd's pursuit and avoid becoming his vampire bride"
+    - "Escape Barovia entirely (though she doesn't know it's impossible without breaking the curse)"
+    - "Protect innocents from suffering her fate"
+    - "Understand the recurring nightmares and Strahd's obsession with 'Tatyana'"
+    - "Honor father's memory by living free rather than surrendering"
+
+  motivations:
+    - "Love for brother Ismark and father's memory"
+    - "Desperate need for safety and peace after years of fear"
+    - "Fear of losing her identity to Tatyana (doesn't consciously understand this)"
+    - "Hope that the curse can be broken and she can live a normal life"
+
+  fears:
+    - "Becoming Strahd's vampire bride (third bite would trigger transformation)"
+    - "Forgetting who she is - Ireena vs Tatyana identity crisis"
+    - "Endangering those who help her (guilt over father's death)"
+    - "Dying and reincarnating to repeat the cycle (unconscious fear)"
+    - "Castle Ravenloft - feels drawn to it but terrified of it"
+
+  knowledgeSecrets:
+    - "Ireena dreams of a woman named Tatyana who looks identical to her, wearing an ancient wedding dress"
+    - "Doesn't consciously remember past lives, but has déjà vu at key locations (Castle Ravenloft chapel, Pool of Reflection, Tser Pool)"
+    - "Strahd murdered Sergei and drove Tatyana to suicide 400 years ago - Ireena doesn't know this history"
+    - "Tatyana's soul reincarnates every generation. Strahd finds and pursues each incarnation"
+    - "Current incarnation: Ireena Kolyana is approximately the 4th reincarnation since original Tatyana"
+    - "If Ireena enters the Pool of Reflection, she will be absorbed and reunite with Sergei's spirit, ending the cycle"
+    - "Third bite from Strahd triggers vampire transformation countdown (3 days via Epic 2 EventScheduler)"
+    - "St. Andral's bones protect the church - without them, Strahd can enter and kidnap Ireena"
+
+  attitudeTowardPlayer: "suspicious"  # Initial attitude (trust level 3)
+
+  trustLevel: 3  # 1-10 scale. Starts suspicious due to trauma. Becomes 7 (grateful ally) after burial quest. Can reach 9 (devoted companion) through multiple quests and roleplay.
+
+  questInvolvement:
+    - questId: "bury_the_burgomaster"
+      role: "quest_target"
+      notes: "Ireena mourns at father's funeral. Quest completion triggers emotional state change from 'grief' to 'determined'. Trust level increases to 7."
+
+    - questId: "escort_ireena_to_vallaki"
+      role: "quest_target"
+      notes: "Ireena is the escort NPC. Requires tracking location, bitten_count, player relationship. Dangerous journey with potential Strahd encounters."
+
+    - questId: "st_andrals_feast"
+      role: "target"
+      notes: "Strahd attempts to kidnap Ireena from St. Andral's Church during festival. If bones stolen, church no longer consecrated and Strahd can enter. Major combat encounter."
+
+    - questId: "journey_to_krezk"
+      role: "quest_target"
+      notes: "Ireena seeks sanctuary at Abbey of St. Markovia. Relationship with Burgomaster Dmitri. Leads to Pool of Reflection discovery."
+
+    - questId: "pool_of_reflection_ending"
+      role: "quest_target"
+      notes: "Ireena's canonical ending. Sergei's spirit appears, Ireena remembers Tatyana, chooses to enter pool. Absorption reunites her with Sergei, ends reincarnation cycle, breaks part of Strahd's curse."
+
+  specialBehaviors:
+    - "Unconsciously drawn to Pool of Reflection and Castle Ravenloft chapel (Tatyana's past life memories)"
+    - "Sleepwalks when Strahd uses Charm ability (Wisdom save DC 17 to resist). Found at windows or wandering toward Castle Ravenloft"
+    - "Reacts strongly to Strahd's presence: fear, defiance, confusion, and inexplicable sadness she doesn't understand"
+    - "Memories of past life surface as flashbacks at key locations: Castle Ravenloft chapel (wedding site), Pool of Reflection (Sergei's spirit), Tser Pool (where Tatyana drowned herself)"
+    - "Avoids mirrors and Tatyana portraits due to uncanny resemblance (subconscious recognition)"
+    - "Protective of Ismark despite being older - reversal of typical sibling dynamic due to her vulnerability"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # Village of Barovia - Before father's death
+  - time: "06:00"
+    location: "village_of_barovia"
+    activity: "Wake in burgomaster's mansion, morning prayers to Morninglord"
+
+  - time: "08:00"
+    location: "village_of_barovia"
+    activity: "Tend to dying father, bring him water and food"
+
+  - time: "12:00"
+    location: "village_of_barovia"
+    activity: "Meal preparation for Ismark and father"
+
+  - time: "14:00"
+    location: "village_of_barovia"
+    activity: "Pray in room, read books, avoid windows"
+
+  - time: "18:00"
+    location: "village_of_barovia"
+    activity: "Dinner with Ismark, discuss escape plans in whispers"
+
+  - time: "20:00"
+    location: "village_of_barovia"
+    activity: "Help Ismark barricade windows and doors against Strahd"
+
+  - time: "22:00"
+    location: "village_of_barovia"
+    activity: "Attempt sleep (nightmares, potential sleepwalking if Strahd uses Charm)"
+
+  # After father's death - stays in room until burial
+  # Vallaki schedule - if escorted to town
+  # - time: "08:00"
+  #   location: "vallaki"
+  #   activity: "Sanctuary at St. Andral's Church, morning prayers"
+
+  # - time: "12:00"
+  #   location: "vallaki"
+  #   activity: "Help Father Lucian with congregation, assist with church duties"
+
+  # - time: "18:00"
+  #   location: "vallaki"
+  #   activity: "Evening prayers, stays in church at night for protection"
+
+  # Krezk schedule - if journeyed to Abbey
+  # - time: "08:00"
+  #   location: "krezk"
+  #   activity: "Abbey guest quarters, morning prayers"
+
+  # - time: "10:00"
+  #   location: "krezk"
+  #   activity: "Visit blessed pool to pray and reflect"
+
+# === LOCATION & STATUS ===
+currentLocation: "village_of_barovia"  # Starts at burgomaster's mansion
+status: "alive"
+canMove: true  # Ireena can travel with party
+tetheredToLocation: null  # Not tethered, but seeks sanctuaries (churches, Abbey)
+
+# === DYNAMIC STATE TRACKING (AC-6) ===
+# These are custom state variables tracked by Epic 1 StateManager
+dynamicState:
+  bitten_by_strahd_count: 2  # Starts at 2 bites. 3rd bite triggers vampire transformation event
+  current_location: "village_of_barovia"  # Updates as Ireena travels
+  mood: "frightened"  # Emotional states: frightened → grieving → hopeful → determined → resigned
+  relationship_with_player: "neutral"  # Relationship progression: neutral → ally → companion → romance
+
+  # Quest milestone flags
+  father_buried: false
+  traveled_to_vallaki: false
+  sanctuary_at_church: false
+  met_sergei_spirit: false
+  absorbed_by_pool: false
+
+  # Additional tracking
+  trust_level: 3  # 1-10, increases through quests and positive interactions
+  sleepwalking_incidents: 0  # Tracks Strahd's Charm successes
+  knows_tatyana_identity: false  # Becomes true only at Pool of Reflection
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.90-91, p.43-44"
+  official: true
+
+  notes: "Ireena is the heart of Curse of Strahd's tragedy. She is Tatyana reincarnated but doesn't consciously know it. Strahd's obsessive love drives much of the campaign. Her canonical ending at Pool of Reflection is bittersweet—she escapes Strahd but ceases to exist as Ireena, absorbed into Sergei's spirit. Alternative endings possible based on player choices."
+
+  dmReminders:
+    - "Ireena should never feel like a damsel in distress - she's terrified but brave, makes her own choices"
+    - "Strahd will pursue Ireena relentlessly but strategically - he wants her willing love, not just possession"
+    - "Third bite triggers 3-day vampire transformation countdown (Epic 2 event), creating urgency"
+    - "Pool of Reflection ending should be Ireena's choice, not forced - emotional climax of her arc"
+    - "Foreshadow Tatyana connection through dreams, déjà vu, NPC reactions to her resemblance to portraits"
+    - "Ismark's protection of Ireena is crucial - show their sibling bond, his guilt at being unable to fully protect her"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

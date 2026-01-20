@@ -1,0 +1,205 @@
+# Scroll of Revivify - Uncommon Consumable
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and SpellcastingModule (Story 3-7)
+
+# === BASIC INFORMATION ===
+id: "scroll_of_revivify"
+name: "Scroll of Revivify"
+type: "consumable"
+weight: 0.1
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "spell_scroll"
+    spellName: "Revivify"
+    spellLevel: 3
+    description: "Contains the Revivify spell, which can restore life to a creature that has died within the last minute"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Cast Revivify"
+    description: "You can use an action to read the scroll and cast Revivify (3rd level). You touch a creature that has died within the last minute. That creature returns to life with 1 hit point. This spell can't return to life a creature that has died of old age, nor can it restore any missing body parts. Once used, the scroll crumbles to dust."
+    activation: "action"
+    usesPerDay: 1  # Single use, then destroyed
+    range: "touch"
+    effect: "Restore life to creature dead ≤1 minute"
+    healingAmount: 1  # Returns with 1 HP
+
+# === SPELL SCROLL MECHANICS ===
+spellScroll:
+  spellName: "Revivify"
+  spellLevel: 3
+  schoolOfMagic: "necromancy"
+  castingTime: "1 action"
+  range: "touch"
+  components: ["V", "S"]  # Material component not required for scrolls (diamonds worth 300gp normally required)
+  duration: "instantaneous"
+
+  # Spell scroll usage rules (DMG p.200)
+  usage:
+    description: "If the spell is on your class's spell list, you can read the scroll and cast the spell without material components (including the 300gp diamonds normally required). Otherwise, the scroll is unintelligible. If the spell is on your class's spell list but of a higher level than you can normally cast, you must make a DC 13 ability check using your spellcasting ability to successfully cast it. On a failed check, the spell disappears from the scroll with no other effect."
+    abilityCheckDC: 13
+    abilityCheckRequirement: "If spell level > your max spell slot level"
+
+  # Who can use this scroll
+  eligibleClasses:
+    - "Cleric"
+    - "Paladin"
+    - "Divine Soul Sorcerer"
+    - "Celestial Warlock"
+    - "Artificer"
+    - "Any class with Revivify on their spell list or via subclass/features"
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A sacred scroll inscribed with divine prayers and holy symbols, containing the formula for the Revivify spell. The parchment glows with soft golden light and radiates a comforting warmth. The text is written in beautiful calligraphy, each word a prayer to the divine powers that govern life and death. This scroll represents hope in the face of tragedy - the chance to snatch a fallen companion back from death's grasp."
+
+  history: "Revivify scrolls are created by clerics and paladins who inscribe divine prayers onto consecrated parchment. These scrolls are precious lifelines, particularly in dangerous lands like Barovia where death lurks around every corner. The scroll may have been created by a cleric of the Morninglord, preserved in a church's reliquary, or brought to Barovia by adventurers who understood the dangers they would face. In Barovia, where death is often permanent and resurrection magic is unreliable due to the Dark Powers' influence, a Revivify scroll may be the only chance to save a fallen ally."
+
+  legendsAndRumors:
+    - "Revivify scrolls sometimes fail in Barovia due to the Dark Powers' interference"
+    - "The Morninglord's blessing makes these scrolls more reliable than normal resurrection magic"
+    - "Strahd collects and destroys Revivify scrolls to prevent heroes from returning from death"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_inspection"
+  fullPropertiesReveal: "Reading the scroll reveals it contains the Revivify spell. An Identify spell or Religion check DC 10 confirms the spell level and effects."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Churches, temples, Abbey of Saint Markovia, or Castle Ravenloft"
+  howObtained: "May be found in the church in Vallaki, the Abbey of Saint Markovia in Krezk, hidden in the Burgomaster's mansion, among a cleric's possessions, or in Castle Ravenloft's library. Religious sites are the most likely locations. May be gifted by Father Lucian or other clerics as a reward for completing quests."
+  guardian: null
+  notes: "Extremely valuable in Barovia, where resurrection magic is often blocked by the Dark Powers. A Revivify scroll may be the only way to bring back a fallen party member. DMs should consider whether the Dark Powers interfere with the scroll's magic (optional - adds tension)."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: null
+  spellDC: null
+
+  integration:
+    combatManager: "Revivify can be cast during combat (1 action) to restore fallen allies immediately, allowing them to rejoin the fight on their next turn. Target returns with 1 HP."
+    equipmentManager: "Stored in inventory. Does not require equipping to use. Should be easily accessible for emergency use."
+    inventoryManager: "Weight 0.1 lbs. Single-use consumable, destroyed after use. Recommend marking as 'emergency item' in inventory."
+    spellcastingModule: "Integrates with spell scroll rules. Eligible casters can use without ability check if they can cast 3rd level spells. Lower-level casters require DC 13 spellcasting ability check."
+
+  usageRules:
+    timeLimit: "Target must have died within the last minute (10 rounds)"
+    bodyRequirements: "Target must have a body (all vital body parts intact - head, torso, etc.)"
+    noMaterialComponent: "Scroll version does not require the 300gp diamond normally needed for Revivify"
+    resultingHP: "Target returns to life with 1 HP (vulnerable - needs immediate healing)"
+    cannotRevive: "Cannot revive creatures that died of old age or those missing vital body parts"
+
+  cursedBaroviaRules:
+    description: "Optional rule: Resurrection magic in Barovia is unreliable due to the Dark Powers"
+    darkPowersCheck: "When using Revivify in Barovia, the DM may require a d% roll. On 01-10, the Dark Powers interfere and the spell fails (scroll still consumed). This represents Strahd's control over life and death in his domain."
+    dmGuidance: "This rule adds tension but may frustrate players. Use sparingly and consider allowing the scroll to work at critical story moments."
+
+  tacticalUse:
+    idealMoments:
+      - "Ally drops to 0 HP and fails death saves"
+      - "Critical character death during boss fight"
+      - "TPK prevention when healer falls"
+      - "NPC ally dies during key story moment"
+
+    urgency:
+      - "1 minute time limit creates pressure (10 rounds of combat)"
+      - "Must stabilize combat situation before using (need 1 action and physical access to body)"
+      - "Revived ally has only 1 HP - needs immediate healing or protection"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 5
+  notes: "Extremely valuable utility item that can prevent character death. The 1-minute time limit and 1 HP return provide balance - the scroll prevents permanent death but doesn't trivialize combat. Single-use nature means players will save it for truly critical moments. In Barovia, this may be one of the few reliable ways to resurrect fallen allies."
+
+  dmGuidance:
+    - "Revivify scrolls are 'get out of death free' cards - use sparingly (1-2 per campaign)"
+    - "Consider whether to apply the Dark Powers interference rule (adds Barovia flavor but may frustrate players)"
+    - "Make finding this scroll a memorable reward (in a saint's tomb, gift from a grateful priest, etc.)"
+    - "The scroll works during combat (1 action) - this can dramatically shift battle momentum"
+    - "Remember the 1-minute time limit - if the party flees and returns later, it's too late"
+    - "The 1 HP return means the revived character needs immediate healing or they may die again"
+    - "This scroll is worth 300+ gp (cost of the diamond component), making it a valuable treasure"
+    - "NPCs may beg for the scroll to revive loved ones (moral dilemmas)"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A rolled parchment of pristine white vellum, sealed with gold wax bearing a holy symbol (typically the Morninglord's sunburst or a generic ankh). The edges of the scroll shimmer with soft golden light. When unrolled, the scroll reveals prayers and invocations written in gold ink that seems to glow from within. Intricate borders depict scenes of life triumphing over death - figures rising from darkness into light, flowers blooming, the sun rising. The scroll radiates warmth and comfort, like the gentle light of dawn."
+
+  activeState: "When read aloud, the golden text blazes with brilliant light and the holy symbols lift from the parchment, swirling around the caster and the deceased. As the final words are spoken, the light flows into the fallen creature's body, and the scroll dissolves into motes of golden light that fade like morning mist. The deceased gasps as life returns, their eyes opening as they take their first breath."
+
+  soundEffects: "Reading the scroll produces a sound like distant church bells or a choir singing a hymn of hope. When the spell completes, there's a sound like a heartbeat resuming - a strong, steady thump. The revived creature typically gasps or coughs as they return to life."
+
+# === BAROVIA SPECIAL NOTES ===
+baroviaContext:
+  darkPowersInterference:
+    description: "In Barovia, the Dark Powers that imprison Strahd also have influence over life and death"
+    implications:
+      - "Higher-level resurrection spells (Raise Dead, Resurrection, True Resurrection) often fail in Barovia"
+      - "Revivify works because it's cast within 1 minute - the soul hasn't truly departed yet"
+      - "The Dark Powers may still interfere (DM discretion)"
+      - "Strahd hates resurrection magic and may hunt those who possess such scrolls"
+
+  storyImpact:
+    - "Successfully using the scroll in Barovia feels like defying Strahd's control over death"
+    - "NPCs react with awe and hope when they learn someone was brought back from death"
+    - "Strahd may comment that death is only the beginning in his land"
+    - "The scroll represents hope that the Dark Powers don't have absolute control"
+
+# === MORAL DILEMMAS ===
+roleplayOpportunities:
+  questHooks:
+    - "An NPC begs for the scroll to revive their child/spouse/friend"
+    - "Should you use the scroll on a fallen NPC or save it for a party member?"
+    - "Do you tell NPCs you have the scroll, risking them demanding you use it?"
+    - "Trade the scroll for vital information or keep it as insurance?"
+
+  npcReactions:
+    - "Clerics of the Morninglord recognize the scroll as a sacred relic and show reverence"
+    - "Desperate NPCs may try to steal the scroll to save loved ones"
+    - "Strahd offers to trade valuable items for the scroll (he wants to destroy it)"
+    - "Using the scroll publicly makes you famous - 'the one who brought back the dead'"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.200"
+  official: true
+  srdContent: true
+
+  notes: "Spell scrolls containing resurrection magic are among the most valuable items in D&D. In Curse of Strahd, where resurrection is unreliable and death is a constant threat, a Revivify scroll may be the difference between a heroic victory and a tragic loss. The scroll bypasses the need for expensive diamond components, making it accessible to lower-level parties."
+
+  dmReminders:
+    - "Single use - destroyed after casting"
+    - "Only usable by classes with Revivify on their spell list (clerics, paladins, etc.)"
+    - "Lower-level casters require DC 13 ability check to use successfully"
+    - "1-minute time limit (10 rounds) after death"
+    - "Target returns with 1 HP - needs immediate healing"
+    - "Cannot revive creatures missing vital body parts"
+    - "Cannot revive creatures that died of old age"
+    - "No material component required (scroll bypasses the 300gp diamond cost)"
+    - "Consider Dark Powers interference in Barovia (optional)"
+    - "This is a campaign-saving item - use as a significant reward"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), SpellcastingModule (Story 3-7)"

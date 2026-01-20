@@ -1,0 +1,257 @@
+<story-context id="3-14-equipment-system" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>14</storyId>
+    <title>Equipment System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-14-equipment-system.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player using the D&D 5e RPG engine</asA>
+    <iWant>a complete equipment system with equipping/unequipping, equipment slots, attunement tracking, and equipment bonuses</iWant>
+    <soThat>I can manage my character's worn armor, wielded weapons, and attuned magic items following D&D 5e rules</soThat>
+    <tasks>
+      - Task 1: Design EquipmentManager Module Architecture (AC: All)
+      - Task 2: Implement Equipment Slot Management (AC: 1, 2, 3, 4, 7)
+      - Task 3: Implement AC Calculation (AC: 1, 3, 9)
+      - Task 4: Implement Attunement System (AC: 5, 6)
+      - Task 5: Implement Proficiency Checking (AC: 1, 2, 11)
+      - Task 6: Implement Equipment Restrictions (AC: 1, 8)
+      - Task 7: Implement Equipment Effects System (AC: 5, 10)
+      - Task 8: Implement Weight Integration (AC: 12)
+      - Task 9: Create Test Suite (AC: All, Target ≥80% coverage)
+      - Task 10: Integration with ItemDatabase (AC: 1, 2, 5, 10)
+      - Task 11: Integration with AttackResolver (AC: 10)
+      - Task 12: Integration with MechanicsCommandHandler (AC: 14)
+      - Task 13: Documentation and Examples (AC: All)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    - AC-1: Equip Armor (move from backpack to equipped.armor, calculate AC, check proficiency, Str requirements, persist)
+    - AC-2: Equip Weapon (move to mainHand/offHand, validate proficiency, track properties, persist)
+    - AC-3: Equip Shield (move to offHand, +2 AC, validate proficiency, prevent two-weapon fighting)
+    - AC-4: Unequip Item (move to backpack, recalculate AC, remove effects, remove attunement if applicable)
+    - AC-5: Attune to Magic Item (max 3 items, validate requires attunement, apply effects, persist)
+    - AC-6: Unattune from Magic Item (remove from attunement, remove effects, persist)
+    - AC-7: Equipment Slots Validation (prevent multiple items in same slot, validate slot types)
+    - AC-8: Two-Weapon Fighting Validation (both weapons must be light, validate rules)
+    - AC-9: AC Calculation from Equipment (10+Dex+armor+shield+magic, handle armor type Dex caps)
+    - AC-10: Equipment Bonuses and Effects (magic weapon bonuses, integration with AttackResolver)
+    - AC-11: Equipment Proficiency Checking (armor: light/medium/heavy/shields, weapons: simple/martial)
+    - AC-12: Equipment Weight Integration (equipped items count toward encumbrance)
+    - AC-13: Persist Equipment State to Character YAML (equipped slots, attunement array, atomic save)
+    - AC-14: Equipment Commands Integration (/equip, /unequip, /attune, /unattune, narrative output)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification - D&D 5e Mechanics Integration</title>
+        <section>§2.2.9 EquipmentManager</section>
+        <snippet>EquipmentManager module manages equipment slots (armor, mainHand, offHand, accessories), equipping/unequipping, AC calculation, attunement (max 3 items), proficiency checking, and equipment bonuses. Integrates with CharacterManager for persistence and ItemDatabase for item stats.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§8 AC-8: Inventory Management</section>
+        <snippet>Given character with items in inventory, InventoryManager manages adding/removing items, weight calculation (Str × 15 capacity), encumbrance validation. EquipmentManager extends this with equipped items and equipment slots.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Character Schema - Equipment</section>
+        <snippet>Character equipment stored in inventory.equipped object with slots: armor, mainHand, offHand, head, hands, feet, neck, ring1, ring2, cloak, belt. Attunement tracked in character.attunement array (max 3). AC calculated from equipped armor, shield, and magic items.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/3-13-rest-mechanics.md</path>
+        <title>Story 3-13 Rest Mechanics (Previous Story)</title>
+        <section>Dev Agent Record - Completion Notes</section>
+        <snippet>RestHandler created with dependency injection, lazy-loaded getters, Result Object Pattern throughout. 89.7% statement coverage, 100% function coverage. All methods persist via CharacterManager.saveCharacter(). Maintain these patterns in EquipmentManager.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/3-8-inventory-management.md</path>
+        <title>Story 3-8 Inventory Management (Related Story)</title>
+        <section>Implementation</section>
+        <snippet>InventoryManager handles backpack items, weight calculation, encumbrance. EquipmentManager extends this with equipped slots and must integrate with InventoryManager.getTotalWeight() to include equipped items in weight calculations.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager.saveCharacter</symbol>
+        <lines>Multiple</lines>
+        <reason>Persist equipment changes (equipped slots, attunement array) to character YAML</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/item-database.js</path>
+        <kind>service</kind>
+        <symbol>ItemDatabase.getItem</symbol>
+        <lines>Multiple</lines>
+        <reason>Query item stats (armor AC, weapon damage, magic properties, attunement requirements, weight)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/attack-resolver.js</path>
+        <kind>service</kind>
+        <symbol>AttackResolver.resolveAttack</symbol>
+        <lines>Multiple</lines>
+        <reason>Integration point: call EquipmentManager.getEquippedWeapon() for weapon stats and bonuses</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/inventory-manager.js</path>
+        <kind>service</kind>
+        <symbol>InventoryManager.getTotalWeight</symbol>
+        <lines>Multiple</lines>
+        <reason>Integration point: extend to include equipped items in weight calculation</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/rest-handler.js</path>
+        <kind>service</kind>
+        <symbol>RestHandler (pattern reference)</symbol>
+        <lines>1-530</lines>
+        <reason>Reference for architectural patterns: DI with lazy loading, Result Object, CharacterManager integration</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0" reason="Testing framework for unit and integration tests" />
+        <package name="js-yaml" version="^4.1.0" reason="YAML parsing for character data persistence" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Dependency Injection Pattern: EquipmentManager constructor accepts CharacterManager, ItemDatabase
+- Result Object Pattern: All methods return {success, data, error}
+- File-First Design: Equipment state persists in characters/[character-id].yaml under inventory.equipped and attunement array
+- D&D 5e RAW Compliance: AC calculation (unarmored 10+Dex, light 10+Dex+AC, medium 10+Dex(max+2)+AC, heavy AC only), attunement max 3, proficiency rules
+- Atomic Updates: All equipment changes in single CharacterManager.saveCharacter() call
+- Equipment Slots: armor, mainHand, offHand, head, hands, feet, neck, ring1, ring2, cloak, belt (11 slots total)
+- Attunement Limit: Maximum 3 attuned magic items, validate item.attunement === true
+- Proficiency: Armor (light/medium/heavy/shields), Weapons (simple/martial), no proficiency = restrictions apply
+- Strength Requirements: Heavy armor may require minimum Str (e.g., Plate Str 15), if not met: speed -10 feet
+- Two-Weapon Fighting: Both weapons must be light (or Dual Wielder feat), offHand attack no ability modifier to damage unless Fighting Style
+- Weight Integration: Equipped items count toward total encumbrance (Str × 15 = capacity, Str × 30 = max)
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>EquipmentManager.equipItem</name>
+      <kind>function</kind>
+      <signature>async equipItem(character, itemId, slot): Promise&lt;{success, data: {equipped, slot, newAC, effects, proficient, restrictions}, error}&gt;</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.unequipItem</name>
+      <kind>function</kind>
+      <signature>async unequipItem(character, slot): Promise&lt;{success, data: {unequipped, slot, newAC}, error}&gt;</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.attuneItem</name>
+      <kind>function</kind>
+      <signature>async attuneItem(character, itemId): Promise&lt;{success, data: {attuned, attunedCount, effects}, error}&gt;</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.unattuneItem</name>
+      <kind>function</kind>
+      <signature>async unattuneItem(character, itemId): Promise&lt;{success, data: {unattuned, attunedCount}, error}&gt;</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.calculateAC</name>
+      <kind>function</kind>
+      <signature>calculateAC(character): number</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.isProficient</name>
+      <kind>function</kind>
+      <signature>isProficient(character, itemId): boolean</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>EquipmentManager.getEquippedWeapon</name>
+      <kind>function</kind>
+      <signature>getEquippedWeapon(character, hand): {itemId, damage, damageType, properties, bonuses} | null</signature>
+      <path>src/mechanics/equipment-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter</name>
+      <kind>function</kind>
+      <signature>async saveCharacter(character): Promise&lt;{success, data, error}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>ItemDatabase.getItem</name>
+      <kind>function</kind>
+      <signature>getItem(itemId): {id, name, type, category, armorClass?, damage?, weight, attunement?, effects?}</signature>
+      <path>src/mechanics/item-database.js</path>
+    </interface>
+    <interface>
+      <name>Character YAML Schema - Equipment</name>
+      <kind>data-model</kind>
+      <signature>
+inventory:
+  equipped:
+    armor: string | null          # armor item ID
+    mainHand: string | null        # weapon item ID
+    offHand: string | null         # weapon/shield item ID
+    head: string | null            # headgear item ID
+    hands: string | null           # gloves item ID
+    feet: string | null            # boots item ID
+    neck: string | null            # amulet item ID
+    ring1: string | null           # ring item ID
+    ring2: string | null           # ring item ID
+    cloak: string | null           # cloak item ID
+    belt: string | null            # belt item ID
+  backpack: array                  # unequipped items
+
+attunement:
+  - string                         # item IDs (max 3)
+  max: 3
+
+armorClass: number                 # calculated AC from equipment
+      </signature>
+      <path>characters/[character-id].yaml</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+Jest framework with AAA pattern (Arrange-Act-Assert). Target ≥80% statement coverage, 100% function coverage. Mock CharacterManager, ItemDatabase via dependency injection. Test both success and error paths. Include edge cases (slot conflicts, attunement limit, proficiency requirements, Str requirements, two-weapon rules). Integration tests verify CharacterManager persistence, ItemDatabase queries, AttackResolver weapon integration, InventoryManager weight integration.
+    </standards>
+    <locations>
+      - tests/mechanics/equipment-manager.test.js (create new)
+      - tests/mechanics/ (pattern for mechanics module tests)
+    </locations>
+    <ideas>
+      - AC-1: Test equip armor (Chain Mail, calculate AC 16, check proficiency, verify saved), test Str requirement (Plate requires Str 15, if Str 12 → speed -10)
+      - AC-2: Test equip weapon (Longsword to mainHand, check martial proficiency, verify properties), test non-proficient weapon (allow but no prof bonus)
+      - AC-3: Test equip shield (Shield to offHand, +2 AC, verify offHand occupied), test shield without proficiency → error
+      - AC-4: Test unequip armor (remove Chain Mail, recalculate AC to 10+Dex), test unequip attuned item (removes from attunement)
+      - AC-5: Test attune magic item (Ring of Protection, attunedCount 1, +1 AC applied), test attune with 3 already attuned → error
+      - AC-6: Test unattune magic item (Ring of Protection, attunedCount 0, -1 AC removed), verify item stays in inventory
+      - AC-7: Test slot validation (equip Plate when Chain Mail equipped → error "slot occupied"), test all 11 slot types
+      - AC-8: Test two-weapon fighting (Longsword + Shortsword → error "not light"), test Shortsword + Dagger → success
+      - AC-9: Test AC calculation (unarmored 10+Dex, light armor 10+Dex+11, medium 10+Dex(max+2)+13, heavy 16 no Dex, shield +2, magic +1)
+      - AC-10: Test weapon bonuses (+1 Longsword, AttackResolver integration, +1 attack/damage), test weapon stats retrieval
+      - AC-11: Test proficiency checking (Fighter proficient heavy armor, Wizard not proficient), test all armor/weapon types
+      - AC-12: Test weight integration (equipped Chain Mail 55 lbs + backpack items, verify total weight, encumbrance check)
+      - AC-13: Test persistence (equip armor, save character, verify YAML structure, load character, verify equipped state)
+      - AC-14: Test /equip command (parse "equip longsword mainHand", execute, verify narrative output)
+      - Edge case: Equip two-handed weapon → occupies mainHand, prevents offHand use
+      - Edge case: Equip heavy armor without proficiency → error
+      - Edge case: Attune item that doesn't require attunement → error
+      - Edge case: Unequip armor with active magic effects → effects removed
+      - Edge case: Calculate AC with Dex 20 (+5) in medium armor → capped at +2
+      - Edge case: Character with natural armor (Barbarian Unarmored Defense) → special AC calculation
+    </ideas>
+  </tests>
+</story-context>

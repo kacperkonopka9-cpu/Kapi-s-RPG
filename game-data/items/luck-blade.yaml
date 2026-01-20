@@ -1,0 +1,284 @@
+# Luck Blade - Legendary Longsword
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "luck_blade"
+name: "Luck Blade"
+type: "weapon"
+weight: 3.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"
+requiresAttunement: true
+attunementRequirements: null  # Any creature can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "longsword"
+  category: "martial_melee"
+  damage: "1d8"
+  damageType: "slashing"
+  properties: ["versatile"]
+  versatileDamage: "1d10"
+  range: null
+  attackBonus: 1  # +1 magic weapon
+  damageBonus: 1
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 1
+    description: "+1 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 1
+    damageType: "slashing"
+    description: "+1 slashing damage"
+
+  - type: "luck_bonus"
+    description: "Grants bonus to saving throws and ability checks through Luck mechanic"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Luck"
+    description: "While the sword is on your person, you gain a +1 bonus to all saving throws and ability checks."
+    activation: "passive"
+    mechanics:
+      savingThrowBonus: 1
+      abilityCheckBonus: 1
+      requirement: "on_your_person"  # Doesn't need to be held, just carried
+
+  - name: "Luck Reroll"
+    description: "The sword has 1d4 - 1 charges (determined when you first attune to it). If you are carrying or wielding it, you can expend 1 charge as a reaction after you roll a saving throw, ability check, or attack roll to reroll the d20. You must use the second roll. The sword regains expended charges daily at dawn."
+    activation: "reaction"
+    charges:
+      maximum: "1d4-1"  # 0-3 charges when first found
+      recharge: "all"
+      rechargeTime: "dawn"
+      depletionRisk: false
+    mechanics:
+      triggerType: ["saving_throw", "ability_check", "attack_roll"]
+      rerollType: "must_use_second"
+
+  - name: "Wish"
+    description: "The sword has 1d4 - 1 Wish spells stored in it (determined when you first attune to it). While the sword is on your person, you can use an action to cast Wish from it. Once all of its Wishes have been used, this property can never be used again."
+    activation: "action"
+    charges:
+      maximum: "1d4-1"  # 0-3 wishes when first found
+      recharge: "never"
+      depletionRisk: false
+    spells:
+      - name: "Wish"
+        cost: 1
+        permanent: true  # Once depleted, cannot recharge
+
+# === SENTIENCE ===
+sentience: null
+# The Luck Blade is not sentient in standard lore
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Luck Blade is a finely crafted longsword with a blade that seems to shimmer with an inner light. The hilt is wrapped in white leather, and the pommel contains a four-leaf clover preserved in crystal. The sword radiates an aura of good fortune and has saved many wielders from certain doom. It is one of the most coveted magic items in existence due to its Wish spells, though many Luck Blades are found with their Wishes already expended."
+
+  history: "Luck Blades are ancient weapons created by powerful wizards and artisans working in concert. Each blade is unique, crafted with rare materials and imbued with powerful enchantments. The process of creating a Luck Blade involves binding the essence of luck itself into the weapon, along with one to three Wish spells. The blades were originally created as gifts for heroes embarking on impossible quests, providing them with the fortune needed to succeed against overwhelming odds. Over the centuries, most Luck Blades have had their Wishes used, but even without the Wish spells, they remain powerful magical weapons."
+
+  legendsAndRumors:
+    - "Some Luck Blades are sentient and choose their wielders based on destiny"
+    - "The four-leaf clover in the pommel is the source of the blade's luck magic"
+    - "A Luck Blade without Wishes remaining is considered 'unlucky' and brings misfortune"
+    - "Using a Wish from the blade to gain personal power results in the blade abandoning its wielder"
+    - "The blade's luck extends to games of chance - casinos ban patrons carrying Luck Blades"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "When you first attune to the Luck Blade, roll 1d4 - 1 twice: once to determine the number of Luck Reroll charges, and once to determine the number of Wish spells. The DM rolls these secretly and informs you of the results."
+  hiddenProperties:
+    - "The number of Luck Reroll charges is unknown until first attunement"
+    - "The number of Wish spells is unknown until first attunement"
+    - "Some Luck Blades are found with 0 Wishes remaining (25% chance)"
+    - "The passive +1 bonus to saves and checks is subtle and may not be immediately noticed"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Castle Ravenloft (Strahd's treasury), Amber Temple, or hidden treasure cache"
+  howObtained: "Commonly found in Strahd's treasure hoard in Castle Ravenloft, locked in a vault or displayed as a trophy. Alternatively, it might be hidden in the Amber Temple among other powerful artifacts, or buried with a fallen hero in a crypt. The blade may be trapped or guarded by powerful monsters."
+  guardian: "Vampire spawn, wraiths, golems, or magical traps (glyphs of warding, arcane locks DC 20+)"
+  notes: "Strahd may recognize the Luck Blade and covet it for his collection. If he knows the party has it, he will try to acquire it through deals, theft, or force. A Luck Blade with Wishes remaining is one of the most valuable items in Barovia."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+1 to attack rolls as a +1 magic weapon"
+  damageRolls: "1d8 (or 1d10 versatile) + 1 slashing damage"
+  spellDC: "Wish spell uses the caster's spell save DC (or DC 19 if the wielder has no spellcasting ability)"
+
+  integration:
+    combatManager: "+1 weapon bonus integrates with attack calculations. Luck Reroll can be used after seeing the d20 result but before knowing success/failure."
+    equipmentManager: "Equippable in mainHand or twoHanded slot. Requires attunement. Luck bonus applies while carried (doesn't need to be equipped)."
+    inventoryManager: "Weight 3 lbs. Luck bonus applies as long as sword is in inventory."
+
+  luckMechanics:
+    description: "The passive Luck bonus is always active while carrying the blade:"
+    applications:
+      - "Death saving throws: +1 (significant for survival)"
+      - "Concentration checks: +1 (helps maintain spells)"
+      - "Skill checks: +1 (lockpicking, persuasion, stealth, etc.)"
+      - "Ability checks: +1 (grappling, forcing doors, etc.)"
+      - "All saving throws: +1 (Dex, Con, Wis, etc.)"
+    stacking: "Stacks with all other bonuses (proficiency, ability modifiers, other magic items)"
+
+  luckRerollMechanics:
+    description: "Luck Reroll charges allow rerolling d20s:"
+    usage:
+      - "Spend 1 charge as a reaction after rolling"
+      - "Works on attack rolls, saving throws, or ability checks"
+      - "Reroll the d20 and must use the second result (even if worse)"
+      - "Can be used after seeing the roll but before knowing if it succeeded"
+      - "Cannot be used on someone else's roll"
+    charges: "1d4 - 1 charges (0-3), all recharge at dawn"
+    tactics:
+      - "Best used on critical rolls (death saves, crucial attacks, key ability checks)"
+      - "Don't waste on trivial checks - charges are limited"
+      - "Consider using before a long rest if charges will refill anyway"
+
+  wishMechanics:
+    description: "The Wish spell is the most powerful spell in the game:"
+    limitations:
+      - "1d4 - 1 Wishes total (0-3), never recharge"
+      - "Once all Wishes are used, this property is permanently lost"
+      - "Each Wish is a one-time use of the 9th-level Wish spell"
+    safeUses:
+      - "Duplicate any spell of 8th level or lower without material components"
+      - "Create up to 25,000 gp worth of nonmagical objects"
+      - "Grant up to 10 creatures resistance to a damage type for 8 hours"
+      - "Grant up to 10 creatures immunity to a single spell for 8 hours"
+      - "Undo a single recent event (within the last round)"
+    riskyUses:
+      - "Any use beyond the standard options risks DM interpretation and side effects"
+      - "Wishing for more Wishes typically backfires catastrophically"
+      - "Resurrection, power beyond the blade's scope, or reality alteration is risky"
+    dmNotes: "Wish from a Luck Blade follows the same rules as the Wish spell. DMs should be generous with safe uses but creative with risky wishes."
+
+  chargeInitialization:
+    description: "When first found, roll charges:"
+    process:
+      - "DM rolls 1d4 - 1 for Luck Reroll charges (0-3)"
+      - "DM rolls 1d4 - 1 for Wish charges (0-3)"
+      - "Results are recorded and revealed to player upon attunement"
+      - "It's possible to find a Luck Blade with 0 Wishes (25% chance)"
+      - "Even with 0 Wishes, the blade is still legendary due to Luck bonuses"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"
+  recommendedLevel: 7
+  notes: "Extremely powerful, especially if found with multiple Wish spells. The passive +1 to all saves and checks is subtle but very strong (affects death saves, concentration, skills). Luck Reroll provides insurance against bad rolls. Wish spells can trivialize challenges if used creatively. Best introduced late in the campaign (levels 7-9+) or with few/no Wishes remaining."
+
+  dmGuidance:
+    - "Consider rolling 0-1 Wishes when introducing this item to avoid game-breaking power"
+    - "Wish spells should follow RAW - safe uses work perfectly, creative wishes risk side effects"
+    - "The +1 to saves and checks is always active - remember to apply it to death saves and concentration"
+    - "Luck Reroll forces using the second result - this can backfire dramatically"
+    - "Strahd would kill to possess this blade, especially if it has Wishes"
+    - "NPCs will recognize a Luck Blade and react with awe, envy, or greed"
+    - "Consider plot hooks: someone desperate wants to borrow the blade for a Wish"
+    - "The blade is worth 50,000+ gp if sold (with Wishes), making it a tempting target for thieves"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "An elegant longsword with a perfectly balanced blade of silvery steel that seems to shimmer with faint rainbow iridescence in the light. The crossguard is made of polished brass shaped like intertwined horseshoes (symbols of luck). The grip is wrapped in supple white leather, worn smooth by countless hands. The pommel is a sphere of flawless crystal containing a perfectly preserved four-leaf clover suspended in its center. Delicate engravings of dice, coins, and lucky symbols adorn the blade near the hilt."
+
+  activeState: "When wielded, the blade feels perfectly balanced, as if it were an extension of the wielder's arm. When Luck Reroll is used, the four-leaf clover in the pommel glows with soft green light. When a Wish is cast, the entire sword blazes with brilliant white-gold radiance, and the four-leaf clover seems to glow with inner fire. After a Wish is used, one leaf of the clover turns golden and translucent."
+
+  soundEffects: "The blade makes a soft, clear chime when drawn, like a crystal bell. When Luck Reroll is activated, there's a brief sound like coins clinking. When Wish is cast, the blade produces a sound like distant thunder or a choir singing a single perfect note."
+
+# === WISH TRACKING ===
+wishTracking:
+  description: "Visual indicator of remaining Wishes in the pommel:"
+  indicators:
+    - wishes: 3
+      appearance: "All four clover leaves are vibrant green"
+    - wishes: 2
+      appearance: "One leaf is golden and translucent, three are green"
+    - wishes: 1
+      appearance: "Two leaves are golden and translucent, two are green"
+    - wishes: 0
+      appearance: "Three leaves are golden and translucent, one is green (or all four are golden if 0 from the start)"
+  note: "The number of golden leaves equals Wishes used, not remaining. A blade with 0 Wishes from creation has all green leaves but they're faded/pale."
+
+# === ROLEPLAYING OPPORTUNITIES ===
+roleplayElements:
+  wishDilemmas:
+    - "Should Wishes be used for personal gain or saved for the final battle with Strahd?"
+    - "NPCs in need may beg for a Wish to cure illness, resurrect loved ones, or escape Barovia"
+    - "Strahd might offer incredible deals in exchange for a Wish"
+    - "Using Wish selfishly vs. altruistically creates character moments"
+
+  luckThemes:
+    - "The wielder becomes known as 'The Lucky One' and people seek them out for fortune"
+    - "Discussions about whether success is due to skill or luck"
+    - "NPCs may become superstitious around the wielder"
+    - "Moral questions about using Wish to escape Barovia vs. destroy Strahd"
+
+  npcReactions:
+    - "Vistani fortune tellers recognize the blade's luck aura and show great respect"
+    - "Desperate NPCs beg for Wishes to solve their problems"
+    - "Strahd offers valuable bargains in exchange for the blade"
+    - "Rictavio/Van Richten warns about the temptation and responsibility of Wish"
+
+# === WISH CAMPAIGN IMPACT ===
+wishImpact:
+  potentialUses:
+    combat:
+      - "Duplicate Resurrection to bring back a fallen ally"
+      - "Duplicate Teleportation Circle to escape Barovia (if the DM allows)"
+      - "Undo the last round of combat if a party member died"
+      - "Grant the party immunity to Strahd's Charm for 8 hours before confronting him"
+
+    exploration:
+      - "Create 25,000 gp of equipment (adamantine weapons, holy water, etc.)"
+      - "Duplicate Find the Path to locate Strahd's coffin"
+      - "Duplicate Scrying to track Strahd's movements"
+
+    social:
+      - "Duplicate Modify Memory on Strahd (risky - might not work on such a powerful vampire)"
+      - "Restore the souls of NPCs trapped in the Amber Temple"
+      - "Lift the curse on Barovia itself (extremely risky - DM interpretation required)"
+
+    creative:
+      - "Wish for knowledge of Strahd's exact location"
+      - "Wish to be transported to Strahd's coffin"
+      - "Wish to know how to permanently destroy Strahd"
+
+  dmConsiderations:
+    - "Safe Wish uses (duplicating spells, creating wealth) should work perfectly"
+    - "Wish to escape Barovia should be carefully considered - does it remove dramatic tension?"
+    - "Wish to destroy Strahd should fail or backfire (he's too powerful for direct Wish destruction)"
+    - "Wish to lift the curse on Barovia might work but with unexpected consequences"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.179"
+  official: true
+  srdContent: true
+
+  notes: "One of the most powerful magic items in D&D 5e, second only to artifacts. The passive Luck bonus is stronger than it appears (+1 to death saves can save lives). Wish spells can change the course of the campaign. Best used as a late-game treasure or with few Wishes remaining to avoid breaking the campaign."
+
+  dmReminders:
+    - "Roll 1d4 - 1 secretly for both Luck Reroll charges and Wish charges when the item is first found"
+    - "Luck bonus applies to death saves, concentration checks, and all skill checks"
+    - "Luck Reroll charges refill at dawn, Wish charges never refill"
+    - "Wish spells from the blade follow the same rules as the Wish spell (PHB p.288)"
+    - "Consider having the blade found with 0-1 Wishes to avoid campaign disruption"
+    - "Track Wishes used visually via the clover leaves in the pommel"
+    - "NPCs will react strongly to a Luck Blade, especially one with Wishes"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

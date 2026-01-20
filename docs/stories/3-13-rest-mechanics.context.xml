@@ -1,0 +1,237 @@
+<story-context id="3-13-rest-mechanics" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>13</storyId>
+    <title>Rest Mechanics</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-13-rest-mechanics.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player using the D&D 5e RPG engine</asA>
+    <iWant>accurate short rest and long rest mechanics with resource recovery and time advancement</iWant>
+    <soThat>my character can recover HP, spell slots, and class features following D&D 5e rules while the game calendar advances appropriately</soThat>
+    <tasks>
+      - Task 1: Design RestHandler Module Architecture (AC: All)
+      - Task 2: Implement Long Rest Core Logic (AC: 1, 2, 3, 4)
+      - Task 3: Implement Short Rest Core Logic (AC: 5, 6, 7, 8)
+      - Task 4: Implement Class Feature Recovery (AC: 9)
+      - Task 5: Implement CalendarManager Integration (AC: 12)
+      - Task 6: Implement Rest Interruption Logic (AC: 10, 11)
+      - Task 7: Implement Hit Dice Type Detection (AC: 6, 7)
+      - Task 8: Implement Rest Validation (AC: 8, 10)
+      - Task 9: Create Test Suite (AC: All, Target ≥80% coverage)
+      - Task 10: Integration with MechanicsCommandHandler (AC: 13)
+      - Task 11: Integration with HPManager and ConditionTracker (AC: 1, 4)
+      - Task 12: Documentation and Examples (AC: All)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    - AC-1: Long Rest - Time Advancement and HP Recovery (8 hours, restore HP to max, persist, log, <2s)
+    - AC-2: Long Rest - Spell Slot Recovery (restore all spell slots to maximum, persist)
+    - AC-3: Long Rest - Hit Dice Recovery (recover half spent, rounded down, min 1, persist)
+    - AC-4: Long Rest - Exhaustion Reduction (reduce exhaustion by 1 level, persist)
+    - AC-5: Short Rest - Time Advancement (1 hour, log, <1s)
+    - AC-6: Short Rest - Hit Dice Spending for Healing (roll hit die + Con, heal, mark spent, persist)
+    - AC-7: Short Rest - Multiple Hit Dice Spending (roll each separately, sum healing, mark all spent)
+    - AC-8: Short Rest - Hit Dice Validation (error if no dice available, no changes)
+    - AC-9: Short Rest - Class Feature Recovery (Fighter Second Wind, Warlock Pact Magic, Monk Ki)
+    - AC-10: Rest Interruption Handling (rest fails on interruption, no benefits, time still advances)
+    - AC-11: Rest Prerequisites - Light/Heavy Activity (2hr light, 1hr strenuous for long rest)
+    - AC-12: Calendar Integration - Rest Timing (advance time, trigger events, return new time)
+    - AC-13: Rest Command Integration (/rest long, /rest short [hitDice], narrative output)
+    - AC-14: Persist Rest State to Character YAML (HP, spell slots, hit dice, class features atomic save)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification - D&D 5e Mechanics Integration</title>
+        <section>§2.2.8 RestHandler</section>
+        <snippet>RestHandler module manages short rest (1 hour, hit dice spending) and long rest (8 hours, full recovery) mechanics per D&D 5e SRD. Integrates with CalendarManager for time advancement and CharacterManager for HP/spell slot/hit dice persistence.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§8 AC-10: Long Rest Mechanics</section>
+        <snippet>Given character with partial HP/spell slots/hit dice, restore HP to max, restore all spell slots, recover half spent hit dice (rounded down, min 1), clear one exhaustion level, advance time 8 hours, operation <2 seconds.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§8 AC-11: Short Rest Mechanics</section>
+        <snippet>Given character with reduced HP and available hit dice, advance time 1 hour, allow spending hit dice (roll hit die + Con modifier) for healing, mark dice as spent, restore short rest class features, operation <1 second.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/3-12-condition-tracking.md</path>
+        <title>Story 3-12 Condition Tracking (Previous Story)</title>
+        <section>Dev Agent Record - Completion Notes</section>
+        <snippet>ConditionTracker created with applyCondition(), removeCondition() methods. Use ConditionTracker.removeCondition(character, "exhaustion") to clear exhaustion during long rest. Result Object Pattern maintained: {success, data, error}.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager.saveCharacter</symbol>
+        <lines>Multiple</lines>
+        <reason>Persist HP, spell slots, hit dice, class features after rest completion</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager.advanceTime</symbol>
+        <lines>Multiple</lines>
+        <reason>Advance game time 8 hours (long rest) or 1 hour (short rest)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller.roll</symbol>
+        <lines>Multiple</lines>
+        <reason>Roll hit dice during short rest (1d10, 1d6, etc.) with Con modifier</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/condition-tracker.js</path>
+        <kind>service</kind>
+        <symbol>ConditionTracker.removeCondition</symbol>
+        <lines>329-375</lines>
+        <reason>Remove exhaustion condition during long rest (reduce by 1 level)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/hp-manager.js</path>
+        <kind>service</kind>
+        <symbol>HPManager.applyHealing</symbol>
+        <lines>358-395</lines>
+        <reason>Potential integration point for HP restoration consistency during rest</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>Multiple</lines>
+        <reason>Events may trigger during 8-hour long rest period</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0" reason="Testing framework for unit and integration tests" />
+        <package name="js-yaml" version="^4.1.0" reason="YAML parsing for character data persistence" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Dependency Injection Pattern: RestHandler constructor accepts CharacterManager, CalendarManager, DiceRoller, EventScheduler
+- Result Object Pattern: All methods return {success, data, error}
+- File-First Design: Character HP, spell slots, hit dice persist in characters/[character-id].yaml
+- Performance Targets: longRest <2 seconds, shortRest <1 second
+- D&D 5e RAW Compliance: Long rest 8 hours (HP/slots/hit dice/exhaustion), Short rest 1 hour (hit dice spending), hit die = class type + Con modifier
+- Atomic Updates: All character changes in single CharacterManager.saveCharacter() call
+- Calendar Integration: All time advancement via CalendarManager.advanceTime(duration, unit, reason)
+- Hit Dice Recovery: Long rest recovers Math.max(1, Math.floor(spentDice / 2)) hit dice
+- Class Feature Recovery: Fighter Second Wind, Warlock Pact Magic (short rest), all features (long rest)
+- Interruption Rules: Long rest allows 2hr light activity, 1hr strenuous; exceeding interrupts rest with no benefits
+- Exhaustion: Long rest removes 1 exhaustion level via ConditionTracker.removeCondition()
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>RestHandler.longRest</name>
+      <kind>function</kind>
+      <signature>async longRest(character, options = {lightActivity, interruption}): Promise&lt;{success, data: {restType, duration, hpRestored, slotsRestored, hitDiceRecovered, exhaustionReduced, timeAdvanced, newTime}, error}&gt;</signature>
+      <path>src/mechanics/rest-handler.js</path>
+    </interface>
+    <interface>
+      <name>RestHandler.shortRest</name>
+      <kind>function</kind>
+      <signature>async shortRest(character, options = {hitDiceToSpend}): Promise&lt;{success, data: {restType, duration, hpRestored, hitDiceRolls: [{die, roll, modifier, healing}], hitDiceSpent, classFeatures, timeAdvanced}, error}&gt;</signature>
+      <path>src/mechanics/rest-handler.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter</name>
+      <kind>function</kind>
+      <signature>async saveCharacter(character): Promise&lt;{success, data, error}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CalendarManager.advanceTime</name>
+      <kind>function</kind>
+      <signature>advanceTime(duration, unit, reason): {success, data: {oldTime, newTime, eventsTriggered}, error}</signature>
+      <path>src/calendar/calendar-manager.js</path>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll</name>
+      <kind>function</kind>
+      <signature>roll(diceNotation): {success, data: {notation, rolls, total, breakdown}, error}</signature>
+      <path>src/mechanics/dice-roller.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.removeCondition</name>
+      <kind>function</kind>
+      <signature>async removeCondition(character, conditionName, options): Promise&lt;{success, data: {condition, removed, reason}, error}&gt;</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>Character YAML Schema</name>
+      <kind>data-model</kind>
+      <signature>
+hitPoints:
+  max: number
+  current: number
+  hitDice:
+    total: number  # equals character level
+    spent: number  # 0 to total
+
+spellcasting:
+  spellSlots:
+    1: {max: number, current: number}
+    2: {max: number, current: number}
+    # ... up to 9
+
+classFeatures:
+  secondWind:  # Fighter
+    usesPerShortRest: 1
+    used: 0
+  kiPoints:  # Monk
+    max: number
+    used: 0
+      </signature>
+      <path>characters/[character-id].yaml</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+Jest framework with AAA pattern (Arrange-Act-Assert). Target ≥80% statement coverage, 100% function coverage. Mock CharacterManager, CalendarManager, DiceRoller, EventScheduler, ConditionTracker via dependency injection. Test both success and error paths. Include edge cases (no hit dice, all spent, interruptions, exhaustion levels). Integration tests verify CharacterManager persistence, CalendarManager time advancement, DiceRoller hit dice rolls. Performance tests: longRest <2s, shortRest <1s.
+    </standards>
+    <locations>
+      - tests/mechanics/rest-handler.test.js (create new)
+      - tests/mechanics/ (pattern for mechanics module tests)
+    </locations>
+    <ideas>
+      - AC-1: Test long rest HP restoration (24/31 → 31/31), verify CharacterManager.saveCharacter called, verify time advanced 8 hours
+      - AC-2: Test spell slot restoration (0/3 → 3/3 for 1st level, 0/2 → 2/2 for 2nd level), multiple spell levels
+      - AC-3: Test hit dice recovery calculations (2 spent → 1 spent, 3 spent → 1 spent, 0 spent → 0 spent, 1 spent → 1 spent)
+      - AC-4: Test exhaustion reduction (2 levels → 1 level, 0 levels → 0 levels), verify ConditionTracker.removeCondition called
+      - AC-5: Test short rest time advancement (1 hour), verify CalendarManager integration
+      - AC-6: Test single hit die spending (1d10 + Con +2, healing applied, HP capped at max, spent counter incremented)
+      - AC-7: Test multiple hit dice spending (2d10, separate rolls, sum healing)
+      - AC-8: Test hit dice validation (no dice available → error, request more than available → error)
+      - AC-9: Test class feature recovery (Fighter Second Wind restored, Warlock Pact Magic slots restored, Monk Ki restored)
+      - AC-10: Test rest interruption (rest fails, no HP/slot/dice recovery, time still advances by elapsed amount)
+      - AC-11: Test activity tracking (2hr light OK, 1hr strenuous OK, >1hr strenuous → interruption)
+      - AC-12: Test calendar integration (time advancement, event triggering during rest, new time returned)
+      - AC-13: Test /rest command parsing and routing (long/short, hit dice parameter, narrative output)
+      - AC-14: Test persistence (YAML structure, atomic save, load/save cycle)
+      - Edge case: Long rest with 0 HP (should heal to max)
+      - Edge case: Short rest with max HP (no healing needed, but hit dice still spent)
+      - Edge case: Character with no spellcasting (spell slot restoration skipped)
+      - Performance: Verify longRest completes <2s, shortRest <1s
+    </ideas>
+  </tests>
+</story-context>

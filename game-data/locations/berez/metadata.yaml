@@ -1,0 +1,71 @@
+location_name: "Berez"
+location_type: ruined_swamp_village
+location_level: building
+region: berez_swamp
+parent_location: null
+sub_locations: []
+danger_level: 5
+recommended_level: 9-11
+quest_critical: true
+
+description_short: "Cursed swamp ruins where Baba Lysaga dwells, guarding the third winery magic gem in her animated hut."
+
+connected_locations:
+  - name: "Wizard of Wines Winery"
+    direction: northeast
+    travel_time: "5 hours on foot"
+    terrain: swamp_and_forest
+    notes: "Winery gem quest chain connection"
+
+  - name: "Yester Hill"
+    direction: northeast
+    travel_time: "4 hours on foot"
+    terrain: forest_and_swamp
+    notes: "Both locations part of winery gem recovery arc"
+
+points_of_interest:
+  - "Marina's Monument (35-foot statue, hollow interior with treasure)"
+  - "Baba Lysaga's Creeping Hut (animated on chicken legs)"
+  - "Burgomaster's Mansion (ruins, contains journal)"
+  - "Swamp Cottages (minor loot, hazards)"
+
+major_npcs:
+  - baba_lysaga
+  - baba_lysaga_hut
+  - berez_scarecrows
+
+primary_quests:
+  - "Defeat Baba Lysaga"
+  - "Recover third winery gem (Champagne du Stompe)"
+  - "Complete winery gem recovery arc"
+
+secondary_quests:
+  - "Discover Berez's history (burgomaster's journal)"
+  - "Loot Marina's Monument"
+  - "Destroy scarecrow swarm"
+
+environmental_hazards:
+  - "Baba Lysaga (CR 11 boss, deadly spellcaster)"
+  - "Creeping Hut (CR 4 construct)"
+  - "Scarecrow swarm (12+ CR 1 creatures)"
+  - "Difficult terrain (swamp)"
+  - "Insect swarms"
+
+treasure_value: high
+treasure_notes: "Winery gem (quest item), Monument treasure (2,500 gp), Baba Lysaga's grimoire (1,500 gp)."
+
+boss_encounters:
+  - name: "Baba Lysaga"
+    cr: 11
+    optional: false
+    notes: "Requires defeat to claim winery gem. One of hardest fights in campaign."
+
+token_count: 800
+last_validated: null
+validation_status: pending
+
+lore_significance: |
+  Berez was destroyed by Strahd when its burgomaster hid Marina (Tatyana lookalike) from him. The vampire drowned the entire village and cursed the land to become pestilent swamp. Baba Lysaga, believing herself Strahd's mother, claimed the ruins and uses the winery gem to power her magic.
+
+dm_notes: |
+  Berez is end-game content. CR 11 Baba Lysaga is one of the toughest encounters outside Strahd himself. The hut adds complexity. Scarecrows create swarm pressure. This completes the winery quest arc—3 phases over multiple locations. Victory is massively rewarding (gem, treasure, eternal Martikov alliance).

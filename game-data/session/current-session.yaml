@@ -1,0 +1,36 @@
+sessionId: 2025-11-30-196
+startTime: '2025-11-30T19:33:16.543Z'
+lastActivity: '2025-11-30T19:33:16.625Z'
+character:
+  filePath: c:\Users\ACER\Documents\GitHub\Kapi-s-RPG\characters\warrior.yaml
+  snapshotHash: 22d5f0c76d9a2a72a96c4d75286d81ac
+  initialLevel: 1
+  initialXP: 0
+location:
+  currentLocationId: vallaki
+  visitedThisSession:
+    - locationId: vallaki
+      enteredAt: '2025-11-30T19:33:16.543Z'
+npcs:
+  activeNPCs:
+    - major-town-residents
+    - additional-notable-npcs
+  interactedWith: []
+context:
+  lastLoadedAt: '2025-11-30T19:33:16.620Z'
+  tokensUsed: 2454
+  cacheKeys: []
+calendar:
+  sessionStartDate: 735-10-1
+  sessionStartTime: '08:00'
+  currentDate: 735-10-1
+  currentTime: '08:00'
+  timePassed: 0 hours
+events:
+  triggeredThisSession: []
+  pendingEvents: []
+performance:
+  startupTime: 24
+  contextLoadTimes: []
+  avgLLMResponseTime: 0
+  autoSaveCount: 0

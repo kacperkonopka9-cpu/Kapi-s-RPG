@@ -1,0 +1,234 @@
+# Skeleton - Agile Undead Warrior
+# Source: D&D 5e Monster Manual p.272
+# Common undead guards in Barovia crypts and ruins
+
+# === BASIC INFORMATION ===
+name: "Skeleton"
+monsterId: "skeleton"
+size: "Medium"
+type: "undead"
+alignment: "lawful evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 13
+armorType: "armor scraps"
+
+hitPoints:
+  max: 13
+  current: 13
+  hitDice: "2d8"
+  hitDiceBonus: 4  # +2 Con modifier * 2 HD = +4
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10    # +0
+  dexterity: 14   # +2
+  constitution: 15  # +2
+  intelligence: 6  # -2
+  wisdom: 8      # -1
+  charisma: 5    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: ["bludgeoning"]
+damageResistances: []
+damageImmunities: ["poison"]
+conditionImmunities: ["exhaustion", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 9  # 10 + Wis (-1)
+
+# === LANGUAGES ===
+languages: []
+languageNote: "understands all languages it knew in life but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "skeleton_1"  # Will be set dynamically per instance
+  name: "Skeleton"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits: []
+
+# === ACTIONS ===
+actions:
+  - name: "Shortsword"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+
+  - name: "Shortbow"
+    type: "ranged_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    range:
+      normal: 80
+      long: 320
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+    ammunition: "arrows"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "shortsword"
+    quantity: 1
+  - item: "shortbow"
+    quantity: 1
+  - item: "arrows"
+    quantity: 20
+
+# === LOOT ===
+loot:
+  guaranteed:
+    - item: "bones"
+      quantity: "2d6"
+      dropChance: 100
+
+  conditional:
+    - item: "arrows"
+      quantity: "1d20"
+      dropChance: 70
+    - item: "rusty_shortsword"
+      quantity: 1
+      dropChance: 40
+    - item: "rusty_shortbow"
+      quantity: 1
+      dropChance: 30
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Prefers ranged combat with shortbow. Stays at 40-80 ft range when possible. Switches to shortsword if enemies close within 5 ft. Will kite melee-only enemies if terrain allows. No self-preservation but uses basic tactical positioning."
+  intelligence: "animalistic"
+  aggression: "medium"
+  groupTactics: "basic"  # Will spread out for ranged attacks
+
+  preferredTargets:
+    - "lightly armored enemies"
+    - "spellcasters"
+    - "nearest enemy when cornered"
+
+  fleeThreshold: null  # Fights to death
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Crypts, ruins, graveyards, Castle Ravenloft guard posts"
+  organization: "Solitary, gang (2-5), or platoon (6-20)"
+
+lore:
+  description: "Skeletons are animated bones held together by dark magic. Unlike shambling zombies, skeletons retain some muscle memory and coordination, allowing them to wield weapons and employ basic tactics. Their hollow eye sockets glow with pale unlife as they silently guard their master's domain. The clattering of bones heralds their approach."
+  weakness: "Vulnerable to bludgeoning damage (hammers, maces, clubs crush bones easily). Lower HP than zombies. No special defensive abilities like Undead Fortitude."
+  behavior: "More tactically capable than zombies. Will use ranged weapons, seek cover, and maintain formation. Follow orders precisely without question or hesitation. Often found as guards in crypts or ruins, standing motionless until intruders approach."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "2-3 skeletons per PC for medium encounter"
+  terrain: "Crypts with stone pillars (cover for ranged combat), ruins with elevated positions, Castle Ravenloft armories"
+  tactics: "Deploy skeletons with shortbows on elevated terrain or behind cover. Mix with melee zombies - skeletons provide ranged support while zombies engage in melee. Exploit vulnerability to bludgeoning by having skeletons avoid characters with maces/hammers. Create crossfire situations in corridors."
+
+# === VARIANTS ===
+variants:
+  - name: "Archer Skeleton"
+    changes:
+      equipment:
+        - item: "longbow"
+          quantity: 1
+        - item: "arrows"
+          quantity: 40
+      actions:
+        - name: "Longbow"
+          type: "ranged_weapon_attack"
+          attackBonus: 4
+          range:
+            normal: 150
+            long: 600
+          targets: 1
+          damage:
+            dice: "1d8"
+            bonus: 2
+            damageType: "piercing"
+          description: "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+
+  - name: "Guard Skeleton"
+    changes:
+      equipment:
+        - item: "scimitar"
+          quantity: 1
+        - item: "shield"
+          quantity: 1
+      armorClass: 15  # +2 from shield
+      actions:
+        - name: "Scimitar"
+          type: "melee_weapon_attack"
+          attackBonus: 4
+          reach: 5
+          targets: 1
+          damage:
+            dice: "1d6"
+            bonus: 2
+            damageType: "slashing"
+          description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.272"
+  official: true
+  srdContent: true
+
+  notes: "Classic low-level undead. More tactically interesting than zombies due to ranged attacks and better mobility (30 ft speed). Vulnerability to bludgeoning creates risk/reward - clerics with maces excel against them. Common in Castle Ravenloft and Barovia crypts."
+
+  dmReminders:
+    - "VULNERABLE to bludgeoning damage (double damage from hammers, maces, clubs)"
+    - "Shortbow range 80/320 - use terrain for cover"
+    - "AC 13 (better than zombies' AC 8)"
+    - "Low HP (13) makes them fragile despite decent AC"
+    - "Good initiative (+2 Dex) - often acts before zombies"
+    - "Deploy with cover or elevation for ranged advantage"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

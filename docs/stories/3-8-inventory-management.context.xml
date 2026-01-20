@@ -1,0 +1,275 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3.8</storyId>
+    <title>Inventory Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-8-inventory-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player managing character equipment and items in D&D 5e gameplay</asA>
+    <iWant>an inventory system that handles item addition/removal, weight tracking, and equipment slots</iWant>
+    <soThat>I can manage character items following D&D 5e encumbrance rules with automatic weight calculations and equipped item tracking</soThat>
+    <tasks>
+      <task id="1">Analyze Inventory Requirements</task>
+      <task id="2">Create InventoryManager Module</task>
+      <task id="3">Implement addItem() Method</task>
+      <task id="4">Implement removeItem() Method</task>
+      <task id="5">Implement equipItem() Method</task>
+      <task id="6">Implement unequipItem() Method</task>
+      <task id="7">Implement Weight Calculation</task>
+      <task id="8">Implement Currency Management</task>
+      <task id="9">Implement AC Recalculation</task>
+      <task id="10">Implement Attunement System</task>
+      <task id="11">Create ItemDatabase Module</task>
+      <task id="12">Create Test Suite (≥95% coverage, 30+ tests)</task>
+      <task id="13">Documentation and Examples</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Add Item to Inventory">
+      Load item from ItemDatabase, add to backpack array, calculate weight (current + item.weight × quantity), validate weight ≤ capacity (Str × 15), return error if over-encumbered, persist character, complete in &lt;100ms.
+    </criterion>
+    <criterion id="AC-2" title="Remove Item from Inventory">
+      Find item in backpack, decrement quantity or remove if zero, subtract weight, return error if not found, handle quantity-exceeds-available case, persist character.
+    </criterion>
+    <criterion id="AC-3" title="Equip Item to Slot">
+      Validate item type matches slot (armor/weapon/shield), validate proficiency, unequip existing item in slot, move from backpack to equipped slot, recalculate AC if armor/shield, persist character.
+    </criterion>
+    <criterion id="AC-4" title="Unequip Item from Slot">
+      Move item from equipped slot to backpack, recalculate AC if armor/shield, validate weight after unequip, persist character.
+    </criterion>
+    <criterion id="AC-5" title="Weight and Encumbrance Calculation">
+      Sum weights (backpack + equipped), calculate capacity (Str × 15), determine encumbered (weight > capacity), return {current, capacity, encumbered}, complete in &lt;50ms.
+    </criterion>
+    <criterion id="AC-6" title="Currency Management">
+      Add/remove currency (gold, silver, copper), validate non-negative amounts, persist to character.inventory.currency.
+    </criterion>
+    <criterion id="AC-7" title="Query Item from ItemDatabase">
+      Load item from data/srd/items.yaml, return {id, name, type, weight, cost, properties}, query &lt;100ms, return Result Object.
+    </criterion>
+    <criterion id="AC-8" title="AC Recalculation on Equipment Change">
+      Recalculate AC based on armor type: unarmored (10 + Dex), light (AC + Dex), medium (AC + min(Dex, 2)), heavy (AC only), shield (+2), validate proficiency, persist updated AC.
+    </criterion>
+    <criterion id="AC-9" title="Attunement Tracking">
+      Validate item.attunement === true, check slots &lt; max (3), add to attunement array, apply item effects, return error if over limit, persist character.
+    </criterion>
+    <criterion id="AC-10" title="Integration with CharacterManager">
+      Call CharacterManager.saveCharacter() after inventory changes, verify character.yaml updated, maintain state consistency.
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification">
+        <section name="§2.6 Inventory and Equipment" lines="56-60">
+          Item database (weapons, armor, gear, magic items), weight and encumbrance calculations, equipment slots (worn armor, wielded weapons), attunement tracking (max 3 items), currency management (GP, SP, CP).
+        </section>
+        <section name="InventoryManager Module" lines="212-213">
+          Manage character inventory and equipment (character, item actions) → Inventory state. Location: src/mechanics/inventory-manager.js
+        </section>
+        <section name="ItemDatabase Module" lines="213">
+          Query item definitions from SRD (item name/ID) → Item data. Location: src/mechanics/item-database.js
+        </section>
+        <section name="Character Inventory Schema" lines="295-318">
+          inventory: {equipped: {armor, mainHand, offHand}, backpack: [{item, quantity}], currency: {gold, silver, copper}}, weight: {current, capacity}, attunement: [{item}], max: 3
+        </section>
+        <section name="Item Data Schema" lines="373-409">
+          Item fields: id, name, type (weapon/armor/magic_item), category, weight, cost, armorClass (for armor), damage (for weapons), attunement (bool), effects (for magic items).
+        </section>
+        <section name="AC-8: Inventory Management AC" lines="1408-1417">
+          Add item to inventory (with quantity), validate weight ≤ capacity (Str × 15), validate encumbrance, equipment slots (equipped armor, mainHand, offHand), persist inventory changes to character file.
+        </section>
+        <section name="Armor Class Calculation" lines="274">
+          armorClass: 18  # 10 + Dex(+2) + Chain Mail(16). AC depends on equipped armor type and Dexterity modifier.
+        </section>
+        <section name="Result Object Pattern" lines="153-156">
+          All async operations return {success, data, error}. No exceptions thrown for expected errors. Graceful error handling.
+        </section>
+        <section name="Dependency Injection" lines="148-152">
+          constructor(deps = {}) pattern. Accept dependencies as params, default to real instances. Enables testing with mocks.
+        </section>
+        <section name="Performance Targets" lines="177-191">
+          Character sheet load &lt;50ms, spell database query &lt;100ms. Similar targets for inventory operations.
+        </section>
+      </doc>
+      <doc path="docs/stories/3-6-spell-database.md" title="Story 3-6: Spell Database (Completed)">
+        <section name="Database Pattern">
+          SpellDatabase class at src/mechanics/spell-database.js. Methods: getSpell(spellId), getSpellsByClass(className), getAllSpells(). Load YAML, cache in Map for O(1) lookups, query &lt;10ms. Follow same pattern for ItemDatabase.
+        </section>
+      </doc>
+      <doc path="docs/stories/3-7-spellcasting-module.md" title="Story 3-7: Spellcasting Module (Completed)">
+        <section name="Manager Pattern">
+          SpellManager class at src/mechanics/spell-manager.js. Methods: castSpell(), prepareSpells(). Result Object pattern, dependency injection, comprehensive testing (35 tests, 83.89% coverage). Follow same patterns for InventoryManager.
+        </section>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" reason="Load/save character after inventory changes">
+        <interface>
+          async loadCharacter(characterId) → {success, data: Character, error}
+          async saveCharacter(characterId, characterData) → {success, data: null, error}
+          getAbilityModifier(abilityScore) → number
+          getProficiencyBonus(level) → number
+        </interface>
+        <usage>Load character for inventory operations, save after adding/removing/equipping items, get ability modifier for AC calculation, check proficiency for equipment validation</usage>
+      </artifact>
+      <artifact path="src/mechanics/spell-database.js" kind="service" symbol="SpellDatabase" reason="Reference pattern for ItemDatabase implementation">
+        <interface>
+          async loadSpells(filePath) → {success, data: null, error}
+          async getSpell(spellId) → {success, data: Spell, error}
+          async getSpellsByLevel(level) → {success, data: Spell[], error}
+          async getSpellsByClass(className) → {success, data: Spell[], error}
+        </interface>
+        <usage>ItemDatabase should follow same architectural pattern: load YAML, cache in Map, provide query methods, return Result Objects</usage>
+      </artifact>
+      <artifact path="src/mechanics/spell-manager.js" kind="service" symbol="SpellManager" reason="Reference pattern for InventoryManager implementation">
+        <interface>
+          constructor(deps = {spellDatabase, diceRoller})
+          async castSpell(character, spellId, slotLevel, target) → {success, data: {...}, error}
+          async prepareSpells(character, spellIds) → {success, data: {...}, error}
+        </interface>
+        <usage>InventoryManager should follow same patterns: dependency injection, Result Object returns, private helper methods (_recalculateAC similar to _rollSpellDamage)</usage>
+      </artifact>
+      <artifact path="data/srd/spells.yaml" kind="data" reason="Reference schema for items.yaml structure">
+        <usage>items.yaml should follow similar structure: top-level {items: []} array, each item with id, name, type, properties. SpellDatabase loads spells.yaml, ItemDatabase loads items.yaml.</usage>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing (character files, item database)</package>
+        <package name="jest" version="^29.7.0">Testing framework</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      Result Object Pattern REQUIRED: All async operations must return {success, data, error}. No exceptions for expected errors (item not found, over-encumbered, attunement limit).
+    </constraint>
+    <constraint type="architecture">
+      Dependency Injection REQUIRED: constructor(deps = {itemDatabase}) with optional deps parameter. Default to real ItemDatabase instance if not provided.
+    </constraint>
+    <constraint type="performance">
+      addItem() must complete in &lt;100ms including ItemDatabase query + weight calculation + character persistence. calculateWeight() must complete in &lt;50ms.
+    </constraint>
+    <constraint type="data">
+      Character inventory persists in character.inventory object {equipped, backpack, currency}. Weight in character.weight {current, capacity}. Attunement in character.attunement array.
+    </constraint>
+    <constraint type="testing">
+      Target ≥95% statement coverage. Include: unit tests (mocked ItemDatabase), integration tests (real items.yaml), performance tests (&lt;100ms).
+    </constraint>
+    <constraint type="D&D-5e">
+      Carrying Capacity = Strength × 15 lbs. AC calculation: Unarmored (10 + Dex), Light (AC + Dex), Medium (AC + min(Dex, 2)), Heavy (AC only), Shield (+2). Attunement max 3 items.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="InventoryManager.addItem" kind="async method">
+      <signature>async addItem(character, itemId, quantity = 1) → {success, data: {inventory, weight: {current, capacity, encumbered}}, error}</signature>
+      <parameters>
+        <param name="character">Character object with inventory and abilities</param>
+        <param name="itemId">Item ID from ItemDatabase (e.g., 'longsword')</param>
+        <param name="quantity">Number of items to add (default: 1)</param>
+      </parameters>
+      <returns>
+        Result Object with data: {inventory: updated backpack array, weight: {current, capacity, encumbered}}
+      </returns>
+    </interface>
+    <interface name="InventoryManager.removeItem" kind="async method">
+      <signature>async removeItem(character, itemId, quantity = 1) → {success, data: {inventory, weight}, error}</signature>
+      <usage>Decrement item quantity or remove from backpack, recalculate weight</usage>
+    </interface>
+    <interface name="InventoryManager.equipItem" kind="async method">
+      <signature>async equipItem(character, itemId, slot) → {success, data: {equipped, ac, proficiencyWarning}, error}</signature>
+      <parameters>
+        <param name="character">Character object</param>
+        <param name="itemId">Item ID to equip</param>
+        <param name="slot">Equipment slot: 'armor', 'mainHand', 'offHand'</param>
+      </parameters>
+      <returns>
+        Result Object with data: {equipped: updated equipped object, ac: new AC value (if armor/shield), proficiencyWarning: boolean}
+      </returns>
+    </interface>
+    <interface name="InventoryManager.unequipItem" kind="async method">
+      <signature>async unequipItem(character, slot) → {success, data: {equipped, backpack, ac, weight}, error}</signature>
+      <usage>Move item from equipped slot to backpack, recalculate AC if armor/shield, check weight</usage>
+    </interface>
+    <interface name="InventoryManager.calculateWeight" kind="method">
+      <signature>calculateWeight(character) → {current: number, capacity: number, encumbered: boolean}</signature>
+      <usage>Sum weights from backpack and equipped items, calculate capacity (Str × 15), determine encumbrance</usage>
+    </interface>
+    <interface name="InventoryManager.addCurrency" kind="method">
+      <signature>addCurrency(character, amount, type) → {success, data: {currency: updated currency object}, error}</signature>
+      <parameters>
+        <param name="type">Currency type: 'gold', 'silver', 'copper'</param>
+      </parameters>
+    </interface>
+    <interface name="InventoryManager.removeCurrency" kind="method">
+      <signature>removeCurrency(character, amount, type) → {success, data: {currency}, error}</signature>
+      <usage>Subtract currency, validate sufficient funds</usage>
+    </interface>
+    <interface name="InventoryManager.attuneItem" kind="async method">
+      <signature>async attuneItem(character, itemId) → {success, data: {attunement: string[], itemEffects}, error}</signature>
+      <usage>Validate attunement requirement, check slot availability (&lt;3), add to attunement array, apply item effects</usage>
+    </interface>
+    <interface name="InventoryManager.unattuneItem" kind="async method">
+      <signature>async unattuneItem(character, itemId) → {success, data: {attunement}, error}</signature>
+      <usage>Remove from attunement array, remove item effects</usage>
+    </interface>
+    <interface name="InventoryManager._recalculateAC" kind="private method">
+      <signature>_recalculateAC(character) → number</signature>
+      <usage>Calculate AC based on equipped armor, shield, and Dex modifier. Called by equipItem() and unequipItem()</usage>
+    </interface>
+    <interface name="ItemDatabase.loadItems" kind="async method">
+      <signature>async loadItems(filePath = 'data/srd/items.yaml') → {success, data: null, error}</signature>
+      <usage>Load and parse items.yaml, validate schema, cache in Map</usage>
+    </interface>
+    <interface name="ItemDatabase.getItem" kind="async method">
+      <signature>async getItem(itemId) → {success, data: Item, error}</signature>
+      <usage>Query item by ID from cached Map, return item data or error</usage>
+    </interface>
+    <interface name="ItemDatabase.getItemsByType" kind="async method">
+      <signature>async getItemsByType(type) → {success, data: Item[], error}</signature>
+      <usage>Filter items by type ('weapon', 'armor', 'magic_item'), return matching items</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest v29.7.0 testing framework. Mock external dependencies (ItemDatabase) for deterministic unit tests. Integration tests with real items.yaml data. Performance tests verify &lt;100ms addItem(), &lt;50ms calculateWeight(). Target ≥95% statement coverage, 100% function coverage. Follow patterns from spell-manager.test.js (35 tests, 83.89% coverage).
+    </standards>
+    <locations>
+      tests/mechanics/inventory-manager.test.js (new file)
+      tests/mechanics/item-database.test.js (new file)
+    </locations>
+    <ideas>
+      <idea criterion="AC-1">Add longsword (3 lbs) to character with Str 16 (capacity 240), verify backpack updated, weight 0→3, not encumbered</idea>
+      <idea criterion="AC-1">Add items exceeding capacity, verify error returned with encumbrance details</idea>
+      <idea criterion="AC-2">Remove item from backpack, verify quantity decremented, weight recalculated</idea>
+      <idea criterion="AC-2">Attempt remove non-existent item, verify descriptive error</idea>
+      <idea criterion="AC-3">Equip longsword to mainHand, verify moved from backpack to equipped.mainHand</idea>
+      <idea criterion="AC-3">Equip chain mail (heavy armor), verify AC recalculated to 16 (no Dex bonus)</idea>
+      <idea criterion="AC-3">Equip shield, verify AC increased by +2</idea>
+      <idea criterion="AC-3">Equip martial weapon without proficiency, verify proficiency warning returned</idea>
+      <idea criterion="AC-4">Unequip armor, verify AC recalculated to unarmored (10 + Dex)</idea>
+      <idea criterion="AC-5">Calculate weight with multiple items in backpack and equipped slots, verify sum correct</idea>
+      <idea criterion="AC-5">Test encumbrance threshold: weight = capacity (not encumbered), weight = capacity + 1 (encumbered)</idea>
+      <idea criterion="AC-6">Add 50 gold, verify currency.gold incremented, persist to character</idea>
+      <idea criterion="AC-6">Attempt add negative currency, verify validation error</idea>
+      <idea criterion="AC-7">Query longsword from ItemDatabase, verify item data returned in &lt;100ms</idea>
+      <idea criterion="AC-7">Query non-existent item, verify error returned</idea>
+      <idea criterion="AC-8">Test all armor types: no armor (10 + Dex), light (AC + Dex), medium (AC + min(Dex, 2)), heavy (AC only)</idea>
+      <idea criterion="AC-8">Equip/unequip shield, verify +2/-2 AC change</idea>
+      <idea criterion="AC-9">Attune 3 magic items, verify attunement array size = 3</idea>
+      <idea criterion="AC-9">Attempt attune 4th item, verify error (attunement limit)</idea>
+      <idea criterion="AC-10">Make inventory changes, verify CharacterManager.saveCharacter() called, character.yaml updated</idea>
+    </ideas>
+  </tests>
+</story-context>

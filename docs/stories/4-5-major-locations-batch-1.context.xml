@@ -1,0 +1,283 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>5</storyId>
+    <title>Major Locations Batch 1</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-12</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-5-major-locations-batch-1.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player progressing through the Curse of Strahd campaign</asA>
+    <iWant>access to mid-sized locations between the major settlements</iWant>
+    <soThat>I can explore Barovia comprehensively, access key quest locations, and encounter important NPCs and challenges outside the main villages</soThat>
+    <tasks>
+      <task id="1" ac="1,2,3,4">Create Death House Location - 6 files (Description, NPCs, Items, Events, State, metadata), validate</task>
+      <task id="2" ac="1,2,3,4,6,7">Create Tser Pool Vistani Encampment - 6 files, Madam Eva + Tarokka reading integration, validate</task>
+      <task id="3" ac="1,2,3,4,6,7">Create Old Bonegrinder Windmill - 6 files, night hag coven (Morgantha), validate</task>
+      <task id="4" ac="1,2,3,4,6,7">Create Wizard of Wines Winery - 6 files, Martikov wereraven family, validate</task>
+      <task id="5" ac="1,2,3,4,6,7">Create Van Richten's Tower - 6 files, Ezmerelda encounter, validate</task>
+      <task id="6" ac="1,2,3,4,7">Create Werewolf Den - 6 files, Kiril pack leader, validate</task>
+      <task id="7" ac="5">Establish Location Network Connections - Update existing locations to connect to new batch</task>
+      <task id="8" ac="5,8">Integration Testing - LocationLoader compatibility for all 6 locations</task>
+      <task id="9" ac="4,8">Epic 2 Event Schema Validation - All Events.md files conform to EventScheduler</task>
+      <task id="10" ac="8">Content Validation and Documentation - 100% validation pass rate (6/6 locations)</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1">Six Mid-Sized Locations Implemented - Death House, Tser Pool Vistani Encampment, Old Bonegrinder, Wizard of Wines Winery, Van Richten's Tower, Werewolf Den created as complete location folders following Epic 1 structure</ac>
+    <ac id="2">Epic 1 Folder Structure Compliance - Each location has all 6 required files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml) with proper content and formatting</ac>
+    <ac id="3">Description.md Token Budget Compliance - All Description.md files stay under 2000 tokens, using variants or focused descriptions as needed for token management</ac>
+    <ac id="4">Epic 2 Event Schema Compliance - All Events.md files conform to EventScheduler schema with proper eventId, trigger_type, trigger_conditions, and effects structure</ac>
+    <ac id="5">Connected Location Network - metadata.yaml files establish connections between these locations and previously implemented settlements (Barovia, Vallaki, Krezk, Ravenloft)</ac>
+    <ac id="6">Quest-Critical Content Integrated - Locations include quest hooks and content for major campaign quests (Tarokka reading at Tser Pool, winery delivery, Death House intro, etc.)</ac>
+    <ac id="7">NPC Integration - Key NPCs placed correctly (Madam Eva at Tser Pool, Morgantha at Bonegrinder, Martikovs at Winery, Van Richten reference at Tower, werewolves at Den)</ac>
+    <ac id="8">Content Validation - All 6 locations pass `npm run validate-location` script with 100% compliance, token counts documented in metadata.yaml</ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification: Curse of Strahd Content Implementation</title>
+        <section>Story-to-AC Mapping, Location List, Batch Story Strategy</section>
+        <snippet>Story 4-5 implements first batch of 6 mid-sized locations (AC-1, AC-8). Batch size validated after Stories 4-1 to 4-4. All locations use Epic 1 folder structure with Description.md under 2000 tokens. Integration testing validates Epic 1-3 systems work with content.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification: Test Strategy Summary</title>
+        <section>Schema Validation Tests, Integration Tests</section>
+        <snippet>Epic 4 testing focuses on content validation (schema compliance, cross-references, token limits) and integration testing (Epic 1-3 systems consume content). Validation tests run via `npm run validate-location` for 100% coverage. Integration tests validate LocationLoader, StateManager, EventScheduler compatibility.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns, File-First Design, YAML Frontmatter Pattern, Location Folder Template</section>
+        <snippet>All game state persists in human-readable Markdown/YAML files. Each location is a folder with standardized files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml. State.md combines YAML frontmatter (structured data) with narrative Markdown. Token count limit: Description.md must stay under 2000 tokens.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-4-krezk-location.md</path>
+        <title>Story 4.4: Krezk Location (Previous Story Learnings)</title>
+        <section>Completion Notes, Senior Developer Review, Action Items</section>
+        <snippet>Story 4-4 completed with 39 files (6 parent + 30 sub-locations + tests). 100% validation pass rate. Token budget excellent: Parent 1685, Abbey 1547, other sub-locations 461-712 tokens. Pattern: Single-folder structure for small/medium locations, nested architecture only for large settlements. Advisory: Integration tests expect Result Object pattern but LocationLoader returns data directly (acceptable technical debt).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-1-village-of-barovia-location.md</path>
+        <title>Story 4.1: Village of Barovia Location</title>
+        <section>Implementation Notes, Validation</section>
+        <snippet>First location story, established Epic 4 content workflow. Created 6-file location structure, validated with Epic 1 validation script. Set quality bar for atmospheric descriptions, quest hooks, NPC integration. Confirmed Epic 1-3 integration works.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-2-castle-ravenloft-structure.md</path>
+        <title>Story 4.2: Castle Ravenloft Structure</title>
+        <section>Nested Sub-Location Architecture</section>
+        <snippet>Established nested sub-location pattern for large locations (60+ rooms). Parent folder + multiple sub-location folders, each with 6 files. Pattern validated: use for mega-dungeons and large settlements, NOT for small/medium locations.</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/</path>
+        <title>Location Folder Template</title>
+        <section>Standard 6-File Structure</section>
+        <snippet>Template directory with all 6 required files pre-created. Copy to game-data/locations/ and fill in content. Provides standard structure for Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml. Use for all Epic 4 location implementations.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-80</lines>
+        <reason>Loads and parses location data from game-data/locations/ directories. API: loadLocation(locationId) returns LocationData object with all 6 files parsed. Caches loaded locations for performance. Must work with all 6 new batch locations (death-house, tser-pool-encampment, old-bonegrinder, wizard-of-wines-winery, van-richtens-tower, werewolf-den).</reason>
+      </file>
+      <file>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-80</lines>
+        <reason>Manages State.md files with YAML frontmatter pattern. API: loadState(locationId), saveState(locationId, stateData). Tracks visited status, discovered items, completed events, NPC states. Atomic read-modify-write operations. Required for all 6 batch location state tracking.</reason>
+      </file>
+      <file>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-60</lines>
+        <reason>Detects when events should trigger based on time, location, or conditions. Supports date/time triggers, conditional triggers (NPC status, game flags), and recurring events. Required for all Events.md files in 6 batch locations (Tarokka reading, house awakening, hag rituals, druid attacks, etc.).</reason>
+      </file>
+      <file>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-50</lines>
+        <reason>Loads Event.md definitions and applies effects to world state. Integrates with StateManager to update State.md files. Required for executing batch location events and propagating state changes.</reason>
+      </file>
+      <file>
+        <path>scripts/validate-location.js</path>
+        <kind>script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>1-100</lines>
+        <reason>Validation script for location folder structure. Checks for 6 required files, validates YAML syntax, verifies metadata schema, counts tokens in Description.md. Must run on all 6 batch locations per AC-8. Command: `npm run validate-location game-data/locations/{location-id}`</reason>
+      </file>
+      <file>
+        <path>tests/integration/locations/krezk-structure.test.js</path>
+        <kind>test</kind>
+        <symbol>Krezk Structure Integration Tests</symbol>
+        <lines>1-250</lines>
+        <reason>Integration test template for location structure validation. Tests LocationLoader with locations, validates 6-file structure, verifies metadata relationships, checks token counts. Pattern to reuse for batch-1-structure.test.js integration tests.</reason>
+      </file>
+      <file>
+        <path>tests/integration/events/krezk-events.test.js</path>
+        <kind>test</kind>
+        <symbol>Krezk Events Integration Tests</symbol>
+        <lines>1-150</lines>
+        <reason>Integration test template for event validation. Tests EventScheduler registers events, validates trigger types and effect types against Epic 2 schema. Pattern to reuse for batch-1-events.test.js integration tests.</reason>
+      </file>
+      <file>
+        <path>templates/location/Description.md</path>
+        <kind>template</kind>
+        <symbol>Description Template</symbol>
+        <lines>N/A</lines>
+        <reason>Template for location descriptions with required sections: Overview, Initial Description, Return Description, Time-Based Variants, Points of Interest. Use as baseline for all 6 batch location Description.md files.</reason>
+      </file>
+      <file>
+        <path>templates/location/metadata.yaml</path>
+        <kind>template</kind>
+        <symbol>Metadata Template</symbol>
+        <lines>N/A</lines>
+        <reason>Template for location metadata with required fields: location_name, location_type, region, connected_locations, danger_level, recommended_level, description_token_count, quest_critical, last_validated. Use for all 6 batch location metadata.yaml files.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml">Used for parsing YAML frontmatter in State.md and metadata.yaml files</package>
+        <package name="fs">File system operations for reading/writing location files</package>
+        <package name="path">Path manipulation for location directories</package>
+      </node>
+      <testing>
+        <package name="jest">Test framework for integration tests (batch-1-structure.test.js, batch-1-events.test.js)</package>
+      </testing>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Pure Content Implementation - This story creates only data files (Markdown/YAML), no code changes required</constraint>
+    <constraint>Epic 1 Folder Structure - All 6 locations must follow standardized 6-file template (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml)</constraint>
+    <constraint>Single-Folder Structure - All 6 batch locations are small-to-medium sized, do NOT use nested sub-location architecture (reserved for large settlements and mega-dungeons per Stories 4-2, 4-3, 4-4)</constraint>
+    <constraint>Token Count Limit - All Description.md files must stay under 2000 tokens to fit in LLM context window. Target range: 600-1200 tokens per location depending on complexity.</constraint>
+    <constraint>YAML Frontmatter Pattern - State.md files must use YAML frontmatter (between --- delimiters) followed by narrative Markdown</constraint>
+    <constraint>Epic 2 Event Schema - All Events.md files must conform to EventScheduler schema (eventId, name, trigger_type, trigger_conditions, effects)</constraint>
+    <constraint>Epic 3 Data Schemas - NPC and item definitions must conform to Epic 3 CharacterManager and ItemDatabase schemas</constraint>
+    <constraint>Validation Required - All 6 location folders must pass npm run validate-location script before completion (100% pass rate required per AC-8)</constraint>
+    <constraint>Integration Tests Required - Must create batch-1-structure.test.js and batch-1-events.test.js following Krezk pattern</constraint>
+    <constraint>Project-Relative Paths - All file paths in metadata must be project-relative, not absolute</constraint>
+    <constraint>Location Network Integrity - All connected_locations references must be bidirectional (A→B and B→A)</constraint>
+    <constraint>Quest Integration - Locations must include proper quest hooks per Curse of Strahd source material (Tarokka at Tser Pool, wine delivery at Winery, etc.)</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <usage>Load batch locations: await locationLoader.loadLocation('death-house'), await locationLoader.loadLocation('tser-pool-encampment'), etc. Returns LocationData with all 6 files parsed.</usage>
+    </interface>
+    <interface>
+      <name>StateManager.loadState(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadState(locationId: string): Promise&lt;{success: boolean, data?: StateData, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <usage>Load batch location state: const result = await stateManager.loadState('old-bonegrinder'). Returns Result Object pattern {success, data, error}. Note: LocationLoader API returns data directly, not Result Object (documented technical debt).</usage>
+    </interface>
+    <interface>
+      <name>StateManager.saveState(locationId, stateData)</name>
+      <kind>function</kind>
+      <signature>async saveState(locationId: string, stateData: object): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <usage>Save batch location state: await stateManager.saveState('wizard-of-wines-winery', updatedState). Atomic write operation.</usage>
+    </interface>
+    <interface>
+      <name>EventScheduler.checkTriggers(calendar, oldTime, newTime)</name>
+      <kind>function</kind>
+      <signature>checkTriggers(calendar: CalendarData, oldTime: string, newTime: string): Array&lt;TriggeredEvent&gt;</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <usage>Detect triggered batch location events when time advances. Returns array of events that should execute (Tarokka reading, house awakening, hag rituals, etc.)</usage>
+    </interface>
+    <interface>
+      <name>Epic 1 Location Folder Structure</name>
+      <kind>data schema</kind>
+      <signature>6 required files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</signature>
+      <path>docs/tech-spec-epic-1.md</path>
+      <usage>All 6 batch locations (death-house, tser-pool-encampment, old-bonegrinder, wizard-of-wines-winery, van-richtens-tower, werewolf-den) must conform to this structure. Validated by scripts/validate-location.js</usage>
+    </interface>
+    <interface>
+      <name>Epic 2 Event Schema</name>
+      <kind>data schema</kind>
+      <signature>Event: {eventId, name, trigger_type: (date_time|conditional|recurring|location), trigger_conditions, effects: [{type, ...}]}</signature>
+      <path>docs/tech-spec-epic-2.md</path>
+      <usage>All Events.md files in 6 batch locations must use this YAML schema. Required for Tarokka reading trigger, house awakening, hag coven rituals, druid attacks, trap activations, etc.</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing framework: Jest. Integration tests validate Epic 1 LocationLoader and Epic 2 EventScheduler compatibility with new batch content. Test structure follows established pattern from Stories 4-1, 4-2, 4-3, 4-4: create location-structure tests for LocationLoader verification and event tests for EventScheduler validation. All tests must pass before story completion. Target: 100% validation pass rate for all 6 location folders. Note: Tests may expect Result Object pattern but LocationLoader returns data directly (documented as acceptable technical debt in Stories 4-3, 4-4).
+    </standards>
+    <locations>
+      <location>tests/integration/locations/</location>
+      <location>tests/integration/events/</location>
+    </locations>
+    <ideas>
+      <test ac="1,2,3,5,8">
+        <file>tests/integration/locations/batch-1-structure.test.js</file>
+        <description>Integration test suite for Batch 1 location structure following krezk-structure.test.js pattern</description>
+        <tests>
+          - Test all 6 locations load successfully via LocationLoader (death-house, tser-pool-encampment, old-bonegrinder, wizard-of-wines-winery, van-richtens-tower, werewolf-den)
+          - Test all 6 locations have complete 6-file structure
+          - Test all Description.md files under 2000 tokens
+          - Test metadata.yaml connections are valid (referenced locations exist)
+          - Test bidirectional connections (if A connects to B, B connects to A)
+          - Test token counts documented in all metadata.yaml files
+          - Test quest-critical flags set correctly (Death House, Tser Pool, Old Bonegrinder, Winery)
+        </tests>
+      </test>
+      <test ac="4,8">
+        <file>tests/integration/events/batch-1-events.test.js</file>
+        <description>Integration test suite for Batch 1 event validation following krezk-events.test.js pattern</description>
+        <tests>
+          - Test all 6 locations have Events.md that parse as valid YAML
+          - Test all events have required fields (eventId, name, trigger_type, effects)
+          - Test all trigger types are valid Epic 2 types (date_time, conditional, recurring, location)
+          - Test all effect types are valid Epic 2 types (npc_status, state_update, quest_trigger, combat_encounter, custom, etc.)
+          - Test EventScheduler registers all batch location events successfully
+          - Test conditional triggers (Tarokka reading on arrival, house awakening, hag coven detection)
+        </tests>
+      </test>
+      <test ac="8">
+        <file>Validation via npm run validate-location</file>
+        <description>Epic 1 validation script execution for all 6 batch locations</description>
+        <tests>
+          - Run validation on each: npm run validate-location game-data/locations/death-house (repeat for all 6)
+          - Verify 100% pass rate (6/6 locations, no errors)
+          - Verify token counts under 2000 for all Description.md files
+          - Verify all required files present
+          - Verify YAML syntax valid in metadata.yaml, State.md frontmatter, Events.md
+        </tests>
+      </test>
+      <test ac="5">
+        <file>tests/integration/locations/batch-1-structure.test.js</file>
+        <description>Location network connectivity tests</description>
+        <tests>
+          - Test Death House connects to Village of Barovia (bidirectional)
+          - Test Tser Pool connects to Vallaki (bidirectional)
+          - Test Old Bonegrinder connects to Vallaki and Village of Barovia (bidirectional)
+          - Test Wizard of Wines connects to Vallaki, Krezk, Yester Hill (bidirectional)
+          - Test Van Richten's Tower connects to Lake Baratok (bidirectional)
+          - Test Werewolf Den connects to Krezk (bidirectional)
+          - Test all travel times documented
+        </tests>
+      </test>
+    </ideas>
+  </tests>
+</story-context>

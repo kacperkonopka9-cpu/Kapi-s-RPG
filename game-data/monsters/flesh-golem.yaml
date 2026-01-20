@@ -1,0 +1,239 @@
+# Flesh Golem - Stitched Undead Construct
+# Source: D&D 5e Monster Manual p.169, Curse of Strahd (Abbey of St. Markovia)
+# Frankenstein's monster - humanoid body parts stitched together and animated
+
+# === BASIC INFORMATION ===
+name: "Flesh Golem"
+monsterId: "flesh_golem"
+size: "Medium"
+type: "construct"
+alignment: "neutral"
+
+# === CHALLENGE RATING ===
+challengeRating: 5
+experiencePoints: 1800
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 9
+armorType: "natural armor"
+
+hitPoints:
+  max: 93
+  current: 93
+  hitDice: "11d8"
+  hitDiceBonus: 44  # +4 Con modifier * 11 HD = +44
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 19    # +4
+  dexterity: 9    # -1
+  constitution: 18  # +4
+  intelligence: 6   # -2 (dim-witted)
+  wisdom: 10     # +0
+  charisma: 5    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["lightning", "poison", "bludgeoning", "piercing", "slashing from nonmagical attacks that aren't adamantine"]
+conditionImmunities: ["charmed", "exhaustion", "frightened", "paralyzed", "petrified", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "understands the languages of its creator but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "flesh_golem_1"  # Will be set dynamically per instance
+  name: "Flesh Golem"
+  dexModifier: -1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Berserk"
+    description: "Whenever the golem starts its turn with 40 hit points or fewer, roll a d6. On a 6, the golem goes berserk. On each of its turns while berserk, the golem attacks the nearest creature it can see. If no creature is near enough to move to and attack, the golem attacks an object, with preference for an object smaller than itself. Once the golem goes berserk, it continues to do so until it is destroyed or regains all its hit points."
+    mechanics:
+      type: "rage_state"
+      trigger: "start_turn_with_40_or_fewer_hp"
+      activationRoll: "d6"
+      activationThreshold: 6
+      effect:
+        - "attacks_nearest_creature"
+        - "attacks_objects_if_no_creatures"
+        - "cannot_distinguish_friend_or_foe"
+      duration: "until_destroyed_or_fully_healed"
+
+  - name: "Aversion of Fire"
+    description: "If the golem takes fire damage, it has disadvantage on attack rolls and ability checks until the end of its next turn."
+    mechanics:
+      type: "weakness"
+      trigger: "takes_fire_damage"
+      effect: "disadvantage_on_attacks_and_ability_checks"
+      duration: "until_end_of_next_turn"
+
+  - name: "Immutable Form"
+    description: "The golem is immune to any spell or effect that would alter its form."
+    mechanics:
+      type: "immunity"
+      effect: "immune_to_form_altering_effects"
+      examples: ["polymorph", "shapechange", "petrification"]
+
+  - name: "Lightning Absorption"
+    description: "Whenever the golem is subjected to lightning damage, it takes no damage and instead regains a number of hit points equal to the lightning damage dealt."
+    mechanics:
+      type: "healing"
+      trigger: "subjected_to_lightning_damage"
+      effect: "heal_hp_equal_to_lightning_damage"
+
+  - name: "Magic Resistance"
+    description: "The golem has advantage on saving throws against spells and other magical effects."
+    mechanics:
+      type: "saving_throw_advantage"
+      advantage: ["saves_vs_spells", "saves_vs_magical_effects"]
+
+  - name: "Magic Weapons"
+    description: "The golem's weapon attacks are magical."
+    mechanics:
+      type: "weapon_enhancement"
+      effect: "attacks_count_as_magical"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The golem makes two slam attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+
+  - name: "Slam"
+    type: "melee_weapon_attack"
+    attackBonus: 7  # +4 Str + 3 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d8"
+      bonus: 4  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) bludgeoning damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "flesh_golem_parts"
+      quantity: "various"
+      dropChance: 100
+      note: "Stitched body parts, disturbing"
+    - item: "lightning_affinity_residue"
+      quantity: 1
+      dropChance: 40
+      note: "Crafting material for lightning-based items"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Durable tank with high HP (93) and immunities. Multiattack with two slams (avg 26 damage/round). BERSERK MECHANIC: At 40 HP or below, roll d6 at start of turn - on 6, goes berserk (attacks nearest creature indiscriminately, cannot be controlled). Lightning Absorption: HEALS from lightning damage (avoid Lightning Bolt, Chain Lightning). Aversion of Fire: Fire damage gives disadvantage on attacks/checks until end of next turn. Magic Resistance gives advantage on saves. Immune to nonmagical, non-adamantine weapons. Low AC (9) is weakness - easy to hit. Dim-witted but follows simple commands."
+  intelligence: "dim_witted"
+  aggression: "medium"  # High when berserk
+  groupTactics: "none"  # Mindless
+
+  preferredTargets:
+    - "nearest creature (when berserk)"
+    - "commanded targets (when controlled)"
+
+  fleeThreshold: null  # Never flees (construct)
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Created in laboratories, wizard towers, Abbey of St. Markovia, mad scientist lairs"
+  organization: "Solitary or gang (2-4)"
+
+lore:
+  description: "Flesh golems are grotesque constructs assembled from body parts of different humanoids, then stitched together and animated through dark rituals and lightning. Inspired by the legend of Frankenstein's monster, flesh golems are tragic creatures - powerful but dim-witted, often confused and angry at their unnatural existence. They are immune to most damage but vulnerable to fire (psychologically disturbing to them). Lightning actually heals them, as it's often the force used to animate them. Flesh golems can go berserk when damaged, attacking friend and foe alike. In Curse of Strahd, the Abbot of St. Markovia creates flesh golems in misguided attempts to create a perfect bride for Strahd."
+  weakness: "Low AC (9) makes them easy to hit. Aversion of Fire gives disadvantage after fire damage. Berserk mechanic at 40 HP makes them uncontrollable. Low Intelligence and Charisma. Adamantine weapons bypass immunity."
+  behavior: "Follow creator's commands with dim understanding. Childlike intelligence - confused, frustrated, sometimes violent. Berserk at low HP - attack nearest creature indiscriminately. Prefer slam attacks (simple, effective). No tactical thinking. Can't speak but understand Common. Tragic figures - aware of their unnatural existence, unable to articulate suffering."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 5
+  encounterSize: "1 flesh golem for medium, 2 for hard, 3 for deadly"
+  terrain: "Abbey of St. Markovia laboratory, wizard towers, underground labs"
+  tactics: "ABBEY INVESTIGATION QUEST: Abbot creates flesh golems. CR 5 durable tank. AC 9 is LOW (easy to hit). High HP (93) + immunities make them soak damage. LIGHTNING HEALS THEM - warn spellcasters not to use Lightning Bolt. Fire damage gives disadvantage (use fire to debuff). Multiattack slams (avg 26 damage/round). BERSERK: At 40 HP or below, roll d6 - on 6, attacks nearest creature (friend or foe). Magic Resistance makes spell saves difficult. Immune to nonmagical weapons (need magic weapons or adamantine)."
+
+# === VARIANTS ===
+variants:
+  - name: "Vasilka (Abbot's Creation)"
+    changes:
+      alignment: "neutral good"  # Created to be bride for Strahd
+      abilities:
+        charisma: 14  # +2 (enhanced for beauty)
+        intelligence: 8  # Enhanced
+      skills:
+        persuasion: 3
+      traits:
+        - name: "Enhanced Appearance"
+          description: "Vasilka was crafted with exceptional care to be beautiful. She has advantage on Charisma (Persuasion) checks."
+      lore:
+        description: "The Abbot's masterwork - a flesh golem bride intended for Strahd. More intelligent and beautiful than typical flesh golems, but still a construct. Tragic figure caught between creators' conflicting visions."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual, Curse of Strahd"
+  pageReference: "MM p.169, CoS p.151 (Abbey of St. Markovia)"
+  official: true
+  srdContent: true
+
+  notes: "PRIORITY monster for Abbey Investigation quest. Frankenstein's monster archetype. Lightning Absorption means lightning spells HEAL them (critical info for spellcasters). Berserk mechanic at 40 HP creates chaos - attacks nearest creature indiscriminately. Low AC (9) balanced by high HP (93) and immunities. Tragic horror - aware of unnatural existence."
+
+  dmReminders:
+    - "AC 9 (VERY LOW) - easy to hit"
+    - "HP 93 (HIGH) - very durable"
+    - "Multiattack: Two slams (avg 26 damage/round)"
+    - "BERSERK: At 40 HP or below, roll d6 - on 6, attacks nearest creature (friend or foe)"
+    - "Lightning Absorption: HEALS equal to lightning damage (DO NOT use Lightning Bolt)"
+    - "Aversion of Fire: Fire damage gives disadvantage on attacks/checks until end of next turn"
+    - "Magic Resistance: Advantage on saves vs spells"
+    - "Immune to nonmagical, non-adamantine physical damage"
+    - "Immune to lightning and poison damage"
+    - "Immutable Form: Immune to polymorph, shapechange, etc."
+    - "Understands Common but can't speak"
+    - "Tragic figure - childlike intelligence, confused by existence"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

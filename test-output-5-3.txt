@@ -1,0 +1,211 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest tests/integration/prompts/template-engine.test.js
+
+  console.debug
+    [PromptTemplateEngine] Warning: Template npc-dialogue exceeds token budget by 110.0% (840 tokens vs 400 budget)
+
+      at PromptTemplateEngine.debug [as renderTemplate] (src/prompts/template-engine.js:561:21)
+
+  console.debug
+    [PromptTemplateEngine] Warning: Template combat-narration exceeds token budget by 94.6% (973 tokens vs 500 budget)
+
+      at PromptTemplateEngine.debug [as renderTemplate] (src/prompts/template-engine.js:561:21)
+
+  console.debug
+    [PromptTemplateEngine] Warning: Context has unused fields (possible typos): metadata, events, quests, contextMarkdown
+
+      at PromptTemplateEngine.debug [as _checkUnusedFields] (src/prompts/template-engine.js:234:19)
+
+  console.debug
+    [PromptTemplateEngine] Warning: Template npc-dialogue exceeds token budget by 102.0% (808 tokens vs 400 budget)
+
+      at PromptTemplateEngine.debug [as renderTemplate] (src/prompts/template-engine.js:561:21)
+
+  console.debug
+    [PromptTemplateEngine] Registered custom template: custom-test
+
+      at PromptTemplateEngine.debug [as registerTemplate] (src/prompts/template-engine.js:418:17)
+
+  console.debug
+    [PromptTemplateEngine] Registered custom template: custom-test
+
+      at PromptTemplateEngine.debug [as registerTemplate] (src/prompts/template-engine.js:418:17)
+
+  console.debug
+    [PromptTemplateEngine] Registered custom template: custom-list-test
+
+      at PromptTemplateEngine.debug [as registerTemplate] (src/prompts/template-engine.js:418:17)
+
+  console.debug
+    [PromptTemplateEngine] Registered custom template: duplicate-test
+
+      at PromptTemplateEngine.debug [as registerTemplate] (src/prompts/template-engine.js:418:17)
+
+  console.debug
+    [PromptTemplateEngine] Warning: Context has unused fields (possible typos): self
+
+      at PromptTemplateEngine.debug [as _checkUnusedFields] (src/prompts/template-engine.js:234:19)
+
+FAIL tests/integration/prompts/template-engine.test.js
+  PromptTemplateEngine
+    Test Suite 1 - Template Rendering (AC-1, AC-2)
+      √ should render location-initial-visit template with valid context (14 ms)
+      × should render location-return template with state changes (4 ms)
+      √ should render npc-dialogue template with personality (48 ms)
+      √ should render combat-narration template with damage (6 ms)
+      × should render consistency-validation template with rules (3 ms)
+    Test Suite 2 - Variable Substitution (AC-1, AC-5)
+      √ should substitute simple variables (3 ms)
+      √ should substitute nested object properties (2 ms)
+      × should substitute array iterations with {{#each}} (3 ms)
+      √ should handle optional variables with defaults (3 ms)
+      √ should handle empty arrays gracefully (2 ms)
+    Test Suite 3 - Token Budget Validation (AC-4)
+      √ should include tokenCount in result metadata (3 ms)
+      √ should include tokenBudget in result metadata (2 ms)
+      √ should warn if token count exceeds budget by >10% but not block rendering (3 ms)
+    Test Suite 4 - Missing Variable Handling (AC-5)
+      √ should return error if required variable missing (2 ms)
+      √ should identify all missing variables in error message (1 ms)
+      √ should succeed if all required variables present (even if some optional missing) (1 ms)
+    Test Suite 5 - Epic Integration (AC-6)
+      √ should work with Story 5-1 ContextObject structure (9 ms)
+      √ should access nested Epic 1-4 data correctly (1 ms)
+    Test Suite 6 - DM Persona Integration (AC-3)
+      √ should prepend DM persona to all rendered templates (2 ms)
+      √ DM persona should appear before template content (2 ms)
+      × DM persona should be cached after first load (3 ms)
+    Test Suite 7 - Template Caching (AC-1)
+      √ should cache template after first load (2 ms)
+      √ should cache multiple templates independently (5 ms)
+    Test Suite 8 - Custom Templates (AC-1)
+      √ should register custom template successfully (3 ms)
+      √ should render registered custom template (2 ms)
+      √ should list all available templates including registered ones (7 ms)
+      √ should throw error if registering duplicate template (16 ms)
+    Edge Cases and Error Handling
+      √ should handle null or undefined context gracefully (1 ms)
+      √ should handle invalid template ID (1 ms)
+      √ should handle empty template ID (1 ms)
+      √ should handle circular references in context gracefully (3 ms)
+
+  ● PromptTemplateEngine › Test Suite 1 - Template Rendering (AC-1, AC-2) › should render location-return template with state changes
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 91 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m engine[33m.[39mrenderTemplate([32m'location-return'[39m[33m,[39m context)[33m;[39m
+     [90m 92 |[39m
+    [31m[1m>[22m[39m[90m 93 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m    |[39m                              [31m[1m^[22m[39m
+     [90m 94 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'Returning to: Village of Barovia'[39m)[33m;[39m
+     [90m 95 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'The tavern now stands empty'[39m)[33m;[39m
+     [90m 96 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'Relationship: ally'[39m)[33m;[39m[0m
+
+      at Object.toBe (tests/integration/prompts/template-engine.test.js:93:30)
+
+  ● PromptTemplateEngine › Test Suite 1 - Template Rendering (AC-1, AC-2) › should render consistency-validation template with rules
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m engine[33m.[39mrenderTemplate([32m'consistency-validation'[39m[33m,[39m context)[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'Cast Misty Step'[39m)[33m;[39m
+     [90m 164 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'0/3 remaining'[39m)[33m;[39m
+     [90m 165 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'PHB p. 201'[39m)[33m;[39m[0m
+
+      at Object.toBe (tests/integration/prompts/template-engine.test.js:162:30)
+
+  ● PromptTemplateEngine › Test Suite 2 - Variable Substitution (AC-1, AC-5) › should substitute array iterations with {{#each}}
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "worried"
+    Received string:    "# DM Persona for Curse of Strahd·
+    You are the Dungeon Master for a D&D 5e Curse of Strahd campaign. Your narration embodies gothic horror—dark, foreboding, immersive. Channel the atmosphere of classic gothic literature: Dracula, Frankenstein, The Fall of the House of Usher.·
+    **Tone:** Evocative rather than explicit. Favor dread over shock. Let silence and absence speak as loudly as description. Show the weight of despair without crushing hope entirely—Barovia tests whether light can endure in overwhelming darkness.·
+    **Style:** Literary and descriptive. Offer rich sensory prose (2-3 paragraphs per response). Engage sight, sound, smell. Let mist cling, shadows loom, and decay whisper. Respect player agency—present dilemmas, never dictate choices.·
+    **Rules Philosophy:** Strict adherence to D&D 5e RAW. Cite rules when resolving ambiguity. No homebrew unless explicitly agreed. Fairness and consistency over leniency.·
+    **Narrative Principles:** Show, don't tell. Reveal character through action and environment. Barovia reacts—NPCs remember, locations evolve, consequences echo. The world is alive with its own tragic momentum.··
+    ---·
+    # Location: Tavern·
+    **Current Date/Time:** 735-10-1, 20:00 (unknown time)
+    **Weather:** rainy
+    **Moon Phase:** waning·
+    ## Player Character
+    **Kapi** (Level 4 Cleric)
+    - HP: 30/32
+    - AC: 16·
+    ## Location Description·
+    {{location.description}}·
+    ## NPCs Present··
+    - **Ismark** (){{#if this.dialogueContext}} - {{/if}}·
+    - **Ireena** (){{#if this.dialogueContext}} - {{/if}}··
+    ---·
+    ## Instructions for Dungeon Master·
+    **Task:** Narrate the player's arrival at Tavern for the first time.·
+    **Requirements:**
+    1. **Atmospheric Description (2-3 paragraphs)**
+       - Engage multiple senses: sight, sound, smell
+       - Emphasize gothic horror elements: decay, shadows, fog, isolation
+       - Establish the mood immediately—Barovia is unwelcoming and oppressive
+       - Use vivid, evocative language that channels classic gothic literature·
+    2. **NPC Introduction**
+       - If NPCs are present, introduce them naturally within the scene
+       - Show their emotional state through body language and environment
+       - Reflect their personality and current situation
+       - Make them memorable but not overwhelming·
+    3. **Environmental Storytelling**
+       - Let the location itself communicate its history and significance
+       - Show signs of life (or its absence)
+       - Hint at dangers or secrets without exposition
+       - Consider time of day and weather in your description·
+    4. **Player Engagement**
+       - End with a clear prompt for player action
+       - Present options implicitly through description
+       - Respect player agency—offer dilemmas, never dictate choices
+       - Create tension but leave room for hope·
+    **Tone:** Dark, foreboding, immersive. Every word should reinforce that Barovia is a cursed land where despair clings like the omnipresent mist.·
+    **D&D 5e RAW:** If rules questions arise during narration (visibility, movement, etc.), apply D&D 5e rules strictly and cite sources.
+    "
+
+    [0m [90m 218 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'Ismark'[39m)[33m;[39m
+     [90m 219 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'Ireena'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 220 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'worried'[39m)[33m;[39m
+     [90m     |[39m                                  [31m[1m^[22m[39m
+     [90m 221 |[39m       expect(result[33m.[39mdata[33m.[39mprompt)[33m.[39mtoContain([32m'fearful'[39m)[33m;[39m
+     [90m 222 |[39m     })[33m;[39m
+     [90m 223 |[39m[0m
+
+      at Object.toContain (tests/integration/prompts/template-engine.test.js:220:34)
+
+  ● PromptTemplateEngine › Test Suite 6 - DM Persona Integration (AC-3) › DM persona should be cached after first load
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 508 |[39m       [90m// Second render - should use cached DM persona[39m
+     [90m 509 |[39m       [36mconst[39m result2 [33m=[39m [36mawait[39m engine[33m.[39mrenderTemplate([32m'location-return'[39m[33m,[39m context)[33m;[39m
+    [31m[1m>[22m[39m[90m 510 |[39m       expect(result2[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 511 |[39m     })[33m;[39m
+     [90m 512 |[39m   })[33m;[39m
+     [90m 513 |[39m[0m
+
+      at Object.toBe (tests/integration/prompts/template-engine.test.js:510:31)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 27 passed, 31 total
+Snapshots:   0 total
+Time:        1.704 s
+Ran all test suites matching /tests\\integration\\prompts\\template-engine.test.js/i.

@@ -1,0 +1,414 @@
+# Quest: Return the Berez Gem
+# Major Side Quest - High-CR Boss Fight
+# Defeat Baba Lysaga and recover the stolen gemstone for the Wizard of Wines winery
+
+# === BASIC INFORMATION ===
+questId: "return_berez_gem"
+name: "Return the Berez Gem"
+type: "side"
+category: "combat"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "davian_martikov"
+  location: "wizard_of_wines"
+  dialogue: "There's one more thing... one of our three enchanted gemstones is still missing. Baba Lysaga - Strahd's 'mother' - stole it years ago and took it to her hut in the ruins of Berez. She's incredibly powerful, a night hag with dark magic beyond measure. If you could recover that gem... our wine would be legendary once more. But I won't lie - facing Baba Lysaga is nearly suicidal."
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Recover the stolen gemstone from Baba Lysaga in the ruins of Berez"
+  full: "One of the three enchanted gemstones that power the Wizard of Wines winery was stolen by Baba Lysaga, Strahd's 'adoptive mother' and a powerful night hag. She took it to her hut in the ruins of Berez, a cursed village destroyed by Strahd centuries ago. The party must travel to Berez, navigate the haunted ruins and scarecrow-infested swamps, infiltrate Baba Lysaga's mobile hut (which walks on giant chicken legs), and either defeat her in combat or find a way to steal the gem. Baba Lysaga is CR 11 - this is one of the most dangerous encounters in Barovia. Success means restoring full enchantment to the winery and earning the eternal gratitude of the Martikov family. Failure likely means death."
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 6
+
+  requiredQuests:
+    completed:
+      - "wizard_of_wines_delivery"
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive:
+      - "davian_martikov"
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited:
+      - "wizard_of_wines"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "speak_to_davian"
+    description: "Learn about the stolen gemstone from Davian Martikov"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "davian_martikov"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_berez"
+    description: "Travel to the ruins of Berez"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "berez"
+      location: "berez"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+  - objectiveId: "navigate_ruins"
+    description: "Navigate the cursed ruins and avoid or defeat scarecrows"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "berez_ruins"
+      location: "berez_ruins"
+    optional: false
+    completionTrigger:
+      type: "location_explored"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "locate_hut"
+    description: "Locate Baba Lysaga's walking hut"
+    type: "investigation"
+    status: "pending"
+    target:
+      type: "location"
+      id: "baba_lysagas_hut"
+      location: "berez"
+    optional: false
+    completionTrigger:
+      type: "location_discovered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "confront_baba_lysaga"
+    description: "Confront Baba Lysaga and recover the gemstone"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "baba_lysaga"
+      location: "baba_lysagas_hut"
+    optional: false
+    completionTrigger:
+      type: "enemy_defeated_or_gem_stolen"
+    rewards:
+      experience: 600
+      items: []
+      currency: {}
+
+  - objectiveId: "return_gem_to_winery"
+    description: "Return the gemstone to the Wizard of Wines winery"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "davian_martikov"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "item_delivered"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+  - objectiveId: "free_skull_guardian"
+    description: "Free the giant skull guardian from Baba Lysaga's control (optional)"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "creature"
+      id: "giant_skull"
+      location: "berez_swamp"
+    optional: true
+    completionTrigger:
+      type: "creature_freed"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "wizard_of_wines"
+        changes:
+          second_gem_recovered: true
+          wine_production: "enhanced"
+
+      - type: "npc_status"
+        npcId: "baba_lysaga"
+        status: "dead"
+
+      - type: "location_state"
+        locationId: "berez"
+        changes:
+          baba_lysaga_defeated: true
+          curse_weakened: true
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "davian_martikov"
+        attitudeChange: +40
+        dialogue: "Unbelievable! You defeated Baba Lysaga and recovered the gem! The winery's enchantment is stronger than ever. You have our eternal gratitude - and the gratitude of the Keepers of the Feather."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+# === REWARDS ===
+rewards:
+  experience: 1000
+
+  items:
+    - itemId: "berez_gemstone"
+      quantity: 1
+      source: "baba_lysagas_hut"
+    - itemId: "flying_broom"
+      quantity: 1
+      source: "baba_lysagas_hut"
+    - itemId: "potion_of_greater_healing"
+      quantity: 2
+      source: "baba_lysagas_treasure"
+
+  currency:
+    gold: 250
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "keepers_of_the_feather"
+      change: +30
+    - faction: "vallaki_citizens"
+      change: +5
+
+  specialRewards:
+    - type: "winery_enhancement"
+      description: "With 2 of 3 gemstones recovered, Wizard of Wines produces enhanced wine. Vallaki's morale improves significantly."
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "approach_method"
+    description: "Player chooses how to approach Baba Lysaga"
+    autoDecide: false
+    decision:
+      prompt: "You've located Baba Lysaga's hut. The night hag is inside, and the gemstone is with her. How do you proceed?"
+      choices:
+        - choiceId: "direct_combat"
+          description: "Confront Baba Lysaga directly in combat"
+          consequences:
+            - type: "combat_encounter"
+              encounterId: "baba_lysaga_full_power"
+              cr: 11
+              description: "Baba Lysaga fights at full power with hut defenses active. Extremely dangerous."
+
+        - choiceId: "stealth_approach"
+          description: "Attempt to steal the gemstone without fighting"
+          consequences:
+            - type: "skill_challenge"
+              skill: "stealth"
+              dc: 18
+              description: "If successful, avoid combat. If failed, Baba Lysaga is alerted and gains surprise round."
+
+        - choiceId: "bargain_attempt"
+          description: "Try to bargain with Baba Lysaga for the gemstone"
+          consequences:
+            - type: "dialogue_challenge"
+              skill: "persuasion"
+              dc: 20
+              description: "Extremely unlikely to succeed. Baba Lysaga values the gem highly and hates intruders. May learn information even if negotiation fails."
+
+  - branchId: "giant_skull_guardian"
+    description: "Player decides what to do about the giant skull guardian"
+    autoDecide: false
+    decision:
+      prompt: "You encounter a giant skull floating in the swamp, animated by Baba Lysaga's magic. It attacks on sight. What do you do?"
+      choices:
+        - choiceId: "fight_skull"
+          description: "Fight the giant skull"
+          consequences:
+            - type: "combat_encounter"
+              encounterId: "giant_skull_guardian"
+              cr: 6
+              description: "Giant skull fights until destroyed. Hard encounter."
+
+        - choiceId: "free_skull"
+          description: "Try to dispel Baba Lysaga's control and free the skull"
+          consequences:
+            - type: "magic_challenge"
+              check: "dispel_magic"
+              dc: 15
+              description: "If successful, skull is freed and becomes neutral. Skull may aid party against Baba Lysaga as thanks."
+
+        - choiceId: "avoid_skull"
+          description: "Avoid the skull and sneak past"
+          consequences:
+            - type: "skill_challenge"
+              skill: "stealth"
+              dc: 14
+              description: "If successful, avoid combat with skull."
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Davian Martikov has told me about the second missing gemstone, stolen by Baba Lysaga and taken to her hut in the ruins of Berez. Baba Lysaga is Strahd's 'mother' - a powerful night hag who raised him as a child. Davian warns that confronting her is extremely dangerous, but recovering the gemstone would greatly enhance the winery's enchantment."
+
+  updates:
+    - trigger: "travel_to_berez_complete"
+      entry: "I've arrived in Berez, a cursed village destroyed by Strahd centuries ago. The ruins are haunted by scarecrows and wreathed in perpetual fog. I must find Baba Lysaga's hut and recover the gemstone."
+
+    - trigger: "locate_hut_complete"
+      entry: "I've found Baba Lysaga's hut - a grotesque structure that walks on giant chicken legs. The hut is surrounded by scarecrows and defended by a giant floating skull. I must decide how to approach this extremely dangerous encounter."
+
+    - trigger: "confront_baba_lysaga_complete"
+      entry: "I've confronted Baba Lysaga and recovered the gemstone! The night hag's power was terrifying, but I prevailed. Now I must return the gem to the Wizard of Wines winery."
+
+  completion: "I have defeated Baba Lysaga and recovered the stolen gemstone! Returning it to the Wizard of Wines winery has greatly enhanced their wine production. The Martikov family and the Keepers of the Feather are immensely grateful. Strahd has lost a powerful ally."
+
+  failure: "I was forced to retreat from Baba Lysaga's hut. The night hag's power is beyond what I can currently handle. I must grow stronger before attempting this quest again."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "Berez is a deeply creepy location - fog-shrouded ruins, scarecrows everywhere, sense of being watched."
+    - "Baba Lysaga is fanatically devoted to Strahd. She sees herself as his mother and will die to protect what she sees as his interests."
+    - "The gemstone glows with faint magic light. Baba Lysaga keeps it in a crystal case, admiring it constantly."
+
+  roleplayTips:
+    - "Baba Lysaga: Cackling, cruel, utterly devoted to Strahd. Calls him 'my boy' and sees the party as insects trying to harm her son."
+    - "Giant Skull: Silent, ominous, relentless. Floats through swamp fog pursuing intruders."
+
+  combatEncounters:
+    - encounter: "baba_lysaga"
+      location: "baba_lysagas_hut"
+      cr: 11
+      description: "Baba Lysaga (night hag) CR 11. Can cast spells, turn invisible, summon creeping hut to fight alongside her. Extremely dangerous for party level 6-7. Recommend level 8+ or very strong tactics."
+
+    - encounter: "creeping_hut"
+      location: "berez"
+      cr: 8
+      description: "Baba Lysaga's animated hut (if she commands it). Attacks with chicken leg stomps. Can carry Baba Lysaga to safety if she's losing."
+
+    - encounter: "scarecrow_swarm"
+      location: "berez_ruins"
+      cr: 4
+      description: "6-10 scarecrows patrol the ruins. Can be avoided with stealth or fought in groups."
+
+  commonPitfalls:
+    - "Party may attempt this quest too early. Baba Lysaga is CR 11 - recommend level 7-8 minimum."
+    - "Party may not prepare for hag's flight and invisibility. She can escape if losing."
+    - "Party may trigger scarecrows unnecessarily. Stealth can avoid many fights."
+
+  alternatives:
+    - "Party could lure Baba Lysaga out of her hut to fight without hut support."
+    - "Party could destroy the hut first (forces Baba Lysaga to fight on foot)."
+    - "Party could wait until they're higher level. Quest doesn't have a time limit."
+
+  lore:
+    - "Baba Lysaga found Strahd as an infant and raised him, teaching him dark magic. She's one of the few beings Strahd tolerates."
+    - "Berez was a village that Strahd destroyed in a rage after its burgomaster refused to give up his daughter (who resembled Tatyana)."
+    - "The gemstone is one of three created by a wizard to enchant grapevines. Baba Lysaga stole it to weaken hope in Barovia."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain:
+    chainId: "wizard_of_wines_gemstones"
+    position: 2
+
+  blocksQuests: []
+
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 7
+  challengeRating: 11
+  skillChecks:
+    - skill: "stealth"
+      dc: 18
+      description: "To sneak past scarecrows or into the hut"
+    - skill: "arcana"
+      dc: 16
+      description: "To dispel giant skull's animation or understand hut's magic"
+    - skill: "investigation"
+      dc: 14
+      description: "To find the gemstone's location in the hut"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "Baba Lysaga has lived in the ruins of Berez for over 300 years, surrounded by scarecrows she animates with her dark magic. She guards Strahd's 'legacy' fiercely and sees the gemstone as a prize worth defending to the death."
+
+  connectionToMainStory: "Baba Lysaga is one of Strahd's most powerful allies. Defeating her weakens Strahd's support network and shows the party can handle CR 11 threats. The quest also tests the party's judgment - is it worth risking death for a gemstone that only enhances wine production?"
+
+  historicalContext: "Baba Lysaga raised Strahd after his mother died. She taught him dark magic and necromancy, setting him on the path to becoming a vampire. She's one of the few beings who knew Strahd before he became a monster."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.163-165"
+  official: true
+
+  estimatedDuration: "1 session"
+
+  tags: ["side", "combat", "high-cr", "boss-fight", "hag", "berez", "gemstone"]
+
+  notes: "This is one of the hardest optional encounters in Curse of Strahd. The DM should warn players that Baba Lysaga is extremely dangerous and they may want to wait until they're higher level."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 InventoryManager, Epic 3 LevelUpCalculator"

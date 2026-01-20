@@ -1,0 +1,70 @@
+# Location Metadata - Castle Ravenloft: Dining Hall
+
+location_name: "Castle Ravenloft - Dining Hall"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Large"
+danger_level: 5
+recommended_level: "8-10"
+
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+
+connected_locations:
+  - name: "Great Entry Hall"
+    direction: "North"
+    travel_time: "Immediate"
+  - name: "Kitchens"
+    direction: "South"
+    travel_time: "Immediate"
+  - name: "Archer Post (K11)"
+    direction: "Hidden stairs from upper levels"
+    travel_time: "2 minutes"
+
+rooms_included:
+  - "K10: Dining Hall (Main Chamber)"
+  - "K11: South Archers' Post"
+room_count: 2
+
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+
+description_token_count: 1700
+npc_count: 5  # Strahd (60% evening), Vampire Spawn Archers, Rahadin (30%), Phantom Servants
+item_count: 9
+event_count: 8
+
+strahd_encounter_location: true  # High probability encounter
+tactical_disadvantage_high: true  # Archer posts, locked doors, surrounded
+illusory_hospitality: true
+lair_actions_enabled: true
+
+typical_encounters:
+  - name: "Strahd von Zarovich (Dinner Invitation)"
+    cr: 15
+    xp: 13000
+  - name: "Vampire Spawn Archers"
+    cr: 5
+    count: "1d3"
+    xp: "1800-5400"
+  - name: "Rahadin (if serving)"
+    cr: 10
+    xp: 5900
+total_encounter_xp: "7600-24300 (DEADLY)"
+
+hazards:
+  - "Illusory feast (morale penalty when revealed)"
+  - "Poisoned wine (DC 15 Con, 4d6 poison)"
+  - "Throne curse (DC 15 Wis, Charisma disadvantage)"
+  - "Archer ambush (three-quarters cover)"
+  - "Lair action door locks (DC 20 to force)"
+
+lair_actions:
+  - "Doors slam and lock (DC 20)"
+  - "Shadows animate (opportunity attacks)"
+  - "Phantom sounds (DC 12 Wisdom or frightened)"
+
+last_validated: null
+validation_status: "pending"

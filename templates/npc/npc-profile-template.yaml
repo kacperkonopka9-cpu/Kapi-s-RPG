@@ -1,0 +1,288 @@
+# NPC Profile Template for Curse of Strahd
+# Compatible with Epic 3 CharacterManager (Story 3-2)
+# Used by Epic 4 for all NPC implementations
+
+# === BASIC INFORMATION ===
+name: "NPC Name Here"
+npcId: "unique_npc_id"  # lowercase with underscores (e.g., "ireena_kolyana")
+race: "Human"
+class: "Fighter"  # or null for commoners
+level: 3
+experience: null  # NPCs typically don't track XP
+background: "Folk Hero"
+alignment: "Neutral Good"
+npcType: "major"  # major, minor, monster, enemy
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10
+  dexterity: 10
+  constitution: 10
+  intelligence: 10
+  wisdom: 10
+  charisma: 10
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 22
+  current: 22
+  temporary: 0
+  hitDice:
+    total: 3
+    spent: 0
+    die: "d8"  # d6 (wizard), d8 (cleric/rogue), d10 (fighter), d12 (barbarian)
+
+armorClass: 12
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light"]  # light, medium, heavy, shields
+  weapons: ["simple"]  # simple, martial
+  savingThrows: ["wisdom", "charisma"]
+  skills: ["insight", "persuasion"]  # D&D 5e skill names
+  tools: []  # e.g., "thieves_tools", "herbalism_kit"
+  languages: ["Common"]
+
+proficiencyBonus: 2  # Auto-calculated from level by CharacterManager
+
+# === SPELLCASTING (null for non-casters) ===
+spellcasting: null
+# For spellcasters, use this structure:
+# spellcasting:
+#   ability: "wisdom"  # intelligence, wisdom, or charisma
+#   spellSaveDC: 13  # 8 + proficiency + ability modifier
+#   spellAttackBonus: 5  # proficiency + ability modifier
+#   spellSlots:
+#     1: 4  # 1st level slots
+#     2: 3  # 2nd level slots
+#     3: 2  # etc.
+#   spellsPrepared: ["cure_wounds", "bless", "spiritual_weapon"]
+#   cantrips: ["sacred_flame", "light", "thaumaturgy"]
+#   concentration: null  # Current concentration spell ID or null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: "leather_armor"
+    mainHand: "shortsword"
+    offHand: null
+    ring1: null
+    ring2: null
+    amulet: null
+    cloak: null
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "rations"
+      quantity: 3
+  currency:
+    platinum: 0
+    gold: 10
+    electrum: 0
+    silver: 5
+    copper: 20
+
+weight:
+  current: 25
+  capacity: 150  # Str * 15
+  pushDragLift: 300  # Str * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []  # e.g., ["poisoned", "frightened"]
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []  # Magic item IDs
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Feature Name"
+    description: "Feature description"
+    uses: null  # Current uses (if limited use)
+    maxUses: null  # Maximum uses per rest
+    recharge: null  # "short_rest", "long_rest", "dawn", "manual"
+
+specialAbilities: []
+# For monsters/special NPCs:
+# specialAbilities:
+#   - name: "Legendary Resistance"
+#     description: "If Strahd fails a saving throw, he can choose to succeed instead (3/day)"
+#     uses: 3
+#     maxUses: 3
+#     recharge: "dawn"
+
+legendaryActions: null
+# For legendary creatures (e.g., Strahd):
+# legendaryActions:
+#   actionsPerRound: 3
+#   actions:
+#     - name: "Move"
+#       cost: 1
+#       description: "Strahd moves up to his speed without provoking opportunity attacks"
+#     - name: "Unarmed Strike"
+#       cost: 1
+#       description: "Strahd makes one unarmed strike"
+#     - name: "Bite"
+#       cost: 2
+#       description: "Strahd makes one bite attack"
+
+lairActions: null
+# For creatures with lair actions:
+# lairActions:
+#   initiative: 20  # Lair acts on initiative count 20
+#   actions:
+#     - name: "Lair Action Name"
+#       description: "Effect description"
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Personality trait 1"
+    - "Personality trait 2"
+  ideals:
+    - "Core belief or value"
+  bonds:
+    - "Person, place, or thing the NPC cares about"
+  flaws:
+    - "Character weakness or flaw"
+
+  mannerisms:
+    - "Speech pattern or physical mannerism"
+    - "Distinctive behavior"
+
+  voiceDescription: "Brief description of voice/speaking style"
+  appearanceNotes: "Physical description summary"
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Hello, traveler. What brings you here?"
+    - "Greetings. Can I help you?"
+
+  idle:
+    - "Hmm... [thinking]"
+    - "[casual remark based on context]"
+
+  farewell:
+    - "Safe travels, friend."
+    - "May fortune favor you."
+
+  questGiving:
+    - "I need your help with something..."
+
+  questComplete:
+    - "You've done it! Thank you!"
+
+  combat:
+    - "You'll regret this!"
+    - "[battle cry]"
+
+  keyQuotes:
+    - "Memorable quote 1"
+    - "Memorable quote 2"
+
+# === RELATIONSHIPS ===
+relationships:
+  allies: []
+  # - npcId: "other_npc_id"
+  #   relationship: "friend"
+  #   notes: "Description of relationship"
+
+  enemies: []
+  # - npcId: "enemy_npc_id"
+  #   relationship: "hated enemy"
+  #   notes: "Reason for enmity"
+
+  family: []
+  # - npcId: "relative_npc_id"
+  #   relationship: "sister"
+  #   notes: "Family background"
+
+  faction: null  # Faction ID (e.g., "keepers_of_the_feather", "burgomaster")
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "How this NPC fights (aggressive, defensive, strategic, etc.)"
+
+  goals:
+    - "Primary goal"
+    - "Secondary goal"
+
+  motivations:
+    - "What drives this NPC"
+
+  fears:
+    - "What this NPC is afraid of"
+
+  knowledgeSecrets:
+    - "Information this NPC knows"
+    - "Secrets they might reveal under certain conditions"
+
+  attitudeTowardPlayer: "neutral"  # friendly, neutral, hostile, suspicious, helpful
+
+  trustLevel: 5  # 1-10 scale (1=distrustful, 10=completely trusting)
+
+  questInvolvement:
+    - questId: "quest_id"
+      role: "quest_giver"  # quest_giver, quest_target, helper, obstacle
+      notes: "NPC's role in this quest"
+
+  specialBehaviors:
+    - "Refuses to enter consecrated ground (vampire)"
+    - "Only speaks the truth (cursed)"
+    - "Any special behavioral constraints"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # Daily routine (24-hour format)
+  # Used by Epic 2 NPC Schedule Tracking (Story 2-4)
+  - time: "06:00"
+    location: "village_of_barovia"
+    activity: "Wakes up, morning prayers"
+
+  - time: "08:00"
+    location: "village_of_barovia"
+    activity: "Opens shop/begins work"
+
+  - time: "12:00"
+    location: "village_of_barovia"
+    activity: "Lunch break"
+
+  - time: "18:00"
+    location: "village_of_barovia"
+    activity: "Closes shop, returns home"
+
+  - time: "22:00"
+    location: "village_of_barovia"
+    activity: "Goes to sleep"
+
+# === LOCATION & STATUS ===
+currentLocation: "village_of_barovia"  # Location ID where NPC currently is
+status: "alive"  # alive, dead, unconscious, missing, undead
+canMove: true  # Can this NPC move between locations?
+tetheredToLocation: null  # If not null, NPC never leaves this location
+
+# === METADATA ===
+metadata:
+  created: "2025-11-10T00:00:00Z"
+  source: "Curse of Strahd"  # Source module
+  pageReference: "CoS p.123"  # Page reference in module
+  official: true  # Official content vs homebrew
+
+  notes: "Additional notes about this NPC for DM reference"
+
+  dmReminders:
+    - "Important plot point involving this NPC"
+    - "Foreshadowing opportunity"
+
+  developmentStage: "draft"  # draft, reviewed, playtest, final
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

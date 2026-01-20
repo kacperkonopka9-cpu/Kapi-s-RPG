@@ -1,0 +1,269 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest tests/commands/mechanics-commands.test.js
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1019:22)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+  console.error
+    Failed to log command: Log write failed
+
+    [0m [90m 855 |[39m     } [36mcatch[39m (error) {
+     [90m 856 |[39m       [90m// Log errors should not break command execution[39m
+    [31m[1m>[22m[39m[90m 857 |[39m       console[33m.[39merror([32m'Failed to log command:'[39m[33m,[39m error[33m.[39mmessage)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 858 |[39m     }
+     [90m 859 |[39m   }
+     [90m 860 |[39m[0m
+
+      at MechanicsCommandHandler.error [as _logCommand] (src/commands/mechanics-commands.js:857:15)
+      at MechanicsCommandHandler.executeCommand (src/commands/mechanics-commands.js:196:7)
+      at Object.<anonymous> (tests/commands/mechanics-commands.test.js:1046:24)
+
+FAIL tests/commands/mechanics-commands.test.js
+  MechanicsCommandHandler
+    executeCommand
+      √ should return error for unknown command (8 ms)
+      √ should execute valid command (6 ms)
+      √ should log command execution (3 ms)
+      √ should handle command errors gracefully (1 ms)
+    /roll command
+      √ should roll dice with valid notation (2 ms)
+      √ should support advantage (2 ms)
+      × should support disadvantage (10 ms)
+      √ should return error for missing dice notation (1 ms)
+      √ should return error for invalid dice notation (1 ms)
+      √ should complete in <100ms (1 ms)
+    /check command
+      √ should perform ability check successfully (2 ms)
+      √ should handle failed ability check
+      √ should return error when no active character (2 ms)
+      √ should return error for missing arguments (1 ms)
+      √ should return error for invalid DC (1 ms)
+      √ should test all 6 abilities (3 ms)
+      √ should complete in <200ms (1 ms)
+    /skill command
+      √ should perform skill check with proficiency (4 ms)
+      √ should perform skill check without proficiency (2 ms)
+      √ should return error when no active character (3 ms)
+      √ should return error for missing arguments (1 ms)
+      √ should complete in <200ms (1 ms)
+    /attack command
+      √ should execute successful attack (2 ms)
+      √ should handle missed attack (2 ms)
+      √ should handle critical hit (1 ms)
+      √ should return error when no active character (1 ms)
+      √ should return error when no active combat
+      √ should return error when target not found (1 ms)
+      √ should return error when no weapon equipped (1 ms)
+      √ should return error for missing target (2 ms)
+      √ should complete in <300ms (1 ms)
+    /cast command
+      √ should cast healing spell successfully (2 ms)
+      √ should cast cantrip without consuming slot
+      √ should return error when no active character
+      √ should return error when spell not found (1 ms)
+      √ should return error when out of spell slots (1 ms)
+      √ should return error for missing spell name (1 ms)
+      √ should complete in <400ms (1 ms)
+    /rest command
+      √ should take short rest (1 ms)
+      √ should take long rest and restore HP (1 ms)
+      √ should return error when no active character (1 ms)
+      √ should return error for missing rest type (1 ms)
+      √ should return error for invalid rest type (1 ms)
+      √ should complete in <500ms
+    /level-up command
+      √ should level up eligible character (1 ms)
+      √ should return error when character not eligible (1 ms)
+      √ should return error when no active character
+      √ should complete in <1000ms
+    /set-character command
+      √ should set active character (3 ms)
+      √ should return error when character not found (1 ms)
+      √ should return error for missing character ID
+      √ should complete in <100ms
+    /mechanics-help command
+      √ should return help text (1 ms)
+      × should show no active character when none set (1 ms)
+      √ should complete in <50ms (1 ms)
+    Command logging
+      √ should log successful command (2 ms)
+      × should log failed command (1 ms)
+    Error handling
+      √ should not crash on logging errors (68 ms)
+      √ should provide usage information in errors
+      √ should handle missing arguments gracefully (57 ms)
+
+  ● MechanicsCommandHandler › /roll command › should support disadvantage
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "(disadvantage)"
+    Received string:    "1d20: [5, 14] = 5 (advantage)"
+
+    [0m [90m 205 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 206 |[39m       expect(result[33m.[39mdata[33m.[39mdisadvantage)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 207 |[39m       expect(result[33m.[39mdata[33m.[39mformatted)[33m.[39mtoContain([32m'(disadvantage)'[39m)[33m;[39m
+     [90m     |[39m                                     [31m[1m^[22m[39m
+     [90m 208 |[39m     })[33m;[39m
+     [90m 209 |[39m
+     [90m 210 |[39m     test([32m'should return error for missing dice notation'[39m[33m,[39m [36masync[39m () [33m=>[39m {[0m
+
+      at Object.toContain (tests/commands/mechanics-commands.test.js:207:37)
+
+  ● MechanicsCommandHandler › /mechanics-help command › should show no active character when none set
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Active Character: None"
+    Received string:    "
+    # D&D 5e Mechanics Commands·
+    | Command | Syntax | Example | Description |
+    |---------|--------|---------|-------------|
+    | /roll | /roll [dice] | /roll 1d20+5 | Roll dice with notation. Supports advantage/disadvantage. |
+    | /check | /check [ability] [DC] | /check strength 15 | Make ability check against DC. |
+    | /skill | /skill [skill] [DC] | /skill perception 12 | Make skill check with proficiency. |
+    | /attack | /attack [target] | /attack zombie | Attack target in combat. |
+    | /cast | /cast [spell] [target?] | /cast cure wounds | Cast spell (consumes spell slot). |
+    | /rest | /rest [short\\|long] | /rest long | Take short or long rest. |
+    | /level-up | /level-up | /level-up | Level up character (if eligible). |
+    | /set-character | /set-character [id] | /set-character kapi | Set active character for session. |
+    | /mechanics-help | /mechanics-help | /mechanics-help | Display this help message. |·
+    **Active Character:** None (use /set-character first)
+    "
+
+    [0m [90m 959 |[39m
+     [90m 960 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 961 |[39m       expect(result[33m.[39mdata[33m.[39mhelpText)[33m.[39mtoContain([32m'Active Character: None'[39m)[33m;[39m
+     [90m     |[39m                                    [31m[1m^[22m[39m
+     [90m 962 |[39m     })[33m;[39m
+     [90m 963 |[39m
+     [90m 964 |[39m     test([32m'should complete in <50ms'[39m[33m,[39m [36masync[39m () [33m=>[39m {[0m
+
+      at Object.toContain (tests/commands/mechanics-commands.test.js:961:36)
+
+  ● MechanicsCommandHandler › Command logging › should log failed command
+
+    expect(jest.fn()).toHaveBeenCalled()
+
+    Expected number of calls: >= 1
+    Received number of calls:    0
+
+    [0m [90m  998 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m handler[33m.[39mexecuteCommand([32m'invalid'[39m[33m,[39m [])[33m;[39m
+     [90m  999 |[39m
+    [31m[1m>[22m[39m[90m 1000 |[39m       expect(fs[33m.[39mappendFile)[33m.[39mtoHaveBeenCalled()[33m;[39m
+     [90m      |[39m                             [31m[1m^[22m[39m
+     [90m 1001 |[39m
+     [90m 1002 |[39m       [36mconst[39m logEntry [33m=[39m fs[33m.[39mappendFile[33m.[39mmock[33m.[39mcalls[[35m0[39m][[35m1[39m][33m;[39m
+     [90m 1003 |[39m       expect(logEntry)[33m.[39mtoContain([32m'[COMMAND]'[39m)[33m;[39m[0m
+
+      at Object.toHaveBeenCalled (tests/commands/mechanics-commands.test.js:1000:29)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 57 passed, 60 total
+Snapshots:   0 total
+Time:        2.067 s
+Ran all test suites matching /tests\\commands\\mechanics-commands.test.js/i.

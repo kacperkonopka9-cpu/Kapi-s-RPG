@@ -1,0 +1,27 @@
+# Location Metadata - Burgomaster Mansion
+
+location_name: "Burgomaster's Mansion"
+location_type: "building"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 2
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Town Square"
+    direction: "east"
+    travel_time: "1 minute"
+    description: "Mansion overlooks town square"
+
+description_token_count: 200
+npc_count: 3
+item_count: 4
+event_count: 2
+
+political_center: true
+quest_location: true
+
+last_validated: null
+validation_status: "pending"

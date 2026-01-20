@@ -1,0 +1,230 @@
+# Mongrelfolk - Deformed Outcast Humanoid
+# Source: Curse of Strahd p.232
+# Deformed humanoids hiding in Abbey of St. Markovia
+
+# === BASIC INFORMATION ===
+name: "Mongrelfolk"
+monsterId: "mongrelfolk"
+size: "Medium"
+type: "humanoid"
+subtype: "mongrelfolk"
+alignment: "any alignment"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 11
+armorType: "natural armor"
+
+hitPoints:
+  max: 26
+  current: 26
+  hitDice: "4d8"
+  hitDiceBonus: 4  # +1 Con modifier * 4 HD = +4
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 12    # +1
+  dexterity: 9    # -1
+  constitution: 12  # +1
+  intelligence: 9   # -1
+  wisdom: 10     # +0
+  charisma: 6    # -2
+
+# === SPEEDS ===
+speed:
+  walk: 20  # Slow due to deformities
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  deception: 2    # +2 special (Mimicry)
+  perception: 2   # +0 Wis + 2 prof
+  stealth: 3      # -1 Dex + 4 (double prof from sneaking)
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: []
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 12
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "plus 1d4 additional languages (typically from various regions)"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "mongrelfolk_1"
+  name: "Mongrelfolk"
+  dexModifier: -1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Extraordinary Feature"
+    description: "Each mongrelfolk has one random extraordinary feature (roll d20): 1-3 Amphibious, 4-9 Darkvision 60 ft, 10-15 Spider Climb (difficult surfaces without check), 16-17 Keen Hearing/Smell (advantage on Perception), 18-19 Resistance to one damage type, 20 Two extraordinary features (roll twice, reroll 20)."
+    mechanics:
+      type: "random_feature"
+      rollTable: "d20"
+      features:
+        "1-3": "amphibious"
+        "4-9": "darkvision_60ft"
+        "10-15": "spider_climb"
+        "16-17": "keen_hearing_and_smell"
+        "18-19": "resistance_to_one_damage_type"
+        "20": "two_features"
+
+  - name: "Mimicry"
+    description: "The mongrelfolk can mimic any sounds it has heard, including voices. A creature that hears the sounds can tell they are imitations with a successful DC 12 Wisdom (Insight) check."
+    mechanics:
+      type: "mimicry"
+      detectionDC: 12
+      detectionSkill: "insight"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The mongrelfolk makes two attacks: one with its bite and one with its claw or dagger."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      options: ["bite_and_claw", "bite_and_dagger"]
+
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d4"
+      bonus: 1  # Str modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) piercing damage."
+
+  - name: "Claw"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d4"
+      bonus: 1  # Str modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) slashing damage."
+
+  - name: "Dagger"
+    type: "melee_or_ranged_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    range:
+      normal: 20
+      long: 60
+    targets: 1
+    damage:
+      dice: "1d4"
+      bonus: 1  # Str modifier
+      damageType: "piercing"
+    description: "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 3 (1d4 + 1) piercing damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "dagger"
+    quantity: 1
+  - item: "tattered_clothes"
+    quantity: 1
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "dagger"
+      quantity: 1
+      dropChance: 70
+    - item: "personal_trinket"
+      quantity: 1
+      dropChance: 50
+      note: "Reflects mongrelfolk's past life"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Weak combatants (CR 1/4). Multiattack with bite + claw/dagger (avg 6 damage/round). Mimicry to lure, deceive, or cry for help. Extraordinary Feature (random): Darkvision (40% chance), Spider Climb (30%), Amphibious (15%), Keen senses (10%), Resistance (10%), or two features (5%). Prefer stealth and avoidance. Fight only if cornered or defending home."
+  intelligence: "low"
+  aggression: "low"  # Prefer hiding
+  groupTactics: "defensive"
+
+  preferredTargets:
+    - "threats to community"
+    - "intruders in Abbey"
+
+  fleeThreshold: 10
+  fleeConditions: ["outnumbered", "below_40_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Abbey of St. Markovia, hidden communities in ruins"
+  organization: "Solitary, pair, or community (10-30)"
+
+lore:
+  description: "Mongrelfolk are tragic humanoids afflicted with severe physical deformities - twisted limbs, misshapen heads, grotesque features. They are shunned by society and forced to hide in isolated places. In Barovia, a community of mongrelfolk dwells beneath the Abbey of St. Markovia under the protection of the Abbot. Despite their horrifying appearance, many mongrelfolk are kind-hearted and desperately seek acceptance. Each mongrelfolk has unique deformities but also one extraordinary feature (like darkvision, spider climbing, or amphibious breathing). They can mimic sounds and voices, sometimes using this to lure prey or call for help."
+  weakness: "Low stats across the board. Slow speed (20 ft). Low Charisma (-2). Weak damage output."
+  behavior: "Hide from outsiders. Use Mimicry to communicate or deceive. Extraordinary Features provide utility. Loyal to communities (Abbey mongrelfolk serve the Abbot). Some are good-aligned despite monstrous appearance. Avoid combat if possible."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "Non-combat roleplay encounter typically. If hostile: 2-4 mongrelfolk for easy, 6-10 for medium"
+  terrain: "Abbey of St. Markovia, underground warrens, hidden communities"
+  tactics: "ABBEY INVESTIGATION QUEST: Mongrelfolk are NOT enemies - they're victims seeking sanctuary. Roleplay > combat. Mimicry can confuse or frighten PCs. Extraordinary Features vary per individual (DM rolls d20). If attacked, flee to Abbot. Tragic figures deserving sympathy."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.232"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY creature for Abbey Investigation quest. Roleplay-focused, not combat. Tragic figures with deformities and extraordinary features. Mimicry ability. Most are neutral or good-aligned despite appearance."
+
+  dmReminders:
+    - "CR 1/4 - weak combatants"
+    - "Extraordinary Feature: Roll d20 for each mongrelfolk"
+    - "40% chance Darkvision 60 ft (most common)"
+    - "30% chance Spider Climb"
+    - "Mimicry: DC 12 Insight to detect imitation"
+    - "Multiattack: Bite + claw/dagger (avg 6 damage)"
+    - "Speed 20 ft (SLOW)"
+    - "Roleplay > combat - tragic victims, not monsters"
+    - "Abbey mongrelfolk serve the Abbot"
+    - "Many are good-aligned despite monstrous appearance"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

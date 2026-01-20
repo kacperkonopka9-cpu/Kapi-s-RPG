@@ -1,0 +1,246 @@
+# Animated Hut (Baba Lysaga's Creeping Hut)
+# Source: Curse of Strahd p.228
+# Gargantuan construct, mobile fortress and companion to Baba Lysaga
+
+# === BASIC INFORMATION ===
+name: "Animated Hut"
+monsterId: "animated_hut"
+size: "Gargantuan"
+type: "construct"
+subtype: null
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 4
+experiencePoints: 1100
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 15
+armorType: "natural armor"
+
+hitPoints:
+  max: 115
+  current: 115
+  hitDice: "10d20"
+  hitDiceBonus: 0  # +0 Con modifier * 10 HD = 0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 20    # +5
+  dexterity: 10   # +0
+  constitution: 10  # +0
+  intelligence: 1   # -5 (mindless)
+  wisdom: 3      # -4
+  charisma: 1    # -5
+
+# === SPEEDS ===
+speed:
+  walk: 30  # 20 ft when Baba Lysaga is riding
+  fly: 50   # Magical flight (coven magic from Baba Lysaga)
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: ["bludgeoning", "piercing", "slashing from nonmagical attacks"]
+damageImmunities: ["poison", "psychic"]
+conditionImmunities: ["blinded", "charmed", "deafened", "exhaustion", "frightened", "paralyzed", "petrified", "poisoned", "prone"]
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 60  # Blind beyond this radius
+  tremorsense: null
+  truesight: null
+  passivePerception: 6  # 10 + Perception (+0 Wis - 4)
+
+# === LANGUAGES ===
+languages: []
+languageNote: "understands commands from Baba Lysaga but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "animated_hut_1"
+  name: "Animated Hut"
+  dexModifier: 0
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Antimagic Susceptibility"
+    description: "The hut is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the hut must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute."
+    mechanics:
+      type: "antimagic_vulnerability"
+      antimagicField: "incapacitated"
+      dispelMagic:
+        save: "constitution"
+        saveDC: "caster_spell_save_DC"
+        onFailure: "unconscious_for_1_minute"
+
+  - name: "Bound to Baba Lysaga"
+    description: "The hut obeys Baba Lysaga's commands and moves only when she wills it. If Baba Lysaga is incapacitated or dies, the hut becomes inanimate."
+    mechanics:
+      type: "controller_dependency"
+      controller: "baba_lysaga"
+      controlLost: ["incapacitated", "dead"]
+      effect: "becomes_inanimate"
+
+  - name: "Immutable Form"
+    description: "The hut is immune to any spell or effect that would alter its form."
+    mechanics:
+      type: "form_immunity"
+      immuneTo: ["polymorph", "shapechange", "transmutation"]
+
+  - name: "Magic Resistance"
+    description: "The hut has advantage on saving throws against spells and other magical effects."
+    mechanics:
+      type: "magic_resistance"
+      effect: "advantage_on_saves_vs_magic"
+
+  - name: "Siege Monster"
+    description: "The hut deals double damage to objects and structures."
+    mechanics:
+      type: "siege_damage"
+      damageMultiplier: 2
+      targetTypes: ["object", "structure"]
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The animated hut makes two stomp attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      attackType: "stomp"
+
+  - name: "Stomp"
+    type: "melee_weapon_attack"
+    attackBonus: 7  # +5 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d10"
+      bonus: 5  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 16 (2d10 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone."
+    additionalEffects:
+      - type: "condition"
+        condition: "prone"
+        saveDC: 15
+        saveAbility: "strength"
+        targetType: "creature"
+
+  - name: "Grab (Recharge 5-6)"
+    description: "The animated hut attempts to grab a Medium or smaller creature within 5 feet. The target must succeed on a DC 15 Dexterity saving throw or be grappled (escape DC 15). While grappled, the creature is restrained and takes 10 (2d10) bludgeoning damage at the start of each of its turns. The hut can grapple only one creature at a time."
+    mechanics:
+      type: "grapple_attack"
+      reach: 5
+      targetSize: ["Tiny", "Small", "Medium"]
+      saveDC: 15
+      saveAbility: "dexterity"
+      onFailure: "grappled_and_restrained"
+      escapeCheck:
+        type: "strength_or_dexterity"
+        dc: 15
+      grappledDamage:
+        dice: "2d10"
+        damageType: "bludgeoning"
+        timing: "start_of_grappled_creature_turn"
+      maxGrappled: 1
+      recharge: "5-6"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null  # Works in conjunction with Baba Lysaga's lair actions
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "hut_wreckage"
+      quantity: "large amount"
+      dropChance: 100
+      note: "Salvageable wood, skulls, chicken feet (300 lb)"
+    - item: "gem_of_brightness"
+      quantity: 1
+      dropChance: 30
+      note: "Hidden in hut's interior (DC 20 Investigation)"
+      rarity: "uncommon"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Gargantuan mobile fortress controlled by Baba Lysaga. RETURN BEREZ GEM QUEST: Flies above battlefield (50 ft flight) raining Stomp attacks (2d10+5 damage, DC 15 STR save or prone). Grabs Medium/smaller PCs (DC 15 DEX save, escape DC 15, auto-damage 2d10/turn). Resistant to nonmagical weapons. Antimagic Field incapacitates. Dispel Magic can knock unconscious (DC vs caster spell save). Siege Monster (double damage to structures). Becomes inanimate if Baba Lysaga dies."
+  intelligence: "mindless"
+  aggression: "high"  # When commanded by Baba Lysaga
+  groupTactics: "coordinated"  # Works with Baba Lysaga
+
+  preferredTargets:
+    - "targets designated by Baba Lysaga"
+    - "threats to Baba Lysaga"
+    - "spellcasters (grab)"
+
+  fleeThreshold: null  # Never flees (construct)
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Berez ruins, swamps of Barovia"
+  organization: "Solitary (bound to Baba Lysaga)"
+
+lore:
+  description: "Baba Lysaga's Creeping Hut is a grotesque Gargantuan construct crafted from twisted wood, animal skulls, and massive chicken legs. The witch animated this mobile fortress using dark magic, binding it to her will. The hut serves as both her home and her most powerful weapon. When commanded, it rises on its colossal chicken legs and stomps across the battlefield, crushing enemies beneath its weight. The hut can fly through magical levitation granted by Baba Lysaga's coven magic, hovering above combat while she rains spells from its wooden platform. The construct's interior is cramped and filled with alchemical components, spell components, and dark artifacts. If Baba Lysaga is incapacitated or killed, the hut collapses and becomes an inanimate structure. The hut is vulnerable to antimagic fields and dispel magic, making these the best strategies for neutralizing this massive threat."
+  weakness: "Antimagic Field (incapacitates). Dispel Magic (Constitution save vs caster spell save DC or unconscious 1 minute). Becomes inanimate if Baba Lysaga incapacitated/dead. Low Dexterity (AC 15, Dex +0). Mindless (Int 1, easy to trick with illusions)."
+  behavior: "Obeys Baba Lysaga's commands. Stomp attacks knock prone (DC 15 STR save). Grab Medium/smaller creatures (DC 15 DEX save, 2d10 auto-damage per turn). Use flight to reposition and attack from above. Protect Baba Lysaga. Fight until destroyed or controller incapacitated."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 9
+  encounterSize: "1 animated hut + Baba Lysaga (CR 11) = Deadly encounter for level 9 party"
+  terrain: "Berez ruins, open swamps (allows flight movement), U-shaped hut lair"
+  tactics: "RETURN BEREZ GEM QUEST (Story 4-13): Animated Hut fights alongside Baba Lysaga. Flies 50 ft above ground, forcing ranged combat. Multiattack Stomp (avg 32 damage/round). Grab spellcasters to restrain + auto-damage (2d10/turn). Resistant to nonmagical weapons (party needs magic weapons). Antimagic Field or Dispel Magic are best counters. CRITICAL: Killing Baba Lysaga makes hut inanimate (priority target). Hut has 115 HP but high AC 15 and resistances. Siege Monster - can destroy structures (important if party tries to take cover)."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.228"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY creature for Return Berez Gem quest (Story 4-13). Unique Gargantuan construct that works with Baba Lysaga (CR 11 boss). Flight capability makes it deadly. Antimagic/Dispel counters are KEY. Becomes inanimate when Baba Lysaga dies (tactical priority)."
+
+  dmReminders:
+    - "CR 4 (1,100 XP) - but fights with Baba Lysaga (CR 11)"
+    - "Gargantuan size (20x20 ft space, 15 ft reach)"
+    - "FLIGHT 50 ft (coven magic from Baba Lysaga)"
+    - "Multiattack: Two stomp attacks (avg 32 damage/round)"
+    - "Stomp: DC 15 STR save or knocked prone"
+    - "Grab (Recharge 5-6): DC 15 DEX save, escape DC 15, auto 2d10 damage/turn"
+    - "RESISTANT to nonmagical weapons"
+    - "Antimagic Field: Incapacitates hut"
+    - "Dispel Magic: CON save vs caster spell save DC or unconscious 1 min"
+    - "CRITICAL: Becomes inanimate if Baba Lysaga incapacitated/dead"
+    - "Siege Monster: Double damage to objects/structures"
+    - "Mindless (Int 1) - illusions work well"
+    - "Return Berez Gem encounter: Hut + Baba Lysaga = DEADLY"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

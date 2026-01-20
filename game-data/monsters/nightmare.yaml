@@ -1,0 +1,219 @@
+# Nightmare - Fiendish Flaming Horse
+# Source: D&D 5e Monster Manual p.235
+# Evil steed from the Lower Planes, mount for powerful fiends and Strahd
+
+# === BASIC INFORMATION ===
+name: "Nightmare"
+monsterId: "nightmare"
+size: "Large"
+type: "fiend"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 3
+experiencePoints: 700
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 13
+armorType: "natural armor"
+
+hitPoints:
+  max: 68
+  current: 68
+  hitDice: "8d10"
+  hitDiceBonus: 24  # +3 Con modifier * 8 HD = +24
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 18    # +4
+  dexterity: 15   # +2
+  constitution: 16  # +3
+  intelligence: 10  # +0
+  wisdom: 13     # +1
+  charisma: 15   # +2
+
+# === SPEEDS ===
+speed:
+  walk: 60  # Fast mount
+  fly: 90   # Fly speed when galloping (hooves trail fire)
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["fire"]
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 11  # 10 + Wis (+1)
+
+# === LANGUAGES ===
+languages: ["Abyssal", "Infernal"]
+languageNote: "understands but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "nightmare_1"  # Will be set dynamically per instance
+  name: "Nightmare"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Confer Fire Resistance"
+    description: "The nightmare can grant resistance to fire damage to anyone riding it."
+    mechanics:
+      type: "buff"
+      target: "rider"
+      effect: "fire_resistance"
+      duration: "while_mounted"
+
+  - name: "Illumination"
+    description: "The nightmare sheds bright light in a 10-foot radius and dim light for an additional 10 feet."
+    mechanics:
+      type: "light_source"
+      brightLight: 10
+      dimLight: 10
+
+# === ACTIONS ===
+actions:
+  - name: "Hooves"
+    type: "melee_weapon_attack"
+    attackBonus: 6  # +4 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d8"
+      bonus: 4  # Str modifier
+      damageType: "bludgeoning"
+    additionalDamage:
+      dice: "2d6"
+      bonus: 0
+      damageType: "fire"
+    description: "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) bludgeoning damage plus 7 (2d6) fire damage."
+
+  - name: "Ethereal Stride"
+    description: "The nightmare and up to three willing creatures within 5 feet of it magically enter the Ethereal Plane from the Material Plane, or vice versa."
+    mechanics:
+      type: "planar_travel"
+      actionCost: "action"
+      range: 5  # Affects creatures within 5 ft
+      maxTargets: 3
+      targetRequirement: "willing"
+      effect: "material_to_ethereal_or_reverse"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "nightmare_mane_hair"
+      quantity: "1d4"
+      dropChance: 60
+      note: "Material component for spells, worth 50 gp"
+    - item: "nightmare_hoof"
+      quantity: 1
+      dropChance: 30
+      note: "Crafting material for fire-resistant items"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Serve as mount for powerful riders (Strahd, night hags, other fiends). Grant fire resistance to rider. Use 90 ft fly speed for aerial mobility - charge attacks, flyby strikes. Hooves attack deals bludgeoning + fire damage (avg 20 total). Ethereal Stride to escape danger or ambush from Ethereal Plane (bring up to 3 willing creatures). Illumination reveals position but also frightens enemies. Loyal to evil riders, hostile to good-aligned creatures."
+  intelligence: "animal_intelligence"  # But understands Abyssal/Infernal
+  aggression: "medium"
+  groupTactics: "mount"  # Acts in service of rider
+
+  preferredTargets:
+    - "rider's enemies"
+    - "non-evil creatures"
+    - "threats to rider"
+
+  fleeThreshold: 20  # HP threshold
+  fleeConditions: ["rider_killed", "below_30_percent_hp", "overwhelmed"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Lower Planes (Nine Hells, Abyss), serving powerful evil creatures, Barovia (Strahd's mount)"
+  organization: "Solitary or as mount for rider"
+
+lore:
+  description: "Nightmares are fiendish horses from the Lower Planes, wreathed in flames and smoke. Their hooves burn with hellfire, and their manes and tails are made of flickering flames. Nightmares serve as mounts for powerful evil creatures such as demons, devils, night hags, and evil warriors. They are highly intelligent for beasts, understanding Abyssal and Infernal though they cannot speak. A nightmare can gallop through the air, leaving a trail of smoke and embers. Their most terrifying ability is Ethereal Stride - they can shift between the Material and Ethereal Planes, allowing their riders to ambush from nowhere or escape impossible situations. In Barovia, Strahd von Zarovich sometimes rides a nightmare named Beucephalus when hunting particularly dangerous prey."
+  weakness: "No special resistances except fire immunity. Relatively low AC (13). Vulnerable to radiant damage and effects that banish fiends. Dependent on rider for tactical decisions. Silvered weapons effective (no resistance to physical damage)."
+  behavior: "Loyal servants to evil masters. Fiercely protective of rider, granting fire resistance. Use superior mobility (60 ft walk, 90 ft fly) for hit-and-run tactics. Ethereal Stride for ambushes - appear from Ethereal Plane, attack, retreat. Illuminate surroundings (can't hide). Fight to defend rider, flee if rider killed. Hostile to good-aligned creatures. Understand commands in Abyssal/Infernal."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 4
+  encounterSize: "1 nightmare with rider for medium, 2 nightmares for hard, nightmare + Strahd for deadly"
+  terrain: "Aerial combat zones, open fields for charges, Ethereal Plane border areas"
+  tactics: "MOUNT ENCOUNTER: Nightmare serves as Strahd's or night hag's mount. Grants rider fire resistance and superior mobility (90 ft fly). Rider makes attacks while nightmare moves. Nightmare uses Hooves when rider isn't attacking (avg 20 damage). Ethereal Stride escape: If rider wounded, shift to Ethereal Plane. Aerial charges: Fly 90 ft, Hooves attack, fly away (if using flyby rules). Illumination: 10 ft bright, 10 ft dim light - party always knows nightmare's position. Beucephalus (Strahd's nightmare): Enhanced stats, loyal unto death."
+
+# === VARIANTS ===
+variants:
+  - name: "Beucephalus (Strahd's Nightmare)"
+    changes:
+      challengeRating: 4
+      experiencePoints: 1100
+      hitPoints:
+        max: 90
+        current: 90
+      abilities:
+        strength: 20  # +5 (enhanced)
+        constitution: 18  # +4 (enhanced)
+      damage:
+        dice: "2d8"
+        bonus: 5  # Enhanced Str
+      traits:
+        - name: "Strahd's Loyalty"
+          description: "Beucephalus will never flee while Strahd lives and will fight to the death to protect him."
+      lore:
+        description: "Strahd von Zarovich's personal nightmare mount. Enhanced by dark magic and centuries of service. More powerful than typical nightmares. Absolutely loyal to Strahd."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.235"
+  official: true
+  srdContent: true
+
+  notes: "Mount creature for powerful evil NPCs. Strahd rides Beucephalus (enhanced nightmare) when hunting. Night hags may ride nightmares. Confer Fire Resistance makes rider much harder to damage with fire spells. Ethereal Stride allows tactical plane-shifting (ambush/escape). 90 ft fly speed makes this extremely mobile mount. Illumination trait means nightmare can't hide (always visible)."
+
+  dmReminders:
+    - "MOUNT CREATURE: Grants rider fire resistance while mounted"
+    - "Hooves: 2d8+4 bludgeoning + 2d6 fire (avg 20 total damage)"
+    - "Speed: 60 ft walk, 90 ft fly (extremely fast mount)"
+    - "Ethereal Stride: Shift to/from Ethereal Plane (bring 3 willing creatures)"
+    - "Illumination: Sheds 10 ft bright, 10 ft dim light (can't hide)"
+    - "Immune to fire damage"
+    - "Understands Abyssal and Infernal (follows verbal commands)"
+    - "Beucephalus: Strahd's personal nightmare (CR 4, enhanced stats)"
+    - "Aerial mobility: Can charge attack from above, retreat to sky"
+    - "Loyal to evil riders, hostile to good creatures"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

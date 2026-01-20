@@ -1,0 +1,220 @@
+<story-context id="3-12-condition-tracking" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>12</storyId>
+    <title>Condition Tracking</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-12-condition-tracking.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player using the D&D 5e RPG engine</asA>
+    <iWant>accurate condition tracking with automatic effect application and duration management</iWant>
+    <soThat>combat status effects (poisoned, stunned, frightened, etc.) follow D&D 5e rules and automatically expire or require saves to remove</soThat>
+    <tasks>
+- Task 1: Design ConditionTracker Module Architecture (AC: All)
+- Task 2: Create D&D 5e Condition Effects Database (AC: 7)
+- Task 3: Implement ConditionTracker Core Methods (AC: 1, 4, 5, 6, 12)
+- Task 4: Implement EventScheduler Integration (AC: 2, 3)
+- Task 5: Implement Condition Immunity and Stacking Rules (AC: 9, 10)
+- Task 6: Implement CharacterManager Integration (AC: 12)
+- Task 7: Implement Mechanics Effect Enforcement Helper (AC: 8)
+- Task 8: Implement Save Ends Mechanics (AC: 11)
+- Task 9: Create Test Suite (AC: All, Target ≥80% coverage)
+- Task 10: Integration with HPManager (AC: 8)
+- Task 11: Integration with AttackResolver and CombatManager (AC: 8)
+- Task 12: Documentation and Examples (AC: All)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: Apply Condition to Character - Add condition to array, apply effects, persist, <50ms
+AC-2: Register Condition Expiration Event - Register with EventScheduler for timed conditions
+AC-3: Remove Condition on Expiration - EventExecutor triggers removal, clears effects, persists
+AC-4: Remove Condition Manually - Remove from array, cancel event, clear effects, persist
+AC-5: Query Active Conditions - Return array with details (name, times, effects, eventId), <20ms
+AC-6: Check if Character Has Condition - Boolean check, <5ms
+AC-7: D&D 5e Condition Effects Database - 14 conditions with RAW effects (Blinded, Charmed, Deafened, Frightened, Grappled, Incapacitated, Invisible, Paralyzed, Petrified, Poisoned, Prone, Restrained, Stunned, Unconscious)
+AC-8: Enforce Condition Effects in Mechanics - Apply effects to attacks, checks, saves via applyEffectsToRoll()
+AC-9: Condition Immunity and Resistance - Check immunities, reject if immune
+AC-10: Multiple Instances of Same Condition - Don't stack (D&D 5e rule), optionally extend duration
+AC-11: Condition Save Mechanics (Save Ends) - Integration with spell/effect modules for save-based removal
+AC-12: Persist Conditions to State - Persist to character YAML, clean up expired on load
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§2.2.7 ConditionTracker Module</section>
+        <snippet>Defines ConditionTracker as a service to apply and remove conditions, track effects, with integration to EventScheduler for duration tracking and CharacterManager for persistence. AC-12 details condition tracking requirements.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§8 Acceptance Criteria - AC-12</section>
+        <snippet>AC-12: Given character is hit by poison (poisoned condition), When ConditionTracker.applyCondition() called, Then add to conditions array, apply effects (disadvantage on attacks and checks), register expiration event with EventScheduler, persist to State.md, enforce effects in subsequent mechanics.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-11-hp-death-saves.md</path>
+        <title>Story 3.11: HP and Death Saves</title>
+        <section>Dev Agent Record → Completion Notes</section>
+        <snippet>HPManager sets unconscious state via hitPoints.unconscious flag. Integration point for ConditionTracker: sync unconscious condition to character.conditions array when HP reaches 0. HPManager.applyDamage() and applyHealing() should call ConditionTracker methods.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-11-hp-death-saves.md</path>
+        <title>Story 3.11: HP and Death Saves</title>
+        <section>Senior Developer Review → Key Findings</section>
+        <snippet>Review recommended adding integration tests for condition tracking interaction with HPManager. Ensure integration tests cover: HP to 0 → unconscious condition applied, healing from 0 → unconscious removed, damage while unconscious → effects enforced.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/mechanics/hp-manager.js</path>
+        <kind>service</kind>
+        <symbol>HPManager</symbol>
+        <lines>51-512</lines>
+        <reason>Manages character HP, unconsciousness, death saves. Integration point: lines 294 (set unconscious when HP=0), line 358 (clear unconscious when healing from 0). ConditionTracker should sync unconscious condition at these points.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-end</lines>
+        <reason>Handles character data persistence to YAML files. ConditionTracker calls saveCharacter() to persist condition changes. Character schema includes conditions array.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-end</lines>
+        <reason>Schedules and triggers events based on game time. ConditionTracker registers condition expiration events with EventScheduler. Events trigger condition removal when time expires.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-end</lines>
+        <reason>Executes triggered events including condition expiration. Processes "condition_expiration" event type by calling ConditionTracker.removeCondition().</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/hp-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>HPManager test suite</symbol>
+        <lines>1-642</lines>
+        <reason>Example test structure and patterns for mechanics modules. Shows Result Object testing, mocked dependencies, integration test patterns. Use as template for condition-tracker.test.js</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for character data with conditions array</package>
+        <package name="jest" version="^29.7.0">Testing framework for unit and integration tests</package>
+        <package name="date-fns" version="^2.30.0">Date manipulation for condition expiration time calculations</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- **Dependency Injection Pattern:** ConditionTracker constructor accepts EventScheduler, CharacterManager, CalendarManager, and ConditionEffects as injectable dependencies for testability
+- **Result Object Pattern:** All methods return {success: boolean, data: any | null, error: string | null} for consistent error handling
+- **File-First Design:** All condition state persists to characters/[character-id].yaml via CharacterManager.saveCharacter()
+- **Performance Targets:** applyCondition <50ms, removeCondition <50ms, getActiveConditions <20ms, hasCondition <5ms
+- **D&D 5e RAW Compliance:** Conditions follow D&D 5e SRD exactly - 14 standard conditions, no stacking, specific effects per condition
+- **Test Coverage:** ≥80% statement coverage, 100% function coverage
+- **Integration Requirements:** Must integrate with HPManager (unconscious sync), EventScheduler (expiration), CharacterManager (persistence), mechanics modules (effect enforcement)
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>ConditionTracker.applyCondition</name>
+      <kind>method</kind>
+      <signature>async applyCondition(character, conditionName, options = {duration, source, saveEnds, saveDC, saveAbility}) → {success, data: {condition, duration, effects, eventId}, error}</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.removeCondition</name>
+      <kind>method</kind>
+      <signature>async removeCondition(character, conditionName, options = {reason}) → {success, data: {condition, removed, reason}, error}</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.getActiveConditions</name>
+      <kind>method</kind>
+      <signature>getActiveConditions(character) → Array&lt;{name, appliedAt, expiresAt, effects, source, eventId}&gt;</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.hasCondition</name>
+      <kind>method</kind>
+      <signature>hasCondition(character, conditionName) → boolean</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.getConditionEffects</name>
+      <kind>method</kind>
+      <signature>getConditionEffects(conditionName) → {name, description, effects, mechanicsImpact}</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>ConditionTracker.applyEffectsToRoll</name>
+      <kind>method</kind>
+      <signature>applyEffectsToRoll(character, rollType, rollData) → modified rollData with condition effects applied</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter</name>
+      <kind>method</kind>
+      <signature>async saveCharacter(character) → {success, data, error}</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>EventScheduler.scheduleEvent</name>
+      <kind>method</kind>
+      <signature>async scheduleEvent(event: {type, trigger, payload}) → {success, data: {eventId}, error}</signature>
+      <path>src/calendar/event-scheduler.js</path>
+    </interface>
+    <interface>
+      <name>EventScheduler.cancelEvent</name>
+      <kind>method</kind>
+      <signature>async cancelEvent(eventId) → {success, data, error}</signature>
+      <path>src/calendar/event-scheduler.js</path>
+    </interface>
+    <interface>
+      <name>Character Data Schema - Conditions</name>
+      <kind>data structure</kind>
+      <signature>character.conditions: Array&lt;{name: string, appliedAt: ISOString, expiresAt: ISOString | null, effects: string[], source?: string, eventId?: string, saveEnds?: boolean, saveDC?: number, saveAbility?: string}&gt;</signature>
+      <path>characters/[character-id].yaml</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+Epic 3 uses Jest v29.7.0 for testing. Follow patterns established in tests/mechanics/hp-manager.test.js: mock dependencies via dependency injection, use Result Object assertions, organize tests by method with describe blocks, include edge cases and performance tests. Target: ≥80% statement coverage, 100% function coverage. Integration tests must verify EventScheduler, CharacterManager, and HPManager integrations.
+    </standards>
+    <locations>
+tests/mechanics/ - Unit tests for mechanics modules
+tests/integration/ - Integration tests for cross-module workflows
+    </locations>
+    <ideas>
+- AC-1: applyCondition() with various conditions (poisoned, stunned, frightened), verify condition added to array, effects structure populated, persistence called, <50ms
+- AC-2: applyCondition() with duration, verify EventScheduler.scheduleEvent() called with correct trigger time and payload, eventId stored in condition
+- AC-3: Simulate time advancement via EventExecutor, verify condition removed when expiration event triggers
+- AC-4: removeCondition() manually, verify condition removed from array, EventScheduler.cancelEvent() called if eventId exists
+- AC-5: getActiveConditions() with multiple conditions, verify array structure with all fields populated, <20ms performance
+- AC-6: hasCondition() boolean checks for various conditions, <5ms performance
+- AC-7: getConditionEffects() for each of 14 D&D 5e conditions, verify effects match SRD exactly
+- AC-8: Integration test with AttackResolver - poisoned character has disadvantage on attacks, frightened character has disadvantage on checks
+- AC-9: applyCondition() on immune character (e.g., undead + poisoned), verify error returned, condition not added
+- AC-10: applyCondition() duplicate condition, verify no stacking, optionally extend duration
+- AC-11: applyCondition() with saveEnds flag, verify saveEnds data stored, document integration pattern with spell modules
+- AC-12: Full load/save cycle with CharacterManager, verify conditions persist to YAML and reload correctly, verify _cleanupExpiredConditions() removes expired conditions on load
+- Integration: HPManager.applyDamage() to 0 HP → verify ConditionTracker.applyCondition("unconscious") called
+- Integration: HPManager.applyHealing() from 0 HP → verify ConditionTracker.removeCondition("unconscious") called
+    </ideas>
+  </tests>
+</story-context>

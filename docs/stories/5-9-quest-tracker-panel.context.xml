@@ -1,0 +1,232 @@
+<story-context id="5-9-quest-tracker-panel" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>9</storyId>
+    <title>Quest Tracker Panel</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-29</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-9-quest-tracker-panel.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player of Kapi's RPG</asA>
+    <iWant>a VS Code sidebar panel displaying my active quests with objectives, deadlines, and completion status</iWant>
+    <soThat>I can track my progress through the Curse of Strahd campaign and remember pending objectives without manually checking quest files</soThat>
+    <tasks>
+      <task id="1">Create QuestTrackerPanel Base Class (AC-1)</task>
+      <task id="2">Implement Quest Data Loading (AC-2)</task>
+      <task id="3">Implement Objective Progress Tracking (AC-3)</task>
+      <task id="4">Implement Deadline and Calendar Integration (AC-4)</task>
+      <task id="5">Implement Auto-Refresh File Watcher (AC-5)</task>
+      <task id="6">Create Webview HTML/CSS Styling (AC-6)</task>
+      <task id="7">Implement Filtering and Sorting (AC-7)</task>
+      <task id="8">Implement Quick Actions (AC-8)</task>
+      <task id="9">Error Handling (AC-9)</task>
+      <task id="10">Update package.json Contributions</task>
+      <task id="11">Testing</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1">Quest Tracker Panel Webview Implemented - Panel opens in sidebar showing active quests sorted by priority, quest title/description, progress indicator, deadline info, visual distinction main/side</criterion>
+    <criterion id="AC-2">Quest Data Loading from Quest Files - Load and parse game-data/quests/*.yaml, filter to active status, handle missing optional fields</criterion>
+    <criterion id="AC-3">Objective Progress Tracking - Display objectives with checkbox visuals, progress summary "X of Y complete", toggle completion on click, save to file</criterion>
+    <criterion id="AC-4">Deadline and Calendar Integration - Show deadline in human-readable format, calculate "X days remaining" from CalendarManager, visual warning for urgent/overdue</criterion>
+    <criterion id="AC-5">Auto-Refresh on File Changes - Refresh within 1 second of quest file modification, use FileWatcherManager</criterion>
+    <criterion id="AC-6">Visual Design - Gothic Horror Theme - Dark background #1a1a1a, parchment text #d4c4a8, quest type icons, deadline color coding</criterion>
+    <criterion id="AC-7">Quest Filtering and Sorting - Filter: all/active/completed/main/side. Sort: priority/deadline/alphabetical. Persist preferences</criterion>
+    <criterion id="AC-8">Quick Actions - Quest title click opens file, objective checkbox toggles completion, hover shows tooltip</criterion>
+    <criterion id="AC-9">Error Handling - Handle no quests, corrupted YAML, quest without objectives, invalid deadline format</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>AC-5: VS Code UI Panels</section>
+        <snippet>QuestTrackerPanel shows active quests with objectives, deadlines, completion status. QuestTrackerPanelState interface defined with quests array, filter, sortBy, currentDate, lastUpdated fields.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-8-character-sheet-sidebar.md</path>
+        <title>Story 5-8 Character Sheet Sidebar</title>
+        <section>Dev Agent Record</section>
+        <snippet>Patterns established: BasePanel abstraction, singleton pattern, FileWatcherManager integration, gothic CSS styling, XSS protection, CSP with nonces. REUSE these patterns for Quest Tracker.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns</section>
+        <snippet>Result Object Pattern: All async operations return {success, data, error}. Dependency injection for testability. YAML frontmatter pattern for state files.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+        <kind>abstract class</kind>
+        <symbol>BasePanel</symbol>
+        <lines>87-417</lines>
+        <reason>CRITICAL: Quest Tracker must extend this base class. Provides show(), hide(), refresh(), dispose(), loadHtmlContent(), CSP handling, state persistence.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/panels/character-sheet-panel.ts</path>
+        <kind>class</kind>
+        <symbol>CharacterSheetPanel</symbol>
+        <lines>91-553</lines>
+        <reason>REFERENCE: Follow same patterns - singleton getInstance(), file watcher setup, handleMessage(), loadCharacterData(). Adapt for quest loading.</reason>
+      </file>
+      <file>
+        <path>src/quests/quest-manager.js</path>
+        <kind>module</kind>
+        <symbol>QuestManager</symbol>
+        <lines>14-469</lines>
+        <reason>INTEGRATE: Use loadQuest(), getAllQuests(), getActiveQuests(), updateObjectiveStatus() methods. Quest data source for panel.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/utils/file-watcher.ts</path>
+        <kind>utility class</kind>
+        <symbol>FileWatcherManager</symbol>
+        <lines>66-286</lines>
+        <reason>REUSE: Use watch() with fileType='other' for quest directory, onFileUpdated event for auto-refresh.</reason>
+      </file>
+      <file>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>module</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>87-500+</lines>
+        <reason>INTEGRATE: Use loadCalendar() to get current date for deadline calculations. Format: "735-10-1".</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/extension.ts</path>
+        <kind>entry point</kind>
+        <symbol>activate</symbol>
+        <lines>20-100</lines>
+        <reason>MODIFY: Add registerQuestTrackerCommands() call and import, similar to CharacterSheetPanel registration.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/package.json</path>
+        <kind>manifest</kind>
+        <symbol>contributes.commands</symbol>
+        <lines>96-98</lines>
+        <reason>MODIFY: Add kapis-rpg.showQuestTracker command already exists (line 96-98). Add activation event.</reason>
+      </file>
+      <file>
+        <path>game-data/quests/escort-ireena-to-vallaki.yaml</path>
+        <kind>data schema</kind>
+        <symbol>Quest YAML Schema</symbol>
+        <lines>1-414</lines>
+        <reason>SCHEMA REFERENCE: Quest structure with questId, name, type, status, objectives[], timeConstraints.deadline, rewards. Use for parsing.</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for quest files</package>
+        <package name="date-fns" version="^2.30.0">Date manipulation for deadline calculations</package>
+        <package name="typescript" version="^5.0.0">TypeScript compilation</package>
+        <package name="@types/vscode" version="^1.80.0">VS Code API types</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      <name>QuestTrackerPanelState</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+interface QuestTrackerPanelState {
+  quests: Array<{
+    questId: string;
+    title: string;
+    description?: string;
+    status: "active" | "completed" | "failed" | "available";
+    objectives: Array<{ text: string; completed: boolean }>;
+    deadline?: string;  // In-game date format: "735-10-8"
+    priority: "main" | "side";
+    rewards?: { xp?: number; gold?: number; items?: string[]; };
+  }>;
+  filter: "all" | "active" | "completed" | "main" | "side";
+  sortBy: "priority" | "deadline" | "alphabetical";
+  currentDate: string;  // From CalendarManager
+  lastUpdated: string;  // ISO timestamp
+}
+      </signature>
+      <path>docs/tech-spec-epic-5.md</path>
+    </interface>
+    <interface>
+      <name>BasePanel Abstract Methods</name>
+      <kind>TypeScript abstract class</kind>
+      <signature>
+protected abstract getInitialState(): Promise&lt;any&gt;;
+protected abstract handleMessage(message: PanelMessage): Promise&lt;void&gt;;
+protected abstract refreshData(): Promise&lt;any&gt;;
+      </signature>
+      <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+    </interface>
+    <interface>
+      <name>QuestManager.loadQuest()</name>
+      <kind>function</kind>
+      <signature>async loadQuest(questId: string): Promise&lt;{success: boolean, data?: Object, error?: string}&gt;</signature>
+      <path>src/quests/quest-manager.js</path>
+    </interface>
+    <interface>
+      <name>QuestManager.getAllQuests()</name>
+      <kind>function</kind>
+      <signature>async getAllQuests(): Promise&lt;{success: boolean, data?: Object[], error?: string}&gt;</signature>
+      <path>src/quests/quest-manager.js</path>
+    </interface>
+    <interface>
+      <name>QuestManager.updateObjectiveStatus()</name>
+      <kind>function</kind>
+      <signature>async updateObjectiveStatus(questId: string, objectiveId: string, newStatus: string): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/quests/quest-manager.js</path>
+    </interface>
+    <interface>
+      <name>FileWatcherManager.watch()</name>
+      <kind>method</kind>
+      <signature>watch(filePath: string, fileType: 'character' | 'location' | 'calendar' | 'session' | 'other'): FileWatcherResult</signature>
+      <path>extensions/kapis-rpg-dm/src/utils/file-watcher.ts</path>
+    </interface>
+    <interface>
+      <name>CalendarManager.loadCalendar()</name>
+      <kind>method</kind>
+      <signature>async loadCalendar(): Promise&lt;{success: boolean, data?: CalendarData, error?: string}&gt;</signature>
+      <path>src/calendar/calendar-manager.js</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint type="pattern">MUST extend BasePanel abstract class and implement getInitialState(), handleMessage(), refreshData()</constraint>
+    <constraint type="pattern">MUST use singleton pattern with getInstance() and resetInstance() for testability</constraint>
+    <constraint type="pattern">MUST use Result Object Pattern: all async operations return {success, data?, error?}</constraint>
+    <constraint type="security">MUST escape HTML in quest titles/descriptions to prevent XSS</constraint>
+    <constraint type="security">MUST use CSP with nonces for webview scripts</constraint>
+    <constraint type="performance">Auto-refresh MUST occur within 1 second of file modification (use 300ms debounce)</constraint>
+    <constraint type="ux">Gothic horror theme: #1a1a1a background, #d4c4a8 text, serif fonts for titles, monospace for stats</constraint>
+    <constraint type="architecture">Quest files located at game-data/quests/*.yaml - use QuestManager for loading</constraint>
+    <constraint type="architecture">Calendar date format: "735-10-1" - parse for deadline calculations</constraint>
+    <constraint type="limit">FileWatcherManager maximum 20 files - watch directory glob pattern, not individual files</constraint>
+    <constraint type="testing">Target 20+ unit tests covering parsing, state mapping, deadline calculation, filtering, sorting</constraint>
+  </constraints>
+
+  <tests>
+    <standards>Jest testing framework (v29.7.0) with TypeScript support. Follow Arrange-Act-Assert pattern. Target 80%+ coverage for core systems. Use dependency injection with mocks for file system, VS Code APIs. Test edge cases: empty quests, corrupted YAML, missing fields, invalid dates.</standards>
+    <locations>
+      <location>tests/extension/quest-tracker-panel.test.js</location>
+      <location>tests/integration/quests/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test panel creation, getInstance() singleton, show() reveals panel</idea>
+      <idea ac="AC-2">Test YAML parsing with valid quest file, missing optional fields, corrupted YAML, filter to active status only</idea>
+      <idea ac="AC-3">Test objective progress calculation "X/Y complete", checkbox toggle updates file, all-complete triggers quest status change</idea>
+      <idea ac="AC-4">Test deadline parsing "735-10-8" format, days remaining calculation, urgency classification (safe/soon/overdue)</idea>
+      <idea ac="AC-5">Test file watcher debouncing (300ms), refresh triggered on quest file change</idea>
+      <idea ac="AC-6">Test HTML escaping for XSS prevention, CSS class assignments for quest types and urgency</idea>
+      <idea ac="AC-7">Test filter by status (all/active/completed/main/side), sort by priority/deadline/alphabetical, preference persistence in workspaceState</idea>
+      <idea ac="AC-8">Test message handlers for questTitleClick, objectiveToggle, tooltipRequest</idea>
+      <idea ac="AC-9">Test error states: no quests found message, parse error with file path, invalid deadline shows "Invalid date"</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,380 @@
+# Quest: Abbey of St. Markovia Investigation
+# Major Side Quest - Investigation with Moral Complexity
+# Investigate the Abbot's plan to create a bride for Strahd - help, oppose, or ignore
+
+# === BASIC INFORMATION ===
+questId: "abbey_investigation"
+name: "Abbey of St. Markovia Investigation"
+type: "side"
+category: "investigation"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "burgomaster_dmitri_krezkov"
+  location: "krezk_burgomaster_cottage"
+  dialogue: "The Abbot at the Abbey of St. Markovia... he's not what he seems. Villagers hear strange noises from the abbey at night - screaming, sometimes. The Abbot claims he's doing holy work, but I have my doubts. Would you investigate? Carefully. The Abbot is... powerful."
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Investigate the strange activities at the Abbey of St. Markovia in Krezk"
+  full: "The Abbey of St. Markovia, once a bastion of hope against Strahd, is now home to mysterious and disturbing activities. The Abbot - a celestial deva who descended centuries ago to fight Strahd - has been driven mad by his failures and isolation. He now believes that creating a perfect bride for Strahd (a flesh golem named Vasilka) will satisfy the vampire and end his reign of terror. The party must investigate the abbey, discover the Abbot's plan, and decide how to respond: help the Abbot complete his work (gain a powerful blessing), oppose him (risk combat with a CR 10 celestial), or ignore the situation (allowing the plan to proceed). There is no clear 'right' answer - the Abbot genuinely believes he's helping, making this a test of the party's moral compass."
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 5
+
+  requiredQuests:
+    completed: []
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive:
+      - "burgomaster_dmitri_krezkov"
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited:
+      - "krezk"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "speak_to_burgomaster"
+    description: "Speak to Burgomaster Dmitri Krezkov about the Abbey"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "burgomaster_dmitri_krezkov"
+      location: "krezk_burgomaster_cottage"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_abbey"
+    description: "Travel to the Abbey of St. Markovia"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "abbey_of_st_markovia"
+      location: "abbey_of_st_markovia"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "meet_the_abbot"
+    description: "Meet the Abbot"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "the_abbot"
+      location: "abbey_of_st_markovia_main_hall"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "discover_vasilka"
+    description: "Discover Vasilka, the flesh golem bride"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "vasilka"
+      location: "abbey_of_st_markovia_abbots_quarters"
+    optional: false
+    completionTrigger:
+      type: "npc_discovered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "learn_abbots_plan"
+    description: "Learn about the Abbot's plan to give Vasilka to Strahd as a bride"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "secret"
+      id: "abbots_bride_plan"
+      location: "abbey_of_st_markovia"
+    optional: false
+    completionTrigger:
+      type: "secret_discovered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "decide_response"
+    description: "Decide how to respond to the Abbot's plan: help, oppose, or ignore"
+    type: "decision"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "the_abbot"
+      location: "abbey_of_st_markovia"
+    optional: false
+    completionTrigger:
+      type: "decision_made"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "abbey_of_st_markovia"
+        changes:
+          investigation_complete: true
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "burgomaster_dmitri_krezkov"
+        attitudeChange: +10
+        dialogue: "Thank you for investigating the abbey. Whatever you discovered, at least we know the truth now."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+# === REWARDS ===
+rewards:
+  experience: 400
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "krezk_citizens"
+      change: +10
+
+  specialRewards: []
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "abbot_response_decision"
+    description: "Player decides how to respond to the Abbot's plan"
+    autoDecide: false
+    decision:
+      prompt: "The Abbot explains his plan: he will give Vasilka to Strahd as a bride, hoping to sate Strahd's obsession with Tatyana and end his curse. The Abbot genuinely believes this will bring peace to Barovia, though it's a horrifying plan. Vasilka is a flesh golem, not truly alive, but the Abbot treats her as a daughter. What do you do?"
+      choices:
+        - choiceId: "help_abbot"
+          description: "Help the Abbot complete Vasilka (provide wedding dress and cooperation)"
+          consequences:
+            - type: "npc_status"
+              npcId: "the_abbot"
+              status: "grateful"
+            - type: "special_reward"
+              description: "Abbey Blessing: Party gains +1d4 to all saving throws against fear effects while in Barovia (permanent)"
+            - type: "reputation"
+              faction: "abbey_of_st_markovia"
+              change: +30
+            - type: "strahd_reaction"
+              description: "Strahd learns of party's cooperation with Abbot. Reacts with curious amusement."
+
+        - choiceId: "oppose_abbot"
+          description: "Oppose the Abbot and try to stop his plan (combat or sabotage)"
+          consequences:
+            - type: "combat_encounter"
+              encounterId: "abbot_combat"
+              cr: 10
+              description: "The Abbot (deva) attacks. Extremely dangerous fight."
+            - type: "npc_status"
+              npcId: "the_abbot"
+              status: "hostile"
+            - type: "reputation"
+              faction: "abbey_of_st_markovia"
+              change: -30
+            - type: "mongrelfolk_reaction"
+              description: "Mongrelfolk either flee or join the fight depending on party's approach"
+
+        - choiceId: "ignore_situation"
+          description: "Leave the abbey without interfering in the Abbot's plan"
+          consequences:
+            - type: "npc_status"
+              npcId: "the_abbot"
+              status: "neutral"
+            - type: "quest_status"
+              questId: "abbey_investigation"
+              status: "completed_neutrally"
+            - type: "future_consequence"
+              description: "Abbot eventually completes Vasilka and presents her to Strahd. Strahd rejects her, driving the Abbot to despair."
+
+  - branchId: "abbot_combat_outcome"
+    description: "If party fights the Abbot, outcome affects Abbey's fate"
+    autoDecide: true
+    decision:
+      condition: "abbot_defeated"
+      outcomes:
+        - outcomeId: "abbot_defeated"
+          condition: "abbot_defeated == true"
+          consequences:
+            - type: "npc_status"
+              npcId: "the_abbot"
+              status: "dead"
+            - type: "location_state"
+              locationId: "abbey_of_st_markovia"
+              changes:
+                abbot_dead: true
+                mongrelfolk_leaderless: true
+            - type: "special_reward"
+              description: "Abbot's mace +1 (holy weapon), Abbot's robes (divine vestments)"
+
+        - outcomeId: "party_defeated"
+          condition: "party_retreated_or_defeated == true"
+          consequences:
+            - type: "quest_status"
+              questId: "abbey_investigation"
+              status: "failed"
+            - type: "npc_status"
+              npcId: "the_abbot"
+              status: "victorious"
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Burgomaster Dmitri Krezkov has asked me to investigate strange activities at the Abbey of St. Markovia in Krezk. Villagers hear screaming at night, and the Abbot's behavior has become increasingly erratic. The Burgomaster warns that the Abbot is incredibly powerful and should be approached with caution."
+
+  updates:
+    - trigger: "meet_the_abbot_complete"
+      entry: "I've met the Abbot - a celestial deva who descended to Barovia centuries ago to fight Strahd. He seems calm and benevolent on the surface, but there's something unsettling about him. His eyes are distant, as if he's lost in his own thoughts."
+
+    - trigger: "discover_vasilka_complete"
+      entry: "I've discovered Vasilka, a flesh golem the Abbot has been creating in the abbey's workshop. She's stitched together from corpses but has an eerily innocent demeanor. The Abbot calls her his 'daughter' and treats her with genuine affection."
+
+    - trigger: "learn_abbots_plan_complete"
+      entry: "The Abbot has revealed his plan: he intends to give Vasilka to Strahd as a bride, believing this will satisfy Strahd's obsession and end his curse. The plan is horrifying, but the Abbot genuinely believes it will bring peace to Barovia. I must decide how to respond."
+
+  completion: "I have investigated the Abbey of St. Markovia and learned the truth about the Abbot's disturbing plan. My actions here will have consequences for the fate of the abbey and potentially for Strahd's curse itself."
+
+  failure: "I was forced to flee from the Abbey of St. Markovia. The Abbot's power is beyond what I can currently handle."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "The Abbot is genuinely kind and compassionate, making his horrifying plan more disturbing. He's not evil - he's broken."
+    - "Vasilka is innocent and child-like, despite being a flesh golem. She doesn't understand what she is or what her fate will be."
+    - "The mongrelfolk at the abbey are tragic figures - the Abbot's failed experiments to 'heal' disfigured villagers."
+
+  roleplayTips:
+    - "The Abbot: Serene, soft-spoken, genuinely believes he's doing good. Shows no malice, only determination."
+    - "Vasilka: Innocent, curious, speaks simply. Doesn't understand death or the horror of her creation."
+    - "Clovin Belview: Mongrelfolk leader, fiercely loyal to the Abbot despite being one of his failed experiments."
+
+  combatEncounters:
+    - encounter: "abbot_deva"
+      location: "abbey_of_st_markovia"
+      cr: 10
+      description: "The Abbot (deva) is a CR 10 celestial with powerful divine magic. Extremely dangerous fight for level 5 party. Can heal, deal radiant damage, and fly. Only fight if party is level 7+ or has strong tactics."
+
+  commonPitfalls:
+    - "Players may attack the Abbot without trying dialogue. Emphasize his non-threatening demeanor."
+    - "Players may try to 'fix' the Abbot or convince him his plan is wrong. He's beyond reason - his mind broke long ago."
+    - "Players may feel there's a 'right' answer. There isn't - all choices have consequences."
+
+  alternatives:
+    - "Players could steal Vasilka and free her (she doesn't understand and will try to return to the Abbot)."
+    - "Players could inform Strahd of the plan (Strahd finds it amusing but doesn't interfere)."
+    - "Players could seek help from other factions to oppose the Abbot without direct combat."
+
+  lore:
+    - "The Abbot descended to Barovia over 400 years ago as a beacon of hope. His repeated failures to defeat Strahd drove him mad."
+    - "The mongrelfolk are villagers the Abbot tried to 'heal' using flesh-shaping magic. The results were grotesque but non-fatal."
+    - "Vasilka is the Abbot's 100th attempt to create a perfect bride. He used Ireena Kolyana as the model for her face."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain: null
+
+  blocksQuests: []
+
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 5
+  challengeRating: 10  # If combat occurs
+  skillChecks:
+    - skill: "insight"
+      dc: 16
+      description: "To understand the Abbot's madness and genuine belief in his plan"
+    - skill: "religion"
+      dc: 14
+      description: "To recognize the Abbot as a deva and understand celestial nature"
+    - skill: "persuasion"
+      dc: 18
+      description: "To attempt to convince the Abbot (will fail, but may gain information)"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "The Abbey of St. Markovia was founded by a holy warrior who fought against Strahd centuries ago. St. Markovia was killed by Strahd, and the abbey fell into ruin. The Abbot arrived to rebuild it, but his isolation and repeated failures to help Barovia twisted his mind."
+
+  connectionToMainStory: "This quest explores the consequences of fighting Strahd for centuries without hope of victory. The Abbot represents what could happen to the party if they fail - madness born from desperation. The quest also creates a moral dilemma with no clear answer, testing the party's values."
+
+  historicalContext: "Devas are celestial beings of pure good. The Abbot's descent into this twisted logic shows how even divine beings can break under Barovia's curse. His belief that creating a bride for Strahd is 'good' demonstrates the corruption of prolonged exposure to Strahd's domain."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.147-153"
+  official: true
+
+  estimatedDuration: "1 session"
+
+  tags: ["side", "investigation", "moral-dilemma", "celestial", "flesh-golem", "krezk"]
+
+  notes: "This quest has no 'right' answer. The DM should present all options as valid and enforce consequences without judgment. The Abbot is one of the most morally complex NPCs in Curse of Strahd."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 LevelUpCalculator"

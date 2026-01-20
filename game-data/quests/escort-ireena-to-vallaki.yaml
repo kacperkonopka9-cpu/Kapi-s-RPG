@@ -1,0 +1,414 @@
+# Quest 4: Escort Ireena to Vallaki
+# Transport Ireena to safety in Vallaki, evading Strahd's pursuit
+
+questId: "escort_ireena_to_vallaki"
+name: "Escort Ireena to Vallaki"
+type: "main"
+category: "escort"
+
+questGiver:
+  npcId: "ireena_kolyana"
+  location: "village_of_barovia_burgomaster_mansion"
+  dialogue: "I cannot stay here. Strahd will come for me again, and next time... Please, will you escort me to Vallaki? There's a church there - St. Andral's. Perhaps I'll be safe behind its hallowed walls."
+
+questRecipient: "player"
+
+description:
+  short: "Escort Ireena Kolyana to safety in the town of Vallaki"
+  full: "Ireena Kolyana cannot remain in the Village of Barovia. Strahd visits her nightly, and her father died trying to protect her. She believes St. Andral's Church in Vallaki might offer sanctuary. The journey along the Old Svalich Road is dangerous, and Strahd will surely pursue. You must protect Ireena, evade or defeat any threats, and deliver her safely to Vallaki. Time is of the essence - the longer you delay, the more aggressive Strahd's pursuit becomes."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "bury_the_burgomaster"
+  requiredEvents: []
+  requiredNPCs:
+    alive:
+      - "ireena_kolyana"
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "village_of_barovia"
+
+objectives:
+  - objectiveId: "convince_ireena"
+    description: "Convince Ireena to leave the village"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "ireena_kolyana"
+      location: "village_of_barovia_burgomaster_mansion"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "prepare_journey"
+    description: "Gather supplies and prepare for the journey to Vallaki"
+    type: "fetch"
+    status: "pending"
+    target: null
+    optional: true
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_old_svalich_road"
+    description: "Travel along the Old Svalich Road toward Vallaki"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "old_svalich_road"
+      location: "old_svalich_road"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "defend_against_strahd"
+    description: "Survive Strahd's ambush on the road"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "strahd_von_zarovich"
+      location: "old_svalich_road"
+    optional: false
+    completionTrigger:
+      type: "combat_survived"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "arrive_in_vallaki"
+    description: "Reach the gates of Vallaki safely"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "vallaki"
+      location: "vallaki"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+  - objectiveId: "find_sanctuary"
+    description: "Find sanctuary for Ireena in Vallaki"
+    type: "social"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: true
+  deadline: null  # Soft deadline - no hard date
+  failOnMissedDeadline: false
+  warningThreshold: 3
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "ireena_kolyana"
+        status: "safe_in_vallaki"
+
+      - type: "location_state"
+        locationId: "vallaki"
+        changes:
+          ireena_present: true
+          sanctuary_location: "church"  # or "mansion" based on player choice
+
+    triggeredEvents:
+      - eventId: "strahd_learns_ireenas_location"
+        delay: "1d6"
+
+    unlockedQuests:
+      - "seek_the_vistani"
+      - "st_andrals_bones"
+
+    npcReactions:
+      - npcId: "ireena_kolyana"
+        attitudeChange: 30
+        dialogue: "Thank you for bringing me to safety. I only hope these walls can protect me from him."
+
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: 30
+        dialogue: "You've done what I could not - kept my sister safe. I am in your debt."
+
+  onFailure:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "ireena_kolyana"
+        status: "captured_by_strahd"
+
+    triggeredEvents:
+      - eventId: "strahd_claims_ireena"
+        delay: "0"
+
+    npcReactions:
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: -50
+        dialogue: "You failed her... you failed us all."
+
+    canRetry: false
+
+  onAbandonment:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "ireena_kolyana"
+        status: "abandoned"
+
+    npcReactions:
+      - npcId: "ireena_kolyana"
+        attitudeChange: -40
+        dialogue: "I trusted you... I was a fool."
+
+    canRestart: false
+
+rewards:
+  experience: 600
+
+  items: []
+
+  currency:
+    gold: 100
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "village_of_barovia"
+      change: 15
+    - faction: "vallaki"
+      change: 10
+
+  specialRewards:
+    - type: "npc_companion"
+      npcId: "ireena_kolyana"
+      description: "Ireena may travel with the party temporarily"
+
+branches:
+  - branchId: "tser_pool_detour"
+    description: "Decide whether to visit the Vistani camp at Tser Pool"
+    decision:
+      prompt: "You notice the Vistani camp at Tser Pool along the way. Do you stop?"
+      choices:
+        - choiceId: "visit_camp"
+          description: "Visit the Vistani camp (introduces Madam Eva early)"
+          consequences:
+            - type: "quest_unlock"
+              questId: "seek_the_vistani"
+              immediate: true
+            - type: "npc_reaction"
+              npcId: "madam_eva"
+              attitudeChange: 10
+
+        - choiceId: "bypass_camp"
+          description: "Bypass the camp and continue to Vallaki"
+          consequences:
+            - type: "time_saved"
+              hours: 2
+
+  - branchId: "sanctuary_location"
+    description: "Choose where Ireena will seek sanctuary in Vallaki"
+    decision:
+      prompt: "Where should Ireena seek refuge in Vallaki?"
+      choices:
+        - choiceId: "church_of_st_andral"
+          description: "St. Andral's Church (safer, triggers St. Andral's Bones quest)"
+          consequences:
+            - type: "location_state"
+              locationId: "vallaki_church_of_st_andral"
+              changes:
+                ireena_present: true
+            - type: "quest_unlock"
+              questId: "st_andrals_bones"
+            - type: "npc_reaction"
+              npcId: "father_lucian_petrovich"
+              attitudeChange: 15
+
+        - choiceId: "burgomaster_mansion"
+          description: "Baron Vallakovich's mansion (political complications)"
+          consequences:
+            - type: "location_state"
+              locationId: "vallaki_burgomaster_mansion"
+              changes:
+                ireena_present: true
+            - type: "npc_reaction"
+              npcId: "baron_vargas_vallakovich"
+              attitudeChange: 20
+              dialogue: "You honor me by entrusting this lady to my protection!"
+            - type: "reputation"
+              faction: "vallaki_nobility"
+              change: 15
+
+journalEntries:
+  initial: "We've agreed to escort Ireena Kolyana to Vallaki, where she hopes to find sanctuary at St. Andral's Church. The journey is perilous - Strahd will not let her go easily. We must move quickly and stay alert. Ireena is terrified but determined to escape her tormentor."
+
+  updates:
+    - trigger: "travel_old_svalich_road_complete"
+      entry: "We've begun the journey to Vallaki along the Old Svalich Road. The fog is thick, and the woods press close on either side. Ireena walks with her head down, jumping at every sound. I can feel eyes watching us from the mist."
+
+    - trigger: "defend_against_strahd_complete"
+      entry: "Strahd himself appeared on the road, blocking our path. He didn't attack - instead, he toyed with us, demonstrating his overwhelming power. He addressed Ireena as 'my dear Tatyana' and promised he would claim her soon. We survived only because he chose to let us go. This was a warning, not a battle."
+
+    - trigger: "arrive_in_vallaki_complete"
+      entry: "We've reached Vallaki. The town is larger than the village, with walls and guards. It feels safer, but I know Strahd's reach extends everywhere in this cursed land. Now we must find sanctuary for Ireena and hope it holds."
+
+  completion: "Ireena is safe in Vallaki, at least for now. She's found sanctuary at St. Andral's Church, under Father Lucian's protection. But Strahd knows where she is, and I doubt even hallowed ground will keep him away forever. We've bought her time, but the real battle is yet to come."
+
+  failure: "Strahd claimed Ireena. We failed to protect her, and now she's in the vampire's clutches. We can only hope she's still alive... and that we can somehow rescue her."
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "strahd_ambush_warning"
+      trigger:
+        type: "days_active"
+        days: 1
+      effect:
+        type: "notification"
+        message: "The fog grows thicker. You sense you're being watched."
+
+    - eventId: "strahd_ambush"
+      trigger:
+        type: "location_reached"
+        locationId: "old_svalich_road"
+      effect:
+        type: "combat_encounter"
+        message: "A figure emerges from the fog ahead - Strahd von Zarovich, astride a nightmare steed."
+        monsters:
+          - "strahd_von_zarovich"
+
+    - eventId: "escort_urgency_increase"
+      trigger:
+        type: "days_active"
+        days: 3
+      effect:
+        type: "notification"
+        message: "Ireena grows more anxious with each passing day. 'He's coming,' she whispers. 'I can feel him drawing closer.'"
+
+dmGuidance:
+  narrativeHooks:
+    - "Describe the Old Svalich Road as oppressive - thick fog, twisted trees, distant howls"
+    - "Ireena is quiet during travel, lost in thought and fear"
+    - "Wolves follow at a distance - Strahd's spies watching their progress"
+    - "At Tser Pool, if visited, Madam Eva can foreshadow the campaign's challenges"
+    - "Strahd's ambush should be terrifying but not lethal - he wants to intimidate, not kill"
+
+  roleplayTips:
+    - "Strahd is charming, confident, and utterly in control during the ambush"
+    - "He addresses Ireena as 'Tatyana' and claims she belongs to him"
+    - "Strahd may compliment the party's bravery while making clear they're no threat to him"
+    - "He departs dramatically - turning into mist, flying away as a bat, or simply riding into the fog"
+    - "Ireena is shaken after the encounter - she recognizes something in Strahd but can't explain what"
+
+  combatEncounters:
+    - encounter: "wolf_pack_harassment"
+      location: "old_svalich_road"
+      cr: 1
+      monsters:
+        - "wolf"
+        - "wolf"
+        - "wolf"
+      tactics: "Wolves harass from a distance, testing defenses. Flee if seriously injured. Strahd's scouts."
+
+    - encounter: "strahd_ambush"
+      location: "old_svalich_road"
+      cr: 15
+      monsters:
+        - "strahd_von_zarovich"
+      tactics: "Strahd doesn't fight to kill. He demonstrates power (charm person, spider climb, legendary actions), delivers threats, and departs. PCs should feel helpless but survive. If PCs attack seriously, Strahd knocks them down non-lethally."
+
+  commonPitfalls:
+    - "Players may try to fight Strahd seriously during ambush - emphasize he's toying with them, make it clear fighting is suicide"
+    - "Players may try to hide Ireena or use disguise - Strahd always knows where she is (mystical bond)"
+    - "Players may split the party - punish this with isolated encounters"
+    - "Players may take too long preparing - increase random encounter frequency"
+
+  alternatives:
+    - "Players can take a roundabout route to Vallaki, avoiding main road (longer but potentially safer)"
+    - "Players can seek the Vistani at Tser Pool for advice or protection (they're neutral but helpful)"
+    - "Players can attempt to negotiate with Strahd during ambush (he may offer cruel bargains)"
+    - "Players can leave Ireena with Ismark and travel alone (she becomes vulnerable)"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 4
+
+  blocksQuests:
+    - "seek_the_vistani"
+    - "st_andrals_bones"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 3
+  challengeRating: 4
+  skillChecks:
+    - skill: "persuasion"
+      dc: 12
+      description: "Convince Ireena to trust you"
+    - skill: "survival"
+      dc: 13
+      description: "Navigate the Old Svalich Road"
+    - skill: "insight"
+      dc: 15
+      description: "Understand Strahd's intentions during ambush"
+
+lore:
+  background: |
+    Ireena is the reincarnation of Tatyana, the woman Strahd loved 400 years ago. Tatyana threw
+    herself from Castle Ravenloft's walls rather than become Strahd's bride, and her soul has been
+    reborn multiple times throughout history. Each time, Strahd finds her, and each time, she dies
+    before he can claim her. This cycle has driven Strahd to deeper obsession and madness. Ireena
+    has no memory of past lives, but Strahd is convinced that this time will be different.
+
+  connectionToMainStory: |
+    Ireena is central to the campaign. She represents Strahd's greatest desire and deepest failure.
+    Her fate affects the campaign's ending - if Strahd claims her, he may achieve peace (or greater
+    tyranny). If she escapes or dies again, his rage will be terrible. The party's relationship with
+    Ireena and decisions about her safety drive much of the story's emotional weight.
+
+  historicalContext: |
+    Tatyana was a Barovian noble whom Strahd courted before his transformation into a vampire. His
+    younger brother Sergei also loved her, and she chose Sergei. This betrayal drove Strahd to
+    murder his brother and make his dark pact. When Tatyana learned what Strahd had done, she fled
+    to the castle walls and jumped. Her death curse bound Strahd to Barovia forever.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.43-44, 234"
+  official: true
+  estimatedDuration: "1-2 sessions"
+  tags: ["escort", "exploration", "social", "combat", "strahd_encounter", "branching"]
+  notes: "This quest is pivotal. The Strahd encounter should be memorable - terrifying but survivable. Players should understand they cannot defeat him yet. The sanctuary choice affects later quests significantly."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

@@ -1,0 +1,40 @@
+location_name: "Village Gates"
+location_type: "outdoor"
+region: "Barovia Valley - Western Mountains"
+parent_location: "krezk"
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Mountain Road"
+    direction: "outside"
+    travel_time: "varies"
+    description: "Road leading away from Krezk to other locations"
+  - name: "Village Center"
+    direction: "inside"
+    travel_time: "immediate"
+    description: "Through gates into Krezk proper"
+  - name: "Blessed Pool"
+    direction: "down steps"
+    travel_time: "2 minutes"
+    description: "Steps descending to pool at wall base"
+danger_level: 2
+recommended_level: "3-5"
+size: "Small (gatehouse and wall section)"
+description_token_count: 498
+quest_critical: false
+quests:
+  - "Gain Entry to Krezk"
+  - "Defend Gates (if siege)"
+features:
+  - "Fortified entrance"
+  - "Guard post"
+  - "Entry control point"
+  - "Defense position"
+npcs:
+  - "Boris (Gatekeeper)"
+  - "Krezk Guards (4 on duty)"
+treasure:
+  - "Guard equipment (400 gp)"
+  - "Confiscated items (50 gp)"
+last_validated: "2025-11-12"
+notes: "First obstacle to entering Krezk. Boris is suspicious and follows orders strictly. Bringing wine or having urgent healing business are best entry methods. Potential combat location if village is sieged or party forces entry."

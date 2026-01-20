@@ -1,0 +1,386 @@
+[2025-11-28T20:42:23.226Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:42:23.231Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:42:23.232Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:42:23.234Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:42:23.235Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:42:23.236Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:42:23.237Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:42:23.238Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:42:23.239Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:42:23.240Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:42:23.241Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:42:23.241Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:42:23.242Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:42:23.243Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:42:23.244Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:42:23.245Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:42:23.247Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:42:23.248Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:42:23.249Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:42:23.249Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:42:23.253Z] [contextLoad] 500ms
+[2025-11-28T20:42:23.254Z] [contextLoad] 600ms
+[2025-11-28T20:42:23.255Z] [fileRead] 10ms
+[2025-11-28T20:42:23.256Z] [fileRead] 15ms
+[2025-11-28T20:42:23.257Z] [cacheHit] 1ms
+[2025-11-28T20:43:18.038Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:43:18.040Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:43:18.041Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:43:18.042Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:43:18.047Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:43:18.049Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:43:18.052Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:43:18.053Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:43:18.055Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:43:18.064Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:43:18.068Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:43:18.070Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:43:18.072Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:43:18.073Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:43:18.079Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:43:18.080Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:43:18.081Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:43:18.083Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:43:18.088Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:43:18.095Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:43:18.112Z] [contextLoad] 500ms
+[2025-11-28T20:43:18.113Z] [contextLoad] 600ms
+[2025-11-28T20:43:18.115Z] [fileRead] 10ms
+[2025-11-28T20:43:18.117Z] [fileRead] 15ms
+[2025-11-28T20:43:18.123Z] [cacheHit] 1ms
+[2025-11-28T20:43:32.378Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:43:32.380Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:43:32.382Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:43:32.383Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:43:32.384Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:43:32.385Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:43:32.386Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:43:32.387Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:43:32.389Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:43:32.391Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:43:32.392Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:43:32.393Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:43:32.396Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:43:32.399Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:43:32.400Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:43:32.401Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:43:32.402Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:43:32.403Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:43:32.403Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:43:32.404Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:43:32.406Z] [contextLoad] 500ms
+[2025-11-28T20:43:32.407Z] [contextLoad] 600ms
+[2025-11-28T20:43:32.409Z] [fileRead] 10ms
+[2025-11-28T20:43:32.410Z] [fileRead] 15ms
+[2025-11-28T20:43:32.412Z] [cacheHit] 1ms
+[2025-11-28T20:44:34.552Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:44:34.554Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:44:34.555Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:44:34.556Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:44:34.556Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:44:34.557Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:44:34.558Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:44:34.559Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:44:34.560Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:44:34.562Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:44:34.563Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:44:34.564Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:44:34.565Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:44:34.566Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:44:34.567Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:44:34.568Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:44:34.569Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:44:34.570Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:44:34.570Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:44:34.571Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:44:34.573Z] [contextLoad] 500ms
+[2025-11-28T20:44:34.574Z] [contextLoad] 600ms
+[2025-11-28T20:44:34.575Z] [fileRead] 10ms
+[2025-11-28T20:44:34.576Z] [fileRead] 15ms
+[2025-11-28T20:44:34.578Z] [cacheHit] 1ms
+[2025-11-28T20:45:29.921Z] [contextLoad] 14.22ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:45:29.969Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:45:29.970Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:45:29.971Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:45:29.972Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:45:29.973Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:45:29.976Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:45:29.977Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:45:29.979Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:45:29.980Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:45:29.981Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:45:29.982Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:45:29.983Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:45:29.984Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:45:29.985Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:45:29.986Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:45:29.987Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:45:29.990Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:45:29.992Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:45:29.993Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:45:29.994Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:45:29.997Z] [contextLoad] 500ms
+[2025-11-28T20:45:29.998Z] [contextLoad] 600ms
+[2025-11-28T20:45:29.999Z] [fileRead] 10ms
+[2025-11-28T20:45:30.000Z] [fileRead] 15ms
+[2025-11-28T20:45:30.002Z] [cacheHit] 1ms
+[2025-11-28T20:45:56.957Z] [contextLoad] 22.47ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:45:56.999Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:45:57.001Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:45:57.002Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:45:57.003Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:45:57.005Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:45:57.006Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:45:57.007Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:45:57.009Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:45:57.010Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:45:57.012Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:45:57.013Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:45:57.014Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:45:57.015Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:45:57.016Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:45:57.017Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:45:57.017Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:45:57.018Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:45:57.019Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:45:57.020Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:45:57.021Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:45:57.023Z] [contextLoad] 500ms
+[2025-11-28T20:45:57.024Z] [contextLoad] 600ms
+[2025-11-28T20:45:57.025Z] [fileRead] 10ms
+[2025-11-28T20:45:57.026Z] [fileRead] 15ms
+[2025-11-28T20:45:57.026Z] [cacheHit] 1ms
+[2025-11-28T20:46:20.174Z] [contextLoad] 60.75ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:46:20.297Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:46:20.299Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:46:20.300Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:46:20.302Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:46:20.305Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:46:20.310Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:46:20.312Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:46:20.313Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:46:20.315Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:46:20.318Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:46:20.329Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:46:20.332Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:46:20.334Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:46:20.335Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:46:20.337Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:46:20.343Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:46:20.344Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:46:20.347Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:46:20.348Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:46:20.349Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:46:20.358Z] [contextLoad] 500ms
+[2025-11-28T20:46:20.361Z] [contextLoad] 600ms
+[2025-11-28T20:46:20.365Z] [fileRead] 10ms
+[2025-11-28T20:46:20.366Z] [fileRead] 15ms
+[2025-11-28T20:46:20.367Z] [cacheHit] 1ms
+[2025-11-28T20:46:58.664Z] [contextLoad] 27.37ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:46:58.833Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:46:58.848Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:46:58.853Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:46:58.856Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:46:58.867Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:46:58.870Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:46:58.889Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:46:58.896Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:46:58.899Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:46:58.902Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:46:58.906Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:46:58.919Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:46:58.922Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:46:58.932Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:46:58.936Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:46:58.945Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:46:58.968Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:46:58.986Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:46:59.000Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:46:59.013Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:46:59.018Z] [contextLoad] 500ms
+[2025-11-28T20:46:59.033Z] [contextLoad] 600ms
+[2025-11-28T20:46:59.048Z] [fileRead] 10ms
+[2025-11-28T20:46:59.064Z] [fileRead] 15ms
+[2025-11-28T20:46:59.069Z] [cacheHit] 1ms
+[2025-11-28T20:47:20.831Z] [contextLoad] 22.57ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:47:20.904Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:47:20.906Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:47:20.907Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:47:20.908Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:47:20.909Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:47:20.910Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:47:20.910Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:47:20.912Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:47:20.913Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:47:20.914Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:47:20.915Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:47:20.916Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:47:20.917Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:47:20.918Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:47:20.919Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:47:20.920Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:47:20.921Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:47:20.922Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:47:20.923Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:47:20.924Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:47:20.926Z] [contextLoad] 500ms
+[2025-11-28T20:47:20.927Z] [contextLoad] 600ms
+[2025-11-28T20:47:20.930Z] [fileRead] 10ms
+[2025-11-28T20:47:20.932Z] [fileRead] 15ms
+[2025-11-28T20:47:20.934Z] [cacheHit] 1ms
+[2025-11-28T20:52:54.967Z] [contextLoad] 31.12ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:52:55.107Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:52:55.111Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:52:55.112Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:52:55.114Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:52:55.115Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:52:55.117Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:52:55.118Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:52:55.122Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:52:55.124Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:52:55.128Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:52:55.135Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:52:55.144Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:52:55.154Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:52:55.161Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:52:55.163Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:52:55.164Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:52:55.168Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:52:55.171Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:52:55.173Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:52:55.177Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:52:55.180Z] [contextLoad] 500ms
+[2025-11-28T20:52:55.181Z] [contextLoad] 600ms
+[2025-11-28T20:52:55.183Z] [fileRead] 10ms
+[2025-11-28T20:52:55.184Z] [fileRead] 15ms
+[2025-11-28T20:52:55.184Z] [cacheHit] 1ms
+[2025-11-28T20:56:46.663Z] [contextLoad] 20.77ms {"locationId":"castle-ravenloft"}
+[2025-11-28T20:56:46.738Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T20:56:46.741Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T20:56:46.742Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T20:56:46.750Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T20:56:46.753Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T20:56:46.757Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T20:56:46.774Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T20:56:46.782Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T20:56:46.786Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T20:56:46.789Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T20:56:46.791Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T20:56:46.793Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T20:56:46.794Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T20:56:46.804Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T20:56:46.805Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T20:56:46.806Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T20:56:46.809Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T20:56:46.810Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T20:56:46.812Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T20:56:46.814Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T20:56:46.818Z] [contextLoad] 500ms
+[2025-11-28T20:56:46.821Z] [contextLoad] 600ms
+[2025-11-28T20:56:46.822Z] [fileRead] 10ms
+[2025-11-28T20:56:46.823Z] [fileRead] 15ms
+[2025-11-28T20:56:46.824Z] [cacheHit] 1ms
+[2025-11-28T21:17:52.290Z] [contextLoad] 14.42ms {"locationId":"castle-ravenloft"}
+[2025-11-28T21:17:52.340Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T21:17:52.344Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T21:17:52.348Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T21:17:52.351Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T21:17:52.353Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T21:17:52.356Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T21:17:52.358Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T21:17:52.360Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T21:17:52.362Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T21:17:52.364Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T21:17:52.366Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T21:17:52.367Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T21:17:52.369Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T21:17:52.371Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T21:17:52.372Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T21:17:52.376Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T21:17:52.377Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T21:17:52.379Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T21:17:52.381Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T21:17:52.382Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T21:17:52.388Z] [contextLoad] 500ms
+[2025-11-28T21:17:52.392Z] [contextLoad] 600ms
+[2025-11-28T21:17:52.393Z] [fileRead] 10ms
+[2025-11-28T21:17:52.395Z] [fileRead] 15ms
+[2025-11-28T21:17:52.397Z] [cacheHit] 1ms
+[2025-11-28T21:18:36.265Z] [contextLoad] 8.9ms {"locationId":"castle-ravenloft"}
+[2025-11-28T21:18:36.289Z] [contextLoad] 100ms {"test":true}
+[2025-11-28T21:18:36.290Z] [contextLoad] 150ms {"test":true}
+[2025-11-28T21:18:36.291Z] [contextLoad] 200ms {"test":true}
+[2025-11-28T21:18:36.292Z] [contextLoad] 250ms {"test":true}
+[2025-11-28T21:18:36.294Z] [contextLoad] 300ms {"test":true}
+[2025-11-28T21:18:36.295Z] [contextLoad] 350ms {"test":true}
+[2025-11-28T21:18:36.296Z] [contextLoad] 400ms {"test":true}
+[2025-11-28T21:18:36.297Z] [contextLoad] 450ms {"test":true}
+[2025-11-28T21:18:36.298Z] [contextLoad] 500ms {"test":true}
+[2025-11-28T21:18:36.299Z] [contextLoad] 1000ms {"test":true}
+[2025-11-28T21:18:36.300Z] [contextLoad] 50ms {"test":true}
+[2025-11-28T21:18:36.301Z] [contextLoad] 75ms {"test":true}
+[2025-11-28T21:18:36.302Z] [contextLoad] 125ms {"test":true}
+[2025-11-28T21:18:36.302Z] [contextLoad] 175ms {"test":true}
+[2025-11-28T21:18:36.303Z] [contextLoad] 225ms {"test":true}
+[2025-11-28T21:18:36.304Z] [contextLoad] 275ms {"test":true}
+[2025-11-28T21:18:36.304Z] [contextLoad] 325ms {"test":true}
+[2025-11-28T21:18:36.305Z] [contextLoad] 375ms {"test":true}
+[2025-11-28T21:18:36.306Z] [contextLoad] 425ms {"test":true}
+[2025-11-28T21:18:36.307Z] [contextLoad] 475ms {"test":true}
+[2025-11-28T21:18:36.310Z] [contextLoad] 500ms
+[2025-11-28T21:18:36.311Z] [contextLoad] 600ms
+[2025-11-28T21:18:36.312Z] [fileRead] 10ms
+[2025-11-28T21:18:36.313Z] [fileRead] 15ms
+[2025-11-28T21:18:36.314Z] [cacheHit] 1ms
+[2025-11-29T07:46:05.573Z] [contextLoad] 9.54ms {"locationId":"castle-ravenloft"}
+[2025-11-29T07:46:06.460Z] [contextLoad] 100ms {"test":true}
+[2025-11-29T07:46:06.516Z] [contextLoad] 150ms {"test":true}
+[2025-11-29T07:46:06.589Z] [contextLoad] 200ms {"test":true}
+[2025-11-29T07:46:06.644Z] [contextLoad] 250ms {"test":true}
+[2025-11-29T07:46:06.698Z] [contextLoad] 300ms {"test":true}
+[2025-11-29T07:46:06.751Z] [contextLoad] 350ms {"test":true}
+[2025-11-29T07:46:06.827Z] [contextLoad] 400ms {"test":true}
+[2025-11-29T07:46:06.871Z] [contextLoad] 450ms {"test":true}
+[2025-11-29T07:46:06.942Z] [contextLoad] 500ms {"test":true}
+[2025-11-29T07:46:06.980Z] [contextLoad] 1000ms {"test":true}
+[2025-11-29T07:46:07.015Z] [contextLoad] 50ms {"test":true}
+[2025-11-29T07:46:07.053Z] [contextLoad] 75ms {"test":true}
+[2025-11-29T07:46:07.123Z] [contextLoad] 125ms {"test":true}
+[2025-11-29T07:46:07.181Z] [contextLoad] 175ms {"test":true}
+[2025-11-29T07:46:07.229Z] [contextLoad] 225ms {"test":true}
+[2025-11-29T07:46:07.263Z] [contextLoad] 275ms {"test":true}
+[2025-11-29T07:46:07.280Z] [contextLoad] 325ms {"test":true}
+[2025-11-29T07:46:07.302Z] [contextLoad] 375ms {"test":true}
+[2025-11-29T07:46:07.343Z] [contextLoad] 425ms {"test":true}
+[2025-11-29T07:46:07.410Z] [contextLoad] 475ms {"test":true}
+[2025-11-29T07:46:07.468Z] [contextLoad] 500ms
+[2025-11-29T07:46:07.503Z] [contextLoad] 600ms
+[2025-11-29T07:46:07.517Z] [fileRead] 10ms
+[2025-11-29T07:46:07.524Z] [fileRead] 15ms
+[2025-11-29T07:46:07.538Z] [cacheHit] 1ms
+[2025-11-29T08:49:15.920Z] [contextLoad] 55.81ms {"locationId":"castle-ravenloft"}
+[2025-11-29T08:49:16.221Z] [contextLoad] 100ms {"test":true}
+[2025-11-29T08:49:16.237Z] [contextLoad] 150ms {"test":true}
+[2025-11-29T08:49:16.289Z] [contextLoad] 200ms {"test":true}
+[2025-11-29T08:49:16.310Z] [contextLoad] 250ms {"test":true}
+[2025-11-29T08:49:16.360Z] [contextLoad] 300ms {"test":true}
+[2025-11-29T08:49:16.381Z] [contextLoad] 350ms {"test":true}
+[2025-11-29T08:49:16.391Z] [contextLoad] 400ms {"test":true}
+[2025-11-29T08:49:16.445Z] [contextLoad] 450ms {"test":true}
+[2025-11-29T08:49:16.463Z] [contextLoad] 500ms {"test":true}
+[2025-11-29T08:49:16.471Z] [contextLoad] 1000ms {"test":true}
+[2025-11-29T08:49:16.474Z] [contextLoad] 50ms {"test":true}
+[2025-11-29T08:49:16.481Z] [contextLoad] 75ms {"test":true}
+[2025-11-29T08:49:16.483Z] [contextLoad] 125ms {"test":true}
+[2025-11-29T08:49:16.487Z] [contextLoad] 175ms {"test":true}
+[2025-11-29T08:49:16.489Z] [contextLoad] 225ms {"test":true}
+[2025-11-29T08:49:16.501Z] [contextLoad] 275ms {"test":true}
+[2025-11-29T08:49:16.503Z] [contextLoad] 325ms {"test":true}
+[2025-11-29T08:49:16.508Z] [contextLoad] 375ms {"test":true}
+[2025-11-29T08:49:16.512Z] [contextLoad] 425ms {"test":true}
+[2025-11-29T08:49:16.513Z] [contextLoad] 475ms {"test":true}
+[2025-11-29T08:49:16.519Z] [contextLoad] 500ms
+[2025-11-29T08:49:16.523Z] [contextLoad] 600ms
+[2025-11-29T08:49:16.529Z] [fileRead] 10ms
+[2025-11-29T08:49:16.541Z] [fileRead] 15ms
+[2025-11-29T08:49:16.560Z] [cacheHit] 1ms

@@ -1,0 +1,427 @@
+# D&D 5e Character Sheet Schema
+# File: characters/[character-name].yaml
+# Version: 1.0
+# Date: 2025-11-09
+
+# This schema defines the structure for D&D 5e character sheets in Kapi-s-RPG.
+# All character data is stored in human-readable YAML format for transparency and Git-friendly version control.
+
+# ====================
+# BASIC INFORMATION
+# ====================
+
+name: string                    # Character name (e.g., "Kapi the Brave")
+race: string                    # D&D 5e race (Human, Elf, Dwarf, Halfling)
+class: string                   # Primary class (Fighter, Cleric, Rogue, Wizard)
+level: integer                  # Character level (1-20)
+experience: integer             # Total XP earned
+background: string              # Optional: Character background (Soldier, Acolyte, etc.)
+alignment: string               # Optional: Alignment (Lawful Good, Chaotic Neutral, etc.)
+
+# ====================
+# ABILITY SCORES
+# ====================
+
+abilities:
+  strength: integer             # 1-20 (typically 8-18 for player characters)
+  dexterity: integer            # 1-20
+  constitution: integer         # 1-20
+  intelligence: integer         # 1-20
+  wisdom: integer               # 1-20
+  charisma: integer             # 1-20
+
+# Note: Ability modifiers are auto-calculated: floor((score - 10) / 2)
+
+# ====================
+# HIT POINTS & HIT DICE
+# ====================
+
+hitPoints:
+  max: integer                  # Maximum HP (calculated from class hit die + Con modifier per level)
+  current: integer              # Current HP (0 to max; 0 = unconscious)
+  temporary: integer            # Temporary HP (absorbed before current HP)
+  hitDice:
+    total: integer              # Total hit dice = level (e.g., level 5 = 5 hit dice)
+    spent: integer              # Hit dice spent since last long rest
+    die: string                 # Hit die type (d6, d8, d10, d12) - determined by class
+
+# Class Hit Dice:
+# - Fighter, Paladin, Ranger: d10
+# - Barbarian: d12
+# - Cleric, Druid, Monk, Rogue: d8
+# - Bard, Warlock: d8
+# - Sorcerer, Wizard: d6
+
+# ====================
+# ARMOR CLASS
+# ====================
+
+armorClass: integer             # Total AC (10 + Dex modifier + armor + shield + magical bonuses)
+
+# AC Calculation:
+# - Unarmored: 10 + Dex modifier
+# - Light Armor: armor AC + Dex modifier
+# - Medium Armor: armor AC + Dex modifier (max +2)
+# - Heavy Armor: armor AC (no Dex modifier)
+# - Shield: +2 AC
+
+# ====================
+# PROFICIENCIES
+# ====================
+
+proficiencies:
+  armor: [string]               # Armor proficiencies (light, medium, heavy, shields)
+  weapons: [string]             # Weapon proficiencies (simple, martial, specific weapons)
+  savingThrows: [string]        # Proficient saving throws (2 abilities per class)
+  skills: [string]              # Proficient skills (see skill list below)
+  tools: [string]               # Tool proficiencies (thieves' tools, smith's tools, etc.)
+  languages: [string]           # Known languages (Common, Elvish, Dwarvish, etc.)
+
+proficiencyBonus: integer       # Auto-calculated based on level: ceil(level/4) + 1
+
+# Proficiency Bonus by Level:
+# - Levels 1-4: +2
+# - Levels 5-8: +3
+# - Levels 9-12: +4
+# - Levels 13-16: +5
+# - Levels 17-20: +6
+
+# D&D 5e Skills:
+# - Acrobatics (Dex), Animal Handling (Wis), Arcana (Int), Athletics (Str)
+# - Deception (Cha), History (Int), Insight (Wis), Intimidation (Cha)
+# - Investigation (Int), Medicine (Wis), Nature (Int), Perception (Wis)
+# - Performance (Cha), Persuasion (Cha), Religion (Int), Sleight of Hand (Dex)
+# - Stealth (Dex), Survival (Wis)
+
+# ====================
+# SPELLCASTING (for spellcasters)
+# ====================
+
+spellcasting:
+  ability: string               # Spellcasting ability (intelligence, wisdom, charisma) or null if non-caster
+  spellSaveDC: integer          # Auto-calculated: 8 + proficiency bonus + spellcasting ability modifier
+  spellAttackBonus: integer     # Auto-calculated: proficiency bonus + spellcasting ability modifier
+  spellSlots:
+    1: integer                  # 1st level spell slots (current/max)
+    2: integer                  # 2nd level spell slots
+    3: integer                  # 3rd level spell slots
+    4: integer                  # 4th level spell slots
+    5: integer                  # 5th level spell slots
+    6: integer                  # 6th level spell slots
+    7: integer                  # 7th level spell slots
+    8: integer                  # 8th level spell slots
+    9: integer                  # 9th level spell slots
+  spellsPrepared: [string]      # List of spell IDs currently prepared (for Clerics, Druids, Wizards)
+  knownSpells: [string]         # List of spell IDs known (for Bards, Sorcerers, Warlocks)
+  cantrips: [string]            # List of cantrip spell IDs
+
+# Note: Non-spellcasters should have spellcasting: null
+
+# Spell Slots by Class and Level (sample for level 5):
+# - Wizard/Cleric level 5: {1: 4, 2: 3, 3: 2}
+# - Fighter level 5: null (no spellcasting)
+
+# ====================
+# INVENTORY & EQUIPMENT
+# ====================
+
+inventory:
+  equipped:
+    armor: string               # Equipped armor item ID (e.g., "chain_mail") or null
+    mainHand: string            # Main hand weapon/item ID or null
+    offHand: string             # Off-hand weapon/shield ID or null
+    ring1: string               # Ring slot 1 or null
+    ring2: string               # Ring slot 2 or null
+    amulet: string              # Amulet/necklace slot or null
+    cloak: string               # Cloak slot or null
+    boots: string               # Boots slot or null
+    gloves: string              # Gloves slot or null
+    helm: string                # Helmet slot or null
+  backpack: [object]            # List of items in backpack/inventory
+    # Each item:
+    # - item: string (item ID)
+    # - quantity: integer
+  currency:
+    platinum: integer           # Platinum pieces (pp)
+    gold: integer               # Gold pieces (gp)
+    electrum: integer           # Electrum pieces (ep)
+    silver: integer             # Silver pieces (sp)
+    copper: integer             # Copper pieces (cp)
+
+weight:
+  current: number               # Current encumbrance (lbs) - auto-calculated from inventory
+  capacity: integer             # Carrying capacity (lbs) = Strength × 15
+  pushDragLift: integer         # Push/drag/lift capacity = Strength × 30
+
+# Encumbrance Rules:
+# - Normal: current ≤ capacity (no penalty)
+# - Encumbered: capacity < current ≤ 2×capacity (speed -10ft)
+# - Heavily Encumbered: 2×capacity < current ≤ 3×capacity (speed -20ft, disadvantage on ability checks/attacks/saves using Str/Dex/Con)
+# - Immobile: current > 3×capacity (cannot move)
+
+# ====================
+# CONDITIONS & STATUS EFFECTS
+# ====================
+
+conditions: [string]            # Active conditions (poisoned, frightened, prone, etc.)
+
+# D&D 5e Conditions:
+# - Blinded, Charmed, Deafened, Exhaustion, Frightened, Grappled
+# - Incapacitated, Invisible, Paralyzed, Petrified, Poisoned
+# - Prone, Restrained, Stunned, Unconscious
+
+exhaustionLevel: integer        # Exhaustion level (0-6; 6 = death)
+
+# Exhaustion Effects:
+# - 1: Disadvantage on ability checks
+# - 2: Speed halved
+# - 3: Disadvantage on attack rolls and saving throws
+# - 4: Hit point maximum halved
+# - 5: Speed reduced to 0
+# - 6: Death
+
+# ====================
+# ATTUNEMENT
+# ====================
+
+attunement:
+  items: [string]               # List of attuned magic item IDs
+  max: integer                  # Maximum attunement slots (always 3 for D&D 5e)
+
+# ====================
+# CLASS FEATURES & ABILITIES
+# ====================
+
+features: [object]              # List of class features, racial traits, feats
+  # Each feature:
+  # - name: string (feature name)
+  # - description: string (what the feature does)
+  # - uses: integer (current uses, if limited)
+  # - maxUses: integer (max uses per rest/day)
+  # - recharge: string (short_rest, long_rest, dawn, etc.)
+
+# Example features:
+# - Fighter: Action Surge (uses: 1, maxUses: 1, recharge: short_rest)
+# - Fighter: Second Wind (uses: 1, maxUses: 1, recharge: short_rest)
+# - Rogue: Sneak Attack (uses: unlimited, maxUses: null)
+# - Wizard: Arcane Recovery (uses: 1, maxUses: 1, recharge: long_rest)
+
+# ====================
+# DEATH SAVES
+# ====================
+
+deathSaves:
+  successes: integer            # Death save successes (0-3)
+  failures: integer             # Death save failures (0-3)
+
+# Death Save Rules:
+# - When at 0 HP, roll d20 at start of turn (no modifiers)
+# - 10+: Success, <10: Failure
+# - Natural 20: Regain 1 HP (conscious)
+# - Natural 1: 2 failures
+# - 3 successes: Stabilized (0 HP, unconscious, stable)
+# - 3 failures: Dead
+
+# ====================
+# INSPIRATION
+# ====================
+
+inspiration: boolean            # Has inspiration? (true/false)
+
+# Inspiration:
+# - Granted by DM for exceptional roleplay
+# - Can spend to gain advantage on one roll
+# - Can only have 1 at a time (doesn't stack)
+
+# ====================
+# METADATA
+# ====================
+
+metadata:
+  created: string               # ISO 8601 timestamp of character creation
+  lastPlayed: string            # ISO 8601 timestamp of last play session
+  campaign: string              # Campaign name (e.g., "curse-of-strahd")
+  playerId: string              # Player ID (for multi-player support in future)
+  notes: string                 # Free-form character notes
+
+# ====================
+# EXAMPLE CHARACTER
+# ====================
+
+# Below is a complete example of a level 3 Fighter:
+
+example_character:
+  name: "Kapi the Brave"
+  race: "Human"
+  class: "Fighter"
+  level: 3
+  experience: 1200
+  background: "Soldier"
+  alignment: "Lawful Good"
+
+  abilities:
+    strength: 16
+    dexterity: 14
+    constitution: 15
+    intelligence: 10
+    wisdom: 12
+    charisma: 8
+
+  hitPoints:
+    max: 31                     # 10 (level 1) + 7 (level 2) + 7 (level 3) + 7 (Con bonus ×3)
+    current: 24
+    temporary: 0
+    hitDice:
+      total: 3                  # Level 3 = 3 hit dice
+      spent: 1                  # 1 spent, 2 remaining
+      die: "d10"                # Fighter hit die
+
+  armorClass: 18                # 10 + 2 (Dex) + 16 (Chain Mail) - 10 (no Dex for heavy) = 16 + 2 (shield) = 18
+
+  proficiencies:
+    armor: ["light", "medium", "heavy", "shields"]
+    weapons: ["simple", "martial"]
+    savingThrows: ["strength", "constitution"]
+    skills: ["athletics", "perception", "survival"]
+    tools: ["dice_set", "vehicles_land"]
+    languages: ["Common", "Dwarvish"]
+
+  proficiencyBonus: 2           # Level 3 = +2
+
+  spellcasting: null            # Fighters don't cast spells (until level 3 Eldritch Knight, not implemented)
+
+  inventory:
+    equipped:
+      armor: "chain_mail"
+      mainHand: "longsword"
+      offHand: "shield"
+      ring1: null
+      ring2: null
+      amulet: null
+      cloak: "cloak_of_protection"
+      boots: null
+      gloves: null
+      helm: null
+    backpack:
+      - item: "rope_hemp_50ft"
+        quantity: 1
+      - item: "rations"
+        quantity: 10
+      - item: "torch"
+        quantity: 5
+      - item: "bedroll"
+        quantity: 1
+      - item: "tinderbox"
+        quantity: 1
+    currency:
+      platinum: 0
+      gold: 150
+      electrum: 0
+      silver: 23
+      copper: 8
+
+  weight:
+    current: 95.5               # Chain mail (55) + longsword (3) + shield (6) + backpack items (31.5)
+    capacity: 240               # Strength 16 × 15 = 240 lbs
+    pushDragLift: 480           # Strength 16 × 30 = 480 lbs
+
+  conditions: []                # No active conditions
+
+  exhaustionLevel: 0            # No exhaustion
+
+  attunement:
+    items: ["cloak_of_protection"]
+    max: 3
+
+  features:
+    - name: "Fighting Style (Defense)"
+      description: "+1 AC while wearing armor"
+      uses: null
+      maxUses: null
+      recharge: null
+    - name: "Second Wind"
+      description: "Regain 1d10 + fighter level HP as bonus action"
+      uses: 1
+      maxUses: 1
+      recharge: "short_rest"
+    - name: "Action Surge"
+      description: "Take one additional action on your turn"
+      uses: 1
+      maxUses: 1
+      recharge: "short_rest"
+
+  deathSaves:
+    successes: 0
+    failures: 0
+
+  inspiration: false
+
+  metadata:
+    created: "2025-11-09T10:00:00Z"
+    lastPlayed: "2025-11-09T14:30:00Z"
+    campaign: "curse-of-strahd"
+    playerId: "kapi"
+    notes: "Human fighter dedicated to protecting the innocent. Former soldier turned adventurer."
+
+# ====================
+# VALIDATION RULES
+# ====================
+
+# When validating a character sheet:
+# 1. Ability scores: Must be 1-20
+# 2. Level: Must be 1-20
+# 3. HP: current ≤ max, temporary ≥ 0
+# 4. Hit dice: spent ≤ total
+# 5. Spell slots: All values ≥ 0
+# 6. Weight: Enforce encumbrance rules
+# 7. Attunement: items.length ≤ max (always 3)
+# 8. Death saves: successes and failures ≤ 3 each
+# 9. Exhaustion: 0-6
+# 10. Proficiency bonus: Auto-calculate from level
+# 11. Spell save DC: Auto-calculate if spellcaster
+# 12. Feature uses: uses ≤ maxUses
+
+# ====================
+# DATA SYNCHRONIZATION
+# ====================
+
+# Volatile vs. Permanent Data:
+#
+# PERMANENT (stored in characters/[name].yaml):
+# - name, race, class, level, experience
+# - abilities (ability scores)
+# - proficiencies
+# - features
+# - metadata
+#
+# VOLATILE (stored in State.md for active character):
+# - hitPoints.current, hitPoints.temporary
+# - spellcasting.spellSlots (current slots)
+# - inventory.equipped, inventory.backpack, currency
+# - conditions
+# - deathSaves
+# - feature uses (current)
+#
+# RATIONALE:
+# - Permanent data rarely changes (level ups, new features)
+# - Volatile data changes every session (HP, spell slots, inventory)
+# - State.md is location-specific and session-specific
+# - characters/[name].yaml is the "base template" for the character
+#
+# SYNCHRONIZATION STRATEGY:
+# - At session start: Load base from characters/[name].yaml, overlay volatile from State.md
+# - During session: Update volatile data in memory
+# - At session end: Save volatile data to State.md, save permanent changes to characters/[name].yaml
+# - On long rest: Restore spell slots, clear temp HP, reset feature uses → save to both files
+
+# ====================
+# FUTURE ENHANCEMENTS (Epic 5+)
+# ====================
+
+# Not in MVP, deferred to later epics:
+# - Multiclassing (e.g., Fighter 5 / Rogue 3)
+# - Feats (optional rule)
+# - Custom backgrounds
+# - Variant rules (flanking, etc.)
+# - Sidekicks/companions
+# - Party/group management

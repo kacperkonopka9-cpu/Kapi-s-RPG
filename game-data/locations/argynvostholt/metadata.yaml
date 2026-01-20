@@ -1,0 +1,66 @@
+location_name: "Argynvostholt"
+location_type: ruined_mansion
+location_level: building
+region: svalich_woods
+parent_location: null
+sub_locations: []
+danger_level: 4
+recommended_level: 7-9
+quest_critical: true
+
+description_short: "Ruined mansion of the Order of the Silver Dragon, now home to revenants consumed by hatred for Strahd. Contains Argynvost's skull and the beacon that can summon his spirit."
+
+connected_locations:
+  - name: "Vallaki"
+    direction: east
+    travel_time: "3 hours on foot"
+    terrain: forest_path
+    notes: "Main route from Vallaki region"
+
+points_of_interest:
+  - "Grand Chapel (Argynvost's skull mounted above altar)"
+  - "Dragon Mausoleum (basement, empty sarcophagus)"
+  - "Beacon Tower (can be lit if skull returned)"
+  - "Vladimir's Chamber (order leader's room, treasury)"
+  - "Phantom Battlefields (ghostly echoes of last stand)"
+
+major_npcs:
+  - vladimir_horngaard
+  - godfrey_gwilym
+  - argynvost_revenants
+
+primary_quests:
+  - "Return Argynvost's skull to mausoleum"
+  - "Light the beacon to summon dragon's spirit"
+  - "Receive Argynvost's blessing against Strahd"
+
+secondary_quests:
+  - "Convince or defeat Vladimir Horngaard"
+  - "Ally with Sir Godfrey Gwilym"
+  - "Put revenants to rest"
+  - "Recover Order's treasury"
+
+environmental_hazards:
+  - "Revenant encounters (CR 5, rejuvenate)"
+  - "Animated gargoyles (CR 2)"
+  - "Unstable floors (2d6 fall damage)"
+  - "Phantom warriors (hostile if disturbed)"
+
+treasure_value: moderate
+treasure_notes: "Order's treasury (3,000 gp, magic items). Primary reward is Argynvost's Blessing (+1 AC/saves vs. Strahd)."
+
+boss_encounters:
+  - name: "Vladimir Horngaard"
+    cr: 5
+    optional: conditional
+    notes: "Opposes lighting beacon. Can be negotiated with (DC 18) or fought."
+
+token_count: 875
+last_validated: null
+validation_status: pending
+
+lore_significance: |
+  The Order of the Silver Dragon was founded by Argynvost to oppose Strahd. They failed, and the dragon fell in battle. Now their spirits remain as revenants, consumed by hatred. Vladimir believes eternal torment for Strahd is superior to giving him the release of death.
+
+dm_notes: |
+  Argynvostholt tests negotiation and moral reasoning. Vladimir's philosophy (eternal torment > death) is twisted but not entirely wrong. Parties must decide: honor the revenants' wishes or light the beacon for tactical advantage. Godfrey represents the Order's original ideals and can become ally if party proves worthy.

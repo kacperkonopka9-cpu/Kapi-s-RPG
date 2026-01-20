@@ -1,0 +1,367 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>4</storyId>
+    <title>Enhanced Slash Commands</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-21</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-4-enhanced-slash-commands.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player running a Curse of Strahd solo campaign</asA>
+    <iWant>enhanced slash commands (`/start-session`, `/end-session`, `/travel`, `/rest`, `/context`) that orchestrate game systems (context loading, calendar advancement, event execution, Git commits) with clear feedback and error handling</iWant>
+    <soThat>I can manage gameplay sessions seamlessly with simple commands instead of manually coordinating multiple Epic 1-4 systems</soThat>
+    <tasks>
+### Task 1: Create VS Code Extension Structure (AC: #1)
+- Subtask 1.1: Create `extensions/kapis-rpg-dm/` directory
+- Subtask 1.2: Create `extensions/kapis-rpg-dm/package.json` with extension manifest
+- Subtask 1.3: Create `extensions/kapis-rpg-dm/src/` directory for TypeScript sources
+- Subtask 1.4: Create `extensions/kapis-rpg-dm/src/extension.ts` with extension activation logic
+- Subtask 1.5: Create `extensions/kapis-rpg-dm/tsconfig.json` for TypeScript compilation
+
+### Task 2: Implement CommandRegistry Module (AC: #1)
+- Subtask 2.1-2.8: Define CommandDefinition, CommandArg, CommandResult interfaces; implement CommandRegistry class with registerCommand(), executeCommand(), listCommands()
+
+### Task 3: Implement /start-session Command (AC: #2)
+- Subtask 3.1-3.10: Create start-session.ts handler; validate character/location; integrate ContextLoader, PromptTemplateEngine; create session state file
+
+### Task 4: Implement /end-session Command (AC: #2)
+- Subtask 4.1-4.10: Create end-session.ts handler; call SessionLogger, GitIntegration (stubs OK); save session log; update session history
+
+### Task 5: Implement /travel Command (AC: #3)
+- Subtask 5.1-5.13: Create travel.ts handler; validate destination; integrate CalendarManager, EventScheduler; reload context for new location
+
+### Task 6: Implement /rest Command (AC: #3)
+- Subtask 6.1-6.12: Create rest.ts handler; validate rest type; integrate CalendarManager, EventScheduler, Epic 3 rest mechanics; handle interruptions
+
+### Task 7: Implement Context Management Commands (AC: #4)
+- Subtask 7.1-7.7: Create context-show.ts, context-reload.ts, context-reduce.ts handlers; display/reload/reduce context operations
+
+### Task 8: Implement Command Error Handling (AC: #5)
+- Subtask 8.1-8.8: Implement argument validation, session requirement checks, error logging, user-friendly error messages
+
+### Task 9: Integration Testing (AC: #6, #7)
+- Subtask 9.1-9.17: Create 7 test suites (registry, session commands, navigation, context, error handling, epic integration, performance); 50+ tests target
+
+### Task 10: Documentation and Story Completion (AC: #7)
+- Subtask 10.1-10.8: Create docs/slash-commands-guide.md; add TypeScript type definitions; verify all ACs met; mark story as "review"
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**AC-1: CommandRegistry Module Implemented**
+- `extensions/kapis-rpg-dm/src/commands/registry.ts` module created with CommandRegistry class
+- Registry supports command registration with metadata: `{commandId, name, category, args, handler, requiresSession}`
+- `registerCommand(definition)` method validates command definitions and adds to registry
+- `executeCommand(commandId, ...args)` method routes to appropriate handler, validates session requirement
+- Returns Result Object: `{success: true, data?: any}` or `{success: false, error: string}`
+- Supports command auto-completion in VS Code command palette
+
+**AC-2: Session Management Commands Implemented**
+- **`/start-session [location] [character]`**: Validates character/location, calls ContextLoader, PromptTemplateEngine, creates session state file (<2 min target)
+- **`/end-session [summary]`**: Calls SessionLogger, GitIntegration (stubs OK), saves session log, updates session history (<30 sec target)
+
+**AC-3: Location Navigation Commands Implemented**
+- **`/travel [destination]`**: Validates destination, calls CalendarManager.advanceTime(), EventScheduler.checkTriggers(), reloads context for new location (<10 sec target)
+- **`/rest [short|long]`**: Validates rest type, calls CalendarManager, EventScheduler, Epic 3 rest mechanics (HP/spell recovery), handles interruptions (<5 sec target)
+
+**AC-4: Context Management Commands Implemented**
+- **`/context show`**: Displays context metadata (token count, loaded priorities, cache hit rate, entity list)
+- **`/context reload`**: Clears ContextCache, reloads context from disk
+- **`/context reduce`**: Drops P3 content, then P2 if needed to fit token budget
+
+**AC-5: Command Error Handling and Validation**
+- All commands validate arguments before execution; missing/invalid arguments return clear error messages with usage hints
+- Session requirement violations return actionable errors
+- Integration failures (Epic 1-4 system calls) caught, logged to error.log, user-friendly messages returned
+- File I/O errors handled gracefully with actionable guidance
+
+**AC-6: Integration with Epic 1-4 Systems**
+- `/start-session` integrates: ContextLoader (Story 5-1), PromptTemplateEngine (Story 5-3), SessionManager (Story 5-6, stub OK)
+- `/travel` integrates: CalendarManager (Epic 2), EventScheduler (Epic 2), StateManager (Epic 1), ContextLoader (Story 5-1)
+- `/rest` integrates: CalendarManager (Epic 2), Epic 3 rest mechanics, EventScheduler (Epic 2)
+- `/end-session` integrates: SessionLogger (Story 5-6, stub OK), GitIntegration (Story 5-6, stub OK)
+- All integrations use Result Object pattern; no modifications to Epic 1-4 code
+
+**AC-7: Command Testing and Documentation**
+- 7 test suites: Command Registration, Session Commands, Navigation Commands, Context Commands, Error Handling, Epic Integration, Performance
+- Target: 50+ tests, 100% pass rate
+- Documentation: Create `docs/slash-commands-guide.md` with command reference, examples, troubleshooting
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>AC-4: Enhanced Slash Commands Implemented</section>
+        <snippet>AC-4 specifies 5 enhanced commands: /start-session (initialize session with context loading, &lt;2 min), /end-session (save state, generate log, Git commit, &lt;30 sec), /travel (location transitions with calendar/events, &lt;10 sec), /rest (short/long rest with Epic 3 mechanics, &lt;5 sec), /context (show/reload/reduce context management). All commands return Result Objects {success, data, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>VS Code Extension Architecture (lines 120-144)</section>
+        <snippet>Extension structure: extensions/kapis-rpg-dm/ with TypeScript sources. Command handlers follow pattern: (context: vscode.ExtensionContext, ...args) =&gt; Promise&lt;CommandResult&gt;. CommandRegistry routes commands to handlers based on commandId.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>Workflows and Sequencing (lines 604-703)</section>
+        <snippet>Session Initialization workflow (10 steps): Load character → Validate → Load location → ContextLoader.loadContext() → PromptTemplateEngine.renderTemplate() → Create session state → Display narration. Travel workflow: Validate destination → Calculate travel time → CalendarManager.advanceTime() → EventScheduler.checkTriggers() → Reload context → Render arrival. Session End workflow: SessionLogger.generateSummary() → Save log → GitIntegration.commitSession() → Update session history.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>Result Object Pattern</section>
+        <snippet>All async operations return {success: boolean, data?: any, error?: string} instead of throwing exceptions. Forces explicit error handling, consistent interface across all modules.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-loading-design.md</path>
+        <title>Context Loading Strategy</title>
+        <section>Priority System</section>
+        <snippet>P1 (Always Load): Character sheet, current location Description + State, calendar. P2 (Conditional): NPCs in current + adjacent locations, upcoming events (next 7 days), active quests. P3 (Deferred): Full Events.md, distant NPCs, completed quests. Token budget: 3500 soft limit, 4000 hard limit.</snippet>
+      </doc>
+      <doc>
+        <path>docs/prompt-template-guide.md</path>
+        <title>Prompt Template Guide</title>
+        <section>PromptTemplateEngine API</section>
+        <snippet>renderTemplate(templateId, context) renders templates with {{variable}} substitution. Available templates: location-initial-visit (P1, 800 tokens), location-return (P1, 600 tokens), npc-dialogue (P2, 400 tokens). Returns {success, data: {prompt, tokenCount}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/calendar-schema-design.md</path>
+        <title>Calendar Schema Design</title>
+        <section>CalendarManager API</section>
+        <snippet>CalendarManager.advanceTime(duration) advances in-game calendar by specified time (hours). Updates: currentDate, currentTime, day_of_week, moon_phase, weather. Triggers EventScheduler.checkTriggers() to detect time-based events.</snippet>
+      </doc>
+      <doc>
+        <path>docs/event-triggering-architecture.md</path>
+        <title>Event Triggering Architecture</title>
+        <section>EventScheduler</section>
+        <snippet>EventScheduler.checkTriggers() evaluates event trigger conditions: date/time triggers, conditional triggers (quest completed, NPC status changed), location triggers (player enters location), recurring triggers (daily, weekly). Returns list of triggered events for execution.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-1-intelligent-context-loader.md</path>
+        <title>Story 5.1: Intelligent Context Loader</title>
+        <section>Completion Notes</section>
+        <snippet>ContextLoader.loadContext(characterPath, locationId, sessionState, tokenBudget) assembles game context with priority filtering. Smart NPC filtering (current + adjacent locations), event filtering (next 7 days), token budget enforcement. Returns ContextObject with metadata, character, location, npcs, events, quests, contextMarkdown.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-3-llm-prompt-templates.md</path>
+        <title>Story 5.3: LLM Prompt Templates</title>
+        <section>Completion Notes</section>
+        <snippet>PromptTemplateEngine.renderTemplate(templateId, context) loads template file, substitutes {{variables}}, prepends DM persona, estimates token count. Supports simple variables, nested objects, array iteration {{#each}}, optional defaults {{var || "default"}}. Result Object pattern: {success, data: {prompt, tokenCount}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/2-5-calendar-slash-commands.md</path>
+        <title>Story 2.5: Calendar Slash Commands</title>
+        <section>Implementation</section>
+        <snippet>Slash command pattern: Command handler validates arguments → Calls Epic 2 system (CalendarManager) → Updates game state → Returns Result Object with success/error. Example: /advance-time integrates CalendarManager.advanceTime() and EventScheduler.checkTriggers().</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-13-rest-mechanics.md</path>
+        <title>Story 3.13: Rest Mechanics</title>
+        <section>D&amp;D 5e RAW Implementation</section>
+        <snippet>Short rest (1 hour): Spend hit dice to recover HP (roll 1d8 + CON per die), no spell slot recovery. Long rest (8 hours): Recover all HP, recover half max hit dice (rounded down), recover all spell slots, reset death saves. If rest interrupted (combat, strenuous activity &gt;1 hour), rest aborted with no benefits.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>CLAUDE.md - Project Patterns</title>
+        <section>Result Object Pattern</section>
+        <snippet>All async methods return {success, data, error} objects instead of throwing exceptions. Always check success before accessing data. Graceful error handling without try/catch boilerplate. Consistent interface across all async operations.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/context/context-loader.js</path>
+        <kind>service</kind>
+        <symbol>ContextLoader.loadContext</symbol>
+        <lines>470-650</lines>
+        <reason>Primary integration point for Story 5.4 /start-session and /travel commands. Assembles game context with priority filtering.</reason>
+      </artifact>
+      <artifact>
+        <path>src/prompts/template-engine.js</path>
+        <kind>service</kind>
+        <symbol>PromptTemplateEngine.renderTemplate</symbol>
+        <lines>518-610</lines>
+        <reason>Required for /start-session and /travel to render narrative prompts (location-initial-visit, location-arrival templates).</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager.advanceTime</symbol>
+        <lines>unknown</lines>
+        <reason>Required for /travel and /rest commands to advance in-game calendar by specified duration (hours).</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler.checkTriggers</symbol>
+        <lines>unknown</lines>
+        <reason>Required for /travel and /rest to detect triggered events (random encounters, interruptions) during time advancement.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager.loadState, StateManager.saveState</symbol>
+        <lines>unknown</lines>
+        <reason>Required for /travel to persist location state changes. Follows Epic 1 state persistence pattern.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/context-cache.js</path>
+        <kind>service</kind>
+        <symbol>ContextCache.clear</symbol>
+        <lines>unknown</lines>
+        <reason>Required for /context reload command to invalidate all cached context entries.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <runtime>Node.js 18+</runtime>
+        <package>
+          <name>js-yaml</name>
+          <version>^4.1.0</version>
+          <usage>Parse YAML session state files (current-session.yaml, session-history.yaml)</usage>
+        </package>
+        <package>
+          <name>date-fns</name>
+          <version>^2.30.0</version>
+          <usage>Date manipulation for calendar system integration (format session timestamps)</usage>
+        </package>
+        <package>
+          <name>chokidar</name>
+          <version>^3.5.0</version>
+          <usage>File system watching for context cache invalidation</usage>
+        </package>
+        <package>
+          <name>jest</name>
+          <version>^29.7.0</version>
+          <usage>Test framework for command handler integration tests</usage>
+        </package>
+      </node>
+      <vscode>
+        <engine>vscode ^1.80.0</engine>
+        <framework>VS Code Extension API</framework>
+        <description>Extension commands, webviews, context management, file system access</description>
+      </vscode>
+      <typescript>
+        <version>5.x (recommended for VS Code extensions)</version>
+        <config>tsconfig.json with target ES2020, module commonjs, strict mode</config>
+      </typescript>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- **Result Object Pattern (Epic 1-5 Standard):** All command handlers must return {success: boolean, data?: any, error?: string}. Never throw exceptions in business logic.
+- **Dependency Injection Pattern:** Command handlers accept Epic system dependencies via constructor for testability (mock CalendarManager, EventScheduler in tests).
+- **Session State Requirement:** /travel, /rest, /end-session require active session (current-session.yaml exists). If missing, return error "No active session. Run /start-session first."
+- **No Epic 1-4 Modifications:** Story 5.4 is pure integration layer. Call existing Epic APIs only, no changes to CalendarManager, EventScheduler, StateManager, or Epic 3 mechanics.
+- **Performance Targets:** /start-session &lt;2 min (95th percentile), /travel &lt;10 sec (no encounters), /rest &lt;5 sec (uninterrupted), /end-session &lt;30 sec. Log to performance.log if exceeded by &gt;50%.
+- **TypeScript for Extension:** VS Code extension code in TypeScript (tsconfig.json, .ts files). Compile to JavaScript for distribution.
+- **Error Handling:** All Epic system calls wrapped in try/catch. Log errors to error.log with context (command name, args, stack trace). Return user-friendly error messages (no technical details).
+- **File-First Design:** Session state persists in game-data/session/current-session.yaml (YAML file). Session logs saved to game-data/session/logs/*.md (markdown files).
+- **Git Integration Stubs:** Story 5.4 creates stub implementations for SessionLogger.generateSummary() and GitIntegration.commitSession(). Full implementations in Story 5-6.
+- **Test Coverage Target:** 75% for command handlers (critical path modules). 50+ integration tests across 7 test suites.
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>ContextLoader.loadContext</name>
+      <kind>function signature</kind>
+      <signature>async loadContext(characterPath: string, locationId: string, sessionState: object, tokenBudget: number): Promise&lt;Result&lt;ContextObject&gt;&gt;</signature>
+      <path>src/context/context-loader.js</path>
+    </interface>
+    <interface>
+      <name>PromptTemplateEngine.renderTemplate</name>
+      <kind>function signature</kind>
+      <signature>async renderTemplate(templateId: string, context: ContextObject): Promise&lt;Result&lt;{prompt: string, tokenCount: number}&gt;&gt;</signature>
+      <path>src/prompts/template-engine.js</path>
+    </interface>
+    <interface>
+      <name>CalendarManager.advanceTime</name>
+      <kind>function signature</kind>
+      <signature>async advanceTime(duration: number): Promise&lt;Result&lt;{newDate: string, newTime: string}&gt;&gt;</signature>
+      <path>src/calendar/calendar-manager.js</path>
+    </interface>
+    <interface>
+      <name>EventScheduler.checkTriggers</name>
+      <kind>function signature</kind>
+      <signature>async checkTriggers(): Promise&lt;Result&lt;{triggeredEvents: Event[]}&gt;&gt;</signature>
+      <path>src/calendar/event-scheduler.js</path>
+    </interface>
+    <interface>
+      <name>CommandResult</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface CommandResult { success: boolean; message?: string; data?: any; error?: Error; }</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/registry.ts</path>
+    </interface>
+    <interface>
+      <name>CommandDefinition</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface CommandDefinition { commandId: string; name: string; category: string; args: CommandArg[]; handler: (context: vscode.ExtensionContext, ...args: any[]) =&gt; Promise&lt;CommandResult&gt;; requiresSession: boolean; }</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/registry.ts</path>
+    </interface>
+    <interface>
+      <name>SessionState</name>
+      <kind>YAML schema</kind>
+      <signature>sessionId, startTime, character: {filePath, snapshotHash}, location: {currentLocationId, visitedThisSession}, npcs: {activeNPCs, interactedWith}, context: {lastLoadedAt, tokensUsed, cacheKeys}, calendar: {sessionStartDate, sessionStartTime, timePassed}</signature>
+      <path>game-data/session/current-session.yaml</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Jest 29.7.0 for all integration tests. Follow AAA pattern (Arrange-Act-Assert). Test files mirror source structure (tests/commands/ for extensions/kapis-rpg-dm/src/commands/). Mock Epic 1-4 systems for unit tests, use real systems for integration tests. Result Object pattern: always test both success and error paths. Coverage target: 75% for command handlers. Performance tests: measure execution times, verify targets met (&lt;2 min session startup, &lt;10 sec travel, &lt;5 sec rest, &lt;30 sec session end). TypeScript tests use ts-jest for compilation.</standards>
+    <locations>
+      <dir>tests/commands/</dir>
+      <pattern>tests/commands/**/*.test.js</pattern>
+      <pattern>tests/integration/commands/*.test.ts</pattern>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">
+        <test>CommandRegistry.registerCommand() validates command definitions (missing fields, duplicate commandIds)</test>
+        <test>CommandRegistry.executeCommand() routes to correct handler based on commandId</test>
+        <test>CommandRegistry.executeCommand() validates session requirement (requiresSession: true blocks execution if no current-session.yaml)</test>
+      </idea>
+      <idea ac="AC-2">
+        <test>/start-session with valid character and location creates session state file, calls ContextLoader, PromptTemplateEngine, returns success</test>
+        <test>/start-session with invalid character file path returns error "Character file not found"</test>
+        <test>/start-session with invalid location ID returns error "Location not found"</test>
+        <test>/end-session without active session returns error "No active session"</test>
+        <test>/end-session with summary creates session log, calls GitIntegration stub, deletes current-session.yaml</test>
+      </idea>
+      <idea ac="AC-3">
+        <test>/travel with valid destination advances calendar, checks event triggers, reloads context for new location</test>
+        <test>/travel with invalid destination returns error "Invalid destination: not in connections"</test>
+        <test>/travel triggers random encounter: pauses travel, executes encounter event, resumes travel after resolution</test>
+        <test>/rest short completes uninterrupted: advances calendar 1 hour, recovers HP via hit dice, no spell slots</test>
+        <test>/rest long completes uninterrupted: advances calendar 8 hours, recovers all HP, recovers all spell slots</test>
+        <test>/rest interrupted by event: displays interruption message, aborts rest, no benefits granted</test>
+      </idea>
+      <idea ac="AC-4">
+        <test>/context show displays token count, loaded priorities (P1/P2/P3), cache hit rate, entity list</test>
+        <test>/context reload clears ContextCache, reloads context from disk, displays new token count</test>
+        <test>/context reduce drops P3 content, recalculates tokens, displays new utilization</test>
+        <test>/context reduce with token budget still exceeded after P3 drop: drops P2 content</test>
+      </idea>
+      <idea ac="AC-5">
+        <test>Command with missing required argument returns error with usage hint</test>
+        <test>Command with invalid argument type returns error "Invalid argument: expected string, got number"</test>
+        <test>Integration failure (CalendarManager throws): logs to error.log, returns user-friendly error message</test>
+        <test>File I/O error (cannot write session state): returns "Cannot write to session state file - check permissions"</test>
+      </idea>
+      <idea ac="AC-6">
+        <test>/start-session integrates ContextLoader: verify loadContext() called with correct args (characterPath, locationId, sessionState, 3500)</test>
+        <test>/travel integrates CalendarManager: verify advanceTime() called with travel duration</test>
+        <test>/travel integrates EventScheduler: verify checkTriggers() called after time advancement</test>
+        <test>/rest integrates Epic 3 rest mechanics: verify HP recovered per D&amp;D 5e rules (short: hit dice, long: full HP)</test>
+        <test>Epic 1-4 regression test: run all Epic test suites, verify 100% pass rate (no breaking changes)</test>
+      </idea>
+      <idea ac="AC-7">
+        <test>Performance test: measure /start-session execution time over 10 runs, calculate 95th percentile, verify &lt;2 minutes</test>
+        <test>Performance test: measure /travel execution time (no encounters), verify &lt;10 seconds</test>
+        <test>Performance test: measure /rest execution time (uninterrupted), verify &lt;5 seconds</test>
+        <test>Performance test: measure /end-session execution time, verify &lt;30 seconds</test>
+        <test>Documentation test: verify docs/slash-commands-guide.md exists with all 5 commands documented</test>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>

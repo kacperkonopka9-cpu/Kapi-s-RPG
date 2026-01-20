@@ -1,0 +1,465 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>6</storyId>
+    <title>Session Management & Logging System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-22</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-6-session-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player of Kapi's RPG</asA>
+    <iWant>a session management system that initializes, tracks, and saves my game sessions</iWant>
+    <soThat>I can start/end sessions seamlessly, have my progress auto-saved, and recover from crashes without losing gameplay data</soThat>
+    <tasks>
+      <task id="1" name="SessionManager Core Implementation">
+        <subtask id="1.1">Create src/session/session-manager.js with class structure</subtask>
+        <subtask id="1.2">Implement startSession() method (10 substeps: validate inputs, load character/calendar, create session state, save YAML, start auto-save, return Result Object)</subtask>
+        <subtask id="1.3">Implement endSession() method (9 substeps: load session, generate log, update history, commit Git, delete session file, clear cache, stop timer, return result)</subtask>
+        <subtask id="1.4">Implement updateSession() method (5 substeps: load, merge updates, update timestamp, save atomically, return)</subtask>
+        <subtask id="1.5">Implement getCurrentSession() method (3 substeps: check file exists, parse YAML, return state or null)</subtask>
+        <subtask id="1.6">Implement auto-save timer logic (5 substeps: startAutoSave, setInterval, read VS Code setting, stopAutoSave, log events)</subtask>
+      </task>
+      <task id="2" name="SessionLogger Implementation">
+        <subtask id="2.1">Create src/session/session-logger.js with class structure</subtask>
+        <subtask id="2.2">Implement generateSummary() method (10 substeps: calculate duration, extract character snapshot, parse locations/NPCs/events, calculate loot/XP, build markdown)</subtask>
+        <subtask id="2.3">Implement saveLog() method (4 substeps: generate filename, ensure directory exists, write file, return path)</subtask>
+      </task>
+      <task id="3" name="GitIntegration Implementation">
+        <subtask id="3.1">Create src/session/git-integration.js with class structure</subtask>
+        <subtask id="3.2">Implement checkGitAvailable() method (4 substeps: check Git installed, check repo initialized, return Result Object)</subtask>
+        <subtask id="3.3">Implement commitSession() method (9 substeps: check Git, stage files, build commit message, execute git commit, parse hash, return result, handle errors)</subtask>
+        <subtask id="3.4">Implement createSavePoint() method (7 substeps: sanitize name, build tag, check exists, prompt overwrite, execute git tag, return result)</subtask>
+        <subtask id="3.5">Implement listSavePoints() method (3 substeps: execute git tag list, parse output, return savePoints array)</subtask>
+        <subtask id="3.6">Implement rollbackToSave() method (5 substeps: verify tag exists, execute git checkout, parse changed files, return result)</subtask>
+      </task>
+      <task id="4" name="Enhanced Slash Commands Integration">
+        <subtask id="4.1">Create command handlers in extensions/kapis-rpg-dm/src/commands/session-commands.ts</subtask>
+        <subtask id="4.2">Implement /start-session command (5 substeps: parse args, call SessionManager, display success, trigger ContextLoader, display narration)</subtask>
+        <subtask id="4.3">Implement /end-session command (5 substeps: parse summary, call endSession, display summary/commit/stats)</subtask>
+        <subtask id="4.4">Implement /save command (3 substeps: parse name, call createSavePoint, display success)</subtask>
+        <subtask id="4.5">Implement /load-save command (6 substeps: list save points, display list, prompt selection, confirm, rollback, display restored files)</subtask>
+        <subtask id="4.6">Register commands in package.json (add command definitions for 4 commands)</subtask>
+        <subtask id="4.7">Register commands in extension.ts (3 substeps: import handlers, register commands, add disposables)</subtask>
+      </task>
+      <task id="5" name="Integration with Existing Systems">
+        <subtask id="5.1">Update ContextLoader (Story 5-1) to accept SessionState parameter (3 substeps: modify signature, use cacheKeys, update tokensUsed)</subtask>
+        <subtask id="5.2">Update ContextCache (Story 5-2) to track cache metadata (2 substeps: add getCacheMetadata method, update session.context.cacheKeys)</subtask>
+        <subtask id="5.3">Update Enhanced Commands (Story 5-4) integration (3 substeps: /travel updates session, /rest updates calendar, check session active)</subtask>
+        <subtask id="5.4">Integration with Epic 2 CalendarManager (2 substeps: capture calendar snapshot, calculate timePassed)</subtask>
+        <subtask id="5.5">Integration with Epic 3 CharacterManager (2 substeps: load character file, compare for XP/loot diff)</subtask>
+      </task>
+      <task id="6" name="Error Handling and Edge Cases">
+        <subtask id="6.1">Handle Git not installed (3 substeps: detect, skip commit, display warning)</subtask>
+        <subtask id="6.2">Handle Git commit failures (4 substeps: catch errors, log to error.log, return failure, continue session end)</subtask>
+        <subtask id="6.3">Handle corrupted session file (3 substeps: catch parse error, log, prompt user)</subtask>
+        <subtask id="6.4">Handle session already active (3 substeps: check file exists, prompt to end current, conditionally start new)</subtask>
+        <subtask id="6.5">Handle file permission errors (3 substeps: catch EACCES, display clear error, log to error.log)</subtask>
+      </task>
+      <task id="7" name="Testing">
+        <subtask id="7.1">Unit tests for SessionManager (6 tests: startSession, updateSession, getCurrentSession, auto-save timer, endSession, mock dependencies)</subtask>
+        <subtask id="7.2">Unit tests for SessionLogger (5 tests: generateSummary typical, generateSummary empty, saveLog, XP calculation, loot calculation)</subtask>
+        <subtask id="7.3">Unit tests for GitIntegration (6 tests: checkGitAvailable, commitSession message, createSavePoint sanitization, listSavePoints parsing, rollbackToSave command, mock execSync)</subtask>
+        <subtask id="7.4">Integration tests for session lifecycle (7 tests: full lifecycle start→update→save→end→commit, verify files created/deleted, verify history updated, verify commit created)</subtask>
+        <subtask id="7.5">Integration tests for Git operations (4 tests: createSavePoint creates tag, listSavePoints returns tags, rollbackToSave restores files, error handling)</subtask>
+        <subtask id="7.6">Integration tests for error scenarios (4 tests: corrupted YAML, session already active, Git commit failure, crash recovery)</subtask>
+        <subtask id="7.7">Performance tests (4 tests: startSession <2s, endSession <30s, auto-save <500ms, 10 full lifecycles consistent)</subtask>
+        <subtask id="7.8">Coverage targets (4 goals: SessionManager 75%+, SessionLogger 70%+, GitIntegration 70%+, Overall 70%+)</subtask>
+      </task>
+      <task id="8" name="Documentation">
+        <subtask id="8.1">Update docs/extension-development.md (5 sections: SessionManager API, SessionLogger API, GitIntegration API, session state schema, session log template)</subtask>
+        <subtask id="8.2">Update docs/slash-commands-guide.md (5 sections: /start-session, /end-session, /save, /load-save, workflow examples)</subtask>
+        <subtask id="8.3">Create docs/session-management-guide.md (6 sections: how to start/end sessions, session state files, auto-save configuration, session logs interpretation, save points/Git integration, troubleshooting)</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="SessionManager Module Implemented">
+      <given>a player starts a session with /start-session [location] [character]</given>
+      <when>SessionManager.startSession() is called</when>
+      <then>it creates game-data/session/current-session.yaml with sessionId, startTime, character file path, current location ID, empty visitedLocations/activeNPCs arrays, context cache metadata, calendar snapshot, performance metrics</then>
+      <and>it returns {success: true, sessionId, data: sessionState} (Result Object pattern)</and>
+    </criterion>
+    <criterion id="AC-2" title="Session State Tracking">
+      <given>an active session exists</given>
+      <when>the player travels to a new location, interacts with NPCs, or triggers events</when>
+      <then>SessionManager.updateSession() updates current-session.yaml with currentLocationId, visitedThisSession array, activeNPCs array, interactedWith array, context metadata, calendar.timePassed, events.triggeredThisSession</then>
+      <and>updates persist to disk within 1 second (atomic file write)</and>
+    </criterion>
+    <criterion id="AC-3" title="Auto-Save Mechanism">
+      <given>an active session with auto-save enabled (default: every 5 minutes)</given>
+      <when>5 minutes of real-world time passes since last save</when>
+      <then>SessionManager automatically saves current-session.yaml</then>
+      <and>logs auto-save event to performance.log with timestamp</and>
+      <and>auto-save interval is configurable via VS Code setting kapis-rpg.autoSaveInterval (seconds, 0 to disable)</and>
+      <and>auto-save does not interrupt player actions (runs asynchronously)</and>
+    </criterion>
+    <criterion id="AC-4" title="SessionLogger Generates Summaries">
+      <given>a session ends via /end-session [summary]</given>
+      <when>SessionLogger.generateSummary() is called</when>
+      <then>it generates a markdown session log saved to game-data/session/logs/YYYY-MM-DD-session-N.md containing: Header (session ID, date/time, duration, character), Summary (player-provided + AI-extracted key events), Locations Visited, NPCs Interacted With, Events Triggered, Loot Acquired, XP Gained, Calendar Progression, Performance Stats</then>
+      <and>summary is grammatically correct markdown with proper headings and lists</and>
+    </criterion>
+    <criterion id="AC-5" title="Session Termination and History">
+      <given>a session ends successfully</given>
+      <when>SessionManager.endSession() completes</when>
+      <then>it generates session log via SessionLogger, appends session metadata to game-data/session/session-history.yaml, deletes current-session.yaml, clears ContextCache, returns {success: true, logPath, sessionSummary}</then>
+    </criterion>
+    <criterion id="AC-6" title="Git Integration for Session Commits">
+      <given>a session ends successfully</given>
+      <when>GitIntegration.commitSession() is called</when>
+      <then>it stages changed files (character sheet, location State.md files, calendar.yaml, session log, session-history.yaml), creates Git commit with message format: [SESSION] YYYY-MM-DD | {Location Name} | {Player Summary}, returns {success: true, commitHash}</then>
+      <and>if player summary is empty, uses AI-generated summary from session log</and>
+      <and>Git commit includes standard co-author footer with Claude Code attribution</and>
+    </criterion>
+    <criterion id="AC-7" title="Git Save Points (Manual Saves)">
+      <given>a player wants to create a named save point</given>
+      <when>player executes /save [name] command</when>
+      <then>GitIntegration.createSavePoint() creates a Git tag: save/{name} with tag message (current location, character level, in-game date), returns {success: true, tag}</then>
+      <and>tag is annotated (includes message and timestamp)</and>
+      <and>if tag name already exists, prompts player to confirm overwrite</and>
+    </criterion>
+    <criterion id="AC-8" title="Git Rollback (Load Saves)">
+      <given>a player wants to load a previous save</given>
+      <when>player executes /load-save command</when>
+      <then>GitIntegration displays list of available save points, player selects a save point, GitIntegration.rollbackToSave() checks out the tagged commit, displays warning, if confirmed restores files and returns {success: true, restoredFiles}</then>
+    </criterion>
+    <criterion id="AC-9" title="Error Handling and Recovery">
+      <given>various error scenarios occur</given>
+      <when>errors happen during session operations</when>
+      <then>the system handles gracefully: Git not installed (skip commit, save log, warn), Git commit fails (log error, save log, return failure), Session file corrupted (load auto-save or prompt), Disk full (clear error message), Permission denied (clear error with instructions)</then>
+      <and>all errors logged to error.log with stack traces and context</and>
+    </criterion>
+    <criterion id="AC-10" title="Integration with Existing Systems">
+      <given>session management is now active</given>
+      <when>sessions run</when>
+      <then>it integrates correctly with: ContextLoader (Story 5-1) receives session state, ContextCache (Story 5-2) clears cache on start/updates metadata, Enhanced Commands (Story 5-4) call SessionManager APIs, Epic 1 StateManager updates location State.md, Epic 2 CalendarManager advances calendar/tracks timePassed, Epic 3 CharacterManager reads character file</then>
+      <and>zero breaking changes to Epic 1-4 systems (all existing tests pass)</and>
+    </criterion>
+    <criterion id="AC-11" title="Testing and Documentation">
+      <given>Story 5-6 is complete</given>
+      <then>it includes: Unit Tests (SessionManager, SessionLogger, GitIntegration with 75%+/70%+ coverage), Integration Tests (full lifecycle, Git operations, error scenarios), Performance Tests (startup <2s, end <30s, auto-save <500ms), Documentation (extension-development.md, slash-commands-guide.md, session-management-guide.md)</then>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>Session Management & Logging (Stories 5-6, 5-7)</section>
+        <snippet>Session state persists in game-data/session/ directory. SessionManager creates current-session.yaml on /start-session. SessionLogger generates markdown session summaries with key events, NPCs, loot, XP. GitIntegration auto-commits on session end with format: [SESSION] YYYY-MM-DD | Location | Summary.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>Git Integration (Architecture §3.2)</section>
+        <snippet>Auto-Commit on Session End: Commit message format [SESSION] 2025-11-17 | Village of Barovia | Rescued Ireena. Includes character sheet changes, location State.md updates, calendar.yaml, session log. Save Points: /save creates Git tags, /load-save lists tags and allows checkout. Rollback: /load-save displays warning before discarding changes.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>SessionState Data Model</section>
+        <snippet>current-session.yaml structure: sessionId (timestamp-based), startTime (ISO), character.filePath, character.snapshotHash (MD5), location.currentLocationId, visitedThisSession (array with timestamps), npcs.activeNPCs, npcs.interactedWith, context.lastLoadedAt, context.tokensUsed, calendar.sessionStartDate, events.triggeredThisSession, performance.startupTime.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>File-First Design Principle</section>
+        <snippet>All game state persists in human-readable Markdown/YAML files. Git provides natural save/load functionality. Session state stored in game-data/session/ with current-session.yaml (active session) and session-history.yaml (past sessions). Session logs in logs/ directory as markdown.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>Result Object Pattern</section>
+        <snippet>All async operations return {success, data, error} objects instead of throwing exceptions. SessionManager, SessionLogger, GitIntegration must follow this pattern. Always check success before accessing data. Enables graceful error handling without try/catch boilerplate.</snippet>
+      </doc>
+      <doc>
+        <path>docs/extension-development.md</path>
+        <title>VS Code Extension Development Guide</title>
+        <section>Command Registration</section>
+        <snippet>Commands registered in package.json contributes.commands section. Handler functions in src/commands/*.ts. Use vscode.commands.registerCommand() in extension.ts. Add disposables to context.subscriptions for cleanup. Command IDs follow kapis-rpg.{command-name} pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/slash-commands-guide.md</path>
+        <title>Slash Commands Guide</title>
+        <section>Session Commands (Stories 5-4, 5-6)</section>
+        <snippet>Existing enhanced commands: /start-session, /end-session, /travel, /rest, /context. Story 5-6 enhances session commands with full lifecycle management: auto-save, session logs, Git commits, save points via /save and /load-save.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-loading-design.md</path>
+        <title>Context Loading Design (Story 5-1)</title>
+        <section>Session State Integration</section>
+        <snippet>ContextLoader.loadContext() accepts optional sessionState parameter. Uses session.context.cacheKeys to inform cache loading. Updates session.context.tokensUsed after assembly. Session tracks which entities loaded for context efficiency analysis.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-caching-design.md</path>
+        <title>Context Caching Strategy (Story 5-2)</title>
+        <section>Cache Metadata Tracking</section>
+        <snippet>ContextCache provides getCacheMetadata() returning {cacheKeys, hitRate}. SessionManager updates session.context.cacheKeys after each context load. Cache cleared on session start for fresh context. Cache invalidation on file changes via FileWatcherManager.</snippet>
+      </doc>
+      <doc>
+        <path>docs/yaml-frontmatter-pattern.md</path>
+        <title>YAML Frontmatter Pattern</title>
+        <section>State File Structure</section>
+        <snippet>State files combine structured data (YAML) with narrative (Markdown). Format: --- (delimiter), YAML block, --- (delimiter), Markdown content. Parse by splitting on '---', extract YAML between delimiters. Preserve both sections when saving. Used for State.md and session state files.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/core/session-manager.js</path>
+        <kind>service</kind>
+        <symbol>SessionManager</symbol>
+        <lines>1-100</lines>
+        <reason>Epic 1 basic SessionManager exists. Story 5-6 creates NEW enhanced session manager in src/session/ directory with Git integration, auto-save, and session logging. Review existing implementation for compatibility patterns.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-50</lines>
+        <reason>Epic 1 StateManager handles location State.md persistence. SessionLogger will compare State.md files before/after session to detect changes. Uses YAML frontmatter pattern for state data.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/context-loader.js</path>
+        <kind>service</kind>
+        <symbol>ContextLoader</symbol>
+        <lines>22-49</lines>
+        <reason>Story 5-1 ContextLoader assembles context for LLM prompts. Task 5.1: Update loadContext() signature to accept sessionState parameter. Use session.context.cacheKeys and update session.context.tokensUsed.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/context-cache.js</path>
+        <kind>service</kind>
+        <symbol>ContextCache</symbol>
+        <lines>1-50</lines>
+        <reason>Story 5-2 ContextCache provides in-memory caching. Task 5.2: Add getCacheMetadata() method returning {cacheKeys, hitRate}. SessionManager calls clearAll() on session end.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-50</lines>
+        <reason>Epic 2 CalendarManager tracks in-game date/time. SessionManager captures calendar snapshot on startSession(). SessionLogger calculates timePassed by comparing calendar state at start vs end.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/src/commands/start-session.ts</path>
+        <kind>command</kind>
+        <symbol>startSessionCommand</symbol>
+        <lines>1-50</lines>
+        <reason>Story 5-4 enhanced /start-session command. Task 4.2: Update to call new SessionManager.startSession() from src/session/, trigger ContextLoader, display initial narration.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/src/commands/end-session.ts</path>
+        <kind>command</kind>
+        <symbol>endSessionCommand</symbol>
+        <lines>1-50</lines>
+        <reason>Story 5-4 enhanced /end-session command. Task 4.3: Update to call SessionManager.endSession(), display session summary, Git commit hash, performance stats.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/src/commands/registry.ts</path>
+        <kind>command</kind>
+        <symbol>CommandRegistry</symbol>
+        <lines>1-30</lines>
+        <reason>Story 5-4 command registry. Task 4.6-4.7: Register new /save and /load-save commands. Import session-commands.ts handlers and add to registry.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/core/session-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>SessionManager tests</symbol>
+        <lines>1-50</lines>
+        <reason>Epic 1 basic session manager tests exist. Create NEW test suite in tests/session/session-manager.test.js for enhanced SessionManager. Follow existing test patterns: dependency injection, mock fs/yaml, Result Object assertions.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/git-integration.test.js</path>
+        <kind>test</kind>
+        <symbol>Git integration tests</symbol>
+        <lines>1-50</lines>
+        <reason>Existing Git integration tests provide patterns for testing Git CLI operations. Task 7.5: Create tests/integration/session/git-operations.test.js using similar patterns: initialize temp Git repo, execute operations, verify commits/tags.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for session state files (current-session.yaml, session-history.yaml)</package>
+        <package name="date-fns" version="^2.30.0">Date manipulation for session duration, calendar calculations, timestamp formatting</package>
+        <package name="jest" version="^29.7.0">Testing framework for unit/integration/performance tests</package>
+        <package name="chokidar" version="^3.5.0">File watching (existing from Story 5-2, may be used for session file monitoring)</package>
+      </node>
+      <builtin>
+        <package name="fs">File system operations (read/write current-session.yaml, session logs, session-history.yaml)</package>
+        <package name="path">Cross-platform path resolution for session directory and log files</package>
+        <package name="child_process">Execute Git CLI commands (git commit, git tag, git checkout) via execSync</package>
+        <package name="crypto">MD5 hash generation for character.snapshotHash in session state</package>
+      </builtin>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="C-1" category="architectural">
+      <rule>Result Object Pattern: All async operations in SessionManager, SessionLogger, GitIntegration MUST return {success: boolean, data?: any, error?: string} instead of throwing exceptions</rule>
+      <rationale>Consistent error handling across Epic 5, forces explicit error checks, enables graceful degradation</rationale>
+    </constraint>
+    <constraint id="C-2" category="architectural">
+      <rule>File-First Design: Session state MUST persist in YAML files (current-session.yaml, session-history.yaml) not in-memory only. Session logs MUST be markdown files in game-data/session/logs/</rule>
+      <rationale>Aligns with Epic 1-4 patterns, enables manual inspection/editing, Git version control compatibility</rationale>
+    </constraint>
+    <constraint id="C-3" category="implementation">
+      <rule>Dependency Injection: SessionManager, SessionLogger, GitIntegration constructors MUST accept deps object with injectable dependencies (fs, path, yaml, execSync, etc.) for testability</rule>
+      <rationale>Enables unit testing with mocks, follows existing Epic 1-4 pattern established in StateManager, CalendarManager</rationale>
+    </constraint>
+    <constraint id="C-4" category="implementation">
+      <rule>YAML Frontmatter Pattern: current-session.yaml MUST use YAML format (not JSON) for consistency with Epic 1-4 (locations, calendar, characters all use YAML)</rule>
+      <rationale>Human-readable and editable, consistent with project patterns, uses existing js-yaml dependency</rationale>
+    </constraint>
+    <constraint id="C-5" category="integration">
+      <rule>Git CLI Usage: GitIntegration MUST use system Git CLI via child_process.execSync, NOT separate Git libraries. MUST NOT store Git credentials or modify Git config</rule>
+      <rationale>Security: delegate authentication to system Git credential manager. Simplicity: avoid additional dependencies. Compatibility: works with any Git version</rationale>
+    </constraint>
+    <constraint id="C-6" category="integration">
+      <rule>Zero Breaking Changes: Epic 1-4 systems (StateManager, CalendarManager, CharacterManager, ContextLoader, ContextCache) MUST NOT have breaking API changes. Additions/enhancements only</rule>
+      <rationale>AC-10 requirement: all existing tests must pass. Story 5-6 integrates with existing systems without regressions</rationale>
+    </constraint>
+    <constraint id="C-7" category="performance">
+      <rule>Auto-save MUST be asynchronous and non-blocking. Timer callback executes updateSession() without await in session workflow to prevent UI lag during long actions</rule>
+      <rationale>Performance requirement from Dev Notes: auto-save <500ms target, must not interrupt player actions</rationale>
+    </constraint>
+    <constraint id="C-8" category="testing">
+      <rule>Coverage Targets: SessionManager 75%+, SessionLogger 70%+, GitIntegration 70%+ line coverage. Overall Story 5-6: 70%+ coverage. AC-11 requirement</rule>
+      <rationale>Maintain quality bar established in Epic 1-4 (80%+ core systems). Session management is critical for data integrity</rationale>
+    </constraint>
+    <constraint id="C-9" category="implementation">
+      <rule>Session Log Format: MUST be markdown with tables (not YAML or JSON) for player readability. Session metadata also stored in session-history.yaml for machine-parseable format</rule>
+      <rationale>Player-facing document optimized for narrative review. Dev Notes: "Players may want to review past sessions as story"</rationale>
+    </constraint>
+    <constraint id="C-10" category="implementation">
+      <rule>Git Commit Message Format: MUST follow exact pattern: [SESSION] YYYY-MM-DD | {Location Name} | {Player Summary}. MUST include co-author footer with Claude Code attribution</rule>
+      <rationale>AC-6 requirement. Consistent commit message format enables Git log filtering, clear attribution for AI-assisted gameplay</rationale>
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>SessionManager.startSession(characterPath, locationId)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async startSession(characterPath: string, locationId: string): Promise&lt;{success: boolean, sessionId?: string, data?: SessionState, error?: string}&gt;</signature>
+      <path>src/session/session-manager.js (NEW file)</path>
+      <description>Creates new session, initializes current-session.yaml, starts auto-save timer. Returns Result Object with sessionId and session state on success</description>
+    </interface>
+    <interface>
+      <name>SessionManager.endSession(playerSummary)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async endSession(playerSummary?: string): Promise&lt;{success: boolean, logPath?: string, sessionSummary?: string, gitCommit?: string, error?: string}&gt;</signature>
+      <path>src/session/session-manager.js (NEW file)</path>
+      <description>Ends current session, generates log via SessionLogger, commits to Git via GitIntegration, deletes current-session.yaml, clears ContextCache. Returns Result Object with log path and commit hash</description>
+    </interface>
+    <interface>
+      <name>SessionManager.updateSession(updates)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async updateSession(updates: Partial&lt;SessionState&gt;): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/session/session-manager.js (NEW file)</path>
+      <description>Updates session state with partial updates (e.g., new location, NPC interaction). Performs atomic read→merge→write. Used by /travel, /rest commands and auto-save timer</description>
+    </interface>
+    <interface>
+      <name>SessionLogger.generateSummary(sessionState, playerSummary)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async generateSummary(sessionState: SessionState, playerSummary?: string): Promise&lt;{success: boolean, logContent?: string, error?: string}&gt;</signature>
+      <path>src/session/session-logger.js (NEW file)</path>
+      <description>Generates markdown session log with header, summary, locations, NPCs, events, loot, XP, calendar progression, performance stats. Returns Result Object with markdown content</description>
+    </interface>
+    <interface>
+      <name>GitIntegration.commitSession(sessionState, summary)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async commitSession(sessionState: SessionState, summary: string): Promise&lt;{success: boolean, commitHash?: string, error?: string}&gt;</signature>
+      <path>src/session/git-integration.js (NEW file)</path>
+      <description>Stages changed files (character, location states, calendar, session log, session history), creates Git commit with formatted message, returns commit hash. Handles Git errors gracefully</description>
+    </interface>
+    <interface>
+      <name>GitIntegration.createSavePoint(saveName, description)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async createSavePoint(saveName: string, description: string): Promise&lt;{success: boolean, tag?: string, error?: string}&gt;</signature>
+      <path>src/session/git-integration.js (NEW file)</path>
+      <description>Creates annotated Git tag save/{saveName} with description (location, level, date). Sanitizes save name. Prompts for overwrite if tag exists</description>
+    </interface>
+    <interface>
+      <name>GitIntegration.rollbackToSave(tag)</name>
+      <kind>JavaScript Class Method</kind>
+      <signature>async rollbackToSave(tag: string): Promise&lt;{success: boolean, restoredFiles?: string[], error?: string}&gt;</signature>
+      <path>src/session/git-integration.js (NEW file)</path>
+      <description>Checks out Git tag, restoring files to save point state. Returns list of restored files. Used by /load-save command after user confirmation</description>
+    </interface>
+    <interface>
+      <name>ContextLoader.loadContext(characterPath, locationId, sessionState)</name>
+      <kind>JavaScript Class Method (UPDATED)</kind>
+      <signature>async loadContext(characterPath: string, locationId: string, sessionState?: SessionState, tokenBudget?: number): Promise&lt;ContextObject&gt;</signature>
+      <path>src/context/context-loader.js (MODIFY existing)</path>
+      <description>Task 5.1: Add optional sessionState parameter. Use sessionState.context.cacheKeys to inform cache loading. Update sessionState.context.tokensUsed after context assembly</description>
+    </interface>
+    <interface>
+      <name>ContextCache.getCacheMetadata()</name>
+      <kind>JavaScript Class Method (NEW)</kind>
+      <signature>getCacheMetadata(): {cacheKeys: string[], hitRate: number}</signature>
+      <path>src/context/context-cache.js (MODIFY existing)</path>
+      <description>Task 5.2: Add method to retrieve cache metadata. Returns array of cache keys and hit rate percentage. SessionManager stores cacheKeys in session.context for analysis</description>
+    </interface>
+    <interface>
+      <name>kapis-rpg.start-session</name>
+      <kind>VS Code Command (UPDATED)</kind>
+      <signature>Command ID: kapis-rpg.start-session, Args: none (prompts for location and character)</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/start-session.ts (MODIFY existing)</path>
+      <description>Task 4.2: Update to call new SessionManager.startSession() from src/session/. Display success message with session ID. Trigger ContextLoader and display initial narration</description>
+    </interface>
+    <interface>
+      <name>kapis-rpg.end-session</name>
+      <kind>VS Code Command (UPDATED)</kind>
+      <signature>Command ID: kapis-rpg.end-session, Args: none (prompts for optional summary)</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/end-session.ts (MODIFY existing)</path>
+      <description>Task 4.3: Update to call SessionManager.endSession(). Display session summary, Git commit hash, performance stats to player</description>
+    </interface>
+    <interface>
+      <name>kapis-rpg.save</name>
+      <kind>VS Code Command (NEW)</kind>
+      <signature>Command ID: kapis-rpg.save, Args: none (prompts for save name)</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/session-commands.ts (NEW file)</path>
+      <description>Task 4.4: Create new command handler. Prompts for save name, calls GitIntegration.createSavePoint(), displays success with tag name</description>
+    </interface>
+    <interface>
+      <name>kapis-rpg.load-save</name>
+      <kind>VS Code Command (NEW)</kind>
+      <signature>Command ID: kapis-rpg.load-save, Args: none (displays quick pick menu)</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/session-commands.ts (NEW file)</path>
+      <description>Task 4.5: Create new command handler. Lists save points via GitIntegration.listSavePoints(), displays VS Code quick pick, prompts confirmation, calls rollbackToSave()</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest testing framework (v29.7.0) for all unit, integration, and performance tests. Follow established Epic 1-4 patterns: dependency injection with mocks, Arrange-Act-Assert structure, Result Object assertions (check success before accessing data). Unit tests mock all external dependencies (fs, yaml, child_process). Integration tests use real file system with temp directories and real Git CLI with temp repos. Performance tests measure timing with multiple iterations to calculate 95th percentile. Target coverage: SessionManager 75%+, SessionLogger 70%+, GitIntegration 70%+, Overall 70%+.
+    </standards>
+    <locations>
+      <location>tests/session/session-manager.test.js - Unit tests for SessionManager (startSession, endSession, updateSession, getCurrentSession, auto-save timer)</location>
+      <location>tests/session/session-logger.test.js - Unit tests for SessionLogger (generateSummary, saveLog, XP/loot calculations)</location>
+      <location>tests/session/git-integration.test.js - Unit tests for GitIntegration (checkGitAvailable, commitSession, createSavePoint, listSavePoints, rollbackToSave, mock execSync)</location>
+      <location>tests/integration/session/session-lifecycle.test.js - Integration tests for full session workflow (start → update → auto-save → end → commit)</location>
+      <location>tests/integration/session/git-operations.test.js - Integration tests for Git operations with real Git CLI (create tags, rollback, error handling)</location>
+      <location>tests/integration/session/error-scenarios.test.js - Integration tests for error cases (corrupted YAML, Git failures, permission errors, crash recovery)</location>
+      <location>tests/integration/session/performance.test.js - Performance tests (startup time, end time, auto-save timing, 10 full lifecycles)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Unit test SessionManager.startSession(): mock fs.writeFile, verify current-session.yaml created with all required fields (sessionId, startTime, character, location, empty arrays), verify auto-save timer started, verify Result Object format</idea>
+      <idea ac="AC-2">Unit test SessionManager.updateSession(): mock fs.readFile and fs.writeFile, verify deep merge of updates preserves nested objects, verify lastActivity timestamp updated, verify atomic write (read→merge→write), verify Result Object</idea>
+      <idea ac="AC-3">Unit test auto-save timer: mock setInterval, advance time by 5 minutes, verify updateSession() called, verify performance.log entry, test configurable interval via VS Code setting, test 0 interval disables auto-save</idea>
+      <idea ac="AC-4">Unit test SessionLogger.generateSummary(): provide mock SessionState with visited locations, NPC interactions, events, verify markdown output structure (headers, tables, lists), verify player summary included, verify grammatically correct</idea>
+      <idea ac="AC-5">Integration test session termination: start session, update with actions, end session, verify session log created in logs/ directory, verify session-history.yaml appended, verify current-session.yaml deleted, verify ContextCache.clearAll() called</idea>
+      <idea ac="AC-6">Unit test GitIntegration.commitSession(): mock execSync, verify git add commands for character/location/calendar/log files, verify commit message format [SESSION] YYYY-MM-DD | Location | Summary, verify co-author footer included, verify commit hash parsed from output</idea>
+      <idea ac="AC-7">Integration test createSavePoint(): initialize temp Git repo, create save point, verify git tag command executed with save/{name}, verify annotated tag created, test overwrite prompt if tag exists, verify tag message contains location/level/date</idea>
+      <idea ac="AC-8">Integration test rollbackToSave(): create temp Git repo with commits and tags, call rollbackToSave(), verify git checkout executed, verify files restored to tagged state, verify restoredFiles array returned</idea>
+      <idea ac="AC-9">Integration test error handling: test Git not installed (mock execSync to throw), verify session log saved anyway, verify warning displayed. Test corrupted YAML (invalid syntax in current-session.yaml), verify parse error caught, verify prompt to start new session</idea>
+      <idea ac="AC-10">Integration test Epic integrations: verify ContextLoader.loadContext() accepts sessionState parameter, verify ContextCache.clearAll() called on session end, verify /travel command calls updateSession() with new location, verify Epic 1-4 test suites still pass (regression)</idea>
+      <idea ac="AC-11">Performance test session startup: measure SessionManager.startSession() time over 10 iterations, calculate 95th percentile, assert <2 seconds (session state creation only, excludes context loading from Story 5-1)</idea>
+      <idea ac="AC-11">Performance test session end: measure SessionManager.endSession() time over 10 iterations including log generation and Git commit, calculate 95th percentile, assert <30 seconds</idea>
+      <idea ac="AC-11">Performance test auto-save: measure updateSession() time during auto-save trigger, assert <500ms, verify non-blocking (async execution)</idea>
+    </ideas>
+  </tests>
+</story-context>

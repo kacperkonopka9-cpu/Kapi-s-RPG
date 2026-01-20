@@ -1,0 +1,287 @@
+# Tome of Strahd - Legendary Artifact for Curse of Strahd
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "tome_of_strahd"
+name: "Tome of Strahd"
+type: "magic_item"
+weight: 5.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null  # Not a weapon
+
+# === ARMOR PROPERTIES ===
+armorProperties: null  # Not armor
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "skill_bonus"
+    skills: ["history", "religion", "arcana"]
+    advantage: true
+    condition: "When the check relates to Barovia, vampires, or Strahd von Zarovich"
+    description: "Grants advantage on Intelligence (History), Intelligence (Religion), and Intelligence (Arcana) checks related to Barovia lore"
+
+  - type: "knowledge_reveal"
+    description: "Reveals critical information about Strahd's history, weaknesses, and the nature of his curse"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Barovia Lore Mastery"
+    description: "After spending 1 hour reading the Tome, you gain advantage on all Intelligence checks related to Barovia's history, geography, culture, and the von Zarovich family. This knowledge includes information about vampires, the curse on Barovia, and Strahd's past. The advantage lasts until you finish a long rest."
+    activation: "1_hour_study"
+    duration: "until_long_rest"
+    mechanics:
+      grantedAdvantage:
+        - "History checks about Barovia"
+        - "Religion checks about vampire lore"
+        - "Arcana checks about the curse"
+        - "Investigation checks related to Strahd's past"
+
+  - name: "Strahd's Weaknesses Revealed"
+    description: "The Tome reveals key information about Strahd's vulnerabilities and limitations. Readers learn that Strahd cannot enter a residence without invitation, is harmed by running water, and is vulnerable to sunlight. The Tome also hints at the existence of three legendary artifacts that can aid in his defeat."
+    activation: "passive"
+    mechanics:
+      revealsInfo:
+        - "Strahd's vampire weaknesses (sunlight, running water, invitation requirement)"
+        - "The three legendary artifacts (Sunsword, Holy Symbol, Tome location hints)"
+        - "Strahd's inability to leave Barovia"
+        - "The nature of the Dark Powers and the mists"
+
+  - name: "Vampire Creation Ritual"
+    description: "The Tome contains the complete ritual Strahd used to transform himself into a vampire. This includes the pact with dark powers, the sacrifice required, and the consequences of the transformation. While this knowledge is dangerous, it also provides insight into vampire nature and potential ways to exploit vampire weaknesses."
+    activation: "passive"
+    mechanics:
+      providesKnowledge:
+        - "Vampire transformation process"
+        - "Dark pact mechanics and requirements"
+        - "Weaknesses inherent in the vampiric curse"
+        - "The role of the Dark Powers in Strahd's transformation"
+
+# === SENTIENCE ===
+sentience: null
+# The Tome is not sentient, but contains Strahd's own words and thoughts
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Tome of Strahd is a leather-bound journal written in Strahd's own hand. It chronicles his descent into darkness, beginning with his military conquests and ending with his transformation into a vampire. The writing is elegant but increasingly erratic as Strahd's obsession with Tatyana grows. The final entries, written after his transformation, are filled with rage, despair, and dark philosophy. The Tome is both a confession and a justification, revealing Strahd's motivations while showcasing the depths of his evil."
+
+  history: "Strahd began writing this journal shortly after arriving in the valley that would become Barovia. Initially, it was a military log documenting his conquest of the land and the construction of Castle Ravenloft. Over time, the entries became more personal, revealing his growing obsession with Tatyana, his jealousy of his younger brother Sergei, and his fear of aging and death. The final entries describe his pact with dark powers, the murder of Sergei, Tatyana's death, and his transformation into a vampire. After becoming undead, Strahd added bitter reflections on his curse and the prison Barovia had become. He eventually hid the Tome, fearing it revealed too much of his past and vulnerabilities."
+
+  legendsAndRumors:
+    - "The Tome is written in Strahd's blood, binding his essence to the pages"
+    - "Reading the entire Tome drives readers mad with visions of Strahd's crimes"
+    - "The Tome contains hidden spells and rituals beyond the vampire transformation"
+    - "Strahd can see through the eyes of anyone reading the Tome"
+    - "Destroying the Tome would weaken Strahd's power over Barovia"
+
+# === TOME CONTENTS ===
+contents:
+  structure: "The Tome is divided into five sections, each chronicling a different phase of Strahd's life"
+
+  sections:
+    - title: "Conquest and Glory"
+      pages: "1-50"
+      summary: "Strahd's military campaigns, the conquest of the valley, and the construction of Castle Ravenloft. Entries are professional and detached, focused on strategy and logistics."
+      keyEntries:
+        - "First sight of the valley and decision to claim it"
+        - "Defeat of the Tergs tribe and pacification of the region"
+        - "Construction of Castle Ravenloft as a fortress against enemies"
+        - "Early relationship with his brother Sergei (affectionate, protective)"
+
+    - title: "The Coming of Tatyana"
+      pages: "51-100"
+      summary: "Tatyana's arrival in Barovia and Strahd's growing obsession. Entries become increasingly personal and emotional."
+      keyEntries:
+        - "First encounter with Tatyana at a court gathering"
+        - "Description of her beauty, grace, and spirit"
+        - "Strahd's internal conflict between duty and desire"
+        - "Growing awareness of his age and mortality"
+
+    - title: "Jealousy and Despair"
+      pages: "101-150"
+      summary: "The romance between Sergei and Tatyana. Entries are bitter, jealous, and increasingly erratic."
+      keyEntries:
+        - "Discovery of Sergei and Tatyana's love"
+        - "Strahd's rage and sense of betrayal"
+        - "Contemplation of murder and dark magic"
+        - "First contact with the Dark Powers and their whispered promises"
+
+    - title: "The Pact and Transformation"
+      pages: "151-180"
+      summary: "The vampire creation ritual, Sergei's murder, and Strahd's transformation. The most disturbing section."
+      keyEntries:
+        - "Complete vampire transformation ritual (can be studied for lore)"
+        - "Account of Sergei's murder on his wedding day"
+        - "Tatyana's suicide and Strahd's failed attempt to save her"
+        - "Strahd's transformation into a vampire and first bloodlust"
+        - "The mists rising and Barovia being cut off from the world"
+
+    - title: "Reflections of the Damned"
+      pages: "181-220"
+      summary: "Strahd's thoughts after his transformation. Philosophical, bitter, and resigned."
+      keyEntries:
+        - "Realization of his eternal curse and imprisonment"
+        - "Understanding of his inability to leave Barovia"
+        - "Recognition of the Dark Powers' deception"
+        - "Vow to find Tatyana's reincarnations and claim her"
+        - "Final entry: 'I am The Ancient, I am The Land'"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_inspection"
+  fullPropertiesReveal: "Reading the Tome reveals its contents gradually. A full reading takes 10-12 hours (can be done over multiple sessions)."
+  hiddenProperties:
+    - "The Tome's ability to grant advantage on Barovia lore checks is discovered after the first hour of reading"
+    - "The vampire creation ritual is in Section 4 and requires careful study to understand"
+    - "The hints about Strahd's weaknesses are scattered throughout and require Intelligence (Investigation) DC 15 to piece together"
+    - "Some entries are written in coded language that requires Intelligence (Investigation) DC 18 to decipher"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Determined by Tarokka reading at campaign start"
+  howObtained: "The Tarokka reading reveals one of several possible locations. Common locations include: Castle Ravenloft (in Strahd's study or crypt), the library at Van Richten's Tower, the Abbey of Saint Markovia, or hidden in a secret chamber in one of the major settlements."
+  guardian: "Varies by location - may be guarded by vampire spawn, locked in a trapped chest, or in plain sight but overlooked"
+  notes: "The Tome is large and conspicuous (12 inches tall, 8 inches wide, 2 inches thick). It cannot be easily concealed. Strahd will sense if the Tome is removed from its hiding place and will take steps to reclaim it."
+
+# === TAROKKA READING INTEGRATION (Story 4-16) ===
+tarokkaReading:
+  artifactType: "tome"
+  cardPosition: 1  # First card drawn in the reading
+  readingDescription: "This card tells of history. Knowledge of the ancient will help you better understand your enemy."
+
+  currentLocationId: null  # Populated by Tarokka reading event (madam_eva_tarokka_reading)
+
+  possibleLocations:
+    # From game-data/tarokka/reading-config.yaml - 10 possible locations
+    - locationId: "castle-ravenloft-study"
+      description: "Castle Ravenloft - Strahd's Study - K37"
+    - locationId: "castle-ravenloft-crypt"
+      description: "Castle Ravenloft - Crypt 4 (Strahd's Ancestors)"
+    - locationId: "van-richtens-tower-library"
+      description: "Van Richten's Tower - Library"
+    - locationId: "abbey-of-st-markovia-library"
+      description: "Abbey of Saint Markovia - Library"
+    - locationId: "amber-temple-lich-chamber"
+      description: "Amber Temple - Lich's Chamber"
+    - locationId: "argynvostholt-library"
+      description: "Argynvostholt - Ruined Library"
+    - locationId: "vallaki-burgomaster-mansion"
+      description: "Vallaki - Burgomaster's Mansion (Hidden Room)"
+    - locationId: "village-of-barovia-mad-marys-house"
+      description: "Village of Barovia - Mad Mary's House (Hidden)"
+    - locationId: "wizard-of-wines-secret-cellar"
+      description: "Wizard of Wines - Secret Cellar"
+    - locationId: "berez-baba-lysaga-hut"
+      description: "Berez - Baba Lysaga's Hut (Trophy)"
+
+  notes: "Location is set during Tarokka reading event (tser-pool-encampment/Events.md). The Tome provides invaluable knowledge about Strahd's history, psychology, and weaknesses. Recommended to find early (levels 4-6) to maximize use of the knowledge. Reading takes 10-12 hours total."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: null
+  spellDC: null
+
+  integration:
+    combatManager: "No direct combat integration. The knowledge gained may inform tactical decisions against Strahd and vampires."
+    equipmentManager: "Cannot be equipped. Carried in inventory or backpack."
+    inventoryManager: "Weight 5 lbs, takes up significant inventory space due to size"
+
+  readingMechanics:
+    timeRequired: "10-12 hours for complete reading"
+    canInterrupt: true
+    retentionDC: "Intelligence (History) DC 12 to recall specific details days later"
+    shortReading: "1 hour of reading grants advantage on next Barovia-related check"
+    deepStudy: "8+ hours of reading grants advantage on all Barovia checks until long rest"
+
+  loreBenefits:
+    description: "Knowledge gained from the Tome provides several mechanical benefits:"
+    benefits:
+      - "Advantage on checks to understand vampire behavior and weaknesses"
+      - "Advantage on checks to navigate Castle Ravenloft (rough layout described in Section 1)"
+      - "Advantage on checks to understand the Dark Powers and the nature of Barovia's curse"
+      - "Insight into Strahd's personality, tactics, and psychological weaknesses"
+      - "Knowledge of Strahd's relationship with key NPCs (Rahadin, Tatyana reincarnations)"
+
+  dangerousSections:
+    description: "Reading certain sections may have psychological effects:"
+    effects:
+      - "Section 4 (The Pact): Wisdom saving throw DC 13 or be disturbed by the graphic descriptions, disadvantage on next saving throw against fear"
+      - "Complete reading: Wisdom saving throw DC 15 or have nightmares about Strahd's crimes, no benefits from next long rest"
+      - "These effects represent the psychological toll of witnessing such evil, not magical compulsion"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"
+  recommendedLevel: 4
+  notes: "The Tome is a knowledge item, not a combat item. Its power lies in information, which can be more valuable than magic weapons. The advantage on lore checks helps players understand the setting and make informed decisions. The revelation of Strahd's weaknesses is critical for planning the final confrontation. The Tome should be found relatively early (levels 4-6) to give players time to study it and use the knowledge."
+
+  dmGuidance:
+    - "Consider having players discover the Tome early to increase engagement with the setting lore"
+    - "Roleplay reading sessions - have players actually describe reading specific sections"
+    - "Use the Tome's revelations to foreshadow future encounters and plot developments"
+    - "If players rush through reading, they may miss important details (require Investigation checks)"
+    - "Strahd will be aware when the Tome is moved and may confront the party about it"
+    - "The vampire creation ritual is academic knowledge only - players cannot use it to create vampires"
+    - "Consider having Strahd offer to trade for the Tome's return, creating moral dilemmas"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A massive leather-bound tome with a cover of black leather, worn and cracked with age. The spine is reinforced with dark metal bands, and the corners are protected with tarnished silver fittings. The front cover bears an embossed coat of arms - the von Zarovich family crest - featuring a raven clutching a sword. The pages are thick parchment, yellowed with age, and filled with elegant handwriting in black ink. Some later entries appear to be written in dried blood. A leather bookmark with a raven feather marks the final entry."
+
+  activeState: "When opened, the Tome has a faint smell of old parchment, leather, and something darker - like dried blood and ancient stone. The handwriting changes throughout, starting neat and disciplined, becoming increasingly erratic and emotional in later sections. Some pages have been torn out, leaving ragged edges. Others have water stains (tears?) smudging the ink."
+
+  soundEffects: "The Tome makes no sound, but turning its pages produces a dry rustle. Some readers report hearing faint whispers when reading certain passages, though this may be psychological."
+
+# === PSYCHOLOGICAL IMPACT ===
+psychologicalEffects:
+  description: "Reading the Tome of Strahd is an emotionally draining experience. It provides a window into the mind of a man who became a monster, and the journey is disturbing."
+
+  effects:
+    shortTermEffects:
+      - "Empathy for Strahd's initial circumstances (making him more complex as a villain)"
+      - "Revulsion at his crimes and choices"
+      - "Nightmares featuring scenes from the Tome"
+      - "Increased wariness around Strahd (knowing his capabilities)"
+
+    longTermEffects:
+      - "Better understanding of Strahd's motivations (advantage on Insight checks against him)"
+      - "Recognition of Tatyana reincarnations and Strahd's obsession"
+      - "Knowledge of how to exploit Strahd's emotional weaknesses (Tatyana, Sergei, his pride)"
+      - "Appreciation for the tragedy underlying the horror"
+
+  roleplayOpportunities:
+    - "Characters may debate whether Strahd deserves sympathy or only condemnation"
+    - "Paladins/clerics may struggle with the knowledge that Strahd was once human"
+    - "Characters may reference specific Tome passages when confronting Strahd"
+    - "The Tome may influence decisions about destroying vs. redeeming Strahd"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.221"
+  official: true
+  srdContent: false
+
+  notes: "One of three legendary artifacts that provide advantages against Strahd. Unlike the Sunsword and Holy Symbol, the Tome's power is purely informational - it provides knowledge rather than combat bonuses. This makes it invaluable for planning and understanding the campaign's central conflict. The Tome is unique in that it's written by the villain himself, providing rare insight into Strahd's psychology."
+
+  dmReminders:
+    - "The Tarokka reading determines the location - note this during session zero"
+    - "Reading takes 10-12 hours total - allow players to read in sections"
+    - "Grant advantage on relevant lore checks after reading"
+    - "Use the Tome to foreshadow encounters and reveal plot hooks"
+    - "Strahd may offer a deal for the Tome's return (creating interesting roleplay)"
+    - "The vampire ritual is academic knowledge only - cannot be used by players"
+    - "Consider psychological effects of reading graphic descriptions of murder and transformation"
+    - "The Tome makes Strahd more sympathetic without excusing his evil"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

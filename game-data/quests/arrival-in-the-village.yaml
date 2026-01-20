@@ -1,0 +1,247 @@
+# Quest 2: Arrival in the Village
+# First encounter with the Village of Barovia and its oppressed inhabitants
+
+questId: "arrival_in_the_village"
+name: "Arrival in the Village"
+type: "main"
+category: "exploration"
+
+questGiver:
+  npcId: null
+  location: "village_of_barovia"
+  dialogue: "The fog parts to reveal a dismal village of rotting wood and cold stone..."
+
+questRecipient: "player"
+
+description:
+  short: "Explore the Village of Barovia and learn about its curse"
+  full: "Having escaped Death House, you find yourselves in the Village of Barovia - a settlement of downtrodden souls living under the shadow of Castle Ravenloft. The villagers are terrified, hopeless, and suspicious of outsiders. You must explore the village, speak with its inhabitants, and learn the truth about Strahd von Zarovich and the curse that binds this land."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "escape_from_death_house"
+  requiredEvents: []
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "death_house"
+
+objectives:
+  - objectiveId: "enter_village"
+    description: "Enter the Village of Barovia"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "village_of_barovia"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "meet_villagers"
+    description: "Speak with the villagers to learn about Barovia"
+    type: "social"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "barovia_villagers"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "learn_about_strahd"
+    description: "Discover the truth about Strahd von Zarovich"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "find_burgomaster_mansion"
+    description: "Locate the burgomaster's mansion"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "village_of_barovia_burgomaster_mansion"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "village_of_barovia"
+        changes:
+          visited: true
+          met_villagers: true
+
+    triggeredEvents: []
+
+    unlockedQuests:
+      - "bury_the_burgomaster"
+
+    npcReactions:
+      - npcId: "barovia_villagers"
+        attitudeChange: 5
+        dialogue: "Strangers... we get few visitors. Fewer still who survive."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 150
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "village_of_barovia"
+      change: 5
+
+  specialRewards: []
+
+branches: []
+
+journalEntries:
+  initial: "We've entered the Village of Barovia - a wretched place of broken souls and faded hope. The villagers watch us with hollow eyes, too frightened or defeated to speak. We must learn what holds this place in such despair."
+
+  updates:
+    - trigger: "meet_villagers_complete"
+      entry: "The villagers speak in hushed tones of Strahd von Zarovich, the master of Castle Ravenloft. They call him 'the Devil' and blame him for every misfortune. No one will speak his name above a whisper. They seem to have given up hope of ever escaping this land."
+
+    - trigger: "learn_about_strahd_complete"
+      entry: "We've learned the terrible truth - Strahd von Zarovich is a vampire lord who rules this land with absolute power. The mists that surround Barovia prevent escape. Those who try to leave find themselves turned around, back where they started. We are trapped here, just like everyone else."
+
+  completion: "We've explored the village and learned of its curse. The burgomaster's mansion stands at the village's heart - perhaps there we can find someone who will speak more freely about how to survive in this nightmarish land."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "Describe the village as gray, lifeless, and oppressive - no color, no joy, no hope"
+    - "Villagers avoid eye contact, speak in monotones, and return to their homes quickly"
+    - "The church is empty except for Father Donavich screaming prayers in the basement"
+    - "Children don't play; they huddle indoors or watch from windows with empty eyes"
+    - "The gallows stand empty but ready, a reminder of Strahd's justice"
+
+  roleplayTips:
+    - "Villagers are defeated, not actively hostile - they warn rather than threaten"
+    - "Use phrases like 'The Devil Strahd will come for you too' and 'No one escapes Barovia'"
+    - "Villagers speak of Strahd as an unstoppable force of nature, not a person to be fought"
+    - "Mad Mary wails for her daughter Gertruda (taken by Strahd)"
+
+  combatEncounters: []
+
+  commonPitfalls:
+    - "Players may attack villagers out of frustration - emphasize they're victims, not enemies"
+    - "Players may try to immediately travel to Castle Ravenloft - villagers warn this is suicide"
+    - "Some players will want to 'fix' the village - establish this requires defeating Strahd first"
+    - "Players may miss the burgomaster's mansion - have a villager point them there"
+
+  alternatives:
+    - "Players can investigate the church to find Father Donavich and his vampire spawn son Doru"
+    - "Players can visit Mad Mary's house to learn about Gertruda's abduction"
+    - "Players can examine the gallows and learn about Strahd's 'justice'"
+    - "Players can visit Bildrath's Mercantile and learn prices are 10x normal (monopoly abuse)"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 2
+
+  blocksQuests:
+    - "bury_the_burgomaster"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 2
+  challengeRating: 0
+  skillChecks:
+    - skill: "persuasion"
+      dc: 10
+      description: "Convince villagers to speak about Strahd"
+    - skill: "insight"
+      dc: 12
+      description: "Recognize the villagers' deep trauma"
+
+lore:
+  background: |
+    The Village of Barovia has stood for centuries under Strahd's rule. Once a thriving community,
+    it has become a place of hopelessness and despair. Generations have been born, lived, and died
+    knowing only Strahd's tyranny. The villagers have learned that resistance brings swift and
+    terrible punishment, so they endure in silent suffering.
+
+  connectionToMainStory: |
+    This quest establishes the stakes of the campaign. Players see the human cost of Strahd's rule
+    and understand that defeating him isn't about treasure or glory - it's about liberating an
+    entire land from a monster's grip. The village represents Barovia in miniature: oppressed,
+    hopeless, but not yet completely broken.
+
+  historicalContext: |
+    The village was once called simply 'The Village' but took the name 'Barovia' after Strahd's
+    conquest. It serves as the first settlement travelers encounter after entering the valley. The
+    burgomaster's family has ruled the village for generations, acting as intermediaries between
+    Strahd and the common folk.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.41-46"
+  official: true
+  estimatedDuration: "Half session"
+  tags: ["exploration", "social", "investigation", "introduction"]
+  notes: "This quest should establish the tone of the campaign - gothic horror, hopelessness, and the weight of Strahd's presence. Don't rush - let players absorb the atmosphere."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

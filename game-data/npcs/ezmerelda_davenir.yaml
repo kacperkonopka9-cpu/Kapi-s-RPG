@@ -1,0 +1,405 @@
+# Ezmerelda d'Avenir - Fierce Vampire Hunter
+# Van Richten's Protégé
+# Epic 4 Story 4-10: Major NPCs Batch 2
+# Level 8 Fighter/Ranger - Roaming NPC
+
+# === BASIC INFORMATION ===
+name: "Ezmerelda d'Avenir"
+npcId: "ezmerelda_davenir"
+race: "Human (Vistani Heritage)"
+age: 28
+class: "Fighter/Ranger"
+level: 8  # Fighter 5 / Ranger 3
+experience: null
+background: "Monster Hunter (Vistani Outcast)"
+alignment: "Chaotic Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 14     # +2 modifier
+  dexterity: 18    # +4 modifier
+  constitution: 16  # +3 modifier
+  intelligence: 12  # +1 modifier
+  wisdom: 13       # +1 modifier
+  charisma: 14     # +2 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 68  # Fighter 5d10 + Ranger 3d10 + CON (+3 * 8) = 68
+  current: 68
+  temporary: 0
+  hitDice:
+    total: 8
+    spent: 0
+    die: "d10"
+
+armorClass: 17  # Studded leather (12) + DEX (+4) + shield (+2) = 18, but CoS states 17
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light", "medium", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "dexterity", "constitution"]
+  skills: ["acrobatics", "athletics", "perception", "stealth", "survival"]
+  tools: ["disguise_kit", "poisoners_kit", "thieves_tools"]
+  languages: ["Common", "Elvish", "Vistani"]
+
+proficiencyBonus: 3  # Level 8
+
+# === SPELLCASTING (Ranger 3rd Level) ===
+spellcasting:
+  ability: "wisdom"
+  spellSaveDC: 12  # 8 + proficiency (3) + WIS modifier (1)
+  spellAttackBonus: 4  # proficiency (3) + WIS modifier (1)
+  spellSlots:
+    1: 3
+  spellsPrepared:
+    - "hunters_mark"
+    - "cure_wounds"
+    - "protection_from_evil_and_good"
+  cantrips: []
+  concentration: null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: "studded_leather"
+    mainHand: "rapier_plus_one"  # +1 rapier
+    offHand: "hand_crossbow"
+    ring1: null
+    ring2: null
+    amulet: "holy_symbol_silver"
+    cloak: null
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "silvered_crossbow_bolts"
+      quantity: 30
+    - item: "wooden_stakes"
+      quantity: 8
+    - item: "holy_water_vials"
+      quantity: 4
+    - item: "prosthetic_leg_spare_parts"
+      quantity: 1
+    - item: "vampire_hunting_journal"
+      quantity: 1  # Ezmerelda's personal notes
+    - item: "rations"
+      quantity: 7
+    - item: "healing_potions"
+      quantity: 2
+  currency:
+    platinum: 5
+    gold: 120
+    electrum: 0
+    silver: 40
+    copper: 10
+
+weight:
+  current: 65
+  capacity: 210  # Str 14 * 15
+  pushDragLift: 420  # Str 14 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: ["rapier_plus_one", "prosthetic_leg_ezmerelda"]
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Fighting Style: Dueling"
+    description: "When wielding a melee weapon in one hand and no other weapons, gain +2 bonus to damage rolls with that weapon."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Action Surge"
+    description: "On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again."
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Second Wind"
+    description: "On your turn, you can use a bonus action to regain 1d10 + 5 hit points. Once you use this feature, you must finish a short or long rest before you can use it again."
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Extra Attack"
+    description: "When you take the Attack action on your turn, you can make two attacks instead of one."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Favored Enemy: Undead"
+    description: "Advantage on Survival checks to track undead and Intelligence checks to recall information about them."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Natural Explorer: Urban"
+    description: "In cities and towns, difficult terrain doesn't slow travel, can't become lost except by magic, remain alert to danger, move stealthily at normal pace alone, find twice as much food/water when foraging."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Primeval Awareness"
+    description: "You can use your action and expend one ranger spell slot to focus your awareness. For 1 minute per level of spell slot, sense whether undead are present within 1 mile."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Prosthetic Leg (Custom Magic Item - Attuned)"
+    description: "Ezmerelda's left leg is a silvered prosthetic. While attached: no movement penalty, advantage on saves vs being knocked prone. Can detach as bonus action and use as silvered club (1d6 bludgeoning, counts as silvered for overcoming resistance). Must reattach to walk normally (requires 1 minute)."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Vistani Heritage (Lost)"
+    description: "Ezmerelda was born Vistani but left the culture to hunt monsters. Knows Vistani customs and language but is considered outcast by most Vistani. Strahd does NOT extend usual Vistani protection to her."
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Fierce and independent - refuses to be defined by her injury"
+    - "Bold in combat to the point of recklessness"
+    - "Loyal to those she trusts, but trust must be earned"
+    - "Protective of innocents, especially those victimized by monsters"
+
+  ideals:
+    - "Freedom - No one should live in fear of monsters (Chaotic)"
+    - "Courage - Face evil head-on, never back down (Good)"
+    - "Justice - Monsters must pay for the lives they destroy (Lawful)"
+
+  bonds:
+    - "Rudolph van Richten - mentor and father figure, despite estrangement"
+    - "Vistani people - complicated relationship, outcast but still connected"
+    - "Victims of Strahd - she fights for those who cannot fight for themselves"
+
+  flaws:
+    - "Pride prevents reconciliation with Van Richten despite wanting it"
+    - "Reckless in combat - leads with aggression instead of tactics"
+    - "Distrusts magic users (especially Vistani fortune tellers)"
+
+  mannerisms:
+    - "Taps prosthetic leg unconsciously when thinking"
+    - "Grins fiercely before charging into battle"
+    - "Speaks bluntly, no patience for deception or politics"
+    - "Adjusts prosthetic straps habitually"
+
+  voiceDescription: "Strong and confident with slight Vistani accent. Speaks quickly and decisively. Laughs loudly and often, even in dangerous situations."
+
+  appearanceNotes: "Athletic young woman with dark curly hair, olive skin, and fierce brown eyes. Wears well-used studded leather armor adorned with vampire hunting trophies (wooden stake charms, holy symbols). Prosthetic left leg is visible - silvered metal with intricate clockwork, clearly custom-made. Carries rapier and hand crossbow with practiced ease. Moves with confidence despite prosthetic."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Ezmerelda d'Avenir, vampire hunter. You look like you can handle a fight. Good - this land needs more fighters and fewer cowards."
+    - "Well met! I'm Ezmerelda. Yes, I hunt vampires. Yes, I lost my leg doing it. No, I don't need your pity. Need your sword arm though, if you're offering."
+    - "You're either very brave or very stupid to be wandering Barovia. Which is it? [grins] Either way, I like you already."
+
+  idle:
+    - "[Sharpening rapier methodically]"
+    - "[Checking prosthetic leg straps]"
+    - "Strahd thinks he's untouchable. I'm going to prove him wrong."
+    - "Van Richten taught me everything about hunting monsters. Now I'll show him I surpassed the teacher."
+
+  farewell:
+    - "Fight hard, die well! [laughs] Or better yet, live and we'll share victory drinks!"
+    - "If you run into Van Richten, tell him... [pauses] tell him his student is doing fine. Better than fine."
+    - "Stay sharp. Strahd's minions are everywhere. Kill them all and let the Morning Lord sort them out!"
+
+  questGiving:
+    - "I'm hunting Strahd. If you're serious about stopping him, I could use allies who won't run at the first sign of fangs."
+    - "I need to find Van Richten. Old fool thinks he can hunt Strahd alone. We're stronger together, if I can convince him of that."
+    - "The Tarokka reading mentioned me? As an ally against Strahd? Fate has good taste! Let's kill a vampire lord."
+
+  questComplete:
+    - "[After reunion with Van Richten] Thank you. I couldn't have faced him alone. We have much to discuss."
+    - "[After defeating spawn] That's how you kill vampires! Clean, efficient, no mercy!"
+
+  combat:
+    - "For everyone Strahd has killed! CHARGE!"
+    - "[Attacking vampire] Silver through the heart! Classic!"
+    - "[Wounded] I've had worse! Keep fighting!"
+    - "[Activating Hunter's Mark] You're marked, bloodsucker. Nowhere to hide!"
+    - "[Detaching prosthetic] Here's a leg up! [smashes vampire with silvered prosthetic]"
+
+  travel:
+    - "Van Richten taught me to track vampires. See those claw marks? Spawn passed through here recently. Stay alert."
+    - "Lost my leg to a werewolf during training. Van Richten blamed himself. I blamed the werewolf. [grins] Killed it, too."
+    - "Barovia is cursed, but I've fought monsters in worse places. Well... maybe not worse. But close!"
+
+  reunion:
+    - "[Seeing Van Richten] Van Richten?! You stubborn old fool! I knew you were alive!"
+    - "[To Van Richten] I don't need your protection anymore. I need your partnership. We finish Strahd together or not at all."
+    - "[After reconciling] I forgive you for the leg. It made me stronger. Now let's use that strength to end this."
+
+  keyQuotes:
+    - "I'm not broken because I lost a leg. I'm dangerous because I survived it. Monsters fear survivors."
+    - "Van Richten thinks I hunt monsters to prove something to him. Wrong. I hunt monsters because someone has to, and I'm damn good at it."
+    - "Strahd von Zarovich: ancient vampire lord, master of Barovia, terror of the land. Also my next kill. [grins fiercely]"
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "rudolph_van_richten"
+      relationship: "mentor / estranged father figure"
+      notes: "Van Richten trained Ezmerelda in monster hunting. She lost her leg during training (werewolf attack), which created rift between them. Van Richten wanted her to retire; she refused. Both care deeply but pride prevents reconciliation. If reunited, powerful emotional moment and they become formidable duo."
+
+    - npcId: "player_character"
+      relationship: "ally → trusted companion (dynamic)"
+      notes: "Ezmerelda respects brave fighters. Quick to ally with competent adventurers hunting Strahd. Fiercely loyal once trust earned. Can join party as companion NPC."
+
+    - npcId: "ireena_kolyana"
+      relationship: "protector"
+      notes: "Ezmerelda is protective of Ireena as Strahd's victim. Will fight to defend her from vampire attacks."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "hated enemy / hunting target"
+      notes: "Ezmerelda came to Barovia specifically to hunt Strahd. Views him as ultimate challenge and test of her skills. Strahd sees her as minor annoyance but respects her boldness."
+
+    - npcId: "vistani_elders"
+      relationship: "outcast"
+      notes: "Ezmerelda left Vistani culture to hunt monsters. Most Vistani view her as traitor. She has complicated feelings about her heritage."
+
+  family:
+    - npcId: "vistani_family"
+      relationship: "estranged family"
+      notes: "Ezmerelda's Vistani family alive but she has no contact. They disapprove of her monster hunting career and alliance with Van Richten."
+
+  faction: null  # Outcast from Vistani, no formal faction
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Aggressive melee combatant with ranged option. Opens with Hunter's Mark on priority target (Strahd/vampire spawn). Charges into melee with rapier (+1, Dueling style for +2 damage). Uses Extra Attack for two rapier strikes per turn. Hand crossbow for ranged attacks when needed (silvered bolts). Action Surge for devastating burst damage. Uses Protection from Evil and Good against undead pre-combat. If losing badly, detaches prosthetic leg as silvered weapon (bonus action). Fearless fighter who takes risks."
+
+  goals:
+    - "Kill Count Strahd von Zarovich"
+    - "Prove herself as equal to Van Richten"
+    - "Reconcile with Van Richten (secretly wants this)"
+    - "Protect innocents from monster attacks"
+
+  motivations:
+    - "Professional pride - Strahd is ultimate vampire hunter challenge"
+    - "Justice for Strahd's victims"
+    - "Prove prosthetic leg is strength, not weakness"
+    - "Earn Van Richten's respect as peer, not student"
+
+  fears:
+    - "Van Richten dying before they reconcile"
+    - "Becoming vampire - ultimate failure for monster hunter"
+    - "Being seen as helpless due to prosthetic"
+    - "Letting innocents die because she wasn't strong enough"
+
+  knowledgeSecrets:
+    - "Knows Van Richten is in Barovia (tracking him)"
+    - "Aware of Van Richten's Rictavio disguise (recognizes him despite Hat of Disguise)"
+    - "Understands vampire weaknesses from Van Richten's training"
+    - "Knows Strahd is far more powerful than normal vampires"
+    - "Aware she's outcast from Vistani - Strahd won't spare her like other Vistani"
+    - "Has partial knowledge of Barovia geography from scouting"
+
+  attitudeTowardPlayer: "friendly"  # Initial attitude if players seem competent
+
+  trustLevel: 6  # 1-10 scale. Starts fairly trusting of capable fighters. Becomes 9 if help with Van Richten reunion
+
+  questInvolvement:
+    - questId: "hunt_strahd"
+      role: "key_ally"
+      notes: "Ezmerelda is skilled vampire hunter who can join party in final assault on Strahd. Combat-focused ally with tactical knowledge from Van Richten's training. If Tarokka ally, fights in final battle."
+
+    - questId: "find_van_richten"
+      role: "quest_giver"
+      notes: "Ezmerelda seeks Van Richten to reconcile and join forces against Strahd. Players can help locate him (tower or Vallaki as Rictavio) and facilitate reunion."
+
+    - questId: "tarokka_ally"
+      role: "prophesied_ally"
+      notes: "Ezmerelda can be drawn as Tarokka ally. If chosen, commits fully to party's cause and brings combat expertise, Van Richten connection, and fearless courage."
+
+  specialBehaviors:
+    - "Roaming NPC - can appear in any location tracking Strahd or Van Richten"
+    - "Recognizes Van Richten even through Hat of Disguise (knows him too well to fool)"
+    - "Becomes emotional during Van Richten reunion - rare show of vulnerability"
+    - "Respects players who fight bravely, dismisses cowards immediately"
+    - "Uses prosthetic leg as weapon if desperate - signature move that shocks enemies"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # ROAMING NPC - Location varies based on tracking Van Richten or Strahd activity
+  # Example daily pattern (location changes frequently):
+  - time: "06:00"
+    location: "variable"
+    activity: "Wake early, check equipment, scout for vampire spawn activity"
+
+  - time: "10:00"
+    location: "variable"
+    activity: "Track Strahd's movements or search for Van Richten"
+
+  - time: "14:00"
+    location: "variable"
+    activity: "Investigate vampire attack sites, gather intelligence"
+
+  - time: "18:00"
+    location: "variable"
+    activity: "Patrol for vampire spawn (most active at dusk)"
+
+  - time: "22:00"
+    location: "variable"
+    activity: "Camp in secure location, study journal, plan next move"
+
+# === LOCATION & STATUS ===
+currentLocation: "variable"  # Roaming NPC - DM determines based on story
+status: "alive"
+canMove: true  # Roaming NPC - moves frequently
+tetheredToLocation: null  # Not tethered to any location
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  van_richten_found: false
+  van_richten_reunited: false
+  trust_with_party: 6  # 1-10
+  tarokka_ally_accepted: false
+  relationship_with_party: "friendly"  # friendly → ally → trusted
+  current_tracking_target: "van_richten"  # van_richten or strahd
+  prosthetic_leg_detached: false  # Tracking if used as weapon
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.231"
+  official: true
+  tarokka_ally_option: true  # Can be drawn as Tarokka ally
+
+  notes: "Ezmerelda d'Avenir is a fierce vampire hunter and former protégé of Rudolph van Richten. She lost her left leg to a werewolf during training, which created rift with Van Richten. She replaced it with a silvered prosthetic that can be used as a weapon. Ezmerelda is bold, aggressive, and protective of innocents. She came to Barovia to hunt Strahd and reconcile with Van Richten. She is a roaming NPC who can appear anywhere tracking vampires or her mentor."
+
+  dmReminders:
+    - "Ezmerelda is ROAMING NPC - can appear in any location at DM discretion"
+    - "She recognizes Van Richten through Hat of Disguise - knows him too well to be fooled"
+    - "Reunion with Van Richten should be emotional high point - both proud and stubborn"
+    - "Prosthetic leg is strength, not disability - emphasize her capability and confidence"
+    - "If Tarokka ally, Ezmerelda is enthusiastic and aggressive fighter in final battle"
+    - "Can join party as companion NPC - brings combat expertise and Van Richten connection"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

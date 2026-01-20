@@ -1,0 +1,256 @@
+# Magic Item / Artifact Template for Curse of Strahd
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+# Format: data/srd/items.yaml structure
+
+# NOTE: Add items to items[] array in data/srd/items.yaml
+
+# === BASIC INFORMATION (ItemDatabase Required Fields) ===
+id: "magic_item_id"  # Unique identifier (lowercase_with_underscores)
+name: "Magic Item Name"
+type: "magic_item"  # weapon, armor, shield, gear, magic_item, consumable
+weight: 1.0  # Weight in pounds (required by ItemDatabase)
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"  # common, uncommon, rare, very_rare, legendary, artifact
+requiresAttunement: true  # Boolean
+attunementRequirements: null  # null or specific requirement string
+
+# Possible attunement requirements:
+# "by a cleric"
+# "by a spellcaster"
+# "by a good-aligned character"
+# "by a creature that can speak Draconic"
+
+# === WEAPON PROPERTIES (if type includes weapon functionality) ===
+weaponProperties: null
+# If magic item functions as a weapon:
+# weaponProperties:
+#   baseWeapon: "longsword"  # Base weapon type
+#   category: "martial_melee"  # simple_melee, martial_melee, simple_ranged, martial_ranged
+#   damage: "1d8"
+#   damageType: "slashing"
+#   properties: ["versatile", "finesse"]  # D&D 5e weapon properties
+#   versatileDamage: "1d10"  # If versatile
+#   range: null  # {normal: 20, long: 60} for ranged weapons
+
+# === ARMOR PROPERTIES (if type includes armor functionality) ===
+armorProperties: null
+# If magic item functions as armor:
+# armorProperties:
+#   baseArmor: "plate_armor"
+#   category: "heavy"  # light, medium, heavy
+#   armorClass: 18
+#   stealthDisadvantage: true
+#   strengthRequirement: 15
+
+# === MAGIC EFFECTS ===
+effects: []
+# List of magical effects this item provides:
+# effects:
+#   - type: "ac_bonus"
+#     value: 1
+#     description: "+1 bonus to AC while wearing this armor"
+#
+#   - type: "attack_bonus"
+#     value: 2
+#     description: "+2 bonus to attack and damage rolls"
+#
+#   - type: "damage_bonus"
+#     value: 2
+#     damageType: "radiant"
+#     description: "+2 radiant damage on hits"
+#
+#   - type: "saving_throw_bonus"
+#     value: 1
+#     description: "+1 bonus to all saving throws"
+#
+#   - type: "ability_score_increase"
+#     ability: "strength"
+#     value: 2
+#     max: 20  # or higher for artifacts
+#     description: "Increases Strength by 2, to a maximum of 20"
+#
+#   - type: "resistance"
+#     damageType: "fire"
+#     description: "Resistance to fire damage"
+#
+#   - type: "immunity"
+#     damageType: "poison"
+#     description: "Immunity to poison damage"
+#
+#   - type: "advantage"
+#     on: "saving_throws_vs_spells"
+#     description: "Advantage on saving throws against spells"
+#
+#   - type: "special_sense"
+#     sense: "darkvision"
+#     range: 60
+#     description: "Grants darkvision out to 60 feet"
+#
+#   - type: "spell_casting"
+#     spell: "fireball"
+#     charges: 3
+#     recharge: "dawn"
+#     description: "Can cast Fireball (3 charges, recharges at dawn)"
+
+# === SPECIAL ABILITIES ===
+specialAbilities: []
+# Unique powers beyond standard effects:
+# specialAbilities:
+#   - name: "Sunlight Blade"
+#     description: "As a bonus action, cause the blade to emit bright sunlight in a 15-foot radius and dim light for an additional 15 feet. While glowing, it deals an extra 1d8 radiant damage to undead."
+#     activation: "bonus_action"
+#     duration: "until_dismissed"
+#     mechanics:
+#       lightRadius: 15
+#       dimLightRadius: 15
+#       extraDamage:
+#         dice: "1d8"
+#         damageType: "radiant"
+#         targetType: "undead"
+#
+#   - name: "Hold Vampires"
+#     description: "As an action, you can hold the symbol aloft and speak its command word. Each vampire and vampire spawn within 30 feet must make a DC 15 Wisdom saving throw or be paralyzed for 1 minute."
+#     activation: "action"
+#     usesPerDay: 1
+#     recharge: "dawn"
+#     saveType: "wisdom"
+#     saveDC: 15
+#     range: 30
+#     targetType: ["vampire", "vampire_spawn"]
+#     effect: "paralyzed"
+#     duration: "1_minute"
+
+# === CHARGES (if applicable) ===
+charges: null
+# If item has limited uses:
+# charges:
+#   max: 10
+#   recharge: "dawn"  # dawn, dusk, short_rest, long_rest, manual
+#   rechargeAmount: "1d6+4"  # Dice formula or fixed number
+#   destroyOnZero: false  # Does item destroy when charges reach 0?
+
+# === SENTIENCE (for sentient items) ===
+sentience: null
+# For sentient magic items (e.g., some artifacts):
+# sentience:
+#   alignment: "chaotic_good"
+#   intelligence: 17
+#   wisdom: 15
+#   charisma: 16
+#   senses: "hearing and darkvision out to 120 feet"
+#   communication: "telepathy"
+#   languages: ["Common", "Draconic", "Elvish"]
+#   personality: "The sword seeks to destroy all undead and free the oppressed."
+#   specialPurpose: "Destroy Strahd von Zarovich"
+#   conflictMechanic: "If wielder opposes the sword's purpose, contested Charisma checks"
+
+# === CURSE (if cursed) ===
+curse: null
+# If item is cursed:
+# curse:
+#   description: "Once you don this cursed armor, you can't doff it unless you are targeted by the remove curse spell. While wearing this armor, you have disadvantage on attack rolls against demons."
+#   effect: "disadvantage_on_attacks_vs_demons"
+#   removal: "remove_curse_spell"
+
+# === RESTRICTIONS ===
+restrictions:
+  usableBy: []  # Empty = anyone, or list classes/races
+  # usableBy: ["cleric", "paladin"]  # Only clerics and paladins can use
+
+  alignmentRestriction: null  # null or alignment requirement
+  # alignmentRestriction: "good"  # Must be good-aligned
+
+  otherRestrictions: []
+  # - "Must be attuned by a creature that worships a deity of good"
+  # - "Cannot be wielded by undead"
+
+# === DESTRUCTION (for artifacts) ===
+destruction: null
+# How can this artifact be destroyed (if at all)?
+# destruction:
+#   description: "The Sunsword can only be destroyed if it is melted down in the hottest flames of Mount Baratok while Strahd watches."
+#   requirements:
+#     - "Forge fire from Mount Baratok"
+#     - "Strahd must witness the destruction"
+
+# === LORE & HISTORY ===
+lore:
+  description: "Full description of the item's appearance, function, and lore."
+
+  history: "The item's backstory and significance in Curse of Strahd."
+
+  legendsAndRumors:
+    - "Rumor or legend about this item"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "On attunement"  # When are base properties revealed?
+  # "on_attunement", "identify_spell", "short_rest", "automatic"
+
+  fullPropertiesReveal: "With Identify spell or experimentation"
+
+  hiddenProperties:
+    - "Property not revealed by Identify spell"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Location where item is found"
+  # e.g., "Determined by Tarokka reading" or "Castle Ravenloft, Crypt 31"
+
+  howObtained: "Method of obtaining the item"
+  # e.g., "Defeat the guardian", "Solve puzzle", "Retrieve from hidden vault"
+
+  guardian: null  # null or creature/trap protecting it
+  # guardian: "vampire_spawn"
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null  # How this item affects attack rolls
+  # attackRolls: "Roll with advantage against undead"
+
+  damageRolls: null  # How this item affects damage
+  # damageRolls: "+2d6 radiant damage vs undead"
+
+  spellDC: null  # If item grants spell casting
+  # spellDC: 15
+
+  integration:
+    combatManager: "Compatible"  # How it integrates with CombatManager
+    equipmentManager: "Equippable in mainHand slot"
+    inventoryManager: "Standard weight (1 lb)"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"  # low, medium, high, very_high, legendary, artifact
+  recommendedLevel: 10  # Party level when item should be found
+  notes: "Extremely powerful vs. undead, especially Strahd. Key story item."
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "Physical appearance of the item"
+  # "A crystal longsword hilt with no blade. When activated, a blade of pure sunlight extends from the hilt."
+
+  activeState: null  # Appearance when activated/used
+  # "Glowing blade of brilliant sunlight"
+
+  soundEffects: null  # Audio cues
+  # "Emits a faint humming sound when near undead"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.223"
+  official: true
+  srdContent: false  # Most magic items not in SRD
+
+  notes: "Additional DM notes about this item"
+
+  dmReminders:
+    - "Important mechanical or story reminder"
+
+  developmentStage: "draft"  # draft, reviewed, playtest, final
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

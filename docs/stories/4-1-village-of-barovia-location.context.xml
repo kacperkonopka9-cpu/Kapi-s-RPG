@@ -1,0 +1,294 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>1</storyId>
+    <title>Village of Barovia Location</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-11</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-1-village-of-barovia-location.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player experiencing the Curse of Strahd campaign</asA>
+    <iWant>the Village of Barovia location fully implemented with all required content files</iWant>
+    <soThat>I can start my adventure in the gothic horror realm of Barovia with a complete, immersive starting location</soThat>
+    <tasks>
+      - Task 1: Create Location Folder Structure (AC-1)
+      - Task 2: Author Description.md Content (AC-2)
+      - Task 3: Author NPCs.md Content (AC-3)
+      - Task 4: Author Items.md Content (AC-4)
+      - Task 5: Author Events.md Content (AC-5)
+      - Task 6: Create State.md with Initial State (AC-6)
+      - Task 7: Create metadata.yaml (AC-7)
+      - Task 8: Integration Testing with Epic 1 LocationLoader (AC-8)
+      - Task 9: Integration Testing with Epic 2 EventScheduler (AC-9)
+      - Task 10: End-to-End Gameplay Validation (AC-10)
+      - Task 11: Validation and Documentation (AC-1)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="AC-1" title="Location Folder Structure Created">
+      Create folder at game-data/locations/village-of-barovia/ with all 6 required files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml. Validate using npm run validate-location and ensure validation passes.
+    </ac>
+    <ac id="AC-2" title="Description.md - Atmospheric Location Content">
+      Author Description.md with full gothic horror atmosphere, description variants (initial, return, morning, night, foggy), token count less than 2000 tokens, environmental storytelling, and key landmarks (Blood of the Vine Tavern, Burgomaster's Mansion, Church, general store).
+    </ac>
+    <ac id="AC-3" title="NPCs.md - Populate Village Residents">
+      Include 6 key NPCs: Ismark Kolyanovich, Ireena Kolyana, Father Donavin, Bildrath Cantemir, Parriwimple, Mad Mary. Each NPC entry must have npcId, name, type, stats reference, personality, dialogue snippets, quest involvement, and AI behavior notes.
+    </ac>
+    <ac id="AC-4" title="Items.md - Available Loot and Treasure">
+      List items by location: Burgomaster's Mansion (Letter from Kolyan), Blood of the Vine Tavern (wine, food), Church (holy water, holy symbols), General Store (adventuring gear at 10x markup). Include itemId, name, location, description, category, hidden status, and DC if applicable.
+    </ac>
+    <ac id="AC-5" title="Events.md - Scheduled Events and Triggers">
+      Define 3 key events: "Kolyan Indirovich Death" (date trigger: 735-10-3 06:00), "Strahd Becomes Aware of Ireena" (conditional trigger), "Dire Wolf Attack" (night travel conditional). Use Epic 2 EventScheduler schema with proper effect types.
+    </ac>
+    <ac id="AC-6" title="State.md - Initialize Location State">
+      Create State.md with YAML frontmatter containing: visited: false, empty arrays for discovered_items and completed_events, npc_states for Ismark/Ireena/Kolyan with status/mood/location, burgomaster_dead: false, church_open/tavern_open: true, last_updated timestamp.
+    </ac>
+    <ac id="AC-7" title="metadata.yaml - Location Metadata and Connections">
+      Define metadata with location_name, location_type: settlement, region: Barovia Valley, connected_locations array (death_house, tser_pool_encampment, old_svalich_road with directions and travel times), description_token_count, and last_validated date.
+    </ac>
+    <ac id="AC-8" title="Epic 1 LocationLoader Integration">
+      Verify LocationLoader.loadLocation('village-of-barovia') successfully loads folder, returns LocationData structure with all fields, description variants accessible, NPCs/Items/Events arrays populated, State YAML parsed, metadata loaded with connections, no errors thrown.
+    </ac>
+    <ac id="AC-9" title="Epic 2 EventScheduler Integration">
+      Verify EventScheduler registers all events from Events.md, date-based events scheduled correctly, conditional events registered with triggers, events trigger at specified times, EventExecutor applies effects to State.md correctly.
+    </ac>
+    <ac id="AC-10" title="In-Game Accessibility">
+      Player can use /travel village-of-barovia command, location loads successfully, description displays with appropriate variant, NPCs listed and interactable, items discoverable, events trigger based on calendar and conditions, state persists across sessions.
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Curse of Strahd Content Implementation</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Epic 4 is pure content implementation with zero architecture changes. All 34 locations follow Epic 1 folder structure. Village of Barovia is first location and validation checkpoint for entire epic.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Acceptance Criteria</title>
+        <section>AC-1: Core Locations Implemented</section>
+        <snippet>Village of Barovia location complete with all 6 required files. All locations pass npm run validate-location. Description.md files must be under 2000 tokens.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification - Location System</title>
+        <section>Location Folder Structure</section>
+        <snippet>Each location folder contains 6 required files: Description.md (atmospheric content with variants), NPCs.md (NPC roster), Items.md (loot/treasure), Events.md (scheduled events), State.md (YAML frontmatter + narrative), metadata.yaml (connections and metadata).</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>File-First Design & Location System</section>
+        <snippet>All game state persisted in human-readable markdown/YAML files. Location folders are core data structure. Git provides version control for save states.</snippet>
+      </doc>
+      <doc>
+        <path>docs/GDD.md</path>
+        <title>Game Design Document</title>
+        <section>Curse of Strahd Campaign - Village of Barovia</section>
+        <snippet>Starting location for gothic horror campaign. Perpetual fog, abandoned houses, oppressive atmosphere. Key NPCs: Ismark, Ireena, Father Donavin. Key locations: Blood of the Vine Tavern, Burgomaster's Mansion, Church.</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/Description.md</path>
+        <title>Location Description Template</title>
+        <section>Template Structure</section>
+        <snippet>Template defines description variant structure: initial (first visit), return (subsequent visits), and time-of-day variants (morning, night). Includes placeholder for atmospheric content and key landmarks.</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/NPCs.md</path>
+        <title>Location NPCs Template</title>
+        <section>NPC Entry Format</section>
+        <snippet>Each NPC entry includes: npcId (unique identifier), name, type (resident/merchant/quest), basic stats reference, personality notes, dialogue snippets, quest involvement, AI behavior notes for LLM-DM guidance.</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/Events.md</path>
+        <title>Location Events Template</title>
+        <section>Event Definition Schema</section>
+        <snippet>Events use Epic 2 EventScheduler schema: eventId, name, trigger_type (date_time/conditional), trigger_date or conditions, effects array with types (npc_status, state_update, quest_trigger, combat_encounter).</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/State.md</path>
+        <title>Location State Template</title>
+        <section>YAML Frontmatter Pattern</section>
+        <snippet>State.md combines YAML frontmatter (structured state data) with narrative markdown. Frontmatter includes: visited boolean, discovered_items array, completed_events array, npc_states object with status/mood/location for each NPC, location-specific flags, last_updated timestamp.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>module</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 1 module that loads location folders. Story 4-1 must create content compatible with LocationLoader.loadLocation() method. Returns LocationData structure with description, npcs, items, events, state, metadata.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>module</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 1 module that persists location State.md files. Handles YAML frontmatter parsing (loadState) and atomic read-modify-write updates (saveState). Story 4-1 State.md must conform to StateManager schema.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>module</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 2 module that registers and triggers time-based events. Story 4-1 Events.md must use EventScheduler schema for event definitions (date_time triggers, conditional triggers).</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>module</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 2 module that applies event effects to world state. Story 4-1 Events.md effect types must match EventExecutor supported types: npc_status, state_update, quest_trigger, combat_encounter, custom.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>module</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 3 module that loads NPC profiles. Story 4-1 NPCs.md references NPC profile IDs that will be created in Stories 4-7 to 4-10. NPC profiles must conform to CharacterManager schema.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/item-database.js</path>
+        <kind>module</kind>
+        <symbol>ItemDatabase</symbol>
+        <lines>1-end</lines>
+        <reason>Epic 3 module for item definitions. Story 4-1 Items.md item entries should be compatible with ItemDatabase schema for future integration.</reason>
+      </artifact>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>1-end</lines>
+        <reason>Validation script from Epic 1 that checks location folder structure. Story 4-1 must pass: npm run validate-location game-data/locations/village-of-barovia. Validates 6 required files, YAML syntax, file structure.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/data/location-loader.test.js</path>
+        <kind>test</kind>
+        <symbol>LocationLoader tests</symbol>
+        <lines>1-end</lines>
+        <reason>Existing Epic 1 tests for LocationLoader. Story 4-1 integration tests should follow same patterns for testing location loading, parsing, and data structure validation.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for State.md frontmatter and metadata.yaml files</package>
+        <package name="date-fns" version="^2.30.0">Date/time handling for calendar timestamps and event scheduling</package>
+        <package name="jest" version="^29.7.0" dev="true">Testing framework for integration tests</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Content Creation Only: Story 4-1 creates only data files (markdown/YAML), no code changes to src/ directory</constraint>
+    <constraint>Epic 1 Folder Structure: Must follow exact 6-file template from templates/location/ directory</constraint>
+    <constraint>Token Limit: Description.md must be under 2000 tokens as measured and documented in metadata.yaml</constraint>
+    <constraint>YAML Frontmatter Pattern: State.md must use YAML frontmatter (--- delimited) followed by narrative markdown, per Epic 1 StateManager pattern</constraint>
+    <constraint>Epic 2 Event Schema: Events.md must conform to EventScheduler schema with valid trigger types (date_time, conditional) and effect types (npc_status, state_update, quest_trigger, combat_encounter)</constraint>
+    <constraint>Validation Requirement: All created files must pass npm run validate-location before story completion</constraint>
+    <constraint>File-First Design: All content in human-readable text files, no database storage, Git-compatible plain text</constraint>
+    <constraint>Template Compliance: NPCs.md entries must include all required fields: npcId, name, type, stats reference, personality, dialogue, quest involvement, AI behavior notes</constraint>
+    <constraint>Connection Validation: metadata.yaml connected_locations must reference locations that exist or will exist in Epic 4 (death_house, tser_pool_encampment, old_svalich_road)</constraint>
+    <constraint>Curse of Strahd Authenticity: Content must accurately reflect official Curse of Strahd module descriptions, NPC personalities, and gothic horror atmosphere per source material</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;{success: boolean, data: LocationData | null, error: string | null}&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <description>Loads complete location folder and returns LocationData structure. Village of Barovia content must be compatible with this interface.</description>
+    </interface>
+    <interface>
+      <name>LocationData Structure</name>
+      <kind>data schema</kind>
+      <signature>
+        {
+          locationId: string,
+          locationName: string,
+          description: { full: string, variants: { initial, return, morning, night, foggy }},
+          npcs: Array&lt;NPC&gt;,
+          items: Array&lt;Item&gt;,
+          events: Array&lt;Event&gt;,
+          state: StateObject,
+          metadata: MetadataObject
+        }
+      </signature>
+      <path>src/data/location-loader.js</path>
+      <description>Expected return structure from LocationLoader. Village of Barovia files must produce this structure when loaded.</description>
+    </interface>
+    <interface>
+      <name>StateManager.loadState</name>
+      <kind>function</kind>
+      <signature>async loadState(locationId: string): Promise&lt;{success: boolean, data: StateObject | null, error: string | null}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <description>Loads and parses State.md YAML frontmatter. Village of Barovia State.md must have valid YAML frontmatter compatible with this method.</description>
+    </interface>
+    <interface>
+      <name>StateManager.saveState</name>
+      <kind>function</kind>
+      <signature>async saveState(locationId: string, stateData: StateObject): Promise&lt;{success: boolean, data: null, error: string | null}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <description>Atomically saves state updates to State.md. Events triggered via EventExecutor will use this to update Village of Barovia state.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.registerEvents</name>
+      <kind>function</kind>
+      <signature>registerEvents(locationId: string, events: Array&lt;Event&gt;): void</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <description>Registers events from Events.md for scheduling. Village of Barovia Events.md entries must conform to Event schema.</description>
+    </interface>
+    <interface>
+      <name>Event Schema</name>
+      <kind>data schema</kind>
+      <signature>
+        {
+          eventId: string,
+          name: string,
+          trigger_type: 'date_time' | 'conditional',
+          trigger_date?: string (ISO format),
+          trigger_conditions?: object,
+          effects: Array&lt;{type: string, ...effectData}&gt;
+        }
+      </signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <description>Required schema for Events.md event definitions. Village of Barovia events (Kolyan Death, Strahd Awareness, Dire Wolf Attack) must follow this structure.</description>
+    </interface>
+    <interface>
+      <name>validateLocation Script</name>
+      <kind>validation script</kind>
+      <signature>node scripts/validate-location.js &lt;location-path&gt;</signature>
+      <path>scripts/validate-location.js</path>
+      <description>Validates location folder has all 6 required files, valid YAML syntax, correct structure. Must pass for Village of Barovia before story completion.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Epic 4 content stories use integration testing approach (not unit tests). Tests verify content files integrate correctly with Epic 1-3 modules. Test framework: Jest 29.7.0. Pattern: Arrange-Act-Assert. Target: 100% acceptance criteria coverage via integration tests. Tests located in tests/integration/locations/ directory. Follow existing LocationLoader test patterns from tests/data/location-loader.test.js.
+    </standards>
+    <locations>
+      tests/integration/locations/
+      tests/integration/events/
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Integration test: Verify village-of-barovia folder structure exists with all 6 required files. Run validation script programmatically and assert exit code 0.</idea>
+      <idea ac="AC-2">Integration test: Load Description.md, verify full description exists, verify all variants (initial, return, morning, night, foggy) are defined, measure token count and assert less than 2000.</idea>
+      <idea ac="AC-3">Integration test: Parse NPCs.md, assert 6 NPCs present (Ismark, Ireena, Father Donavin, Bildrath, Parriwimple, Mad Mary), verify each has required fields (npcId, name, type, personality, dialogue, quest involvement, AI behavior notes).</idea>
+      <idea ac="AC-4">Integration test: Parse Items.md, verify items categorized by location (mansion, tavern, church, general store), verify quest items present (Letter from Kolyan), verify item schema includes itemId, name, location, description, category, hidden, dc.</idea>
+      <idea ac="AC-5">Integration test: Parse Events.md, verify 3 events defined (Kolyan Death, Strahd Awareness, Dire Wolf Attack), verify event schema compliance (eventId, name, trigger_type, effects array), verify date format for Kolyan Death event (735-10-3 06:00).</idea>
+      <idea ac="AC-6">Integration test: Load State.md via StateManager.loadState(), verify YAML frontmatter parses successfully, assert visited: false, assert empty arrays for discovered_items and completed_events, verify npc_states for Ismark/Ireena/Kolyan with initial status.</idea>
+      <idea ac="AC-7">Integration test: Load metadata.yaml, verify location_name matches "Village of Barovia", verify location_type: settlement, verify connected_locations array has 3 entries (death_house, tser_pool_encampment, old_svalich_road) with direction and travel_time.</idea>
+      <idea ac="AC-8">Integration test with LocationLoader: Call LocationLoader.loadLocation('village-of-barovia'), assert success: true, verify returned LocationData structure has all fields populated (description with variants, npcs array length 6, items array, events array, state object, metadata object), assert no errors thrown.</idea>
+      <idea ac="AC-9">Integration test with EventScheduler: Call EventScheduler.registerEvents('village-of-barovia', events), manually trigger "Kolyan Death" event, verify EventExecutor applies effects (kolyan npc_status → Dead, burgomaster_dead → true), verify StateManager.loadState() reflects updated state.</idea>
+      <idea ac="AC-10">Manual end-to-end test: Start session, execute /travel village-of-barovia command, verify location loads and description displays, interact with Ismark NPC, discover Letter item in mansion, advance calendar to trigger Kolyan Death event, verify state persists across session reload, verify return visit shows "return" description variant.</idea>
+    </ideas>
+  </tests>
+</story-context>

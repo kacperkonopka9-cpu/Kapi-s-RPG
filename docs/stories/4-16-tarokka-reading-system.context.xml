@@ -1,0 +1,329 @@
+<story-context id="4-16-tarokka-reading-system" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>16</storyId>
+    <title>Tarokka Reading System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-16-tarokka-reading-system.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Game Master running Curse of Strahd</asA>
+    <iWant>a Tarokka card reading system that randomizes the locations of the three legendary artifacts (Sunsword, Holy Symbol of Ravenkind, Tome of Strahd), identifies a destined ally, and reveals Strahd's location for the final confrontation</iWant>
+    <soThat>each playthrough has unique artifact placement and story variations, creating replayability and mystery while maintaining compatibility with Epic 2 EventScheduler for Madam Eva's reading event at Tser Pool Encampment</soThat>
+    <tasks>
+      - Task 1: Create Tarokka Deck Definition (5 subtasks: template schema, directory creation, 54-card deck with High Deck 14 cards + Common Deck 40 cards)
+      - Task 2: Define Reading Configuration (8 subtasks: config file, map 10 locations per artifact x3, map 14 allies, map 13 Castle Ravenloft enemy locations, DM guidance, fallback defaults)
+      - Task 3: Implement Tarokka Reading Module (10 subtasks: create src/tarokka/ dir, TarokkaReader class, shuffleDeck with seeded RNG, drawCard, performFullReading, getArtifactLocation, getAlly, getEnemyLocation, CommonJS export)
+      - Task 4: Integrate with Madam Eva and Events (8 subtasks: load/update madam-eva.yaml, add Tarokka dialogue, update tser-pool-encampment/Events.md, add reading event with location_visit trigger, create game-data/state/, save results to tarokka-reading.yaml, update artifact currentLocationId, mark ally destinedAlly flag)
+      - Task 5: Update Artifact Items with Location Data (6 subtasks: load 3 artifact items from Story 4-15, add tarokkaLocationId and possibleLocations fields to each, validate location IDs exist)
+      - Task 6: Create Integration Tests (11 subtasks: create tests/integration/tarokka/ dir, 8 test suites covering deck validation, determinism, full reading, location/NPC/enemy validation, state persistence, event integration, 30-40 tests total, 100% pass rate)
+      - Task 7: Create Documentation and DM Tools (9 subtasks: docs/tarokka-reading-guide.md with 54 card meanings, 3 example readings, location reveals, ally mechanics, enemy tactical notes, DM override instructions, Epic 5 LLM-DM integration notes, ASCII card reference)
+      - Task 8: Validation and Story Completion (8 subtasks: run integration tests, manual tests, validate locations/NPCs exist, verify state persistence and determinism, update story completion notes)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" priority="critical">
+      <description>Tarokka Deck Definition Created</description>
+      <details>Complete 54-card Tarokka deck defined in game-data/tarokka/tarokka-deck.yaml: 4 suits (High Deck 14 cards + Swords/Coins/Glyphs/Stars 10 cards each). Each card includes id, suit, name, number/rank, description, lore, fortune-telling meaning. High Deck cards: Master, Marionette, Mists, Executioner, Broken One, Tempter, Beast, Darklord, Donjon, Raven, Innocent, Seer, Ghost, Horseman. Conforms to templates/tarokka/tarokka-deck-template.yaml schema.</details>
+    </criterion>
+    <criterion id="AC-2" priority="critical">
+      <description>Reading Configuration Defined</description>
+      <details>Reading configuration created in game-data/tarokka/reading-config.yaml: 3 artifact readings (Sunsword, Holy Symbol, Tome), ally reading with 14 possible NPCs, enemy reading for Strahd final location. Each reading maps cards to specific locations/NPCs. Card-to-location mapping follows official Curse of Strahd Tarokka reading table (CoS p.11-16). Configuration includes fallback defaults if reading not performed.</details>
+    </criterion>
+    <criterion id="AC-3" priority="critical">
+      <description>Tarokka Reading Module Implemented</description>
+      <details>Reading module created in src/tarokka/tarokka-reader.js: TarokkaReader class with methods shuffleDeck(), drawCard(), performFullReading(), getArtifactLocation(cardId), getAlly(cardId), getEnemyLocation(cardId). Deterministic shuffling using seeded RNG (save/load compatibility). Reading results object: {artifacts: {sunsword, holySymbol, tome}, ally, enemyLocation, timestamp, seed}. Validates drawn cards are unique. CommonJS export for Epic 3 compatibility.</details>
+    </criterion>
+    <criterion id="AC-4" priority="high">
+      <description>Madam Eva Integration</description>
+      <details>Madam Eva NPC profile updated in game-data/npcs/madam-eva.yaml to reference Tarokka reading. Tser Pool Encampment Events.md updated with scheduled Tarokka reading event. Reading event triggers on first location_visit, integrates with Epic 2 EventScheduler. Event stores results in game-data/state/tarokka-reading.yaml. Event prevents duplicate readings (once per campaign).</details>
+    </criterion>
+    <criterion id="AC-5" priority="critical">
+      <description>Artifact Location Randomization</description>
+      <details>Reading results map to specific location IDs in Epic 4 location structure. Sunsword possible locations (10): Castle Ravenloft Treasury, Amber Temple, Argynvostholt Beacon, Wizard of Wines cellar, etc. Holy Symbol possible locations (10): Castle Ravenloft Chapel, Abbey of St. Markovia, Church of St. Andral, Tser Pool shrine, etc. Tome possible locations (10): Castle Ravenloft Study, Amber Temple library, Van Richten's Tower, Death House library, etc. Each location ID validated against existing Epic 4 location folders. Artifact item files (Story 4-15) updated with tarokkaLocationId field.</details>
+    </criterion>
+    <criterion id="AC-6" priority="high">
+      <description>Ally Identification System</description>
+      <details>Ally reading maps cards to specific NPCs. Possible allies (14): Rudolph van Richten, Ezmerelda d'Avenir, Ireena Kolyana, Kasimir Velikov, Rictavio, Ismark, Father Lucian, Vasilka, Sir Godfrey, Pidlwick II, Arrigal, Clovin Belview, Mad Mage Mordenkainen, Davian Martikov. Each ally includes brief description of how they help. Ally NPC profiles marked with destinedAlly flag when selected. DM guidance for each ally: when/how they appear, mechanical benefits.</details>
+    </criterion>
+    <criterion id="AC-7" priority="high">
+      <description>Enemy Location System</description>
+      <details>Enemy reading determines Strahd final battle location within Castle Ravenloft. Possible locations (13): Throne Room, Great Hall, Study, Crypt, Tower of Strahd, Dungeon, Chapel, Audience Hall, Larder of Ill Omen, Halls of Bones, Tower Summit, Overlook, Heart of Sorrow. Each location references Castle Ravenloft structure (Story 4-2). Location includes tactical notes for Strahd combat: lair actions, legendary actions, environmental hazards. DM reminders for preparation.</details>
+    </criterion>
+    <criterion id="AC-8" priority="high">
+      <description>State Persistence and Save/Load</description>
+      <details>Reading results persist in game-data/state/tarokka-reading.yaml. State file structure: seed, readingDate, results (artifacts, ally, enemyLocation), cardIds. State loads on game initialization. Git-compatible plain text YAML. Export function: exportReadingToMarkdown() generates human-readable summary for DM notes. Reading immutable once performed (cannot be changed).</details>
+    </criterion>
+    <criterion id="AC-9" priority="critical">
+      <description>Integration Tests</description>
+      <details>Test file created: tests/integration/tarokka/tarokka-reading.test.js. Test suites: (1) Deck Validation - all 54 cards load, unique ids, all suits present; (2) Reading Determinism - same seed produces same reading; (3) Full Reading - performs complete reading, returns valid results; (4) Location Validation - all artifact locations exist in game-data/locations/; (5) Ally Validation - all allies reference valid NPCs in game-data/npcs/; (6) Enemy Location Validation - all enemy locations within Castle Ravenloft; (7) State Persistence - save reading, reload, verify identical; (8) Event Integration - trigger reading event, verify state updates. Target: 30-40 tests, 100% pass rate.</details>
+    </criterion>
+    <criterion id="AC-10" priority="medium">
+      <description>Documentation and DM Tools</description>
+      <details>Tarokka reading documentation created in docs/tarokka-reading-guide.md. Guide includes: card meanings, reading interpretation, location reveals, ally mechanics. Example readings with full interpretation (3 sample readings). DM tools: manual override instructions (change reading results if needed), re-draw mechanism. Visual card reference: ASCII art or descriptions for each card. Integration notes for Epic 5 LLM-DM (how to narrate Madam Eva's reading).</details>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Curse of Strahd Content Implementation</title>
+        <section>AC-6: Tarokka Reading System Implemented</section>
+        <snippet>Tarokka deck definition created (54 cards: 14 per suit × 4 suits - 2 jokers). Card reading system randomizes artifact locations (Sunsword, Holy Symbol, Tome). Card reading identifies ally (Van Richten, Ezmerelda, or other). Card reading reveals Strahd's location for final battle. Tarokka reading integrates with Madam Eva NPC at Tser Pool location. Reading results stored in game state (prevents re-rolls). Artifact locations update based on reading results.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>Custom Systems - Tarokka Reading System</section>
+        <snippet>Tarokka Reading System: Card-based randomization for artifact locations, ally identification, enemy weakness. System uses deterministic seeded RNG for save/load compatibility. Integration with Epic 2 EventScheduler for Madam Eva reading event at Tser Pool Encampment.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/4-15-item-database.md</path>
+        <title>Story 4.15: Item Database</title>
+        <section>Learnings from Previous Story</section>
+        <snippet>Story 4-15 delivered 14 magic items including 3 legendary artifacts (sunsword.yaml, holy-symbol-of-ravenkind.yaml, tome-of-strahd.yaml). All items include Tarokka location integration noted for Story 4-16 dependency. Template-driven development using magic-item-template.yaml as single source of truth. Content-only approach (no code changes). 71 integration tests, 100% pass rate.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>Epic 2: Game Calendar & Dynamic World System</section>
+        <snippet>EventScheduler triggers time-based events. EventExecutor applies event effects to world state. StateManager persists state changes to location State.md files. All Epic 4 content integrates with existing Epic 2 systems without code changes.</snippet>
+      </artifact>
+      <artifact>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions - CLAUDE.md</title>
+        <section>Epic 4 Design Decisions</section>
+        <snippet>Epic 4 is pure content implementation with zero changes to system architecture. All content imports leverage existing systems from Epics 1-3. File-first design: all content stored in markdown/YAML files. Git-compatible plain text files for version control. Separation of concerns: content separate from game logic.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/4-2-castle-ravenloft-structure.md</path>
+        <title>Story 4.2: Castle Ravenloft Structure</title>
+        <section>Completion Notes</section>
+        <snippet>Story 4-2 created 79 Castle Ravenloft location files including 13 major rooms suitable for Strahd final battle: Throne Room, Great Hall, Study, Crypt, Tower of Strahd, Dungeon, Chapel, Audience Hall, Larder, Halls of Bones, Tower Summit, Overlook, Heart of Sorrow. All rooms validated against Epic 1 location structure.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/stories/4-9-major-npcs-batch-1.md</path>
+        <title>Story 4.9: Major NPCs Batch 1</title>
+        <section>Completion Notes</section>
+        <snippet>Story 4-9 created 4 major NPC profiles including Madam Eva (Vistani seer, located at Tser Pool Encampment, performs Tarokka readings). NPC profiles use Epic 3 CharacterManager format. All NPCs include dialogue, stats, AI behavior notes, quest involvement.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-350</lines>
+        <reason>Epic 2 Event Scheduling system - use to trigger Tarokka reading event when player first visits Tser Pool Encampment. Supports location_visit trigger type for once-only events.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-280</lines>
+        <reason>Epic 2 Event Execution engine - use to apply Tarokka reading results to game state. Supports effect types: npc_status, state_update, custom. Batches state updates to same location.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/item-database.js</path>
+        <kind>service</kind>
+        <symbol>ItemDatabase</symbol>
+        <lines>1-200</lines>
+        <reason>Epic 3 Item Management system - artifact items (Sunsword, Holy Symbol, Tome) will be updated with tarokkaLocationId field referencing reading results. Use ItemDatabase.loadItem(itemId) to load and update artifacts.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/items/sunsword.yaml</path>
+        <kind>data</kind>
+        <symbol>sunsword</symbol>
+        <lines>1-213</lines>
+        <reason>Legendary artifact from Story 4-15 - must add tarokkaLocationId and possibleLocations fields for reading integration. Currently notes Tarokka location in locationInfo section.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/items/holy-symbol-of-ravenkind.yaml</path>
+        <kind>data</kind>
+        <symbol>holy_symbol_of_ravenkind</symbol>
+        <lines>1-400</lines>
+        <reason>Legendary artifact from Story 4-15 - must add tarokkaLocationId and possibleLocations fields for reading integration. Sentient item with CG alignment.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/items/tome-of-strahd.yaml</path>
+        <kind>data</kind>
+        <symbol>tome_of_strahd</symbol>
+        <lines>1-325</lines>
+        <reason>Legendary artifact from Story 4-15 - must add tarokkaLocationId and possibleLocations fields for reading integration. Lore book revealing Strahd's history.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/tser-pool-encampment/Events.md</path>
+        <kind>data</kind>
+        <symbol>tser_pool_events</symbol>
+        <lines>1-100</lines>
+        <reason>Tser Pool location events file (Story 4-5) - add Tarokka reading event with location_visit trigger. Event executes TarokkaReader.performFullReading() and saves results to game-data/state/tarokka-reading.yaml.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/npcs/madam-eva.yaml</path>
+        <kind>data</kind>
+        <symbol>madam_eva</symbol>
+        <lines>1-300</lines>
+        <reason>Madam Eva NPC profile from Story 4-9 - update with Tarokka reading dialogue (introduction, card reveal narration, interpretation). Add AI behavior notes for LLM-DM to narrate reading scene.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/castle-ravenloft/throne-room/metadata.yaml</path>
+        <kind>data</kind>
+        <symbol>throne_room_metadata</symbol>
+        <lines>1-50</lines>
+        <reason>Castle Ravenloft Throne Room (Story 4-2) - one of 13 possible Strahd final battle locations. Reference for enemy location validation. All Castle Ravenloft rooms use consistent metadata.yaml structure.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/items/item-database.test.js</path>
+        <kind>test</kind>
+        <symbol>item_database_tests</symbol>
+        <lines>1-330</lines>
+        <reason>Item Database integration tests from Story 4-15 (71 tests, 100% pass rate) - follow similar structure for Tarokka tests. Use Jest describe/test blocks, beforeEach setup, specific assertions, deep property validation.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0" type="devDependency">Testing framework for integration tests</package>
+        <package name="js-yaml" version="^4.1.0" type="dependency">YAML parsing for deck, config, and state files</package>
+        <package name="date-fns" version="^2.30.0" type="dependency">Date handling for reading timestamps</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="CONST-1" category="architecture">
+      <description>Content-First Approach (Epic 4 Pattern)</description>
+      <details>Epic 4 creates ONLY content files + minimal logic modules. TarokkaReader is lightweight logic module (200-300 lines max), not a full subsystem. All data stored in YAML files (deck, config, state). No changes to Epic 1-3 core systems. No new dependencies added to package.json.</details>
+    </constraint>
+    <constraint id="CONST-2" category="integration">
+      <description>Epic 2 Event System Integration</description>
+      <details>Reading triggered by Epic 2 EventScheduler (location_visit event). Results applied via EventExecutor (state updates, artifact placement). Once-only execution (event flag prevents duplicate readings). Use existing event effect types (npc_status, state_update, custom) - do not create new types.</details>
+    </constraint>
+    <constraint id="CONST-3" category="data-validation">
+      <description>Location and NPC Validation</description>
+      <details>All location IDs in reading-config.yaml MUST validate against existing game-data/locations/ folders (from Stories 4-1 to 4-6). All NPC IDs MUST validate against game-data/npcs/ files (from Stories 4-7 to 4-10). Castle Ravenloft enemy locations MUST validate against Story 4-2 structure. Invalid location/NPC references will break reading system - validation tests are critical.</details>
+    </constraint>
+    <constraint id="CONST-4" category="determinism">
+      <description>Deterministic Randomization for Save/Load</description>
+      <details>Seeded RNG for shuffling ensures same seed = same reading (save/load compatibility). Reading seed stored with results for reproducibility. Git-compatible state persistence (plain text YAML). Use Math.seedrandom or similar deterministic RNG library (if needed, add to devDependencies only).</details>
+    </constraint>
+    <constraint id="CONST-5" category="file-structure">
+      <description>Template-Driven Development Pattern</description>
+      <details>Create templates/tarokka/tarokka-deck-template.yaml and tarokka-config-template.yaml as single source of truth (follow Story 4-15 pattern). All Tarokka data files conform to templates. Include templateVersion and compatibleWith fields for Epic 3 compatibility tracking.</details>
+    </constraint>
+    <constraint id="CONST-6" category="testing">
+      <description>Comprehensive Integration Testing</description>
+      <details>Target: 30-40 tests covering deck, reading, locations, NPCs, state, events (following Story 4-15 pattern: 71 tests for 14 items, so ~35 tests for Tarokka system is proportional). 100% pass rate required before story completion. Tests organized by category within single test file. Use Jest describe/test blocks, specific assertions.</details>
+    </constraint>
+    <constraint id="CONST-7" category="state-management">
+      <description>State Persistence Pattern</description>
+      <details>Use StateManager for reading results persistence (same as location State.md pattern). Store in game-data/state/tarokka-reading.yaml, not in-memory. Reading results are immutable once performed (no re-rolls without manual state file deletion). State file Git-compatible for version control.</details>
+    </constraint>
+    <constraint id="CONST-8" category="artifact-updates">
+      <description>Artifact Item File Updates</description>
+      <details>Story 4-15 delivered sunsword.yaml, holy-symbol-of-ravenkind.yaml, tome-of-strahd.yaml. This story MUST update those existing files with tarokkaLocationId and possibleLocations fields - do not create new files, edit existing using Edit tool. Preserve all existing item properties. Add fields in consistent location (after locationInfo section).</details>
+    </constraint>
+    <constraint id="CONST-9" category="documentation">
+      <description>Documentation Rigor</description>
+      <details>Tarokka guide must match Story 4-15 quality: comprehensive lore, DM reminders, tactical notes. Each card includes fortune-telling meaning. Each location reveal includes how-to-find guidance. Each ally includes mechanical benefits. DM override instructions clear and actionable. Epic 5 LLM-DM integration notes for narrating Madam Eva scene.</details>
+    </constraint>
+    <constraint id="CONST-10" category="module-export">
+      <description>CommonJS Export for Epic 3 Compatibility</description>
+      <details>TarokkaReader module must export as CommonJS (module.exports = TarokkaReader) for compatibility with Epic 3 systems (ItemDatabase, EventScheduler use CommonJS). No ES6 module syntax (import/export). Follow existing Epic 3 module patterns from src/calendar/ and src/mechanics/.</details>
+    </constraint>
+    <constraint id="CONST-11" category="epic-4-content">
+      <description>Content-Only Approach (No Code Module Changes)</description>
+      <details>Do not modify any existing Epic 1-3 modules. TarokkaReader is new module (src/tarokka/tarokka-reader.js), all other changes are YAML data files. No changes to EventScheduler, EventExecutor, ItemDatabase, StateManager. Integration happens via data files and event definitions, not code modification.</details>
+    </constraint>
+    <constraint id="CONST-12" category="official-content">
+      <description>Curse of Strahd Official Content Compliance</description>
+      <details>Card meanings, location mappings, and ally/enemy selections MUST follow official Curse of Strahd Tarokka reading tables (CoS p.11-16). Do not invent homebrew cards or mappings. Use official card names and interpretations. Maintain D&D 5e/Curse of Strahd canon.</details>
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>TarokkaReader.shuffleDeck(seed)</name>
+      <kind>method</kind>
+      <signature>shuffleDeck(seed: number): void</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Shuffles the 54-card deck using deterministic seeded RNG. Same seed produces same shuffle order. Resets drawn cards. Called before performFullReading().</description>
+    </interface>
+    <interface>
+      <name>TarokkaReader.drawCard()</name>
+      <kind>method</kind>
+      <signature>drawCard(): Card | null</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Draws one card from shuffled deck. Removes card from deck (prevents duplicates). Returns Card object {id, suit, name, rank, description} or null if deck empty. Called 5 times during performFullReading().</description>
+    </interface>
+    <interface>
+      <name>TarokkaReader.performFullReading(seed)</name>
+      <kind>method</kind>
+      <signature>performFullReading(seed?: number): ReadingResult</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Performs complete Tarokka reading: shuffles deck with seed (or timestamp), draws 5 cards (3 artifacts, 1 ally, 1 enemy), maps cards to locations/NPCs. Returns ReadingResult {artifacts: {sunsword, holySymbol, tome}, ally, enemyLocation, timestamp, seed, cardIds}.</description>
+    </interface>
+    <interface>
+      <name>TarokkaReader.getArtifactLocation(cardId, artifactType)</name>
+      <kind>method</kind>
+      <signature>getArtifactLocation(cardId: string, artifactType: 'sunsword'|'holySymbol'|'tome'): string</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Maps drawn card to specific artifact location. Uses reading-config.yaml mappings. Returns location ID (e.g., 'castle-ravenloft-treasury'). Validates location exists in game-data/locations/.</description>
+    </interface>
+    <interface>
+      <name>TarokkaReader.getAlly(cardId)</name>
+      <kind>method</kind>
+      <signature>getAlly(cardId: string): string</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Maps drawn card to destined ally NPC. Uses reading-config.yaml mappings. Returns NPC ID (e.g., 'rudolph-van-richten'). Validates NPC exists in game-data/npcs/.</description>
+    </interface>
+    <interface>
+      <name>TarokkaReader.getEnemyLocation(cardId)</name>
+      <kind>method</kind>
+      <signature>getEnemyLocation(cardId: string): string</signature>
+      <path>src/tarokka/tarokka-reader.js</path>
+      <description>Maps drawn card to Strahd final battle location within Castle Ravenloft. Uses reading-config.yaml mappings. Returns location ID (e.g., 'castle-ravenloft-throne-room'). Validates location exists in Castle Ravenloft structure.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler (Epic 2 Integration)</name>
+      <kind>event-trigger</kind>
+      <signature>Event trigger: {type: 'location_visit', locationId: 'tser-pool-encampment', onceOnly: true, effect: 'tarokka-reading'}</signature>
+      <path>game-data/locations/tser-pool-encampment/Events.md</path>
+      <description>Tarokka reading event triggers when player first visits Tser Pool Encampment. Epic 2 EventScheduler detects location_visit, executes tarokka-reading event effect, calls TarokkaReader.performFullReading(), saves results to game-data/state/tarokka-reading.yaml. Event flag onceOnly: true prevents duplicate readings.</description>
+    </interface>
+    <interface>
+      <name>ItemDatabase (Epic 3 Integration)</name>
+      <kind>item-field</kind>
+      <signature>Item YAML fields: tarokkaLocationId: string | null, possibleLocations: string[]</signature>
+      <path>game-data/items/sunsword.yaml (and holy-symbol, tome)</path>
+      <description>Artifact items updated with Tarokka fields. tarokkaLocationId initially null, set by reading event to actual location. possibleLocations array contains 10 location IDs from reading-config.yaml. ItemDatabase.loadItem() reads these fields.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Integration tests use Jest framework (v29.7.0) with describe/test blocks. Tests organized by category (Deck, Reading, Validation, State, Events) within single test file tests/integration/tarokka/tarokka-reading.test.js. Use beforeEach for setup, specific assertions (expect, toBe, toContain), deep property validation (nested object checks). Mock dependencies (fs, StateManager, EventScheduler) for unit tests. Integration tests use actual YAML files. Target: 30-40 tests, 100% pass rate. Follow Story 4-15 pattern (71 tests for 14 items = ~5 tests per item, so ~6 tests per major component for Tarokka). Tests validate all 10 ACs with evidence.</standards>
+    <locations>
+      - tests/integration/tarokka/tarokka-reading.test.js (all Tarokka integration tests)
+      - tests/unit/tarokka/ (optional unit tests for TarokkaReader methods)
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test Suite 1 - Deck Validation: Load tarokka-deck.yaml, verify 54 cards total, verify all card IDs unique, verify 4 suits + High Deck present, verify High Deck has 14 cards, verify each common suit has 10 cards, verify each card has required fields (id, suit, name, rank, description, lore, meaning)</idea>
+      <idea ac="AC-2">Test Suite 2 - Config Validation: Load reading-config.yaml, verify 3 artifact configurations (sunsword, holySymbol, tome), verify each artifact has 10 possible locations, verify ally config has 14 NPCs, verify enemy config has 13 Castle Ravenloft locations, verify fallback defaults defined</idea>
+      <idea ac="AC-3">Test Suite 3 - Reading Determinism: Call performFullReading(seed=12345) twice, verify identical results (same artifacts, ally, enemy), verify same 5 cardIds drawn, verify timestamp differs but other fields match. Test different seeds produce different results.</idea>
+      <idea ac="AC-3">Test Suite 4 - Full Reading: Call performFullReading(), verify returns ReadingResult object, verify 5 unique cards drawn (no duplicates), verify artifacts object has sunsword/holySymbol/tome keys, verify ally is string, verify enemyLocation is string, verify seed and timestamp present, verify cardIds array has 5 elements</idea>
+      <idea ac="AC-5">Test Suite 5 - Location Validation: For each artifact in config, iterate possibleLocations array, verify each location ID exists in game-data/locations/ using fs.existsSync(). Test all 30 artifact locations (10 per artifact x3). Verify location metadata.yaml files exist.</idea>
+      <idea ac="AC-6">Test Suite 6 - Ally Validation: For each ally in config, verify NPC file exists in game-data/npcs/ using fs.existsSync(). Test all 14 ally NPCs. Load NPC YAML and verify required fields (npcId, name, type). Verify ally description present in config.</idea>
+      <idea ac="AC-7">Test Suite 7 - Enemy Location Validation: For each enemy location in config, verify location exists in game-data/locations/castle-ravenloft/ structure. Test all 13 enemy locations. Verify each is actual Castle Ravenloft room from Story 4-2. Load location metadata.yaml and verify location_name field.</idea>
+      <idea ac="AC-8">Test Suite 8 - State Persistence: Call performFullReading(seed=99999), save results to game-data/state/tarokka-reading.yaml using js-yaml dump, reload file using js-yaml load, verify loaded results identical to original. Test YAML structure valid. Test seed, readingDate, results.artifacts, results.ally, results.enemyLocation, cardIds all persist correctly.</idea>
+      <idea ac="AC-4">Test Suite 9 - Event Integration: Load tser-pool-encampment/Events.md, verify tarokka-reading event exists, verify event has location_visit trigger, verify event has onceOnly: true flag. Mock EventScheduler.triggerEvent(), verify reading executes, verify state file created. Test event prevents duplicate readings (second trigger does nothing).</idea>
+      <idea ac="AC-1">Deck Loading Test: Load tarokka-deck.yaml, verify YAML parses without errors, verify all High Deck cards present (Master, Marionette, Mists, Executioner, Broken One, Tempter, Beast, Darklord, Donjon, Raven, Innocent, Seer, Ghost, Horseman)</idea>
+      <idea ac="AC-3">Draw Card Test: Shuffle deck, call drawCard() 54 times, verify all 54 cards drawn (no null before deck empty), verify 55th call returns null (deck empty), verify no duplicates in drawn cards</idea>
+      <idea ac="AC-5">Artifact Update Test: Load sunsword.yaml, verify tarokkaLocationId field exists (initially null), verify possibleLocations array exists with 10 location IDs, repeat for holy-symbol and tome. After reading, verify tarokkaLocationId updated to actual location from reading results.</idea>
+    </ideas>
+  </tests>
+</story-context>

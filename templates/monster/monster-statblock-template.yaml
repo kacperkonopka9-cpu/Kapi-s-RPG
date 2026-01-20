@@ -1,0 +1,238 @@
+# Monster Stat Block Template for Curse of Strahd
+# Compatible with Epic 3 CombatManager (Story 3-5)
+# Used by Epic 4 for all monster/enemy implementations
+
+# === BASIC INFORMATION ===
+name: "Monster Name"
+monsterId: "unique_monster_id"  # lowercase with underscores
+size: "Medium"  # Tiny, Small, Medium, Large, Huge, Gargantuan
+type: "undead"  # aberration, beast, celestial, construct, dragon, elemental, fey, fiend, giant, humanoid, monstrosity, ooze, plant, undead
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 1  # CR (0, 1/8, 1/4, 1/2, 1-30)
+experiencePoints: 200  # XP value for this CR
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12  # AC value
+armorType: "natural armor"  # natural armor, unarmored, armor type
+
+hitPoints:
+  max: 22
+  current: 22
+  hitDice: "3d8"  # Dice formula for HP
+  hitDiceBonus: 6  # Constitution modifier * HD count
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 13    # +1
+  dexterity: 6    # -2
+  constitution: 16  # +3
+  intelligence: 3  # -4
+  wisdom: 6      # -2
+  charisma: 5    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 20  # feet per round
+  fly: null  # null or number (feet)
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows:
+  wisdom: 0  # +0 total bonus (or null if not proficient)
+  # Only list saves the monster is proficient in
+
+skills: {}  # e.g., stealth: 2, perception: 3 (bonus to skill check)
+
+damageVulnerabilities: []  # e.g., ["fire"]
+damageResistances: []  # e.g., ["necrotic", "cold"]
+damageImmunities: []  # e.g., ["poison"]
+conditionImmunities: []  # e.g., ["poisoned", "exhaustion"]
+
+# === SENSES ===
+senses:
+  darkvision: 60  # feet (null if no darkvision)
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 8  # 10 + Wisdom modifier + proficiency (if proficient)
+
+# === LANGUAGES ===
+languages: []  # e.g., ["Common", "Draconic"] or [] if understands none
+languageNote: "understands Common but can't speak"  # Optional clarification
+
+# === COMBAT MANAGER INTEGRATION (Required for Epic 3 CombatManager) ===
+combatStats:
+  id: "monster_instance_id"  # Unique per instance (e.g., "zombie_1", "zombie_2")
+  name: "Monster Name"  # Display name
+  dexModifier: -2  # Dex modifier for initiative
+  type: "monster"  # Always "monster" for enemies
+
+# === SPECIAL TRAITS ===
+traits: []
+# Example:
+# traits:
+#   - name: "Undead Fortitude"
+#     description: "If damage reduces the zombie to 0 HP, it must make a Constitution save with DC 5 + damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 HP instead."
+#     mechanics:
+#       type: "survival_check"
+#       trigger: "reduced_to_zero_hp"
+#       saveDC: "5_plus_damage"
+#       exceptions: ["radiant_damage", "critical_hit"]
+
+# === ACTIONS ===
+actions:
+  - name: "Slam"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # Str modifier + proficiency
+    reach: 5  # feet
+    targets: 1  # number of targets
+    damage:
+      dice: "1d6"
+      bonus: 1  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage."
+
+# Additional actions:
+# actions:
+#   - name: "Multiattack"
+#     description: "The creature makes two attacks"
+#     mechanics:
+#       type: "multiattack"
+#       attacks: 2
+
+#   - name: "Bite"
+#     type: "melee_weapon_attack"
+#     attackBonus: 5
+#     reach: 5
+#     targets: 1
+#     damage:
+#       dice: "1d6"
+#       bonus: 3
+#       damageType: "piercing"
+#     additionalEffects:
+#       - type: "grapple"
+#         escapeDC: 13
+#       - type: "condition"
+#         condition: "grappled"
+
+# === LEGENDARY ACTIONS (null for non-legendary creatures) ===
+legendaryActions: null
+# For legendary creatures (e.g., Strahd, Ancient Dragons):
+# legendaryActions:
+#   actionsPerRound: 3
+#   description: "The creature can take 3 legendary actions, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. The creature regains spent legendary actions at the start of its turn."
+#   actions:
+#     - name: "Detect"
+#       cost: 1
+#       description: "The creature makes a Wisdom (Perception) check."
+#
+#     - name: "Attack (Costs 2 Actions)"
+#       cost: 2
+#       description: "The creature makes one weapon attack."
+
+# === LAIR ACTIONS (null for creatures without lairs) ===
+lairActions: null
+# For creatures in their lair:
+# lairActions:
+#   initiative: 20  # Lair acts on initiative count 20 (losing ties)
+#   description: "On initiative count 20 (losing initiative ties), the creature can take a lair action to cause one of the following effects:"
+#   actions:
+#     - name: "Lair Action 1"
+#       description: "Effect description"
+#       mechanics:
+#         type: "spell_effect"
+#         effect: "fog_cloud"
+#         duration: "until_dispelled"
+
+# === REACTIONS (null if no reactions) ===
+reactions: null
+# If monster has reactions:
+# reactions:
+#   - name: "Parry"
+#     description: "The creature adds 2 to its AC against one melee attack that would hit it. To do so, the creature must see the attacker and be wielding a melee weapon."
+#     trigger: "hit_by_melee_attack"
+#     effect: "+2 AC"
+
+# === EQUIPMENT (null for monsters without equipment) ===
+equipment: null
+# If monster has lootable equipment:
+# equipment:
+#   - item: "longsword"
+#     quantity: 1
+#   - item: "studded_leather"
+#     quantity: 1
+
+# === LOOT (what drops when monster dies) ===
+loot:
+  guaranteed: []  # Always drops
+  # - item: "zombie_brain"
+  #   quantity: 1
+  #   dropChance: 100
+
+  conditional: []  # Chance-based drops
+  # - item: "gold_coin"
+  #   quantity: "1d6"
+  #   dropChance: 50  # 50% chance to drop 1d6 gold
+
+# === AI BEHAVIOR (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Shambles toward nearest target and attacks. No strategy."
+  intelligence: "animalistic"  # mindless, animalistic, cunning, genius
+  aggression: "high"  # low, medium, high
+  groupTactics: "none"  # none, pack, coordinated, strategic
+
+  preferredTargets:
+    - "nearest enemy"
+
+  flee Threshold: null  # HP threshold to flee (null = fights to death)
+  fleeConditions: []  # e.g., ["outnumbered", "allies_dead", "below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Any"  # Where this creature is typically found
+  organization: "Solitary, gang (2-4), or mob (5-20)"  # How they appear in groups
+
+lore:
+  description: "Zombies are undead creatures animated by dark magic. They mindlessly obey their creator's commands."
+  weakness: "Vulnerable to radiant damage, can't regain HP"
+  behavior: "Shambles toward living creatures, attacks relentlessly"
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1  # Party level for balanced encounter
+  encounterSize: "1 per PC"  # e.g., "1 per 2 PCs", "1 boss + 2 minions"
+  terrain: "Any"
+  tactics: "Zombies shamble forward in a straight line toward living creatures. No tactics, no self-preservation."
+
+# === VARIANTS (null if no variants) ===
+variants: null
+# If monster has variants (e.g., different zombie types):
+# variants:
+#   - name: "Plague Zombie"
+#     changes:
+#       traits:
+#         - name: "Plague Bearer"
+#           description: "Any creature that starts its turn within 5 feet must succeed on a DC 10 Constitution save or become poisoned until the end of its next turn."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.242"
+  official: true
+  srdContent: true
+
+  notes: "Standard zombie enemy. Common in Barovia graveyards and Death House."
+
+  dmReminders:
+    - "Undead Fortitude keeps them alive longer"
+    - "No intelligence - won't avoid hazards or traps"
+
+  developmentStage: "draft"  # draft, reviewed, playtest, final
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

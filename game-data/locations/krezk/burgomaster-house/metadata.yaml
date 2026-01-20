@@ -1,0 +1,32 @@
+location_name: "Burgomaster's House"
+location_type: "building"
+region: "Barovia Valley - Western Mountains"
+parent_location: "krezk"
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village Center"
+    direction: "outside"
+    travel_time: "immediate"
+    description: "Front door opens to village center area"
+danger_level: 1
+recommended_level: "3-5"
+size: "Medium (two-story cottage)"
+description_token_count: 712
+quest_critical: true
+quests:
+  - "Save Ilya Krezkov"
+  - "Gain Dmitri's Trust"
+features:
+  - "Ilya's sickroom"
+  - "Family heirlooms"
+  - "Emotional quest hub"
+npcs:
+  - "Dmitri Krezkov"
+  - "Anna Krezkova"
+  - "Ilya Krezkov (dying)"
+treasure:
+  - "Family heirlooms (350 gp)"
+  - "Fine furnishings"
+last_validated: "2025-11-12"
+notes: "Central quest location for Ilya's illness. Time-sensitive - Ilya has limited days to live. Success here grants major trust boost with Dmitri and village. Emotional weight significant."

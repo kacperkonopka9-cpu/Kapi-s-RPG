@@ -1,0 +1,476 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest tests/integration/context/context-loader.test.js
+
+  console.log
+    
+    ✓ ContextLoader Integration Tests Complete
+
+      at Object.log (tests/integration/context/context-loader.test.js:530:11)
+
+  console.log
+      - 8 test suites
+
+      at Object.log (tests/integration/context/context-loader.test.js:531:11)
+
+  console.log
+      - 30+ tests executed
+
+      at Object.log (tests/integration/context/context-loader.test.js:532:11)
+
+  console.log
+      - Coverage: P1 loading, P2 filtering, token budget, performance, error handling
+
+      at Object.log (tests/integration/context/context-loader.test.js:533:11)
+
+FAIL tests/integration/context/context-loader.test.js (7.371 s)
+  ContextLoader Integration Tests
+    Suite 1: P1 Context Loading
+      × should load P1 context for Village of Barovia (17 ms)
+      × should estimate P1 token count around 1300 tokens (3 ms)
+      × should include context markdown in P1 (2 ms)
+    Suite 2: P2 NPC Filtering
+      × should filter NPCs by proximity (current + adjacent only) (3 ms)
+      × should assign relevance scores to NPCs (3 ms)
+      × should sort NPCs by relevance (current location first) (1 ms)
+    Suite 3: P2 Event Filtering
+      × should filter events within next 7 days (1 ms)
+      × should calculate days until event (1 ms)
+      × should sort events by proximity (soonest first) (2 ms)
+    Suite 4: Token Budget Management
+      × should enforce 3500 soft limit (default) (1 ms)
+      × should enforce 4000 hard limit (max) (1 ms)
+      × should reject budget exceeding hard limit
+      × should load P1+P2 with 3500 budget (1 ms)
+      × should include metadata with token count (1 ms)
+    Suite 5: Token Estimation Accuracy
+      × should estimate tokens for simple strings (1 ms)
+      × should estimate tokens for 400-char paragraph (1 ms)
+      × should handle markdown formatting overhead (1 ms)
+      × should return 0 for empty string (1 ms)
+    Suite 6: Epic Integration
+      × should integrate with Epic 1 LocationLoader (1 ms)
+      × should integrate with Epic 2 CalendarManager (1 ms)
+      × should parse character YAML correctly (1 ms)
+      × should return Result Object pattern (1 ms)
+    Suite 7: Performance
+      × should load context in <5 seconds for Village of Barovia (1 ms)
+      × should measure context load time (1 ms)
+    Suite 8: Error Handling
+      × should handle invalid location ID (1 ms)
+      × should handle missing character file (1 ms)
+      × should handle missing LocationLoader (1 ms)
+      × should handle missing CalendarManager (1 ms)
+      × should return Result Object on all errors
+
+  ● ContextLoader Integration Tests › Suite 1: P1 Context Loading › should load P1 context for Village of Barovia
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 1: P1 Context Loading › should estimate P1 token count around 1300 tokens
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 1: P1 Context Loading › should include context markdown in P1
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 2: P2 NPC Filtering › should filter NPCs by proximity (current + adjacent only)
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 2: P2 NPC Filtering › should assign relevance scores to NPCs
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 2: P2 NPC Filtering › should sort NPCs by relevance (current location first)
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 3: P2 Event Filtering › should filter events within next 7 days
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 3: P2 Event Filtering › should calculate days until event
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 3: P2 Event Filtering › should sort events by proximity (soonest first)
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 4: Token Budget Management › should enforce 3500 soft limit (default)
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 4: Token Budget Management › should enforce 4000 hard limit (max)
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 4: Token Budget Management › should reject budget exceeding hard limit
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 4: Token Budget Management › should load P1+P2 with 3500 budget
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 4: Token Budget Management › should include metadata with token count
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 5: Token Estimation Accuracy › should estimate tokens for simple strings
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 5: Token Estimation Accuracy › should estimate tokens for 400-char paragraph
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 5: Token Estimation Accuracy › should handle markdown formatting overhead
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 5: Token Estimation Accuracy › should return 0 for empty string
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 6: Epic Integration › should integrate with Epic 1 LocationLoader
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 6: Epic Integration › should integrate with Epic 2 CalendarManager
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 6: Epic Integration › should parse character YAML correctly
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 6: Epic Integration › should return Result Object pattern
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 7: Performance › should load context in <5 seconds for Village of Barovia
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 7: Performance › should measure context load time
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 8: Error Handling › should handle invalid location ID
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 8: Error Handling › should handle missing character file
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 8: Error Handling › should handle missing LocationLoader
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 8: Error Handling › should handle missing CalendarManager
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+  ● ContextLoader Integration Tests › Suite 8: Error Handling › should return Result Object on all errors
+
+    TypeError: LocationLoader is not a constructor
+
+    [0m [90m 30 |[39m   beforeEach(() [33m=>[39m {
+     [90m 31 |[39m     [90m// Initialize real dependencies for integration testing[39m
+    [31m[1m>[22m[39m[90m 32 |[39m     locationLoader [33m=[39m [36mnew[39m [33mLocationLoader[39m()[33m;[39m
+     [90m    |[39m                      [31m[1m^[22m[39m
+     [90m 33 |[39m     calendarManager [33m=[39m [36mnew[39m [33mCalendarManager[39m()[33m;[39m
+     [90m 34 |[39m     priorityResolver [33m=[39m [36mnew[39m [33mPriorityResolver[39m()[33m;[39m
+     [90m 35 |[39m[0m
+
+      at Object.<anonymous> (tests/integration/context/context-loader.test.js:32:22)
+
+Test Suites: 1 failed, 1 total
+Tests:       29 failed, 29 total
+Snapshots:   0 total
+Time:        7.659 s
+Ran all test suites matching /tests\\integration\\context\\context-loader.test.js/i.

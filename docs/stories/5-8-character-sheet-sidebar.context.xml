@@ -1,0 +1,189 @@
+<story-context id="5-8-character-sheet-sidebar" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>8</storyId>
+    <title>Character Sheet Sidebar</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-11-28</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-8-character-sheet-sidebar.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player of Kapi's RPG</asA>
+    <iWant>a VS Code sidebar panel displaying my character's current stats (HP, AC, spell slots, conditions, abilities)</iWant>
+    <soThat>I can quickly reference my character's state during gameplay without opening the character file manually</soThat>
+    <tasks>
+      <task id="1">Create CharacterSheetPanel Base Class - Implement VS Code WebviewViewProvider, HTML template structure, createOrShow(), updateCharacter(), dispose()</task>
+      <task id="2">Implement Character Data Loading - Create character-data-provider.ts, parse YAML, map to CharacterSheetPanelState, integrate with SessionManager</task>
+      <task id="3">Implement Auto-Refresh File Watcher - Set up watcher for character file, debounce changes, trigger panel refresh within 1 second</task>
+      <task id="4">Create Webview HTML/CSS Styling - Gothic horror theme, HP bar visualization, ability score layout, spell slots, condition badges</task>
+      <task id="5">Implement Quick Actions (Optional) - HP click handlers, condition tooltips, spell slot integration</task>
+      <task id="6">Error Handling - No character loaded state, parse error state, session error state, recovery mechanisms</task>
+      <task id="7">Update package.json Contributions - Add viewsContainers, views, commands, activation events</task>
+      <task id="8">Testing - Unit tests for data provider, integration tests for panel lifecycle, manual UI testing</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1">Character Sheet Panel Webview Implemented - Opens via kapis-rpg.show-character-sheet command showing name, level, class, HP with health bar, AC, abilities, spell slots, conditions. Renders in VS Code sidebar.</criterion>
+    <criterion id="AC-2">Live Data Loading from Character File - Loads/parses characters/{character-name}.yaml, displays all fields correctly, handles missing optional fields, shows error if file not found/corrupted.</criterion>
+    <criterion id="AC-3">Auto-Refresh on File Changes - Panel automatically refreshes within 1 second of character file modification, no manual reload required.</criterion>
+    <criterion id="AC-4">Session Integration - Automatically loads character from active session, prompts to select if no session, persists state across VS Code restarts.</criterion>
+    <criterion id="AC-5">Visual Design - Gothic Horror Theme - Dark background (#1a1a1a), warm parchment text, serif for titles, monospace for stats, visual indicators for low HP (red) and conditions.</criterion>
+    <criterion id="AC-6">Quick Actions - Click on HP opens /heal or /damage input, click on condition shows rules, click on spell slot shows available spells.</criterion>
+    <criterion id="AC-7">Error Handling and Edge Cases - Missing file shows "No character loaded" with load button, corrupted YAML shows parse error, session without character prompts selection, graceful panel closure on deactivation.</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>AC-5: VS Code UI Panels, Services and Modules, CharacterSheetPanelState interface</section>
+        <snippet>CharacterSheetPanel displays HP, AC, spell slots, conditions, abilities (live updates). Defined in extensions/.../panels/character-sheet-panel.ts with CharacterSheetPanelState interface.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-7-performance-optimization.md</path>
+        <title>Story 5.7: Performance Optimization</title>
+        <section>Dev Notes - Learnings for Story 5-8</section>
+        <snippet>Established patterns: Singleton with getInstance()/resetInstance(), file watcher with debouncing via FileWatcherManager, Result Object Pattern {success, data?, error?}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/extension-development.md</path>
+        <title>Extension Development Guide</title>
+        <section>VS Code Extension Architecture</section>
+        <snippet>VS Code extension structure with panels in extensions/kapis-rpg-dm/src/panels/, providers in providers/, and media in media/styles/.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-5-vs-code-ui-improvements.md</path>
+        <title>Story 5.5: VS Code UI Improvements</title>
+        <section>Base Panel Implementation</section>
+        <snippet>BasePanel abstract class created with show(), hide(), refresh(), dispose(), getInitialState(), handleMessage(), refreshData() methods.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Development Guide</title>
+        <section>Core Architecture, Result Object Pattern</section>
+        <snippet>All async operations return {success, data, error} objects. Always check success before accessing data. Use dependency injection for testability.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+        <kind>abstract class</kind>
+        <symbol>BasePanel</symbol>
+        <lines>87-417</lines>
+        <reason>Abstract base class for webview panels. CharacterSheetPanel must extend this class and implement getInitialState(), handleMessage(), refreshData().</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/utils/file-watcher.ts</path>
+        <kind>utility</kind>
+        <symbol>FileWatcherManager</symbol>
+        <lines>66-285</lines>
+        <reason>File watcher with debouncing (300ms) and onCharacterUpdated event emitter. Use this for auto-refresh on character file changes.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/extension.ts</path>
+        <kind>entry point</kind>
+        <symbol>activate, getFileWatcherManager</symbol>
+        <lines>171-176</lines>
+        <reason>Contains stub for kapis-rpg.showCharacterSheet command that needs full implementation. Also exposes FileWatcherManager singleton.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/package.json</path>
+        <kind>config</kind>
+        <symbol>contributes.commands, contributes.views</symbol>
+        <lines>86-96</lines>
+        <reason>Already has kapis-rpg.showCharacterSheet command registered. Need to add sidebar viewsContainers and webview view for character sheet.</reason>
+      </file>
+      <file>
+        <path>characters/kapi.yaml</path>
+        <kind>data</kind>
+        <symbol>Character YAML schema</symbol>
+        <lines>1-112</lines>
+        <reason>Reference character file showing full YAML structure: name, race, class, level, abilities, hitPoints, armorClass, spellcasting, inventory, conditions, features.</reason>
+      </file>
+      <file>
+        <path>src/session/session-manager.js</path>
+        <kind>service</kind>
+        <symbol>SessionManager.getCurrentSession</symbol>
+        <lines>63-72</lines>
+        <reason>Use getCurrentSession() to get active session and extract character file path for automatic loading.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="vscode">^1.80.0</package>
+        <package name="typescript">^5.0.0</package>
+        <package name="js-yaml">^4.1.0</package>
+        <package name="date-fns">^2.30.0</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="tech-spec-epic-5.md">Panel must extend BasePanel abstract class and implement getInitialState(), handleMessage(), refreshData() methods.</constraint>
+    <constraint source="CLAUDE.md">All async operations must return Result Objects: {success: boolean, data?: any, error?: string}.</constraint>
+    <constraint source="tech-spec-epic-5.md">VS Code webview panels must use Content Security Policy (CSP) with nonces for inline scripts.</constraint>
+    <constraint source="tech-spec-epic-5.md">File watchers limited to 20 files max (FileWatcherManager.maxWatchers). Character file uses 'character' type for type-specific events.</constraint>
+    <constraint source="CLAUDE.md">Dependency injection pattern required for all major classes for testability.</constraint>
+    <constraint source="story">Auto-refresh must complete within 1 second of file modification (debounce already set to 300ms in FileWatcherManager).</constraint>
+    <constraint source="story">Gothic horror theme: dark background (#1a1a1a), warm parchment text, serif for titles (Garamond-style), monospace for stats.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>CharacterSheetPanelState</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface CharacterSheetPanelState { character: { name: string; level: number; class: string; race?: string; hp: { current: number; max: number }; ac: number; spellSlots?: Record&lt;string, { used: number; total: number }&gt;; conditions: string[]; abilities: Record&lt;string, number&gt;; }; lastUpdated: string; autoRefresh: boolean; }</signature>
+      <path>docs/tech-spec-epic-5.md#Data-Models</path>
+    </interface>
+    <interface>
+      <name>BasePanel abstract methods</name>
+      <kind>TypeScript abstract class</kind>
+      <signature>abstract getInitialState(): Promise&lt;any&gt;; abstract handleMessage(message: PanelMessage): Promise&lt;void&gt;; abstract refreshData(): Promise&lt;any&gt;;</signature>
+      <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+    </interface>
+    <interface>
+      <name>FileWatcherManager.onCharacterUpdated</name>
+      <kind>VS Code Event</kind>
+      <signature>onCharacterUpdated: vscode.Event&lt;FileChangeEvent&gt;</signature>
+      <path>extensions/kapis-rpg-dm/src/utils/file-watcher.ts</path>
+    </interface>
+    <interface>
+      <name>PanelConfig</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface PanelConfig { viewType: string; title: string; templatePath: string; enableScripts?: boolean; retainContextWhenHidden?: boolean; viewColumn?: vscode.ViewColumn; }</signature>
+      <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+    </interface>
+    <interface>
+      <name>SessionManager.getCurrentSession</name>
+      <kind>JavaScript method</kind>
+      <signature>getCurrentSession(): Promise&lt;{success: boolean, data?: SessionState, error?: string}&gt;</signature>
+      <path>src/session/session-manager.js</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Testing uses Jest framework (v29.7.0). Follow Arrange-Act-Assert pattern. Use dependency injection for mocking. Target 80%+ coverage for core logic. Tests go in tests/ directory mirroring src/ structure. Extension tests go in tests/extension/.</standards>
+    <locations>
+      <location>tests/extension/*.test.ts</location>
+      <location>tests/extension/*.test.js</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test panel creation via show() - verify webview created with correct viewType and title</idea>
+      <idea ac="AC-1">Test HTML template loading with CSS/script URI replacement</idea>
+      <idea ac="AC-2">Test character YAML parsing with valid file - verify all fields mapped to CharacterSheetPanelState</idea>
+      <idea ac="AC-2">Test handling of missing optional fields (spellSlots null for non-casters)</idea>
+      <idea ac="AC-2">Test error handling for corrupted YAML - verify error state displayed</idea>
+      <idea ac="AC-3">Test file watcher triggers refresh callback within debounce period</idea>
+      <idea ac="AC-3">Test watcher lifecycle - starts when panel opens, disposes when panel closes</idea>
+      <idea ac="AC-4">Test SessionManager integration - panel loads character from active session</idea>
+      <idea ac="AC-4">Test state persistence - last character path saved to workspaceState</idea>
+      <idea ac="AC-5">Manual test: verify CSS styling matches gothic horror theme</idea>
+      <idea ac="AC-6">Test quick action message handling - HP click sends correct message type</idea>
+      <idea ac="AC-7">Test error states: no character loaded, parse error, file not found</idea>
+    </ideas>
+  </tests>
+</story-context>

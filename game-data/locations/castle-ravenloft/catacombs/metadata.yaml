@@ -1,0 +1,60 @@
+# Location Metadata - Castle Ravenloft: Catacombs
+
+location_name: "Castle Ravenloft - Catacombs"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Large"
+danger_level: 5
+recommended_level: "10"
+
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+
+connected_locations:
+  - name: "Lower Castle Levels"
+    direction: "Stairs up"
+    travel_time: "2 minutes"
+    description: "Stone stairs leading up to castle's lower levels"
+  - name: "Chapel (Secret Passage)"
+    direction: "Hidden stairs from K17"
+    travel_time: "5 minutes"
+    description: "Secret passage ascending to chapel"
+
+rooms_included:
+  - "K84: Catacombs Corridors"
+  - "K85: Sergei's Tomb"
+  - "K86: Strahd's Coffin"
+  - "K87: Guardians Chamber"
+  - "K88: Family Tomb"
+room_count: 5
+
+discovered: false
+first_visit_date: null
+
+description_token_count: 1500
+npc_count: 4
+item_count: 6
+event_count: 6
+
+final_battle_location: true
+strahds_coffin_location: true
+sanctuary_available: true  # Sergei's tomb
+
+typical_encounters:
+  - name: "Wight Guardians"
+    cr: 3
+    count: "1d6+2"
+  - name: "Wraith Guardians"
+    cr: 5
+    count: "1d4"
+  - name: "Strahd (Final Battle)"
+    cr: 15
+total_encounter_xp: "13000-30000 (DEADLY)"
+
+critical_locations:
+  - "K85: Sergei's Tomb (sanctuary, possible Sunsword location)"
+  - "K86: Strahd's Coffin (must stake him here to destroy permanently)"
+
+last_validated: null
+validation_status: "pending"

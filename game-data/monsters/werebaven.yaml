@@ -1,0 +1,279 @@
+# Werebaven - Shapeshifting Lycanthrope Ally
+# Source: Curse of Strahd p.243
+# Good-aligned lycanthropes who oppose Strahd (Keepers of the Feather)
+
+# === BASIC INFORMATION ===
+name: "Werebaven"
+monsterId: "werebaven"
+size: "Medium"
+type: "humanoid"
+subtype: "human, shapechanger"
+alignment: "neutral good"
+
+# === CHALLENGE RATING ===
+challengeRating: 2
+experiencePoints: 450
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12  # 12 in humanoid form (leather armor), 12 in raven/hybrid (natural armor)
+armorType: "leather armor (humanoid), natural armor (raven/hybrid)"
+
+hitPoints:
+  max: 31
+  current: 31
+  hitDice: "7d8"
+  hitDiceBonus: 0  # +0 Con modifier * 7 HD = +0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10    # +0
+  dexterity: 15   # +2
+  constitution: 11  # +0
+  intelligence: 13  # +1
+  wisdom: 15     # +2
+  charisma: 14   # +2
+
+# === SPEEDS ===
+speed:
+  walk: 30  # 10 ft in raven form
+  fly: null  # 50 ft in raven/hybrid form
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  insight: 4     # +2 Wis + 2 prof
+  perception: 6  # +2 Wis + 4 (expertise from Mimicry)
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["bludgeoning", "piercing", "slashing from nonmagical attacks that aren't silvered"]
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: 60  # Raven and hybrid forms only
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 16  # 10 + Perception (+6)
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "can understand Common in all forms but can only speak in humanoid and hybrid forms"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "werebaven_1"  # Will be set dynamically per instance
+  name: "Werebaven"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Shapechanger"
+    description: "The werebaven can use its action to polymorph into a raven-humanoid hybrid or into a raven, or back into its true form, which is humanoid. Its statistics, other than its size and speed, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+    mechanics:
+      type: "shapechange"
+      actionCost: "action"
+      forms: ["humanoid", "hybrid", "raven"]
+      statsChange: "size_and_speed_only"
+      equipmentTransform: false
+      deathReversion: "true_form"
+
+  - name: "Mimicry (Raven or Hybrid Form Only)"
+    description: "The werebaven can mimic simple sounds it has heard, such as a person whispering, a baby crying, or an animal chittering. A creature that hears the sounds can tell they are imitations with a successful DC 10 Wisdom (Insight) check."
+    mechanics:
+      type: "mimicry"
+      formRestriction: ["raven", "hybrid"]
+      detectionDC: 10
+      detectionSkill: "insight"
+
+  - name: "Regeneration (Hybrid Form Only)"
+    description: "The werebaven regains 10 hit points at the start of its turn. If the werebaven takes damage from a silvered weapon, this trait doesn't function at the start of the werebaven's next turn. The werebaven dies only if it starts its turn with 0 hit points and doesn't regenerate."
+    mechanics:
+      type: "healing"
+      trigger: "start_of_turn"
+      healAmount: 10
+      formRestriction: "hybrid"
+      disabledBy: ["silvered_weapon_damage"]
+      disableDuration: "until_next_turn"
+
+# === ACTIONS (HUMANOID AND HYBRID FORM) ===
+actions:
+  - name: "Multiattack (Human or Hybrid Form Only)"
+    description: "The werebaven makes two weapon attacks, one of which can be with its hand crossbow."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      formRestriction: ["humanoid", "hybrid"]
+      restriction: "one_crossbow_max"
+
+  - name: "Beak (Raven or Hybrid Form Only)"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    reach: 5
+    targets: 1
+    formRestriction: ["raven", "hybrid"]
+    damage:
+      dice: "1"  # Fixed 1 damage in raven form
+      bonus: 0
+      damageType: "piercing"
+    damageInHybrid:
+      dice: "1d4"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 1 piercing damage in raven form, or 4 (1d4 + 2) piercing damage in hybrid form. If the target is a humanoid, it must succeed on a DC 10 Constitution saving throw or be cursed with werebaven lycanthropy."
+    additionalEffects:
+      - type: "curse"
+        targetType: "humanoid"
+        curseName: "werebaven_lycanthropy"
+        saveDC: 10
+        saveAbility: "constitution"
+        note: "Alignment shifts to neutral good, joins Keepers of the Feather"
+
+  - name: "Shortsword (Humanoid or Hybrid Form Only)"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    reach: 5
+    targets: 1
+    formRestriction: ["humanoid", "hybrid"]
+    damage:
+      dice: "1d6"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+
+  - name: "Hand Crossbow (Humanoid or Hybrid Form Only)"
+    type: "ranged_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    range:
+      normal: 30
+      long: 120
+    targets: 1
+    formRestriction: ["humanoid", "hybrid"]
+    damage:
+      dice: "1d6"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Ranged Weapon Attack: +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+    ammunition: "bolts"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "shortsword"
+    quantity: 1
+    formRestriction: ["humanoid", "hybrid"]
+  - item: "hand_crossbow"
+    quantity: 1
+    formRestriction: ["humanoid", "hybrid"]
+  - item: "bolts"
+    quantity: 20
+    formRestriction: ["humanoid", "hybrid"]
+  - item: "leather_armor"
+    quantity: 1
+    formRestriction: "humanoid"
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "keepers_of_the_feather_token"
+      quantity: 1
+      dropChance: 80
+    - item: "raven_feather"
+      quantity: "2d4"
+      dropChance: 90
+    - item: "silver_dagger"
+      quantity: 1
+      dropChance: 30
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Use raven form for scouting and espionage. Transform to hybrid for combat (Regeneration active). Multiattack with shortsword + hand crossbow. Use Mimicry to distract or misdirect enemies. Aid party members - coordinate with PCs rather than fighting independently. Avoid killing when possible (neutral good alignment). Use flight to maintain range advantage."
+  intelligence: "cunning"
+  aggression: "low"  # Defensive, protective
+  groupTactics: "coordinated"  # Work with PCs and Keepers
+
+  preferredTargets:
+    - "enemies threatening allies"
+    - "Strahd's servants (vampires, werewolves)"
+    - "major threats first"
+
+  fleeThreshold: 10  # HP threshold
+  fleeConditions: ["allies_safe", "below_30_percent_hp", "silver_weapons_present"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Blue Water Inn (Vallaki), Wizard of Wines Winery, forests near settlements"
+  organization: "Solitary, pair, or flock (3-8 with Keepers of the Feather)"
+
+lore:
+  description: "Wereravens are rare lycanthropes who retain their humanity and goodness despite the curse. In Barovia, wereravens form a secret society called the Keepers of the Feather, dedicated to opposing Strahd and protecting the innocent. They operate covertly, using raven form to spy on Strahd's forces and humanoid form to aid travelers discreetly. The Martikov family runs the Wizard of Wines winery and Blue Water Inn, serving as the Keepers' leadership. Unlike evil lycanthropes, wereravens willingly share their curse only with those who prove trustworthy and share their ideals. Those cursed with werebaven lycanthropy shift alignment to neutral good and often join the Keepers."
+  weakness: "Silvered weapons bypass immunity and disable Regeneration. Lower combat power than werewolves (CR 2 vs CR 3). Pacifist tendencies limit aggression."
+  behavior: "Wereravens prioritize information gathering and covert operations over direct combat. Use raven form for espionage - can infiltrate anywhere small bird can access. Mimicry allows social engineering and distraction. Hybrid form for combat when necessary (Regeneration makes them surprisingly durable). Coordinate with trusted allies, providing intelligence and support. Avoid unnecessary killing. Protect innocent civilians and oppose Strahd's forces subtly to avoid retaliation against their community."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 3
+  encounterSize: "Usually allied NPCs, not combat encounters. If hostile: 1-2 for easy, 3-4 for medium"
+  terrain: "Blue Water Inn, Wizard of Wines, forests, urban Vallaki"
+  tactics: "ALLY ENCOUNTERS: Wereravens provide information, safe haven, and supplies to PCs. Muriel Vinshaw (Blue Water Inn) aids party. Davian Martikov (Wizard of Wines) requests help. If combat: Use flight and hand crossbow for hit-and-run. Hybrid Regeneration (10 HP/turn) makes them durable. Coordinate with PCs - heal, provide covering fire, distract enemies."
+
+# === VARIANTS ===
+variants:
+  - name: "Muriel Vinshaw (Werebaven Innkeeper)"
+    changes:
+      abilities:
+        charisma: 16  # +3 (innkeeper, social)
+      skills:
+        persuasion: 5
+        deception: 5
+      lore:
+        description: "Innkeeper of Blue Water Inn in Vallaki. Provides information and safe haven to those opposing Strahd. Part of Keepers of the Feather."
+
+  - name: "Davian Martikov (Werebaven Vintner)"
+    changes:
+      abilities:
+        intelligence: 15  # +2 (vintner knowledge)
+        wisdom: 17  # +3 (experienced leader)
+      lore:
+        description: "Owner of Wizard of Wines winery. Leader of the Martikov family and Keepers of the Feather. Wise and experienced."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.243"
+  official: true
+  srdContent: false
+
+  notes: "ALLY NPCs, not enemies. Keepers of the Feather are critical allies in Curse of Strahd campaign. Provide information, safe havens, and support to PCs. Raven form allows espionage and message delivery. Hybrid form Regeneration (10 HP/turn) makes them surprisingly durable in combat. Werebaven lycanthropy shifts alignment to neutral good - potential PC lycanthropy storyline."
+
+  dmReminders:
+    - "ALLIES to party, not enemies (neutral good alignment)"
+    - "Keepers of the Feather: Secret society opposing Strahd"
+    - "Blue Water Inn (Vallaki): Martikov family safe haven"
+    - "Wizard of Wines: Winery run by Keepers"
+    - "Raven form: 10 ft walk, 50 ft fly - perfect for scouting"
+    - "Mimicry: Can imitate sounds (DC 10 Insight to detect)"
+    - "Hybrid form Regeneration: 10 HP at start of turn (disabled by silvered weapons)"
+    - "Immune to nonmagical, non-silvered physical damage"
+    - "Werebaven curse: Shifts alignment to neutral good, joins Keepers"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

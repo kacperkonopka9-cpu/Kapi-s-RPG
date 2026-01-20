@@ -1,0 +1,378 @@
+# Baron Vargas Vallakovich - Burgomaster of Vallaki
+# "All Will Be Well!" - Tyrannical Optimist
+# Epic 4 Story 4-10: Major NPCs Batch 2
+# Political Figure - Can be Antagonist or Ally
+
+# === BASIC INFORMATION ===
+name: "Baron Vargas Vallakovich"
+npcId: "baron_vargas_vallakovich"
+race: "Human"
+age: 52
+class: "Noble"
+level: 4  # Noble statblock (non-adventurer)
+experience: null
+background: "Noble (Burgomaster)"
+alignment: "Lawful Neutral (Tyrannical)"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10     # +0 modifier
+  dexterity: 12    # +1 modifier
+  constitution: 12  # +1 modifier
+  intelligence: 13  # +1 modifier
+  wisdom: 11       # +0 modifier
+  charisma: 16     # +3 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 26  # 4d8 + 4 (CON modifier +1 * 4) - Noble statblock
+  current: 26
+  temporary: 0
+  hitDice:
+    total: 4
+    spent: 0
+    die: "d8"
+
+armorClass: 12  # Fine clothes + DEX
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: []  # No armor training
+  weapons: ["simple"]  # Basic weapon training only
+  savingThrows: []  # No exceptional saves
+  skills: ["deception", "insight", "intimidation", "persuasion"]
+  tools: []
+  languages: ["Common", "Draconic"]
+
+proficiencyBonus: 2  # Level 4 NPC
+
+# === SPELLCASTING ===
+spellcasting: null  # Non-caster
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null
+    mainHand: "ceremonial_scepter"  # Not a real weapon (1d4 bludgeoning)
+    offHand: null
+    ring1: "signet_ring_vallakovich"
+    ring2: null
+    amulet: null
+    cloak: "fine_cloak"
+    boots: "fine_boots"
+    gloves: null
+    helm: null
+  backpack:
+    - item: "barons_seal"
+      quantity: 1  # Official town seal for decrees
+    - item: "festival_plans"
+      quantity: 1  # Plans for Festival of the Blazing Sun
+    - item: "town_guard_roster"
+      quantity: 1
+    - item: "arrest_warrants_blank"
+      quantity: 5
+  currency:
+    platinum: 25
+    gold: 500
+    electrum: 0
+    silver: 200
+    copper: 50
+
+weight:
+  current: 20
+  capacity: 150  # Str 10 * 15
+  pushDragLift: 300  # Str 10 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Position of Authority"
+    description: "As Burgomaster of Vallaki, Baron Vargas commands town guard (6 guards + Izek Strazni). Can issue decrees, arrest citizens, enforce 'happiness' laws. Townspeople obey out of fear, not respect."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Enforced Optimism"
+    description: "Baron Vargas arrests anyone showing 'malicious unhappiness' in Vallaki. Citizens wear forced smiles to avoid stocks or worse. Creates atmosphere of fear masked by mandatory cheerfulness."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Festival Obsession"
+    description: "Baron believes weekly festivals will keep Strahd and evil at bay. Plans elaborate events (Festival of the Blazing Sun, etc.) and forces townspeople to participate with enthusiasm. Failure to show joy results in punishment."
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Obsessed with forced happiness as solution to Barovia's darkness"
+    - "Tyrannical and controlling - demands absolute obedience"
+    - "Paranoid about negativity, dissent, and Strahd's influence"
+    - "Controlling father to Victor, neglectful husband to Lydia"
+
+  ideals:
+    - "Order - Strict control keeps chaos at bay (Lawful)"
+    - "Optimism - Happiness, even forced, is better than despair (Neutral)"
+    - "Authority - The Burgomaster's word is law (Lawful)"
+
+  bonds:
+    - "Vallaki - believes he's protecting town through strict control"
+    - "Family legacy - maintaining Vallakovich authority over town"
+    - "Izek Strazni - enforcer and adopted brother, absolute loyalty"
+
+  flaws:
+    - "Delusional about effectiveness of festivals against Strahd"
+    - "Refuses to acknowledge son Victor's dangerous magic experiments"
+    - "Blind to wife Lydia's unhappiness and alcoholism"
+    - "Paranoid to point of arresting innocent citizens for 'malicious unhappiness'"
+
+  mannerisms:
+    - "Says 'All will be well!' constantly, especially when things are going poorly"
+    - "Forced smile that doesn't reach his eyes"
+    - "Points finger accusingly when questioning loyalty"
+    - "Straightens posture and puffs chest when asserting authority"
+
+  voiceDescription: "Booming and authoritative with forced cheerfulness. Every statement sounds like decree. 'All will be well!' is practically trademarked catchphrase."
+
+  appearanceNotes: "Middle-aged man with graying hair, mustache, and cold blue eyes that contrast with forced smile. Wears fine noble clothes (velvet doublet, fur-trimmed cloak) and ceremonial scepter. Carries himself with exaggerated dignity. Expression cycles between forced cheerfulness and barely-concealed paranoia."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Welcome to Vallaki, travelers! All will be well! I am Baron Vargas Vallakovich, Burgomaster of this fine town. You look positively HAPPY to be here, yes?"
+    - "Ah, outsiders! How wonderful! You'll find Vallaki a bastion of joy and order in this dreary land. All will be well, as it always is here!"
+    - "Greetings! I trust you bring no malicious unhappiness to our fair town? No? Excellent! All will be well! [forced smile]"
+
+  idle:
+    - "All will be well! All will be well! Just keep saying it..."
+    - "[Reviewing festival plans obsessively]"
+    - "The next festival will surely keep Strahd at bay. It must!"
+    - "Izek! Are there any unhappy citizens to arrest today?"
+
+  farewell:
+    - "Remember: happiness is MANDATORY in Vallaki! All will be well!"
+    - "Safe travels, and may you carry our joy with you! All will be well!"
+    - "Do return for our next festival! Attendance is... strongly encouraged. All will be well!"
+
+  questGiving:
+    - "The Festival of the Blazing Sun approaches! I need someone to retrieve the wicker sun effigy from the carpenter. Can you be trusted with this vital task?"
+    - "There are malcontents plotting against me - against HAPPINESS! Investigate these troublemakers and report their treachery!"
+    - "Father Lucian at the church seems... gloomy lately. Ensure he's prepared for the festival. All must participate! All will be well!"
+
+  questComplete:
+    - "[After successful festival] Excellent! The festival was perfect! All will be well! You've earned my favor!"
+    - "[After crushing dissent] The malcontents are dealt with? Good. Happiness is maintained. All will be well."
+
+  combat:
+    - "Guards! GUARDS! Protect your Burgomaster!"
+    - "Izek! Deal with these criminals!"
+    - "[Hiding behind guards] All will NOT be well if you don't surrender!"
+    - "[Wounded] This is malicious unhappiness! ARREST THEM!"
+
+  festival:
+    - "Citizens of Vallaki! Today we celebrate the Festival of the Blazing Sun! All will be well!"
+    - "SMILE, everyone! This is a HAPPY occasion! Anyone NOT smiling will be arrested for malicious unhappiness!"
+    - "[If festival fails] This is TREASON! Someone sabotaged our joy! Find the culprits!"
+
+  political:
+    - "Work WITH me, and you'll have the resources of Vallaki at your disposal. All will be well for those who support order!"
+    - "Oppose me, and you're no better than the malcontents in the stocks. Choose your allegiance wisely."
+    - "[If party helps] You understand the importance of order! Together we'll keep this town safe and HAPPY!"
+
+  paranoid:
+    - "That Wachter woman spreads lies and dissent. Do NOT listen to her devil-worship!"
+    - "Are you spies? You're not spies, are you? Strahd sends spies to undermine happiness..."
+    - "[Suspiciously] You look... unhappy. Is it malicious unhappiness? Tell me it's not malicious!"
+
+  keyQuotes:
+    - "All will be well! Say it with me! ALL WILL BE WELL! [increasingly frantic]"
+    - "Happiness is NOT optional in Vallaki. It is the LAW. Malicious unhappiness is a crime against order and safety!"
+    - "My festivals protect this town! Every celebration weakens Strahd's grip! The people may not understand, but I am SAVING them!"
+    - "I'm not a tyrant - I'm a PROTECTOR! Someone must enforce joy, or despair will consume us all!"
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "izek_strazni"
+      relationship: "enforcer / adopted brother"
+      notes: "Izek is Baron's chief enforcer and most loyal supporter. Baron trusts Izek completely to carry out orders, including arrests and punishments. Izek's brutality doesn't concern Baron - results matter."
+
+    - npcId: "player_character"
+      relationship: "neutral → ally OR enemy (dynamic)"
+      notes: "Baron can become ally if party supports his authority and helps with festivals. OR becomes antagonist if party supports revolution or opposes tyranny. Political branching path."
+
+  enemies:
+    - npcId: "lady_fiona_wachter"
+      relationship: "political rival"
+      notes: "Lady Wachter leads opposition to Baron's rule. She plots revolution to install herself as Burgomaster. Baron views her as dangerous traitor and devil-worshiper. Mutual hatred."
+
+    - npcId: "father_lucian_petrovich"
+      relationship: "tense ally"
+      notes: "Baron needs Father Lucian for festival blessings but distrusts his gloomy demeanor. Father Lucian disapproves of Baron's tyranny but fears open opposition."
+
+  family:
+    - npcId: "lydia_petrovna"
+      relationship: "wife (unhappy)"
+      notes: "Lydia is Baron's wife, driven to alcoholism by his tyranny and neglect. She hides her unhappiness with forced smiles. Baron is oblivious to her suffering."
+
+    - npcId: "victor_vallakovich"
+      relationship: "son"
+      notes: "Victor is Baron's son, secretly studying dangerous magic in attic. Baron is proud of Victor but completely unaware of his magical experiments and moral corruption."
+
+  faction: "vallaki_burgomaster"  # Head of Vallaki government
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Non-combatant. Immediately calls for guards and Izek if threatened. Hides behind guards while they fight. Uses Position of Authority to command reinforcements. Surrenders if guards defeated. No honor in combat - pure survival instinct."
+
+  goals:
+    - "Maintain absolute control over Vallaki"
+    - "Execute perfect festivals to 'protect' town from Strahd"
+    - "Crush dissent and enforce mandatory happiness"
+    - "Preserve Vallakovich family authority"
+
+  motivations:
+    - "Genuine (if delusional) belief festivals protect town"
+    - "Fear of Strahd's power - uses control as coping mechanism"
+    - "Family pride and legacy as Burgomaster"
+    - "Paranoia about chaos and unhappiness spreading"
+
+  fears:
+    - "Strahd attacking Vallaki directly"
+    - "Losing control to Lady Wachter's revolution"
+    - "Townspeople rebelling against his authority"
+    - "Being proven wrong about festivals' protective power"
+
+  knowledgeSecrets:
+    - "Knows Lady Wachter plots against him (has spies)"
+    - "Aware Izek has supernatural fire powers (ignores it as useful)"
+    - "Completely unaware of Victor's magic experiments upstairs"
+    - "Doesn't know Lydia is alcoholic despite obvious signs"
+    - "Has executed previous malcontents (stocks often lead to worse)"
+    - "Secretly terrified of Strahd despite public confidence"
+
+  attitudeTowardPlayer: "neutral"  # Initial attitude - judges based on compliance
+
+  trustLevel: 5  # 1-10 scale. Becomes 8 if support his authority, 2 if oppose him
+
+  questInvolvement:
+    - questId: "festival_of_the_blazing_sun"
+      role: "quest_giver"
+      notes: "Baron tasks party with festival preparations (retrieve wicker sun, ensure participation, prevent sabotage). Success earns favor. Failure = arrest for malicious unhappiness."
+
+    - questId: "vallaki_revolution"
+      role: "antagonist OR quest_giver"
+      notes: "If party sides with Lady Wachter, Baron is antagonist to overthrow. If party sides with Baron, he tasks them with crushing revolution. Political branching quest."
+
+    - questId: "political_alliance"
+      role: "ally"
+      notes: "If party supports Baron, he provides resources (guards, supplies, safe haven in Burgomaster's mansion). Transactional relationship based on mutual benefit."
+
+    - questId: "st_andrals_feast"
+      role: "oblivious_leader"
+      notes: "When St. Andral's Church bones are stolen, Baron is more concerned with festival than vampire threat. His incompetence creates crisis. Party must handle without Baron's help."
+
+  specialBehaviors:
+    - "Says 'All will be well!' at least once per conversation (often multiple times)"
+    - "Arrests anyone showing visible unhappiness or criticizing festivals"
+    - "Forced smile that intensifies when stressed or afraid"
+    - "Trusts Izek completely - will believe Izek over anyone else"
+    - "Blind to family problems (Victor's magic, Lydia's alcoholism)"
+    - "Can pivot to ally OR enemy based on party's political choices"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # Vallaki - Burgomaster's Mansion
+  - time: "08:00"
+    location: "vallaki"
+    activity: "Wake, breakfast with family (Victor absent, Lydia hungover), review town business"
+
+  - time: "10:00"
+    location: "vallaki"
+    activity: "Town square - inspect decorations, ensure citizens appear happy, arrest malcontents"
+
+  - time: "12:00"
+    location: "vallaki"
+    activity: "Burgomaster's mansion - meet with Izek, plan festival logistics"
+
+  - time: "14:00"
+    location: "vallaki"
+    activity: "Issue decrees, meet with petitioners, enforce happiness laws"
+
+  - time: "16:00"
+    location: "vallaki"
+    activity: "Supervise festival preparations personally (obsessive attention to detail)"
+
+  - time: "18:00"
+    location: "vallaki"
+    activity: "Evening meal with family, lecture Victor on importance of festivals"
+
+  - time: "20:00"
+    location: "vallaki"
+    activity: "Review guard reports with Izek, plan next festival, worry about Wachter"
+
+  - time: "22:00"
+    location: "vallaki"
+    activity: "Retire to chambers, repeat 'All will be well' until sleep comes"
+
+  # FESTIVAL DAYS:
+  # - time: "varies"
+  #   location: "vallaki_town_square"
+  #   activity: "Oversee festival, ensure mandatory participation, speech about happiness"
+
+# === LOCATION & STATUS ===
+currentLocation: "vallaki"  # Burgomaster's Mansion
+status: "alive"
+canMove: true  # Can move around Vallaki but rarely leaves town
+tetheredToLocation: "vallaki"  # Essentially tethered to Vallaki (won't leave)
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  festival_count: 12  # Festivals executed during Baron's rule
+  next_festival: "festival_of_the_blazing_sun"
+  citizens_in_stocks: 2  # Current malcontents being punished
+  trust_with_party: 5  # 1-10
+  relationship_with_party: "neutral"  # neutral → ally OR enemy (political choice)
+  wachter_revolution_status: "brewing"  # brewing, active, crushed, successful
+  political_control: "stable"  # stable, threatened, collapsing
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.105"
+  official: true
+
+  notes: "Baron Vargas Vallakovich is the tyrannical Burgomaster of Vallaki who believes forced happiness and weekly festivals will protect the town from Strahd. He arrests citizens for 'malicious unhappiness' and enforces mandatory participation in elaborate celebrations. His catchphrase 'All will be well!' masks deep paranoia and delusion. He can be antagonist (oppose his tyranny) or ally (support his authority) based on party choices. Non-combatant who relies on guards and enforcer Izek Strazni."
+
+  dmReminders:
+    - "Baron is DELUSIONAL but genuinely believes he's protecting Vallaki - not pure evil, just wrong"
+    - "Political branching: party can side WITH Baron (stability/resources) OR against (revolution/freedom)"
+    - "'All will be well!' should be used frequently - becomes darkly comedic as things get worse"
+    - "Baron is non-combatant - runs or surrenders if guards defeated"
+    - "Family dynamics reveal Baron's blind spots (Victor's magic, Lydia's alcoholism)"
+    - "Festival of the Blazing Sun can succeed (Baron's favor) or fail catastrophically (revolution trigger)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

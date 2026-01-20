@@ -1,0 +1,373 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>5</storyId>
+    <title>VS Code UI Improvements</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-21</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-5-vs-code-ui-improvements.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player running a Curse of Strahd solo campaign</asA>
+    <iWant>VS Code sidebar panels (location tree navigator, base webview panel infrastructure, and file watcher system) that display game state and automatically refresh when files change</iWant>
+    <soThat>I can navigate between locations visually and have a foundation for future UI panels (character sheet, quest tracker, calendar) without manually reloading views</soThat>
+    <tasks>
+### Task 1: Create Base Webview Panel Infrastructure (AC: #2)
+- [ ] Subtask 1.1: Create extensions/kapis-rpg-dm/src/panels/base-panel.ts
+- [ ] Subtask 1.2: Define BasePanel abstract class with lifecycle methods (show(), hide(), dispose(), refresh())
+- [ ] Subtask 1.3: Implement HTML template loading from media/panels/ directory
+- [ ] Subtask 1.4: Implement webview message passing (extension → webview, webview → extension)
+- [ ] Subtask 1.5: Implement panel state persistence using VS Code workspace state
+- [ ] Subtask 1.6: Implement CSP configuration for secure webview (allow local resources only)
+- [ ] Subtask 1.7: Add error handling for webview crashes and rendering failures
+- [ ] Subtask 1.8: Create TypeScript interfaces: PanelState, PanelConfig, PanelMessage
+- [ ] Subtask 1.9: Add JSDoc comments and type definitions for all public methods
+
+### Task 2: Implement FileWatcherManager (AC: #3)
+- [ ] Subtask 2.1: Create extensions/kapis-rpg-dm/src/utils/file-watcher.ts
+- [ ] Subtask 2.2: Define FileWatcherManager class with watch(filePath) and unwatch(filePath) methods
+- [ ] Subtask 2.3: Implement debounce logic (300ms delay) to avoid rapid re-renders
+- [ ] Subtask 2.4: Emit events using VS Code EventEmitter (onCharacterUpdated, onLocationUpdated, etc.)
+- [ ] Subtask 2.5: Implement file watcher limit (max 20 watched files)
+- [ ] Subtask 2.6: Add cleanup method disposeAll() to unwatch all files and release resources
+- [ ] Subtask 2.7: Add error handling for file system watch failures
+- [ ] Subtask 2.8: Add TypeScript types and JSDoc comments
+
+### Task 3: Implement LocationTreeProvider (AC: #1, #5)
+- [ ] Subtask 3.1: Create extensions/kapis-rpg-dm/src/providers/location-tree-provider.ts
+- [ ] Subtask 3.2: Implement VS Code TreeDataProvider interface (getTreeItem, getChildren)
+- [ ] Subtask 3.3: Scan game-data/locations/ directory recursively, load all metadata.yaml files
+- [ ] Subtask 3.4: Build tree structure based on parent_location field in metadata.yaml
+- [ ] Subtask 3.5: Implement LocationTreeItem class
+- [ ] Subtask 3.6: Add icon differentiation based on location type
+- [ ] Subtask 3.7: Implement tree item click handler: open Description.md in editor
+- [ ] Subtask 3.8: Implement refresh() method to reload tree structure from disk
+- [ ] Subtask 3.9: Integrate with session state: highlight current location
+- [ ] Subtask 3.10: Implement collapse/expand logic
+
+### Task 4: Add Context Menu Commands to Location Tree (AC: #5)
+- [ ] Subtask 4.1: Register tree view context menu commands in package.json
+- [ ] Subtask 4.2: Implement "Travel Here" command
+- [ ] Subtask 4.3: Implement "View Location Details" command
+- [ ] Subtask 4.4: Implement "Open in Explorer" command
+- [ ] Subtask 4.5: Add command enablement logic
+- [ ] Subtask 4.6: Add error handling for invalid travel attempts
+
+### Task 5: Panel Registration and Extension Integration (AC: #4)
+- [ ] Subtask 5.1: Update extensions/kapis-rpg-dm/src/extension.ts to register LocationTreeProvider
+- [ ] Subtask 5.2: Register base panel commands (stubs for character sheet, quest tracker, calendar)
+- [ ] Subtask 5.3: Implement lazy loading
+- [ ] Subtask 5.4: Implement panel disposal in deactivate()
+- [ ] Subtask 5.5: Add support for multiple panel instances
+- [ ] Subtask 5.6: Integrate FileWatcherManager into extension
+- [ ] Subtask 5.7: Connect file watcher events to panels
+
+### Task 6: UI Styling and Assets (AC: #7)
+- [ ] Subtask 6.1: Create media/panels/ directory for HTML templates
+- [ ] Subtask 6.2: Create media/styles/panel-theme.css with gothic dark theme styling
+- [ ] Subtask 6.3: Create media/icons/ directory for custom SVG location icons
+- [ ] Subtask 6.4: Design and create SVG icons (village, dungeon, castle, wilderness, current location)
+- [ ] Subtask 6.5: Create base HTML template with CSP headers
+- [ ] Subtask 6.6: Apply dark theme colors
+- [ ] Subtask 6.7: Test theming in both light and dark VS Code themes
+
+### Task 7: Integration Testing (AC: #6, #7)
+- [ ] Subtask 7.1: Create tests/extension/ directory
+- [ ] Subtask 7.2-7.5: Create 4 test suite files
+- [ ] Subtask 7.6-7.15: Implementation and integration tests (30+ tests target)
+
+### Task 8: Documentation and Story Completion (AC: #6)
+- [ ] Subtask 8.1: Create docs/extension-development.md
+- [ ] Subtask 8.2-8.6: Document BasePanel API, FileWatcherManager, location tree usage
+- [ ] Subtask 8.7-8.10: Complete story file and verification
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: LocationTreeProvider Implemented
+- extensions/kapis-rpg-dm/src/providers/location-tree-provider.ts module created with LocationTreeProvider class
+- Tree view displays all locations from game-data/locations/ organized by parent location hierarchy
+- Each tree item shows: location name, icon (based on location type), connection count
+- Clicking a location opens the location's Description.md file in editor
+- Tree view shows current location highlighted (based on active session state)
+- Refresh command available to reload tree structure from disk
+- Returns VS Code TreeDataProvider implementation compatible with VS Code sidebar
+
+AC-2: Base Webview Panel Infrastructure Implemented
+- extensions/kapis-rpg-dm/src/panels/base-panel.ts module created with BasePanel abstract class
+- BasePanel provides common panel lifecycle methods: show(), hide(), dispose(), refresh()
+- HTML rendering system with template support (load HTML from media/ directory)
+- Message passing between webview and extension (bidirectional communication)
+- Panel state persistence (save/restore panel state across VS Code restarts)
+- Error handling for webview crashes or rendering failures
+- CSP (Content Security Policy) configuration for secure webview content
+
+AC-3: File Watcher System Implemented
+- extensions/kapis-rpg-dm/src/utils/file-watcher.ts module created with FileWatcherManager class
+- Watch character file, current location files, calendar.yaml, session state
+- Debounce file change events (300ms to avoid rapid re-renders)
+- Emit events when watched files change: characterUpdated, locationUpdated, calendarUpdated, sessionUpdated
+- Panels subscribe to file watcher events and refresh automatically
+- File watcher limits: max 20 watched files (under VS Code 100-file limit)
+- Cleanup on session end: unwatch files, release resources
+
+AC-4: Panel Registration and Activation System
+- extensions/kapis-rpg-dm/src/extension.ts updated with panel registration logic
+- Register LocationTreeProvider in activate() function
+- Register base panel types as commands (stubs OK for 5-5, full in 5-8/5-9/5-10)
+- Lazy loading: panels only created when user opens them
+- Panel disposal on deactivate(): cleanup webviews, file watchers, subscriptions
+- Support multiple panel instances
+
+AC-5: Location Tree Navigation Integration
+- Tree view integrated with session state: highlight current location based on current-session.yaml
+- Context menu on tree items: "Travel Here", "View Location Details", "Open in Explorer"
+- "Travel Here" validates location is connected, then executes /travel command
+- "View Location Details" opens all location files in split editor
+- Tree view collapses/expands based on location proximity
+- Icon differentiation: villages, dungeons, castles, wilderness
+
+AC-6: Testing and Documentation
+- Test Suite 1 - LocationTreeProvider tests
+- Test Suite 2 - Base Panel Infrastructure tests
+- Test Suite 3 - File Watcher tests
+- Test Suite 4 - Panel Registration tests
+- Target: 30+ tests, 100% pass rate
+- Documentation: Update slash-commands-guide.md, create extension-development.md
+
+AC-7: Epic Integration and UI Polish
+- LocationTreeProvider reads game-data/locations/**/metadata.yaml files (Epic 1 integration)
+- File watcher integrates with Epic 2 CalendarManager
+- Base panel can load context via Story 5-1 ContextLoader
+- UI styling: Dark theme matching Curse of Strahd gothic aesthetic
+- Panel icons: Custom SVG icons (not emoji-based)
+- Error states: Display friendly error messages if files missing or corrupted
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>AC-5: VS Code UI Panels Implemented</section>
+        <snippet>Character Sheet Panel displays HP, AC, spell slots, conditions, abilities (live updates). Quest Tracker Panel shows active quests with objectives, deadlines, completion status. Calendar Widget displays current in-game date/time, upcoming events, moon phase, weather. Location Tree Provider shows clickable location map in VS Code sidebar. All panels refresh automatically when underlying files change.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>System Architecture - VS Code Extension Architecture</section>
+        <snippet>Extension structure: extensions/kapis-rpg-dm/ with package.json manifest, src/ directory for TypeScript sources, commands/ for slash command implementations, panels/ for webview panels, providers/ for VS Code providers (tree views), media/ for CSS and icons.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic Technical Specification: LLM-DM Integration & VS Code Workflows</title>
+        <section>Detailed Design - Services and Modules</section>
+        <snippet>LocationTreeProvider (extensions/.../providers/location-tree-provider.ts): Provide tree view of locations with navigation. Inputs: Location metadata files. Outputs: VS Code TreeView. CharacterSheetPanel, QuestTrackerPanel, CalendarWidget: Display live stats in VS Code sidebar webview.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>LLM-DM Integration</section>
+        <snippet>VS Code extension provides UI panels and enhanced commands. Extension operates at boundaries between VS Code, Claude Code extension, and file system. Pure integration and UX enhancement layer without modifying core game systems.</snippet>
+      </doc>
+      <doc>
+        <path>docs/slash-commands-guide.md</path>
+        <title>Slash Commands Guide</title>
+        <section>Command Categories</section>
+        <snippet>Session Management: /start-session, /end-session. Navigation: /travel, /rest. Context Management: /context show|reload|reduce. Future: UI panels for character sheet, quest tracker, calendar widget.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-loading-design.md</path>
+        <title>Intelligent Context Loading Design</title>
+        <section>Context Loader API</section>
+        <snippet>ContextLoader.loadContext() returns ContextObject with metadata, character, location, npcs, events, calendar, quests. Can be consumed by panels to populate webview data.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>extensions/kapis-rpg-dm/package.json</path>
+        <kind>manifest</kind>
+        <symbol>VS Code Extension Manifest</symbol>
+        <lines>1-50</lines>
+        <reason>Extension manifest with contributes.commands definitions, activation events, and extension metadata. Will need to add tree view and panel command registrations.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/extension.ts</path>
+        <kind>extension-entry</kind>
+        <symbol>activate(), deactivate()</symbol>
+        <lines>1-100</lines>
+        <reason>Extension entry point from Story 5-4. Will update activate() to register LocationTreeProvider and panel commands. Must add disposal logic in deactivate().</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/commands/registry.ts</path>
+        <kind>command-registry</kind>
+        <symbol>CommandRegistry</symbol>
+        <lines>1-330</lines>
+        <reason>CommandRegistry from Story 5-4. Panel commands will be registered here. Reuse command registration pattern for panel stub commands.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/commands/travel.ts</path>
+        <kind>command-handler</kind>
+        <symbol>travel()</symbol>
+        <lines>31-244</lines>
+        <reason>"Travel Here" context menu will invoke this command handler. Integration point for LocationTreeProvider.</reason>
+      </file>
+      <file>
+        <path>src/context/context-loader.js</path>
+        <kind>service</kind>
+        <symbol>ContextLoader.loadContext()</symbol>
+        <lines>1-580</lines>
+        <reason>Story 5-1 ContextLoader for loading game context. BasePanel can use this to populate panel data (character, location, quests, etc.).</reason>
+      </file>
+      <file>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader.loadLocation()</symbol>
+        <lines>1-400</lines>
+        <reason>Epic 1 LocationLoader for loading location data. LocationTreeProvider will use this to read metadata.yaml files.</reason>
+      </file>
+      <file>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager.loadState()</symbol>
+        <lines>1-350</lines>
+        <reason>Epic 1 StateManager for State.md files. Can be used to check location visited status for tree view styling.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="vscode" version="^1.80.0" dev="false" reason="VS Code Extension API - Required for TreeDataProvider, WebviewPanel, FileSystemWatcher, EventEmitter APIs"/>
+        <package name="@types/vscode" version="^1.80.0" dev="true" reason="TypeScript type definitions for VS Code Extension API"/>
+        <package name="js-yaml" version="4.1.0" dev="false" reason="YAML parsing for location metadata.yaml files"/>
+        <package name="typescript" version="^5.0.0" dev="true" reason="TypeScript compiler for extension source"/>
+        <package name="jest" version="29.7.0" dev="true" reason="Testing framework for extension tests"/>
+        <package name="@types/jest" version="^29.5.0" dev="true" reason="TypeScript types for Jest"/>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      <name>vscode.TreeDataProvider&lt;T&gt;</name>
+      <kind>VS Code API Interface</kind>
+      <signature>interface TreeDataProvider&lt;T&gt; {
+  onDidChangeTreeData?: Event&lt;T | undefined | null | void&gt;;
+  getTreeItem(element: T): TreeItem | Thenable&lt;TreeItem&gt;;
+  getChildren(element?: T): ProviderResult&lt;T[]&gt;;
+  getParent?(element: T): ProviderResult&lt;T&gt;;
+  resolveTreeItem?(item: TreeItem, element: T, token: CancellationToken): ProviderResult&lt;TreeItem&gt;;
+}</signature>
+      <path>@types/vscode</path>
+    </interface>
+    <interface>
+      <name>vscode.WebviewPanel</name>
+      <kind>VS Code API Interface</kind>
+      <signature>interface WebviewPanel {
+  readonly webview: Webview;
+  readonly viewType: string;
+  title: string;
+  readonly active: boolean;
+  readonly visible: boolean;
+  readonly options: WebviewPanelOptions;
+  readonly viewColumn: ViewColumn | undefined;
+  readonly onDidDispose: Event&lt;void&gt;;
+  readonly onDidChangeViewState: Event&lt;WebviewPanelOnDidChangeViewStateEvent&gt;;
+  reveal(viewColumn?: ViewColumn, preserveFocus?: boolean): void;
+  dispose(): void;
+}</signature>
+      <path>@types/vscode</path>
+    </interface>
+    <interface>
+      <name>vscode.FileSystemWatcher</name>
+      <kind>VS Code API Interface</kind>
+      <signature>interface FileSystemWatcher extends Disposable {
+  readonly ignoreCreateEvents: boolean;
+  readonly ignoreChangeEvents: boolean;
+  readonly ignoreDeleteEvents: boolean;
+  readonly onDidCreate: Event&lt;Uri&gt;;
+  readonly onDidChange: Event&lt;Uri&gt;;
+  readonly onDidDelete: Event&lt;Uri&gt;;
+}</signature>
+      <path>@types/vscode</path>
+    </interface>
+    <interface>
+      <name>ContextLoader.loadContext()</name>
+      <kind>Function Signature</kind>
+      <signature>async loadContext(characterPath: string, locationId: string, sessionState: SessionState, tokenBudget: number = 3500): Promise&lt;{success: boolean, data?: ContextObject, error?: string}&gt;</signature>
+      <path>src/context/context-loader.js</path>
+    </interface>
+    <interface>
+      <name>LocationLoader.loadLocation()</name>
+      <kind>Function Signature</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;{success: boolean, data?: LocationData, error?: string}&gt;</signature>
+      <path>src/data/location-loader.js</path>
+    </interface>
+    <interface>
+      <name>CommandRegistry.registerCommand()</name>
+      <kind>Function Signature</kind>
+      <signature>registerCommand(definition: CommandDefinition): void
+// CommandDefinition: {commandId: string, name: string, category: string, args: CommandArg[], handler: Function, requiresSession: boolean}</signature>
+      <path>extensions/kapis-rpg-dm/src/commands/registry.ts</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint>VS Code Extension API Version: Target VS Code ^1.80.0 (established in Story 5-4 package.json)</constraint>
+    <constraint>TypeScript Compilation: Use tsconfig.json from Story 5-4 with strict mode enabled, target ES2020</constraint>
+    <constraint>Result Object Pattern: All async panel lifecycle methods must return {success: boolean, data?: any, error?: string}</constraint>
+    <constraint>File Path Format: ALL file paths in code must be project-relative (e.g., "docs/stories/5-5-vs-code-ui-improvements.md"), not absolute paths</constraint>
+    <constraint>Zero Epic 1-4 Modifications: Pure integration layer - DO NOT modify ContextLoader, LocationLoader, StateManager, CalendarManager, or any Epic 1-4 modules</constraint>
+    <constraint>TypeScript-JavaScript Interop: Use require() to import JavaScript Epic modules (ContextLoader, LocationLoader) from TypeScript extension code (established pattern in Story 5-4)</constraint>
+    <constraint>CSP (Content Security Policy): Webview panels must use strict CSP - only allow local resources from media/ directory, no inline scripts, no external resources</constraint>
+    <constraint>File Watcher Limit: Maximum 20 watched files (well under VS Code 100-file limit) - watch only session-critical files (character, current location, calendar, session state)</constraint>
+    <constraint>Lazy Loading: Panels must only be instantiated when user opens them (not on extension activation) to reduce startup time</constraint>
+    <constraint>Panel Disposal: All panels must implement dispose() method that cleans up webviews, file watchers, event listeners to prevent memory leaks</constraint>
+    <constraint>Icon Format: Use SVG format for all location type icons (not PNG/emoji) - scalable, themeable, smaller file size</constraint>
+    <constraint>Theming: Support both light and dark VS Code themes - use VS Code theme CSS variables (var(--vscode-editor-background)) instead of hardcoded colors where possible</constraint>
+    <constraint>Error Handling: Panel rendering failures must display user-friendly error message in webview (not crash extension or show stack trace)</constraint>
+    <constraint>Testing Framework: Use Jest (established in Stories 5-1 through 5-4) with @types/jest for TypeScript test files</constraint>
+    <constraint>Directory Structure: Follow Story 5-4 extension structure - src/panels/, src/providers/, src/utils/, media/panels/, media/styles/, media/icons/</constraint>
+  </constraints>
+
+  <tests>
+    <standards>Use Jest testing framework with @types/jest for TypeScript. Unit tests for panel lifecycle, tree provider logic, file watcher debouncing. Integration tests for VS Code API interactions (TreeDataProvider registration, webview creation, file watcher events). Mock VS Code APIs using jest.mock('vscode'). Test file naming: *.test.ts for TypeScript test files. Target 70% coverage for extension code. AAA (Arrange-Act-Assert) pattern for all tests. Run tests via npm test tests/extension/.</standards>
+    <locations>
+      <location>tests/extension/</location>
+      <location>tests/extension/location-tree-provider.test.ts</location>
+      <location>tests/extension/base-panel.test.ts</location>
+      <location>tests/extension/file-watcher.test.ts</location>
+      <location>tests/extension/panel-registration.test.ts</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Unit Test: LocationTreeProvider builds tree structure from game-data/locations/ directory - verify tree item count, hierarchy, parent-child relationships</idea>
+      <idea ac="AC-1">Unit Test: Tree item click handler opens correct Description.md file - mock vscode.window.showTextDocument()</idea>
+      <idea ac="AC-1">Integration Test: Tree view refresh reloads metadata.yaml from disk - verify new locations appear after adding metadata file</idea>
+      <idea ac="AC-1">Integration Test: Current location highlighting based on current-session.yaml - verify correct tree item has highlighted icon</idea>
+      <idea ac="AC-2">Unit Test: BasePanel show() creates webview panel with correct viewType and title</idea>
+      <idea ac="AC-2">Unit Test: BasePanel message passing - webview sends message to extension, verify handler receives it</idea>
+      <idea ac="AC-2">Unit Test: BasePanel state persistence - save panel state, reload extension, verify state restored from workspace state</idea>
+      <idea ac="AC-2">Unit Test: BasePanel dispose() cleans up webview and removes event listeners - verify no memory leaks</idea>
+      <idea ac="AC-3">Unit Test: FileWatcherManager debounce - rapid file edits result in single event after 300ms delay</idea>
+      <idea ac="AC-3">Unit Test: FileWatcherManager max files - watch 21 files, verify 21st file rejected or oldest unwatched (LRU)</idea>
+      <idea ac="AC-3">Integration Test: File change event emission - modify character.yaml, verify onCharacterUpdated event emitted</idea>
+      <idea ac="AC-3">Integration Test: Panel subscribes to file watcher event and refreshes - modify State.md, verify panel refresh() called</idea>
+      <idea ac="AC-4">Integration Test: Extension activation registers LocationTreeProvider in VS Code sidebar - verify tree view visible</idea>
+      <idea ac="AC-4">Integration Test: Lazy loading - panel command registered but panel not created until user invokes command</idea>
+      <idea ac="AC-4">Integration Test: Multiple panel instances - open character sheet twice, verify two separate panel instances exist</idea>
+      <idea ac="AC-4">Integration Test: Extension deactivation disposes all panels and file watchers - verify cleanup complete</idea>
+      <idea ac="AC-5">Integration Test: "Travel Here" context menu command - select connected location, verify /travel command handler invoked</idea>
+      <idea ac="AC-5">Integration Test: "View Location Details" command - verify all 6 location files opened in split editor</idea>
+      <idea ac="AC-5">Unit Test: "Travel Here" command enablement - not connected location, verify command disabled in context menu</idea>
+      <idea ac="AC-5">Integration Test: Tree collapse/expand - current location + adjacent locations expanded, distant locations collapsed</idea>
+      <idea ac="AC-6">Integration Test: Run all 4 test suites, verify 30+ tests pass (100% pass rate)</idea>
+      <idea ac="AC-6">Unit Test: documentation files exist - verify docs/extension-development.md created and contains BasePanel API docs</idea>
+      <idea ac="AC-7">Integration Test: LocationTreeProvider reads metadata.yaml via LocationLoader.loadLocation() - verify Epic 1 integration</idea>
+      <idea ac="AC-7">Integration Test: BasePanel calls ContextLoader.loadContext() - verify Story 5-1 integration for panel data</idea>
+      <idea ac="AC-7">Unit Test: Custom SVG icons load correctly - verify village.svg, dungeon.svg, castle.svg, wilderness.svg exist and render</idea>
+      <idea ac="AC-7">Manual Test: Visual inspection of gothic dark theme - dark background, warm text, appropriate contrast for readability</idea>
+      <idea ac="AC-7">Unit Test: Panel error state - corrupt file, verify friendly error message displayed in webview (not stack trace)</idea>
+    </ideas>
+  </tests>
+</story-context>

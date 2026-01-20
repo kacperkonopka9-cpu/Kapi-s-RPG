@@ -1,0 +1,1431 @@
+# Tarokka Deck - Complete 54-Card Deck for Curse of Strahd Fortune-Telling
+# Compatible with Epic 4 Tarokka Reading System (Story 4-16)
+
+templateVersion: "1.0.0"
+deckType: "tarokka"
+totalCards: 54
+description: "Complete Tarokka deck used by Madam Eva for fortune-telling in the dread realm of Barovia"
+
+# === HIGH DECK (14 Major Cards) ===
+highDeck:
+  - id: "high_deck_master"
+    suit: "high_deck"
+    name: "The Master"
+    rank: 1
+    category: "major"
+    description: "A dark figure stands atop a mountain, commanding the forces below"
+    lore: "The Master represents dominion, control, and absolute authority. In Barovia, this card is synonymous with Strahd himself."
+    fortuneTelling:
+      general: "One who seeks to rule over all"
+      light: "Leadership, responsibility, taking charge of destiny"
+      dark: "Tyranny, oppression, desire for absolute control"
+      advice: "Recognize true power lies in wisdom, not domination"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Often indicates Strahd's influence or a powerful authority figure"
+    visual:
+      imageDescription: "A vampire lord in black robes standing on a castle parapet, overlooking a misty realm"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of ultimate power and dominance"
+
+  - id: "high_deck_marionette"
+    suit: "high_deck"
+    name: "The Marionette"
+    rank: 2
+    category: "major"
+    description: "A puppet on strings, dancing to an unseen master's will"
+    lore: "The Marionette symbolizes manipulation, loss of free will, and those who serve darker powers unknowingly."
+    fortuneTelling:
+      general: "One who is controlled by another's will"
+      light: "Recognizing manipulation, breaking free from control"
+      dark: "Being used as a pawn, serving evil unwittingly"
+      advice: "Examine whose strings pull you; seek true autonomy"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates characters under mind control or Strahd's charm"
+    visual:
+      imageDescription: "A wooden marionette with silver strings extending into darkness above"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Often appears for NPCs under vampire charm or domination"
+
+  - id: "high_deck_mists"
+    suit: "high_deck"
+    name: "The Mists"
+    rank: 3
+    category: "major"
+    description: "Swirling fog obscures all paths, hiding both danger and salvation"
+    lore: "The Mists are Barovia's prison walls and its mystery. They conceal, protect, and trap in equal measure."
+    fortuneTelling:
+      general: "That which is hidden or unknown"
+      light: "Mystery waiting to be unveiled, hidden allies"
+      dark: "Confusion, being lost, uncertainty"
+      advice: "Not all that is hidden should be revealed"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Represents the unknown, fog-shrouded locations, or the Dark Powers"
+    visual:
+      imageDescription: "Thick gray mists with faint shapes barely visible within"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "The signature element of Ravenloft domains"
+
+  - id: "high_deck_executioner"
+    suit: "high_deck"
+    name: "The Executioner"
+    rank: 4
+    category: "major"
+    description: "A hooded figure raises an axe, ready to deliver final justice"
+    lore: "The Executioner represents inevitable endings, justice, and the finality of death. In Barovia, death is often a mercy."
+    fortuneTelling:
+      general: "An ending that cannot be avoided"
+      light: "Justice served, necessary endings, closure"
+      dark: "Execution, cruel fate, unavoidable death"
+      advice: "Some endings make way for new beginnings"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates death, execution, or final confrontations"
+    visual:
+      imageDescription: "A masked executioner in black robes, axe raised high against a gallows backdrop"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of finality and unavoidable fate"
+
+  - id: "high_deck_broken_one"
+    suit: "high_deck"
+    name: "The Broken One"
+    rank: 5
+    category: "major"
+    description: "A shattered figure kneels among ruins, spirit crushed but not destroyed"
+    lore: "The Broken One embodies suffering, despair, and those who have lost everything yet endure. Common in Barovia."
+    fortuneTelling:
+      general: "One who has suffered great loss"
+      light: "Resilience through suffering, strength in adversity"
+      dark: "Despair, broken spirit, loss of hope"
+      advice: "Even in brokenness, the spirit can mend"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Represents Barovian peasants, cursed souls, or those who have endured trauma"
+    visual:
+      imageDescription: "A hunched figure surrounded by broken chains and shattered monuments"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Reflects the suffering of Barovia's inhabitants"
+
+  - id: "high_deck_tempter"
+    suit: "high_deck"
+    name: "The Tempter"
+    rank: 6
+    category: "major"
+    description: "A seductive figure offers a forbidden gift with outstretched hand"
+    lore: "The Tempter represents desire, corruption, and the allure of dark bargains. The path to damnation begins with temptation."
+    fortuneTelling:
+      general: "A choice between virtue and vice"
+      light: "Recognizing temptation, resisting corruption"
+      dark: "Giving in to desire, making dark bargains"
+      advice: "Not all gifts are given freely; some have hidden costs"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates dark pacts, vampire brides, or corruptive influences"
+    visual:
+      imageDescription: "An alluring figure in crimson robes holding a golden chalice dripping with blood"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Often appears for characters facing moral choices or vampire seduction"
+
+  - id: "high_deck_beast"
+    suit: "high_deck"
+    name: "The Beast"
+    rank: 7
+    category: "major"
+    description: "A savage creature, half-man half-wolf, howls at a blood-red moon"
+    lore: "The Beast embodies primal fury, lycanthropy, and the monster within us all. In Barovia, the beast is never far from the surface."
+    fortuneTelling:
+      general: "The savage nature lurking within"
+      light: "Primal strength, protective instincts"
+      dark: "Loss of control, becoming monstrous"
+      advice: "Master the beast within or be mastered by it"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Represents werewolves, dire wolves, or characters losing control to rage"
+    visual:
+      imageDescription: "A werewolf mid-transformation, caught between human and beast form"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Associated with lycanthropes and the Werewolf Den"
+
+  - id: "high_deck_darklord"
+    suit: "high_deck"
+    name: "The Darklord"
+    rank: 8
+    category: "major"
+    description: "A vampire sits upon a throne of bones, crown of shadows upon his brow"
+    lore: "The Darklord is Strahd von Zarovich, lord of Barovia and prisoner of his own dark domain. Ultimate villain and tragic figure."
+    fortuneTelling:
+      general: "The master of the realm, both ruler and prisoner"
+      light: "Confronting ultimate evil, facing the source"
+      dark: "Overwhelming power, tragic fate, eternal suffering"
+      advice: "Even the mightiest can be prisoners of their own making"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Direct indication of Strahd's involvement or Castle Ravenloft"
+    visual:
+      imageDescription: "Count Strahd von Zarovich in his throne room, surrounded by crimson mist"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "The ultimate card of power and doom in Barovia"
+
+  - id: "high_deck_donjon"
+    suit: "high_deck"
+    name: "The Donjon"
+    rank: 9
+    category: "major"
+    description: "A dark prison cell, chains hanging empty, door slightly ajar"
+    lore: "The Donjon represents imprisonment, both physical and spiritual. It is the dungeon, the trap, the cage of one's own making."
+    fortuneTelling:
+      general: "Imprisonment or entrapment"
+      light: "Breaking free, escaping bonds"
+      dark: "Being trapped, imprisoned, confined"
+      advice: "The strongest chains are those we forge ourselves"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates dungeons, prisons, or characters trapped by circumstance"
+    visual:
+      imageDescription: "Stone prison cell with iron chains and a barred window showing only darkness"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Often associated with Castle Ravenloft's dungeons"
+
+  - id: "high_deck_raven"
+    suit: "high_deck"
+    name: "The Raven"
+    rank: 10
+    category: "major"
+    description: "A black raven perches on a weathered gravestone, wise eyes watching"
+    lore: "The Raven symbolizes wisdom, guidance, and the Keepers of the Feather. In Barovia, ravens are more than they seem."
+    fortuneTelling:
+      general: "A guide or messenger bringing wisdom"
+      light: "Wisdom, guidance from unexpected sources"
+      dark: "Dark omens, harbingers of death"
+      advice: "Listen to the messengers; they speak truth"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates the Keepers of the Feather, wereravens, or wise allies"
+    visual:
+      imageDescription: "A raven with intelligent eyes, a silver feather in its beak"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Associated with the Martikov family and wereravens"
+
+  - id: "high_deck_innocent"
+    suit: "high_deck"
+    name: "The Innocent"
+    rank: 11
+    category: "major"
+    description: "A child holds a single white flower in a field of darkness"
+    lore: "The Innocent represents purity, hope, and those yet untouched by Barovia's corruption. A rare and precious sight."
+    fortuneTelling:
+      general: "Purity and innocence in a dark world"
+      light: "Hope, redemption, protecting the innocent"
+      dark: "Innocence lost, corruption of the pure"
+      advice: "Protect what little light remains in the darkness"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Represents Ireena Kolyana, children, or uncorrupted souls"
+    visual:
+      imageDescription: "A young person in white robes, untouched by shadow, holding a glowing flower"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Often indicates Ireena or other innocents needing protection"
+
+  - id: "high_deck_seer"
+    suit: "high_deck"
+    name: "The Seer"
+    rank: 12
+    category: "major"
+    description: "An old woman gazes into the mists, seeing past, present, and future"
+    lore: "The Seer embodies prophecy, vision, and hidden knowledge. Madam Eva herself is the greatest seer in Barovia."
+    fortuneTelling:
+      general: "One who knows secrets and sees the future"
+      light: "Prophecy, hidden knowledge revealed, clarity"
+      dark: "Dark visions, knowing too much"
+      advice: "Seek wisdom, but remember some knowledge carries a price"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Represents Madam Eva, Vistani seers, or prophetic visions"
+    visual:
+      imageDescription: "Madam Eva with her Tarokka cards spread, eyes glowing with mystical sight"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of prophecy and hidden truths"
+
+  - id: "high_deck_ghost"
+    suit: "high_deck"
+    name: "The Ghost"
+    rank: 13
+    category: "major"
+    description: "A spectral figure drifts through castle halls, bound to the mortal realm"
+    lore: "The Ghost represents the restless dead, unfinished business, and spirits trapped between worlds. Barovia is full of such souls."
+    fortuneTelling:
+      general: "The dead who cannot rest"
+      light: "Ancestral guidance, honoring the past"
+      dark: "Haunting, being trapped by the past"
+      advice: "The dead deserve peace; help them find it"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates ghosts, haunted locations, or unresolved pasts"
+    visual:
+      imageDescription: "A translucent spirit in ancient armor, chained to the material world"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Associated with Castle Ravenloft's many ghosts"
+
+  - id: "high_deck_horseman"
+    suit: "high_deck"
+    name: "The Horseman"
+    rank: 14
+    category: "major"
+    description: "A headless rider on a black steed gallops through the night"
+    lore: "The Horseman embodies relentless pursuit, inevitability, and death on swift hooves. What the Horseman hunts, he catches."
+    fortuneTelling:
+      general: "An unstoppable force pursuing its quarry"
+      light: "Justice pursuing the guilty, determination"
+      dark: "Being hunted, unavoidable doom approaching"
+      advice: "Some things cannot be outrun; face them with courage"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates being hunted by Strahd or other relentless pursuers"
+    visual:
+      imageDescription: "The headless horseman of Barovia on a nightmare steed, riding through fog"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of pursuit and inevitable confrontation"
+
+# === COMMON DECK - SWORDS (10 Cards) ===
+swords:
+  - id: "swords_1"
+    suit: "swords"
+    name: "One of Swords"
+    rank: 1
+    category: "minor"
+    description: "A single blade pointing upward, ready to strike"
+    lore: "The beginning of conflict, the first blow struck"
+    fortuneTelling:
+      general: "New conflicts or challenges arise"
+      light: "Taking decisive action, cutting through problems"
+      dark: "Initiating conflict, aggression"
+      advice: "Sometimes the sword must be drawn, but choose your battles wisely"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Minor card indicating conflict or combat readiness"
+    visual:
+      imageDescription: "A silver longsword thrust into the ground, point upward"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Suit of conflict and combat"
+
+  - id: "swords_2"
+    suit: "swords"
+    name: "Two of Swords"
+    rank: 2
+    category: "minor"
+    description: "Two crossed blades in perfect balance"
+    lore: "Stalemate, indecision, conflicting forces in equilibrium"
+    fortuneTelling:
+      general: "Difficult choices between equally matched options"
+      light: "Balance, diplomacy, finding middle ground"
+      dark: "Indecision, stalemate, being torn between loyalties"
+      advice: "In balance lies strength, but indecision is weakness"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates difficult choices or balanced opposition"
+    visual:
+      imageDescription: "Two swords crossed at the hilt, neither yielding"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of difficult choices"
+
+  - id: "swords_3"
+    suit: "swords"
+    name: "Three of Swords"
+    rank: 3
+    category: "minor"
+    description: "Three blades pierce a heart"
+    lore: "Heartbreak, betrayal, painful truths"
+    fortuneTelling:
+      general: "Emotional pain or betrayal"
+      light: "Accepting painful truths, healing from wounds"
+      dark: "Heartbreak, betrayal by trusted allies"
+      advice: "Even the deepest wounds can heal with time"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates betrayal or emotional suffering"
+    visual:
+      imageDescription: "A red heart pierced by three swords, blood dripping"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of betrayal and heartbreak"
+
+  - id: "swords_4"
+    suit: "swords"
+    name: "Four of Swords"
+    rank: 4
+    category: "minor"
+    description: "Swords laid to rest, a warrior's tomb"
+    lore: "Rest, recovery, respite from battle"
+    fortuneTelling:
+      general: "A time of rest and recovery"
+      light: "Healing, taking needed rest, temporary peace"
+      dark: "Forced inaction, imprisonment, isolation"
+      advice: "Even warriors must rest to fight another day"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates rest, recovery, or temporary safety"
+    visual:
+      imageDescription: "Four swords arranged around a sleeping warrior's tomb"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of respite"
+
+  - id: "swords_5"
+    suit: "swords"
+    name: "Five of Swords"
+    rank: 5
+    category: "minor"
+    description: "Abandoned weapons on a battlefield, defeat evident"
+    lore: "Defeat, loss, hollow victory"
+    fortuneTelling:
+      general: "Victory at too high a cost, or defeat"
+      light: "Learning from defeat, strategic retreat"
+      dark: "Crushing defeat, loss of everything"
+      advice: "Not all battles are worth winning; know when to retreat"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates defeat or pyrrhic victory"
+    visual:
+      imageDescription: "Five swords scattered on bloody ground, battle lost"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of defeat and loss"
+
+  - id: "swords_6"
+    suit: "swords"
+    name: "Six of Swords"
+    rank: 6
+    category: "minor"
+    description: "Swords carried away across water, moving on"
+    lore: "Transition, moving away from conflict, journey forward"
+    fortuneTelling:
+      general: "Moving away from trouble toward calmer waters"
+      light: "Escape, transition, leaving behind conflict"
+      dark: "Exile, running away, unfinished business"
+      advice: "Sometimes the wisest choice is to move forward"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates travel, escape, or transition"
+    visual:
+      imageDescription: "Six swords in a boat crossing a river, leaving conflict behind"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of transition and journey"
+
+  - id: "swords_7"
+    suit: "swords"
+    name: "Seven of Swords"
+    rank: 7
+    category: "minor"
+    description: "Blades stolen away in the night, deception"
+    lore: "Theft, deception, cunning over strength"
+    fortuneTelling:
+      general: "Deception, theft, or cunning strategy"
+      light: "Strategic thinking, outsmarting opponents"
+      dark: "Betrayal, theft, dishonesty"
+      advice: "Cunning has its place, but honor has its price"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates deception, theft, or cunning plans"
+    visual:
+      imageDescription: "A figure sneaking away with seven stolen swords"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of deception and cunning"
+
+  - id: "swords_8"
+    suit: "swords"
+    name: "Eight of Swords"
+    rank: 8
+    category: "minor"
+    description: "A figure bound and blindfolded, surrounded by blades"
+    lore: "Restriction, feeling trapped, self-imposed limitations"
+    fortuneTelling:
+      general: "Feeling trapped or restricted"
+      light: "Recognizing self-imposed limits, potential for escape"
+      dark: "Being bound, helplessness, victimhood"
+      advice: "The bindings are often of your own making; free yourself"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates feeling trapped or restricted by circumstances"
+    visual:
+      imageDescription: "A blindfolded figure surrounded by eight swords stuck in the ground"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of restriction and bondage"
+
+  - id: "swords_9"
+    suit: "swords"
+    name: "Nine of Swords"
+    rank: 9
+    category: "minor"
+    description: "Nightmare visions, nine blades hanging overhead"
+    lore: "Anxiety, nightmares, mental anguish"
+    fortuneTelling:
+      general: "Torment of the mind, nightmares"
+      light: "Confronting fears, overcoming anxiety"
+      dark: "Being consumed by fear, mental torture"
+      advice: "Fears grow in darkness; bring them into the light"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates mental anguish, nightmares, or psychological torment"
+    visual:
+      imageDescription: "A figure in bed, head in hands, nine swords hanging menacingly above"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of nightmares and mental anguish"
+
+  - id: "swords_10"
+    suit: "swords"
+    name: "Ten of Swords"
+    rank: 10
+    category: "minor"
+    description: "A fallen warrior, ten blades in their back, utter defeat"
+    lore: "Rock bottom, total defeat, the darkest hour"
+    fortuneTelling:
+      general: "Complete defeat and ending"
+      light: "Hitting bottom means nowhere to go but up, endings that make way for new beginnings"
+      dark: "Utter defeat, betrayal, total loss"
+      advice: "Even in the darkest hour, dawn will come"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates total defeat or the darkest moment"
+    visual:
+      imageDescription: "A figure face-down with ten swords in their back, dawn breaking on the horizon"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of ultimate defeat, but also new beginnings"
+
+# === COMMON DECK - COINS (10 Cards) ===
+coins:
+  - id: "coins_1"
+    suit: "coins"
+    name: "One of Coins"
+    rank: 1
+    category: "minor"
+    description: "A single golden coin, seed of prosperity"
+    lore: "New opportunity, material beginnings"
+    fortuneTelling:
+      general: "New material opportunity or beginning"
+      light: "New wealth, opportunity, prosperity beginning"
+      dark: "Greed, materialism, hoarding"
+      advice: "Plant seeds wisely for future harvest"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Minor card indicating material opportunities"
+    visual:
+      imageDescription: "A single gold coin glowing with promise"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Suit of wealth and material concerns"
+
+  - id: "coins_2"
+    suit: "coins"
+    name: "Two of Coins"
+    rank: 2
+    category: "minor"
+    description: "Juggling two coins, balancing resources"
+    lore: "Balance, adaptation, managing multiple priorities"
+    fortuneTelling:
+      general: "Balancing priorities or resources"
+      light: "Adaptability, managing multiple concerns skillfully"
+      dark: "Juggling too much, unstable finances"
+      advice: "Balance is key, but don't spread yourself too thin"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates balancing resources or priorities"
+    visual:
+      imageDescription: "A figure juggling two coins in an infinity pattern"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of balance and adaptation"
+
+  - id: "coins_3"
+    suit: "coins"
+    name: "Three of Coins"
+    rank: 3
+    category: "minor"
+    description: "Craftsmen at work, building something of value"
+    lore: "Teamwork, building, collaboration"
+    fortuneTelling:
+      general: "Working together toward shared goals"
+      light: "Teamwork, skill, building something lasting"
+      dark: "Poor craftsmanship, lack of cooperation"
+      advice: "Great works require skilled hands working together"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates teamwork, building, or collaborative efforts"
+    visual:
+      imageDescription: "Three craftsmen working together on a grand structure, three coins embedded"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of teamwork and building"
+
+  - id: "coins_4"
+    suit: "coins"
+    name: "Four of Coins"
+    rank: 4
+    category: "minor"
+    description: "Clutching coins tightly, unwilling to share"
+    lore: "Holding on, possessiveness, security through hoarding"
+    fortuneTelling:
+      general: "Holding onto resources or control"
+      light: "Financial security, protecting what's yours"
+      dark: "Greed, possessiveness, inability to let go"
+      advice: "Security is important, but so is generosity"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates hoarding, possessiveness, or security concerns"
+    visual:
+      imageDescription: "A figure clutching four coins tightly to their chest"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of possessiveness and hoarding"
+
+  - id: "coins_5"
+    suit: "coins"
+    name: "Five of Coins"
+    rank: 5
+    category: "minor"
+    description: "Beggars in the snow, coins just out of reach"
+    lore: "Poverty, hardship, feeling left out in the cold"
+    fortuneTelling:
+      general: "Material hardship or spiritual poverty"
+      light: "Finding help in hard times, compassion"
+      dark: "Poverty, abandonment, despair"
+      advice: "Even in hardship, help may be closer than you think"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates poverty, hardship, or being left out"
+    visual:
+      imageDescription: "Two figures in rags walking past a church window showing five coins"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of poverty and hardship"
+
+  - id: "coins_6"
+    suit: "coins"
+    name: "Six of Coins"
+    rank: 6
+    category: "minor"
+    description: "Charity given and received, scales balanced"
+    lore: "Generosity, charity, fair exchange"
+    fortuneTelling:
+      general: "Giving and receiving in balance"
+      light: "Generosity, charity, fair dealing"
+      dark: "Strings attached, conditional charity"
+      advice: "True charity expects nothing in return"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates charity, generosity, or fair exchange"
+    visual:
+      imageDescription: "A merchant with scales, giving coins to the needy"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of charity and fair exchange"
+
+  - id: "coins_7"
+    suit: "coins"
+    name: "Seven of Coins"
+    rank: 7
+    category: "minor"
+    description: "A farmer surveys growing crops, waiting for harvest"
+    lore: "Patience, investment, waiting for results"
+    fortuneTelling:
+      general: "Investment paying off, or patience required"
+      light: "Patience rewarded, investment bearing fruit"
+      dark: "Impatience, investment not paying off"
+      advice: "Good things come to those who wait and work"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates long-term investments or patience required"
+    visual:
+      imageDescription: "A figure leaning on a hoe, watching seven coin-shaped fruits growing on a vine"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of patience and long-term investment"
+
+  - id: "coins_8"
+    suit: "coins"
+    name: "Eight of Coins"
+    rank: 8
+    category: "minor"
+    description: "A craftsman perfecting their work, diligence"
+    lore: "Mastery, dedication, attention to detail"
+    fortuneTelling:
+      general: "Dedication to craft and mastery"
+      light: "Skill development, dedication, quality work"
+      dark: "Perfectionism, obsession with details"
+      advice: "Mastery comes through dedication and practice"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates dedication, skill development, or craftsmanship"
+    visual:
+      imageDescription: "A craftsman meticulously engraving eight coins"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of mastery and dedication"
+
+  - id: "coins_9"
+    suit: "coins"
+    name: "Nine of Coins"
+    rank: 9
+    category: "minor"
+    description: "Surrounded by abundance, enjoying the fruits of labor"
+    lore: "Self-sufficiency, independence, material success"
+    fortuneTelling:
+      general: "Material success and independence"
+      light: "Self-sufficiency, enjoying rewards, success"
+      dark: "Isolation in success, materialism"
+      advice: "Enjoy success but remember its source"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates material success and self-sufficiency"
+    visual:
+      imageDescription: "A figure in a garden surrounded by nine coins, falcon on hand"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of material success"
+
+  - id: "coins_10"
+    suit: "coins"
+    name: "Ten of Coins"
+    rank: 10
+    category: "minor"
+    description: "Family wealth, legacy, prosperity for generations"
+    lore: "Lasting wealth, family legacy, tradition"
+    fortuneTelling:
+      general: "Lasting prosperity and family legacy"
+      light: "Family wealth, tradition, lasting prosperity"
+      dark: "Financial ruin of family, loss of legacy"
+      advice: "True wealth is measured in more than coins"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates family wealth, legacy, or lasting prosperity"
+    visual:
+      imageDescription: "A wealthy family estate with ten coins forming an archway"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of family legacy and lasting wealth"
+
+# === COMMON DECK - GLYPHS (10 Cards) ===
+glyphs:
+  - id: "glyphs_1"
+    suit: "glyphs"
+    name: "One of Glyphs"
+    rank: 1
+    category: "minor"
+    description: "A single glowing magical symbol, raw arcane power"
+    lore: "New magical beginning, raw potential"
+    fortuneTelling:
+      general: "New magical opportunity or beginning"
+      light: "Magical talent emerging, new spells"
+      dark: "Misused magic, dangerous beginnings"
+      advice: "Magic is a tool; use it wisely"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Minor card indicating magical matters"
+    visual:
+      imageDescription: "A single glowing arcane glyph floating in darkness"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Suit of magic and arcane power"
+
+  - id: "glyphs_2"
+    suit: "glyphs"
+    name: "Two of Glyphs"
+    rank: 2
+    category: "minor"
+    description: "Two intertwined magical symbols, balance of forces"
+    lore: "Duality, balance of magical forces"
+    fortuneTelling:
+      general: "Balancing magical energies or choices"
+      light: "Harmony of opposites, balanced magic use"
+      dark: "Conflicting magical forces, imbalance"
+      advice: "Balance dark and light, creation and destruction"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical balance or duality"
+    visual:
+      imageDescription: "Two glyphs orbiting each other, light and shadow intertwined"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical balance"
+
+  - id: "glyphs_3"
+    suit: "glyphs"
+    name: "Three of Glyphs"
+    rank: 3
+    category: "minor"
+    description: "Three wizards combining their powers"
+    lore: "Collaboration in magic, shared knowledge"
+    fortuneTelling:
+      general: "Magical collaboration or shared learning"
+      light: "Sharing magical knowledge, teamwork"
+      dark: "Conspiracy, dark covens, misused shared power"
+      advice: "Knowledge grows when shared, but choose companions wisely"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical collaboration or shared spells"
+    visual:
+      imageDescription: "Three robed figures with glyphs floating above them, powers combining"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical teamwork"
+
+  - id: "glyphs_4"
+    suit: "glyphs"
+    name: "Four of Glyphs"
+    rank: 4
+    category: "minor"
+    description: "Four protective wards forming a circle"
+    lore: "Magical protection, sanctuary, defensive magic"
+    fortuneTelling:
+      general: "Magical protection or sanctuary"
+      light: "Wards holding, magical sanctuary, protection"
+      dark: "Isolation through magic, walls keeping aid out"
+      advice: "Wards protect but also isolate; balance security with connection"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical protection or wards"
+    visual:
+      imageDescription: "Four glowing protective wards forming a magical circle"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical protection"
+
+  - id: "glyphs_5"
+    suit: "glyphs"
+    name: "Five of Glyphs"
+    rank: 5
+    category: "minor"
+    description: "Magical symbols failing, wards breaking"
+    lore: "Magical failure, spells going wrong"
+    fortuneTelling:
+      general: "Magic failing or backfiring"
+      light: "Learning from magical failures, adapting"
+      dark: "Spells backfiring, wards breaking"
+      advice: "Even failed magic teaches valuable lessons"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical failure or backfiring spells"
+    visual:
+      imageDescription: "Five glyphs crumbling and fading, magic unraveling"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical failure"
+
+  - id: "glyphs_6"
+    suit: "glyphs"
+    name: "Six of Glyphs"
+    rank: 6
+    category: "minor"
+    description: "A mentor teaching a student, knowledge passed on"
+    lore: "Teaching magic, passing on knowledge"
+    fortuneTelling:
+      general: "Magical teaching or learning"
+      light: "Finding a magical mentor, teaching others"
+      dark: "False teaching, dangerous knowledge passed on"
+      advice: "Seek wise teachers and be a worthy student"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical teaching or apprenticeship"
+    visual:
+      imageDescription: "A wizard teaching an apprentice, six glyphs floating between them"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical teaching"
+
+  - id: "glyphs_7"
+    suit: "glyphs"
+    name: "Seven of Glyphs"
+    rank: 7
+    category: "minor"
+    description: "Researching ancient tomes, seeking magical secrets"
+    lore: "Magical research, seeking hidden knowledge"
+    fortuneTelling:
+      general: "Researching magic or seeking arcane secrets"
+      light: "Discovery, magical research bearing fruit"
+      dark: "Forbidden knowledge, dangerous research"
+      advice: "Seek knowledge but remember some secrets are buried for a reason"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical research or seeking arcane knowledge"
+    visual:
+      imageDescription: "A figure poring over seven ancient tomes, glyphs glowing"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical research"
+
+  - id: "glyphs_8"
+    suit: "glyphs"
+    name: "Eight of Glyphs"
+    rank: 8
+    category: "minor"
+    description: "Practicing spellcraft, perfecting technique"
+    lore: "Magical practice, refining spellcraft"
+    fortuneTelling:
+      general: "Developing magical skills through practice"
+      light: "Magical skill improving, dedication to craft"
+      dark: "Obsessive practice, losing perspective"
+      advice: "Magical mastery requires patience and practice"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical practice or skill development"
+    visual:
+      imageDescription: "A wizard practicing the same spell repeatedly, eight perfect glyphs formed"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical practice"
+
+  - id: "glyphs_9"
+    suit: "glyphs"
+    name: "Nine of Glyphs"
+    rank: 9
+    category: "minor"
+    description: "A solitary wizard surrounded by their magical achievements"
+    lore: "Magical mastery, solitary power"
+    fortuneTelling:
+      general: "Achieving magical mastery alone"
+      light: "Magical expertise, independence, mastery"
+      dark: "Isolation through power, arrogance"
+      advice: "Mastery is valuable, but don't let it isolate you"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical mastery or solitary power"
+    visual:
+      imageDescription: "A wizard alone in a tower, nine glowing glyphs orbiting them"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical mastery"
+
+  - id: "glyphs_10"
+    suit: "glyphs"
+    name: "Ten of Glyphs"
+    rank: 10
+    category: "minor"
+    description: "An arcane legacy, magical tradition passed through generations"
+    lore: "Magical legacy, arcane tradition, lasting power"
+    fortuneTelling:
+      general: "Magical legacy or tradition"
+      light: "Arcane legacy, family magic, tradition"
+      dark: "Burden of magical heritage, cursed bloodline"
+      advice: "Magic passed down can be blessing or curse"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates magical legacy or family arcane tradition"
+    visual:
+      imageDescription: "A family grimoire surrounded by ten ancient glyphs"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of magical legacy"
+
+# === COMMON DECK - STARS (10 Cards) ===
+stars:
+  - id: "stars_1"
+    suit: "stars"
+    name: "One of Stars"
+    rank: 1
+    category: "minor"
+    description: "A single star shining in darkness, guiding light"
+    lore: "Hope, guidance, a light in darkness"
+    fortuneTelling:
+      general: "Hope emerging, guidance found"
+      light: "New hope, finding direction, guiding star"
+      dark: "False hope, misleading guidance"
+      advice: "Even the smallest light pushes back darkness"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Minor card indicating hope and guidance"
+    visual:
+      imageDescription: "A brilliant star shining through dark clouds"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Suit of hope and inspiration"
+
+  - id: "stars_2"
+    suit: "stars"
+    name: "Two of Stars"
+    rank: 2
+    category: "minor"
+    description: "Two stars in harmony, shared goals"
+    lore: "Partnership, shared vision, mutual support"
+    fortuneTelling:
+      general: "Partnership or shared purpose"
+      light: "Finding allies, shared goals, cooperation"
+      dark: "False alliances, conflicting goals disguised"
+      advice: "Two lights shine brighter than one"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates partnership or shared purpose"
+    visual:
+      imageDescription: "Two stars orbiting each other, light intermingling"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of partnership"
+
+  - id: "stars_3"
+    suit: "stars"
+    name: "Three of Stars"
+    rank: 3
+    category: "minor"
+    description: "Three celebratory lights, achievement recognized"
+    lore: "Celebration, achievement, recognition"
+    fortuneTelling:
+      general: "Success celebrated, achievement recognized"
+      light: "Victory celebrated, teamwork rewarded"
+      dark: "Hollow celebrations, undeserved praise"
+      advice: "Celebrate victories but prepare for the next challenge"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates celebration or achievement"
+    visual:
+      imageDescription: "Three figures raising their cups, three stars shining above"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of celebration"
+
+  - id: "stars_4"
+    suit: "stars"
+    name: "Four of Stars"
+    rank: 4
+    category: "minor"
+    description: "Resting beneath stable stars, secure foundation"
+    lore: "Stability, foundation, secure rest"
+    fortuneTelling:
+      general: "Stable foundation or secure rest"
+      light: "Building solid foundations, secure home"
+      dark: "Complacency, stagnation, false security"
+      advice: "Build on solid foundations but don't become complacent"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates stability or foundation"
+    visual:
+      imageDescription: "A sturdy home beneath four unchanging stars"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of stability"
+
+  - id: "stars_5"
+    suit: "stars"
+    name: "Five of Stars"
+    rank: 5
+    category: "minor"
+    description: "Stars obscured by storm clouds, hope dimmed"
+    lore: "Hope challenged, faith tested, spiritual hardship"
+    fortuneTelling:
+      general: "Faith or hope challenged"
+      light: "Testing of faith, hope enduring trials"
+      dark: "Loss of faith, despair, abandonment"
+      advice: "Stars still shine above the clouds; faith endures"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates challenges to faith or hope"
+    visual:
+      imageDescription: "Five stars barely visible through dark storm clouds"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of tested faith"
+
+  - id: "stars_6"
+    suit: "stars"
+    name: "Six of Stars"
+    rank: 6
+    category: "minor"
+    description: "Looking back at past glories under six stars"
+    lore: "Nostalgia, past glory, returning to roots"
+    fortuneTelling:
+      general: "Returning to the past or remembering better times"
+      light: "Positive memories, reconnecting with roots"
+      dark: "Living in the past, unable to move forward"
+      advice: "Honor the past but don't live there"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates nostalgia or return to past"
+    visual:
+      imageDescription: "A figure looking at six stars, remembering better days"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of nostalgia"
+
+  - id: "stars_7"
+    suit: "stars"
+    name: "Seven of Stars"
+    rank: 7
+    category: "minor"
+    description: "Reaching for seven stars just beyond grasp"
+    lore: "Wishes, dreams, aiming high"
+    fortuneTelling:
+      general: "Dreams and aspirations"
+      light: "Having vision, dreaming big, hope"
+      dark: "Unrealistic expectations, chasing impossible dreams"
+      advice: "Dream big but ground your hopes in reality"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates dreams, wishes, or aspirations"
+    visual:
+      imageDescription: "Hands reaching toward seven shining stars just out of reach"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of wishes and dreams"
+
+  - id: "stars_8"
+    suit: "stars"
+    name: "Eight of Stars"
+    rank: 8
+    category: "minor"
+    description: "Following a path lit by eight stars, journey toward enlightenment"
+    lore: "Journey, quest, seeking something greater"
+    fortuneTelling:
+      general: "On a quest or spiritual journey"
+      light: "Finding one's path, spiritual journey"
+      dark: "Endless wandering, lost quest"
+      advice: "The journey matters as much as the destination"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates journey, quest, or seeking"
+    visual:
+      imageDescription: "A path winding into darkness, eight stars lighting the way"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of journey and quest"
+
+  - id: "stars_9"
+    suit: "stars"
+    name: "Nine of Stars"
+    rank: 9
+    category: "minor"
+    description: "Nine stars shining bright, wishes fulfilled"
+    lore: "Wishes granted, contentment, satisfaction"
+    fortuneTelling:
+      general: "Wishes coming true, satisfaction"
+      light: "Dreams fulfilled, contentment, gratitude"
+      dark: "Greed, never satisfied, wanting more"
+      advice: "Appreciate what you have; gratitude brings true contentment"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates wishes fulfilled or contentment"
+    visual:
+      imageDescription: "A figure surrounded by nine glowing stars, wishes manifest"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of contentment and wishes fulfilled"
+
+  - id: "stars_10"
+    suit: "stars"
+    name: "Ten of Stars"
+    rank: 10
+    category: "minor"
+    description: "The night sky ablaze with ten brilliant stars, perfect harmony"
+    lore: "Perfect harmony, enlightenment, ultimate fulfillment"
+    fortuneTelling:
+      general: "Ultimate fulfillment and harmony"
+      light: "Perfect ending, fulfillment, family happiness"
+      dark: "Impossible expectations, too good to last"
+      advice: "Perfect moments are rare; treasure them when they come"
+    readings:
+      artifact: null
+      ally: null
+      enemy: null
+      location: null
+      significance: "Indicates perfect harmony or ultimate fulfillment"
+    visual:
+      imageDescription: "A family gathered under ten shining stars forming a perfect constellation"
+    metadata:
+      source: "Curse of Strahd Campaign Book"
+      pageReference: "CoS p.11-16"
+      official: true
+      notes: "Card of ultimate fulfillment and harmony"
+
+# === DECK METADATA ===
+metadata:
+  source: "Curse of Strahd Campaign Book"
+  pageReference: "CoS p.11-16 (Tarokka Reading tables)"
+  official: true
+  compatible With: "Epic 4 Tarokka Reading System (Story 4-16)"
+  notes: "Complete 54-card Tarokka deck for Madam Eva's fortune-telling. Use with game-data/tarokka/reading-config.yaml to map cards to artifact locations, allies, and enemy locations."
+  developmentStage: "final"
+  createdDate: "2025-11-16"

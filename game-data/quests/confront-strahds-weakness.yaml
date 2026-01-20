@@ -1,0 +1,196 @@
+# Quest 11: Confront Strahd's Weakness
+# Learn Strahd's vulnerability from the Tarokka reading
+
+questId: "confront_strahds_weakness"
+name: "Confront Strahd's Weakness"
+type: "main"
+category: "investigation"
+
+questGiver:
+  npcId: "madam_eva"
+  location: "tser_pool_encampment"
+  dialogue: "Every devil has a weakness. The cards reveal where Strahd is most vulnerable."
+
+questRecipient: "player"
+
+description:
+  short: "Learn Strahd's weakness from the Tarokka reading"
+  full: "The Tarokka reading has revealed where Strahd will be weakest during the final confrontation - a specific location in Castle Ravenloft where his power is diminished or where environmental factors favor you. Understanding this weakness and exploiting it could mean the difference between victory and death."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "seek_the_vistani"
+  requiredEvents:
+    - eventId: "tarokka_reading_complete"
+      status: "triggered"
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited: []
+
+objectives:
+  - objectiveId: "decipher_weakness_clue"
+    description: "Interpret the Tarokka card revealing Strahd's weakness"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "research_location"
+    description: "Research the location where Strahd is weakest"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 300
+      items: []
+      currency: {}
+
+  - objectiveId: "confirm_vulnerability"
+    description: "Confirm the nature of Strahd's weakness at this location"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "knowledge_gained"
+        knowledge: "strahd_weakness_location"
+
+    triggeredEvents: []
+    unlockedQuests: []
+    npcReactions: []
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 1000
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "tactical_advantage"
+      description: "Knowing where to confront Strahd provides environmental benefits in final battle"
+
+branches: []
+
+journalEntries:
+  initial: "The Tarokka has revealed where Strahd is weakest - a specific location in Castle Ravenloft where we should make our stand. We must research this location and understand why it weakens him."
+
+  updates:
+    - trigger: "research_location_complete"
+      entry: "We've identified the location: [LOCATION]. This is where Strahd will be most vulnerable, where the final battle must take place."
+
+  completion: "We understand Strahd's weakness now. When we face him at [LOCATION], we'll have environmental advantages that could tip the balance. This knowledge is crucial for our strategy."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "Weakness location affects final battle terrain and tactics"
+    - "Common locations: Crypt (Sergei's tomb), Study, Tower, Chapel"
+    - "Each location has thematic significance to Strahd's past"
+
+  roleplayTips: []
+
+  combatEncounters: []
+
+  commonPitfalls:
+    - "Players may not understand tactical significance - explain environmental benefits clearly"
+
+  alternatives:
+    - "Players can scout location in advance to prepare"
+
+relationships:
+  partOfQuestChain:
+    chainId: "preparation_for_final_battle"
+    position: 2
+
+  blocksQuests:
+    - "destroy_strahd_von_zarovich"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 8
+  challengeRating: 0
+  skillChecks:
+    - skill: "investigation"
+      dc: 14
+      description: "Research weakness location"
+    - skill: "arcana"
+      dc: 15
+      description: "Understand magical significance of location"
+
+lore:
+  background: |
+    Each location in Castle Ravenloft holds significance to Strahd's history. The Tarokka reveals
+    where his emotional or magical connection creates vulnerability.
+
+  connectionToMainStory: |
+    Understanding where to fight Strahd is as important as having the right weapons. The weakness
+    location determines final battle terrain and environmental modifiers.
+
+  historicalContext: |
+    Strahd's castle is bound to his essence. Certain locations weaken him due to painful memories
+    or disrupted magical flows.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.81 (Tarokka outcomes)"
+  official: true
+  estimatedDuration: "Research activity, not full session"
+  tags: ["investigation", "preparation", "tarokka_variable"]
+  notes: "This quest is primarily knowledge acquisition. Location determined by Tarokka affects final battle significantly. DM should describe tactical benefits clearly."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

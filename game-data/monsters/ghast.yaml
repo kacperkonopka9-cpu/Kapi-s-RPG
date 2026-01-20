@@ -1,0 +1,205 @@
+# Ghast - Enhanced Flesh-Eating Undead
+# Source: D&D 5e Monster Manual p.148
+# Stronger, more intelligent ghouls with toxic stench
+
+# === BASIC INFORMATION ===
+name: "Ghast"
+monsterId: "ghast"
+size: "Medium"
+type: "undead"
+alignment: "chaotic evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 2
+experiencePoints: 450
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 13
+armorType: "natural armor"
+
+hitPoints:
+  max: 36
+  current: 36
+  hitDice: "8d8"
+  hitDiceBonus: 0  # +0 Con modifier * 8 HD = +0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 16    # +3
+  dexterity: 17   # +3
+  constitution: 10  # +0
+  intelligence: 11  # +0
+  wisdom: 10     # +0
+  charisma: 8    # -1
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: ["necrotic"]
+damageImmunities: ["poison"]
+conditionImmunities: ["charmed", "exhaustion", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "ghast_1"  # Will be set dynamically per instance
+  name: "Ghast"
+  dexModifier: 3
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Stench"
+    description: "Any creature that starts its turn within 5 feet of the ghast must succeed on a DC 10 Constitution saving throw or be poisoned until the start of its next turn. On a successful saving throw, the creature is immune to the ghast's Stench for 24 hours."
+    mechanics:
+      type: "aura"
+      radius: 5
+      trigger: "start_of_creature_turn"
+      saveDC: 10
+      saveAbility: "constitution"
+      onFailure: "poisoned_until_start_of_next_turn"
+      onSuccess: "immune_to_this_stench_for_24_hours"
+
+  - name: "Turn Defiance"
+    description: "The ghast and any ghouls within 30 feet of it have advantage on saving throws against effects that turn undead."
+    mechanics:
+      type: "buff_aura"
+      radius: 30
+      effect: "advantage_on_turn_undead_saves"
+      affects: ["ghast", "ghouls_within_range"]
+
+# === ACTIONS ===
+actions:
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 5  # +3 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d8"
+      bonus: 3  # Str modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 12 (2d8 + 3) piercing damage."
+
+  - name: "Claws"
+    type: "melee_weapon_attack"
+    attackBonus: 5  # +3 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d6"
+      bonus: 3  # Str modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage. If the target is a creature other than an elf or undead, it must succeed on a DC 10 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+    additionalEffects:
+      - type: "condition"
+        condition: "paralyzed"
+        saveDC: 10
+        saveAbility: "constitution"
+        duration: "1_minute"
+        repeatSave: "end_of_each_turn"
+        excludes: ["elf", "undead"]
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "humanoid_bones"
+      quantity: "2d6"
+      dropChance: 80
+    - item: "ghast_ichor"
+      quantity: 1
+      dropChance: 40
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Lead ghoul packs with Turn Defiance aura. Position within 5 ft of as many enemies as possible to trigger Stench. Use claws to paralyze, then bite. Coordinate with ghouls to overwhelm targets. More tactical than regular ghouls - will use terrain and positioning."
+  intelligence: "cunning"
+  aggression: "high"
+  groupTactics: "strategic"  # Lead packs of ghouls
+
+  preferredTargets:
+    - "non-elf, non-undead creatures"
+    - "clerics (to prevent Turn Undead)"
+    - "isolated party members"
+
+  fleeThreshold: 10  # HP threshold
+  fleeConditions: ["all_ghouls_dead", "outnumbered_3_to_1"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Crypts, dungeons, deep underground, ancient battlefields"
+  organization: "Solitary, gang (1 ghast + 2-4 ghouls), or pack (2-3 ghasts + 5-10 ghouls)"
+
+lore:
+  description: "Ghasts are the more powerful and intelligent cousins of ghouls. They arise from ghouls that have feasted on exceptional prey or from particularly evil cannibals. Ghasts emanate a terrible stench of death and decay that sickens all who approach. They often lead packs of lesser ghouls, coordinating attacks with disturbing intelligence. Their presence makes it harder for clerics to turn undead."
+  weakness: "Elves are immune to paralysis (fey ancestry). No special regeneration. Vulnerable to concentrated fire."
+  behavior: "Ghasts are pack leaders and tacticians. They position themselves to maximize Stench effectiveness (affecting multiple enemies). Coordinate ghoul attacks to paralyze key targets. More willing to retreat and regroup than mindless ghouls. Particularly hate clerics and will target them to prevent Turn Undead."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 3
+  encounterSize: "1 ghast + 2-4 ghouls for medium, 2 ghasts + 5-8 ghouls for hard"
+  terrain: "Crypts with pillars (Stench covers more area), dungeons, underground caverns"
+  tactics: "Position ghast centrally to affect multiple PCs with Stench. Ghouls swarm from flanks. Turn Defiance aura protects entire pack from clerics. Stench + paralysis combo is devastating - poisoned condition gives disadvantage on attacks, paralysis removes actions entirely. Use in tight corridors to maximize Stench effectiveness."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.148"
+  official: true
+  srdContent: true
+
+  notes: "Pack leader for ghoul encounters. Stench is a powerful debuff (poisoned condition). Turn Defiance makes cleric's Turn Undead less effective. Paralysis works on all non-elves and non-undead. Often found commanding ghoul packs in Barovia crypts."
+
+  dmReminders:
+    - "Stench: DC 10 CON save at start of turn within 5 ft or be poisoned"
+    - "Success on Stench save = immune to THIS ghast's stench for 24 hours"
+    - "Turn Defiance: Ghast + ghouls within 30 ft get advantage vs Turn Undead"
+    - "Claws: DC 10 CON save or paralyzed (doesn't work on elves or undead)"
+    - "Poisoned condition: Disadvantage on attacks and ability checks"
+    - "Position ghast centrally to maximize Stench coverage"
+    - "Stench + paralysis combo can shut down entire party"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

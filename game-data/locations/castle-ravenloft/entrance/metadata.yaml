@@ -1,0 +1,80 @@
+# Location Metadata - Castle Ravenloft: Entrance
+
+location_name: "Castle Ravenloft - Entrance"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Large"
+danger_level: 4
+recommended_level: "8-9"
+
+# Location Hierarchy
+parent_location: "castle-ravenloft"
+sub_locations: []  # Entrance is a leaf node (no further sub-locations)
+location_level: "room"
+
+# Connected Locations
+connected_locations:
+  - name: "Great Entry Hall"
+    direction: "Through entry door (K7)"
+    travel_time: "Immediate"
+    description: "Heavy wooden door with screaming faces leads to grand hall"
+  - name: "Castle Exterior"
+    direction: "Back across drawbridge"
+    travel_time: "Immediate"
+    description: "Narrow stone bridge spans chasm to Barovia below"
+
+# Room Coverage
+rooms_included:
+  - "K1: Front Courtyard"
+  - "K2: Center Court Gate"
+  - "K3: Servants' Entrance"
+  - "K4: Carriage House"
+  - "K5: Chapel Garden"
+  - "K6: Overlook"
+  - "K7: Entry Door"
+room_count: 7
+
+# Discovery and Visit Tracking
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+
+# Content Metadata
+description_token_count: 1850
+npc_count: 3  # Gargoyles, Animated Armor, Nightmares (Strahd appearance conditional)
+item_count: 8  # Torches, Holy Symbol, Murder Hole Arsenal, Travel Compartment, Ruby Eyes, etc.
+event_count: 9
+
+# Special Properties
+entrance_to_castle: true
+defensive_chokepoint: true
+initial_encounter_area: true
+strahd_may_appear: true
+
+# Combat Encounters
+typical_encounters:
+  - name: "Gargoyle Guardians"
+    cr: 2
+    count: 4
+    xp: 1800
+  - name: "Animated Armor Patrol"
+    cr: 1
+    count: "1d4+1"
+    xp: "200-1000"
+  - name: "Nightmare Steeds (Conditional)"
+    cr: 3
+    count: 2
+    xp: 1400
+total_encounter_xp: "3400-4200"
+
+# Environmental Hazards
+hazards:
+  - "Murder holes (defender advantage)"
+  - "High winds on overlook (DC 12 Strength save or pushed back)"
+  - "1000-foot chasm fall (10d6 damage)"
+  - "Poison gas trap (travel compartment, DC 15 Con save, 4d6 poison)"
+  - "Falling gargoyle (DC 13 Dex save, 3d6 bludgeoning)"
+
+# Validation
+last_validated: null
+validation_status: "pending"

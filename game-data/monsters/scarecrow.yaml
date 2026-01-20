@@ -1,0 +1,202 @@
+# Scarecrow - Animated Straw Guardian
+# Source: Curse of Strahd p.233
+# Animated scarecrow bound to protect fields, animated by dark magic
+
+# === BASIC INFORMATION ===
+name: "Scarecrow"
+monsterId: "scarecrow"
+size: "Medium"
+type: "construct"
+alignment: "chaotic evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 11
+armorType: "natural armor"
+
+hitPoints:
+  max: 36
+  current: 36
+  hitDice: "8d8"
+  hitDiceBonus: 0  # +0 Con modifier * 8 HD = 0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 11    # +0
+  dexterity: 13   # +1
+  constitution: 11  # +0
+  intelligence: 10  # +0
+  wisdom: 10     # +0
+  charisma: 13   # +1
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: ["fire"]
+damageResistances: ["bludgeoning", "piercing", "slashing from nonmagical attacks"]
+damageImmunities: ["poison"]
+conditionImmunities: ["charmed", "exhaustion", "frightened", "paralyzed", "poisoned", "unconscious"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "understands but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "scarecrow_1"
+  name: "Scarecrow"
+  dexModifier: 1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "False Appearance"
+    description: "While the scarecrow remains motionless, it is indistinguishable from an ordinary, inanimate scarecrow."
+    mechanics:
+      type: "stealth"
+      condition: "motionless"
+      effect: "indistinguishable_from_normal_scarecrow"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The scarecrow makes two claw attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+
+  - name: "Claw"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Dex + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d4"
+      bonus: 1  # Dex modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) slashing damage. If the target is a creature, it must succeed on a DC 11 Wisdom saving throw or be frightened until the end of the scarecrow's next turn."
+    additionalEffects:
+      - type: "condition"
+        condition: "frightened"
+        saveDC: 11
+        saveAbility: "wisdom"
+        duration: "until_end_of_scarecrow_next_turn"
+        targetType: "creature"
+
+  - name: "Terrifying Glare"
+    description: "The scarecrow targets one creature it can see within 30 feet of it. If the target can see the scarecrow, the target must succeed on a DC 11 Wisdom saving throw or be magically frightened until the end of the scarecrow's next turn. The frightened target is paralyzed."
+    mechanics:
+      type: "fear_ability"
+      range: 30
+      requirement: "target_can_see_scarecrow"
+      saveDC: 11
+      saveAbility: "wisdom"
+      onFailure: "frightened_and_paralyzed"
+      duration: "until_end_of_next_turn"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "straw_and_cloth"
+      quantity: "large amount"
+      dropChance: 100
+      note: "Remains of scarecrow body"
+    - item: "animate_scarecrow_binding"
+      quantity: 1
+      dropChance: 30
+      note: "Dark magic focus that animated it"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Guardian construct. False Appearance for ambush (indistinguishable from normal scarecrow). Terrifying Glare (30 ft, DC 11 Wis save or frightened + paralyzed until end of next turn). Multiattack claws (avg 7 damage/round, each hit DC 11 Wis or frightened). Vulnerable to fire (double damage). Resistant to nonmagical physical damage. Patrol fields/areas. Mindless defender."
+  intelligence: "low"
+  aggression: "high"  # When activated
+  groupTactics: "none"  # Typically solitary
+
+  preferredTargets:
+    - "intruders in protected area"
+    - "nearest threat"
+
+  fleeThreshold: null  # Never flees (construct)
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Fields, farms, Wizard of Wines vineyard, Bonegrinder windmill"
+  organization: "Solitary or pair"
+
+lore:
+  description: "Scarecrows are constructs animated by dark magic to serve as guardians. They stand motionless in fields, indistinguishable from ordinary scarecrows until prey approaches. When activated, they attack with frightening claws and a terrifying glare that can paralyze victims with fear. Scarecrows are bound to protect specific locations - fields, farms, or evil lairs. In Barovia, scarecrows guard Wizard of Wines vineyard and Old Bonegrinder windmill, animated by the druids and hags who control those locations."
+  weakness: "Vulnerable to fire (double damage). Low damage output. No ranged attacks. Mindless (can be tricked with illusions)."
+  behavior: "Stand motionless using False Appearance. Attack intruders. Terrifying Glare to paralyze. Multiattack claws to frighten. Guard designated area. Fight until destroyed."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1 scarecrow for easy, 2 for medium, 3-4 for hard"
+  terrain: "Wizard of Wines vineyard, Old Bonegrinder fields, farmlands"
+  tactics: "WIZARD OF WINES DELIVERY QUEST: Scarecrows guard vineyard. False Appearance (surprise attack). Terrifying Glare (DC 11 Wis or frightened+paralyzed) disables one PC per round. Multiattack claws frighten on hit (DC 11 Wis). Fire vulnerability - torches and fire spells deal double damage. Resistant to nonmagical weapons."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.233"
+  official: true
+  srdContent: false
+
+  notes: "Common guardian in Barovia. False Appearance for ambush. Terrifying Glare paralyzes. Fire vulnerability makes them easy targets for fire users."
+
+  dmReminders:
+    - "CR 1 (200 XP)"
+    - "False Appearance: Indistinguishable from normal scarecrow"
+    - "VULNERABLE TO FIRE - double damage"
+    - "Resistant to nonmagical bludgeoning, piercing, slashing"
+    - "Terrifying Glare: 30 ft, DC 11 Wis or frightened+paralyzed until end of next turn"
+    - "Multiattack: Two claws (avg 7 damage)"
+    - "Claw: DC 11 Wis or frightened until end of scarecrow's next turn"
+    - "Frightened + Paralyzed: Speed 0, can't move, attackers have advantage"
+    - "Immune to many conditions (charmed, frightened, paralyzed, etc.)"
+    - "Wizard of Wines: Scarecrows guard corrupted vineyard"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

@@ -1,0 +1,4420 @@
+
+> kapi-s-rpg@0.1.0 test
+> jest
+
+FAIL tests/integration/session-logging.test.js
+  ● Console
+
+    console.warn
+      [SessionLogger] Failed to initialize log file: ENOSPC: No space left on device
+
+    [0m [90m 106 |[39m       [36mreturn[39m [36mthis[39m[33m.[39mcurrentLogFile[33m;[39m
+     [90m 107 |[39m     } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 108 |[39m       console[33m.[39mwarn([32m`[SessionLogger] Failed to initialize log file: ${error.message}`[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 109 |[39m       console[33m.[39mwarn([32m'[SessionLogger] Continuing without logging (graceful fallback)'[39m)[33m;[39m
+     [90m 110 |[39m       [36mthis[39m[33m.[39mcurrentLogFile [33m=[39m [36mnull[39m[33m;[39m
+     [90m 111 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m[0m
+
+      at SessionLogger.warn [as initializeLog] (src/core/session-logger.js:108:15)
+      at Object.initializeLog (tests/integration/session-logging.test.js:238:42)
+
+    console.warn
+      [SessionLogger] Continuing without logging (graceful fallback)
+
+    [0m [90m 107 |[39m     } [36mcatch[39m (error) {
+     [90m 108 |[39m       console[33m.[39mwarn([32m`[SessionLogger] Failed to initialize log file: ${error.message}`[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 109 |[39m       console[33m.[39mwarn([32m'[SessionLogger] Continuing without logging (graceful fallback)'[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 110 |[39m       [36mthis[39m[33m.[39mcurrentLogFile [33m=[39m [36mnull[39m[33m;[39m
+     [90m 111 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m
+     [90m 112 |[39m     }[0m
+
+      at SessionLogger.warn [as initializeLog] (src/core/session-logger.js:109:15)
+      at Object.initializeLog (tests/integration/session-logging.test.js:238:42)
+
+    console.warn
+      [SessionLogger] No active log file. Call initializeLog() first.
+
+    [0m [90m 140 |[39m       [90m// Validate log is initialized[39m
+     [90m 141 |[39m       [36mif[39m ([33m![39m[36mthis[39m[33m.[39mcurrentLogFile) {
+    [31m[1m>[22m[39m[90m 142 |[39m         console[33m.[39mwarn([32m'[SessionLogger] No active log file. Call initializeLog() first.'[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 143 |[39m         [36mreturn[39m { success[33m:[39m [36mfalse[39m[33m,[39m error[33m:[39m [32m'No active log file'[39m }[33m;[39m
+     [90m 144 |[39m       }
+     [90m 145 |[39m[0m
+
+      at SessionLogger.warn [as log] (src/core/session-logger.js:142:17)
+      at Object.log (tests/integration/session-logging.test.js:244:41)
+
+  ● Session Logging Integration › Complete Session Workflow › should create log file and write complete session
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "session-2025-11-05.md"
+    Received string:    "C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\test-logs\\session-2025-11-10.md"
+
+    [0m [90m 54 |[39m       [90m// Initialize session[39m
+     [90m 55 |[39m       [36mconst[39m logPath [33m=[39m logger[33m.[39minitializeLog([32m'integration-test-session'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 56 |[39m       expect(logPath)[33m.[39mtoContain([32m'session-2025-11-05.md'[39m)[33m;[39m
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 57 |[39m       expect(fs[33m.[39mexistsSync(logPath))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 58 |[39m
+     [90m 59 |[39m       [90m// Log multiple actions[39m[0m
+
+      at Object.toContain (tests/integration/session-logging.test.js:56:23)
+
+FAIL tests/data/location-loader.test.js
+  ● LocationLoader › Integration Tests - Village of Barovia › should load Village of Barovia successfully
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\valid-location'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Error Handling › should throw LocationNotFoundError for file instead of directory
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Error Handling › should throw LocationParseError for malformed YAML in metadata
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\incomplete-description'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Events Parser › should parse scheduled, conditional, and recurring events
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\invalid-yaml'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Metadata Parser › should parse metadata with hierarchy fields
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-parent'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › listLocations() › should only list directories with all required files
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-sublocations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Cache Behavior › should reload location when reloadLocation() is called
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Helper Methods › generateId() should create kebab-case IDs
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+
+  ● Test suite failed to run
+
+    EBUSY: resource busy or locked, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\room-level'
+
+    [0m [90m 26 |[39m   afterAll(() [33m=>[39m {
+     [90m 27 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 28 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 29 |[39m     }
+     [90m 30 |[39m   })[33m;[39m
+     [90m 31 |[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:28:10)
+
+FAIL tests/data/validate-location.test.js
+  ● Location Validation Script › Valid Location Tests › Valid location with all files present should pass
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 4
+    Received array:  ["Missing required file: Description.md", "Missing required file: NPCs.md", "Missing required file: Items.md", "Missing required file: Events.md"]
+
+    [0m [90m 44 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 45 |[39m
+    [31m[1m>[22m[39m[90m 46 |[39m       expect(result[33m.[39merrors)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 47 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 48 |[39m     })[33m;[39m
+     [90m 49 |[39m   })[33m;[39m[0m
+
+      at Object.toHaveLength (tests/data/validate-location.test.js:46:29)
+
+  ● Location Validation Script › Description.md Section Tests › Missing required sections in Description.md should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 135 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 136 |[39m
+    [31m[1m>[22m[39m[90m 137 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required section'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                               [31m[1m^[22m[39m
+     [90m 138 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 139 |[39m     })[33m;[39m
+     [90m 140 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:137:79)
+
+  ● Location Validation Script › Description.md Section Tests › Description.md with all sections should pass
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\complete-description\Events.md'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:142:28)
+
+  ● Location Validation Script › Malformed YAML Tests › Invalid YAML in metadata.yaml should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'Failed to parse metadata.yaml'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                    [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:162:84)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing parent_location field should fail
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-parent\State.md'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:169:28)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing sub_locations field should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 186 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 187 |[39m
+    [31m[1m>[22m[39m[90m 188 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required field: sub_locations'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                            [31m[1m^[22m[39m
+     [90m 189 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 190 |[39m     })[33m;[39m
+     [90m 191 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:188:92)
+
+FAIL tests/commands/calendar-commands.test.js
+  ● Console
+
+    console.error
+      Calendar display error: Error: Unexpected error
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\commands\calendar-commands.test.js:458:58)
+          at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+          at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+          at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+          at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+          at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+          at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+          at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+    [0m [90m 206 |[39m
+     [90m 207 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 208 |[39m     console[33m.[39merror([32m'Calendar display error:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m             [31m[1m^[22m[39m
+     [90m 209 |[39m     [36mreturn[39m formatError([32m'An unexpected error occurred while displaying the calendar'[39m)[33m;[39m
+     [90m 210 |[39m   }
+     [90m 211 |[39m }[0m
+
+      at error (src/commands/calendar-commands.js:208:13)
+      at Object.<anonymous> (tests/commands/calendar-commands.test.js:460:22)
+
+    console.error
+      Calendar display error: Error: Test error
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\commands\calendar-commands.test.js:467:58)
+          at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+          at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+          at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+          at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+          at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+          at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+          at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+    [0m [90m 206 |[39m
+     [90m 207 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 208 |[39m     console[33m.[39merror([32m'Calendar display error:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m             [31m[1m^[22m[39m
+     [90m 209 |[39m     [36mreturn[39m formatError([32m'An unexpected error occurred while displaying the calendar'[39m)[33m;[39m
+     [90m 210 |[39m   }
+     [90m 211 |[39m }[0m
+
+      at error (src/commands/calendar-commands.js:208:13)
+      at Object.<anonymous> (tests/commands/calendar-commands.test.js:469:7)
+
+  ● CalendarCommands › formatMoonPhaseSection (AC-3) › should use MoonPhaseCalculator if provided
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Waning Gibbous on 17th of Ches"
+    Received string:    "## Moon Phase·
+    **Current Phase:** Full Moon 🌕"
+
+    [0m [90m 199 |[39m       expect(mockMoonPhaseCalculator[33m.[39mgetCurrentPhase)[33m.[39mtoHaveBeenCalledWith([32m'0735-03-10'[39m)[33m;[39m
+     [90m 200 |[39m       expect(result)[33m.[39mtoContain([32m'Full Moon 🌕'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 201 |[39m       expect(result)[33m.[39mtoContain([32m'Waning Gibbous on 17th of Ches'[39m)[33m;[39m
+     [90m     |[39m                      [31m[1m^[22m[39m
+     [90m 202 |[39m     })[33m;[39m
+     [90m 203 |[39m
+     [90m 204 |[39m     test([32m'should use calendar data if MoonPhaseCalculator not provided'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toContain (tests/commands/calendar-commands.test.js:201:22)
+
+FAIL tests/calendar/moon-phase-calculator.test.js
+  ● MoonPhaseCalculator › AC-8: Performance › should complete 100 calculations in < 50ms total
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 50
+    Received:   77.57659999999942
+
+    [0m [90m 222 |[39m       [36mconst[39m duration [33m=[39m endTime [33m-[39m startTime[33m;[39m
+     [90m 223 |[39m
+    [31m[1m>[22m[39m[90m 224 |[39m       expect(duration)[33m.[39mtoBeLessThan([35m50[39m)[33m;[39m [90m// 100 calculations in < 50ms[39m
+     [90m     |[39m                        [31m[1m^[22m[39m
+     [90m 225 |[39m     })[33m;[39m
+     [90m 226 |[39m
+     [90m 227 |[39m     test([32m'single calculation should complete in < 5ms'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toBeLessThan (tests/calendar/moon-phase-calculator.test.js:224:24)
+
+FAIL tests/calendar/event-scheduler.test.js
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should trigger multiple events and sort by priority
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 2
+    Received length: 1
+    Received array:  [{"eventId": "evt_001", "name": "Morning event", "priority": 5, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "06:00"}]
+
+    [0m [90m 142 |[39m
+     [90m 143 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 144 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m2[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 145 |[39m       [90m// Higher priority first (evt_001 has priority 5, evt_002 has priority 3)[39m
+     [90m 146 |[39m       expect(result[33m.[39mtriggeredEvents[[35m0[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_001'[39m)[33m;[39m
+     [90m 147 |[39m       expect(result[33m.[39mtriggeredEvents[[35m1[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_002'[39m)[33m;[39m[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:144:38)
+
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should update triggered event status to "triggered"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       )[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39mcalendar[33m.[39mevents[[35m0[39m][33m.[39mstatus)[33m.[39mtoBe([32m'triggered'[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:162:30)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should NOT trigger completed non-recurring event
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 225 |[39m
+     [90m 226 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 227 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 228 |[39m     })[33m;[39m
+     [90m 229 |[39m
+     [90m 230 |[39m     test([32m'should trigger completed recurring event'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:227:38)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should trigger completed recurring event
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 244 |[39m       )[33m;[39m
+     [90m 245 |[39m
+    [31m[1m>[22m[39m[90m 246 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 247 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 248 |[39m     })[33m;[39m
+     [90m 249 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:246:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger player_enters_location condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 275 |[39m       )[33m;[39m
+     [90m 276 |[39m
+    [31m[1m>[22m[39m[90m 277 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 278 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 279 |[39m     })[33m;[39m
+     [90m 280 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:277:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger player_enters_location if already at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 300 |[39m       )[33m;[39m
+     [90m 301 |[39m
+    [31m[1m>[22m[39m[90m 302 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 303 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 304 |[39m     })[33m;[39m
+     [90m 305 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:302:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger game_flag_set condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 324 |[39m       )[33m;[39m
+     [90m 325 |[39m
+    [31m[1m>[22m[39m[90m 326 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 327 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 328 |[39m     })[33m;[39m
+     [90m 329 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:326:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger game_flag_set if flag is false
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 348 |[39m       )[33m;[39m
+     [90m 349 |[39m
+    [31m[1m>[22m[39m[90m 350 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 351 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 352 |[39m     })[33m;[39m
+     [90m 353 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:350:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger npc_status_changed condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 374 |[39m       )[33m;[39m
+     [90m 375 |[39m
+    [31m[1m>[22m[39m[90m 376 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 377 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_005'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 378 |[39m     })[33m;[39m
+     [90m 379 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:376:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should NOT trigger location-specific event when player elsewhere
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 433 |[39m
+     [90m 434 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 435 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 436 |[39m     })[33m;[39m
+     [90m 437 |[39m
+     [90m 438 |[39m     test([32m'should trigger location-specific event when player at location'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:435:38)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger location-specific event when player at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 452 |[39m       )[33m;[39m
+     [90m 453 |[39m
+    [31m[1m>[22m[39m[90m 454 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 455 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 456 |[39m     })[33m;[39m
+     [90m 457 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:454:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger global event (locationId null) regardless of location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 472 |[39m       )[33m;[39m
+     [90m 473 |[39m
+    [31m[1m>[22m[39m[90m 474 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 475 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 476 |[39m     })[33m;[39m
+     [90m 477 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:474:30)
+
+  ● EventScheduler › getUpcomingEvents() › should only return pending events
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 758 |[39m
+     [90m 759 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 760 |[39m       expect(result[33m.[39mevents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m [90m// evt_001 is completed[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 761 |[39m     })[33m;[39m
+     [90m 762 |[39m
+     [90m 763 |[39m     test([32m'should sort events chronologically'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:760:29)
+
+PASS tests/integration/time-advance.test.js
+FAIL tests/integration/event-scheduling.test.js (6.525 s)
+  ● EventScheduler Integration Tests › Performance Tests › checkTriggers() should complete in < 100ms for 100 events
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 100
+    Received:   152.6
+
+    [0m [90m 387 |[39m
+     [90m 388 |[39m       [36mconst[39m avgTime [33m=[39m times[33m.[39mreduce((a[33m,[39m b) [33m=>[39m a [33m+[39m b[33m,[39m [35m0[39m) [33m/[39m iterations[33m;[39m
+    [31m[1m>[22m[39m[90m 389 |[39m       expect(avgTime)[33m.[39mtoBeLessThan([35m100[39m)[33m;[39m [90m// Adjusted target (real date-fns operations)[39m
+     [90m     |[39m                       [31m[1m^[22m[39m
+     [90m 390 |[39m     })[33m;[39m
+     [90m 391 |[39m
+     [90m 392 |[39m     test([32m'getUpcomingEvents() should complete in < 30ms'[39m[33m,[39m [36masync[39m () [33m=>[39m {[0m
+
+      at Object.toBeLessThan (tests/integration/event-scheduling.test.js:389:23)
+
+  ● EventScheduler Integration Tests › Performance Tests › getUpcomingEvents() should complete in < 30ms
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 30
+    Received:   39.2
+
+    [0m [90m 416 |[39m
+     [90m 417 |[39m       [36mconst[39m avgTime [33m=[39m times[33m.[39mreduce((a[33m,[39m b) [33m=>[39m a [33m+[39m b[33m,[39m [35m0[39m) [33m/[39m iterations[33m;[39m
+    [31m[1m>[22m[39m[90m 418 |[39m       expect(avgTime)[33m.[39mtoBeLessThan([35m30[39m)[33m;[39m [90m// Adjusted target (real date-fns operations)[39m
+     [90m     |[39m                       [31m[1m^[22m[39m
+     [90m 419 |[39m     })[33m;[39m
+     [90m 420 |[39m   })[33m;[39m
+     [90m 421 |[39m[0m
+
+      at Object.toBeLessThan (tests/integration/event-scheduling.test.js:418:23)
+
+PASS tests/integration/commands.test.js
+  ● Console
+
+    console.warn
+      [Git] Auto-save failed: Git commit failed (see console for details)
+
+    [0m [90m 126 |[39m       [90m// Handle various Git errors gracefully[39m
+     [90m 127 |[39m       [36mconst[39m errorMessage [33m=[39m [36mthis[39m[33m.[39m_parseGitError(error)[33m;[39m
+    [31m[1m>[22m[39m[90m 128 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${errorMessage}`[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 129 |[39m
+     [90m 130 |[39m       [36mreturn[39m {
+     [90m 131 |[39m         success[33m:[39m [36mfalse[39m[33m,[39m[0m
+
+      at GitIntegration.warn [as createAutoSave] (src/utils/git-utils.js:128:15)
+      at createAutoSave (src/commands/handlers/end-session.js:54:38)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:195:35)
+
+    console.warn
+      [Git] Auto-save failed: Git commit failed (see console for details)
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:195:35)
+
+    console.warn
+      [Git] Auto-save failed: Git not available
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:224:35)
+
+    console.warn
+      [Git] Auto-save failed: Git commit failed (see console for details)
+
+    [0m [90m 126 |[39m       [90m// Handle various Git errors gracefully[39m
+     [90m 127 |[39m       [36mconst[39m errorMessage [33m=[39m [36mthis[39m[33m.[39m_parseGitError(error)[33m;[39m
+    [31m[1m>[22m[39m[90m 128 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${errorMessage}`[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 129 |[39m
+     [90m 130 |[39m       [36mreturn[39m {
+     [90m 131 |[39m         success[33m:[39m [36mfalse[39m[33m,[39m[0m
+
+      at GitIntegration.warn [as createAutoSave] (src/utils/git-utils.js:128:15)
+      at createAutoSave (src/commands/handlers/end-session.js:54:38)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:251:40)
+
+    console.warn
+      [Git] Auto-save failed: Git commit failed (see console for details)
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at CommandRouter.handler [as routeCommand] (src/commands/router.js:108:20)
+      at Object.routeCommand (tests/integration/commands.test.js:251:40)
+
+PASS tests/mechanics/inventory-manager.test.js
+PASS tests/integration/state-persistence.test.js
+  ● Console
+
+    console.log
+      ✅ Session started: 6d5a0402-7417-4723-aab7-048d78c77dc1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: location-a
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.log
+      📍 Location changed: location-a → location-b
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:117:13)
+
+    console.log
+      ✅ Session started: 019ace30-9576-48ad-b381-ca9cb1543053
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: location-a
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.log
+      📍 Location changed: location-a → location-b
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:117:13)
+
+    console.log
+      ✅ Session ended: 019ace30-9576-48ad-b381-ca9cb1543053
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:191:13)
+
+    console.log
+      ⏱️  Duration: 0 minutes
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:192:13)
+
+    console.log
+      📊 Actions taken: 0
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:193:13)
+
+    console.log
+      🗺️  Locations visited: 2
+
+      at SessionManager.log [as endSession] (src/core/session-manager.js:194:13)
+
+    console.log
+      ✅ Session started: 9a972feb-0f1c-4242-812a-04c637425dec
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: location-a
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.warn
+      Warning: Failed to parse YAML frontmatter in State.md: missed comma between flow collection entries (1:16)
+      
+       1 | { invalid yaml ]
+      --------------------^
+
+    [0m [90m 431 |[39m             yamlState [33m=[39m yaml[33m.[39mload(yamlContent[33m,[39m { schema[33m:[39m yaml[33m.[39m[33mSAFE_SCHEMA[39m })[33m;[39m
+     [90m 432 |[39m           } [36mcatch[39m (yamlError) {
+    [31m[1m>[22m[39m[90m 433 |[39m             console[33m.[39mwarn([32m`Warning: Failed to parse YAML frontmatter in State.md: ${yamlError.message}`[39m)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 434 |[39m           }
+     [90m 435 |[39m         }
+     [90m 436 |[39m       }[0m
+
+      at LocationLoader.warn [as parseStateFile] (src/data/location-loader.js:433:21)
+      at LocationLoader.parseStateFile [as loadLocation] (src/data/location-loader.js:114:26)
+      at Object.loadLocation (tests/integration/state-persistence.test.js:364:49)
+
+    console.log
+      ✅ Session started: eb660342-2cb1-4bb1-881c-c55499f38ea7
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: location-a
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.warn
+      Warning: Failed to persist visited state for location-a: Failed to update state for location-a: Permission denied
+
+    [0m [90m 108 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m [36mthis[39m[33m.[39mstateManager[33m.[39mmarkVisited(locationId)[33m;[39m
+     [90m 109 |[39m       [36mif[39m ([33m![39mresult[33m.[39msuccess) {
+    [31m[1m>[22m[39m[90m 110 |[39m         console[33m.[39mwarn([32m`Warning: Failed to persist visited state for ${locationId}: ${result.error}`[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 111 |[39m       }
+     [90m 112 |[39m     } [36mcatch[39m (error) {
+     [90m 113 |[39m       [90m// Don't fail session on state persistence error (graceful degradation)[39m[0m
+
+      at SessionManager.warn [as updateCurrentLocation] (src/core/session-manager.js:110:17)
+      at Object.<anonymous> (tests/integration/state-persistence.test.js:383:7)
+
+    console.log
+      📍 Location changed: location-a → location-a
+
+      at SessionManager.log [as updateCurrentLocation] (src/core/session-manager.js:117:13)
+
+PASS tests/integration/calendar-commands.test.js
+  ● Console
+
+    console.log
+      Performance (150 events): avg 15.50ms, max 36ms
+
+      at Object.log (tests/integration/calendar-commands.test.js:154:13)
+
+    console.warn
+      calendar.yaml not found, returning default calendar
+
+    [0m [90m 512 |[39m       } [36mcatch[39m (accessError) {
+     [90m 513 |[39m         [90m// File doesn't exist - return default calendar[39m
+    [31m[1m>[22m[39m[90m 514 |[39m         console[33m.[39mwarn([32m'calendar.yaml not found, returning default calendar'[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 515 |[39m         [36mreturn[39m {
+     [90m 516 |[39m           success[33m:[39m [36mtrue[39m[33m,[39m
+     [90m 517 |[39m           calendar[33m:[39m { [33m...[39m[33mDEFAULT_CALENDAR[39m }[0m
+
+      at CalendarManager.warn [as loadCalendar] (src/calendar/calendar-manager.js:514:17)
+      at displayCalendar (src/commands/calendar-commands.js:179:28)
+      at Object.<anonymous> (tests/integration/calendar-commands.test.js:163:20)
+
+PASS tests/calendar/npc-schedule-tracker.test.js
+PASS tests/integration/npc-schedule-tracking.test.js
+PASS tests/mechanics/level-up-calculator.test.js
+  ● Console
+
+    console.warn
+      Git commit failed: Command failed: git add characters/test-fighter.yaml
+      fatal: pathspec 'characters/test-fighter.yaml' did not match any files
+
+    [0m [90m 545 |[39m       } [36mcatch[39m (gitError) {
+     [90m 546 |[39m         [90m// Git commit failure is non-fatal (might not be in a Git repo)[39m
+    [31m[1m>[22m[39m[90m 547 |[39m         console[33m.[39mwarn([32m`Git commit failed: ${gitError.message}`[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 548 |[39m       }
+     [90m 549 |[39m
+     [90m 550 |[39m       [36mreturn[39m {[0m
+
+      at LevelUpCalculator.warn [as _persistLevelUp] (src/mechanics/level-up-calculator.js:547:17)
+      at LevelUpCalculator.levelUp (src/mechanics/level-up-calculator.js:686:31)
+      at Object.<anonymous> (tests/mechanics/level-up-calculator.test.js:404:22)
+
+    console.warn
+      Git commit failed: Command failed: git commit -m "Level Up: Kapi reaches level 4
+      
+      🎉 Generated with Claude Code
+      "
+
+    [0m [90m 545 |[39m       } [36mcatch[39m (gitError) {
+     [90m 546 |[39m         [90m// Git commit failure is non-fatal (might not be in a Git repo)[39m
+    [31m[1m>[22m[39m[90m 547 |[39m         console[33m.[39mwarn([32m`Git commit failed: ${gitError.message}`[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 548 |[39m       }
+     [90m 549 |[39m
+     [90m 550 |[39m       [36mreturn[39m {[0m
+
+      at LevelUpCalculator.warn [as _persistLevelUp] (src/mechanics/level-up-calculator.js:547:17)
+      at LevelUpCalculator.levelUp (src/mechanics/level-up-calculator.js:686:31)
+      at Object.<anonymous> (tests/mechanics/level-up-calculator.test.js:569:22)
+
+PASS tests/calendar/time-manager.test.js
+PASS tests/calendar/moon-weather-integration.test.js
+PASS tests/core/navigation-handler.test.js
+PASS tests/calendar/weather-generator.test.js
+PASS tests/core/context-builder.integration.test.js
+  ● Console
+
+    console.log
+      Token breakdown:
+
+      at Object.log (tests/core/context-builder.integration.test.js:49:15)
+
+    console.log
+        System Prompt: 492
+
+      at Object.log (tests/core/context-builder.integration.test.js:50:15)
+
+    console.log
+        Priority 1: 505
+
+      at Object.log (tests/core/context-builder.integration.test.js:51:15)
+
+    console.log
+        Priority 2: 563
+
+      at Object.log (tests/core/context-builder.integration.test.js:52:15)
+
+    console.log
+        Total: 1560
+
+      at Object.log (tests/core/context-builder.integration.test.js:53:15)
+
+    console.log
+      Token estimation accuracy:
+
+      at Object.log (tests/core/context-builder.integration.test.js:185:15)
+
+    console.log
+        Actual chars: 4417
+
+      at Object.log (tests/core/context-builder.integration.test.js:186:15)
+
+    console.log
+        Estimated tokens: 1560
+
+      at Object.log (tests/core/context-builder.integration.test.js:187:15)
+
+    console.log
+        Actual tokens (approx): 1159.4625
+
+      at Object.log (tests/core/context-builder.integration.test.js:188:15)
+
+    console.log
+        Accuracy: 134.5%
+
+      at Object.log (tests/core/context-builder.integration.test.js:189:15)
+
+    console.log
+      buildPrompt() execution time: 0.13ms
+
+      at Object.log (tests/core/context-builder.integration.test.js:216:15)
+
+    console.warn
+      [ContextBuilder] Priority 2 content truncated due to token budget constraints
+
+    [0m [90m 375 |[39m     [90m// Log warning if content was truncated[39m
+     [90m 376 |[39m     [36mif[39m (wasTruncated) {
+    [31m[1m>[22m[39m[90m 377 |[39m       console[33m.[39mwarn([32m'[ContextBuilder] Priority 2 content truncated due to token budget constraints'[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 378 |[39m     }
+     [90m 379 |[39m
+     [90m 380 |[39m     [36mreturn[39m {[0m
+
+      at ContextBuilder.warn [as buildPriority2Content] (src/core/context-builder.js:377:15)
+      at ContextBuilder.buildPriority2Content [as buildPrompt] (src/core/context-builder.js:163:34)
+      at Object.buildPrompt (tests/core/context-builder.integration.test.js:250:15)
+
+    console.log
+      buildPrompt() with large location: 6.90ms
+
+      at Object.log (tests/core/context-builder.integration.test.js:254:15)
+
+PASS tests/mechanics/character-manager.test.js
+PASS tests/core/context-builder.test.js
+  ● Console
+
+    console.warn
+      [ContextBuilder] Priority 2 content truncated due to token budget constraints
+
+    [0m [90m 375 |[39m     [90m// Log warning if content was truncated[39m
+     [90m 376 |[39m     [36mif[39m (wasTruncated) {
+    [31m[1m>[22m[39m[90m 377 |[39m       console[33m.[39mwarn([32m'[ContextBuilder] Priority 2 content truncated due to token budget constraints'[39m)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 378 |[39m     }
+     [90m 379 |[39m
+     [90m 380 |[39m     [36mreturn[39m {[0m
+
+      at ContextBuilder.warn [as buildPriority2Content] (src/core/context-builder.js:377:15)
+      at ContextBuilder.buildPriority2Content [as buildPrompt] (src/core/context-builder.js:163:34)
+      at Object.buildPrompt (tests/core/context-builder.test.js:418:30)
+
+PASS tests/core/session-logger.test.js
+PASS tests/integration/calendar-init.test.js
+  ● Console
+
+    console.warn
+      calendar.yaml not found, returning default calendar
+
+    [0m [90m 512 |[39m       } [36mcatch[39m (accessError) {
+     [90m 513 |[39m         [90m// File doesn't exist - return default calendar[39m
+    [31m[1m>[22m[39m[90m 514 |[39m         console[33m.[39mwarn([32m'calendar.yaml not found, returning default calendar'[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 515 |[39m         [36mreturn[39m {
+     [90m 516 |[39m           success[33m:[39m [36mtrue[39m[33m,[39m
+     [90m 517 |[39m           calendar[33m:[39m { [33m...[39m[33mDEFAULT_CALENDAR[39m }[0m
+
+      at CalendarManager.warn [as loadCalendar] (src/calendar/calendar-manager.js:514:17)
+      at Object.<anonymous> (tests/integration/calendar-init.test.js:215:22)
+
+PASS tests/mechanics/skill-check-system.test.js
+PASS tests/commands/router.test.js
+PASS tests/calendar/event-executor.test.js
+  ● Console
+
+    console.error
+      Error applying effect npc_status: Error: Effect failed: npc_status - NPC status effect failed: File write error
+          at EventExecutor.execute (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\calendar\event-executor.js:267:19)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\calendar\event-executor.test.js:579:22)
+
+    [0m [90m 269 |[39m         } [36mcatch[39m (err) {
+     [90m 270 |[39m           [90m// Rollback is implicit - we haven't committed any changes yet[39m
+    [31m[1m>[22m[39m[90m 271 |[39m           console[33m.[39merror([32m`Error applying effect ${effect.type}:`[39m[33m,[39m err)[33m;[39m
+     [90m     |[39m                   [31m[1m^[22m[39m
+     [90m 272 |[39m
+     [90m 273 |[39m           [90m// Mark event as failed[39m
+     [90m 274 |[39m           [36mawait[39m [36mthis[39m[33m.[39mcalendarManager[33m.[39mupdateEventStatus(event[33m.[39meventId[33m,[39m [32m'failed'[39m)[33m;[39m[0m
+
+      at EventExecutor.error [as execute] (src/calendar/event-executor.js:271:19)
+      at Object.<anonymous> (tests/calendar/event-executor.test.js:579:22)
+
+    console.error
+      Error applying effect npc_status: Error: Effect failed: npc_status - NPC status effect failed: File error
+          at EventExecutor.execute (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\calendar\event-executor.js:267:19)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\calendar\event-executor.test.js:600:7)
+
+    [0m [90m 269 |[39m         } [36mcatch[39m (err) {
+     [90m 270 |[39m           [90m// Rollback is implicit - we haven't committed any changes yet[39m
+    [31m[1m>[22m[39m[90m 271 |[39m           console[33m.[39merror([32m`Error applying effect ${effect.type}:`[39m[33m,[39m err)[33m;[39m
+     [90m     |[39m                   [31m[1m^[22m[39m
+     [90m 272 |[39m
+     [90m 273 |[39m           [90m// Mark event as failed[39m
+     [90m 274 |[39m           [36mawait[39m [36mthis[39m[33m.[39mcalendarManager[33m.[39mupdateEventStatus(event[33m.[39meventId[33m,[39m [32m'failed'[39m)[33m;[39m[0m
+
+      at EventExecutor.error [as execute] (src/calendar/event-executor.js:271:19)
+      at Object.<anonymous> (tests/calendar/event-executor.test.js:600:7)
+
+    console.error
+      Error applying effect npc_status: Error: Effect failed: npc_status - NPC status effect failed: Critical error
+          at EventExecutor.execute (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\calendar\event-executor.js:267:19)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\calendar\event-executor.test.js:639:22)
+
+    [0m [90m 269 |[39m         } [36mcatch[39m (err) {
+     [90m 270 |[39m           [90m// Rollback is implicit - we haven't committed any changes yet[39m
+    [31m[1m>[22m[39m[90m 271 |[39m           console[33m.[39merror([32m`Error applying effect ${effect.type}:`[39m[33m,[39m err)[33m;[39m
+     [90m     |[39m                   [31m[1m^[22m[39m
+     [90m 272 |[39m
+     [90m 273 |[39m           [90m// Mark event as failed[39m
+     [90m 274 |[39m           [36mawait[39m [36mthis[39m[33m.[39mcalendarManager[33m.[39mupdateEventStatus(event[33m.[39meventId[33m,[39m [32m'failed'[39m)[33m;[39m[0m
+
+      at EventExecutor.error [as execute] (src/calendar/event-executor.js:271:19)
+      at Object.<anonymous> (tests/calendar/event-executor.test.js:639:22)
+
+PASS tests/calendar/world-state-propagator.test.js
+PASS tests/core/state-manager.test.js
+PASS tests/mechanics/ability-check-handler.test.js
+PASS tests/utils/git-utils.test.js
+PASS tests/mechanics/spell-database.test.js
+PASS tests/integration/navigation.test.js
+  ● Console
+
+    console.warn
+      [NavigationHandler] No connected_locations specified for test-location-isolated. Allowing travel (permissive fallback).
+
+    [0m [90m 114 |[39m       [36mif[39m (connectedLocations[33m.[39mlength [33m===[39m [35m0[39m) {
+     [90m 115 |[39m         [36mconst[39m durationMs [33m=[39m performance[33m.[39mnow() [33m-[39m startTime[33m;[39m
+    [31m[1m>[22m[39m[90m 116 |[39m         console[33m.[39mwarn([32m`[NavigationHandler] No connected_locations specified for ${currentLocationId}. Allowing travel (permissive fallback).`[39m)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 117 |[39m         [36mreturn[39m {
+     [90m 118 |[39m           success[33m:[39m [36mtrue[39m[33m,[39m
+     [90m 119 |[39m           error[33m:[39m [36mnull[39m[33m,[39m[0m
+
+      at NavigationHandler.warn [as travel] (src/core/navigation-handler.js:116:17)
+      at Object.travel (tests/integration/navigation.test.js:219:40)
+
+PASS tests/mechanics/spell-manager.test.js
+PASS tests/calendar/calendar-manager.test.js
+PASS tests/mechanics/combat-manager.test.js
+PASS tests/mechanics/dice-roller.test.js
+PASS tests/commands/handlers/start-session.test.js
+PASS tests/commands/handlers/end-session.test.js
+  ● Console
+
+    console.warn
+      [Git] Auto-save failed: Git not available
+
+    [0m [90m 75 |[39m       summary [33m+=[39m [32m`\n⚠️ **Git Auto-Save Failed:** ${gitResult.error}\n`[39m [33m+[39m
+     [90m 76 |[39m         [32m`Session log was saved, but Git commit failed. You may need to commit manually.`[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 77 |[39m       console[33m.[39mwarn([32m`[Git] Auto-save failed: ${gitResult.error}`[39m)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 78 |[39m     }
+     [90m 79 |[39m
+     [90m 80 |[39m     [90m// Step 6: Display summary to user[39m[0m
+
+      at warn (src/commands/handlers/end-session.js:77:15)
+      at Object.endSessionHandler (tests/commands/handlers/end-session.test.js:102:26)
+
+PASS tests/commands/handlers/look.test.js
+PASS tests/commands/handlers/travel.test.js
+PASS tests/mechanics/item-database.test.js
+C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:97
+      throw new Error('No active session');
+            ^
+
+Error: No active session
+    at SessionManager.updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:95:13)
+    at updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:138:24)
+    at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\toThrowMatchers.js:74:11)
+    at Object.throwingMatcher [as toThrow] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\index.js:320:21)
+    at Object.toThrow (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:139:10)
+    at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+Node.js v22.19.0
+FAIL tests/integration/llm-narrator.test.js (12.627 s)
+  ● Console
+
+    console.log
+      🎲 LLM Request 562707d5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [562707d5] LLM response: 46ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9f37e914...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9f37e914] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d61d2c66...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d61d2c66] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 33284412...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [33284412] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      ✅ Session started: b57f1e15-97e8-46f2-870b-b9d0e40f8558
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: test-location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.log
+      📝 Action recorded (#1): Look around the room
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:155:13)
+
+    console.log
+      🎲 LLM Request a5886fca...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a5886fca] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      ✅ Session started: b8e43454-b6f9-476f-ad3b-b1befacd0653
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:69:13)
+
+    console.log
+      📍 Initial location: test-location-1
+
+      at SessionManager.log [as startSession] (src/core/session-manager.js:70:13)
+
+    console.log
+      📝 Action recorded (#1): Action 1
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:155:13)
+
+    console.log
+      📝 Action recorded (#2): Action 2
+
+      at SessionManager.log [as recordAction] (src/core/session-manager.js:155:13)
+
+    console.log
+      🎲 LLM Request 6cef6628...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [6cef6628] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Claude Code connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:169:9)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [6cef6628] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Claude Code connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:169:9)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [6cef6628] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Claude Code connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:169:9)
+
+    console.log
+      🎲 LLM Request 6f1656d4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6f1656d4] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 06b7e6d4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [06b7e6d4] LLM response: 2ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6a5a3e96...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6a5a3e96] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5a96e117...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5a96e117] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 31f76fdc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [31f76fdc] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1b33f709...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1b33f709] LLM response: 8ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 614ee1df...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [614ee1df] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1a07de3f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1a07de3f] LLM response: 3ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 49095fff...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [49095fff] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0727f9ac...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0727f9ac] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3df3528c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3df3528c] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 50936eec...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [50936eec] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 159f2d49...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [159f2d49] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0441fd62...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0441fd62] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 961f979a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [961f979a] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 002a3aa2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [002a3aa2] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2ccafc66...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2ccafc66] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9224016a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9224016a] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6c896fe8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6c896fe8] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2c3c01fe...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2c3c01fe] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 594d43ad...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [594d43ad] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 653933c6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [653933c6] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5eec20c1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5eec20c1] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b52af238...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b52af238] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 60310205...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [60310205] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2cdc91c3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [2cdc91c3] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Timeout
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:233:24)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [2cdc91c3] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Rate limit
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:233:24)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.log
+      ✅ [2cdc91c3] LLM response: 3011ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5ffde14b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [5ffde14b] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Extension not responding
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:249:9)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [5ffde14b] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Extension not responding
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:249:9)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [5ffde14b] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Extension not responding
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:249:9)
+
+    console.log
+      🎲 LLM Request 8df4704c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [8df4704c] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Malformed response: missing or empty content field
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/integration/llm-narrator.test.js:273:24)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.log
+      ✅ [8df4704c] LLM response: 1010ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 74d8907b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [74d8907b] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7699e26e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7699e26e] LLM response: 0ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 52b36e86...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [52b36e86] LLM response: 2ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ae6c2bd5...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ae6c2bd5] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bd595363...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      🎲 LLM Request edb216df...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      🎲 LLM Request 21875e4b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      🎲 LLM Request 1d698940...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      🎲 LLM Request 8c51bc9d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bd595363] LLM response: 3ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+          at async Promise.all (index 0)
+
+    console.log
+      ✅ [edb216df] LLM response: 3ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+          at async Promise.all (index 1)
+
+    console.log
+      ✅ [21875e4b] LLM response: 2ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+          at async Promise.all (index 2)
+
+    console.log
+      ✅ [1d698940] LLM response: 3ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+          at async Promise.all (index 3)
+
+    console.log
+      ✅ [8c51bc9d] LLM response: 1ms, 120 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+          at async Promise.all (index 4)
+
+  ● LLM Narrator Integration Tests › Performance Testing (AC-13) › should track performance metrics
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 212 |[39m
+     [90m 213 |[39m       expect(stats[33m.[39mrequestCount)[33m.[39mtoBe([35m5[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 214 |[39m       expect(stats[33m.[39maverageResponseTime)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 215 |[39m       expect(stats[33m.[39mpercentile95)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m 216 |[39m     })[33m;[39m
+     [90m 217 |[39m   })[33m;[39m[0m
+
+      at Object.toBeGreaterThan (tests/integration/llm-narrator.test.js:214:41)
+
+C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:97
+      throw new Error('No active session');
+            ^
+
+Error: No active session
+    at SessionManager.updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:95:13)
+    at updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:138:24)
+    at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\toThrowMatchers.js:74:11)
+    at Object.throwingMatcher [as toThrow] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\index.js:320:21)
+    at Object.toThrow (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:139:10)
+    at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+Node.js v22.19.0
+C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:97
+      throw new Error('No active session');
+            ^
+
+Error: No active session
+    at SessionManager.updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:95:13)
+    at updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:138:24)
+    at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\toThrowMatchers.js:74:11)
+    at Object.throwingMatcher [as toThrow] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\index.js:320:21)
+    at Object.toThrow (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:139:10)
+    at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+Node.js v22.19.0
+C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:97
+      throw new Error('No active session');
+            ^
+
+Error: No active session
+    at SessionManager.updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\session-manager.js:95:13)
+    at updateCurrentLocation (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:138:24)
+    at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\toThrowMatchers.js:74:11)
+    at Object.throwingMatcher [as toThrow] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\expect\build\index.js:320:21)
+    at Object.toThrow (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\session-manager.test.js:139:10)
+    at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+Node.js v22.19.0
+FAIL tests/core/session-manager.test.js
+  ● Test suite failed to run
+
+    Jest worker encountered 4 child process exceptions, exceeding retry limit
+
+      at ChildProcessWorker.initialize (node_modules/jest-worker/build/workers/ChildProcessWorker.js:181:21)
+
+PASS tests/core/llm-narrator.test.js (18.634 s)
+  ● Console
+
+    console.error
+      Error checking Claude Code availability: Error: Test error
+          at Object.get isActive [as isActive] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:90:17)
+          at LLMNarrator.isActive [as isClaudeCodeAvailable] (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:137:39)
+          at Object.isClaudeCodeAvailable (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:94:40)
+          at Promise.then.completed (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\utils.js:231:10)
+          at _callCircusTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:105:5)
+          at _runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:252:3)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:126:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at _runTestsForDescribeBlock (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:121:9)
+          at run (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\run.js:71:3)
+          at runAndTransformResultsToJestFormat (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+          at jestAdapter (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+          at runTestInternal (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:367:16)
+          at runTest (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\runTest.js:444:34)
+          at Object.worker (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\node_modules\jest-runner\build\testWorker.js:106:12)
+
+    [0m [90m 137 |[39m       [36mreturn[39m [36mthis[39m[33m.[39mclaudeCodeExtension[33m.[39misActive[33m;[39m
+     [90m 138 |[39m     } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 139 |[39m       console[33m.[39merror([32m'Error checking Claude Code availability:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 140 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 141 |[39m     }
+     [90m 142 |[39m   }[0m
+
+      at LLMNarrator.error [as isClaudeCodeAvailable] (src/core/llm-narrator.js:139:15)
+      at Object.isClaudeCodeAvailable (tests/core/llm-narrator.test.js:94:40)
+
+    console.log
+      🎲 LLM Request 01e24ddb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [01e24ddb] LLM response: 2ms, 10 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request cdd7b0b6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [cdd7b0b6] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [cdd7b0b6] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [cdd7b0b6] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Connection failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at LLMNarrator.testConnection (src/core/llm-narrator.js:167:24)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.error
+      Connection test failed: Error: Claude Code extension failed after 3 attempts. Please ensure Claude Code is installed, authenticated, and responding. Request ID: cdd7b0b6-4991-423a-8c52-98b3c8060b8b. Last error: Claude Code API call failed: Connection failed
+          at LLMNarrator.generateNarrative (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:241:30)
+          at LLMNarrator.testConnection (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\src\core\llm-narrator.js:167:24)
+          at Object.<anonymous> (C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\core\llm-narrator.test.js:113:22) {
+        requestId: 'cdd7b0b6-4991-423a-8c52-98b3c8060b8b'
+      }
+
+    [0m [90m 168 |[39m       [36mreturn[39m response[33m.[39mnarrative[33m.[39mtoLowerCase()[33m.[39mincludes([32m'successful'[39m)[33m;[39m
+     [90m 169 |[39m     } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 170 |[39m       console[33m.[39merror([32m'Connection test failed:'[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m               [31m[1m^[22m[39m
+     [90m 171 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 172 |[39m     }
+     [90m 173 |[39m   }[0m
+
+      at LLMNarrator.error [as testConnection] (src/core/llm-narrator.js:170:15)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:113:22)
+
+    console.log
+      🎲 LLM Request 6bb185a1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6bb185a1] LLM response: 1ms, 150 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5b4d9b8a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [5b4d9b8a] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Attempt 1 failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:164:22)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [5b4d9b8a] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Attempt 2 failed
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:164:22)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.log
+      ✅ [5b4d9b8a] LLM response: 3015ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a98007d8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [a98007d8] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [a98007d8] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [a98007d8] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Always fails
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:173:7)
+
+    console.log
+      🎲 LLM Request 59ac4152...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.error
+      ❌ [59ac4152] LLM Narrator attempt 1/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      Retry attempt 2/3 after 1000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [59ac4152] LLM Narrator attempt 2/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      Retry attempt 3/3 after 2000ms delay...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:204:19)
+
+    console.error
+      ❌ [59ac4152] LLM Narrator attempt 3/3 failed: Claude Code API call failed: Test error
+
+    [0m [90m 232 |[39m       } [36mcatch[39m (error) {
+     [90m 233 |[39m         lastError [33m=[39m error[33m;[39m
+    [31m[1m>[22m[39m[90m 234 |[39m         console[33m.[39merror(
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 235 |[39m           [32m`❌ [${requestId.slice(0, 8)}] LLM Narrator attempt ${attempt + 1}/${this.retryConfig.maxRetries} failed:`[39m[33m,[39m
+     [90m 236 |[39m           error[33m.[39mmessage
+     [90m 237 |[39m         )[33m;[39m[0m
+
+      at LLMNarrator.error [as generateNarrative] (src/core/llm-narrator.js:234:17)
+      at Object.<anonymous> (tests/core/llm-narrator.test.js:184:9)
+
+    console.log
+      🎲 LLM Request 5f58d8f3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5f58d8f3] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9ff70d16...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9ff70d16] LLM response: 6002ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0d0b4c71...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0d0b4c71] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3abfcb75...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3abfcb75] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4a32db1a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4a32db1a] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4a8d09c6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4a8d09c6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 04acf685...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [04acf685] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 70b73c56...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [70b73c56] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 747d5539...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [747d5539] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0f43d85a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0f43d85a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d94c8c78...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d94c8c78] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 41415238...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [41415238] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 341fced3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [341fced3] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 062d056c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [062d056c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6c2f1fd2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6c2f1fd2] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8cf33589...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8cf33589] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 408221d6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [408221d6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a0982389...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a0982389] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 972afcc8...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [972afcc8] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bbcb2cff...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bbcb2cff] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a4311156...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a4311156] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 16b36b9d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [16b36b9d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7146f043...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7146f043] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c0b1704d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c0b1704d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9653f3ec...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9653f3ec] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3c1c3599...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3c1c3599] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e7dbe8cb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e7dbe8cb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d4b506ec...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d4b506ec] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3c3b0308...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3c3b0308] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6e78567a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6e78567a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 038bd2ed...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [038bd2ed] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 32e85129...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [32e85129] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 95422f0f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [95422f0f] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f6cc03f1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f6cc03f1] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6e8e319b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6e8e319b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bc908854...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bc908854] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request bb05468e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [bb05468e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c2ac64ca...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c2ac64ca] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8de838ee...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8de838ee] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d00b309e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d00b309e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 28655949...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [28655949] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5d23db68...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5d23db68] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2bd3d536...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2bd3d536] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3b6017a0...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3b6017a0] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c64d32f4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c64d32f4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 976dbfc3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [976dbfc3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0c2af232...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0c2af232] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a5661c95...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a5661c95] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ce8010bc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ce8010bc] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request dcc4458d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [dcc4458d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5dd161df...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5dd161df] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3c6313b1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3c6313b1] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a85ac8d3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a85ac8d3] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d36244ea...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d36244ea] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e69b6d5e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e69b6d5e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 96594241...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [96594241] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e400d29b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e400d29b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 88715780...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [88715780] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5fe989c9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5fe989c9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5c528715...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5c528715] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8df44a35...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8df44a35] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d523b138...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d523b138] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3e3f86c4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3e3f86c4] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 03fece46...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [03fece46] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8bc3fd02...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8bc3fd02] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e8a1297d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e8a1297d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5db98921...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5db98921] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request cdb474b6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [cdb474b6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a338bcdf...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a338bcdf] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 511691ce...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [511691ce] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 19411097...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [19411097] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e68e34d4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e68e34d4] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c8e78d4a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c8e78d4a] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request afb90fa6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [afb90fa6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1f963a25...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1f963a25] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4ac9c944...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4ac9c944] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 08a31b88...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [08a31b88] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9943f3f6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9943f3f6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 485e759a...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [485e759a] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8958555c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8958555c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6eefc980...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6eefc980] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3248b268...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3248b268] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b0d77909...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b0d77909] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f7f4d435...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f7f4d435] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request be17973d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [be17973d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request f7ec69c0...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [f7ec69c0] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 39368241...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [39368241] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9d33b598...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9d33b598] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 29e22129...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [29e22129] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request febfc47c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [febfc47c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8f97faca...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8f97faca] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ce955386...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ce955386] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2b8587ba...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2b8587ba] LLM response: 2ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 41a0227f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [41a0227f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ec7f3f6f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ec7f3f6f] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3baf30f7...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3baf30f7] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 13553e72...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [13553e72] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request edd41606...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [edd41606] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5452ca46...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5452ca46] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0841da2d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0841da2d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9dad7d73...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9dad7d73] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ee7bf36f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ee7bf36f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6807b2b4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6807b2b4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8f7f8c43...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8f7f8c43] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b2fb29b1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b2fb29b1] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 56cd8ddd...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [56cd8ddd] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9779b707...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9779b707] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 316fe78f...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [316fe78f] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2b13fee4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2b13fee4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a476d3ca...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a476d3ca] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 333d28f7...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [333d28f7] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 514b346d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [514b346d] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request a5d615cb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [a5d615cb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1ad2118b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1ad2118b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 6eea4d7b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [6eea4d7b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b563cccf...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b563cccf] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 77cfae13...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [77cfae13] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 284f0fae...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [284f0fae] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7290a15d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7290a15d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c855b3ac...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c855b3ac] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 180ec85b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [180ec85b] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 17607629...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [17607629] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 1430e4c4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [1430e4c4] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c0e47a34...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c0e47a34] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c568185c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c568185c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7df1b38c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7df1b38c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0278600e...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0278600e] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 8f4e41f1...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [8f4e41f1] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9a738098...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9a738098] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 84b3a3d4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [84b3a3d4] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 7e06849d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [7e06849d] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0dfc2355...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0dfc2355] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e3a4a2d9...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e3a4a2d9] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 08fa4ceb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [08fa4ceb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 3d3f1bdb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [3d3f1bdb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 22da4802...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [22da4802] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 2b93fbda...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [2b93fbda] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 947e3ab3...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [947e3ab3] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 44f0445c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [44f0445c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5cf82d03...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5cf82d03] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request c3472ed2...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [c3472ed2] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ab1c9390...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ab1c9390] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 512cb32d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [512cb32d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 89d04be0...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [89d04be0] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 665f73ae...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [665f73ae] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request e76e0892...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [e76e0892] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4e06b065...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4e06b065] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 715a2a1d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [715a2a1d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 5114bd79...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [5114bd79] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 700e9e54...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [700e9e54] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 4306942b...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [4306942b] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 84884da4...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [84884da4] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9d2e22bc...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9d2e22bc] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 039e4490...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [039e4490] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 988128be...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [988128be] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 67f5df86...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [67f5df86] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0f65040c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0f65040c] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 0bf8c195...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [0bf8c195] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 06fd6b2c...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [06fd6b2c] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 9f53cccb...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [9f53cccb] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request ee8ee9a6...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [ee8ee9a6] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request b9866961...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [b9866961] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request d992a95d...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [d992a95d] LLM response: 0ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+    console.log
+      🎲 LLM Request 73307899...
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:188:13)
+
+    console.log
+      ✅ [73307899] LLM response: 1ms, 100 tokens
+
+      at LLMNarrator.log [as generateNarrative] (src/core/llm-narrator.js:223:17)
+
+PASS tests/integration/git-integration.test.js (22.408 s)
+
+Summary of all failing tests
+FAIL tests/integration/session-logging.test.js
+  ● Session Logging Integration › Complete Session Workflow › should create log file and write complete session
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "session-2025-11-05.md"
+    Received string:    "C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\test-logs\\session-2025-11-10.md"
+
+    [0m [90m 54 |[39m       [90m// Initialize session[39m
+     [90m 55 |[39m       [36mconst[39m logPath [33m=[39m logger[33m.[39minitializeLog([32m'integration-test-session'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 56 |[39m       expect(logPath)[33m.[39mtoContain([32m'session-2025-11-05.md'[39m)[33m;[39m
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 57 |[39m       expect(fs[33m.[39mexistsSync(logPath))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 58 |[39m
+     [90m 59 |[39m       [90m// Log multiple actions[39m[0m
+
+      at Object.toContain (tests/integration/session-logging.test.js:56:23)
+
+FAIL tests/data/location-loader.test.js
+  ● LocationLoader › Integration Tests - Village of Barovia › should load Village of Barovia successfully
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\valid-location'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Error Handling › should throw LocationNotFoundError for file instead of directory
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Error Handling › should throw LocationParseError for malformed YAML in metadata
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\incomplete-description'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Events Parser › should parse scheduled, conditional, and recurring events
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\invalid-yaml'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Metadata Parser › should parse metadata with hierarchy fields
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-parent'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › listLocations() › should only list directories with all required files
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-sublocations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Cache Behavior › should reload location when reloadLocation() is called
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+  ● LocationLoader › Helper Methods › generateId() should create kebab-case IDs
+
+    ENOTEMPTY: directory not empty, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations'
+
+    [0m [90m 19 |[39m     [90m// Clean up test locations[39m
+     [90m 20 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 21 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 22 |[39m     }
+     [90m 23 |[39m     fs[33m.[39mmkdirSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m 24 |[39m   })[33m;[39m[0m
+
+      at Object.rmSync (tests/data/location-loader.test.js:21:10)
+
+
+  ● Test suite failed to run
+
+    EBUSY: resource busy or locked, rmdir 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\room-level'
+
+    [0m [90m 26 |[39m   afterAll(() [33m=>[39m {
+     [90m 27 |[39m     [36mif[39m (fs[33m.[39mexistsSync(testDataDir)) {
+    [31m[1m>[22m[39m[90m 28 |[39m       fs[33m.[39mrmSync(testDataDir[33m,[39m { recursive[33m:[39m [36mtrue[39m[33m,[39m force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m          [31m[1m^[22m[39m
+     [90m 29 |[39m     }
+     [90m 30 |[39m   })[33m;[39m
+     [90m 31 |[39m[0m
+
+          at Array.forEach (<anonymous>)
+      at Object.rmSync (tests/data/location-loader.test.js:28:10)
+
+FAIL tests/data/validate-location.test.js
+  ● Location Validation Script › Valid Location Tests › Valid location with all files present should pass
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 4
+    Received array:  ["Missing required file: Description.md", "Missing required file: NPCs.md", "Missing required file: Items.md", "Missing required file: Events.md"]
+
+    [0m [90m 44 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 45 |[39m
+    [31m[1m>[22m[39m[90m 46 |[39m       expect(result[33m.[39merrors)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 47 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 48 |[39m     })[33m;[39m
+     [90m 49 |[39m   })[33m;[39m[0m
+
+      at Object.toHaveLength (tests/data/validate-location.test.js:46:29)
+
+  ● Location Validation Script › Description.md Section Tests › Missing required sections in Description.md should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 135 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 136 |[39m
+    [31m[1m>[22m[39m[90m 137 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required section'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                               [31m[1m^[22m[39m
+     [90m 138 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 139 |[39m     })[33m;[39m
+     [90m 140 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:137:79)
+
+  ● Location Validation Script › Description.md Section Tests › Description.md with all sections should pass
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\complete-description\Events.md'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:142:28)
+
+  ● Location Validation Script › Malformed YAML Tests › Invalid YAML in metadata.yaml should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'Failed to parse metadata.yaml'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                    [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:162:84)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing parent_location field should fail
+
+    ENOENT: no such file or directory, open 'C:\Users\ACER\Documents\GitHub\Kapi-s-RPG\tests\data\test-locations\missing-parent\State.md'
+
+    [0m [90m 323 |[39m       [36mconst[39m filePath [33m=[39m path[33m.[39mjoin(locationDir[33m,[39m filename)[33m;[39m
+     [90m 324 |[39m       [36mconst[39m fileContent [33m=[39m emptyFiles[33m.[39mincludes(filename) [33m?[39m [32m''[39m [33m:[39m content[33m;[39m
+    [31m[1m>[22m[39m[90m 325 |[39m       fs[33m.[39mwriteFileSync(filePath[33m,[39m fileContent)[33m;[39m
+     [90m     |[39m          [31m[1m^[22m[39m
+     [90m 326 |[39m     }
+     [90m 327 |[39m   })[33m;[39m
+     [90m 328 |[39m[0m
+
+      at writeFileSync (tests/data/validate-location.test.js:325:10)
+          at Array.forEach (<anonymous>)
+      at forEach (tests/data/validate-location.test.js:321:25)
+      at Object.createTestLocation (tests/data/validate-location.test.js:169:28)
+
+  ● Location Validation Script › Location Hierarchy Validation Tests › Missing sub_locations field should fail
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 186 |[39m       [36mconst[39m result [33m=[39m validateLocation(testLocation)[33m;[39m
+     [90m 187 |[39m
+    [31m[1m>[22m[39m[90m 188 |[39m       expect(result[33m.[39merrors[33m.[39msome(e [33m=>[39m e[33m.[39mincludes([32m'missing required field: sub_locations'[39m)))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                                                                            [31m[1m^[22m[39m
+     [90m 189 |[39m       expect(result[33m.[39misValid())[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 190 |[39m     })[33m;[39m
+     [90m 191 |[39m[0m
+
+      at Object.toBe (tests/data/validate-location.test.js:188:92)
+
+FAIL tests/commands/calendar-commands.test.js
+  ● CalendarCommands › formatMoonPhaseSection (AC-3) › should use MoonPhaseCalculator if provided
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Waning Gibbous on 17th of Ches"
+    Received string:    "## Moon Phase·
+    **Current Phase:** Full Moon ��"
+
+    [0m [90m 199 |[39m       expect(mockMoonPhaseCalculator[33m.[39mgetCurrentPhase)[33m.[39mtoHaveBeenCalledWith([32m'0735-03-10'[39m)[33m;[39m
+     [90m 200 |[39m       expect(result)[33m.[39mtoContain([32m'Full Moon ��'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 201 |[39m       expect(result)[33m.[39mtoContain([32m'Waning Gibbous on 17th of Ches'[39m)[33m;[39m
+     [90m     |[39m                      [31m[1m^[22m[39m
+     [90m 202 |[39m     })[33m;[39m
+     [90m 203 |[39m
+     [90m 204 |[39m     test([32m'should use calendar data if MoonPhaseCalculator not provided'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toContain (tests/commands/calendar-commands.test.js:201:22)
+
+FAIL tests/calendar/moon-phase-calculator.test.js
+  ● MoonPhaseCalculator › AC-8: Performance › should complete 100 calculations in < 50ms total
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 50
+    Received:   77.57659999999942
+
+    [0m [90m 222 |[39m       [36mconst[39m duration [33m=[39m endTime [33m-[39m startTime[33m;[39m
+     [90m 223 |[39m
+    [31m[1m>[22m[39m[90m 224 |[39m       expect(duration)[33m.[39mtoBeLessThan([35m50[39m)[33m;[39m [90m// 100 calculations in < 50ms[39m
+     [90m     |[39m                        [31m[1m^[22m[39m
+     [90m 225 |[39m     })[33m;[39m
+     [90m 226 |[39m
+     [90m 227 |[39m     test([32m'single calculation should complete in < 5ms'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toBeLessThan (tests/calendar/moon-phase-calculator.test.js:224:24)
+
+FAIL tests/calendar/event-scheduler.test.js
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should trigger multiple events and sort by priority
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 2
+    Received length: 1
+    Received array:  [{"eventId": "evt_001", "name": "Morning event", "priority": 5, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "06:00"}]
+
+    [0m [90m 142 |[39m
+     [90m 143 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 144 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m2[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 145 |[39m       [90m// Higher priority first (evt_001 has priority 5, evt_002 has priority 3)[39m
+     [90m 146 |[39m       expect(result[33m.[39mtriggeredEvents[[35m0[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_001'[39m)[33m;[39m
+     [90m 147 |[39m       expect(result[33m.[39mtriggeredEvents[[35m1[39m][33m.[39meventId)[33m.[39mtoBe([32m'evt_002'[39m)[33m;[39m[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:144:38)
+
+  ● EventScheduler › checkTriggers() - Date/Time-Based › should update triggered event status to "triggered"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 160 |[39m       )[33m;[39m
+     [90m 161 |[39m
+    [31m[1m>[22m[39m[90m 162 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 163 |[39m       expect(result[33m.[39mcalendar[33m.[39mevents[[35m0[39m][33m.[39mstatus)[33m.[39mtoBe([32m'triggered'[39m)[33m;[39m
+     [90m 164 |[39m     })[33m;[39m
+     [90m 165 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:162:30)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should NOT trigger completed non-recurring event
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 225 |[39m
+     [90m 226 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 227 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 228 |[39m     })[33m;[39m
+     [90m 229 |[39m
+     [90m 230 |[39m     test([32m'should trigger completed recurring event'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:227:38)
+
+  ● EventScheduler › checkTriggers() - Recurring Events › should trigger completed recurring event
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 244 |[39m       )[33m;[39m
+     [90m 245 |[39m
+    [31m[1m>[22m[39m[90m 246 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 247 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 248 |[39m     })[33m;[39m
+     [90m 249 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:246:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger player_enters_location condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 275 |[39m       )[33m;[39m
+     [90m 276 |[39m
+    [31m[1m>[22m[39m[90m 277 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 278 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 279 |[39m     })[33m;[39m
+     [90m 280 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:277:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger player_enters_location if already at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 300 |[39m       )[33m;[39m
+     [90m 301 |[39m
+    [31m[1m>[22m[39m[90m 302 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 303 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_003'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 304 |[39m     })[33m;[39m
+     [90m 305 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:302:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger game_flag_set condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 324 |[39m       )[33m;[39m
+     [90m 325 |[39m
+    [31m[1m>[22m[39m[90m 326 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 327 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 328 |[39m     })[33m;[39m
+     [90m 329 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:326:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should NOT trigger game_flag_set if flag is false
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 348 |[39m       )[33m;[39m
+     [90m 349 |[39m
+    [31m[1m>[22m[39m[90m 350 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 351 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_004'[39m))[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 352 |[39m     })[33m;[39m
+     [90m 353 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:350:30)
+
+  ● EventScheduler › checkTriggers() - Conditional Triggers › should trigger npc_status_changed condition
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 374 |[39m       )[33m;[39m
+     [90m 375 |[39m
+    [31m[1m>[22m[39m[90m 376 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 377 |[39m       expect(result[33m.[39mtriggeredEvents[33m.[39msome(e [33m=>[39m e[33m.[39meventId [33m===[39m [32m'evt_005'[39m))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 378 |[39m     })[33m;[39m
+     [90m 379 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:376:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should NOT trigger location-specific event when player elsewhere
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 433 |[39m
+     [90m 434 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 435 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 436 |[39m     })[33m;[39m
+     [90m 437 |[39m
+     [90m 438 |[39m     test([32m'should trigger location-specific event when player at location'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:435:38)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger location-specific event when player at location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 452 |[39m       )[33m;[39m
+     [90m 453 |[39m
+    [31m[1m>[22m[39m[90m 454 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 455 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 456 |[39m     })[33m;[39m
+     [90m 457 |[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:454:30)
+
+  ● EventScheduler › checkTriggers() - Location Filtering › should trigger global event (locationId null) regardless of location
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 472 |[39m       )[33m;[39m
+     [90m 473 |[39m
+    [31m[1m>[22m[39m[90m 474 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 475 |[39m       expect(result[33m.[39mtriggeredEvents)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m 476 |[39m     })[33m;[39m
+     [90m 477 |[39m   })[33m;[39m[0m
+
+      at Object.toBe (tests/calendar/event-scheduler.test.js:474:30)
+
+  ● EventScheduler › getUpcomingEvents() › should only return pending events
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"eventId": "evt_002", "name": "Evening event", "priority": 3, "status": "pending", "triggerDate": "0735-10-13", "triggerTime": "18:00"}]
+
+    [0m [90m 758 |[39m
+     [90m 759 |[39m       expect(result[33m.[39msuccess)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 760 |[39m       expect(result[33m.[39mevents)[33m.[39mtoHaveLength([35m0[39m)[33m;[39m [90m// evt_001 is completed[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 761 |[39m     })[33m;[39m
+     [90m 762 |[39m
+     [90m 763 |[39m     test([32m'should sort events chronologically'[39m[33m,[39m () [33m=>[39m {[0m
+
+      at Object.toHaveLength (tests/calendar/event-scheduler.test.js:760:29)
+
+FAIL tests/integration/event-scheduling.test.js (6.525 s)
+  ● EventScheduler Integration Tests › Performance Tests › checkTriggers() should complete in < 100ms for 100 events
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 100
+    Received:   152.6
+
+    [0m [90m 387 |[39m
+     [90m 388 |[39m       [36mconst[39m avgTime [33m=[39m times[33m.[39mreduce((a[33m,[39m b) [33m=>[39m a [33m+[39m b[33m,[39m [35m0[39m) [33m/[39m iterations[33m;[39m
+    [31m[1m>[22m[39m[90m 389 |[39m       expect(avgTime)[33m.[39mtoBeLessThan([35m100[39m)[33m;[39m [90m// Adjusted target (real date-fns operations)[39m
+     [90m     |[39m                       [31m[1m^[22m[39m
+     [90m 390 |[39m     })[33m;[39m
+     [90m 391 |[39m
+     [90m 392 |[39m     test([32m'getUpcomingEvents() should complete in < 30ms'[39m[33m,[39m [36masync[39m () [33m=>[39m {[0m
+
+      at Object.toBeLessThan (tests/integration/event-scheduling.test.js:389:23)
+
+  ● EventScheduler Integration Tests › Performance Tests › getUpcomingEvents() should complete in < 30ms
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 30
+    Received:   39.2
+
+    [0m [90m 416 |[39m
+     [90m 417 |[39m       [36mconst[39m avgTime [33m=[39m times[33m.[39mreduce((a[33m,[39m b) [33m=>[39m a [33m+[39m b[33m,[39m [35m0[39m) [33m/[39m iterations[33m;[39m
+    [31m[1m>[22m[39m[90m 418 |[39m       expect(avgTime)[33m.[39mtoBeLessThan([35m30[39m)[33m;[39m [90m// Adjusted target (real date-fns operations)[39m
+     [90m     |[39m                       [31m[1m^[22m[39m
+     [90m 419 |[39m     })[33m;[39m
+     [90m 420 |[39m   })[33m;[39m
+     [90m 421 |[39m[0m
+
+      at Object.toBeLessThan (tests/integration/event-scheduling.test.js:418:23)
+
+FAIL tests/integration/llm-narrator.test.js (12.627 s)
+  ● LLM Narrator Integration Tests › Performance Testing (AC-13) › should track performance metrics
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    [0m [90m 212 |[39m
+     [90m 213 |[39m       expect(stats[33m.[39mrequestCount)[33m.[39mtoBe([35m5[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 214 |[39m       expect(stats[33m.[39maverageResponseTime)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 215 |[39m       expect(stats[33m.[39mpercentile95)[33m.[39mtoBeGreaterThan([35m0[39m)[33m;[39m
+     [90m 216 |[39m     })[33m;[39m
+     [90m 217 |[39m   })[33m;[39m[0m
+
+      at Object.toBeGreaterThan (tests/integration/llm-narrator.test.js:214:41)
+
+FAIL tests/core/session-manager.test.js
+  ● Test suite failed to run
+
+    Jest worker encountered 4 child process exceptions, exceeding retry limit
+
+      at ChildProcessWorker.initialize (node_modules/jest-worker/build/workers/ChildProcessWorker.js:181:21)
+
+
+Test Suites: 9 failed, 37 passed, 46 total
+Tests:       33 failed, 1 skipped, 1198 passed, 1232 total
+Snapshots:   0 total
+Time:        26.867 s
+Ran all test suites.

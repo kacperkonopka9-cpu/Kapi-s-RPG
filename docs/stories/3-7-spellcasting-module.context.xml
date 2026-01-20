@@ -1,0 +1,230 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3.7</storyId>
+    <title>Spellcasting Module</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-7-spellcasting-module.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player casting D&D 5e spells in combat and exploration</asA>
+    <iWant>a spell manager that handles spell casting, slot consumption, and spell preparation</iWant>
+    <soThat>I can cast spells following D&D 5e rules with automatic slot tracking, effect resolution, and spell save validation</soThat>
+    <tasks>
+      <task id="1">Analyze Spellcasting Requirements</task>
+      <task id="2">Create SpellManager Module</task>
+      <task id="3">Implement castSpell() Method</task>
+      <task id="4">Implement Spell Effect Resolution</task>
+      <task id="5">Implement Spell Damage Rolling</task>
+      <task id="6">Implement Spell Healing Rolling</task>
+      <task id="7">Implement Spell Slot Validation</task>
+      <task id="8">Implement Spell Slot Management</task>
+      <task id="9">Implement prepareSpells() Method</task>
+      <task id="10">Implement Concentration Tracking</task>
+      <task id="11">Create Test Suite (≥95% coverage, 44+ tests)</task>
+      <task id="12">Documentation and Examples</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Cast Spell with Slot Consumption">
+      Load spell from SpellDatabase, validate slot availability, consume slot, roll effect (damage/healing/condition/utility), apply to target, persist character, return Result Object. Complete in &lt;200ms.
+    </criterion>
+    <criterion id="AC-2" title="Roll Spell Damage">
+      Parse damage dice (8d6), roll via DiceRoller, calculate spell save DC (8 + prof + ability), handle save (half damage if saveEffect="half"), return damage/type/save details.
+    </criterion>
+    <criterion id="AC-3" title="Roll Spell Healing">
+      Parse healing dice (1d8), roll via DiceRoller, add spellcasting modifier, cap at max HP, return healing amount and new HP.
+    </criterion>
+    <criterion id="AC-4" title="Spell Slot Validation">
+      Validate slot available at level, check slot level ≥ spell level, support upcasting, return validation before rolling dice. Error if slots=0.
+    </criterion>
+    <criterion id="AC-5" title="Spell Slot Management">
+      Decrement slot on cast, update character.spellcasting.spellSlots, persist via CharacterManager.saveCharacter(), track slots 1st-9th level, validate non-negative.
+    </criterion>
+    <criterion id="AC-6" title="Spell Preparation">
+      Calculate max prepared (Cleric: Wis mod + level), validate count ≤ max, validate spells in class list (use SpellDatabase.getSpellsByClass), update character.spellcasting.spellsPrepared, persist.
+    </criterion>
+    <criterion id="AC-7" title="Concentration Tracking">
+      Check existing concentration, break previous if present, mark new spell as active concentration, return status. Full concentration mechanics deferred to ConditionTracker.
+    </criterion>
+    <criterion id="AC-8" title="Upcasting Support">
+      Calculate bonus dice from slot level difference (Cure Wounds level 1 + 3rd slot = +2d8), parse spell.upcastBonus, add to base roll, return upcast details.
+    </criterion>
+    <criterion id="AC-9" title="Result Object Pattern and Performance">
+      Return {success, data, error} for all operations, no exceptions for expected errors, validate inputs, descriptive errors, castSpell() &lt;200ms.
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification">
+        <section name="§2.1 Spell System" lines="48-54">
+          Spell slot tracking (1st-9th), spell database (SRD spells), spellcasting ability and spell save DC, spell preparation/known spells, cantrips and ritual casting, concentration tracking.
+        </section>
+        <section name="SpellManager API" lines="650-682">
+          castSpell(character, spellId, slotLevel, target): Validate slot, consume slot, apply effect (damage/healing/condition), track concentration, return Result Object.
+          prepareSpells(character, spellIds): Validate count (Wis mod + level for Clerics), validate class spell list, update spellsPrepared, save character.
+        </section>
+        <section name="Workflow 3: Cast Healing Spell" lines="802-837">
+          Full spell cast workflow: Load character → Load spell from SpellDatabase → Validate slot → Consume slot → Roll healing → Apply HP → Persist character.
+        </section>
+        <section name="Spell Data Model" lines="334-371">
+          Spell fields: id, name, level (0-9), school (8 D&amp;D schools), castingTime, range, components [V,S,M], concentration (bool), effect (type: damage/healing/condition/utility), upcastBonus, classes array.
+        </section>
+        <section name="Result Object Pattern" lines="153-156">
+          All async operations return {success, data, error}. No exceptions thrown for expected errors. Graceful error handling.
+        </section>
+        <section name="Dependency Injection" lines="148-152">
+          constructor(deps = {}) pattern. Accept dependencies as params, default to real instances. Enables testing with mocks.
+        </section>
+      </doc>
+      <doc path="docs/stories/3-6-spell-database.md" title="Story 3-6: Spell Database (Completed)">
+        <section name="Dev Agent Record">
+          SpellDatabase class at src/mechanics/spell-database.js ready for use. Methods: getSpell(spellId), getSpellsByClass(className), getAllSpells(). All return Result Object. Performance: &lt;10ms for getSpell(). 50+ SRD spells loaded at data/srd/spells.yaml.
+        </section>
+        <section name="Architectural Patterns">
+          Dependency injection: constructor(deps = {fileReader, yamlParser}). Result Object {success, data, error}. Input validation with descriptive errors. Try-catch for unexpected errors only. Memory Map caching for O(1) lookups.
+        </section>
+      </doc>
+      <doc path="data/srd/spells.yaml" title="SRD Spell Database">
+        <section name="Spell Schema">
+          50+ spells with schema: id (cure_wounds), name, level (0-9), school, castingTime, range, components, concentration, effect {type, damage/healing, damageType, saveType, saveEffect, modifier}, upcastBonus, classes [].
+        </section>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="src/mechanics/spell-database.js" kind="service" symbol="SpellDatabase" reason="Load spell definitions for casting">
+        <interface>
+          async getSpell(spellId) → {success, data: Spell, error}
+          async getSpellsByLevel(level) → {success, data: Spell[], error}
+          async getSpellsByClass(className) → {success, data: Spell[], error}
+        </interface>
+        <usage>Load spell definition before casting, validate class spell lists for preparation</usage>
+      </artifact>
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" reason="Load/save character spell slots">
+        <interface>
+          async loadCharacter(characterId) → {success, data: Character, error}
+          async saveCharacter(characterId, characterData) → {success, data: null, error}
+          getAbilityModifier(abilityScore) → number
+          getProficiencyBonus(level) → number
+        </interface>
+        <usage>Load character for spellcasting ability/proficiency, save updated spell slots after casting</usage>
+      </artifact>
+      <artifact path="src/mechanics/dice-roller.js" kind="service" symbol="DiceRoller" reason="Roll spell damage/healing dice">
+        <interface>
+          async roll(notation, options = {}) → {success, data: {notation, rolls, modifier, total, breakdown}, error}
+          validateNotation(notation) → boolean
+        </interface>
+        <usage>Roll spell damage (8d6), healing (1d8 + modifier), handle upcasting (+Xd8)</usage>
+      </artifact>
+      <artifact path="src/mechanics/combat-manager.js" kind="service" symbol="CombatManager" reason="Reference for Result Object pattern">
+        <interface>
+          async startCombat(combatants) → {success, data: CombatState, error}
+          async resolveAttack(attacker, target, weapon) → {success, data: AttackResult, error}
+        </interface>
+        <usage>Follow same architectural patterns: Result Object, dependency injection, input validation</usage>
+      </artifact>
+      <artifact path="tests/mechanics/spell-database.test.js" kind="test" reason="Test patterns to follow">
+        <usage>44 tests, 92.55% coverage. Mock dependencies (fileReader, yamlParser), integration tests with real data, performance tests (&lt;10ms)</usage>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing (character files)</package>
+        <package name="jest" version="^29.7.0">Testing framework</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      Result Object Pattern REQUIRED: All async operations must return {success, data, error}. No exceptions for expected errors (no slots, invalid spell ID).
+    </constraint>
+    <constraint type="architecture">
+      Dependency Injection REQUIRED: constructor(deps = {spellDatabase, characterManager, diceRoller}). Default to real instances if not provided.
+    </constraint>
+    <constraint type="performance">
+      castSpell() must complete in &lt;200ms including: SpellDatabase query (&lt;10ms) + dice roll (&lt;10ms) + HP update + character persistence (&lt;50ms).
+    </constraint>
+    <constraint type="data">
+      Character spell slots persist in character.spellcasting.spellSlots object {1: 3, 2: 2, ...}. Prepared spells in character.spellcasting.spellsPrepared [].
+    </constraint>
+    <constraint type="testing">
+      Target ≥95% statement coverage. Include: unit tests (mocked dependencies), integration tests (real SpellDatabase), performance tests (&lt;200ms).
+    </constraint>
+    <constraint type="D&D-5e">
+      Spell Save DC = 8 + Proficiency Bonus + Spellcasting Ability Modifier. Prepared spells (Cleric/Druid) = Ability Mod + Level. Upcasting adds bonus dice per spell.upcastBonus field.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="SpellManager.castSpell" kind="async method">
+      <signature>async castSpell(character, spellId, slotLevel, target = null) → {success, data: {effectType, amount, newHP, slotsRemaining, concentration}, error}</signature>
+      <parameters>
+        <param name="character">Character object with spellcasting property</param>
+        <param name="spellId">Spell ID from SpellDatabase (e.g., 'cure_wounds')</param>
+        <param name="slotLevel">Spell slot level to consume (1-9)</param>
+        <param name="target">Target character for spell effect (optional, null for self-cast)</param>
+      </parameters>
+      <returns>
+        Result Object with data: {effectType: 'damage'|'healing'|'condition'|'utility', amount: number, newHP: number (if healing), slotsRemaining: object, concentration: boolean}
+      </returns>
+    </interface>
+    <interface name="SpellManager.prepareSpells" kind="async method">
+      <signature>async prepareSpells(character, spellIds) → {success, data: {prepared: string[], maxPrepared: number}, error}</signature>
+      <parameters>
+        <param name="character">Character object</param>
+        <param name="spellIds">Array of spell IDs to prepare</param>
+      </parameters>
+      <returns>
+        Result Object with data: {prepared: string[] (spell IDs), maxPrepared: number}
+      </returns>
+    </interface>
+    <interface name="SpellManager._rollSpellDamage" kind="private method">
+      <signature>async _rollSpellDamage(spell, character, target, slotLevel) → {damage: number, damageType: string, saveDC: number, saveType: string, upcast: boolean}</signature>
+      <usage>Called by castSpell() for damage-type spells. Calculates upcast bonus, rolls dice, computes save DC.</usage>
+    </interface>
+    <interface name="SpellManager._rollSpellHealing" kind="private method">
+      <signature>async _rollSpellHealing(spell, character, target, slotLevel) → {healed: number, newHP: number, modifier: number, upcast: boolean}</signature>
+      <usage>Called by castSpell() for healing-type spells. Calculates upcast bonus, rolls dice + modifier, caps at max HP.</usage>
+    </interface>
+    <interface name="SpellManager._validateSpellSlot" kind="private method">
+      <signature>_validateSpellSlot(character, spellLevel, slotLevel) → {valid: boolean, error: string}</signature>
+      <usage>Validates slot available, slot level >= spell level. Returns validation result before consuming slot.</usage>
+    </interface>
+    <interface name="SpellManager._consumeSpellSlot" kind="private method">
+      <signature>async _consumeSpellSlot(character, slotLevel) → {updatedSlots: object}</signature>
+      <usage>Decrements slot count, persists character via CharacterManager.saveCharacter().</usage>
+    </interface>
+    <interface name="SpellManager._handleConcentration" kind="private method">
+      <signature>_handleConcentration(character, spell) → {concentrating: boolean, broke Previous: boolean}</signature>
+      <usage>Checks spell.concentration, breaks existing concentration if present, marks new concentration active.</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest v29.7.0 testing framework. Mock external dependencies (SpellDatabase, CharacterManager, DiceRoller) for deterministic unit tests. Integration tests with real SpellDatabase and spell data. Performance tests verify &lt;200ms castSpell(). Target ≥95% statement coverage, 100% branch coverage, 100% function coverage. Follow patterns from spell-database.test.js (44 tests, 92.55% coverage).
+    </standards>
+    <locations>
+      tests/mechanics/spell-manager.test.js (new file)
+    </locations>
+    <ideas>
+      <idea criterion="AC-1">Cast Cure Wounds healing spell, verify slot consumption, HP increase, character persistence</idea>
+      <idea criterion="AC-2">Cast Fireball damage spell, verify dice roll, save DC calculation, half damage on save</idea>
+      <idea criterion="AC-3">Cast healing on wounded character, verify modifier added, capped at max HP</idea>
+      <idea criterion="AC-4">Attempt cast with 0 slots, verify error. Attempt cast 2nd-level spell with 1st slot, verify error.</idea>
+      <idea criterion="AC-5">Cast spell, verify character.spellcasting.spellSlots decremented and persisted to file</idea>
+      <idea criterion="AC-6">Prepare 5 spells for level 3 Cleric (Wis +2), verify success. Prepare 6 spells, verify error.</idea>
+      <idea criterion="AC-7">Cast Hold Person (concentration), then Bless (concentration), verify first broken</idea>
+      <idea criterion="AC-8">Cast Cure Wounds (level 1) with 3rd-level slot, verify +2d8 healing</idea>
+      <idea criterion="AC-9">Performance test: castSpell() completes in &lt;200ms. Error test: invalid spell ID returns descriptive error.</idea>
+    </ideas>
+  </tests>
+</story-context>

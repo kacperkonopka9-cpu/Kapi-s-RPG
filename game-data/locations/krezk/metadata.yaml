@@ -1,0 +1,53 @@
+location_name: "Village of Krezk"
+location_type: "settlement"
+region: "Barovia Valley - Western Mountains"
+parent_location: null
+sub_locations:
+  - "abbey-of-st-markovia"
+  - "burgomaster-house"
+  - "blessed-pool"
+  - "village-gates"
+  - "shrine-of-the-white-sun"
+connected_locations:
+  - name: "Town of Vallaki"
+    direction: "east"
+    travel_time: "6 hours"
+    description: "Mountain road descending to the valley. Treacherous in fog or storms."
+  - name: "Wizard of Wines Winery"
+    direction: "southeast"
+    travel_time: "3 hours"
+    description: "Path through foothills to Martikov winery. Safer route, but still dangerous."
+  - name: "Werewolf Den"
+    direction: "north"
+    travel_time: "2 hours"
+    description: "Mountain caves inhabited by werewolf pack. Avoid unless necessary."
+  - name: "Ruins of Berez"
+    direction: "south"
+    travel_time: "5 hours"
+    description: "Swamp ruins where Baba Lysaga dwells. Extremely dangerous."
+danger_level: 4
+recommended_level: "5-7"
+location_level: "settlement"
+description_token_count: 1685
+quest_critical: true
+quests:
+  - "Save Ilya Krezkov"
+  - "Ireena's Sanctuary"
+  - "Investigate the Abbey"
+  - "Blessed Pool Mysteries"
+  - "Wine Delivery for Krezk"
+features:
+  - "Fortified stone walls"
+  - "Single heavily-guarded gatehouse"
+  - "Blessed pool (holy spring)"
+  - "Abbey of St. Markovia (looming above)"
+  - "Shrine of the White Sun"
+  - "Mountain village architecture"
+population: 200
+government: "Burgomaster (Dmitri Krezkov)"
+alignment: "Lawful Good (fearful, isolationist)"
+economy: "Subsistence farming, goat herding, religious community"
+defense: "Stone walls, 8-10 guards, natural mountain barriers"
+climate: "Cold mountain climate, frequent mist, occasional storms"
+last_validated: "2025-11-12"
+notes: "Krezk is the most isolated and defensive settlement in Barovia. Entry requires Burgomaster's approval or bringing much-needed supplies (wine). Village operates on trust system (0-10 scale). Ilya's condition is time-sensitive quest hook. Abbey represents major dungeon location with fallen deva boss (CR 15). Blessed pool is key location for Ireena/Sergei storyline."

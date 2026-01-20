@@ -1,0 +1,33 @@
+location_name: "Blessed Pool"
+location_type: "outdoor"
+region: "Barovia Valley - Western Mountains"
+parent_location: "krezk"
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village Gates"
+    direction: "up steps"
+    travel_time: "2 minutes"
+    description: "Stone steps ascending to gate level"
+danger_level: 1
+recommended_level: "Any"
+size: "Small (natural pool)"
+description_token_count: 543
+quest_critical: true
+quests:
+  - "Resurrect Ilya at Pool"
+  - "Ireena's Fate"
+  - "Sergei's Spirit"
+features:
+  - "Enhanced holy water"
+  - "Resurrection miracle"
+  - "Sergei manifestation"
+  - "Ireena/Tatyana resolution"
+npcs:
+  - "Sergei's Spirit (conditional)"
+  - "Father Andrei (visits)"
+treasure:
+  - "Unlimited holy water"
+  - "Potential Tarokka artifact"
+last_validated: "2025-11-12"
+notes: "Sacred location with major story implications. Can resolve Ireena questline. Resurrection mechanic for worthy souls. Key to understanding Barovia's curse. No combat here—divine protection."

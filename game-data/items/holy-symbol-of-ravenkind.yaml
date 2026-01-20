@@ -1,0 +1,246 @@
+# Holy Symbol of Ravenkind - Legendary Sentient Artifact
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "holy_symbol_of_ravenkind"
+name: "Holy Symbol of Ravenkind"
+type: "magic_item"
+weight: 0.5
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"
+requiresAttunement: true
+attunementRequirements: "by a cleric or paladin of good alignment"
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null  # Not a weapon
+
+# === ARMOR PROPERTIES ===
+armorProperties: null  # Not armor
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "turn_undead_enhancement"
+    value: "2d6"
+    damageType: "radiant"
+    description: "Each undead that fails its saving throw against your Turn Undead feature takes 2d6 radiant damage"
+
+  - type: "spell_casting"
+    description: "Grants ability to cast Hold Vampires once per day"
+    usesPerDay: 1
+    recharge: "dawn"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Turn Undead Enhancement"
+    description: "While
+
+ bearing this holy symbol, you gain a +2 bonus to spell save DCs and spell attack rolls. In addition, you can use it as a spellcasting focus. Any undead that fails its saving throw against your Turn Undead feature takes an extra 2d6 radiant damage."
+    activation: "passive"
+    mechanics:
+      spellDCBonus: 2
+      spellAttackBonus: 2
+      turnUndeadDamage:
+        dice: "2d6"
+        damageType: "radiant"
+
+  - name: "Hold Vampires"
+    description: "As an action, you can hold the symbol aloft and speak the command word inscribed on it. Each vampire and vampire spawn within 30 feet of you when you speak the word must make a DC 15 Wisdom saving throw. On a failed save, a target is paralyzed for 1 minute. A paralyzed creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. This property can't be used again until the next dawn."
+    activation: "action"
+    usesPerDay: 1
+    recharge: "dawn"
+    saveType: "wisdom"
+    saveDC: 15
+    range: 30
+    targetType: ["vampire", "vampire_spawn"]
+    effect: "paralyzed"
+    duration: "1_minute"
+    repeatSave: "end_of_turn"
+
+  - name: "Sunlight Aura"
+    description: "The holy symbol sheds bright light in a 30-foot radius and dim light for an additional 30 feet. The bright light is sunlight."
+    activation: "passive"
+    mechanics:
+      lightRadius: 30
+      dimLightRadius: 30
+      isSunlight: true
+
+# === SENTIENCE ===
+sentience:
+  alignment: "chaotic_good"
+  intelligence: 17
+  wisdom: 15
+  charisma: 16
+
+  senses: "Hearing and darkvision out to 120 feet"
+  communication: "Telepathy with any creature that bears it"
+
+  languages:
+    - "Common"
+    - "Celestial"
+    - "Elvish"
+
+  personality: "The Holy Symbol of Ravenkind is devoted to destroying evil, particularly undead and creatures of darkness. It was created by clerics of the Morninglord to combat Strahd and his evil. The symbol is righteous but understanding, encouraging its bearer to acts of valor and mercy. It despises cowardice and evil acts."
+
+  specialPurpose: "Destroy Count Strahd von Zarovich and protect the innocent people of Barovia"
+
+  conflictMechanic:
+    description: "If you act in a manner contrary to the symbol's purpose (such as refusing to confront Strahd when possible, harming innocents, or acting with cowardice), you must make a DC 15 Charisma saving throw. On a failed save, you become unwilling to part with the symbol and are compelled to act according to its wishes."
+    saveDC: 15
+    saveType: "charisma"
+    frequency: "when_acting_contrary_to_purpose"
+
+  desires:
+    - "Confront and destroy Strahd von Zarovich"
+    - "Protect the innocent people of Barovia"
+    - "Turn or destroy undead creatures"
+    - "Spread the light of the Morninglord and drive back darkness"
+    - "Encourage its bearer to acts of courage and righteousness"
+
+  fears:
+    - "Being locked away where it cannot fulfill its purpose"
+    - "Its bearer becoming corrupted by evil or fear"
+    - "Strahd obtaining the symbol and destroying or corrupting it"
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Holy Symbol of Ravenkind is a unique platinum amulet, shaped as a sunburst with a large crystal embedded at its center. The symbol is warm to the touch and radiates a comforting light. It is a holy relic created by clerics of the Morninglord and was brought to Barovia centuries ago to combat the growing darkness. It is both a powerful magic item and a sentient ally against evil."
+
+  history: "The symbol was crafted by the ancient Order of the Silver Dragon, clerics and paladins devoted to the Morninglord (Lathander). It was brought to Barovia shortly after Strahd's transformation into a vampire, intended as a weapon against him. The symbol has changed hands many times over the centuries, sometimes held by heroes who challenged Strahd, other times hidden away or lost. It remains one of the few items Strahd genuinely fears."
+
+  legendsAndRumors:
+    - "The symbol was blessed by the Morninglord himself and contains a fragment of divine power"
+    - "It can paralyze even the most powerful vampires with a single word"
+    - "The symbol chooses its bearer and will not work for those of evil heart"
+    - "It whispers guidance to those who carry it, warning of danger and evil"
+    - "Strahd once tried to destroy the symbol but failed, and now seeks to bury it where it can never be found"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "The symbol reveals its powers through telepathic communication with its attuned bearer. It explains its abilities and purpose over time."
+
+  hiddenProperties:
+    - "The sentience of the symbol is not immediately apparent - it waits to assess its bearer before communicating"
+    - "The command word for Hold Vampires is inscribed in Celestial on the back of the symbol"
+    - "The symbol's ability to compel its bearer to act righteously is only discovered if the bearer acts contrary to its purpose"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Determined by Tarokka reading at campaign start"
+
+  howObtained: "The Tarokka reading reveals one of several possible locations. Common locations include: The Abbey of Saint Markovia in Krezk (in the Abbot's possession), Castle Ravenloft (in Strahd's treasury), the church in Vallaki, or the ruins of Argynvostholt."
+
+  guardian: "Varies by location - may be guarded by the Abbot, Strahd's minions, or hidden in a trapped reliquary"
+
+  notes: "The symbol's light may be visible from a distance, potentially alerting enemies. Strahd is aware of the symbol's existence and will take steps to prevent the party from obtaining it if he learns of their search."
+
+# === TAROKKA READING INTEGRATION (Story 4-16) ===
+tarokkaReading:
+  artifactType: "holySymbol"
+  cardPosition: 2  # Second card drawn in the reading
+  readingDescription: "This card tells of a powerful force for good and protection, a holy symbol of great hope."
+
+  currentLocationId: null  # Populated by Tarokka reading event (madam_eva_tarokka_reading)
+
+  possibleLocations:
+    # From game-data/tarokka/reading-config.yaml - 10 possible locations
+    - locationId: "krezk-pool"
+      description: "Krezk - Blessed Pool of St. Markovia"
+    - locationId: "abbey-of-st-markovia-main-hall"
+      description: "Abbey of Saint Markovia - Main Hall"
+    - locationId: "vallaki-church-of-st-andral"
+      description: "Vallaki - Church of St. Andral (Hidden)"
+    - locationId: "castle-ravenloft-chapel"
+      description: "Castle Ravenloft - Desecrated Chapel - K15"
+    - locationId: "argynvostholt-dragon-tomb"
+      description: "Argynvostholt - Tomb of Argynvost"
+    - locationId: "village-of-barovia-church"
+      description: "Village of Barovia - Church Altar"
+    - locationId: "amber-temple-amber-sarcophagus"
+      description: "Amber Temple - Amber Sarcophagus"
+    - locationId: "van-richtens-tower-reliquary"
+      description: "Van Richten's Tower - Hidden Reliquary"
+    - locationId: "tser-pool-encampment-vistani-tent"
+      description: "Tser Pool - Madam Eva's Tent (Ironic)"
+    - locationId: "werewolf-den-shrine"
+      description: "Werewolf Den - Desecrated Shrine"
+
+  notes: "Location is set during Tarokka reading event (tser-pool-encampment/Events.md). The Holy Symbol's 30-foot sunlight aura makes stealth impossible but provides constant protection against undead. Only clerics and paladins of good alignment can attune."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "Grants +2 to spell attack rolls when used as a focus by an attuned cleric or paladin"
+
+  damageRolls: "Undead that fail saving throws against Turn Undead take an extra 2d6 radiant damage"
+
+  spellDC: "Grants +2 to spell save DC when used as a focus by an attuned cleric or paladin. Hold Vampires ability uses DC 15 Wisdom save."
+
+  integration:
+    combatManager: "Turn Undead damage bonus integrates with cleric/paladin class features. Hold Vampires creates paralyzed condition for 1 minute."
+    equipmentManager: "Equippable in neck slot. Requires attunement by cleric or paladin of good alignment. Counts toward 3-item attunement limit."
+    inventoryManager: "Weight 0.5 lbs, worn around neck, does not occupy hand slots"
+
+  sentientItemMechanics:
+    description: "As a sentient item, the symbol can:"
+    capabilities:
+      - "Communicate telepathically with its bearer"
+      - "Sense its surroundings (hearing and darkvision 120 ft)"
+      - "Understand languages (Common, Celestial, Elvish)"
+      - "Compel its bearer to act according to its purpose (DC 15 Charisma save to resist)"
+      - "Refuse to use its Hold Vampires ability if the bearer acts against its wishes"
+
+  sunlightMechanics:
+    description: "The symbol emits actual sunlight (not magical light) in a 30-foot radius:"
+    effects:
+      - "Dispels magical darkness of 3rd level or lower within the bright light radius"
+      - "Creatures with Sunlight Sensitivity have disadvantage on attack rolls and Perception checks while in the bright light"
+      - "Vampires and other creatures with Sunlight Hypersensitivity take damage/effects per their stat blocks"
+      - "The light cannot be suppressed while the symbol is worn by an attuned bearer"
+      - "Removes the symbol to stop the light emission"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"
+  recommendedLevel: 5
+  notes: "Extremely powerful for clerics and paladins. The +2 to spell DC and attack rolls is significant, and the Hold Vampires ability can turn the tide against Strahd. The sunlight aura provides constant protection but also makes stealth impossible. The sentience adds roleplay depth but also constraints on the bearer's actions."
+
+  dmGuidance:
+    - "The symbol should be found mid-campaign to give the bearer time to build a relationship with it"
+    - "Roleplay the symbol's personality - it should offer guidance, warnings, and occasionally moral challenges"
+    - "The symbol genuinely wants to help but has strong opinions about how to confront evil"
+    - "If the bearer repeatedly acts against the symbol's wishes, consider escalating to the compulsion mechanic"
+    - "Strahd will not willingly enter the 30-foot sunlight radius unless absolutely necessary"
+    - "The Hold Vampires ability is a one-use-per-day trump card - Strahd will remember if it's used against him"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A platinum amulet in the shape of a stylized sunburst, with twelve rays extending from a central disc. A large crystal, clear as diamond but warm as amber, is set in the center. The crystal glows with soft golden light. Inscribed on the back in Celestial script is the command word 'Osanna' (meaning 'Save us'). The amulet hangs on a fine platinum chain."
+
+  activeState: "The crystal pulses with golden light, and the platinum rays shimmer as if reflecting sunlight. The 30-foot radius of bright light makes the bearer clearly visible, and the symbol itself is warm against the chest."
+
+  soundEffects: "When the Hold Vampires ability is activated, the symbol chimes like a temple bell. When communicating telepathically, the bearer hears the symbol's voice as warm and resonant, like a choir singing in harmony."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.222"
+  official: true
+  srdContent: false
+
+  notes: "One of three legendary artifacts needed to have a chance at defeating Strahd. Particularly effective for cleric and paladin characters. The sentience makes this item a full NPC ally with its own personality and goals."
+
+  dmReminders:
+    - "The Tarokka reading determines the location - note this during session zero"
+    - "Roleplay the symbol as a wise but demanding mentor figure"
+    - "The 30-foot sunlight radius makes stealth impossible but provides excellent undead defense"
+    - "Only clerics and paladins of good alignment can attune to this item"
+    - "The Hold Vampires ability is once per day and recharges at dawn - use wisely"
+    - "The symbol's telepathy allows it to warn the bearer of danger even if the bearer is unconscious or incapacitated"
+    - "If Strahd suspects the party has the symbol, he will take precautions (stay beyond 30 feet, use minions, etc.)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

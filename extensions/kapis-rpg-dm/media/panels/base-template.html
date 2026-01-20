@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kapi's RPG Panel</title>
+  <link rel="stylesheet" href="{{stylesUri}}/panel-theme.css">
+</head>
+<body>
+  <div class="panel-container">
+    <div class="panel-header">
+      <h1>Panel Title</h1>
+      <p class="subtitle">Panel subtitle or description</p>
+    </div>
+
+    <div class="panel-content">
+      <div id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p style="text-align: center;">Loading...</p>
+      </div>
+
+      <div id="content">
+        <!-- Panel content will be inserted here -->
+      </div>
+
+      <div id="error" class="error-message" style="display: none;">
+        <h3>Error</h3>
+        <p id="error-text"></p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <span>Kapi's RPG - DM Assistant</span>
+      <span style="float: right;">Last updated: <span id="last-updated">Never</span></span>
+    </div>
+  </div>
+
+  <script nonce="{{nonce}}">
+    const vscode = acquireVsCodeApi();
+
+    // Handle messages from extension
+    window.addEventListener('message', event => {
+      const message = event.data;
+
+      switch (message.type) {
+        case 'initialize':
+          handleInitialize(message.payload);
+          break;
+
+        case 'refresh':
+          handleRefresh(message.payload);
+          break;
+
+        case 'error':
+          showError(message.payload.message);
+          break;
+      }
+    });
+
+    function handleInitialize(data) {
+      hideLoading();
+      // Subclasses should implement this
+      console.log('Initialize:', data);
+    }
+
+    function handleRefresh(data) {
+      hideLoading();
+      updateTimestamp();
+      // Subclasses should implement this
+      console.log('Refresh:', data);
+    }
+
+    function showLoading() {
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+    }
+
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }
+
+    function showError(message) {
+      document.getElementById('error-text').textContent = message;
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('loading').style.display = 'none';
+    }
+
+    function updateTimestamp() {
+      const now = new Date();
+      document.getElementById('last-updated').textContent = now.toLocaleTimeString();
+    }
+
+    function sendMessage(type, payload) {
+      vscode.postMessage({ type, payload });
+    }
+
+    // Initialize on load
+    showLoading();
+    sendMessage('ready', {});
+  </script>
+</body>
+</html>

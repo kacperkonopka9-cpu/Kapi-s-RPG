@@ -1,0 +1,421 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3-2</storyId>
+    <title>Character Sheet Parser</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-2-character-sheet-parser.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master running D&D 5e sessions</asA>
+    <iWant>the system to load and validate character sheets from YAML files</iWant>
+    <soThat>character data is accessible to mechanics modules for ability checks, combat, and spellcasting</soThat>
+    <tasks>
+      <!-- Task 1: Create CharacterManager Module -->
+      - Create src/mechanics/character-manager.js with class skeleton
+      - Implement constructor with dependency injection (yamlParser, fileReader)
+      - Add JSDoc documentation for class and constructor
+      - Ensure exports work: module.exports = CharacterManager
+
+      <!-- Task 2: Implement Character Loading -->
+      - Implement loadCharacter(characterId) method
+      - Read file from characters/${characterId}.yaml using fs.promises
+      - Parse YAML using js-yaml
+      - Handle file not found error
+      - Handle YAML parse errors
+      - Return Result Object: {success, data, error}
+      - Add JSDoc documentation
+
+      <!-- Task 3: Implement Schema Validation -->
+      - Implement _validateCharacter(character) private method
+      - Validate required fields
+      - Validate ability scores (all 6 present, values 1-20)
+      - Validate level (1-20)
+      - Validate hit points (current ≤ max, temporary ≥ 0, spent ≤ total)
+      - Validate proficiency bonus matches level
+      - Validate spell slots ≥ 0 (if spellcaster)
+      - Validate attunement (items.length ≤ max)
+      - Validate death saves (≤ 3 each)
+      - Validate exhaustion (0-6)
+      - Return detailed validation error messages
+      - Add JSDoc documentation
+
+      <!-- Task 4: Implement Derived Stat Calculation -->
+      - Implement calculateDerivedStats(character) method
+      - Calculate ability modifiers for all 6 abilities
+      - Calculate proficiency bonus from level
+      - Calculate spell save DC (if spellcaster)
+      - Calculate spell attack bonus (if spellcaster)
+      - Calculate carrying capacity (strength × 15)
+      - Return object with all derived stats
+      - Add JSDoc documentation
+
+      <!-- Task 5: Implement Helper Methods -->
+      - Implement getAbilityModifier(abilityScore) static method
+      - Formula: Math.floor((abilityScore - 10) / 2)
+      - Add JSDoc documentation
+      - Implement getProficiencyBonus(level) static method
+      - Formula: Math.ceil(level / 4) + 1
+      - Add JSDoc documentation
+
+      <!-- Task 6: Implement Character Saving -->
+      - Implement saveCharacter(characterId, characterData) method
+      - Validate character data before saving (call _validateCharacter)
+      - Serialize character to YAML using js-yaml
+      - Write to temp file first: characters/${characterId}.yaml.tmp
+      - Rename temp file to characters/${characterId}.yaml (atomic operation)
+      - Handle validation errors
+      - Handle file write errors
+      - Return Result Object: {success, data, error}
+      - Add JSDoc documentation
+
+      <!-- Task 7: Create Test Suite -->
+      - Create tests/mechanics/character-manager.test.js
+      - Constructor tests
+      - loadCharacter() tests
+      - _validateCharacter() tests
+      - calculateDerivedStats() tests
+      - getAbilityModifier() tests
+      - getProficiencyBonus() tests
+      - saveCharacter() tests
+      - Performance tests
+      - Integration tests
+      - Target: ≥95% statement coverage
+
+      <!-- Task 8: Create Sample Character File -->
+      - Create characters/ directory if it doesn't exist
+      - Create characters/kapi.yaml with complete example character
+      - Use schema from docs/character-sheet-schema.yaml
+      - Character: Kapi, Human Fighter, Level 3
+
+      <!-- Task 9: Add js-yaml Dependency -->
+      - Run npm install js-yaml --save
+      - Verify package.json updated
+      - Update package-lock.json
+      - Test that require('js-yaml') works
+
+      <!-- Task 10: Documentation -->
+      - Ensure all methods have JSDoc comments
+      - Document parameters, return types, examples
+      - Document error cases in JSDoc
+      - Add module-level JSDoc header
+      - Document dependency injection pattern
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <!-- AC-1: CharacterManager Module Creation -->
+    <criterion id="AC-1">
+      <title>CharacterManager Module Creation</title>
+      <given>the need for character data management</given>
+      <when>CharacterManager module is created</when>
+      <then>
+        - Export CharacterManager class from src/mechanics/character-manager.js
+        - Accept optional dependencies via constructor (yamlParser, fileReader)
+        - Follow Result Object pattern: all methods return {success, data, error}
+        - Include comprehensive JSDoc documentation
+      </then>
+      <verification>Class exports correctly, constructor accepts dependencies</verification>
+    </criterion>
+
+    <!-- AC-2: Character Loading from YAML -->
+    <criterion id="AC-2">
+      <title>Character Loading from YAML</title>
+      <given>a valid character YAML file at characters/kapi.yaml</given>
+      <when>CharacterManager.loadCharacter("kapi") is called</when>
+      <then>
+        - Read file from characters/kapi.yaml
+        - Parse YAML using js-yaml
+        - Return {success: true, data: Character, error: null} with complete character object
+        - Complete operation in &lt; 100ms (file I/O + parsing)
+      </then>
+      <errorCases>
+        - File not found → {success: false, data: null, error: "Character file not found: kapi"}
+        - Invalid YAML → {success: false, data: null, error: "Invalid YAML: [details]"}
+      </errorCases>
+      <verification>Integration test with sample character file</verification>
+    </criterion>
+
+    <!-- AC-3: Character Schema Validation -->
+    <criterion id="AC-3">
+      <title>Character Schema Validation</title>
+      <given>a character object loaded from YAML</given>
+      <when>CharacterManager._validateCharacter(character) is called (internal method)</when>
+      <then>
+        - Validate required fields exist: name, race, class, level, abilities, hitPoints, armorClass, proficiencies
+        - Validate ability scores: All 6 abilities (str, dex, con, int, wis, cha) present, values 1-20
+        - Validate level: Integer 1-20
+        - Validate hit points: current ≤ max, temporary ≥ 0, hitDice.spent ≤ hitDice.total
+        - Validate proficiency bonus: Matches level (calculated: Math.ceil(level / 4) + 1)
+        - Validate spell slots: If spellcaster, all slot values ≥ 0
+        - Validate attunement: items.length ≤ max (max always 3)
+        - Validate death saves: successes ≤ 3, failures ≤ 3
+        - Validate exhaustion: Integer 0-6
+      </then>
+      <return>
+        - {success: true, data: null, error: null} if valid
+        - {success: false, data: null, error: "Validation error: [details]"} if invalid
+      </return>
+      <verification>Unit tests with valid and invalid character data</verification>
+    </criterion>
+
+    <!-- AC-4: Derived Stat Calculation -->
+    <criterion id="AC-4">
+      <title>Derived Stat Calculation</title>
+      <given>a valid character object</given>
+      <when>CharacterManager.calculateDerivedStats(character) is called</when>
+      <then>
+        - Calculate ability modifiers for all 6 abilities: Math.floor((abilityScore - 10) / 2)
+        - Calculate proficiency bonus: Math.ceil(level / 4) + 1
+        - Calculate spell save DC (if spellcaster): 8 + proficiencyBonus + spellcastingAbilityModifier
+        - Calculate spell attack bonus (if spellcaster): proficiencyBonus + spellcastingAbilityModifier
+        - Calculate carrying capacity: strength × 15
+      </then>
+      <return>
+        Object with all derived stats: {abilityModifiers, proficiencyBonus, spellSaveDC, spellAttackBonus, carryingCapacity}
+      </return>
+      <verification>Unit tests with known character data</verification>
+    </criterion>
+
+    <!-- AC-5: Character Saving to YAML -->
+    <criterion id="AC-5">
+      <title>Character Saving to YAML</title>
+      <given>a modified character object</given>
+      <when>CharacterManager.saveCharacter("kapi", characterData) is called</when>
+      <then>
+        - Validate character data before saving (via _validateCharacter)
+        - Serialize character to YAML using js-yaml
+        - Write to characters/kapi.yaml atomically (write to temp file, then rename)
+        - Return {success: true, data: null, error: null} on success
+        - Complete operation in &lt; 200ms
+      </then>
+      <errorCases>
+        - Validation fails → {success: false, data: null, error: "Validation error: [details]"}
+        - File write fails → {success: false, data: null, error: "Failed to save character: [details]"}
+      </errorCases>
+      <verification>Integration test that saves and re-loads character, verifying data integrity</verification>
+    </criterion>
+
+    <!-- AC-6: Helper Method - Get Ability Modifier -->
+    <criterion id="AC-6">
+      <title>Helper Method - Get Ability Modifier</title>
+      <given>an ability score</given>
+      <when>CharacterManager.getAbilityModifier(abilityScore) is called</when>
+      <then>
+        - Calculate modifier: Math.floor((abilityScore - 10) / 2)
+        - Support full D&amp;D range (1-20)
+        - Return modifier as integer
+      </then>
+      <examples>
+        - Score 1 → -5 modifier
+        - Score 10-11 → +0 modifier
+        - Score 20 → +5 modifier
+      </examples>
+      <verification>Unit tests with all edge cases (1, 3, 8, 10, 11, 16, 20)</verification>
+    </criterion>
+
+    <!-- AC-7: Helper Method - Get Proficiency Bonus -->
+    <criterion id="AC-7">
+      <title>Helper Method - Get Proficiency Bonus</title>
+      <given>a character level</given>
+      <when>CharacterManager.getProficiencyBonus(level) is called</when>
+      <then>
+        - Calculate bonus: Math.ceil(level / 4) + 1
+        - Support full D&amp;D level range (1-20)
+        - Return bonus as integer
+      </then>
+      <examples>
+        - Levels 1-4 → +2
+        - Levels 5-8 → +3
+        - Levels 9-12 → +4
+        - Levels 13-16 → +5
+        - Levels 17-20 → +6
+      </examples>
+      <verification>Unit tests with all level breakpoints (1, 4, 5, 8, 9, 12, 13, 16, 17, 20)</verification>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/character-sheet-schema.yaml</path>
+        <title>D&D 5e Character Sheet Schema</title>
+        <section>Complete Schema Definition</section>
+        <snippet>Defines the complete structure for D&D 5e character sheets including abilities, HP, proficiencies, inventory, spellcasting, conditions, and metadata. All character data is stored in human-readable YAML format with validation rules and examples.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 - D&D 5e Mechanics Integration Technical Specification</title>
+        <section>CharacterManager Module (lines 205, 489-536)</section>
+        <snippet>CharacterManager is responsible for loading, validating, and persisting character sheets. It provides loadCharacter(), saveCharacter(), calculateDerivedStats(), getAbilityModifier(), and getProficiencyBonus() methods. All methods follow the Result Object pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Character Schema (lines 248-332)</section>
+        <snippet>Character YAML structure includes: abilities (str, dex, con, int, wis, cha), hitPoints (max, current, temporary, hitDice), armorClass, proficiencies, spellcasting, inventory, conditions, attunement, features, death saves, and metadata. Proficiency bonus is auto-calculated from level.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>AC-2: Character Sheet Creation (lines 1325-1334)</section>
+        <snippet>CharacterManager.createCharacter() must create character YAML file at characters/[name].yaml with all required fields populated, derived stats calculated (proficiency bonus, ability modifiers, AC), and file must be valid YAML parseable by js-yaml and validate against schema.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Kapi's RPG - Technical Architecture</title>
+        <section>File-First Architecture & Result Object Pattern</section>
+        <snippet>All game state is stored in human-readable markdown/YAML files for transparency and version control. All module methods use Result Object pattern returning {success, data, error} to avoid exceptions. Dependency Injection used for testability.</snippet>
+      </doc>
+      <doc>
+        <path>docs/character-sheet-schema.yaml</path>
+        <title>D&D 5e Character Sheet Schema</title>
+        <section>Validation Rules (lines 367-383)</section>
+        <snippet>Validation requirements: Ability scores 1-20, Level 1-20, HP current ≤ max, temporary ≥ 0, Hit dice spent ≤ total, Spell slots ≥ 0, Weight enforce encumbrance, Attunement items.length ≤ max (always 3), Death saves successes and failures ≤ 3 each, Exhaustion 0-6, Proficiency bonus auto-calculated, Spell save DC auto-calculated.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>module</kind>
+        <symbol>DiceRoller</symbol>
+        <lines>1-306</lines>
+        <reason>Provides reference implementation of Result Object pattern, Dependency Injection pattern, and comprehensive JSDoc documentation style. CharacterManager should follow same patterns.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/dice-roller.test.js</path>
+        <kind>test</kind>
+        <symbol>DiceRoller tests</symbol>
+        <lines>1-466</lines>
+        <reason>Reference for test structure, mocking patterns (Jest), and ~98% coverage standard. CharacterManager tests should follow same structure with describe blocks for each method.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml">Required for YAML parsing (will be installed in Task 9)</package>
+        <package name="jest" version="29.7.0">Testing framework (already installed)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>All methods must use Result Object pattern: {success, data, error}</constraint>
+    <constraint>Never throw exceptions - return error objects instead</constraint>
+    <constraint>Use Dependency Injection via constructor for testability (yamlParser, fileReader)</constraint>
+    <constraint>File operations must be atomic (write to temp file, then rename)</constraint>
+    <constraint>Test coverage must be ≥95% statement coverage</constraint>
+    <constraint>JSDoc documentation required for all public and private methods</constraint>
+    <constraint>Module must be located at src/mechanics/character-manager.js</constraint>
+    <constraint>Tests must be located at tests/mechanics/character-manager.test.js</constraint>
+    <constraint>Character files stored at characters/[name].yaml</constraint>
+    <constraint>Validation must enforce ALL D&D 5e rules from schema</constraint>
+    <constraint>Performance: loadCharacter &lt; 100ms, saveCharacter &lt; 200ms</constraint>
+    <constraint>Follow zero dependencies philosophy (only js-yaml for YAML parsing)</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>CharacterManager.loadCharacter</name>
+      <kind>async method</kind>
+      <signature>async loadCharacter(characterId: string): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter</name>
+      <kind>async method</kind>
+      <signature>async saveCharacter(characterId: string, characterData: Object): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.calculateDerivedStats</name>
+      <kind>method</kind>
+      <signature>calculateDerivedStats(character: Object): Object</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.getAbilityModifier</name>
+      <kind>static method</kind>
+      <signature>static getAbilityModifier(abilityScore: number): number</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.getProficiencyBonus</name>
+      <kind>static method</kind>
+      <signature>static getProficiencyBonus(level: number): number</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>ResultObject</name>
+      <kind>type</kind>
+      <signature>{success: boolean, data: any | null, error: string | null}</signature>
+      <path>Project-wide pattern</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing framework: Jest 29.7.0. Test structure uses describe blocks for each class/method with nested describe for categories (Constructor, basic functionality, edge cases, performance). All tests use async/await for async methods. Mocking via jest.fn() for dependency injection testing. Target coverage: ≥95% statement coverage. Performance tests verify timing requirements (&lt;100ms load, &lt;200ms save). Integration tests use real files in characters/ directory.
+    </standards>
+    <locations>
+      - tests/mechanics/*.test.js (unit and integration tests for mechanics modules)
+      - Pattern: tests/mechanics/[module-name].test.js matches src/mechanics/[module-name].js
+    </locations>
+    <ideas>
+      <!-- Constructor and Initialization Tests (AC-1) -->
+      <test ac="AC-1">Test default dependencies (js-yaml, fs.promises) are initialized correctly</test>
+      <test ac="AC-1">Test custom dependencies via DI override default dependencies</test>
+
+      <!-- loadCharacter Tests (AC-2) -->
+      <test ac="AC-2">Test loading valid character file returns success with complete character object</test>
+      <test ac="AC-2">Test loading non-existent file returns error with specific message</test>
+      <test ac="AC-2">Test loading invalid YAML returns parse error</test>
+      <test ac="AC-2">Test loading with missing required fields fails validation</test>
+      <test ac="AC-2">Test performance: load completes in &lt;100ms</test>
+
+      <!-- _validateCharacter Tests (AC-3) -->
+      <test ac="AC-3">Test valid character passes all validation rules</test>
+      <test ac="AC-3">Test missing required fields (name, race, class, level, etc.) fail with specific errors</test>
+      <test ac="AC-3">Test ability scores out of range (0, 21, negative) fail validation</test>
+      <test ac="AC-3">Test level out of range (0, 21) fails validation</test>
+      <test ac="AC-3">Test HP validation: current &gt; max fails</test>
+      <test ac="AC-3">Test HP validation: temporary &lt; 0 fails</test>
+      <test ac="AC-3">Test hit dice: spent &gt; total fails</test>
+      <test ac="AC-3">Test proficiency bonus mismatch with level fails</test>
+      <test ac="AC-3">Test spell slots negative values fail (for spellcasters)</test>
+      <test ac="AC-3">Test attunement: items.length &gt; 3 fails</test>
+      <test ac="AC-3">Test death saves: successes or failures &gt; 3 fails</test>
+      <test ac="AC-3">Test exhaustion: value &gt; 6 or &lt; 0 fails</test>
+
+      <!-- calculateDerivedStats Tests (AC-4) -->
+      <test ac="AC-4">Test ability modifiers calculated correctly for all 6 abilities (scores: 8, 10, 11, 16, 20)</test>
+      <test ac="AC-4">Test proficiency bonus calculated from level (levels: 1, 4, 5, 8, 9, 12, 13, 16, 17, 20)</test>
+      <test ac="AC-4">Test spell save DC calculated correctly for spellcaster</test>
+      <test ac="AC-4">Test spell attack bonus calculated correctly for spellcaster</test>
+      <test ac="AC-4">Test spell stats are null for non-spellcaster</test>
+      <test ac="AC-4">Test carrying capacity calculated correctly (Strength × 15)</test>
+
+      <!-- getAbilityModifier Tests (AC-6) -->
+      <test ac="AC-6">Test modifier calculation for edge cases: 1, 3, 8, 10, 11, 16, 20</test>
+      <test ac="AC-6">Test formula: floor((score - 10) / 2) for all D&amp;D scores 1-20</test>
+
+      <!-- getProficiencyBonus Tests (AC-7) -->
+      <test ac="AC-7">Test bonus for all level breakpoints: 1, 4, 5, 8, 9, 12, 13, 16, 17, 20</test>
+      <test ac="AC-7">Test formula: ceil(level / 4) + 1 for levels 1-20</test>
+
+      <!-- saveCharacter Tests (AC-5) -->
+      <test ac="AC-5">Test saving valid character succeeds and file is created</test>
+      <test ac="AC-5">Test saving invalid character fails validation before write</test>
+      <test ac="AC-5">Test atomic write: temp file created then renamed</test>
+      <test ac="AC-5">Test round-trip: save then load, verify data integrity</test>
+      <test ac="AC-5">Test performance: save completes in &lt;200ms</test>
+      <test ac="AC-5">Test file write error handling (permission denied simulation)</test>
+
+      <!-- Integration Tests -->
+      <test>Load Kapi example character from characters/kapi.yaml</test>
+      <test>Validate complete character schema with all fields</test>
+      <test>Calculate all derived stats for real character</test>
+      <test>Save modified character and reload to verify persistence</test>
+    </ideas>
+  </tests>
+</story-context>

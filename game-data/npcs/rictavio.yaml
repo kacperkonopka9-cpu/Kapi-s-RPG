@@ -1,0 +1,372 @@
+# Rictavio - Carnival Ringmaster
+# DISGUISE IDENTITY - True Identity: Rudolph van Richten
+# Epic 4 Story 4-10: Major NPCs Batch 2
+# Uses Hat of Disguise to Hide from Strahd
+
+# === BASIC INFORMATION ===
+name: "Rictavio"
+npcId: "rictavio"
+race: "Human (Illusory Appearance)"
+age: 45  # Appears younger via Hat of Disguise (true age 65)
+class: "Entertainer (False Identity)"
+level: 9  # Same as Van Richten (true stats)
+experience: null
+background: "Carnival Ringmaster (False)"
+alignment: "Chaotic Good (Persona)"
+npcType: "major"
+true_identity: "rudolph_van_richten"  # DISGUISE IDENTITY LINK
+
+# === ABILITY SCORES ===
+# NOTE: These are Van Richten's true stats (disguise doesn't change abilities)
+abilities:
+  strength: 14     # +2 modifier
+  dexterity: 18    # +4 modifier
+  constitution: 14  # +2 modifier
+  intelligence: 16  # +3 modifier
+  wisdom: 16       # +3 modifier
+  charisma: 10     # +0 modifier (but ACTS charismatic as Rictavio)
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 84  # Same as Van Richten
+  current: 84
+  temporary: 0
+  hitDice:
+    total: 9
+    spent: 0
+    die: "d10"
+
+armorClass: 17  # Same as Van Richten (studded leather + DEX + ring)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light", "medium", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "dexterity", "constitution"]
+  skills: ["insight", "investigation", "medicine", "perception", "survival", "performance", "deception"]
+  # NOTE: Performance and enhanced Deception added for Rictavio persona
+  tools: ["herbalism_kit", "poisoners_kit", "disguise_kit"]
+  languages: ["Common", "Elvish", "Giant", "Abyssal", "Infernal"]
+
+proficiencyBonus: 4  # Level 9
+
+# === SPELLCASTING ===
+spellcasting: null  # Van Richten has ranger spells but Rictavio persona doesn't cast openly
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: "studded_leather"  # Hidden under colorful carnival clothes
+    mainHand: "rapier_decorative"  # Actually Van Richten's weapons, appears decorative
+    offHand: null
+    ring1: "ring_of_protection"
+    ring2: null
+    amulet: null  # Holy Symbol hidden beneath clothes
+    cloak: "carnival_cloak_colorful"
+    boots: null
+    gloves: null
+    helm: "hat_of_disguise"  # ACTIVE - maintaining Rictavio illusion
+  backpack:
+    - item: "carnival_performance_props"
+      quantity: 1  # Juggling balls, colorful scarves, etc.
+    - item: "carnival_wagon_key"
+      quantity: 1  # Key to wagon containing sabertooth tiger
+    - item: "rictavio_journal"
+      quantity: 1  # False journal with carnival stories (misdirection)
+    - item: "wine"
+      quantity: 2  # Part of jovial persona
+    - item: "rations"
+      quantity: 5
+  currency:
+    platinum: 10
+    gold: 250
+    electrum: 0
+    silver: 50
+    copper: 0
+
+weight:
+  current: 70
+  capacity: 210  # Str 14 * 15
+  pushDragLift: 420  # Str 14 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: ["ring_of_protection", "hat_of_disguise"]  # Holy Symbol hidden, not openly attuned
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Hat of Disguise (Active)"
+    description: "Rictavio appears as younger (45), brown-haired man with flamboyant clothing. Voice and mannerisms completely different from Van Richten. Illusion persists until dispelled or hat removed. DC 15 Perception to detect illusion if suspicious."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Performance Expertise (Persona)"
+    description: "As Rictavio, expert performer with +10 to Performance checks (CHA +0, Prof +4, Expertise +4, but acts like CHA is high). Tells captivating stories, juggles, entertains crowds."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Deception Mastery (Persona)"
+    description: "+8 to Deception checks (CHA +0, Prof +4, Expertise +4) to maintain cover story. Van Richten is expert at maintaining false identity."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "False Identity: Rictavio"
+    description: "Rictavio is complete fabrication - jovial carnival ringmaster with no monster hunting background. Backstory: traveled Barovia with carnival, stayed when troupe left, parks wagon outside Blue Water Inn, tells wild stories. Cover is convincing."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Carnival Wagon (Sabertooth Tiger)"
+    description: "Rictavio's wagon parked outside Blue Water Inn contains sabertooth tiger trained (poorly) to hunt vampires. Wagon is locked with alarm. If investigated, reveals Rictavio is more than entertainer. Tiger is hostile to everyone except Van Richten."
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Flamboyant and theatrical - COMPLETE opposite of Van Richten's dour personality"
+    - "Loves telling tall tales and embellishing stories"
+    - "Jovial, friendly, buys drinks for strangers"
+    - "Hides sharp observation skills beneath buffoonish exterior"
+
+  ideals:
+    - "Entertainment - Life's too short not to enjoy the show! (Chaotic)"
+    - "Freedom - Travel where the wind takes you! (Chaotic)"
+    - "Joy - Bring laughter to this dreary land! (Good)"
+
+  bonds:
+    - "My carnival wagon - contains my 'act' (wink wink)"
+    - "Blue Water Inn - wonderful hosts, comfortable lodging"
+    - "The open road - always another town, another performance"
+
+  flaws:
+    - "Talks too much (deliberate - masks true purpose)"
+    - "Drinks a bit too heavily (again, part of act)"
+    - "Tells outrageous lies about carnival exploits (misdirection)"
+
+  mannerisms:
+    - "Sweeping gestures while storytelling"
+    - "Laughs loudly and often"
+    - "Tips hat to ladies, bows theatrically"
+    - "Speaks with exaggerated inflections and dramatic pauses"
+
+  voiceDescription: "Warm, theatrical, and bombastic. COMPLETELY different from Van Richten's gravelly whisper. Projects voice like stage actor. Frequent laughter punctuates sentences."
+
+  appearanceNotes: "Brown-haired man in his mid-40s (illusion) wearing colorful carnival attire - striped vest, plumed hat (Hat of Disguise), flowing cape. Appears jovial and carefree. Moves with theatrical flair. No hint of the weary vampire hunter beneath disguise."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Welcome, welcome! Rictavio, at your service! Ringmaster extraordinaire and teller of tales! Have you heard the one about the dancing bear and the Duchess? [laughs heartily]"
+    - "Ah, new faces! Wonderful! Please, join me for a drink and I'll regale you with stories of my carnival days! All true! Well... mostly true! [winks]"
+    - "Greetings, travelers! Rictavio is my name, entertainment is my game! You look like you could use some cheer in this gloomy land!"
+
+  idle:
+    - "[Juggling absently while humming carnival tune]"
+    - "[Telling outrageous story to inn patrons, embellishing wildly]"
+    - "Did I mention the time I wrestled a werewolf? With my BARE HANDS! [laughs] Well, there were some hands involved..."
+    - "[Practicing magic tricks with coins]"
+
+  farewell:
+    - "Safe travels, friends! May your road be filled with wonder and song! And if you see a dancing bear, tell him Rictavio says hello! [laughs]"
+    - "Until we meet again! Remember - life's a carnival! Enjoy the show! [tips hat theatrically]"
+    - "Farewell! And if you need entertainment advice, you know where to find Rictavio!"
+
+  stories:
+    - "My carnival once performed for a vampire lord! Oh yes! He loved the acrobats but HATED the garlic juggling act! [laughs uproariously]"
+    - "I've traveled from Barovia to the Sword Coast and back again! Performed for kings, beggars, and everything in between! Life on the road is GLORIOUS!"
+    - "The carnival wagon? Ah, that's where I keep my BEST act! Top secret, you understand. Can't reveal all my tricks at once! [conspiratorial wink]"
+    - "This land is dreary, yes, but every land has its darkness! The key is to bring LIGHT through art and joy! That's what I do!"
+
+  deflecting:
+    - "[If asked about wagon] The wagon? Just performance equipment! Very delicate! Very dangerous to disturb! Best to admire from afar! [nervous laugh]"
+    - "[If asked about past] Oh, my history? Boring! Let's talk about YOUR adventures instead! [changes subject]"
+    - "[If asked why staying in Barovia] Why leave? The inn is comfortable, the wine flows, and I have stories to tell! What more does a man need?"
+
+  revelation:
+    - "[If disguise fails] Ah. Well. This is awkward. Shall we speak in private? [drops theatrical tone entirely]"
+    - "[If confronted about wagon] You saw the tiger? Blast. All right, let's talk truthfully. But NOT here. Too many ears."
+    - "[If identity exposed] So you've discovered my secret. Congratulations. Now the question is - what will you do with that knowledge?"
+
+  keyQuotes:
+    - "Life's a carnival, my friends! Full of wonders, terrors, and the occasional dancing bear! [laughs]"
+    - "Rictavio has stories for DAYS! Pull up a chair, order a drink, and let me tell you about the time I outran a zombie horde! True story! Mostly!"
+    - "People see what they expect to see. A fool in a plumed hat? Harmless. Never look deeper. [said quietly when facade drops briefly]"
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "blue_water_inn_keepers"
+      relationship: "friendly guests / hosts"
+      notes: "Rictavio pays well, entertains guests with stories, causes no trouble. Inn keepers like him. Unaware of true identity."
+
+    - npcId: "player_character"
+      relationship: "friendly → complicated (if discover truth)"
+      notes: "As Rictavio, friendly and helpful with information (filtered through carnival stories). If identity exposed, relationship shifts to Van Richten dynamics."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "hidden from (unaware of disguise)"
+      notes: "Strahd DOES NOT KNOW Rictavio is Van Richten. If discovered, cover blown and Van Richten becomes target. Hat of Disguise hides him from scrying."
+
+  family: null  # Rictavio has no family (false identity)
+
+  faction: null  # No faction affiliation as Rictavio
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Rictavio persona AVOIDS combat if possible - maintains cover. If forced to fight, uses same tactics as Van Richten (ranged crossbow attacks, tactical positioning) but tries to hide true skill. If disguise blown during combat, drops act entirely and fights as Van Richten."
+
+  goals:
+    - "Maintain Rictavio disguise to avoid Strahd's attention"
+    - "Gather intelligence on Strahd without exposing true identity"
+    - "Protect carnival wagon (sabertooth tiger) from discovery"
+    - "Deflect suspicion through misdirection and buffoonery"
+
+  motivations:
+    - "Survival - staying hidden keeps him alive"
+    - "Strategic advantage - Strahd unaware of legendary hunter in Vallaki"
+    - "Mission success - needs time to plan assault on Strahd"
+
+  fears:
+    - "Disguise failing and Strahd discovering him"
+    - "Sabertooth tiger escaping and revealing true purpose"
+    - "Players exposing him intentionally or accidentally"
+    - "Hat of Disguise being dispelled or removed"
+
+  knowledgeSecrets:
+    - "All of Van Richten's vampire hunting knowledge (hidden beneath act)"
+    - "Knows Ezmerelda is in Barovia (avoids her - she'd recognize him)"
+    - "Aware of Strahd's patterns from months of observation"
+    - "Sabertooth tiger poorly trained - risk if released"
+    - "Tower near Vallaki is his base (avoids mentioning it)"
+
+  attitudeTowardPlayer: "friendly"  # As Rictavio, very friendly
+
+  trustLevel: 4  # 1-10 scale as Rictavio. Becomes Van Richten's trust if revealed
+
+  questInvolvement:
+    - questId: "rictavio_true_identity"
+      role: "mystery / revelation_target"
+      notes: "Players can discover Rictavio is Van Richten through: (1) Dispel Magic on Hat of Disguise, (2) Investigating carnival wagon and finding sabertooth tiger, (3) Ezmerelda recognizing him, (4) Deception check failure, (5) Van Richten revealing voluntarily if trusts party."
+
+    - questId: "carnival_wagon_mystery"
+      role: "quest_hook"
+      notes: "Rictavio's locked carnival wagon is suspicious. Contains sabertooth tiger and vampire hunting equipment. Investigating wagon provides clues to true identity. Rictavio deflects questions nervously."
+
+  specialBehaviors:
+    - "NEVER breaks character as Rictavio in public unless disguise fails"
+    - "Deflects personal questions with stories and humor"
+    - "Avoids Ezmerelda at all costs (she'd recognize him instantly)"
+    - "Nervous when wagon is discussed - tells obvious lies"
+    - "If disguise exposed, immediately shifts to Van Richten personality (dramatic tonal shift)"
+    - "Hat of Disguise can be detected with DC 15 Perception if suspicious, dispelled with Dispel Magic"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # Vallaki - Blue Water Inn (as Rictavio)
+  - time: "09:00"
+    location: "vallaki"
+    activity: "Wake late (part of carefree persona), breakfast at inn common room, entertain guests"
+
+  - time: "11:00"
+    location: "vallaki"
+    activity: "Town square, perform for crowds, gather gossip disguised as storytelling"
+
+  - time: "13:00"
+    location: "vallaki"
+    activity: "Check carnival wagon (feed sabertooth tiger secretly), ensure lock secure"
+
+  - time: "15:00"
+    location: "vallaki"
+    activity: "Blue Water Inn, drink wine, tell stories, maintain jovial persona"
+
+  - time: "18:00"
+    location: "vallaki"
+    activity: "Evening meal at inn, regale guests with outrageous carnival tales"
+
+  - time: "21:00"
+    location: "vallaki"
+    activity: "More drinking, more stories, gradually 'pass out' drunk (fake)"
+
+  - time: "23:00"
+    location: "vallaki"
+    activity: "[Secret] Sober immediately, slip away to tower as Van Richten, study vampire notes"
+
+# === LOCATION & STATUS ===
+currentLocation: "vallaki"  # Blue Water Inn
+status: "alive"
+canMove: true
+tetheredToLocation: "vallaki"  # Maintains Rictavio persona in Vallaki only
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  disguise_active: true  # Hat of Disguise active
+  identity_exposed_to_party: false
+  wagon_investigated: false
+  tiger_discovered: false
+  cover_blown: false  # If true, reverts to Van Richten fully
+  suspicion_level: 0  # 0-10, tracks how suspicious party is
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.119"
+  official: true
+  disguise_identity: true  # Flag indicating this is disguise of another NPC
+
+  notes: "Rictavio is FALSE IDENTITY created by Rudolph van Richten using Hat of Disguise. He appears as jovial carnival ringmaster with completely different personality from Van Richten's grim hunter persona. Rictavio tells wild stories, drinks heavily, and entertains inn guests. His carnival wagon contains sabertooth tiger (vampire hunting tool). Discovering Rictavio's true identity is major quest revelation. If exposed, immediately reverts to Van Richten personality."
+
+  dmReminders:
+    - "Rictavio and Van Richten are SAME PERSON - same stats, different personality"
+    - "Keep Rictavio personality COMPLETELY DIFFERENT from Van Richten (jovial vs grim)"
+    - "Hat of Disguise can be detected/dispelled - DC 15 Perception, Dispel Magic auto-success"
+    - "Ezmerelda recognizes Van Richten even through disguise (knows him too well)"
+    - "Carnival wagon investigation is major clue - sabertooth tiger reveals hunter purpose"
+    - "If identity exposed, dramatic reveal moment - drop jovial act instantly"
+    - "Rictavio dialogue should be theatrical and verbose, Van Richten is terse and tactical"
+
+  developmentStage: "final"
+
+# === DISGUISE REVELATION TRIGGERS ===
+revelation_triggers:
+  - trigger: "dispel_magic"
+    description: "Dispel Magic cast on Rictavio reveals true appearance (elderly, gray-haired Van Richten)"
+    dc: null  # Automatic success
+
+  - trigger: "wagon_investigation"
+    description: "Investigating carnival wagon reveals sabertooth tiger and vampire hunting gear. DC 15 Investigation to find hidden compartment with Van Richten's journal."
+    dc: 15
+
+  - trigger: "ezmerelda_recognition"
+    description: "If Ezmerelda meets Rictavio, she instantly recognizes Van Richten despite disguise. 'Van Richten? Is that you?!'"
+    dc: null  # Automatic recognition
+
+  - trigger: "deception_failure"
+    description: "If Rictavio rolls NAT 1 on Deception check, cover slips momentarily (uses Van Richten mannerism, tactical language, etc.)"
+    dc: null  # Natural 1
+
+  - trigger: "voluntary_reveal"
+    description: "Van Richten reveals identity voluntarily if party earns trust (completes tower tests, fights Strahd's spawn, demonstrates commitment)"
+    dc: null  # Story-based
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

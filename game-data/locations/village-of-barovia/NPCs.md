@@ -7,6 +7,7 @@
 - **Status:** Alive, Fearful (Orphaned if burgomaster dies)
 - **Relationship to Player:** Neutral (will become Ally)
 - **Quest Connection:** Main Quest - Strahd's Obsession / Escort Ireena to Safety
+- **Full Profile:** game-data/npcs/ireena_kolyana.yaml
 
 ### Description
 Ireena is a striking young woman with auburn hair and haunting green eyes that seem perpetually shadowed by exhaustion. She wears a simple but well-made dress in deep blue, though it's torn at the hem and dusted with ash. Two puncture marks on her neck—barely healed—mark Strahd's unwanted attention. Despite her fear, she carries herself with quiet dignity and fierce determination. Dark circles under her eyes speak of sleepless nights.
@@ -18,9 +19,9 @@ Ireena is a striking young woman with auburn hair and haunting green eyes that s
 - **If Father Dead:** "The nightmare isn't over. Strahd will come for me again. He always does. I must reach the Abbey in Krezk—perhaps the Abbot can protect me where my father could not."
 
 ### Stats
-- **AC:** 14 (leather armor)
-- **HP:** 22
-- **Abilities:** STR 10, DEX 14, CON 12, INT 13, WIS 11, CHA 16
+- **AC:** 12 (elegant dress + Dex)
+- **HP:** 9 (2d8)
+- **Abilities:** STR 10, DEX 12, CON 10, INT 13, WIS 14, CHA 16
 
 ### AI Behavior Notes
 - Fiercely protective of her younger brother Ismark despite being terrified herself
@@ -38,6 +39,7 @@ Ireena is a striking young woman with auburn hair and haunting green eyes that s
 - **Status:** Alive, Desperate
 - **Relationship to Player:** Neutral (seeking help)
 - **Quest Connection:** Escort Ireena Quest / Bury the Burgomaster
+- **Full Profile:** game-data/npcs/ismark_kolyanovich.yaml
 
 ### Description
 Ismark is a broad-shouldered young man with a thick beard and weary eyes. His clothes are well-worn but serviceable—leather armor over a simple shirt, a longsword at his hip. His hands are calloused from sword work, though he holds his blade with the desperation of a man who knows he's outmatched. Villagers call him "Ismark the Lesser" behind his back, a cruel nickname comparing him unfavorably to his father, but his determination to protect his sister is anything but lesser.
@@ -120,4 +122,67 @@ Father Donavich is a haggard man in tattered priestly robes, his face gaunt from
 - Will perform burial services if asked
 - His faith is shaken but not entirely broken
 - Terrified of what will happen if Doru escapes
+
+---
+
+## Bildrath Cantemir
+- **Type:** Human Merchant (Commoner)
+- **Age:** 58
+- **Location:** Bildrath's Mercantile (village general store)
+- **Status:** Alive, Greedy
+- **Relationship to Player:** Neutral (will trade but gouges prices)
+- **Quest Connection:** None (merchant only)
+
+### Description
+Bildrath is a portly man with greasy gray hair, calculating eyes, and a permanent scowl. He wears a stained merchant's apron over threadbare but once-fine clothes. His fingers are thick and stubby, always twitching as if counting invisible coins. He speaks in a gravelly voice and never smiles—except when overcharging customers. Despite the village's poverty, Bildrath has grown fat on exploitation, justifying his outrageous prices with cold logic: "Supply and demand, friend. You won't find these goods anywhere else in Barovia."
+
+### Dialogue
+- **Initial Greeting:** "Welcome to Bildrath's Mercantile, the finest—and only—general store in the Village of Barovia. You'll find my prices are... reflective of the current market conditions."
+- **When Questioned About Prices:** "Two hundred percent markup? That's the cost of doing business in a cursed land, friend. If you don't like it, try your luck elsewhere. Oh wait—there IS nowhere else!" *Laughs coldly*
+- **About the Village:** "The villagers are fools. They cower and pray instead of adapting. I've learned to prosper even in Strahd's shadow. Coin doesn't care who rules the land."
+- **If Threatened:** *Backs away, calls for Parriwimple* "Parri! PARRI! We have trouble!" *Parriwimple emerges from the back room, knuckles cracking*
+
+### Stats
+- **AC:** 11 (padded armor under clothes)
+- **HP:** 16
+- **Abilities:** STR 9, DEX 10, CON 12, INT 14, WIS 11, CHA 8
+
+### AI Behavior Notes
+- Motivated entirely by profit—has no loyalty to anyone
+- Will sell to anyone with coin, including Strahd's servants
+- Cowardly in combat—relies on Parriwimple for protection
+- Keeps a secret ledger of debts owed by villagers (blackmail material)
+- Knows the value of everything and the worth of nothing
+
+---
+
+## Parriwimple
+- **Type:** Human Commoner (Simpleton/Enforcer)
+- **Age:** 32
+- **Location:** Bildrath's Mercantile (usually in the back room or sweeping)
+- **Status:** Alive, Simple-minded
+- **Relationship to Player:** Neutral (follows Bildrath's orders)
+- **Quest Connection:** None
+
+### Description
+Parriwimple is a massive, lumbering man with the mind of a child. He stands over six feet tall with broad shoulders and hands like hams. His face is slack and friendly, with a perpetual confused expression. He wears simple work clothes—always stained and torn from heavy labor. Despite his intimidating size, his eyes are gentle and confused. He speaks slowly and simply, often repeating what others say. Bildrath uses him as muscle and cheap labor, paying him in scraps and a place to sleep in the store's back room.
+
+### Dialogue
+- **Initial Greeting:** "H-hello. I'm Parriwimple. Uncle Bildrath says I help good. You need help?"
+- **If Asked About His Work:** "I carry heavy things. Boxes. Barrels. Sometimes people if Uncle Bildrath says. I'm strong! See?" *Flexes arms proudly*
+- **If Offered Kindness:** *Eyes widen with surprise and delight* "You... you're nice! Not many people nice to Parriwimple. Want to be friends?"
+- **If Bildrath Calls for Help:** "Uncle needs me! I protect uncle!" *Moves to defend Bildrath, though clearly doesn't want to fight*
+
+### Stats
+- **AC:** 10
+- **HP:** 26
+- **Abilities:** STR 17, DEX 8, CON 14, INT 6, WIS 8, CHA 7
+
+### AI Behavior Notes
+- Fiercely loyal to Bildrath (his uncle) despite being exploited
+- Simple-minded but not malicious—doesn't understand when he's being used
+- Extremely strong but reluctant to actually hurt people
+- Craves friendship and kindness—starved for positive attention
+- Can be easily bribed with food, especially sweets
+- If befriended, might secretly give players discounts or extra supplies without Bildrath knowing
 

@@ -1,0 +1,380 @@
+# Quest 6: St. Andral's Bones
+# TIME-CRITICAL: Recover stolen bones before vampire attack on church
+
+questId: "st_andrals_bones"
+name: "St. Andral's Bones"
+type: "main"
+category: "investigation"
+
+questGiver:
+  npcId: "father_lucian_petrovich"
+  location: "vallaki_church_of_st_andral"
+  dialogue: "The bones... St. Andral's bones are missing! Without them, the church's consecration will fail. We'll be defenseless when Strahd's vampires come..."
+
+questRecipient: "player"
+
+description:
+  short: "Recover St. Andral's stolen bones before vampires attack the church"
+  full: "The bones of St. Andral, which consecrate the church and protect it from undead, have been stolen. Father Lucian is terrified - without the bones, the church is vulnerable to vampire attack. The cult of Strahd plans to strike in three days during the Festival of the Blazing Sun, massacring the congregation. You must investigate the theft, track down the bones, and return them before the deadline. Time is running out."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "escort_ireena_to_vallaki"
+  requiredEvents: []
+  requiredNPCs:
+    alive:
+      - "father_lucian_petrovich"
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "vallaki"
+
+objectives:
+  - objectiveId: "learn_bones_missing"
+    description: "Discover that St. Andral's bones have been stolen"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "father_lucian_petrovich"
+      location: "vallaki_church_of_st_andral"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "investigate_theft"
+    description: "Investigate who stole the bones and why"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "track_to_coffin_maker"
+    description: "Track the bones to Henrik's Coffin Maker shop"
+    type: "investigation"
+    status: "pending"
+    target:
+      type: "location"
+      id: "vallaki_coffin_makers_shop"
+      location: "vallaki"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "confront_henrik"
+    description: "Confront Henrik the coffin maker about the bones"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "henrik_van_der_voort"
+      location: "vallaki_coffin_makers_shop"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "defeat_vampire_spawn"
+    description: "Defeat the vampire spawn hiding in the coffin shop"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "monster"
+      id: "vampire_spawn"
+      location: "vallaki_coffin_makers_shop"
+    optional: false
+    completionTrigger:
+      type: "npc_defeated"
+    rewards:
+      experience: 400
+      items: []
+      currency: {}
+
+  - objectiveId: "recover_bones"
+    description: "Recover St. Andral's bones from the coffin shop"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "item"
+      id: "st_andrals_bones"
+      location: "vallaki_coffin_makers_shop"
+    optional: false
+    completionTrigger:
+      type: "item_obtained"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "return_bones"
+    description: "Return the bones to Father Lucian and reconsecrate the church"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "father_lucian_petrovich"
+      location: "vallaki_church_of_st_andral"
+    optional: false
+    completionTrigger:
+      type: "item_delivered"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: true
+  deadline:
+    date: "735-10-11"  # 3 days from typical quest start
+    time: "00:00"
+  failOnMissedDeadline: true
+  warningThreshold: 2
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "vallaki_church_of_st_andral"
+        changes:
+          consecrated: true
+          bones_recovered: true
+          vampire_attack_prevented: true
+
+      - type: "npc_status"
+        npcId: "father_lucian_petrovich"
+        status: "relieved"
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "father_lucian_petrovich"
+        attitudeChange: 30
+        dialogue: "You've saved us all! The church is consecrated once more. May St. Andral bless you."
+
+  onFailure:
+    stateChanges:
+      - type: "location_state"
+        locationId: "vallaki_church_of_st_andral"
+        changes:
+          consecrated: false
+          vampire_attack_occurred: true
+
+      - type: "npc_status"
+        npcId: "father_lucian_petrovich"
+        status: "endangered"
+
+    triggeredEvents:
+      - eventId: "st_andrals_feast"
+        delay: "0"
+
+    npcReactions:
+      - npcId: "father_lucian_petrovich"
+        attitudeChange: -20
+        dialogue: "Too late... they're coming..."
+
+    canRetry: false
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: false
+
+rewards:
+  experience: 1000
+
+  items:
+    - itemId: "st_andrals_bones"
+      quantity: 1
+      source: "coffin_makers_shop"
+
+  currency:
+    gold: 150
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "vallaki"
+      change: 25
+    - faction: "church_of_st_andral"
+      change: 50
+
+  specialRewards:
+    - type: "location_sanctuary"
+      locationId: "vallaki_church_of_st_andral"
+      description: "Church remains consecrated, providing safe haven from undead"
+
+branches: []
+
+journalEntries:
+  initial: "Father Lucian has revealed a terrible secret - the bones of St. Andral, which consecrate the church and protect it from vampires, have been stolen. Without them, the church is vulnerable. We have only three days to recover the bones before Strahd's vampires attack during the Festival of the Blazing Sun. We must investigate the theft immediately."
+
+  updates:
+    - trigger: "investigate_theft_complete"
+      entry: "We've discovered that Milivoj, the church groundskeeper, stole the bones. He was desperate for money and sold them to Henrik the coffin maker for 30 gold pieces. Milivoj didn't know what he was unleashing. The bones are now at Henrik's shop, and we suspect vampire spawn are already there."
+
+    - trigger: "confront_henrik_complete"
+      entry: "Henrik is terrified. He admitted that vampires came to him and demanded he hide them in crates. He's been storing vampire spawn in his shop, and the bones were part of the payment. The vampires plan to attack the church during the festival. We must defeat them and recover the bones now."
+
+    - trigger: "defeat_vampire_spawn_complete"
+      entry: "We've defeated the vampire spawn hiding in Henrik's shop. The creatures were powerful, but we prevailed. The bones are secured. We must return them to Father Lucian immediately so he can reconsecrate the church before the festival."
+
+  completion: "We've returned St. Andral's bones to the church just in time. Father Lucian performed the reconsecration ritual, and the church is once again protected from undead. The vampire attack has been prevented. The people of Vallaki are safe, at least for now."
+
+  failure: "We failed to recover the bones in time. Vampires attacked the church during the Festival of the Blazing Sun. Many died. The church is desecrated, and Vallaki's hope is shattered."
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "st_andrals_bones_2_day_warning"
+      trigger:
+        type: "date_time"
+        date: "735-10-09"
+        time: "08:00"
+      effect:
+        type: "notification"
+        message: "You have 2 days left to recover the bones before the Festival of the Blazing Sun!"
+
+    - eventId: "st_andrals_bones_1_day_warning"
+      trigger:
+        type: "date_time"
+        date: "735-10-10"
+        time: "08:00"
+      effect:
+        type: "notification"
+        message: "URGENT: Only 1 day remains! The festival is tomorrow night!"
+
+    - eventId: "st_andrals_feast_vampire_attack"
+      trigger:
+        type: "date_time"
+        date: "735-10-11"
+        time: "00:00"
+        condition: "quest_status !== 'completed'"
+      effect:
+        type: "combat_encounter"
+        location: "vallaki_church_of_st_andral"
+        message: "Vampires crash through the church windows! The feast has begun!"
+        monsters:
+          - "vampire_spawn"
+          - "vampire_spawn"
+          - "vampire_spawn"
+        consequences:
+          - type: "npc_status"
+            npcId: "father_lucian_petrovich"
+            status: "endangered"
+          - type: "location_state"
+            locationId: "vallaki_church_of_st_andral"
+            changes:
+              desecrated: true
+
+dmGuidance:
+  narrativeHooks:
+    - "Father Lucian is anxious and secretive - he doesn't want to cause panic"
+    - "Milivoj is guilty and defensive when questioned"
+    - "Henrik's shop has dozens of empty coffins - foreshadowing the vampire spawn"
+    - "The vampire spawn attack should be sudden and terrifying"
+    - "Time pressure should be emphasized - remind players of approaching deadline"
+
+  roleplayTips:
+    - "Father Lucian speaks in hushed, urgent tones"
+    - "Milivoj breaks down when caught - he's just a desperate kid who made a terrible mistake"
+    - "Henrik is cowardly and panicked - he knows he's doomed either way"
+
+  combatEncounters:
+    - encounter: "vampire_spawn_ambush"
+      location: "vallaki_coffin_makers_shop"
+      cr: 5
+      monsters:
+        - "vampire_spawn"
+        - "vampire_spawn"
+        - "vampire_spawn"
+        - "vampire_spawn"
+        - "vampire_spawn"
+        - "vampire_spawn"
+      tactics: "Vampire spawn emerge from crates when disturbed. Use spider climb to attack from ceiling. Regeneration makes them resilient. Fight to death to protect hiding spot."
+
+  commonPitfalls:
+    - "Players may delay investigation - emphasize time pressure with daily reminders"
+    - "Players may kill Milivoj - he's a victim too, can be redeemed"
+    - "Players may try to evacuate church - vampires will attack wherever people gather"
+    - "Six vampire spawn is deadly for low-level parties - allow tactical advantages (sunlight, holy water, environmental hazards)"
+
+  alternatives:
+    - "Players can set trap at church instead of recovering bones (riskier)"
+    - "Players can negotiate with vampires (unlikely to succeed)"
+    - "Players can evacuate townspeople to baron's mansion"
+    - "Players can ask Baron for military support (he refuses - doesn't believe threat)"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 6
+
+  blocksQuests: []
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 4
+  challengeRating: 5
+  skillChecks:
+    - skill: "investigation"
+      dc: 12
+      description: "Track bones to coffin maker"
+    - skill: "persuasion"
+      dc: 13
+      description: "Get Milivoj to confess"
+    - skill: "perception"
+      dc: 14
+      description: "Notice vampire spawn in crates"
+
+lore:
+  background: |
+    St. Andral was a priest who defied Strahd centuries ago. When he died, his bones were interred
+    beneath the church altar, and legend said they would protect the faithful from evil. The
+    consecration is real - Strahd's undead cannot enter the church while the bones remain. The cult
+    of Strahd has sought the bones for years, and finally succeeded through Henrik's greed.
+
+  connectionToMainStory: |
+    This quest demonstrates Strahd's long reach and planning. The attack on the church is designed
+    to break Vallaki's spirit and eliminate a safe haven. If the players fail, Vallaki falls into
+    despair and paranoia. Success shows that Strahd can be thwarted with courage and quick action.
+
+  historicalContext: |
+    St. Andral opposed Strahd's tyranny and sheltered refugees. Strahd had him executed, but could
+    not desecrate his remains. The church built in his name has stood for 300 years as a symbol of
+    resistance. Destroying it would be a symbolic and strategic victory for Strahd.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.97-103"
+  official: true
+  estimatedDuration: "1-2 sessions"
+  tags: ["investigation", "combat", "time_critical", "vampires"]
+  notes: "HARD DEADLINE. Track time carefully. Vampire spawn encounter is deadly - consider reducing numbers or HP for low-level parties. Quest failure has major consequences for Vallaki."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

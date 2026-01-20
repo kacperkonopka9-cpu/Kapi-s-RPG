@@ -1,0 +1,215 @@
+# Animated Armor - Magically Animated Guardian
+# Source: D&D 5e Monster Manual p.19
+# Empty suit of armor given life by magic, guards castles and tombs
+
+# === BASIC INFORMATION ===
+name: "Animated Armor"
+monsterId: "animated_armor"
+size: "Medium"
+type: "construct"
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 18
+armorType: "natural armor (plate armor)"
+
+hitPoints:
+  max: 33
+  current: 33
+  hitDice: "6d8"
+  hitDiceBonus: 6  # +1 Con modifier * 6 HD = +6
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 14    # +2
+  dexterity: 11   # +0
+  constitution: 13  # +1
+  intelligence: 1   # -5 (mindless)
+  wisdom: 3      # -4
+  charisma: 1    # -5
+
+# === SPEEDS ===
+speed:
+  walk: 25  # Slower due to heavy armor
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["poison", "psychic"]
+conditionImmunities: ["blinded", "charmed", "deafened", "exhaustion", "frightened", "paralyzed", "petrified", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 60  # Senses through magic, not eyes
+  blindsightNote: "blind beyond this radius"
+  tremorsense: null
+  truesight: null
+  passivePerception: 6  # 10 + Wis (-4)
+
+# === LANGUAGES ===
+languages: []
+languageNote: "understands commands of its creator but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "animated_armor_1"  # Will be set dynamically per instance
+  name: "Animated Armor"
+  dexModifier: 0
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Antimagic Susceptibility"
+    description: "The armor is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the armor must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute."
+    mechanics:
+      type: "weakness"
+      trigger: "antimagic_field"
+      effect: "incapacitated"
+      dispelMagic:
+        saveAbility: "constitution"
+        saveDC: "caster_spell_save_dc"
+        onFailure: "unconscious_for_1_minute"
+
+  - name: "False Appearance"
+    description: "While the armor remains motionless, it is indistinguishable from a normal suit of armor."
+    mechanics:
+      type: "stealth"
+      condition: "motionless"
+      effect: "indistinguishable_from_normal_armor"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The armor makes two melee attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+
+  - name: "Slam"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 2  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "plate_armor"
+    quantity: 1
+    note: "The armor itself (non-removable)"
+
+# === LOOT ===
+loot:
+  guaranteed:
+    - item: "plate_armor"
+      quantity: 1
+      value: "1500_gp"
+      condition: "intact"
+  conditional: []
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Mindless construct - follows creator's commands exactly. Multiattack with two slams (avg 5 damage each). High AC (18) makes it durable tank. False Appearance: Stand motionless to ambush intruders. Patrol designated area, attack intruders. No self-preservation instinct - fights until destroyed. Vulnerable to antimagic field (incapacitated) and dispel magic (unconscious on failed save). No tactics or creativity - pure guard duty."
+  intelligence: "mindless"
+  aggression: "high"  # When activated, relentless
+  groupTactics: "none"  # Mindless, no coordination
+
+  preferredTargets:
+    - "nearest enemy"
+    - "intruders in guarded area"
+
+  fleeThreshold: null  # Never flees (mindless)
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Castles, dungeons, wizard towers, armories, Castle Ravenloft"
+  organization: "Solitary, pair, or squad (3-6)"
+
+lore:
+  description: "Animated armor is a suit of plate armor given life through magic. The armor is completely hollow - no body inside, just animated metal held together by magical force. They serve as tireless guardians, never requiring rest, food, or sleep. Animated armor stands motionless until commanded to attack or defend, making it an ideal ambush predator in castle halls lined with decorative armor. They follow their creator's commands with perfect obedience but have no intelligence or creativity. In Castle Ravenloft, Strahd uses animated armor as silent guardians in key corridors and treasure rooms."
+  weakness: "Antimagic field incapacitates them completely. Dispel magic can knock them unconscious (CON save). Low Intelligence and Wisdom make them vulnerable to illusions and tricks. Blindsight 60 ft means they can't detect enemies beyond that range. No self-repair or regeneration."
+  behavior: "Mindless guardians following programmed commands. Stand motionless using False Appearance until triggered. Attack nearest intruder when activated. Multiattack with slams. No tactical thinking - just execute commands. Cannot be reasoned with, frightened, or charmed. Fight until destroyed or commanded to stop. Patrol routes if programmed. Perfect for ambushes in armor-lined halls."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1 animated armor for easy, 2 for medium, 4 for hard"
+  terrain: "Castle Ravenloft hallways, armories, guard posts, treasure rooms"
+  tactics: "AMBUSH ENCOUNTER: Disguised as decorative armor using False Appearance. Surprise attack when party passes. AC 18 makes them durable for CR 1. Multiattack deals 10 damage/round average. Deploy in groups of 2-4 along key corridors. Pair with other guardians (gargoyles, zombies). Antimagic field from allied caster shuts them down. Dispel Magic (DC varies) can disable them temporarily. Use in narrow corridors to block retreat."
+
+# === VARIANTS ===
+variants:
+  - name: "Helmed Horror"
+    changes:
+      challengeRating: 4
+      experiencePoints: 1100
+      hitPoints:
+        max: 60
+      abilities:
+        intelligence: 10  # Not mindless
+        wisdom: 10
+        charisma: 10
+      skills:
+        perception: 4
+      damageResistances: ["bludgeoning", "piercing", "slashing from nonmagical attacks"]
+      spellImmunity:
+        description: "Immune to 3 specific spells chosen by creator"
+      traits:
+        - name: "Spell Immunity"
+          description: "The helmed horror is immune to three spells chosen by its creator. Typical immunities include fireball, heat metal, and lightning bolt."
+      lore:
+        description: "Enhanced animated armor with intelligence. Can speak and make tactical decisions. Immune to 3 specific spells."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.19"
+  official: true
+  srdContent: true
+
+  notes: "Common guardian in Castle Ravenloft. False Appearance makes excellent ambush monster. AC 18 is very high for CR 1. Mindless means immune to mental effects. Antimagic field and Dispel Magic are hard counters. Often deployed in groups of 2-4 to guard key areas."
+
+  dmReminders:
+    - "False Appearance: Indistinguishable from normal armor while motionless"
+    - "Blindsight 60 ft (blind beyond) - can't see distant enemies"
+    - "AC 18 (plate armor) - very high for CR 1"
+    - "Multiattack: Two slams (avg 10 damage/round)"
+    - "Immune to poison, psychic damage"
+    - "Immune to most conditions (charmed, frightened, paralyzed, etc.)"
+    - "Antimagic Susceptibility: Incapacitated in antimagic field"
+    - "Dispel Magic: CON save or unconscious for 1 minute"
+    - "Mindless: No tactics, creativity, or self-preservation"
+    - "Loot: Intact plate armor worth 1,500 gp"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

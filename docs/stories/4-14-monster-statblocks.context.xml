@@ -1,0 +1,369 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>14</storyId>
+    <title>Monster Statblocks</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-14-monster-statblocks.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Game Master running Curse of Strahd</asA>
+    <iWant>25 unique monster stat blocks implemented with complete D&D 5e combat statistics, special traits, and CombatManager integration</iWant>
+    <soThat>I can run balanced combat encounters with diverse enemies throughout the Curse of Strahd campaign, including undead, lycanthropes, fiends, constructs, and special boss variants with legendary/lair actions</soThat>
+    <tasks>
+### Task 1: Create Monster Template and Validation Infrastructure (AC: #1, #2)
+- Create or verify `templates/monster/monster-statblock-template.yaml` schema
+- Define monster YAML structure: monsterId, name, type, CR, XP, abilities, HP, AC, speed, actions, traits
+- Define CombatManager integration fields: combatStats section with id, dexModifier, type
+- Create `game-data/monsters/` directory if not exists
+- Document schema validation rules and required fields
+- Create monster file naming convention guide (kebab-case YAML)
+
+### Task 2-8: Implement 25 Monster Stat Blocks by Category
+- **Undead (8 types)**: zombies, strahd-zombies, skeletons, vampire-spawn, ghouls, ghasts, wights, wraiths
+- **Lycanthropes (2 types)**: werewolves, wereravens
+- **Fiends (3 types)**: night-hags, night-hag-boss (Baba Lysaga), nightmare
+- **Constructs & Plants (5 types)**: animated-armor, flesh-golem, needle-blight, vine-blight, tree-blight (Wintersplinter)
+- **Beasts (5 types)**: dire-wolves, giant-spiders, ravens, swarm-of-bats, swarm-of-rats
+- **Special/Unique (4 types)**: mongrelfolk, scarecrow, animated-hut, druid
+
+### Task 9: CombatManager Integration
+- Verify CombatManager.loadMonster() method supports monster YAML loading
+- Add combatStats section to all 25 monster files
+- Calculate initiative modifiers from dexterity scores
+- Verify actions format matches CombatManager.processAttack() expectations
+- Test spawning each monster in a test combat encounter
+
+### Task 10: Special Traits Implementation
+- Implement Undead Fortitude, Pack Tactics, Regeneration, Shapechanger traits
+- Implement damage immunities/resistances
+- Implement Sunlight Sensitivity, Spider Climb, Coven Spellcasting
+- Document all special traits in monster YAML specialTraits array
+
+### Task 11-14: Integration Testing
+- Create `tests/integration/monsters/monster-statblocks.test.js`
+- Test monster loading (25 tests - one per monster)
+- Test combat mechanics (initiative, attacks, damage parsing)
+- Test special traits structure validation
+- Test schema validation (js-yaml parser, required fields)
+- Test cross-references (quest usage, location Events.md)
+- Target: 50-75 tests, 100% pass rate
+
+### Task 15-16: Cross-Reference Validation and Documentation
+- Verify all 11 monster IDs from docs/story-4-14-monster-reference.md are created
+- Verify quest references in side-quests-batch-1 resolve correctly
+- Create monster usage guide for DMs
+- Document special trait mechanics for LLM-DM consumption
+- Update story file with implementation notes
+- Mark story as "review" status in sprint-status.yaml
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: Monster Stat Block Files Created (25 Monsters)
+25 unique monster YAML files created in `game-data/monsters/` directory conforming to `templates/monster/monster-statblock-template.yaml` schema. Each monster includes: monsterId, name, type, challengeRating, experiencePoints, abilities (STR/DEX/CON/INT/WIS/CHA), hitPoints (max, hitDice), armorClass, speed, actions (melee/ranged attacks with damage), specialTraits. File naming: kebab-case YAML. Total estimated: 7,000-10,000 lines across 25 monsters (avg 280-400 lines per monster).
+
+### AC-2: CombatManager Integration (Epic 3)
+All monster stat blocks validate against Epic 3 CombatManager schema. Monster files include `combatStats` section with id, dexModifier, type fields. CombatManager.loadMonster(monsterId) successfully loads all 25 monsters. All monsters spawn in combat encounters without errors. Initiative calculation works using dexModifier. Actions format compatible with CombatManager.processAttack() method.
+
+### AC-3: Special Monster Traits Implemented
+Special traits: Undead Fortitude (zombies - DC 5+damage CON save), Pack Tactics (werewolves - advantage when ally within 5ft), Regeneration (heal X HP/turn), Damage Immunities/Resistances (werewolves immune to non-magical/non-silvered), Sunlight Sensitivity (vampire spawn - disadvantage in sunlight), Spider Climb (vampire spawn, giant spiders), Shapeshifting (werewolves, wereravens, night hags), Coven Spellcasting (night hags - shared spell slots when 3+ within 30ft).
+
+### AC-4: Undead Monster Mechanics (8 Types)
+Zombies (CR 1/4), Strahd Zombies (CR 1), Skeletons (CR 1/4), Vampire Spawn (CR 5 - Bite with max HP reduction, Spider Climb, Regeneration 10 HP/turn), Ghouls (CR 1 - Paralyzing claw DC 10 CON), Ghasts (CR 2 - Stench DC 10 CON vs poisoned), Wights (CR 3 - Life Drain with max HP reduction), Wraiths (CR 5 - Incorporeal Movement, Life Drain 4d8+3 necrotic).
+
+### AC-5: Lycanthrope Mechanics (2 Types)
+Werewolves (CR 3 - Shapechanger, immunity to non-magical/non-silvered, Pack Tactics, Bite 1d8+2 piercing + DC 12 CON vs lycanthropy curse), Wereravens (CR 2 - Shapechanger, Mimicry, Beak attack, allies to players/Keepers of the Feather).
+
+### AC-6: Fiend Monsters (3 Types)
+Night Hags (CR 5 - Shapechanger, Magic Resistance, Coven Spellcasting: Lightning Bolt/Hold Person/Eyebite, Nightmare Haunting), Night Hag Boss/Baba Lysaga (CR 11 - legendary actions 3/round, lair actions initiative 20, +2 all stats, enhanced spellcasting, creeping hut companion), Nightmare (CR 3 - Fiend mount, Confer Fire Resistance, Ethereal Stride, Hooves 2d8+4 bludgeoning + 2d6 fire).
+
+### AC-7: Construct & Plant Monsters (5 Types)
+Animated Armor (CR 1), Flesh Golem (CR 5 - Berserk, Aversion of Fire, Lightning Absorption heals), Needle Blight (CR 1/4 - Claws 2d4+1 piercing), Vine Blight (CR 1/2 - Entangling Plants, Constrict 2d6+1), Tree Blight/Wintersplinter (CR 7 - False Appearance, Slam 3d6+6, Wither 4d6 necrotic).
+
+### AC-8: Beast Monsters (5 Types)
+Dire Wolves (CR 1 - Pack Tactics, Keen Hearing/Smell, Bite 2d6+3 + DC 13 STR vs prone), Giant Spiders (CR 1 - Spider Climb, Web Sense, Bite 1d8+3 + 2d8 poison DC 11 CON, Web attack restrain), Ravens (CR 0 - Mimicry for Keepers of the Feather, Beak 1 piercing), Swarm of Bats (CR 1/4 - swarm mechanics, Echolocation, Bites 2d4 or 1d4 if half HP), Swarm of Rats (CR 1/4 - swarm mechanics, Keen Smell, Bites 2d6 or 1d6 if half HP).
+
+### AC-9: Special & Unique Monsters (4 Types)
+Mongrelfolk (CR 1/4 - Multiattack 2 attacks, mimicry, grotesque appearance), Scarecrow (CR 1 - False Appearance, Terrifying Glare DC 11 WIS vs frightened, Claw 1d6+1 slashing + 1d6 poison), Animated Hut/Baba Lysaga's Creeping Hut (CR 4 - Gargantuan construct, antimagic field, Stomp 2d10+4 bludgeoning, works with Baba Lysaga in combat), Druid (CR 2 - spellcaster with 8 spells including Druidcraft/Entangle/Barkskin/Cure Wounds/Thunderwave, Wild Shape 2/day to CR 1 beast, Quarterstaff 1d6+1).
+
+### AC-10: Testing and Validation
+Integration tests in `tests/integration/monsters/monster-statblocks.test.js`. All 25 monsters load without errors via CombatManager.loadMonster(). Schema validation against monster-statblock-template.yaml. Combat spawn test for each monster. Special traits test (Undead Fortitude, Pack Tactics, Regeneration, Shapeshifting). Challenge Rating verification matches official D&D 5e sources. Target: 50-75 integration tests, 100% pass rate. Tests organized by monster type (Undead, Lycanthropes, Fiends, etc.).
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>AC-3: Monster Stat Blocks Implemented (Story 4-14)</section>
+        <snippet>Complete acceptance criteria for implementing 25 unique monster types in game-data/monsters/ conforming to monster-statblock-template.yaml schema. All monsters validate against Epic 3 CombatManager interface. Special traits: Undead Fortitude, Pack Tactics, Regeneration, etc.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Monster Stat Block Schema</title>
+        <section>Monster Stat Block Schema (from templates/monster/monster-statblock-template.yaml)</section>
+        <snippet>Example zombie stat block showing YAML structure: monsterId, name, type, challengeRating, experiencePoints, abilities (STR/DEX/CON/INT/WIS/CHA), hitPoints (max, hitDice with count/type/modifier), armorClass, speed, combatStats (id, dexModifier, type), actions array (name, type, attackBonus, reach, damage XdY+Z, damageType), specialTraits array (name, description). Epic 3 CombatManager format.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Scope</title>
+        <section>Monsters (25 types with stat blocks)</section>
+        <snippet>Vampires (Vampire spawn, Strahd zombies), Undead (Zombies, skeletons, ghouls, ghasts, wights, wraiths), Lycanthropes (Werewolves, wereravens), Fiends (Night hags, nightmare, hell hounds), Constructs (Animated armor, animated objects), Aberrations (Brain in a jar, Amber Golems), Beasts (Dire wolves, giant spiders, ravens, bats, rats), Special (Strahd's nightmare steed, flesh golem). All stat blocks compatible with Epic 3 CombatManager format.</snippet>
+      </doc>
+      <doc>
+        <path>docs/story-4-14-monster-reference.md</path>
+        <title>Story 4-14: Monster Reference List</title>
+        <section>Monster IDs by Quest and Priority</section>
+        <snippet>Comprehensive monster prioritization from Story 4-13 side quests. Priority 1: vampire_spawn (St. Andral's Feast - CR 5, 6 spawns), night_hag (Dream Pastry - CR 5, coven of 3), werewolf/werewolf_alpha (Werewolf Den - CR 3-5). Priority 2: needle_blight, vine_blight, tree_blight, druid (Wizard of Wines - CR 1/4 to 7). Priority 3: mongrelfolk, flesh_golem, deva (Abbey - CR 1/4 to 10), night_hag_boss, animated_hut, scarecrow (Berez - CR 1 to 11). All with source page numbers (Monster Manual, Curse of Strahd), CR ratings, encounter counts, and special mechanics notes (coven magic, pack tactics, legendary actions, lair actions).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-13-side-quests-batch-1.md</path>
+        <title>Story 4-13: Side Quests Batch 1</title>
+        <section>Quest Files and Monster References</section>
+        <snippet>7 side quest YAML files reference 11 monster types that must be implemented in Story 4-14. Quest integration points: st-andrals-feast.yaml uses vampire_spawn (6 spawns CR 5), wizard-of-wines-delivery.yaml uses blights and druids (CR 1/4 to 7), werewolf-den-hunt.yaml uses werewolves (CR 3-5), abbey-investigation.yaml uses mongrelfolk/flesh golem/deva (CR 1/4 to 10), return-berez-gem.yaml uses night_hag_boss/animated hut/scarecrow (CR 1 to 11), dream-pastry-investigation.yaml uses night_hag coven (CR 5).</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Architecture Guide</title>
+        <section>File-First Design, Result Object Pattern, Dependency Injection</section>
+        <snippet>All game state persists in Markdown/YAML files for Git version control. Result Object Pattern: all async operations return {success, data, error} instead of throwing exceptions. Dependency Injection: major classes accept dependencies via constructor for testability (inject mocks in tests, use defaults in production). Monster stat blocks integrate with Epic 3 CombatManager using this pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification - CombatManager</title>
+        <section>CombatManager API - Monster Stat Block Interface</section>
+        <snippet>CombatManager.loadMonster(monsterId) loads monster from game-data/monsters/{monsterId}.yaml. Returns {success, data, error} Result Object. Monster data structure: combatStats (id, dexModifier, type for initiative), abilities, hitPoints, armorClass, speed, actions (for attack resolution). CombatManager.processAttack(attacker, target) uses action.attackBonus, damage (XdY+Z parsed), damageType fields.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/combat-manager.js</path>
+        <kind>service</kind>
+        <symbol>CombatManager</symbol>
+        <lines>1-450</lines>
+        <reason>Core combat system from Epic 3 Story 3-5. Provides loadMonster(monsterId), initiateCombat(), processAttack(), calculateInitiative() methods. Monsters must integrate with this existing interface. CombatManager expects monster YAML files in game-data/monsters/ with specific schema: combatStats, abilities, hitPoints, armorClass, actions.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-200</lines>
+        <reason>Loads location data from folders including Events.md. Some location events trigger monster encounters (e.g., church-of-st-andral/Events.md vampire spawn attack). Monster IDs in Events.md must resolve to monster stat block files created in this story.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/st-andrals-feast.yaml</path>
+        <kind>data</kind>
+        <symbol>st_andrals_feast</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references vampire_spawn monster (CR 5, 6 spawns) in church attack event. Monster stat block must support this encounter. Validates monster integration with quest system.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/wizard-of-wines-delivery.yaml</path>
+        <kind>data</kind>
+        <symbol>wizard_of_wines_delivery</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references needle_blight, vine_blight, tree_blight (Wintersplinter), and druid monsters for winery assault encounter. Large-scale battle with 30-40 blights + 12-15 druids + CR 7 boss. Monster stat blocks must support this complex encounter.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/werewolf-den-hunt.yaml</path>
+        <kind>data</kind>
+        <symbol>werewolf_den_hunt</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references werewolf (CR 3) and werewolf_alpha (CR 5 - Kiril Stoyanovich) monsters. Pack Tactics trait critical for werewolf combat mechanics. Werewolf alpha requires legendary actions (2/round).</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/abbey-investigation.yaml</path>
+        <kind>data</kind>
+        <symbol>abbey_investigation</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references mongrelfolk (CR 1/4), flesh_golem (CR 5 - Vasilka), and deva (CR 10 - The Abbot) monsters. Deva is fallen variant with conditional combat if party opposes Abbot. High-CR encounter for advanced party.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/return-berez-gem.yaml</path>
+        <kind>data</kind>
+        <symbol>return_berez_gem</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references night_hag_boss (CR 11 - Baba Lysaga), animated_hut (CR 4 - Creeping Hut), and scarecrow (CR 1) monsters. Boss encounter with legendary actions (3/round) and lair actions (initiative 20). Most difficult combat encounter in side quests.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/quests/dream-pastry-investigation.yaml</path>
+        <kind>data</kind>
+        <symbol>dream_pastry_investigation</symbol>
+        <lines>-</lines>
+        <reason>Quest from Story 4-13 references night_hag (CR 5) monsters for Old Bonegrinder coven (Morgantha, Bella, Offalia). Coven magic requires 3 hags within 30ft for shared spell slots (Lightning Bolt, Hold Person, Eyebite). Coven Spellcasting trait critical for this encounter.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/quest/quest-template.yaml</path>
+        <kind>template</kind>
+        <symbol>quest_template_v1_0_0</symbol>
+        <lines>-</lines>
+        <reason>Schema pattern from Story 4-11/4-12/4-13 showing YAML template structure. Monster template should follow similar comprehensive approach with detailed sections, DM guidance, and schema compliance.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <nodejs>
+        <package name="js-yaml" version="^4.1.0">YAML parsing and dumping for monster stat block files. Use for schema validation in integration tests.</package>
+        <package name="jest" version="^29.0.0">Testing framework for integration tests (tests/integration/monsters/monster-statblocks.test.js). Target: 50-75 tests, 100% pass rate.</package>
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>All 25 monsters MUST conform to templates/monster/monster-statblock-template.yaml schema (if template doesn't exist, create it based on tech spec example)</constraint>
+    <constraint>Monster files saved to game-data/monsters/{monster-id}.yaml with kebab-case filenames (e.g., vampire-spawn.yaml for monsterId: vampire_spawn)</constraint>
+    <constraint>All monster stat blocks MUST validate against Epic 3 CombatManager schema (combatStats section required with id, dexModifier, type fields)</constraint>
+    <constraint>Actions MUST use CombatManager-compatible format: name, type (melee_weapon_attack/ranged_weapon_attack/spell), attackBonus, damage (XdY+Z format), damageType</constraint>
+    <constraint>Challenge Ratings MUST match official D&D 5e sources: Monster Manual or Curse of Strahd. No invented CR values.</constraint>
+    <constraint>Experience Points MUST be calculated from CR using DMG tables: CR 1/4=50 XP, CR 1/2=100 XP, CR 1=200 XP, CR 2=450 XP, CR 3=700 XP, CR 5=1,800 XP, CR 7=2,900 XP, CR 10=5,900 XP, CR 11=7,200 XP</constraint>
+    <constraint>Special traits use specialTraits array format: [{name: "Trait Name", description: "Full description with mechanics including DC values, damage amounts, damage types"}]</constraint>
+    <constraint>Legendary actions for boss monsters (Baba Lysaga, Werewolf Alpha) specified in legendaryActions array with cost (1-3 actions) and description</constraint>
+    <constraint>Lair actions for Baba Lysaga specified in lairActions array triggered on initiative count 20</constraint>
+    <constraint>Coven Spellcasting for night hags includes shared spell slots and spell list when 3+ hags within 30 feet (Lightning Bolt 5d6 DC 12, Hold Person DC 13, Eyebite 1/day)</constraint>
+    <constraint>Shapeshifting monsters (werewolves, wereravens, night hags) specify forms in Shapechanger trait description (human/wolf/hybrid for werewolves, human/raven/hybrid for wereravens)</constraint>
+    <constraint>All monster methods return Result Object Pattern: {success: boolean, data?: any, error?: string}</constraint>
+    <constraint>Monster file sizes: Basic monsters (zombies, skeletons) 150-250 lines, Standard monsters (vampire spawn, werewolves) 250-350 lines, Complex monsters (night hags, druids with spellcasting) 300-400 lines, Boss monsters (Baba Lysaga, deva) 400-500 lines due to legendary/lair actions</constraint>
+    <constraint>Integration tests organized by monster category with 3-5 tests per category: Undead (8 tests), Lycanthropes (4 tests), Fiends (6 tests), Constructs/Plants (8 tests), Beasts (8 tests), Special (6 tests), plus 10-15 schema/integration tests</constraint>
+    <constraint>DM guidance sections in monster files optimized for LLM-DM consumption (20-40 lines) covering tactics, terrain usage, retreat conditions, and special ability triggers</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>CombatManager.loadMonster(monsterId)</name>
+      <kind>function</kind>
+      <signature>async loadMonster(monsterId: string): Promise&lt;{success: boolean, data?: MonsterStatBlock, error?: string}&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Loads monster stat block from game-data/monsters/{monsterId}.yaml. Validates schema and caches result. Returns Result Object with monster data including combatStats, abilities, hitPoints, armorClass, speed, actions, specialTraits. Use in integration tests to validate all 25 monster files load correctly.</description>
+    </interface>
+    <interface>
+      <name>CombatManager.processAttack(attacker, target)</name>
+      <kind>function</kind>
+      <signature>processAttack(attacker: CombatantData, target: CombatantData): {hit: boolean, damage: number, damageType: string, critical: boolean}</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Processes attack from attacker to target using action.attackBonus, damage (XdY+Z parsed), damageType. Monster actions must match this expected format. Validates damage roll parsing and attack resolution logic works with monster stat blocks.</description>
+    </interface>
+    <interface>
+      <name>CombatManager.calculateInitiative(combatant)</name>
+      <kind>function</kind>
+      <signature>calculateInitiative(combatant: CombatantData): number</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Calculates initiative using combatant.combatStats.dexModifier + 1d20 roll. All monster stat blocks must include combatStats section with dexModifier calculated from dexterity ability score ((DEX - 10) / 2 rounded down).</description>
+    </interface>
+    <interface>
+      <name>monster-statblock-template.yaml</name>
+      <kind>schema</kind>
+      <signature>YAML schema with fields: monsterId (string), name (string), type (string: undead/humanoid/fiend/construct/plant/beast/celestial), challengeRating (number: 0-30), experiencePoints (number), abilities (object: STR/DEX/CON/INT/WIS/CHA scores), hitPoints (object: max, hitDice {count, type, modifier}), armorClass (number: 8-22), speed (number: 0-120), combatStats (object: id, dexModifier, type), actions (array: {name, type, attackBonus, reach/range, damage, damageType, description}), specialTraits (array: {name, description}), legendaryActions (array optional: {name, cost, description}), lairActions (array optional: {initiativeCount, description}), metadata (object: created, source, pageReference)</signature>
+      <path>templates/monster/monster-statblock-template.yaml</path>
+      <description>All 25 monster stat blocks must conform to this schema. Integration tests validate schema compliance with js-yaml load and field checks. Template may need to be created based on tech spec example if it doesn't exist.</description>
+    </interface>
+    <interface>
+      <name>LocationLoader.loadLocation(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;{success: boolean, data?: LocationData, error?: string}&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <description>Loads location data including Events.md which may reference monster encounters. Monster IDs in Events.md (e.g., vampire_spawn in church-of-st-andral/Events.md) must resolve to created monster stat blocks. Validates cross-references between locations and monsters.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing framework: Jest (^29.0.0). Integration tests in tests/integration/monsters/monster-statblocks.test.js.
+      Organize tests by monster category with describe() blocks: Undead, Lycanthropes, Fiends, Constructs/Plants, Beasts, Special.
+      Test each monster loads without errors via CombatManager.loadMonster(). Validate required fields present in all 25 monsters.
+      Verify CR values, XP calculations, ability score ranges (1-30), AC ranges (8-22), speed ranges (0-120).
+      Test special traits structure (not mechanics execution, just data presence and format).
+      Schema validation with js-yaml for all YAML files. Target: 50-75 tests, 100% pass rate.
+      Pattern from Story 4-13: AC-based organization, js-yaml validation in every test, Result Object Pattern checks.
+      Test structure: beforeEach() setup CombatManager, describe() per category, test() for each validation criterion.
+    </standards>
+    <locations>
+      tests/integration/monsters/monster-statblocks.test.js (new file to create)
+      tests/integration/quests/ (existing - quest files reference monsters, validates integration)
+      game-data/monsters/ (monster stat block files to test)
+      templates/monster/monster-statblock-template.yaml (schema template for validation)
+    </locations>
+    <ideas>
+      <ac id="AC-1">
+        - Test: Load all 25 monsters individually via CombatManager.loadMonster()
+        - Test: Verify each monster has monsterId, name, type, challengeRating, experiencePoints fields
+        - Test: Validate file naming convention (kebab-case YAML matches monsterId with underscores)
+        - Test: Check total file count in game-data/monsters/ equals 25
+        - Test: Verify no duplicate monsterIds across all files
+        - Test: Validate total line count across all monsters in range 7,000-10,000 lines
+      </ac>
+      <ac id="AC-2">
+        - Test: All monsters have combatStats section with id, dexModifier, type fields
+        - Test: CombatManager.loadMonster() returns success: true for all 25 monsters
+        - Test: Spawn each monster in test combat encounter without errors
+        - Test: Initiative calculation using dexModifier (calculated from dexterity: (DEX-10)/2)
+        - Test: Actions format includes name, type, attackBonus, damage (XdY+Z), damageType
+        - Test: Damage roll parsing works correctly (e.g., "2d6+3" parsed as 2d6 plus 3)
+      </ac>
+      <ac id="AC-3">
+        - Test: Zombies and Strahd zombies have Undead Fortitude trait in specialTraits array
+        - Test: Werewolves and dire wolves have Pack Tactics trait
+        - Test: Vampire spawn has Regeneration trait (10 HP per turn)
+        - Test: Werewolves, wereravens, night hags have Shapechanger trait
+        - Test: Werewolves have damage immunity to non-magical/non-silvered in specialTraits or immunities field
+        - Test: Vampire spawn and wights have Sunlight Sensitivity trait
+        - Test: Vampire spawn and giant spiders have Spider Climb trait
+        - Test: Night hags have Coven Spellcasting trait with spell list
+      </ac>
+      <ac id="AC-4">
+        - Test: Load zombie (CR 1/4), verify Undead Fortitude trait, Slam attack 1d6+1 bludgeoning
+        - Test: Load strahd-zombie (CR 1), verify Loathsome Limbs trait, Lightning Absorption
+        - Test: Load skeleton (CR 1/4), verify vulnerability to bludgeoning, Shortbow attack
+        - Test: Load vampire-spawn (CR 5), verify Bite attack with max HP reduction, Spider Climb, Regeneration 10 HP/turn
+        - Test: Load ghoul (CR 1), verify Paralyzing Claw with DC 10 CON save
+        - Test: Load ghast (CR 2), verify Stench ability DC 10 CON save vs poisoned
+        - Test: Load wight (CR 3), verify Life Drain with max HP reduction, Sunlight Sensitivity
+        - Test: Load wraith (CR 5), verify Incorporeal Movement, Life Drain 4d8+3 necrotic
+      </ac>
+      <ac id="AC-5">
+        - Test: Load werewolf (CR 3), verify Shapechanger trait, Pack Tactics, immunity to non-magical/non-silvered
+        - Test: Werewolf Bite attack 1d8+2 piercing with DC 12 CON save vs lycanthropy curse
+        - Test: Load wereraven (CR 2), verify Shapechanger trait, Mimicry, Beak attack
+        - Test: Wereraven allies trait or notes indicate Keepers of the Feather alliance
+      </ac>
+      <ac id="AC-6">
+        - Test: Load night-hag (CR 5), verify Shapechanger, Magic Resistance, Coven Spellcasting
+        - Test: Night hag Coven Spellcasting includes Lightning Bolt, Hold Person, Eyebite spells
+        - Test: Load night-hag-boss/baba-lysaga (CR 11), verify legendary actions (3/round), lair actions
+        - Test: Baba Lysaga has enhanced stats (+2 all abilities), enhanced spellcasting over base night hag
+        - Test: Load nightmare (CR 3), verify Ethereal Stride, Confer Fire Resistance, Hooves attack 2d8+4 + 2d6 fire
+      </ac>
+      <ac id="AC-7">
+        - Test: Load animated-armor (CR 1), verify Antimagic Susceptibility, False Appearance traits
+        - Test: Load flesh-golem (CR 5), verify Berserk, Aversion of Fire, Lightning Absorption traits
+        - Test: Load needle-blight (CR 1/4), verify Claws attack 2d4+1 piercing
+        - Test: Load vine-blight (CR 1/2), verify Entangling Plants action, Constrict 2d6+1
+        - Test: Load tree-blight/wintersplinter (CR 7), verify False Appearance, Slam 3d6+6, Wither 4d6 necrotic
+      </ac>
+      <ac id="AC-8">
+        - Test: Load dire-wolf (CR 1), verify Pack Tactics, Keen Hearing/Smell, Bite with DC 13 STR save vs prone
+        - Test: Load giant-spider (CR 1), verify Spider Climb, Web Sense, Bite with poison DC 11 CON, Web attack
+        - Test: Load raven (CR 0), verify Mimicry, Beak attack 1 piercing
+        - Test: Load swarm-of-bats (CR 1/4), verify swarm mechanics, Echolocation, Bites 2d4 or 1d4 if half HP
+        - Test: Load swarm-of-rats (CR 1/4), verify swarm mechanics, Keen Smell, Bites 2d6 or 1d6 if half HP
+      </ac>
+      <ac id="AC-9">
+        - Test: Load mongrelfolk (CR 1/4), verify Multiattack (2 attacks), mimicry ability
+        - Test: Load scarecrow (CR 1), verify False Appearance, Terrifying Glare DC 11 WIS, Claw 1d6+1 + 1d6 poison
+        - Test: Load animated-hut/baba-lysagas-creeping-hut (CR 4), verify antimagic field, Stomp 2d10+4 bludgeoning, Gargantuan size
+        - Test: Load druid (CR 2), verify spellcasting with 8 spells (Druidcraft, Entangle, Barkskin, Cure Wounds, Thunderwave, etc.), Wild Shape 2/day
+      </ac>
+      <ac id="AC-10">
+        - Test: All 25 monsters validate against monster-statblock-template.yaml schema with js-yaml
+        - Test: Verify all 11 priority monster IDs from docs/story-4-14-monster-reference.md exist
+        - Test: Quest cross-references resolve (vampire_spawn in st-andrals-feast, blights in wizard-of-wines, etc.)
+        - Test: Challenge Ratings match official D&D 5e sources (Monster Manual, Curse of Strahd)
+        - Test: Experience Points calculated correctly from CR using DMG tables
+        - Test: Monster file sizes within expected ranges (150-500 lines based on complexity)
+        - Test: Count total tests, verify 50-75 range, confirm 100% pass rate
+      </ac>
+    </ideas>
+  </tests>
+</story-context>

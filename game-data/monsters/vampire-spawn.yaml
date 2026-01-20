@@ -1,0 +1,255 @@
+# Vampire Spawn - Undead Servant of Vampires
+# Source: D&D 5e Monster Manual p.298, Curse of Strahd
+# Created by Strahd to serve as elite undead warriors
+
+# === BASIC INFORMATION ===
+name: "Vampire Spawn"
+monsterId: "vampire_spawn"
+size: "Medium"
+type: "undead"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 5
+experiencePoints: 1800
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 15
+armorType: "natural armor"
+
+hitPoints:
+  max: 82
+  current: 82
+  hitDice: "11d8"
+  hitDiceBonus: 33  # +3 Con modifier * 11 HD = +33
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 16    # +3
+  dexterity: 16   # +3
+  constitution: 16  # +3
+  intelligence: 11  # +0
+  wisdom: 10     # +0
+  charisma: 12   # +1
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: 30  # Spider Climb allows wall/ceiling climbing
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows:
+  dexterity: 6  # +3 Dex + 3 prof
+  wisdom: 3     # +0 Wis + 3 prof
+
+skills:
+  perception: 3  # +0 Wis + 3 prof
+  stealth: 6     # +3 Dex + 3 prof
+
+damageVulnerabilities: []
+damageResistances: ["necrotic", "bludgeoning", "piercing", "slashing from nonmagical attacks"]
+damageImmunities: []
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 13  # 10 + Wis (0) + Prof (3)
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "plus any languages it knew in life"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "vampire_spawn_1"  # Will be set dynamically per instance
+  name: "Vampire Spawn"
+  dexModifier: 3
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Regeneration"
+    description: "The vampire spawn regains 10 hit points at the start of its turn if it has at least 1 hit point and isn't in sunlight or running water. If the vampire spawn takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire spawn's next turn."
+    mechanics:
+      type: "healing"
+      trigger: "start_of_turn"
+      healAmount: 10
+      conditions: ["has_at_least_1_hp", "not_in_sunlight", "not_in_running_water"]
+      disabledBy: ["radiant_damage", "holy_water_damage"]
+      disableDuration: "until_next_turn"
+
+  - name: "Spider Climb"
+    description: "The vampire spawn can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+    mechanics:
+      type: "movement"
+      effect: "climb_without_check"
+      surfaces: ["walls", "ceilings", "difficult_surfaces"]
+
+  - name: "Vampire Weaknesses"
+    description: "The vampire spawn has the following flaws:\n\n• Forbiddance: The vampire spawn can't enter a residence without an invitation from one of the occupants.\n\n• Harmed by Running Water: The vampire spawn takes 20 acid damage if it ends its turn in running water.\n\n• Stake to the Heart: If a piercing weapon made of wood is driven into the vampire spawn's heart while it is incapacitated in its resting place, the vampire spawn is paralyzed until the stake is removed.\n\n• Sunlight Hypersensitivity: The vampire spawn takes 20 radiant damage when it starts its turn in sunlight. While in sunlight, it has disadvantage on attack rolls and ability checks."
+    mechanics:
+      type: "weaknesses"
+      effects:
+        - weakness: "forbiddance"
+          description: "cannot_enter_residence_uninvited"
+        - weakness: "running_water"
+          damage: 20
+          damageType: "acid"
+          trigger: "end_turn_in_running_water"
+        - weakness: "stake_to_heart"
+          condition: "incapacitated_in_resting_place"
+          weapon: "wooden_piercing_weapon"
+          effect: "paralyzed_until_stake_removed"
+        - weakness: "sunlight"
+          damage: 20
+          damageType: "radiant"
+          trigger: "start_turn_in_sunlight"
+          disadvantage: ["attack_rolls", "ability_checks"]
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The vampire spawn makes two attacks, only one of which can be a bite attack."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      restriction: "only_one_bite"
+
+  - name: "Claws"
+    type: "melee_weapon_attack"
+    attackBonus: 6  # +3 Str + 3 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d4"
+      bonus: 3  # Str modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 8 (2d4 + 3) slashing damage. Instead of dealing damage, the vampire spawn can grapple the target (escape DC 13)."
+    additionalEffects:
+      - type: "grapple"
+        escapeDC: 13
+        condition: "instead_of_damage"
+
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 6  # +3 Str + 3 prof
+    reach: 5
+    targets: 1
+    condition: "target_must_be_willing_or_grappled_incapacitated_restrained"
+    damage:
+      dice: "1d6"
+      bonus: 3  # Str modifier
+      damageType: "piercing"
+    additionalDamage:
+      dice: "2d6"
+      bonus: 0
+      damageType: "necrotic"
+    description: "Melee Weapon Attack: +6 to hit, reach 5 ft., one willing creature, or a creature that is grappled by the vampire, incapacitated, or restrained. Hit: 6 (1d6 + 3) piercing damage plus 7 (2d6) necrotic damage. The target's hit point maximum is reduced by an amount equal to the necrotic damage taken, and the vampire spawn regains hit points equal to that amount. The reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0."
+    additionalEffects:
+      - type: "max_hp_reduction"
+        amount: "necrotic_damage_dealt"
+        duration: "until_long_rest"
+        deathCondition: "max_hp_reduced_to_zero"
+      - type: "heal_attacker"
+        amount: "necrotic_damage_dealt"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "vampire_fangs"
+      quantity: 2
+      dropChance: 80
+    - item: "tattered_noble_garments"
+      quantity: 1
+      dropChance: 60
+    - item: "gold_coins"
+      quantity: "3d6"
+      dropChance: 40
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Grapple with claws, then bite grappled targets for maximum damage and healing. Use Spider Climb to attack from walls/ceiling for advantage on surprised enemies. Focus on isolating single targets. Retreat to shadows if taking heavy damage to regenerate. Avoid sunlight at all costs."
+  intelligence: "cunning"
+  aggression: "high"
+  groupTactics: "coordinated"  # Work together to grapple and drain targets
+
+  preferredTargets:
+    - "isolated party members"
+    - "low AC targets"
+    - "unconscious or grappled enemies"
+
+  fleeThreshold: 20  # HP threshold - flee if below 20 HP and can't regenerate
+  fleeConditions: ["in_sunlight", "regeneration_disabled", "below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Castle Ravenloft, crypts, Barovia noble estates, Church of St. Andral (if bones stolen)"
+  organization: "Solitary, gang (2-5), or nest (6-12)"
+
+lore:
+  description: "Vampire spawn are created when a vampire drains a humanoid to death and chooses to transform them into undead servants. Unlike true vampires, spawn lack the full power of their master but retain terrible strength, speed, and regenerative abilities. They are eternally bound to serve the vampire who created them—in Barovia, this means serving Strahd von Zarovich. Their pale skin, red eyes, and elongated fangs mark them as creatures of the night."
+  weakness: "Sunlight is devastating (20 radiant damage per turn + disadvantage on everything). Running water deals acid damage. Wooden stakes can paralyze them. Radiant damage and holy water disable their regeneration. Must be invited to enter homes."
+  behavior: "Intelligent and tactical, unlike mindless undead. Will use grappling to immobilize prey before draining blood with bite attacks. Prefer ambush tactics, attacking from walls or ceilings. Retreat when outmatched to regenerate and try again. Absolutely obedient to their vampire master (Strahd). Hunt in coordinated packs."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 5
+  encounterSize: "1 vampire spawn per 2 PCs for medium, 1 per PC for hard, 2 per PC for deadly"
+  terrain: "Churches (if desecrated), crypts, Castle Ravenloft chambers, dark forests at night"
+  tactics: "St. Andral's Feast encounter: 6 vampire spawn attack church. Deploy on walls/ceiling for ambush. Focus fire on healers/clerics first. Grapple-bite combo on isolated targets. Use darkness and difficult terrain. Exploit regeneration by having spawn retreat when low on HP if party lacks radiant damage sources."
+
+# === VARIANTS ===
+variants:
+  - name: "Escher (Vampire Spawn Consort)"
+    changes:
+      charisma: 16  # +3 (more charismatic)
+      skills:
+        performance: 5
+        persuasion: 5
+      lore:
+        description: "Escher is one of Strahd's vampire spawn consorts, a beautiful and tragic figure bound to Castle Ravenloft. More refined than typical spawn."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual, Curse of Strahd"
+  pageReference: "MM p.298, CoS p.32 (St. Andral's Feast)"
+  official: true
+  srdContent: true
+
+  notes: "KEY MONSTER for St. Andral's Feast quest (Story 4-13). 6 vampire spawn attack the church if players fail to recover St. Andral's bones. CR 5 makes them very dangerous for level 3-4 parties. Regeneration makes prolonged combat deadly. Grapple-bite combo can quickly drain party members."
+
+  dmReminders:
+    - "Regeneration: 10 HP at start of turn (disabled by radiant damage or holy water)"
+    - "Sunlight: 20 radiant damage at start of turn + disadvantage on everything"
+    - "Multiattack: 2 attacks (only one can be bite)"
+    - "Bite requires target to be willing, grappled, incapacitated, or restrained"
+    - "Bite reduces MAX HP by necrotic damage amount (lasts until long rest)"
+    - "Vampire spawn heals equal to necrotic damage dealt with bite"
+    - "Spider Climb: Can attack from walls/ceiling"
+    - "St. Andral's Feast: 6 spawn is DEADLY for level 3-4 party"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

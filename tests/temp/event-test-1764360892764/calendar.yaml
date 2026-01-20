@@ -1,0 +1,40 @@
+advancement:
+  auto_advance_on_rest: true
+  auto_advance_on_travel: true
+  default_action_minutes: 10
+  mode: hybrid
+current:
+  date: 735-10-12
+  day_of_week: Starday
+  season: autumn
+  time: '14:00'
+events:
+  - eventId: evt_001
+    name: Morning event
+    priority: 5
+    status: triggered
+    triggerDate: '0735-10-13'
+    triggerTime: '06:00'
+  - eventId: evt_002
+    name: Evening event
+    priority: 3
+    status: pending
+    triggerDate: '0735-10-13'
+    triggerTime: '18:00'
+history: []
+metadata:
+  campaign_start_date: 735-10-12 14:00
+  real_world_session_count: 0
+  total_in_game_hours: 0
+moon:
+  current_phase: waxing_gibbous
+  days_until_full: 2
+  last_full_moon: null
+  next_full_moon: null
+npc_schedules: []
+weather:
+  current: foggy
+  last_updated: 735-10-12 14:00
+  temperature: 8
+  visibility: poor
+  wind: moderate

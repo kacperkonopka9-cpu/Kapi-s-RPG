@@ -1,0 +1,73 @@
+location_name: "Lake Zarovich"
+location_type: lake
+location_level: building
+region: vallaki_surroundings
+parent_location: null
+sub_locations: []
+danger_level: 2
+recommended_level: 3-5
+quest_critical: true
+
+description_short: "A mist-shrouded lake north of Vallaki, site of Arabelle's rescue from the mad fisherman Bluto Krogarov."
+
+connected_locations:
+  - name: "Vallaki"
+    direction: south
+    travel_time: "1 hour on foot"
+    terrain: road
+    notes: "Main route from Vallaki"
+
+  - name: "Tser Pool Encampment"
+    direction: southeast
+    travel_time: "2 hours on foot"
+    terrain: forest_path
+    notes: "Return Arabelle here after rescue"
+
+points_of_interest:
+  - "Fishing Dock (weathered pier)"
+  - "Bluto's Boat (100 feet offshore during rescue)"
+  - "Submerged Ruins (underwater treasure, requires diving)"
+  - "Deep Waters (lake monster legends)"
+
+major_npcs:
+  - bluto_krogarov
+  - arabelle_rescue
+
+primary_quests:
+  - "Rescue Arabelle from drowning"
+  - "Return Arabelle to Luvash at Tser Pool"
+
+secondary_quests:
+  - "Deal with Bluto Krogarov (subdue, kill, or release)"
+  - "Explore submerged ruins (optional treasure)"
+  - "Investigate lake monster rumors (optional)"
+
+environmental_hazards:
+  - "Deep water (drowning risk)"
+  - "Cold temperatures (hypothermia)"
+  - "Mist (reduced visibility)"
+  - "Lake monster (optional, CR 3-5)"
+
+treasure_value: low
+treasure_notes: "Submerged ruins (500 gp), Vistani reward for Arabelle rescue (300 gp + magic items). Primary value is quest completion, not loot."
+
+boss_encounters: []
+
+token_count: 575
+last_validated: null
+validation_status: pending
+
+lore_significance: |
+  Lake Zarovich is where Arabelle's rescue occurs—a critical moment in Vistani relations. Bluto's madness represents how Barovian desperation can turn ordinary people into monsters. The rescue (or failure) determines whether Vistani become allies or enemies.
+
+dm_notes: |
+  Lake Zarovich is designed as tense, low-combat encounter. Bluto is CR 0 but creates drama via hostage situation. Time pressure (Arabelle drowning) forces quick decisions. Success dramatically improves Vistani relations. Failure has lasting consequences.
+
+  Hostage Negotiation Tips:
+  - Bluto is insane but not inherently evil—driven mad by starvation and superstition
+  - DC 13 Persuasion is achievable but not trivial
+  - Combat causes him to panic and drop Arabelle (increases rescue difficulty)
+  - *Charm Person*, *Suggestion*, or other social magic trivializes encounter
+  - Physical rescue (swimming) creates athletic challenge
+
+  Optional Lake Monster: Include only if party needs combat. Monster adds danger to otherwise peaceful location but risks overshadowing Arabelle rescue drama.

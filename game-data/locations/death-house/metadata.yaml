@@ -1,0 +1,67 @@
+location_name: "Death House"
+location_type: "building"
+region: "Barovia Valley - Village of Barovia"
+parent_location: null
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village of Barovia"
+    direction: "outside"
+    travel_time: "immediate"
+    description: "House is located within the village proper, at the edge near the woods"
+danger_level: 3
+recommended_level: "1-3"
+size: "Medium (four-story townhouse with basement)"
+description_token_count: 850
+quest_critical: true
+quests:
+  - "Free the Durst Children"
+  - "Escape Death House"
+  - "Discover the Cult's Secrets"
+features:
+  - "Haunted mansion"
+  - "Four floors plus basement dungeon"
+  - "Timed escape sequence"
+  - "Boss encounter (Shambling Mound CR 5)"
+  - "Tragic ghost children quest givers"
+  - "Secret passages"
+npcs:
+  - "Rose Durst (ghost)"
+  - "Thorn Durst (ghost)"
+  - "Gustav and Elisabeth Durst (hostile ghosts)"
+  - "Shambling Mound (boss)"
+  - "Animated Armor (4)"
+  - "Ghouls (5)"
+  - "Specter"
+  - "Shadows (3)"
+enemies:
+  - name: "Shambling Mound"
+    type: "plant"
+    cr: 5
+    count: 1
+  - name: "Animated Armor"
+    type: "construct"
+    cr: 1
+    count: 4
+  - name: "Ghouls"
+    type: "undead"
+    cr: 1
+    count: 5
+  - name: "Specter"
+    type: "undead"
+    cr: 1
+    count: 1
+  - name: "Shadows"
+    type: "undead"
+    cr: 0.5
+    count: 3
+treasure:
+  - "Jewelry box (400 gp)"
+  - "Longsword +1"
+  - "Family heirloom necklace (750 gp, hidden DC 18)"
+  - "Deed to house and windmill"
+  - "Letter from Strahd"
+  - "Cult ritual book"
+  - "Various coinage (150 gp total)"
+last_validated: "2025-11-12"
+notes: "Introductory dungeon for Curse of Strahd campaign. Designed for level 1-3 characters. Features timed escape sequence after boss defeat. Quest-critical for establishing Barovia's horror atmosphere. Connects to Old Bonegrinder via deed document. Rose and Thorn are tragic figures meant to elicit sympathy before revealing the house's dangers. Boss encounter (CR 5) may be difficult for low-level parties—escape is a valid option if outmatched."

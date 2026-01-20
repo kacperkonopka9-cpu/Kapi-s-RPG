@@ -1,0 +1,109 @@
+# Location Metadata - Castle Ravenloft: Chapel
+
+location_name: "Castle Ravenloft - Chapel"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Medium"
+danger_level: 5
+recommended_level: "8-10"
+
+# Location Hierarchy
+parent_location: "castle-ravenloft"
+sub_locations: []  # Chapel is a leaf node
+location_level: "room"
+
+# Connected Locations
+connected_locations:
+  - name: "Great Entry Hall"
+    direction: "West through south corridor (K17)"
+    travel_time: "Immediate"
+    description: "Corridor with empty statue niches"
+  - name: "Upper Levels"
+    direction: "North through north corridor (K16)"
+    travel_time: "1 minute"
+    description: "Passage to castle's upper areas"
+  - name: "Catacombs (Secret)"
+    direction: "Secret passage in south corridor"
+    travel_time: "5 minutes (descending stairs)"
+    description: "Hidden stairway bypasses normal route, first 3 steps trapped"
+
+# Room Coverage
+rooms_included:
+  - "K15: Chapel (Main Chamber)"
+  - "K16: North Chapel Access"
+  - "K17: South Chapel Access"
+room_count: 3
+
+# Discovery and Visit Tracking
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+
+# Content Metadata
+description_token_count: 1650
+npc_count: 4  # Wraith Guardians (2), Strahd (appears 20%), Spectral Guardian (if Holy Symbol here)
+item_count: 8  # Candle holders, broken symbols, altar cloth, Sergei's dagger, Holy Symbol (if here), secret passage
+event_count: 11
+
+# Special Properties
+desecrated_ground: true
+divine_magic_suppressed: true  # DC 15-17 spellcasting check for divine spells
+spiritually_oppressive: true
+site_of_strahnds_transformation: true  # Where he murdered Sergei, sealed his curse
+potential_legendary_artifact_location: true  # Holy Symbol may be here
+consecration_possible: true  # Can be reconsecrated with ritual
+
+# Combat Encounters
+typical_encounters:
+  - name: "Wraith Guardians (if tombs disturbed)"
+    cr: 5
+    count: 2
+    xp: 3600
+  - name: "Vampire Spawn Reinforcements"
+    cr: 5
+    count: "1d3"
+    xp: "1800-5400"
+  - name: "Strahd von Zarovich (if provoked)"
+    cr: 15
+    count: 1
+    xp: 13000
+total_encounter_xp: "5400-22000 (depending on encounter triggers)"
+
+# Environmental Hazards
+hazards:
+  - "Divine magic suppression (DC 15-17 spellcasting check)"
+  - "Oppressive spiritual weight (DC 12 Wisdom save or disadvantage)"
+  - "Restless whispers (unsettling atmosphere)"
+  - "Secret passage trap (DC 13 Dex save, 2d10 piercing)"
+  - "Strahd's unstable mood (provocation triggers immediate combat)"
+
+# Divine Magic Effects
+divine_suppression:
+  base_dc: 15
+  night_dc: 17
+  consecrated_dc: null  # Suppression lifted if consecrated
+  turn_undead_penalty: normal  # Becomes advantage if consecrated
+
+# Quest Relevance
+legendary_artifacts:
+  holy_symbol_location: conditional  # If Tarokka places it here
+  tome_location: conditional  # Alternate location if Tarokka places it here
+  sergeis_dagger_present: true  # Always here
+
+consecration_quest:
+  available: true
+  difficulty: hard
+  requirements: "10 vials holy water, 1 lb silver dust, Morninglord prayers, level 9+ cleric/paladin, 8 hours"
+  dc: 18
+  reward: "Divine blessing, suppression lifted, undead disadvantage"
+  consequence_on_failure: "Strahd appears enraged, immediate combat"
+
+# Historical Significance
+lore_importance: highest
+backstory_location: true  # Site of Sergei's murder
+curse_origin_point: true  # Where Strahd's transformation was sealed
+family_tragedy_site: true  # Parents entombed here, brother murdered here
+
+# Validation
+last_validated: null
+validation_status: "pending"

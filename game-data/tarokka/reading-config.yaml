@@ -1,0 +1,479 @@
+# Tarokka Reading Configuration - Card Mappings for Curse of Strahd
+# Maps Tarokka cards to artifact locations, allies, and enemy locations
+# Based on official Curse of Strahd Tarokka reading tables (CoS p.11-16)
+
+templateVersion: "1.0.0"
+configType: "tarokka-reading"
+compatibleWith: "Epic 4 Tarokka Reading System (Story 4-16)"
+description: "Configuration for Madam Eva's Tarokka reading: maps cards to artifact locations, destined allies, and Strahd's final battle location"
+
+# === ARTIFACT READINGS ===
+# Three artifacts hidden in Barovia, locations determined by Tarokka cards
+# Each artifact has 10 possible locations mapped to specific cards
+
+artifactReadings:
+  # Sunsword - Legendary radiant longsword
+  sunsword:
+    name: "The Sunsword"
+    description: "A legendary blade of pure sunlight, bane of vampires"
+    possibleLocations:
+      - cardId: "high_deck_master"
+        locationId: "castle-ravenloft-treasury"
+        locationName: "Castle Ravenloft - Treasury (K41)"
+        description: "The Master indicates the Sunsword lies in the treasury of Castle Ravenloft, guarded by Strahd's wealth"
+        dmGuidance: "Heavily trapped and guarded. Strahd may be present."
+
+      - cardId: "high_deck_beast"
+        locationId: "werewolf-den"
+        locationName: "Werewolf Den"
+        description: "The Beast reveals the Sunsword in the den of werewolves, claimed by the pack leader"
+        dmGuidance: "Kiril Stoyanovich, pack leader, wields it unknowingly"
+
+      - cardId: "swords_3"
+        locationId: "amber-temple-catacombs"
+        locationName: "Amber Temple - Catacombs (X5)"
+        description: "Three of Swords points to the Amber Temple catacombs, where it rests among ancient dead"
+        dmGuidance: "Frozen corpses and deadly cold. Arcanaloth may guard it."
+
+      - cardId: "swords_7"
+        locationId: "argynvostholt-beacon"
+        locationName: "Argynvostholt - Beacon Tower (Q53)"
+        description: "Seven of Swords indicates cunning placement at Argynvostholt's beacon, waiting to be reclaimed"
+        dmGuidance: "Vladimir Horngaard or phantom warriors may recognize its significance"
+
+      - cardId: "coins_5"
+        locationId: "wizard-of-wines-cellar"
+        locationName: "Wizard of Wines Winery - Wine Cellar"
+        description: "Five of Coins shows poverty turned to treasure - the Sunsword hidden in the winery cellar"
+        dmGuidance: "Davian Martikov may know of its presence"
+
+      - cardId: "glyphs_4"
+        locationId: "van-richtens-tower"
+        locationName: "Van Richten's Tower"
+        description: "Four of Glyphs indicates magical wards protecting the Sunsword in Van Richten's tower"
+        dmGuidance: "Tower's magical traps protect it. Van Richten unaware of its presence."
+
+      - cardId: "stars_1"
+        locationId: "tser-pool-encampment"
+        locationName: "Tser Pool Encampment - Vistani Treasure"
+        description: "One of Stars brings hope - the Sunsword hidden among Vistani treasures at Tser Pool"
+        dmGuidance: "Vistani unknowingly possess it. Madam Eva may sense its presence."
+
+      - cardId: "stars_5"
+        locationId: "yester-hill-shrine"
+        locationName: "Yester Hill - Shrine to Strahd"
+        description: "Five of Stars, obscured - the Sunsword lies at Yester Hill, mocking the druids' dark shrine"
+        dmGuidance: "Druids of Strahd unaware. Gulthias Tree nearby."
+
+      - cardId: "high_deck_mists"
+        locationId: "berez-ruins"
+        locationName: "Berez - Ruins (U5, Baba Lysaga's Hut)"
+        description: "The Mists conceal the Sunsword in the swamp ruins of Berez, near Baba Lysaga's hut"
+        dmGuidance: "Baba Lysaga hoards it. Extremely dangerous encounter."
+
+      - cardId: "high_deck_donjon"
+        locationId: "castle-ravenloft-dungeon"
+        locationName: "Castle Ravenloft - Dungeon (K74)"
+        description: "The Donjon imprisons even light - the Sunsword trapped in Castle Ravenloft's dungeon"
+        dmGuidance: "Among prisoners and torture implements. Heavily guarded."
+
+  # Holy Symbol of Ravenkind - Legendary sentient amulet
+  holySymbol:
+    name: "The Holy Symbol of Ravenkind"
+    description: "A legendary amulet sacred to good, able to hold vampires at bay"
+    possibleLocations:
+      - cardId: "high_deck_innocent"
+        locationId: "krezk-pool"
+        locationName: "Krezk - Blessed Pool of St. Markovia"
+        description: "The Innocent reveals purity - the Holy Symbol rests in the blessed pool at Krezk"
+        dmGuidance: "At bottom of the pool. Ilya Krezkov's corpse nearby."
+
+      - cardId: "high_deck_seer"
+        locationId: "tser-pool-shrine"
+        locationName: "Tser Pool Encampment - Vistani Shrine"
+        description: "The Seer knows all - the Holy Symbol hidden in a Vistani shrine at Tser Pool"
+        dmGuidance: "Madam Eva may guide players to it if she trusts them"
+
+      - cardId: "high_deck_raven"
+        locationId: "wizard-of-wines-chapel"
+        locationName: "Wizard of Wines Winery - Private Chapel"
+        description: "The Raven guards sacred things - the Holy Symbol in the Martikov family chapel"
+        dmGuidance: "Wereraven family heirloom. Davian Martikov knows its location."
+
+      - cardId: "swords_4"
+        locationId: "argynvostholt-chapel"
+        locationName: "Argynvostholt - Chapel (Q15)"
+        description: "Four of Swords indicates rest - the Holy Symbol in Argynvostholt's ruined chapel"
+        dmGuidance: "Among the tombs of the Order of the Silver Dragon"
+
+      - cardId: "coins_6"
+        locationId: "church-of-st-andral-catacombs"
+        locationName: "Vallaki - Church of St. Andral, Catacombs"
+        description: "Six of Coins shows charity - the Holy Symbol in the church catacombs beneath Vallaki"
+        dmGuidance: "Father Lucian Petrovich may know of it. Vampire attack imminent if bones stolen."
+
+      - cardId: "glyphs_1"
+        locationId: "abbey-of-st-markovia-shrine"
+        locationName: "Krezk - Abbey of St. Markovia, Shrine (S17)"
+        description: "One of Glyphs shows magic's beginning - the Holy Symbol in the Abbey's shrine"
+        dmGuidance: "Abbot may possess it. He is a deva, but mad."
+
+      - cardId: "glyphs_6"
+        locationId: "van-richtens-tower-altar"
+        locationName: "Van Richten's Tower - Hidden Altar"
+        description: "Six of Glyphs teaches - the Holy Symbol on Van Richten's secret altar"
+        dmGuidance: "Van Richten seeks it to combat Strahd"
+
+      - cardId: "stars_3"
+        locationId: "village-of-barovia-cemetery"
+        locationName: "Village of Barovia - Cemetery"
+        description: "Three of Stars celebrates the faithful - the Holy Symbol buried in Barovia's cemetery"
+        dmGuidance: "Among the graves. Father Donavich may sense its presence."
+
+      - cardId: "high_deck_executioner"
+        locationId: "castle-ravenloft-chapel"
+        locationName: "Castle Ravenloft - Chapel (K15)"
+        description: "The Executioner brings endings - the Holy Symbol in Strahd's desecrated chapel, a mockery"
+        dmGuidance: "Strahd keeps it as a trophy. Heavily guarded."
+
+      - cardId: "high_deck_ghost"
+        locationId: "amber-temple-shrine"
+        locationName: "Amber Temple - Shrine to Light (X33)"
+        description: "The Ghost haunts sacred places - the Holy Symbol in the Amber Temple's shrine"
+        dmGuidance: "Among vestiges of darkness. Ironic placement."
+
+  # Tome of Strahd - Legendary lore book
+  tome:
+    name: "The Tome of Strahd"
+    description: "Strahd's own memoir, revealing his tragic history and weaknesses"
+    possibleLocations:
+      - cardId: "high_deck_darklord"
+        locationId: "castle-ravenloft-study"
+        locationName: "Castle Ravenloft - Strahd's Study (K37)"
+        description: "The Darklord guards his secrets - the Tome rests in Strahd's own study"
+        dmGuidance: "Strahd's personal sanctum. He may be present. Escher often here."
+
+      - cardId: "high_deck_marionette"
+        locationId: "death-house-library"
+        locationName: "Death House - Library (2F)"
+        description: "The Marionette dances - the Tome hidden in Death House's cursed library"
+        dmGuidance: "Among books animated by dark magic. Haunted location."
+
+      - cardId: "high_deck_tempter"
+        locationId: "amber-temple-library"
+        locationName: "Amber Temple - Library of Forbidden Lore (X30)"
+        description: "The Tempter offers knowledge - the Tome in the Amber Temple's library of dark secrets"
+        dmGuidance: "Among the vestiges. Arcanaloth guards the library."
+
+      - cardId: "swords_9"
+        locationId: "van-richtens-tower-study"
+        locationName: "Van Richten's Tower - Study"
+        description: "Nine of Swords brings nightmares - the Tome in Van Richten's study, his research material"
+        dmGuidance: "Van Richten possesses it, studying Strahd's history"
+
+      - cardId: "coins_3"
+        locationId: "wizard-of-wines-office"
+        locationName: "Wizard of Wines Winery - Office"
+        description: "Three of Coins shows collaboration - the Tome in the winery office, unexpected placement"
+        dmGuidance: "Davian Martikov found it, doesn't understand its significance"
+
+      - cardId: "coins_9"
+        locationId: "argynvostholt-archives"
+        locationName: "Argynvostholt - Order Archives (Q40)"
+        description: "Nine of Coins indicates legacy - the Tome in the Order of the Silver Dragon's archives"
+        dmGuidance: "Vladimir Horngaard may know of it. Phantom warriors present."
+
+      - cardId: "glyphs_3"
+        locationId: "abbey-of-st-markovia-scriptorium"
+        locationName: "Krezk - Abbey of St. Markovia, Scriptorium (S13)"
+        description: "Three of Glyphs shows collaboration in knowledge - the Tome in the Abbey scriptorium"
+        dmGuidance: "Abbot possesses it. He may trade for it."
+
+      - cardId: "glyphs_9"
+        locationId: "vallaki-burgomaster-mansion-library"
+        locationName: "Vallaki - Burgomaster's Mansion, Library"
+        description: "Nine of Glyphs shows mastery - the Tome in Baron Vallakovich's personal library"
+        dmGuidance: "Baron unaware of its true significance. Lady Wachter seeks it."
+
+      - cardId: "stars_6"
+        locationId: "krezk-cottage"
+        locationName: "Krezk - Burgomaster's Cottage"
+        description: "Six of Stars looks to the past - the Tome in the Burgomaster's cottage at Krezk"
+        dmGuidance: "Dmitri Krezkov found it, hidden away"
+
+      - cardId: "stars_8"
+        locationId: "tser-pool-wagon"
+        locationName: "Tser Pool Encampment - Vistani Wagon"
+        description: "Eight of Stars shows journey - the Tome in a Vistani wagon at Tser Pool"
+        dmGuidance: "Traveling Vistani acquired it unknowingly"
+
+# === ALLY READING ===
+# The destined ally who will aid the party against Strahd
+# 14 possible allies mapped to specific cards
+
+allyReading:
+  name: "The Destined Ally"
+  description: "One who will stand with you against the darkness"
+  possibleAllies:
+    - cardId: "high_deck_innocent"
+      allyId: "ireena-kolyana"
+      allyName: "Ireena Kolyana"
+      description: "The Innocent - Ireena Kolyana, Tatyana reincarnated, will aid you with her purity and hope"
+      mechanicalBenefit: "Ireena's presence angers Strahd (-2 to Strahd's attack rolls when she's threatened). She can rally allies (advantage on saves vs fear when she's present)."
+      dmGuidance: "Ireena as ally is difficult - she's Strahd's obsession. Protect her at all costs. She gains levels as cleric or paladin."
+      whenTheyAppear: "Automatically joins from Village of Barovia (Story 4-1)"
+
+    - cardId: "high_deck_raven"
+      allyId: "davian-martikov"
+      allyName: "Davian Martikov (Wereraven)"
+      description: "The Raven - Davian Martikov, leader of the Keepers of the Feather, wise and resourceful"
+      mechanicalBenefit: "Davian can summon swarm of ravens (2d4 ravens as allies). He has wereraven form for scouting. Provides insider knowledge of Barovia."
+      dmGuidance: "Davian brings his wereraven family. Use Wereraven stat block. He knows many of Barovia's secrets."
+      whenTheyAppear: "Wizard of Wines Winery (Story 4-6)"
+
+    - cardId: "high_deck_ghost"
+      allyId: "sir-godfrey-gwilym"
+      allyName: "Sir Godfrey Gwilym (Phantom Warrior)"
+      description: "The Ghost - Sir Godfrey, phantom warrior of the Order of the Silver Dragon, honor-bound"
+      mechanicalBenefit: "Sir Godfrey is immune to non-magical weapons, can turn incorporeal. Provides +2 AC to one ally per round (shield master)."
+      dmGuidance: "Sir Godfrey leaves Argynvostholt to aid the party. Use Phantom Warrior stat block. He seeks to redeem his order."
+      whenTheyAppear: "Argynvostholt (Story 4-5)"
+
+    - cardId: "high_deck_seer"
+      allyId: "madam-eva"
+      allyName: "Madam Eva (Vistani Seer)"
+      description: "The Seer - Madam Eva herself, if she deems you worthy"
+      mechanicalBenefit: "Madam Eva can cast Scrying (at will), Divination (1/day), Legend Lore (1/day). She provides crucial information and warnings."
+      dmGuidance: "Madam Eva rarely leaves Tser Pool. She aids indirectly through visions and guidance. She cannot directly confront Strahd (Vistani neutrality)."
+      whenTheyAppear: "Tser Pool Encampment (Story 4-5)"
+
+    - cardId: "high_deck_horseman"
+      allyId: "ezmerelda-davenir"
+      allyName: "Ezmerelda d'Avenir (Vampire Hunter)"
+      description: "The Horseman pursues evil - Ezmerelda, Van Richten's protégé, relentless vampire hunter"
+      mechanicalBenefit: "Ezmerelda is a skilled fighter (CR 8). She has vampire hunting tools (holy water, wooden stakes, silvered weapons). Provides tactical combat advice."
+      dmGuidance: "Ezmerelda seeks Van Richten and vengeance on Strahd. She lost a leg to a zombie. Brave and resourceful."
+      whenTheyAppear: "Van Richten's Tower or random encounter (Story 4-6)"
+
+    - cardId: "high_deck_broken_one"
+      allyId: "ismark-kolyanovich"
+      allyName: "Ismark Kolyanovich (Burgomaster's Son)"
+      description: "The Broken One - Ismark, haunted by loss but determined to protect his sister"
+      mechanicalBenefit: "Ismark is a skilled warrior (Fighter 4). He fights fiercely to protect Ireena. Provides knowledge of Village of Barovia."
+      dmGuidance: "Ismark joins if party helps protect Ireena. He's dependable but scarred by trauma. Can develop into strong fighter."
+      whenTheyAppear: "Village of Barovia (Story 4-1)"
+
+    - cardId: "high_deck_beast"
+      allyId: "emil-toranescu"
+      allyName: "Emil Toranescu (Imprisoned Werewolf)"
+      description: "The Beast controlled - Emil, werewolf seeking redemption, if freed from Castle Ravenloft dungeon"
+      mechanicalBenefit: "Emil is a werewolf (CR 3) with pack tactics. He can track by scent. Resistant to non-silvered weapons."
+      dmGuidance: "Emil is imprisoned in Castle Ravenloft (K75a). Party must free him. He opposes Kiril's evil pack."
+      whenTheyAppear: "Castle Ravenloft Dungeon (K75a), Story 4-2"
+
+    - cardId: "high_deck_donjon"
+      allyId: "pidlwick-ii"
+      allyName: "Pidlwick II (Animated Doll)"
+      description: "The Donjon - Pidlwick II, tragic animated doll seeking purpose"
+      mechanicalBenefit: "Pidlwick II is Small, hard to detect (advantage on Stealth). He's immune to charm and fear. Can spy on enemies."
+      dmGuidance: "Pidlwick II is in Castle Ravenloft (K59). Lonely and seeking friendship. He may betray if players reject him."
+      whenTheyAppear: "Castle Ravenloft (K59), Story 4-2"
+
+    - cardId: "swords_1"
+      allyId: "rudolph-van-richten"
+      allyName: "Rudolph van Richten (Vampire Hunter)"
+      description: "One of Swords - Van Richten, legendary vampire hunter in disguise as Rictavio"
+      mechanicalBenefit: "Van Richten is the most powerful ally (CR 8 equivalent). Expert vampire hunter with decades of experience. Provides tactical guidance and resources."
+      dmGuidance: "Van Richten hides as Rictavio in Vallaki. Reveal his identity dramatically. He has a saber-toothed tiger. Cursed by Vistani."
+      whenTheyAppear: "Vallaki (Rictavio at Blue Water Inn) or Van Richten's Tower, Story 4-3"
+
+    - cardId: "coins_4"
+      allyId: "father-lucian-petrovich"
+      allyName: "Father Lucian Petrovich (Priest of St. Andral)"
+      description: "Four of Coins guards faith - Father Lucian, devoted priest"
+      mechanicalBenefit: "Father Lucian is a Priest (CR 2). He can cast healing spells and Turn Undead. Provides sanctuary at Church of St. Andral."
+      dmGuidance: "Father Lucian is in Vallaki. He's unaware of vampire plot. Noble and brave despite fear."
+      whenTheyAppear: "Vallaki - Church of St. Andral (Story 4-3)"
+
+    - cardId: "glyphs_2"
+      allyId: "kasimir-velikov"
+      allyName: "Kasimir Velikov (Dusk Elf Mage)"
+      description: "Two of Glyphs balances - Kasimir, dusk elf seeking to resurrect his sister"
+      mechanicalBenefit: "Kasimir is a Mage (CR 6). He knows the way to the Amber Temple. Powerful arcane spellcaster."
+      dmGuidance: "Kasimir is at the Vistani camp outside Vallaki. He seeks the Amber Temple to resurrect Patrina (dark vestige). Conflicted ally."
+      whenTheyAppear: "Vistani Camp outside Vallaki (Story 4-3)"
+
+    - cardId: "glyphs_10"
+      allyId: "mad-mage-mordenkainen"
+      allyName: "Mordenkainen (Mad Mage)"
+      description: "Ten of Glyphs shows legacy broken - Mordenkainen, once mighty archmage, now broken and mad"
+      mechanicalBenefit: "Mordenkainen is an Archmage (CR 12) but currently weakened and mad. If cured, incredibly powerful ally. Can cast 9th-level spells."
+      dmGuidance: "Mordenkainen is at Lake Baratok (X3). Strahd broke his mind. Cure his madness (Greater Restoration) to unlock his power. Extremely powerful but risky ally."
+      whenTheyAppear: "Lake Zarovich - Mordenkainen's Mansion (Story 4-5)"
+
+    - cardId: "stars_4"
+      allyId: "clovin-belview"
+      allyName: "Clovin Belview (Mongrelfolk)"
+      description: "Four of Stars seeks stability - Clovin, kind mongrelfolk from the Abbey"
+      mechanicalBenefit: "Clovin can mimic voices and appearances (Disguise Self at will). He's loyal and brave despite his grotesque form. Can infiltrate."
+      dmGuidance: "Clovin is at Abbey of St. Markovia (S19). He's kind-hearted unlike other mongrelfolk. Wants to help good people."
+      whenTheyAppear: "Abbey of St. Markovia (Story 4-4)"
+
+    - cardId: "stars_7"
+      allyId: "arrigal"
+      allyName: "Arrigal (Vistani Spy - Double Agent)"
+      description: "Seven of Stars chases dreams - Arrigal, Vistani spy who secretly aids against Strahd"
+      mechanicalBenefit: "Arrigal is a Spy (CR 1) with extensive Vistani network knowledge. He can provide intelligence on Strahd's movements. Can smuggle items/people."
+      dmGuidance: "Arrigal appears loyal to Strahd but secretly aids the party. He's Luvash's brother. Risky but valuable ally. May be double-crossing."
+      whenTheyAppear: "Vallaki or Tser Pool (Vistani camps), Story 4-3 or 4-5"
+
+# === ENEMY READING ===
+# Strahd's location for the final battle within Castle Ravenloft
+# 13 possible locations mapped to specific cards
+
+enemyReading:
+  name: "The Enemy's Lair"
+  description: "Where the final confrontation with Strahd will take place"
+  possibleLocations:
+    - cardId: "high_deck_master"
+      locationId: "castle-ravenloft-throne-room"
+      locationName: "Castle Ravenloft - Throne Room (K25)"
+      description: "The Master on his throne - Strahd awaits in his throne room, seat of power"
+      tacticalNotes: "Strahd has command of entire castle. Alarm can summon all minions. Throne room has grand balcony. High ground advantage."
+      lairActions: "Initiative 20: Strahd can summon wraiths, cause walls to weep blood, create magical darkness"
+      dmGuidance: "Classic confrontation. Strahd at his most regal and terrifying. Multiple entry points. Prepare throne room map."
+
+    - cardId: "high_deck_darklord"
+      locationId: "castle-ravenloft-great-hall"
+      locationName: "Castle Ravenloft - Great Hall (K10)"
+      description: "The Darklord's domain - the Great Hall where Strahd feasts and entertains"
+      tacticalNotes: "Large open space. Organ that can summon creatures. Multiple exits. Strahd can use environment (chandeliers, tables) tactically."
+      lairActions: "Initiative 20: Organ plays haunting music (fear effect), shadows animate, mists fill the hall"
+      dmGuidance: "Grand battlefield. Organ can be used tactically. Multiple minions can join. Very cinematic."
+
+    - cardId: "high_deck_tempter"
+      locationId: "castle-ravenloft-study"
+      locationName: "Castle Ravenloft - Study (K37)"
+      description: "The Tempter's sanctum - Strahd's personal study, surrounded by his secrets"
+      tacticalNotes: "Confined space favors Strahd's mobility (Misty Escape, Spider Climb). Many books and scrolls to use. Secret passages for escape."
+      lairActions: "Initiative 20: Books fly and attack, shadows come alive, scrying pool shows player fears"
+      dmGuidance: "Intimate confrontation. Strahd at his most vulnerable (his private space). Escher may be present."
+
+    - cardId: "high_deck_broken_one"
+      locationId: "castle-ravenloft-crypt"
+      locationName: "Castle Ravenloft - Crypt (K84)"
+      description: "The Broken One rests - the castle crypt where Strahd's family sleeps their final rest"
+      tacticalNotes: "Tight spaces, many tombs. Undead minions easily summoned. Strahd can hide in coffins. Consecration might affect him."
+      lairActions: "Initiative 20: Dead rise from tombs, crypts open releasing mists, ground becomes difficult terrain (corpse hands grab)"
+      dmGuidance: "Strahd among his ancestors. He may speak to dead family. Zombie/skeleton reinforcements. Claustrophobic."
+
+    - cardId: "high_deck_mists"
+      locationId: "castle-ravenloft-tower-of-strahd"
+      locationName: "Castle Ravenloft - Tower of Strahd (K20)"
+      description: "The Mists surround - the peak of Strahd's tower, above the clouds"
+      tacticalNotes: "Vertical battlefield. Strong winds. Balconies on multiple levels. Strahd can fly, players cannot (initially). Falling hazard."
+      lairActions: "Initiative 20: Mists obscure vision, winds push characters, lightning strikes (10d10 damage)"
+      dmGuidance: "Dramatic sky battle. Weather effects. Strahd has massive advantage (flight). Prepare for falling mechanics."
+
+    - cardId: "high_deck_executioner"
+      locationId: "castle-ravenloft-dungeon"
+      locationName: "Castle Ravenloft - Dungeon (K74, K75)"
+      description: "The Executioner's domain - the torture dungeons beneath the castle"
+      tacticalNotes: "Cramped, dark, many torture devices to use. Prisoners may help or hinder. Strahd can use guillotines, iron maidens tactically."
+      lairActions: "Initiative 20: Chains animate and grab, torture devices activate, blood pools become difficult terrain"
+      dmGuidance: "Dark and brutal. Strahd at his most sadistic. Free prisoners for allies. Claustrophobic horror."
+
+    - cardId: "high_deck_ghost"
+      locationId: "castle-ravenloft-chapel"
+      locationName: "Castle Ravenloft - Chapel (K15)"
+      description: "The Ghost haunts holy ground - the desecrated chapel, mockery of faith"
+      tacticalNotes: "Consecrated ground (if re-sanctified, Strahd takes damage). Ghosts and specters can be summoned. Strahd must tread carefully if blessed."
+      lairActions: "Initiative 20: Unholy chanting (save vs fear), evil altar pulses (necrotic damage), specters manifest"
+      dmGuidance: "If party re-consecrates chapel (very difficult), Strahd is weakened here. High risk/reward location. Symbolic battle."
+
+    - cardId: "swords_5"
+      locationId: "castle-ravenloft-audience-hall"
+      locationName: "Castle Ravenloft - Audience Hall (K25)"
+      description: "Five of Swords shows defeat - the audience hall where many have fallen before Strahd"
+      tacticalNotes: "Large formal space. Strahd's guards present (vampire spawn, skeleton warriors). Strahd judges from his throne."
+      lairActions: "Initiative 20: Skeletal guards rise, floor cracks open (fall into lower level), darkness descends"
+      dmGuidance: "Formal confrontation. Strahd passes judgment. Many minions. Large battlefield for tactical combat."
+
+    - cardId: "coins_8"
+      locationId: "castle-ravenloft-larder"
+      locationName: "Castle Ravenloft - Larder of Ill Omen (K33)"
+      description: "Eight of Coins shows dedication - the larder where Strahd's 'food' is stored"
+      tacticalNotes: "Vampire spawn guarding prisoners. Tight space. Prisoners may be rescued for allies. Strahd feeds during battle (regains HP)."
+      lairActions: "Initiative 20: Vampire spawn emerge, prisoners scream (fear effect), blood mists heal Strahd"
+      dmGuidance: "Horror scene. Strahd surrounded by victims. He may feed to heal. Rescue prisoners for morale boost."
+
+    - cardId: "glyphs_7"
+      locationId: "castle-ravenloft-halls-of-bones"
+      locationName: "Castle Ravenloft - Halls of Bones (K67)"
+      description: "Seven of Glyphs shows research - the halls lined with bones, Strahd's necromantic laboratory"
+      tacticalNotes: "Walls of bones can animate. Narrow halls favor Strahd's mobility. Skeletons and bone devils summoned easily."
+      lairActions: "Initiative 20: Bones reform into creatures, bone shards fly (AoE damage), walls close in"
+      dmGuidance: "Necromantic horror. Strahd can mass-summon undead. Claustrophobic. Bones everywhere to animate."
+
+    - cardId: "glyphs_8"
+      locationId: "castle-ravenloft-tower-summit"
+      locationName: "Castle Ravenloft - North Tower Peak (K59)"
+      description: "Eight of Glyphs masters magic - the tower summit, exposed to the elements"
+      tacticalNotes: "Open to sky. Lightning storm. Strahd can call lightning. No escape (tower top). Falling death below."
+      lairActions: "Initiative 20: Lightning strikes (10d10), winds knock prone (DC 15 STR save), rain obscures vision"
+      dmGuidance: "Weather battle. Strahd commands the storm. Dramatic finale. Prepare for environmental hazards."
+
+    - cardId: "stars_2"
+      locationId: "castle-ravenloft-overlook"
+      locationName: "Castle Ravenloft - Overlook (K6)"
+      description: "Two of Stars in partnership - the overlook where Strahd watches his realm"
+      tacticalNotes: "High balcony overlooking Barovia. Strahd has emotional connection (sees his prison). Falling hazard 1000 feet."
+      lairActions: "Initiative 20: Wind gusts push toward edge, memories manifest (illusions), ravens attack"
+      dmGuidance: "Symbolic location - Strahd sees his kingdom. Poignant final words possible. Falling is instant death."
+
+    - cardId: "stars_9"
+      locationId: "castle-ravenloft-heart-of-sorrow"
+      locationName: "Castle Ravenloft - Heart of Sorrow (K20, Top)"
+      description: "Nine of Stars fulfilled darkly - the Heart of Sorrow, Strahd's immortal sentinel"
+      tacticalNotes: "Giant glowing crystal heart absorbs damage (Strahd is invulnerable until Heart destroyed, 50 HP/10 AC, immune to psychic). Vertical battle."
+      lairActions: "Initiative 20: Heart pulses (heal Strahd 10 HP), energy beams (ranged attack +10, 3d10 force), mists obscure"
+      dmGuidance: "Party MUST destroy Heart first (Strahd invulnerable otherwise). Two-phase battle. Heart can be destroyed before Strahd appears for advantage."
+
+# === FALLBACK DEFAULTS ===
+# If Tarokka reading is not performed or skipped, use these default locations
+
+fallbackDefaults:
+  sunsword:
+    locationId: "castle-ravenloft-treasury"
+    locationName: "Castle Ravenloft - Treasury (K41)"
+    reason: "Default: Strahd keeps the Sunsword as a trophy in his treasury"
+
+  holySymbol:
+    locationId: "castle-ravenloft-chapel"
+    locationName: "Castle Ravenloft - Chapel (K15)"
+    reason: "Default: The Holy Symbol is in the desecrated chapel, a mockery of faith"
+
+  tome:
+    locationId: "castle-ravenloft-study"
+    locationName: "Castle Ravenloft - Study (K37)"
+    reason: "Default: Strahd's tome rests in his personal study"
+
+  ally:
+    allyId: "rudolph-van-richten"
+    allyName: "Rudolph van Richten"
+    reason: "Default: The legendary vampire hunter aids the party"
+
+  enemy:
+    locationId: "castle-ravenloft-throne-room"
+    locationName: "Castle Ravenloft - Throne Room (K25)"
+    reason: "Default: Strahd awaits on his throne, the seat of his power"
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd Campaign Book"
+  pageReference: "CoS p.11-16 (Tarokka Reading Tables)"
+  official: true
+  notes: "All mappings follow official Curse of Strahd Tarokka reading tables. Location IDs reference Epic 4 location folders. Ally IDs reference Epic 4 NPC profiles. Enemy locations all within Castle Ravenloft (Story 4-2)."
+  developmentStage: "final"
+  createdDate: "2025-11-16"
+  compatibleWith: "Epic 4 Tarokka Reading System (Story 4-16), TarokkaReader module"

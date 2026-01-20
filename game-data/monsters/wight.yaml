@@ -1,0 +1,248 @@
+# Wight - Soul-Draining Undead Warrior
+# Source: D&D 5e Monster Manual p.300
+# Former warriors who drain life force from victims
+
+# === BASIC INFORMATION ===
+name: "Wight"
+monsterId: "wight"
+size: "Medium"
+type: "undead"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 3
+experiencePoints: 700
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 14
+armorType: "studded leather armor"
+
+hitPoints:
+  max: 45
+  current: 45
+  hitDice: "6d8"
+  hitDiceBonus: 18  # +3 Con modifier * 6 HD = +18
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 15    # +2
+  dexterity: 14   # +2
+  constitution: 16  # +3
+  intelligence: 10  # +0
+  wisdom: 13     # +1
+  charisma: 15   # +2
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  perception: 3  # +1 Wis + 2 prof
+  stealth: 4     # +2 Dex + 2 prof
+
+damageVulnerabilities: []
+damageResistances: ["necrotic", "bludgeoning", "piercing", "slashing from nonmagical attacks that aren't silvered"]
+damageImmunities: ["poison"]
+conditionImmunities: ["exhaustion", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 13
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "plus any languages it knew in life"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "wight_1"  # Will be set dynamically per instance
+  name: "Wight"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Sunlight Sensitivity"
+    description: "While in sunlight, the wight has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+    mechanics:
+      type: "sensitivity"
+      trigger: "in_sunlight"
+      disadvantage: ["attack_rolls", "perception_checks_using_sight"]
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The wight makes two longsword attacks or two longbow attacks. It can use its Life Drain in place of one longsword attack."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      options: ["two_longsword", "two_longbow", "one_life_drain_one_longsword"]
+
+  - name: "Life Drain"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 2  # Str modifier
+      damageType: "necrotic"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) necrotic damage. The target must succeed on a DC 13 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0. A humanoid slain by this attack rises 24 hours later as a zombie under the wight's control, unless the humanoid is restored to life or its body is destroyed. The wight can have no more than twelve zombies under its control at one time."
+    additionalEffects:
+      - type: "max_hp_reduction"
+        saveDC: 13
+        saveAbility: "constitution"
+        amount: "damage_dealt"
+        duration: "until_long_rest"
+        deathCondition: "max_hp_reduced_to_zero"
+      - type: "create_spawn"
+        condition: "humanoid_slain_by_this_attack"
+        spawnType: "zombie"
+        spawnDelay: "24_hours"
+        prevention: ["restored_to_life", "body_destroyed"]
+        controlLimit: 12
+
+  - name: "Longsword"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d8"
+      bonus: 2  # Str modifier (one-handed)
+      damageType: "slashing"
+    damageVersatile:
+      dice: "1d10"
+      bonus: 2  # Two-handed
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) slashing damage, or 7 (1d10 + 2) slashing damage if used with two hands."
+
+  - name: "Longbow"
+    type: "ranged_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    range:
+      normal: 150
+      long: 600
+    targets: 1
+    damage:
+      dice: "1d8"
+      bonus: 2  # Dex modifier
+      damageType: "piercing"
+    description: "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+    ammunition: "arrows"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "longsword"
+    quantity: 1
+  - item: "longbow"
+    quantity: 1
+  - item: "arrows"
+    quantity: 20
+  - item: "studded_leather_armor"
+    quantity: 1
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "studded_leather_armor"
+      quantity: 1
+      dropChance: 60
+    - item: "longsword"
+      quantity: 1
+      dropChance: 70
+    - item: "longbow"
+      quantity: 1
+      dropChance: 50
+    - item: "gold_coins"
+      quantity: "2d10"
+      dropChance: 40
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Use Multiattack with Life Drain + Longsword to drain max HP. Build zombie army from slain enemies (up to 12 zombies). Prefer ranged longbow attacks from cover or elevated positions. Switch to melee when cornered. Avoid sunlight (retreat indoors during day). Send zombie servants to fight while staying at range."
+  intelligence: "cunning"
+  aggression: "medium"
+  groupTactics: "strategic"  # Commands zombie minions
+
+  preferredTargets:
+    - "isolated party members"
+    - "low-HP targets (to create zombies)"
+    - "non-armored enemies"
+
+  fleeThreshold: 15  # HP threshold
+  fleeConditions: ["in_sunlight", "all_zombies_destroyed", "below_33_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Crypts, ruins, battlefields, Castle Ravenloft barracks"
+  organization: "Solitary, gang (1 wight + 4-12 zombies), or pack (2-4 wights + 10-20 zombies)"
+
+lore:
+  description: "Wights are undead warriors cursed to eternally drain the life force from living creatures. They were once soldiers, knights, or warriors who fell to dark magic or committed terrible acts in life. Their bodies are preserved but withered, eyes glowing with cold malice. Wights retain their tactical training and often wield the weapons they used in life. Most horrifying is their ability to create zombies from their victims - those slain by a wight's Life Drain rise as undead servants within 24 hours."
+  weakness: "Sunlight Sensitivity causes disadvantage in daylight. No regeneration. Vulnerable to radiant damage (common for undead). Magic weapons bypass resistances."
+  behavior: "Tactical and intelligent. Use zombie minions as front-line troops while attacking from range with longbow. Life Drain builds zombie army (max 12 controlled). Avoid sunlight, preferring night raids or indoor encounters. Will retreat if losing to regroup with zombie reinforcements."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 4
+  encounterSize: "1 wight alone for easy, 1 wight + 6 zombies for medium, 2 wights + 10 zombies for hard"
+  terrain: "Crypts, Castle Ravenloft armories, ruins with elevated archer positions"
+  tactics: "Deploy wight with zombie bodyguards. Wight uses longbow from elevated position while zombies engage in melee. Use Life Drain on low-HP targets to create more zombies mid-combat. Max HP reduction is devastating for multi-encounter days. Sunlight Sensitivity makes outdoor daytime encounters much easier for PCs."
+
+# === VARIANTS ===
+variants:
+  - name: "Wight Captain"
+    changes:
+      hitPoints:
+        max: 60
+      charisma: 17  # +3 (better commander)
+      traits:
+        - name: "Commander's Presence"
+          description: "Allied undead within 30 feet of the wight captain add the wight captain's Charisma modifier (+3) to their damage rolls."
+      lore:
+        description: "Former military commander who retains leadership abilities in undeath. Commands larger undead forces."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.300"
+  official: true
+  srdContent: true
+
+  notes: "Mid-tier undead threat. Life Drain creates zombies from slain PCs (24 hour delay allows resurrection attempts). Max HP reduction is particularly nasty for multi-day adventures. Multiattack with Life Drain + Longsword is brutal. Often found commanding zombie units in Castle Ravenloft."
+
+  dmReminders:
+    - "Life Drain: DC 13 CON save or max HP reduced by damage dealt"
+    - "Humanoid killed by Life Drain rises as zombie in 24 hours (12 max controlled)"
+    - "Multiattack: 2 longsword, 2 longbow, OR Life Drain + longsword"
+    - "Sunlight Sensitivity: Disadvantage on attacks and Perception in sunlight"
+    - "Resistant to nonmagical, non-silvered physical damage"
+    - "Can control up to 12 zombies at once"
+    - "Life Drain max HP reduction lasts until long rest (multi-encounter penalty)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

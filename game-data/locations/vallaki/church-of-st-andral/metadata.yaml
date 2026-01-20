@@ -1,0 +1,32 @@
+# Location Metadata - Church of St. Andral
+
+location_name: "Church of St. Andral"
+location_type: "building"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 1
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Town Square"
+    direction: "southeast"
+    travel_time: "2 minutes"
+    description: "Main road to town center"
+  - name: "Burgomaster Mansion"
+    direction: "south"
+    travel_time: "3 minutes"
+    description: "Baron's residence nearby"
+
+description_token_count: 400
+npc_count: 2
+item_count: 4
+event_count: 2
+
+sanctuary_available: true
+quest_critical: true
+safe_rest: true
+
+last_validated: null
+validation_status: "pending"

@@ -1,0 +1,554 @@
+# D&D 5e SRD Items Database
+# Source: D&D 5e System Reference Document (SRD)
+# Version: 1.0
+# Last Updated: 2025-11-09
+
+items:
+  # ====================
+  # WEAPONS - Simple Melee
+  # ====================
+
+  - id: club
+    name: Club
+    type: weapon
+    category: simple_melee
+    damage: 1d4
+    damageType: bludgeoning
+    properties: [light]
+    weight: 2
+    cost: 1sp
+
+  - id: dagger
+    name: Dagger
+    type: weapon
+    category: simple_melee
+    damage: 1d4
+    damageType: piercing
+    properties: [finesse, light, thrown]
+    range: "20/60"
+    weight: 1
+    cost: 2gp
+
+  - id: quarterstaff
+    name: Quarterstaff
+    type: weapon
+    category: simple_melee
+    damage: 1d6
+    damageType: bludgeoning
+    versatile: 1d8
+    properties: [versatile]
+    weight: 4
+    cost: 2sp
+
+  # ====================
+  # WEAPONS - Simple Ranged
+  # ====================
+
+  - id: light_crossbow
+    name: Light Crossbow
+    type: weapon
+    category: simple_ranged
+    damage: 1d8
+    damageType: piercing
+    properties: [ammunition, loading, two-handed]
+    range: "80/320"
+    weight: 5
+    cost: 25gp
+
+  - id: shortbow
+    name: Shortbow
+    type: weapon
+    category: simple_ranged
+    damage: 1d6
+    damageType: piercing
+    properties: [ammunition, two-handed]
+    range: "80/320"
+    weight: 2
+    cost: 25gp
+
+  # ====================
+  # WEAPONS - Martial Melee
+  # ====================
+
+  - id: longsword
+    name: Longsword
+    type: weapon
+    category: martial_melee
+    damage: 1d8
+    damageType: slashing
+    versatile: 1d10
+    properties: [versatile]
+    weight: 3
+    cost: 15gp
+
+  - id: greatsword
+    name: Greatsword
+    type: weapon
+    category: martial_melee
+    damage: 2d6
+    damageType: slashing
+    properties: [heavy, two-handed]
+    weight: 6
+    cost: 50gp
+
+  - id: rapier
+    name: Rapier
+    type: weapon
+    category: martial_melee
+    damage: 1d8
+    damageType: piercing
+    properties: [finesse]
+    weight: 2
+    cost: 25gp
+
+  - id: battleaxe
+    name: Battleaxe
+    type: weapon
+    category: martial_melee
+    damage: 1d8
+    damageType: slashing
+    versatile: 1d10
+    properties: [versatile]
+    weight: 4
+    cost: 10gp
+
+  - id: warhammer
+    name: Warhammer
+    type: weapon
+    category: martial_melee
+    damage: 1d8
+    damageType: bludgeoning
+    versatile: 1d10
+    properties: [versatile]
+    weight: 2
+    cost: 15gp
+
+  # ====================
+  # WEAPONS - Martial Ranged
+  # ====================
+
+  - id: longbow
+    name: Longbow
+    type: weapon
+    category: martial_ranged
+    damage: 1d8
+    damageType: piercing
+    properties: [ammunition, heavy, two-handed]
+    range: "150/600"
+    weight: 2
+    cost: 50gp
+
+  - id: heavy_crossbow
+    name: Heavy Crossbow
+    type: weapon
+    category: martial_ranged
+    damage: 1d10
+    damageType: piercing
+    properties: [ammunition, heavy, loading, two-handed]
+    range: "100/400"
+    weight: 18
+    cost: 50gp
+
+  # ====================
+  # ARMOR - Light
+  # ====================
+
+  - id: padded
+    name: Padded Armor
+    type: armor
+    category: light
+    armorClass: 11
+    stealthDisadvantage: true
+    weight: 8
+    cost: 5gp
+
+  - id: leather
+    name: Leather Armor
+    type: armor
+    category: light
+    armorClass: 11
+    weight: 10
+    cost: 10gp
+
+  - id: studded_leather
+    name: Studded Leather
+    type: armor
+    category: light
+    armorClass: 12
+    weight: 13
+    cost: 45gp
+
+  # ====================
+  # ARMOR - Medium
+  # ====================
+
+  - id: hide
+    name: Hide Armor
+    type: armor
+    category: medium
+    armorClass: 12
+    maxDexBonus: 2
+    weight: 12
+    cost: 10gp
+
+  - id: chain_shirt
+    name: Chain Shirt
+    type: armor
+    category: medium
+    armorClass: 13
+    maxDexBonus: 2
+    weight: 20
+    cost: 50gp
+
+  - id: scale_mail
+    name: Scale Mail
+    type: armor
+    category: medium
+    armorClass: 14
+    maxDexBonus: 2
+    stealthDisadvantage: true
+    weight: 45
+    cost: 50gp
+
+  - id: breastplate
+    name: Breastplate
+    type: armor
+    category: medium
+    armorClass: 14
+    maxDexBonus: 2
+    weight: 20
+    cost: 400gp
+
+  - id: half_plate
+    name: Half Plate
+    type: armor
+    category: medium
+    armorClass: 15
+    maxDexBonus: 2
+    stealthDisadvantage: true
+    weight: 40
+    cost: 750gp
+
+  # ====================
+  # ARMOR - Heavy
+  # ====================
+
+  - id: ring_mail
+    name: Ring Mail
+    type: armor
+    category: heavy
+    armorClass: 14
+    stealthDisadvantage: true
+    weight: 40
+    cost: 30gp
+
+  - id: chain_mail
+    name: Chain Mail
+    type: armor
+    category: heavy
+    armorClass: 16
+    strengthRequirement: 13
+    stealthDisadvantage: true
+    weight: 55
+    cost: 75gp
+
+  - id: splint
+    name: Splint Armor
+    type: armor
+    category: heavy
+    armorClass: 17
+    strengthRequirement: 15
+    stealthDisadvantage: true
+    weight: 60
+    cost: 200gp
+
+  - id: plate
+    name: Plate Armor
+    type: armor
+    category: heavy
+    armorClass: 18
+    strengthRequirement: 15
+    stealthDisadvantage: true
+    weight: 65
+    cost: 1500gp
+
+  # ====================
+  # SHIELDS
+  # ====================
+
+  - id: shield
+    name: Shield
+    type: shield
+    armorClassBonus: 2
+    weight: 6
+    cost: 10gp
+
+  # ====================
+  # ADVENTURING GEAR
+  # ====================
+
+  - id: rope_hemp_50ft
+    name: Rope, Hempen (50 feet)
+    type: gear
+    category: adventuring
+    weight: 10
+    cost: 1gp
+
+  - id: torch
+    name: Torch
+    type: gear
+    category: adventuring
+    weight: 1
+    cost: 1cp
+    duration: "1 hour"
+    lightRadius: "20 feet bright, 20 feet dim"
+
+  - id: rations
+    name: Rations (1 day)
+    type: gear
+    category: adventuring
+    weight: 2
+    cost: 5sp
+
+  - id: bedroll
+    name: Bedroll
+    type: gear
+    category: adventuring
+    weight: 7
+    cost: 1gp
+
+  - id: backpack
+    name: Backpack
+    type: gear
+    category: adventuring
+    weight: 5
+    capacity: "30 lbs or 1 cubic foot"
+    cost: 2gp
+
+  - id: waterskin
+    name: Waterskin
+    type: gear
+    category: adventuring
+    weight: 5
+    capacity: "4 pints liquid"
+    cost: 2sp
+
+  - id: tinderbox
+    name: Tinderbox
+    type: gear
+    category: adventuring
+    weight: 1
+    cost: 5sp
+
+  - id: potion_healing
+    name: Potion of Healing
+    type: consumable
+    category: potion
+    weight: 0.5
+    cost: 50gp
+    effect:
+      type: healing
+      healing: 2d4 + 2
+    description: "You regain 2d4 + 2 hit points when you drink this potion."
+
+  # ====================
+  # MAGIC ITEMS - Common
+  # ====================
+
+  - id: cloak_of_protection
+    name: Cloak of Protection
+    type: magic_item
+    rarity: uncommon
+    attunement: true
+    weight: 1
+    effects:
+      - type: ac_bonus
+        value: 1
+      - type: saving_throw_bonus
+        value: 1
+    description: "You gain a +1 bonus to AC and saving throws while you wear this cloak."
+
+  - id: ring_of_protection
+    name: Ring of Protection
+    type: magic_item
+    rarity: rare
+    attunement: true
+    weight: 0
+    effects:
+      - type: ac_bonus
+        value: 1
+      - type: saving_throw_bonus
+        value: 1
+    description: "You gain a +1 bonus to AC and saving throws while wearing this ring."
+
+  - id: bag_of_holding
+    name: Bag of Holding
+    type: magic_item
+    rarity: uncommon
+    attunement: false
+    weight: 15
+    capacity: "500 lbs or 64 cubic feet"
+    description: "This bag has an interior space considerably larger than its outside dimensions. The bag can hold up to 500 pounds, not exceeding a volume of 64 cubic feet."
+
+  - id: potion_greater_healing
+    name: Potion of Greater Healing
+    type: magic_item
+    rarity: uncommon
+    attunement: false
+    weight: 0.5
+    cost: 150gp
+    effect:
+      type: healing
+      healing: 4d4 + 4
+    description: "You regain 4d4 + 4 hit points when you drink this potion."
+
+  # ====================
+  # MAGIC ITEMS - Uncommon
+  # ====================
+
+  - id: boots_of_speed
+    name: Boots of Speed
+    type: magic_item
+    rarity: rare
+    attunement: true
+    weight: 1
+    effects:
+      - type: speed_bonus
+        activation: "bonus action"
+        duration: "10 minutes"
+        speedMultiplier: 2
+        dashBonus: true
+    description: "While you wear these boots, you can use a bonus action and click the boots' heels together. If you do, the boots double your walking speed, and any creature that makes an opportunity attack against you has disadvantage on the attack roll. If you click your heels together again, you end the effect."
+
+  - id: wand_of_magic_missiles
+    name: Wand of Magic Missiles
+    type: magic_item
+    rarity: uncommon
+    attunement: false
+    weight: 1
+    charges: 7
+    recharge: "1d6 + 1 at dawn"
+    effects:
+      - type: spell_cast
+        spell: magic_missile
+        chargesPerCast: 1
+        upcastCharges: 1
+    description: "This wand has 7 charges. While holding it, you can use an action to expend 1 or more of its charges to cast the magic missile spell from it. For 1 charge, you cast the 1st-level version of the spell. You can increase the spell slot level by one for each additional charge you expend."
+
+  # ====================
+  # MAGIC ITEMS - Rare
+  # ====================
+
+  - id: flame_tongue
+    name: Flame Tongue
+    type: magic_item
+    subtype: weapon
+    baseWeapon: longsword
+    rarity: rare
+    attunement: true
+    weight: 3
+    damage: 1d8
+    damageType: slashing
+    versatile: 1d10
+    properties: [versatile]
+    effects:
+      - type: bonus_damage
+        activation: "bonus action"
+        damage: 2d6
+        damageType: fire
+        lightRadius: "40 feet bright, 40 feet dim"
+    description: "You can use a bonus action to speak this magic sword's command word, causing flames to erupt from the blade. These flames shed bright light in a 40-foot radius and dim light for an additional 40 feet. While the sword is ablaze, it deals an extra 2d6 fire damage to any target it hits. The flames last until you use a bonus action to speak the command word again or until you drop or sheathe the sword."
+
+  - id: staff_of_power
+    name: Staff of Power
+    type: magic_item
+    rarity: very_rare
+    attunement: true
+    attunementRequirement: "sorcerer, warlock, or wizard"
+    weight: 4
+    charges: 20
+    recharge: "2d8 + 4 at dawn"
+    effects:
+      - type: ac_bonus
+        value: 2
+      - type: saving_throw_bonus
+        value: 2
+      - type: attack_bonus
+        value: 2
+      - type: spell_attack_bonus
+        value: 2
+    spells:
+      - spell: magic_missile
+        charges: 1
+      - spell: ray_of_enfeeblement
+        charges: 1
+      - spell: cone_of_cold
+        charges: 5
+      - spell: fireball
+        charges: 5
+      - spell: lightning_bolt
+        charges: 5
+    description: "This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls."
+
+# ====================
+# METADATA
+# ====================
+
+metadata:
+  totalItems: 53
+  weaponsSimple: 5
+  weaponsMartial: 7
+  armorLight: 3
+  armorMedium: 5
+  armorHeavy: 4
+  shields: 1
+  adventuringGear: 8
+  magicItems: 8
+  sourceDocument: "D&D 5e System Reference Document (SRD 5.1)"
+  lastUpdated: "2025-11-09"
+  version: "1.0"
+  notes: "Curated subset of core items for MVP. Full SRD has 100+ items."
+
+# ====================
+# WEAPON PROPERTIES
+# ====================
+
+# Weapon properties explained:
+# - Ammunition: Requires ammunition to fire (arrows, bolts)
+# - Finesse: Use Str OR Dex for attack/damage
+# - Heavy: Small creatures have disadvantage on attacks
+# - Light: Can two-weapon fight with this weapon
+# - Loading: Can only fire once per action (regardless of attacks)
+# - Range: Ranged weapon with normal/long range (e.g., "80/320")
+# - Thrown: Can throw weapon (uses same ability as melee)
+# - Two-Handed: Requires two hands to use
+# - Versatile: Can use one-handed or two-handed (different damage)
+
+# ====================
+# ARMOR CLASS CALCULATION
+# ====================
+
+# Light Armor: AC = armor AC + full Dex modifier
+# Medium Armor: AC = armor AC + Dex modifier (max +2)
+# Heavy Armor: AC = armor AC (no Dex modifier)
+# Shield: +2 AC bonus (stackable with armor)
+
+# ====================
+# MAGIC ITEM RARITY
+# ====================
+
+# Common: Widely available, minor effects
+# Uncommon: More powerful, worth 100-500 gp
+# Rare: Significant effects, worth 500-5000 gp
+# Very Rare: Major effects, worth 5000-50000 gp
+# Legendary: World-changing effects, priceless
+
+# ====================
+# ATTUNEMENT
+# ====================
+
+# Some magic items require attunement to use.
+# - Maximum 3 attuned items per character
+# - Attunement requires 1 hour short rest
+# - Attunement broken if item >100 feet away for 24 hours
+# - Some items require class/race/alignment restrictions

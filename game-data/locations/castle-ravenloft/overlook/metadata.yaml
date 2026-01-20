@@ -1,0 +1,31 @@
+# Location Metadata - Castle Ravenloft: Overlook
+
+location_name: "Castle Ravenloft - Overlook"
+location_type: "dungeon_area"
+danger_level: 4
+recommended_level: "8-10"
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+rooms_included: ["K6, K18-K19: Lower Overlooks", "K46-K48: High Parapets", "K53, K57-K60: Tower Peaks"]
+room_count: 11
+description_token_count: 1300
+npc_count: 3
+item_count: 3
+event_count: 5
+typical_encounters:
+  - name: "Gargoyles"
+    cr: 2
+    count: "2d4"
+    xp: "900-1800"
+  - name: "Strahd (retreat or survey)"
+    cr: 15
+hazards:
+  - "High winds (DC 12 Strength save or pushed 5 ft)"
+  - "500+ foot falls (20d6 damage)"
+  - "Edge combat (push attacks deadly)"
+strategic_value: high
+view_range: "Entire Barovia valley"
+strahd_retreat_location: true
+last_validated: null
+validation_status: "pending"

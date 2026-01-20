@@ -1,0 +1,318 @@
+# Night Hag - Fiendish Dream-Haunting Hag
+# Source: D&D 5e Monster Manual p.178, Curse of Strahd (Morgantha's Coven)
+# Shapeshifting fiends who torment mortals through nightmares and deals
+
+# === BASIC INFORMATION ===
+name: "Night Hag"
+monsterId: "night_hag"
+size: "Medium"
+type: "fiend"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 5
+experiencePoints: 1800
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 17
+armorType: "natural armor"
+
+hitPoints:
+  max: 112
+  current: 112
+  hitDice: "15d8"
+  hitDiceBonus: 45  # +3 Con modifier * 15 HD = +45
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 18    # +4
+  dexterity: 15   # +2
+  constitution: 16  # +3
+  intelligence: 16  # +3
+  wisdom: 14     # +2
+  charisma: 16   # +3
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  deception: 6     # +3 Cha + 3 prof
+  insight: 5       # +2 Wis + 3 prof
+  perception: 5    # +2 Wis + 3 prof
+  stealth: 5       # +2 Dex + 3 prof
+
+damageVulnerabilities: []
+damageResistances: ["cold", "fire", "bludgeoning", "piercing", "slashing from nonmagical attacks that aren't silvered"]
+damageImmunities: []
+conditionImmunities: ["charmed"]
+
+# === SENSES ===
+senses:
+  darkvision: 120
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 15  # 10 + Perception (+5)
+
+# === LANGUAGES ===
+languages: ["Abyssal", "Common", "Infernal", "Primordial"]
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "night_hag_1"  # Will be set dynamically per instance
+  name: "Night Hag"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Shapechanger"
+    description: "The hag can use her action to polymorph into a Small or Medium female humanoid, or back into her true form. Her statistics are the same in each form. Any equipment she is wearing or carrying isn't transformed. She reverts to her true form if she dies."
+    mechanics:
+      type: "shapechange"
+      actionCost: "action"
+      forms: ["humanoid_female", "true_form"]
+      sizeRange: ["Small", "Medium"]
+      statsChange: "none"
+      equipmentTransform: false
+      deathReversion: "true_form"
+
+  - name: "Magic Resistance"
+    description: "The hag has advantage on saving throws against spells and other magical effects."
+    mechanics:
+      type: "saving_throw_advantage"
+      advantage: ["saves_vs_spells", "saves_vs_magical_effects"]
+
+  - name: "Night Hag Items"
+    description: "A night hag carries two very rare magic items that she must craft for herself. If either object is lost, the night hag will go to great lengths to retrieve it, as creating a new tool takes time and effort.\n\nHeartstone: This lustrous black gem allows a night hag to become ethereal while it is in her possession. The touch of a heartstone also cures any disease. Crafting a heartstone takes 30 days.\n\nSoul Bag: When an evil humanoid dies as a result of a night hag's Nightmare Haunting, the hag catches the soul in this black sack made of stitched flesh. A soul bag can hold only one evil soul at a time, and only the night hag who crafted the bag can catch a soul with it. Crafting a soul bag takes 7 days and a humanoid sacrifice (whose flesh is used to make the bag)."
+    mechanics:
+      type: "magic_items"
+      items:
+        - name: "heartstone"
+          rarity: "very_rare"
+          effect: "become_ethereal_while_possessed"
+          secondaryEffect: "touch_cures_disease"
+          craftTime: "30_days"
+        - name: "soul_bag"
+          rarity: "very_rare"
+          effect: "capture_evil_souls_from_nightmare_haunting"
+          capacity: 1
+          craftTime: "7_days"
+          craftRequirement: "humanoid_sacrifice"
+
+# === INNATE SPELLCASTING ===
+innateSpellcasting:
+  ability: "charisma"
+  spellcastingDC: 14
+  spellAttackBonus: 6
+  componentRequirement: "none"
+  spells:
+    atWill: ["detect_magic", "magic_missile"]
+    perDay:
+      2: ["plane_shift_self_only", "ray_of_enfeeblement", "sleep"]
+
+# === ACTIONS ===
+actions:
+  - name: "Claws (Hag Form Only)"
+    type: "melee_weapon_attack"
+    attackBonus: 7  # +4 Str + 3 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d8"
+      bonus: 4  # Str modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage."
+
+  - name: "Change Shape"
+    description: "The hag magically polymorphs into a Small or Medium female humanoid, or back into her true form. Her statistics are the same in each form. Any equipment she is wearing or carrying isn't transformed. She reverts to her true form if she dies."
+    mechanics:
+      type: "special_action"
+      actionCost: "action"
+      effect: "polymorph_self"
+
+  - name: "Etherealness"
+    description: "The hag magically enters the Ethereal Plane from the Material Plane, or vice versa. To do so, the hag must have a heartstone in her possession."
+    mechanics:
+      type: "planar_travel"
+      requirement: "heartstone_in_possession"
+      effect: "material_to_ethereal_or_reverse"
+
+  - name: "Nightmare Haunting (1/Day)"
+    description: "While on the Ethereal Plane, the hag magically touches a sleeping humanoid on the Material Plane. A protection from evil and good spell cast on the target prevents this contact, as does a magic circle. As long as the contact persists, the target has dreadful visions. If these visions last for at least 1 hour, the target gains no benefit from its rest, and its hit point maximum is reduced by 5 (1d10). If this effect reduces the target's hit point maximum to 0, the target dies, and if the target was evil, its soul is trapped in the hag's soul bag. The reduction to the target's hit point maximum lasts until removed by the greater restoration spell or similar magic."
+    mechanics:
+      type: "nightmare_attack"
+      frequency: "1_per_day"
+      planeRequirement: "hag_on_ethereal_target_on_material"
+      targetRequirement: "sleeping_humanoid"
+      prevention: ["protection_from_evil_and_good", "magic_circle"]
+      duration: "as_long_as_contact_persists"
+      minDuration: "1_hour_for_effect"
+      effect:
+        noRestBenefit: true
+        maxHpReduction: "1d10"
+      onDeath:
+        condition: "target_was_evil"
+        effect: "soul_trapped_in_soul_bag"
+      removal: ["greater_restoration", "similar_magic"]
+
+# === COVEN SPELLCASTING ===
+covenSpellcasting:
+  description: "When hags must work together, they form covens, in spite of their selfish natures. A coven is made up of hags of any type, all of whom are equals within the group. However, each of the hags continues to desire more personal power.\n\nA coven consists of three hags so that any arguments between two hags can be settled by the third. If more than three hags ever come together, as might happen if two covens come into conflict, the result is usually chaos."
+  requirement: "3_hags_within_30_feet"
+  sharedSpellSlots:
+    level1: 4
+    level2: 3
+    level3: 3
+    level4: 3
+    level5: 2
+    level6: 1
+  spellList:
+    - "identify"
+    - "ray_of_enfeeblement"
+    - "hold_person"
+    - "locate_object"
+    - "bestow_curse"
+    - "scrying"
+    - "eyebite"
+    - "legend_lore"
+    - "polymorph"
+  spellcastingDC: 14
+  spellAttackBonus: 6
+  covenAbilities:
+    - name: "Hag Eye"
+      description: "A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes 3d10 psychic damage and is blinded for 24 hours."
+      craftTime: "1_week"
+      ac: 10
+      hp: 1
+      senses: "darkvision 60 ft"
+      onDestruction:
+        damage: "3d10"
+        damageType: "psychic"
+        condition: "blinded"
+        duration: "24_hours"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "heartstone"
+    quantity: 1
+    rarity: "very_rare"
+  - item: "soul_bag"
+    quantity: 1
+    rarity: "very_rare"
+
+# === LOOT ===
+loot:
+  guaranteed:
+    - item: "heartstone"
+      quantity: 1
+      value: "priceless"
+      note: "Cures disease on touch, grants etherealness"
+    - item: "soul_bag"
+      quantity: 1
+      value: "priceless"
+      note: "May contain trapped evil soul"
+  conditional:
+    - item: "hag_eye"
+      quantity: 1
+      dropChance: 30
+      note: "Only if part of coven"
+    - item: "dream_pastries"
+      quantity: "2d4"
+      dropChance: 80
+      note: "Morgantha's coven specialty"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Shapechange into humanoid to infiltrate and deceive. Use Etherealness with heartstone to escape danger or stalk victims. Nightmare Haunting to weaken targets over time (reduce max HP). In combat, use Magic Missile at will (no save, guaranteed damage). Ray of Enfeeblement to weaken martial characters. Sleep to disable low-HP targets. If in coven (3 hags), use Hold Person and Lightning Bolt. Prefer hit-and-run tactics over direct confrontation."
+  intelligence: "genius"
+  aggression: "low"  # Prefers subterfuge to direct combat
+  groupTactics: "coven"  # Form covens of 3
+
+  preferredTargets:
+    - "sleeping victims (Nightmare Haunting)"
+    - "evil humanoids (soul collection)"
+    - "isolated party members"
+
+  fleeThreshold: 30  # HP threshold
+  fleeConditions: ["coven_broken", "heartstone_lost", "below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Ethereal Plane, evil planes, corrupted settlements, Old Bonegrinder windmill"
+  organization: "Solitary or coven (3 hags)"
+
+lore:
+  description: "Night hags are fiendish creatures who delight in corrupting mortals and stealing their souls. They inhabit the Ethereal Plane, from which they stalk sleeping victims to inflict terrible nightmares. A night hag who repeatedly haunts the same victim can eventually drain their life force entirely, claiming their soul if they were evil. Night hags bargain with mortals, offering twisted deals and cursed gifts. In Barovia, Morgantha and her daughters Bella and Offalia form a coven that operates from Old Bonegrinder, baking dream pastries laced with child-flesh to addict the desperate townsfolk of Barovia. They collect children as payment and ingredient."
+  weakness: "Destruction of heartstone prevents etherealness. Breaking coven (killing one hag) removes coven spellcasting. Protection from Evil and Good prevents Nightmare Haunting. Magic Circle blocks ethereal contact. Silvered weapons bypass resistances."
+  behavior: "Night hags are patient schemers who prefer manipulation and corruption to direct combat. Shapechange into trusted figures to infiltrate communities. Make deals with desperate mortals (always with hidden costs). Use Nightmare Haunting systematically to weaken enemies over weeks. Harvest souls from evil victims. Form covens for mutual benefit despite selfish natures. Hoard heartstones and soul bags jealously. Retreat to Ethereal Plane when threatened. Target good-aligned creatures for corruption."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 5
+  encounterSize: "1 night hag for medium, 3 night hags (coven) for deadly"
+  terrain: "Old Bonegrinder windmill, ethereal border regions, haunted settlements"
+  tactics: "DREAM PASTRY INVESTIGATION QUEST: Morgantha's coven (3 night hags) operates from Old Bonegrinder. Hags shapechange into harmless old women when PCs approach. If attacked, use Coven Spells (Hold Person DC 14, Lightning Bolt 8d6). Heartstone allows retreat to Ethereal Plane. Nightmare Haunting used on PCs who sleep near windmill (max HP reduction of 1d10/night). Coven breaks if one hag killed (removes shared spellcasting). Solo hag encounter: Use Magic Missile at will, Ray of Enfeeblement on fighters, etherealness to escape."
+
+# === VARIANTS ===
+variants:
+  - name: "Morgantha (Night Hag Matriarch)"
+    changes:
+      abilities:
+        intelligence: 18  # +4 (master schemer)
+        charisma: 18  # +4 (master dealmaker)
+      skills:
+        deception: 8  # +4 Cha + 4 (expertise)
+        persuasion: 7  # +4 Cha + 3 prof
+      equipment:
+        - item: "dream_pastry_recipe"
+          quantity: 1
+          note: "Secret recipe using child flesh"
+      lore:
+        description: "Leader of the Old Bonegrinder coven. Sells dream pastries to Barovian villagers, addicting them to the narcotic treats. Collects children as payment and ingredient. Mother of Bella and Offalia (also night hags)."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual, Curse of Strahd"
+  pageReference: "MM p.178, CoS p.125 (Old Bonegrinder)"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY 1 MONSTER for Dream Pastry Investigation quest (Story 4-13). Morgantha's coven at Old Bonegrinder is a major side quest location. Coven of 3 hags is DEADLY encounter (CR 7-8 effective) due to shared spellcasting. Nightmare Haunting can systematically weaken party over time (1d10 max HP reduction/night). Heartstone enables etherealness (can't be trapped or cornered). Soul bag contains evil souls - potential plot hooks."
+
+  dmReminders:
+    - "Shapechanger: Appears as harmless old woman selling pastries"
+    - "COVEN: 3 hags within 30 ft share spell slots (Hold Person, Lightning Bolt, Eyebite)"
+    - "Heartstone: Grants etherealness (escape to Ethereal Plane as action)"
+    - "Soul Bag: Contains trapped evil soul from Nightmare Haunting victim"
+    - "Nightmare Haunting (1/day): DC 14 save or lose max HP (1d10), no rest benefit"
+    - "Magic Resistance: Advantage on saves vs spells"
+    - "Resistant to nonmagical, non-silvered physical damage"
+    - "Innate Spells: At-will (Detect Magic, Magic Missile), 2/day (Plane Shift, Ray of Enfeeblement, Sleep)"
+    - "Dream pastries are ADDICTIVE - contain child flesh, cause dependency"
+    - "Old Bonegrinder: Windmill lair with megaliths (druidic stones)"
+    - "Breaking coven (kill 1 hag) removes shared spellcasting"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

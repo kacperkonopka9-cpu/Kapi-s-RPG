@@ -1,0 +1,350 @@
+# Druid - Nature Spellcaster
+# Source: Monster Manual p.346, Curse of Strahd (Wizard of Wines druids)
+# Medium humanoid druid with Wild Shape and nature magic
+
+# === BASIC INFORMATION ===
+name: "Druid"
+monsterId: "druid"
+size: "Medium"
+type: "humanoid"
+subtype: "any race"
+alignment: "any alignment"
+
+# === CHALLENGE RATING ===
+challengeRating: 2
+experiencePoints: 450
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 11
+armorType: "natural armor (16 with barkskin)"
+
+hitPoints:
+  max: 27
+  current: 27
+  hitDice: "5d8"
+  hitDiceBonus: 5  # +1 Con modifier * 5 HD = +5
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10    # +0
+  dexterity: 12   # +1
+  constitution: 13  # +1
+  intelligence: 12  # +1
+  wisdom: 15     # +2 (spellcasting)
+  charisma: 11   # +0
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows:
+  intelligence: 3  # +1 Int + 2 prof
+  wisdom: 4        # +2 Wis + 2 prof
+
+skills:
+  medicine: 4        # +2 Wis + 2 prof
+  nature: 3          # +1 Int + 2 prof
+  perception: 4      # +2 Wis + 2 prof
+  survival: 4        # +2 Wis + 2 prof
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: []
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 14  # 10 + Perception (+4)
+
+# === LANGUAGES ===
+languages: ["Druidic", "Common", "Sylvan"]
+languageNote: "plus one language of choice"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "druid_1"
+  name: "Druid"
+  dexModifier: 1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Spellcasting"
+    description: "The druid is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The druid has the following druid spells prepared:"
+    mechanics:
+      type: "spellcasting"
+      spellcasterLevel: 4
+      spellcastingAbility: "wisdom"
+      spellSaveDC: 12
+      spellAttackBonus: 4
+      spellSlots:
+        level1: 4
+        level2: 3
+      spellList:
+        cantrips: ["druidcraft", "produce_flame", "shillelagh"]
+        level1: ["entangle", "longstrider", "speak_with_animals", "thunderwave"]
+        level2: ["animal_messenger", "barkskin"]
+      spellsKnown:
+        cantrips:
+          - name: "Druidcraft"
+            effect: "Minor magical effect related to nature"
+          - name: "Produce Flame"
+            effect: "Ranged spell attack +4, 1d8 fire damage, 30 ft range"
+          - name: "Shillelagh"
+            effect: "Quarterstaff becomes +4 to hit, 1d8+2 bludgeoning (bonus action)"
+        level1:
+          - name: "Entangle"
+            effect: "20 ft square, DC 12 STR save or restrained, difficult terrain"
+            concentration: true
+          - name: "Longstrider"
+            effect: "Speed +10 ft for 1 hour"
+            concentration: false
+          - name: "Speak with Animals"
+            effect: "Communicate with beasts for 10 minutes"
+            concentration: false
+          - name: "Thunderwave"
+            effect: "15 ft cube, 2d8 thunder damage, DC 12 CON save (half)"
+            concentration: false
+        level2:
+          - name: "Animal Messenger"
+            effect: "Send message via Tiny beast"
+            concentration: false
+          - name: "Barkskin"
+            effect: "AC becomes 16 for 1 hour"
+            concentration: true
+
+  - name: "Wild Shape (2/Day)"
+    description: "The druid can use its action to magically assume the shape of a beast that it has seen before of challenge rating 1/2 or lower. The druid can stay in beast shape for 2 hours or until it drops to 0 hit points, dies, or uses a bonus action to revert. The druid's statistics are replaced by those of the beast, but it retains its alignment, personality, and Intelligence, Wisdom, and Charisma scores. The druid also retains its skill proficiencies, in addition to gaining those of the creature."
+    mechanics:
+      type: "wild_shape"
+      usesPerDay: 2
+      actionCost: "action"
+      revertCost: "bonus_action"
+      maxCR: 0.5
+      duration: "2_hours"
+      retainedStats: ["alignment", "personality", "intelligence", "wisdom", "charisma", "skill_proficiencies"]
+      commonForms:
+        - name: "Wolf"
+          cr: 0.25
+          ac: 13
+          hp: 11
+          speed: 40
+          attackBonus: 4
+          damage: "2d4+2 piercing"
+          traits: ["Pack Tactics", "Keen Hearing and Smell"]
+        - name: "Brown Bear"
+          cr: 1
+          ac: 11
+          hp: 34
+          speed: 40
+          attackBonus: 5
+          damage: "1d8+4 slashing (claw) or 1d6+4 piercing (bite)"
+          traits: ["Keen Smell", "Multiattack"]
+          note: "Exceeds CR 1/2 limit - not available for CR 2 druid"
+        - name: "Giant Spider"
+          cr: 1
+          note: "Exceeds CR 1/2 limit - not available for CR 2 druid"
+        - name: "Dire Wolf"
+          cr: 1
+          note: "Exceeds CR 1/2 limit - not available for CR 2 druid"
+
+# === ACTIONS ===
+actions:
+  - name: "Quarterstaff"
+    type: "melee_weapon_attack"
+    attackBonus: 2  # +0 Str + 2 prof (or +4 with shillelagh)
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"  # or 1d8 two-handed
+      bonus: 0  # Str modifier (or +2 with shillelagh using Wis)
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage, or 4 (1d8) bludgeoning damage if wielded with two hands. With shillelagh (bonus action): +4 to hit, 6 (1d8 + 2) bludgeoning damage."
+
+  - name: "Produce Flame (Cantrip)"
+    type: "ranged_spell_attack"
+    attackBonus: 4  # Spell attack bonus
+    reach: null
+    range:
+      normal: 30
+      long: null
+    targets: 1
+    damage:
+      dice: "1d8"
+      bonus: 0
+      damageType: "fire"
+    description: "Ranged Spell Attack: +4 to hit, range 30 ft., one target. Hit: 4 (1d8) fire damage. Alternatively, the druid can use produce flame to illuminate a 10-foot radius (bright light) and 10-foot additional radius (dim light)."
+
+  - name: "Entangle (1st-Level Spell, 4 Slots)"
+    description: "The druid causes grasping weeds and vines to sprout from the ground in a 20-foot square starting from a point within 90 feet. For the duration (concentration, up to 1 minute), these plants turn the ground in the area into difficult terrain. A creature in the area when the spell is cast must succeed on a DC 12 Strength saving throw or be restrained by the entangling plants until the spell ends. A restrained creature can use its action to make a DC 12 Strength check, freeing itself on a success."
+    mechanics:
+      type: "spell"
+      spellLevel: 1
+      range: 90
+      area: "20_ft_square"
+      duration: "concentration_1_minute"
+      saveDC: 12
+      saveAbility: "strength"
+      effects:
+        - type: "difficult_terrain"
+          area: "entire_spell_area"
+        - type: "restrained"
+          condition: "failed_save"
+          escape: "DC_12_strength_check_as_action"
+
+  - name: "Thunderwave (1st-Level Spell, 4 Slots)"
+    description: "A wave of thunderous force sweeps out from the druid in a 15-foot cube. Each creature in that area must make a DC 12 Constitution saving throw. On a failed save, a creature takes 8 (2d8) thunder damage and is pushed 10 feet away from the druid. On a successful save, the creature takes half as much damage and isn't pushed."
+    mechanics:
+      type: "spell"
+      spellLevel: 1
+      range: "self"
+      area: "15_ft_cube"
+      saveDC: 12
+      saveAbility: "constitution"
+      damage:
+        dice: "2d8"
+        damageType: "thunder"
+        onSave: "half"
+      additionalEffects:
+        - type: "forced_movement"
+          distance: 10
+          direction: "away_from_caster"
+          condition: "failed_save"
+
+  - name: "Barkskin (2nd-Level Spell, 3 Slots)"
+    description: "The druid's skin becomes as tough as bark. Until the spell ends (concentration, up to 1 hour), the druid's AC can't be less than 16, regardless of what kind of armor it is wearing."
+    mechanics:
+      type: "spell"
+      spellLevel: 2
+      duration: "concentration_1_hour"
+      effect: "AC_minimum_16"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "quarterstaff"
+    quantity: 1
+  - item: "leather_armor"
+    quantity: 1
+    ac: 11
+  - item: "druidic_focus"
+    quantity: 1
+    note: "Wooden staff or totem"
+  - item: "explorer's_pack"
+    quantity: 1
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "quarterstaff"
+      quantity: 1
+      dropChance: 90
+    - item: "druidic_focus"
+      quantity: 1
+      dropChance: 80
+      note: "Wooden staff, totem, or mistletoe"
+    - item: "herbalism_kit"
+      quantity: 1
+      dropChance: 50
+    - item: "potion_of_healing"
+      quantity: "1d2"
+      dropChance: 40
+    - item: "spell_components"
+      quantity: "assorted"
+      dropChance: 70
+      note: "Mistletoe, holly, oak leaves"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "CR 2 nature spellcaster. WIZARD OF WINES QUEST: Cast Barkskin pre-combat (AC 16). Open with Entangle (20 ft square, DC 12 STR save or restrained, difficult terrain, concentration). Use Thunderwave (15 ft cube, 2d8 thunder + push 10 ft, DC 12 CON save half) when enemies group up. Shillelagh + quarterstaff for melee (+4 hit, 1d8+2 damage). Wild Shape (2/day) into wolf/brown bear when low HP or need mobility. Produce Flame for ranged attacks (1d8 fire, 30 ft). Work with blights/animals. Avoid melee until buffed."
+  intelligence: "average"
+  aggression: "medium"
+  groupTactics: "supportive"  # Buff allies, control battlefield
+
+  preferredTargets:
+    - "grouped enemies (Thunderwave)"
+    - "melee fighters (Entangle)"
+    - "threats to nature"
+
+  fleeThreshold: 10  # HP threshold
+  fleeConditions: ["concentration_broken", "below_33_percent_hp", "all_spell_slots_expended"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Forests, groves, Wizard of Wines vineyard, druid circles"
+  organization: "Solitary, pair, or grove (3-6 druids + 2-4 blights)"
+
+lore:
+  description: "Druids are guardians of the natural world, wielding primal magic drawn from nature itself. In Barovia, druids have been corrupted by Strahd's influence and the land's curse. The druids at Wizard of Wines vineyard serve the corrupted druid Davian Martikov, using their magic to protect the vineyard's magic gemstones. Druids can Wild Shape into beasts they've encountered (CR 1/2 or lower for 4th-level druids), typically transforming into wolves, bears, or giant spiders. Their spellcasting focuses on battlefield control (Entangle, Thunderwave) and self-buffing (Barkskin). Druids speak Druidic, a secret language known only to druids, and often communicate with animals and plants. In Barovia, corrupted druids work with blights (plant creatures) and may serve darker powers."
+  weakness: "Low AC (11, or 16 with Barkskin concentration). Low HP (27). Concentration spells vulnerable to damage. Limited Wild Shape uses (2/day). Weak melee without Shillelagh. Only 4 1st-level and 3 2nd-level spell slots."
+  behavior: "Buff with Barkskin before combat. Control battlefield with Entangle. Thunderwave when enemies cluster. Shillelagh for melee efficiency. Wild Shape when low HP or need escape. Work with animal/plant allies. Protect sacred groves and natural sites. Use terrain advantage (forests, difficult terrain)."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 3
+  encounterSize: "1 druid for easy, 2 druids for medium, 3-4 druids + blights for hard"
+  terrain: "Wizard of Wines vineyard, forests with difficult terrain, druid groves"
+  tactics: "WIZARD OF WINES DELIVERY QUEST (Story 4-13): Druids work with blights (needle, vine, tree) to protect corrupted vineyard. Pre-combat Barkskin (AC 16). Entangle to restrain PCs (DC 12 STR save, difficult terrain). Thunderwave when party clusters (2d8 thunder + push). Shillelagh quarterstaff for melee (+4 hit, 1d8+2). Wild Shape into wolf (40 ft speed, Pack Tactics) or brown bear (if CR allows) when threatened. Blights tank, druids control. Focus on breaking concentration to drop Entangle/Barkskin."
+
+# === VARIANTS ===
+variants:
+  - name: "Archdruid (Davian Martikov)"
+    changes:
+      challengeRating: 5
+      experiencePoints: 1800
+      spellcasterLevel: 8
+      maxWildShapeCR: 1
+      hitPoints: 55
+      spellSlots:
+        level1: 4
+        level2: 3
+        level3: 3
+        level4: 2
+      additionalSpells: ["conjure_animals", "healing_word", "moonbeam", "call_lightning"]
+    note: "Leader of corrupted Wizard of Wines druids"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Monster Manual, Curse of Strahd"
+  pageReference: "MM p.346, CoS (Wizard of Wines)"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY creature for Wizard of Wines Delivery quest (Story 4-13). Standard CR 2 druid stat block. Wild Shape into CR 1/2 beasts (wolf common choice). Battlefield control specialist (Entangle, Thunderwave). Works with blights. Barkskin concentration critical for survivability."
+
+  dmReminders:
+    - "CR 2 (450 XP)"
+    - "Spellcaster: Wisdom DC 12, +4 spell attack"
+    - "BARKSKIN: AC 16 (concentration, cast pre-combat)"
+    - "ENTANGLE: 20 ft square, DC 12 STR save or restrained, difficult terrain (concentration)"
+    - "THUNDERWAVE: 15 ft cube, 2d8 thunder + push 10 ft, DC 12 CON save half"
+    - "SHILLELAGH: Quarterstaff becomes +4 hit, 1d8+2 damage (bonus action)"
+    - "WILD SHAPE (2/day): CR 1/2 beasts (wolf common), 2 hours, action to transform, bonus action to revert"
+    - "4 1st-level slots, 3 2nd-level slots"
+    - "LOW HP (27) - prioritize Barkskin and positioning"
+    - "Concentration: Breaking concentration drops Entangle/Barkskin"
+    - "Wizard of Wines: 3-4 druids + blights (needle, vine, tree)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

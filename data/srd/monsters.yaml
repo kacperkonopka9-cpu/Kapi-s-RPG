@@ -1,0 +1,532 @@
+# D&D 5e SRD Monsters Database
+# Source: D&D 5e System Reference Document (SRD) + Curse of Strahd
+# Version: 1.0
+# Last Updated: 2025-11-09
+
+monsters:
+  # ====================
+  # CR 0 - 1/4
+  # ====================
+
+  - id: commoner
+    name: Commoner
+    type: humanoid
+    subtype: any_race
+    size: Medium
+    alignment: any
+    challengeRating: 0
+    experiencePoints: 10
+
+    armorClass: 10
+    hitPoints: 4
+    hitDice: 1d8
+
+    speed:
+      walk: 30
+
+    abilityScores:
+      strength: 10
+      dexterity: 10
+      constitution: 10
+      intelligence: 10
+      wisdom: 10
+      charisma: 10
+
+    senses:
+      passivePerception: 10
+
+    languages: [any_one_language]
+
+    actions:
+      - name: Club
+        type: melee_weapon_attack
+        attackBonus: 2
+        reach: 5
+        damage: 1d4
+        damageType: bludgeoning
+
+  - id: wolf
+    name: Wolf
+    type: beast
+    size: Medium
+    alignment: unaligned
+    challengeRating: 0.25
+    experiencePoints: 50
+
+    armorClass: 13
+    hitPoints: 11
+    hitDice: 2d8 + 2
+
+    speed:
+      walk: 40
+
+    abilityScores:
+      strength: 12
+      dexterity: 15
+      constitution: 12
+      intelligence: 3
+      wisdom: 12
+      charisma: 6
+
+    skills:
+      perception: 3
+      stealth: 4
+
+    senses:
+      passivePerception: 13
+      darkvision: 60
+
+    features:
+      - name: Keen Hearing and Smell
+        description: "The wolf has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+      - name: Pack Tactics
+        description: "The wolf has advantage on attack rolls against a creature if at least one of the wolf's allies is within 5 feet of the creature and the ally isn't incapacitated."
+
+    actions:
+      - name: Bite
+        type: melee_weapon_attack
+        attackBonus: 4
+        reach: 5
+        damage: 2d4 + 2
+        damageType: piercing
+        special: "If the target is a creature, it must succeed on a DC 11 Strength saving throw or be knocked prone."
+
+  # ====================
+  # CR 1/2 - 1
+  # ====================
+
+  - id: zombie
+    name: Zombie
+    type: undead
+    size: Medium
+    alignment: neutral_evil
+    challengeRating: 0.25
+    experiencePoints: 50
+
+    armorClass: 8
+    hitPoints: 22
+    hitDice: 3d8 + 3
+
+    speed:
+      walk: 20
+
+    abilityScores:
+      strength: 13
+      dexterity: 6
+      constitution: 16
+      intelligence: 3
+      wisdom: 6
+      charisma: 5
+
+    savingThrows:
+      wisdom: 0
+
+    damageImmunities: [poison]
+    conditionImmunities: [poisoned]
+
+    senses:
+      passivePerception: 8
+      darkvision: 60
+
+    languages: ["understands the languages it knew in life but can't speak"]
+
+    features:
+      - name: Undead Fortitude
+        description: "If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead."
+
+    actions:
+      - name: Slam
+        type: melee_weapon_attack
+        attackBonus: 3
+        reach: 5
+        damage: 1d6 + 1
+        damageType: bludgeoning
+
+  - id: skeleton
+    name: Skeleton
+    type: undead
+    size: Medium
+    alignment: lawful_evil
+    challengeRating: 0.25
+    experiencePoints: 50
+
+    armorClass: 13
+    hitPoints: 13
+    hitDice: 2d8 + 4
+
+    speed:
+      walk: 30
+
+    abilityScores:
+      strength: 10
+      dexterity: 14
+      constitution: 15
+      intelligence: 6
+      wisdom: 8
+      charisma: 5
+
+    damageVulnerabilities: [bludgeoning]
+    damageImmunities: [poison]
+    conditionImmunities: [exhaustion, poisoned]
+
+    senses:
+      passivePerception: 9
+      darkvision: 60
+
+    languages: ["understands all languages it spoke in life but can't speak"]
+
+    actions:
+      - name: Shortsword
+        type: melee_weapon_attack
+        attackBonus: 4
+        reach: 5
+        damage: 1d6 + 2
+        damageType: piercing
+
+      - name: Shortbow
+        type: ranged_weapon_attack
+        attackBonus: 4
+        range: "80/320"
+        damage: 1d6 + 2
+        damageType: piercing
+
+  # ====================
+  # CR 2 - 3
+  # ====================
+
+  - id: ogre
+    name: Ogre
+    type: giant
+    size: Large
+    alignment: chaotic_evil
+    challengeRating: 2
+    experiencePoints: 450
+
+    armorClass: 11
+    hitPoints: 59
+    hitDice: 7d10 + 21
+
+    speed:
+      walk: 40
+
+    abilityScores:
+      strength: 19
+      dexterity: 8
+      constitution: 16
+      intelligence: 5
+      wisdom: 7
+      charisma: 7
+
+    senses:
+      passivePerception: 8
+      darkvision: 60
+
+    languages: [Common, Giant]
+
+    actions:
+      - name: Greatclub
+        type: melee_weapon_attack
+        attackBonus: 6
+        reach: 5
+        damage: 2d8 + 4
+        damageType: bludgeoning
+
+      - name: Javelin
+        type: melee_or_ranged_weapon_attack
+        attackBonus: 6
+        reach: 5
+        range: "30/120"
+        damage: 2d6 + 4
+        damageType: piercing
+
+  - id: werewolf
+    name: Werewolf
+    type: humanoid
+    subtype: human_shapechanger
+    size: Medium
+    alignment: chaotic_evil
+    challengeRating: 3
+    experiencePoints: 700
+
+    armorClass: 11
+    hitPoints: 58
+    hitDice: 9d8 + 18
+
+    speed:
+      walk: 30
+
+    abilityScores:
+      strength: 15
+      dexterity: 13
+      constitution: 14
+      intelligence: 10
+      wisdom: 11
+      charisma: 10
+
+    skills:
+      perception: 4
+      stealth: 3
+
+    damageImmunities: ["bludgeoning, piercing, and slashing from nonmagical attacks not made with silvered weapons"]
+
+    senses:
+      passivePerception: 14
+      darkvision: 60
+
+    languages: [Common]
+
+    features:
+      - name: Shapechanger
+        description: "The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+
+      - name: Keen Hearing and Smell
+        description: "The werewolf has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+
+    actions:
+      - name: Multiattack (Humanoid or Hybrid Form Only)
+        description: "The werewolf makes two attacks: one with its bite and one with its claws or spear."
+
+      - name: Bite (Wolf or Hybrid Form Only)
+        type: melee_weapon_attack
+        attackBonus: 4
+        reach: 5
+        damage: 1d8 + 2
+        damageType: piercing
+        special: "If the target is a humanoid, it must succeed on a DC 12 Constitution saving throw or be cursed with werewolf lycanthropy."
+
+      - name: Claws (Hybrid Form Only)
+        type: melee_weapon_attack
+        attackBonus: 4
+        reach: 5
+        damage: 2d4 + 2
+        damageType: slashing
+
+  # ====================
+  # CR 4 - 5
+  # ====================
+
+  - id: ghost
+    name: Ghost
+    type: undead
+    size: Medium
+    alignment: any
+    challengeRating: 4
+    experiencePoints: 1100
+
+    armorClass: 11
+    hitPoints: 45
+    hitDice: 10d8
+
+    speed:
+      walk: 0
+      fly: 40
+
+    abilityScores:
+      strength: 7
+      dexterity: 13
+      constitution: 10
+      intelligence: 10
+      wisdom: 12
+      charisma: 17
+
+    damageResistances: ["acid, fire, lightning, thunder; bludgeoning, piercing, and slashing from nonmagical attacks"]
+    damageImmunities: ["cold, necrotic, poison"]
+    conditionImmunities: ["charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained"]
+
+    senses:
+      passivePerception: 11
+      darkvision: 60
+
+    languages: ["any languages it knew in life"]
+
+    features:
+      - name: Ethereal Sight
+        description: "The ghost can see 60 feet into the Ethereal Plane when it is on the Material Plane, and vice versa."
+
+      - name: Incorporeal Movement
+        description: "The ghost can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+
+    actions:
+      - name: Withering Touch
+        type: melee_weapon_attack
+        attackBonus: 5
+        reach: 5
+        damage: 4d6 + 3
+        damageType: necrotic
+
+      - name: Horrifying Visage
+        description: "Each non-undead creature within 60 feet of the ghost that can see it must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute."
+        saveType: Wisdom
+        saveDC: 13
+        duration: 1
+        durationType: minute
+
+  # ====================
+  # CR 13+ (Bosses)
+  # ====================
+
+  - id: vampire
+    name: Vampire
+    type: undead
+    subtype: shapechanger
+    size: Medium
+    alignment: lawful_evil
+    challengeRating: 13
+    experiencePoints: 10000
+
+    armorClass: 16
+    hitPoints: 144
+    hitDice: 17d8 + 68
+
+    speed:
+      walk: 30
+
+    abilityScores:
+      strength: 18
+      dexterity: 18
+      constitution: 18
+      intelligence: 17
+      wisdom: 15
+      charisma: 18
+
+    savingThrows:
+      dexterity: 9
+      wisdom: 7
+      charisma: 9
+
+    skills:
+      perception: 7
+      stealth: 9
+
+    damageResistances: ["necrotic; bludgeoning, piercing, and slashing from nonmagical attacks"]
+
+    senses:
+      passivePerception: 17
+      darkvision: 120
+
+    languages: ["the languages it knew in life"]
+
+    features:
+      - name: Shapechanger
+        description: "If the vampire isn't in sunlight or running water, it can use its action to polymorph into a Tiny bat or a Medium cloud of mist, or back into its true form."
+
+      - name: Legendary Resistance (3/Day)
+        description: "If the vampire fails a saving throw, it can choose to succeed instead."
+
+      - name: Misty Escape
+        description: "When it drops to 0 hit points outside its resting place, the vampire transforms into a cloud of mist instead of falling unconscious. It must reach its resting place within 2 hours or be destroyed."
+
+      - name: Regeneration
+        description: "The vampire regains 20 hit points at the start of its turn if it has at least 1 hit point and isn't in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire's next turn."
+
+      - name: Spider Climb
+        description: "The vampire can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+
+      - name: Vampire Weaknesses
+        description: "The vampire has the following flaws: Forbiddance (can't enter residence without invitation), Harmed by Running Water (2d10 acid damage per turn), Stake to the Heart (paralyzed if pierced while incapacitated), Sunlight Hypersensitivity (20 radiant damage + disadvantage in sunlight)."
+
+    actions:
+      - name: Multiattack (Vampire Form Only)
+        description: "The vampire makes two attacks, only one of which can be a bite attack."
+
+      - name: Unarmed Strike (Vampire Form Only)
+        type: melee_weapon_attack
+        attackBonus: 9
+        reach: 5
+        damage: 1d8 + 4
+        damageType: bludgeoning
+        special: "Instead of dealing damage, the vampire can grapple the target (escape DC 18)."
+
+      - name: Bite (Bat or Vampire Form Only)
+        type: melee_weapon_attack
+        attackBonus: 9
+        reach: 5
+        damage: 1d6 + 4
+        damageType: piercing
+        special: "Plus 3d6 necrotic damage. The target's hit point maximum is reduced by an amount equal to the necrotic damage taken, and the vampire regains hit points equal to that amount."
+
+    legendaryActions: 3
+    legendaryActionsDescription: "The vampire can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The vampire regains spent legendary actions at the start of its turn."
+    legendaryActionsList:
+      - name: Move
+        cost: 1
+        description: "The vampire moves up to its speed without provoking opportunity attacks."
+      - name: Unarmed Strike
+        cost: 1
+        description: "The vampire makes one unarmed strike."
+      - name: Bite
+        cost: 2
+        description: "The vampire makes one bite attack."
+
+# ====================
+# METADATA
+# ====================
+
+metadata:
+  totalMonsters: 8
+  cr0to1: 4
+  cr2to5: 3
+  cr6plus: 1
+  sourceDocument: "D&D 5e SRD + Curse of Strahd"
+  lastUpdated: "2025-11-09"
+  version: "1.0"
+  notes: "Curated subset of monsters for Curse of Strahd campaign MVP. Includes Strahd von Zarovich stat block as vampire boss."
+
+# ====================
+# CHALLENGE RATING (CR) & XP
+# ====================
+
+# CR 0: 0-10 XP
+# CR 1/8: 25 XP
+# CR 1/4: 50 XP
+# CR 1/2: 100 XP
+# CR 1: 200 XP
+# CR 2: 450 XP
+# CR 3: 700 XP
+# CR 4: 1,100 XP
+# CR 5: 1,800 XP
+# CR 6: 2,300 XP
+# CR 7: 2,900 XP
+# CR 8: 3,900 XP
+# CR 9: 5,000 XP
+# CR 10: 5,900 XP
+# CR 11: 7,200 XP
+# CR 12: 8,400 XP
+# CR 13: 10,000 XP
+# CR 14: 11,500 XP
+# CR 15: 13,000 XP
+# CR 16: 15,000 XP
+# CR 17: 18,000 XP
+# CR 18: 20,000 XP
+# CR 19: 22,000 XP
+# CR 20: 25,000 XP
+
+# ====================
+# MONSTER TYPES
+# ====================
+
+# Aberration: Alien, unnatural creatures (mind flayers, beholders)
+# Beast: Mundane animals (wolves, bears, giant spiders)
+# Celestial: Divine creatures from Upper Planes (angels, devas)
+# Construct: Animated objects (golems, animated armor)
+# Dragon: Dragons and dragon-like creatures (dragons, wyverns)
+# Elemental: Creatures from Elemental Planes (fire elemental, air elemental)
+# Fey: Magical creatures from Feywild (pixies, satyrs)
+# Fiend: Evil creatures from Lower Planes (demons, devils)
+# Giant: Large humanoids (ogres, trolls, giants)
+# Humanoid: Civilized races (humans, elves, orcs, goblins)
+# Monstrosity: Unnatural creatures (griffons, manticores)
+# Ooze: Amorphous creatures (gelatinous cube, black pudding)
+# Plant: Sentient plants (treants, shambling mounds)
+# Undead: Animated dead (zombies, skeletons, vampires, ghosts)
+
+# ====================
+# SIZE CATEGORIES
+# ====================
+
+# Tiny: 2.5 × 2.5 feet
+# Small: 5 × 5 feet
+# Medium: 5 × 5 feet
+# Large: 10 × 10 feet
+# Huge: 15 × 15 feet
+# Gargantuan: 20 × 20 feet or larger

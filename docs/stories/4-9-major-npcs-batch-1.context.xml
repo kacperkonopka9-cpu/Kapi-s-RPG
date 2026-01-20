@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<story-context>
+  <metadata>
+    <story-key>4-9-major-npcs-batch-1</story-key>
+    <epic>4</epic>
+    <story>9</story>
+    <title>Major NPCs Batch 1: Ismark, Father Lucian, Madam Eva, Burgomaster Dmitri</title>
+    <status>drafted</status>
+    <generated-date>2025-11-15</generated-date>
+  </metadata>
+
+  <story-statement>
+    <as-a>player exploring the world of Barovia</as-a>
+    <i-want>comprehensive NPC profiles for major supporting characters (Ismark Kolyanovich, Father Lucian Petrovich, Madam Eva, and Burgomaster Dmitri Krezkov)</i-want>
+    <so-that>I can interact with key NPCs who provide quests, information, and sanctuary throughout the campaign with authentic personalities, dialogue systems, and integration with Epic 2 quest mechanics and Epic 3 character systems</so-that>
+  </story-statement>
+
+  <acceptance-criteria>
+    <criterion id="AC-1">
+      <title>Ismark Kolyanovich NPC Profile</title>
+      <description>Complete NPC profile (game-data/npcs/ismark_kolyanovich.yaml) with D&D 5e stat block (fighter/warrior stats), personality (protective brother, burden of responsibility), dialogue (quest-giving for burial and escort), relationship network (Ireena sister, Strahd enemy, player ally), AI behavior notes, and schedule</description>
+    </criterion>
+    <criterion id="AC-2">
+      <title>Father Lucian Petrovich NPC Profile</title>
+      <description>Complete NPC profile (game-data/npcs/father_lucian_petrovich.yaml) with D&D 5e stat block (cleric stats with healing spells), personality (weary faith, protector of innocents), dialogue (St. Andral's bones quest, sanctuary offers), relationship network (church hierarchy, player helper), and integration with St. Andral's Feast quest mechanics</description>
+    </criterion>
+    <criterion id="AC-3">
+      <title>Madam Eva NPC Profile</title>
+      <description>Complete NPC profile (game-data/npcs/madam_eva.yaml) with D&D 5e stat block (divination-focused spellcaster), personality (cryptic fortune teller, Strahd's ancient connection), dialogue (Tarokka reading script, cryptic warnings), relationship network (Vistani leader, Strahd mysterious connection), and integration with Tarokka Reading System (Story 4-16)</description>
+    </criterion>
+    <criterion id="AC-4">
+      <title>Burgomaster Dmitri Krezkov NPC Profile</title>
+      <description>Complete NPC profile (game-data/npcs/burgomaster_dmitri_krezkov.yaml) with D&D 5e stat block (commoner/noble stats), personality (grief over lost son, desperate hope), dialogue (Krezk entry conditions, Abbey warnings), relationship network (Ilya son deceased, Abbot dealings), and quest integration for Krezk sanctuary</description>
+    </criterion>
+    <criterion id="AC-5">
+      <title>NPC Profile Schema Compliance</title>
+      <description>All 4 profiles validate against templates/npc/npc-profile-template.yaml v1.0.0 with all required fields: abilities, hitPoints, armorClass, proficiencies, personality, dialogue, relationships, aiBehavior, schedule, metadata</description>
+    </criterion>
+    <criterion id="AC-6">
+      <title>Quest Integration</title>
+      <description>All 4 NPCs have questInvolvement sections defining their roles in Epic 4 quests: Ismark (burial, escort), Father Lucian (St. Andral's bones), Madam Eva (Tarokka reading), Dmitri (Krezk sanctuary, wine delivery)</description>
+    </criterion>
+    <criterion id="AC-7">
+      <title>Dialogue System Completeness</title>
+      <description>Each NPC has dialogue arrays for relevant categories (greeting, idle, farewell, questGiving, questComplete, combat where applicable, keyQuotes) with 20-30 dialogue lines per NPC providing contextual variety for LLM-DM</description>
+    </criterion>
+    <criterion id="AC-8">
+      <title>Epic 1-3 Integration Checkpoint</title>
+      <description>Integration tests verify: CharacterManager loads all 4 profiles successfully, dialogue systems accessible, quest involvement references valid quest IDs (to be created in stories 4-11+), relationship networks reference valid NPC IDs, schedules use valid HH:MM format and location IDs</description>
+    </criterion>
+  </acceptance-criteria>
+
+  <tasks>
+    <task id="1">
+      <title>Create Ismark Kolyanovich NPC Profile</title>
+      <acceptance-criteria>AC-1, AC-5</acceptance-criteria>
+      <subtasks>
+        <subtask>Copy templates/npc/npc-profile-template.yaml to game-data/npcs/ismark_kolyanovich.yaml</subtask>
+        <subtask>Set npcId: ismark_kolyanovich, name: "Ismark Kolyanovich", type: "major"</subtask>
+        <subtask>Fill basic metadata: alignment "Neutral Good", race "Human", age 24, background "Noble (Burgomaster's Son)"</subtask>
+        <subtask>Set appearance and voice descriptions (haunted eyes, weary but determined voice)</subtask>
+      </subtasks>
+    </task>
+    <task id="2">
+      <title>Define Ismark's D&D 5e Stat Block</title>
+      <acceptance-criteria>AC-1</acceptance-criteria>
+      <subtasks>
+        <subtask>Ability Scores: STR 14 (+2), DEX 12 (+1), CON 13 (+1), INT 10 (+0), WIS 11 (+0), CHA 10 (+0)</subtask>
+        <subtask>HP: 16 (3d8+3), AC: 14, Hit Dice: 3d8, Proficiency Bonus: +2</subtask>
+        <subtask>Saving Throws: STR +4, CON +3. Skills: Athletics +4, Perception +2, Survival +2</subtask>
+        <subtask>Equipment: Leather armor, longsword (family heirloom), shield, crossbow</subtask>
+      </subtasks>
+    </task>
+    <task id="3">
+      <title>Define Ismark's Personality and Dialogue</title>
+      <acceptance-criteria>AC-1, AC-7</acceptance-criteria>
+      <subtasks>
+        <subtask>Personality traits: protective of Ireena, burden of responsibility, suspicious of outsiders</subtask>
+        <subtask>Write 20-30 dialogue lines: greeting (desperate plea), quest-giving (burial, escort), combat barks, key quotes</subtask>
+        <subtask>Key quote: "I cannot protect her alone. Father tried, and it killed him."</subtask>
+      </subtasks>
+    </task>
+    <task id="4">
+      <title>Define Ismark's Relationships and Quest Involvement</title>
+      <acceptance-criteria>AC-1, AC-6</acceptance-criteria>
+      <subtasks>
+        <subtask>Family: Ireena (sister, protective), Kolyan Indirovich (father, deceased)</subtask>
+        <subtask>Enemies: Strahd (hated enemy). Allies: player_character (dynamic)</subtask>
+        <subtask>Quest involvement: bury_the_burgomaster (quest_giver), escort_ireena_to_vallaki (quest_giver + companion)</subtask>
+        <subtask>AI behavior: defensive combat tactics, goals (keep Ireena safe), fears (Strahd taking Ireena)</subtask>
+      </subtasks>
+    </task>
+    <task id="5">
+      <title>Create Father Lucian Petrovich NPC Profile</title>
+      <acceptance-criteria>AC-2, AC-5</acceptance-criteria>
+      <subtasks>
+        <subtask>Copy template to game-data/npcs/father_lucian_petrovich.yaml</subtask>
+        <subtask>Set npcId: father_lucian_petrovich, name: "Father Lucian Petrovich", type: "major", class: "Cleric" (level 4)</subtask>
+        <subtask>Basic metadata: alignment "Lawful Good", race "Human", age 52, background "Priest"</subtask>
+        <subtask>Appearance: graying hair, tired eyes, worn vestments of the Morninglord, silver holy symbol</subtask>
+      </subtasks>
+    </task>
+    <task id="6">
+      <title>Define Father Lucian's D&D 5e Stat Block and Spells</title>
+      <acceptance-criteria>AC-2</acceptance-criteria>
+      <subtasks>
+        <subtask>Ability Scores: STR 10 (+0), DEX 10 (+0), CON 12 (+1), INT 13 (+1), WIS 16 (+3), CHA 14 (+2)</subtask>
+        <subtask>HP: 22 (4d8+4), AC: 10, Proficiency Bonus: +2. Saving Throws: WIS +5, CHA +4</subtask>
+        <subtask>Spellcasting: WIS-based, spell save DC 13, spell attack +5. Spell slots: 1st (4), 2nd (3)</subtask>
+        <subtask>Prepared spells: cure wounds, bless, sanctuary, lesser restoration, spiritual weapon, aid. Cantrips: sacred flame, light, thaumaturgy</subtask>
+      </subtasks>
+    </task>
+    <task id="7">
+      <title>Define Father Lucian's Personality and Dialogue</title>
+      <acceptance-criteria>AC-2, AC-7</acceptance-criteria>
+      <subtasks>
+        <subtask>Personality: weary faith struggling against Barovia's darkness, compassionate to all, guilt over bones theft</subtask>
+        <subtask>Write 20-30 dialogue lines: greeting (offers sanctuary), St. Andral's bones quest, warnings about Strahd, blessings</subtask>
+        <subtask>Key quote: "The Morninglord's light still shines, even here. We must believe that."</subtask>
+      </subtasks>
+    </task>
+    <task id="8">
+      <title>Define Father Lucian's Relationships and Quest Involvement</title>
+      <acceptance-criteria>AC-2, AC-6</acceptance-criteria>
+      <subtasks>
+        <subtask>Allies: player_character (helper), Ireena (protector). Relationships: Milivoj (altar boy, stole bones)</subtask>
+        <subtask>Quest involvement: st_andrals_feast (quest_giver, protection target), ireena_sanctuary (provides safe haven)</subtask>
+        <subtask>AI behavior: non-combatant (uses healing spells, Sacred Flame if forced), goals (protect church and congregation)</subtask>
+      </subtasks>
+    </task>
+    <task id="9">
+      <title>Create Madam Eva NPC Profile</title>
+      <acceptance-criteria>AC-3, AC-5</acceptance-criteria>
+      <subtasks>
+        <subtask>Copy template to game-data/npcs/madam_eva.yaml</subtask>
+        <subtask>Set npcId: madam_eva, name: "Madam Eva", type: "major", class: "Diviner" (unique NPC class)</subtask>
+        <subtask>Basic metadata: alignment "Chaotic Neutral", race "Human (Vistana)", age "appears 70+ but possibly ancient"</subtask>
+        <subtask>Appearance: ancient Vistani woman, piercing dark eyes, colorful shawls, Tarokka deck, otherworldly aura</subtask>
+      </subtasks>
+    </task>
+    <task id="10">
+      <title>Define Madam Eva's D&D 5e Stat Block and Divination Spells</title>
+      <acceptance-criteria>AC-3</acceptance-criteria>
+      <subtasks>
+        <subtask>Ability Scores: STR 8 (-1), DEX 12 (+1), CON 14 (+2), INT 16 (+3), WIS 18 (+4), CHA 16 (+3)</subtask>
+        <subtask>HP: 58 (9d8+18), AC: 12, Proficiency Bonus: +4. Saving Throws: INT +7, WIS +8</subtask>
+        <subtask>Spellcasting: WIS-based, spell save DC 16, spell attack +8. Spell slots: 1st (4), 2nd (3), 3rd (3), 4th (3), 5th (1)</subtask>
+        <subtask>Prepared spells (divination-focused): detect thoughts, scrying, clairvoyance, divination, legend lore, commune, augury. Cantrips: mage hand, prestidigitation, minor illusion. Special: Curse ability (once per day, DC 16 WIS save)</subtask>
+      </subtasks>
+    </task>
+    <task id="11">
+      <title>Define Madam Eva's Personality and Dialogue</title>
+      <acceptance-criteria>AC-3, AC-7</acceptance-criteria>
+      <subtasks>
+        <subtask>Personality: cryptic fortune teller, speaks in prophecy, protects Vistani fiercely, ancient knowledge of Strahd</subtask>
+        <subtask>Write 25-35 dialogue lines: Tarokka reading script (full reading), cryptic prophecies, warnings, Vistani lore, greetings</subtask>
+        <subtask>Key quote: "The cards reveal much, but understanding comes only to those who dare to look."</subtask>
+      </subtasks>
+    </task>
+    <task id="12">
+      <title>Define Madam Eva's Relationships and Quest Involvement</title>
+      <acceptance-criteria>AC-3, AC-6</acceptance-criteria>
+      <subtasks>
+        <subtask>Allies: player_character (mysterious helper), Vistani people (leader). Relationships: Strahd (ancient connection, neither enemy nor ally), Rudolph van Richten (complex - he killed her son)</subtask>
+        <subtask>Quest involvement: tarokka_reading (quest_giver, central NPC for Story 4-16), vistani_lore (information source)</subtask>
+        <subtask>AI behavior: non-combatant (uses divination and curse if threatened, relies on Vistani guards), special behaviors (Tarokka reading, knowledge of Strahd's history)</subtask>
+      </subtasks>
+    </task>
+    <task id="13">
+      <title>Create Burgomaster Dmitri Krezkov NPC Profile</title>
+      <acceptance-criteria>AC-4, AC-5</acceptance-criteria>
+      <subtasks>
+        <subtask>Copy template to game-data/npcs/burgomaster_dmitri_krezkov.yaml</subtask>
+        <subtask>Set npcId: burgomaster_dmitri_krezkov, name: "Burgomaster Dmitri Krezkov", type: "major", class: null (commoner)</subtask>
+        <subtask>Basic metadata: alignment "Lawful Good", race "Human", age 55, background "Noble (Burgomaster)"</subtask>
+        <subtask>Appearance: weathered man, gray beard, somber expression of grief, simple dignified clothing</subtask>
+      </subtasks>
+    </task>
+    <task id="14">
+      <title>Define Burgomaster Dmitri's D&D 5e Stat Block</title>
+      <acceptance-criteria>AC-4</acceptance-criteria>
+      <subtasks>
+        <subtask>Ability Scores: STR 11 (+0), DEX 10 (+0), CON 12 (+1), INT 13 (+1), WIS 14 (+2), CHA 12 (+1)</subtask>
+        <subtask>HP: 9 (2d8), AC: 10, Proficiency Bonus: +2. Saving Throws: WIS +4</subtask>
+        <subtask>Skills: Insight +4, Persuasion +3, History +3. Equipment: Simple clothing, burgomaster's seal, family heirloom ring</subtask>
+        <subtask>Non-combatant: Dmitri avoids combat, relies on village guards</subtask>
+      </subtasks>
+    </task>
+    <task id="15">
+      <title>Define Burgomaster Dmitri's Personality and Dialogue</title>
+      <acceptance-criteria>AC-4, AC-7</acceptance-criteria>
+      <subtasks>
+        <subtask>Personality: grief-stricken over Ilya's death, protective of Krezk, desperate hope in Abbot, cautious with outsiders</subtask>
+        <subtask>Write 20-25 dialogue lines: greeting (cautious), Krezk entry conditions (wine delivery quest), Abbey warnings/hopes, grief over Ilya</subtask>
+        <subtask>Key quote: "Krezk has survived by staying small, staying quiet, staying closed. I will not risk my people for strangers."</subtask>
+      </subtasks>
+    </task>
+    <task id="16">
+      <title>Define Burgomaster Dmitri's Relationships and Quest Involvement</title>
+      <acceptance-criteria>AC-4, AC-6</acceptance-criteria>
+      <subtasks>
+        <subtask>Family: Ilya Krezkov (son, deceased, body at Abbey), Anna Krezkov (wife). Allies: player_character (conditional), Abbot (complicated trust)</subtask>
+        <subtask>Quest involvement: journey_to_krezk (gatekeeper), wine_delivery_to_krezk (quest_giver), ilyas_resurrection (quest_target for tragic resolution)</subtask>
+        <subtask>AI behavior: non-combatant, goals (protect Krezk, bring son back), fears (Strahd's attention, losing more villagers)</subtask>
+      </subtasks>
+    </task>
+    <task id="17">
+      <title>Create Integration Tests for All 4 NPCs</title>
+      <acceptance-criteria>AC-8</acceptance-criteria>
+      <subtasks>
+        <subtask>Create tests/integration/npcs/major-npcs-batch-1.test.js with 35-45 test cases total</subtask>
+        <subtask>Test: CharacterManager loads all 4 NPC profiles successfully</subtask>
+        <subtask>Test: Ismark stat block validates (abilities, HP, AC, fighter proficiencies)</subtask>
+        <subtask>Test: Father Lucian spellcasting validates (spell slots, prepared spells, cantrips)</subtask>
+        <subtask>Test: Madam Eva spellcasting validates (divination spells, special curse ability)</subtask>
+        <subtask>Test: Burgomaster Dmitri stat block validates (commoner stats, non-combatant)</subtask>
+        <subtask>Test: All 4 NPCs have complete dialogue systems (all required categories present)</subtask>
+        <subtask>Test: Quest involvement entries reference valid quest IDs (structure validation)</subtask>
+        <subtask>Test: Relationship networks reference valid NPC IDs</subtask>
+        <subtask>Test: Schedule entries use valid HH:MM format and location IDs</subtask>
+        <subtask>Test: All 4 profiles validate against npc-profile-template.yaml v1.0.0 schema</subtask>
+      </subtasks>
+    </task>
+    <task id="18">
+      <title>Update Location NPCs.md Files with Profile References</title>
+      <acceptance-criteria>AC-8</acceptance-criteria>
+      <subtasks>
+        <subtask>Update game-data/locations/village-of-barovia/NPCs.md - Add Ismark profile reference</subtask>
+        <subtask>Update game-data/locations/vallaki/NPCs.md - Add Father Lucian profile reference</subtask>
+        <subtask>Update game-data/locations/tser-pool-encampment/NPCs.md - Add Madam Eva profile reference</subtask>
+        <subtask>Update game-data/locations/krezk/NPCs.md - Add Burgomaster Dmitri profile reference</subtask>
+        <subtask>Verify descriptions in location files align with profile appearance notes</subtask>
+      </subtasks>
+    </task>
+    <task id="19">
+      <title>Validate and Document</title>
+      <acceptance-criteria>AC-5, AC-8</acceptance-criteria>
+      <subtasks>
+        <subtask>Run npm test to execute integration tests</subtask>
+        <subtask>Verify all 35-45 tests pass</subtask>
+        <subtask>Validate YAML syntax with js-yaml parser for all 4 profiles</subtask>
+        <subtask>Confirm each profile file size reasonable (under 500 lines per profile)</subtask>
+        <subtask>Document any deviations from template with rationale</subtask>
+        <subtask>Update story completion notes with test results and file metrics</subtask>
+      </subtasks>
+    </task>
+  </tasks>
+
+  <documentation>
+    <primary-sources>
+      <source type="tech-spec" path="docs/tech-spec-epic-4.md">
+        <section>AC-2: NPC Profiles</section>
+        <relevance>Defines NPC profile requirements, CharacterManager compatibility, questInvolvement structure</relevance>
+        <key-points>
+          <point>All NPC profiles must validate against templates/npc/npc-profile-template.yaml v1.0.0</point>
+          <point>CharacterManager (Epic 3 Story 3-2) loads NPC profiles using character sheet YAML schema</point>
+          <point>Quest integration uses questInvolvement array with questId, role, notes structure</point>
+        </key-points>
+      </source>
+      <source type="template" path="templates/npc/npc-profile-template.yaml">
+        <relevance>Schema definition for all NPC profiles - v1.0.0 required fields and structure</relevance>
+        <key-points>
+          <point>Required sections: name, npcId, abilities, hitPoints, armorClass, proficiencies, personality, dialogue, relationships, aiBehavior, schedule, metadata</point>
+          <point>Spellcasting structure: ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared, cantrips, concentration</point>
+          <point>Dialogue categories: greeting, idle, farewell, questGiving, questComplete, combat, keyQuotes</point>
+          <point>AI behavior notes: combatTactics, goals, motivations, fears, knowledgeSecrets, questInvolvement, specialBehaviors</point>
+        </key-points>
+      </source>
+      <source type="reference" path="game-data/npcs/ireena_kolyana.yaml">
+        <relevance>Reference implementation from Story 4-8 - structure template for non-combatant NPCs</relevance>
+        <key-points>
+          <point>410 lines total - dialogue completeness (79 lines across 9 categories)</point>
+          <point>Dynamic state tracking: bitten_by_strahd_count, current_location, mood, relationship_with_player, trust_level</point>
+          <point>Relationship network format: allies/enemies/family arrays with npcId, relationship, notes</point>
+          <point>Schedule entries: time (HH:MM), location (location_id), activity (description)</point>
+        </key-points>
+      </source>
+      <source type="reference" path="game-data/npcs/strahd_von_zarovich.yaml">
+        <relevance>Reference implementation from Story 4-7 - spellcasting structure for casters</relevance>
+        <key-points>
+          <point>Spellcasting object structure: 9th-level wizard with spell slots by level (1st-9th), prepared spells array, cantrips array</point>
+          <point>Legendary actions: actionsPerRound, actions array with name, cost, description</point>
+          <point>Lair actions: initiative 20, location-gated, actions array</point>
+          <point>Special abilities array: Legendary Resistance, Shapechanger, Misty Escape, Regeneration, Charm, Children of the Night</point>
+        </key-points>
+      </source>
+    </primary-sources>
+
+    <integration-points>
+      <integration epic="3" story="3-2">
+        <module>CharacterManager</module>
+        <path>src/mechanics/character-manager.js</path>
+        <interface>loadCharacter(characterId) - loads NPC profiles using YAML parser, validates schema</interface>
+        <usage>All 4 NPC profiles must be loadable via CharacterManager.loadCharacter(npcId)</usage>
+      </integration>
+      <integration epic="2" story="2-3">
+        <module>EventScheduler</module>
+        <path>src/calendar/event-scheduler.js</path>
+        <interface>NPC schedules integrate with time-based event triggering</interface>
+        <usage>NPC schedule entries (time, location, activity) can trigger location-based events when player enters at scheduled time</usage>
+      </integration>
+      <integration epic="3" story="3-7">
+        <module>SpellcastingModule</module>
+        <path>src/mechanics/spellcasting-module.js</path>
+        <interface>Handles Father Lucian and Madam Eva spellcasting</interface>
+        <usage>Cleric and Diviner spellcasting structures must align with SpellcastingModule spell slot tracking and spell resolution</usage>
+      </integration>
+      <integration epic="1" story="1-1">
+        <module>StateManager</module>
+        <path>src/core/state-manager.js</path>
+        <interface>State persistence for NPC schedules, quest involvement, relationship networks</interface>
+        <usage>NPC dynamicState variables must follow Epic 1 StateManager patterns (snake_case, boolean/number/string types)</usage>
+      </integration>
+    </integration-points>
+
+    <testing-standards>
+      <framework>Jest</framework>
+      <dependencies>
+        <dependency>js-yaml (YAML parsing)</dependency>
+        <dependency>jest (testing framework)</dependency>
+      </dependencies>
+      <test-organization>
+        <pattern>AC-based describe blocks - one describe block per acceptance criterion</pattern>
+        <file-location>tests/integration/npcs/major-npcs-batch-1.test.js</file-location>
+        <target-count>35-45 total test cases (8-12 tests per NPC)</target-count>
+      </test-organization>
+      <test-categories>
+        <category>Schema validation - all profiles validate against template v1.0.0</category>
+        <category>CharacterManager compatibility - loadCharacter() succeeds for all 4 NPCs</category>
+        <category>Stat block validation - abilities, HP, AC, proficiencies correct for each NPC type</category>
+        <category>Spellcasting validation - Father Lucian (cleric) and Madam Eva (diviner) spell structures correct</category>
+        <category>Dialogue completeness - all required categories present with 20-30 lines per NPC</category>
+        <category>Quest involvement structure - questId, role, notes format for all NPCs</category>
+        <category>Relationship network - valid NPC IDs referenced (ismark→ireena, lucian→player, eva→strahd, dmitri→ilya)</category>
+        <category>Schedule format - valid HH:MM time format and location IDs</category>
+      </test-categories>
+      <reference-tests>
+        <reference path="tests/integration/npcs/ireena-integration.test.js">
+          <relevance>78 test cases from Story 4-8 - testing pattern for non-combatant NPCs</relevance>
+          <pattern>AC-based organization, schema validation, CharacterManager compatibility, dialogue completeness, quest involvement structure</pattern>
+        </reference>
+        <reference path="tests/integration/npcs/strahd-integration.test.js">
+          <relevance>Spellcasting test patterns for casters (Father Lucian, Madam Eva)</relevance>
+          <pattern>Spell slot validation, prepared spells array, cantrips array, spellcasting ability and DC checks</pattern>
+        </reference>
+      </reference-tests>
+    </testing-standards>
+
+    <constraints>
+      <constraint type="content-only">
+        <description>Epic 4 content-only workflow - YAML profile creation only, no code changes</description>
+        <enforcement>All profiles must validate against existing templates/npc/npc-profile-template.yaml v1.0.0 without template modifications</enforcement>
+      </constraint>
+      <constraint type="file-size">
+        <description>Each profile under 500 lines for readability/maintainability</description>
+        <target>300-500 lines per profile (Ismark: 300-400, Father Lucian: 350-450, Madam Eva: 400-500, Dmitri: 250-350)</target>
+      </constraint>
+      <constraint type="dialogue">
+        <description>All dialogue must be string arrays for LLM-DM contextual selection</description>
+        <format>dialogue.greeting: ["Line 1", "Line 2", ...], minimum 20-30 total lines per NPC</format>
+      </constraint>
+      <constraint type="quest-ids">
+        <description>Quest involvement must reference valid quest IDs from Epic 4 quest system (stories 4-11 to 4-13)</description>
+        <validation>Structure validation only - quest files don't exist yet, but format must be correct</validation>
+      </constraint>
+      <constraint type="npc-ids">
+        <description>Relationship NPC IDs must reference profiles that exist or will exist in Epic 4 stories</description>
+        <valid-references>strahd_von_zarovich, ireena_kolyana, ismark_kolyanovich, kolyan_indirovich, player_character, ilya_krezkov, sergei_von_zarovich</valid-references>
+      </constraint>
+      <constraint type="naming">
+        <description>NPC IDs: snake_case, File names: match npcId, Location IDs: existing Epic 1 conventions</description>
+        <examples>
+          <npc-ids>ismark_kolyanovich, father_lucian_petrovich, madam_eva, burgomaster_dmitri_krezkov</npc-ids>
+          <location-ids>village_of_barovia, vallaki, tser_pool_encampment, krezk</location-ids>
+          <quest-ids>bury_the_burgomaster, escort_ireena_to_vallaki, st_andrals_feast, wine_delivery_to_krezk</quest-ids>
+        </examples>
+      </constraint>
+    </constraints>
+  </documentation>
+
+  <code-references>
+    <file path="src/mechanics/character-manager.js">
+      <relevance>Epic 3 module that loads NPC profiles - all 4 profiles must be compatible</relevance>
+      <key-functions>
+        <function name="loadCharacter(characterId)">
+          <line-range>43-107</line-range>
+          <purpose>Reads characters/[characterId].yaml or game-data/npcs/[characterId].yaml, parses YAML, validates schema</purpose>
+          <integration>All 4 NPC profiles must load successfully via this function</integration>
+        </function>
+        <function name="_validateCharacter(character)">
+          <line-range>225-434</line-range>
+          <purpose>Validates required fields: name, race, class, level, abilities, hitPoints, armorClass, proficiencies</purpose>
+          <integration>All 4 NPC profiles must pass validation checks</integration>
+        </function>
+        <function name="calculateDerivedStats(character)">
+          <line-range>446-474</line-range>
+          <purpose>Calculates ability modifiers, proficiency bonus, spell save DC, spell attack bonus</purpose>
+          <integration>Father Lucian and Madam Eva spellcasting stats must align with calculations</integration>
+        </function>
+        <function name="getAbilityModifier(abilityScore)">
+          <line-range>487-489</line-range>
+          <purpose>Static method: Math.floor((abilityScore - 10) / 2)</purpose>
+          <integration>All NPC ability modifiers must match this calculation</integration>
+        </function>
+        <function name="getProficiencyBonus(level)">
+          <line-range>502-504</line-range>
+          <purpose>Static method: Math.ceil(level / 4) + 1</purpose>
+          <integration>Ismark (level 3) = +2, Father Lucian (level 4) = +2, Madam Eva (level 9) = +4, Dmitri (level 2) = +2</integration>
+        </function>
+      </key-functions>
+    </file>
+    <file path="src/calendar/event-scheduler.js">
+      <relevance>Epic 2 module that integrates with NPC schedules for time-based event triggering</relevance>
+      <key-concepts>
+        <concept name="NPC Schedule Integration">
+          <line-range>242-264</line-range>
+          <description>NPC schedule entries (time, location, activity) can be consumed by EventScheduler to trigger location-based events when player enters at scheduled times</description>
+          <integration>All 4 NPCs have schedule arrays with valid HH:MM format and location IDs</integration>
+        </concept>
+      </key-concepts>
+    </file>
+    <file path="tests/integration/npcs/ireena-integration.test.js">
+      <relevance>Story 4-8 testing pattern - reference for non-combatant NPC testing approach</relevance>
+      <key-patterns>
+        <pattern name="AC-based test organization">
+          <line-range>34-555</line-range>
+          <description>8 describe blocks matching 8 acceptance criteria, specific assertions (not just toBeDefined)</description>
+          <application>Story 4-9 uses same organization: 8 describe blocks for 8 ACs</application>
+        </pattern>
+        <pattern name="Schema validation">
+          <line-range>384-481</line-range>
+          <description>Test templateVersion 1.0.0, required fields, YAML parse success</description>
+          <application>All 4 NPCs must pass same schema validation checks</application>
+        </pattern>
+        <pattern name="CharacterManager compatibility">
+          <line-range>484-555</line-range>
+          <description>Test profile loads successfully, dialogue accessible, quest involvement structure valid</description>
+          <application>CharacterManager must load all 4 profiles without errors</application>
+        </pattern>
+      </key-patterns>
+    </file>
+    <file path="tests/integration/npcs/strahd-integration.test.js">
+      <relevance>Story 4-7 spellcasting testing pattern - reference for Father Lucian and Madam Eva</relevance>
+      <key-patterns>
+        <pattern name="Spellcasting validation">
+          <line-range>189-224</line-range>
+          <description>Test spellcasting ability, spell save DC, spell attack bonus, spell slots by level, prepared spells array, cantrips array</description>
+          <application>Father Lucian (cleric) and Madam Eva (diviner) must pass spellcasting structure tests</application>
+        </pattern>
+      </key-patterns>
+    </file>
+  </code-references>
+
+  <test-ideas>
+    <test-category ac="AC-1">
+      <title>Ismark Kolyanovich - Stat Block and Combat</title>
+      <tests>
+        <test>Ismark profile loads successfully via CharacterManager</test>
+        <test>Ability scores correct: STR 14, DEX 12, CON 13, INT 10, WIS 11, CHA 10</test>
+        <test>HP and AC correct: 16 HP (3d8+3), 14 AC</test>
+        <test>Proficiency bonus +2 (level 3 fighter equivalent)</test>
+        <test>Saving throws correct: STR +4, CON +3</test>
+        <test>Skills correct: Athletics +4, Perception +2, Survival +2</test>
+        <test>Equipment includes: leather armor, longsword (family heirloom), shield, crossbow</test>
+        <test>Quest involvement includes: bury_the_burgomaster (quest_giver), escort_ireena_to_vallaki (quest_giver + companion)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-2">
+      <title>Father Lucian Petrovich - Cleric Spellcasting</title>
+      <tests>
+        <test>Father Lucian profile loads successfully via CharacterManager</test>
+        <test>Class is "Cleric", level 4</test>
+        <test>Spellcasting ability is "wisdom", spell save DC 13, spell attack +5</test>
+        <test>Spell slots correct: 1st (4), 2nd (3)</test>
+        <test>Prepared spells include: cure wounds, bless, sanctuary, lesser restoration, spiritual weapon, aid</test>
+        <test>Cantrips include: sacred flame, light, thaumaturgy</test>
+        <test>AI behavior notes mark as non-combatant (healing spells, Sacred Flame if forced)</test>
+        <test>Quest involvement includes: st_andrals_feast (quest_giver), ireena_sanctuary (provides safe haven)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-3">
+      <title>Madam Eva - Divination Magic and Tarokka</title>
+      <tests>
+        <test>Madam Eva profile loads successfully via CharacterManager</test>
+        <test>Class is "Diviner" (unique NPC class), level 9</test>
+        <test>Spellcasting ability is "wisdom", spell save DC 16, spell attack +8</test>
+        <test>Spell slots correct: 1st (4), 2nd (3), 3rd (3), 4th (3), 5th (1)</test>
+        <test>Prepared spells focus on divination: detect thoughts, scrying, clairvoyance, divination, legend lore, commune, augury</test>
+        <test>Cantrips include: mage hand, prestidigitation, minor illusion</test>
+        <test>Special abilities include: Curse (once per day, DC 16 WIS save)</test>
+        <test>Dialogue includes Tarokka reading script (25-35 lines total)</test>
+        <test>Quest involvement includes: tarokka_reading (quest_giver, central NPC for Story 4-16)</test>
+        <test>Relationship network includes: Strahd (ancient connection, neither enemy nor ally)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-4">
+      <title>Burgomaster Dmitri Krezkov - Non-combatant Noble</title>
+      <tests>
+        <test>Burgomaster Dmitri profile loads successfully via CharacterManager</test>
+        <test>Class is null (commoner), level 2</test>
+        <test>HP and AC correct: 9 HP (2d8), 10 AC</test>
+        <test>Proficiency bonus +2, Saving Throws: WIS +4</test>
+        <test>Skills correct: Insight +4, Persuasion +3, History +3</test>
+        <test>No spellcasting (null)</test>
+        <test>AI behavior notes mark as non-combatant (avoids combat, relies on village guards)</test>
+        <test>Quest involvement includes: journey_to_krezk (gatekeeper), wine_delivery_to_krezk (quest_giver), ilyas_resurrection (quest_target)</test>
+        <test>Family relationships include: Ilya Krezkov (son, deceased), Anna Krezkov (wife)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-5">
+      <title>Schema Compliance - All 4 NPCs</title>
+      <tests>
+        <test>All 4 profiles have templateVersion "1.0.0"</test>
+        <test>All 4 profiles have compatibleWith "Epic 3 CharacterManager (Story 3-2)"</test>
+        <test>All 4 profiles have required basic fields: name, npcId, race, alignment, npcType</test>
+        <test>All 4 profiles have abilities object with all six scores (strength, dexterity, constitution, intelligence, wisdom, charisma)</test>
+        <test>All 4 profiles have hitPoints structure: max, current, temporary, hitDice (total, spent, die)</test>
+        <test>All 4 profiles have proficiencies structure: savingThrows, skills, languages</test>
+        <test>All 4 profiles have personality structure: traits, ideals, bonds, flaws, voiceDescription, appearanceNotes</test>
+        <test>All 4 profiles have dialogue structure: greeting, idle, farewell, questGiving (where applicable), keyQuotes</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-6">
+      <title>Quest Integration - All 4 NPCs</title>
+      <tests>
+        <test>All 4 profiles have aiBehavior.questInvolvement array defined</test>
+        <test>Ismark quest involvement: bury_the_burgomaster (role: quest_giver), escort_ireena_to_vallaki (role: quest_giver)</test>
+        <test>Father Lucian quest involvement: st_andrals_feast (role: quest_giver), ireena_sanctuary (role: helper)</test>
+        <test>Madam Eva quest involvement: tarokka_reading (role: quest_giver)</test>
+        <test>Burgomaster Dmitri quest involvement: journey_to_krezk (role: gatekeeper), wine_delivery_to_krezk (role: quest_giver)</test>
+        <test>All quest involvement entries have: questId (string), role (string), notes (string)</test>
+        <test>Quest IDs follow Epic 4 naming convention (snake_case)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-7">
+      <title>Dialogue Completeness - All 4 NPCs</title>
+      <tests>
+        <test>Ismark has 20-30 dialogue lines total across categories (greeting, questGiving, combat, keyQuotes)</test>
+        <test>Father Lucian has 20-30 dialogue lines total (greeting, questGiving, farewell, keyQuotes)</test>
+        <test>Madam Eva has 25-35 dialogue lines total (greeting, Tarokka reading script, cryptic warnings, keyQuotes)</test>
+        <test>Burgomaster Dmitri has 20-25 dialogue lines total (greeting, questGiving, grief dialogue, keyQuotes)</test>
+        <test>All NPCs have keyQuotes array with at least 2-3 memorable quotes</test>
+        <test>All dialogue arrays are strings (not objects or nested structures)</test>
+      </tests>
+    </test-category>
+    <test-category ac="AC-8">
+      <title>Epic 1-3 Integration Checkpoint</title>
+      <tests>
+        <test>All 4 profile files exist and are readable</test>
+        <test>All 4 profiles under 2000 lines (file size limit)</test>
+        <test>CharacterManager.loadCharacter() succeeds for all 4 NPCs</test>
+        <test>Dialogue systems accessible for all 4 NPCs (dialogue.greeting is array)</test>
+        <test>Quest involvement references valid quest ID structure (snake_case strings)</test>
+        <test>Relationship networks reference valid NPC IDs (ismark→ireena, lucian→player, eva→strahd, dmitri→ilya)</test>
+        <test>Schedule entries use valid HH:MM format (regex test: /^\d{2}:\d{2}$/)</test>
+        <test>Schedule entries reference valid location IDs (village_of_barovia, vallaki, tser_pool_encampment, krezk)</test>
+      </tests>
+    </test-category>
+  </test-ideas>
+
+  <dev-notes>
+    <architectural-patterns>
+      <pattern>Epic 4 Content-Only Workflow - No code changes, YAML profile creation only</pattern>
+      <pattern>Batch Story Structure - 4 major supporting NPCs (vs Story 4-7/4-8 single NPC focus)</pattern>
+      <pattern>NPC Complexity Levels: Ismark (combat-capable fighter), Father Lucian (spellcaster cleric), Madam Eva (high-level diviner), Burgomaster Dmitri (non-combatant noble)</pattern>
+      <pattern>Testing Strategy: Batch integration tests validating all 4 profiles together (35-45 total tests vs 78 for Ireena single-NPC focus)</pattern>
+    </architectural-patterns>
+
+    <key-technical-constraints>
+      <constraint>Each profile must be under 500 lines (readability/maintainability)</constraint>
+      <constraint>All dialogue must be string arrays (LLM-DM selects contextually appropriate option)</constraint>
+      <constraint>Quest involvement must reference valid quest IDs from Epic 4 quest system (stories 4-11 to 4-13) - structure validation only, quests don't exist yet</constraint>
+      <constraint>Relationship NPC IDs must reference profiles that exist or will exist in Epic 4 stories</constraint>
+      <constraint>State variables must follow Epic 1 StateManager patterns (snake_case, boolean/number/string types)</constraint>
+    </key-technical-constraints>
+
+    <npc-complexity-levels>
+      <npc name="Ismark Kolyanovich">
+        <complexity>Medium</complexity>
+        <target-size>300-400 lines</target-size>
+        <features>Combat-capable (fighter stats), quest-giver, companion NPC for escort quest</features>
+      </npc>
+      <npc name="Father Lucian Petrovich">
+        <complexity>Medium-High</complexity>
+        <target-size>350-450 lines</target-size>
+        <features>Spellcaster (cleric), quest-giver, sanctuary provider, St. Andral's Feast central NPC</features>
+      </npc>
+      <npc name="Madam Eva">
+        <complexity>High</complexity>
+        <target-size>400-500 lines</target-size>
+        <features>High-level diviner, Tarokka reading system integration (Story 4-16 dependency), ancient lore keeper, extensive dialogue</features>
+      </npc>
+      <npc name="Burgomaster Dmitri Krezkov">
+        <complexity>Low-Medium</complexity>
+        <target-size>250-350 lines</target-size>
+        <features>Non-combatant, gatekeeper NPC (controls Krezk entry), tragic quest hook (Ilya resurrection)</features>
+      </npc>
+    </npc-complexity-levels>
+
+    <learnings-from-previous-stories>
+      <story id="4-8-ireena-npc-profile">
+        <status>done</status>
+        <key-learnings>
+          <learning>NPC profile template v1.0.0 usage - all required fields, templateVersion metadata</learning>
+          <learning>Dialogue categories structure: greeting, idle, farewell, questGiving, questComplete, combat, strahd, travel, romance, keyQuotes - 79 lines provided contextual variety</learning>
+          <learning>AC-based test organization: One describe block per AC, specific assertions (not just toBeDefined)</learning>
+          <learning>Dynamic state tracking: bitten_by_strahd_count, current_location, mood, relationship_with_player, trust_level, quest milestone flags</learning>
+          <learning>AI behavior notes comprehensive for LLM-DM: combatTactics, goals, motivations, fears, knowledgeSecrets, attitudeTowardPlayer, questInvolvement, specialBehaviors</learning>
+          <learning>File locations pattern: Profiles in game-data/npcs/*.yaml, Integration tests in tests/integration/npcs/*.test.js, Location references in NPCs.md with "Full profile: game-data/npcs/{npc_id}.yaml"</learning>
+          <learning>Implementation quality: All 8 ACs fully implemented, 100% test pass rate (78/78 tests), YAML validates successfully, file size 410 lines (well under 2000 max)</learning>
+        </key-learnings>
+        <technical-decisions-to-replicate>
+          <decision>Non-combatant NPCs (Ireena, Father Lucian, Dmitri): Include combat stats but mark combatTactics as defensive/healing/flee</decision>
+          <decision>Spellcasters (Father Lucian, Madam Eva): Use spellcasting object with ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared, cantrips</decision>
+          <decision>Quest involvement: Use questId, role, notes structure even when quests don't exist yet (validates structure, not content)</decision>
+          <decision>Dynamic state tracking: Include custom state variables in dynamicState object for Epic 1 StateManager integration</decision>
+        </technical-decisions-to-replicate>
+        <differences-for-story-4-9>
+          <difference>4 NPCs vs 1 NPC - batch integration testing approach</difference>
+          <difference>Simpler NPCs (no complex mechanics like Tatyana reincarnation) - fewer tests per NPC (8-12 vs 78 for Ireena)</difference>
+          <difference>Combined test file for all 4 NPCs vs individual files</difference>
+          <difference>Target: 300-500 lines per NPC (vs 410 for Ireena, 650+ for Strahd)</difference>
+        </differences-for-story-4-9>
+      </story>
+    </learnings-from-previous-stories>
+  </dev-notes>
+</story-context>

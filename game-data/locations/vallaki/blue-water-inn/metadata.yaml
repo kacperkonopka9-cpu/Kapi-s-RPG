@@ -1,0 +1,32 @@
+# Location Metadata - Blue Water Inn
+
+location_name: "Blue Water Inn"
+location_type: "building"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 1
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Town Gates"
+    direction: "east"
+    travel_time: "1 minute"
+    description: "Near east gate entrance"
+  - name: "Town Square"
+    direction: "west"
+    travel_time: "3 minutes"
+    description: "Main road to town center"
+
+description_token_count: 250
+npc_count: 5
+item_count: 4
+event_count: 3
+
+quest_hub: true
+safe_rest: true
+merchant_access: true
+
+last_validated: null
+validation_status: "pending"

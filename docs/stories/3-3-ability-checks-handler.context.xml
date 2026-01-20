@@ -1,0 +1,456 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3</storyId>
+    <title>Ability Checks Handler</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-3-ability-checks-handler.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master running D&D 5e sessions</asA>
+    <iWant>the system to execute ability checks and saving throws with proper modifiers and DC comparison</iWant>
+    <soThat>character actions (perception, stealth, strength, etc.) are resolved according to D&D 5e rules</soThat>
+    <tasks>
+      <task id="1" name="Create AbilityCheckHandler Module" estimatedTime="30min">
+        <subtask>Create src/mechanics/ability-check-handler.js with class skeleton</subtask>
+        <subtask>Implement constructor with dependency injection (characterManager, diceRoller)</subtask>
+        <subtask>Add JSDoc documentation for class and constructor</subtask>
+        <subtask>Ensure exports work: module.exports = AbilityCheckHandler</subtask>
+        <subtask>Create skill-to-ability mapping constant</subtask>
+      </task>
+      <task id="2" name="Implement Basic Ability Check" estimatedTime="1.5h">
+        <subtask>Implement makeAbilityCheck(character, ability, dc, options = {}) method</subtask>
+        <subtask>Validate ability name and DC</subtask>
+        <subtask>Get ability score and calculate modifier</subtask>
+        <subtask>Roll 1d20 using DiceRoller</subtask>
+        <subtask>Compare total to DC and return Result Object</subtask>
+      </task>
+      <task id="3" name="Implement Skill Check with Proficiency" estimatedTime="2h">
+        <subtask>Define SKILL_TO_ABILITY mapping (18 D&D 5e skills)</subtask>
+        <subtask>Implement makeSkillCheck(character, skill, dc, options = {}) method</subtask>
+        <subtask>Determine ability from skill and check proficiency</subtask>
+        <subtask>Add proficiency bonus if proficient</subtask>
+      </task>
+      <task id="4" name="Implement Advantage/Disadvantage" estimatedTime="1h">
+        <subtask>Handle options.advantage and options.disadvantage</subtask>
+        <subtask>Roll 1d20 twice, take higher (advantage) or lower (disadvantage)</subtask>
+        <subtask>Handle cancellation when both present</subtask>
+      </task>
+      <task id="5" name="Implement Saving Throws" estimatedTime="1h">
+        <subtask>Implement makeSavingThrow(character, ability, dc, options = {}) method</subtask>
+        <subtask>Check saving throw proficiency in character.proficiencies.savingThrows</subtask>
+      </task>
+      <task id="6" name="Implement Critical Success/Failure Handling" estimatedTime="30min">
+        <subtask>Detect natural 20 and natural 1 rolls</subtask>
+        <subtask>Add critical flag to result (don't auto-succeed/fail for MVP)</subtask>
+      </task>
+      <task id="7" name="Create Test Suite" estimatedTime="4h">
+        <subtask>Create tests/mechanics/ability-check-handler.test.js</subtask>
+        <subtask>Test constructor, makeAbilityCheck, makeSkillCheck, makeSavingThrow</subtask>
+        <subtask>Test advantage/disadvantage, critical handling, all 18 skills</subtask>
+        <subtask>Integration tests with CharacterManager and DiceRoller</subtask>
+        <subtask>Achieve ≥95% statement coverage</subtask>
+      </task>
+      <task id="8" name="Documentation and Examples" estimatedTime="30min">
+        <subtask>Ensure all methods have JSDoc comments</subtask>
+        <subtask>Document skill-to-ability mapping</subtask>
+        <subtask>Document advantage/disadvantage rules</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" priority="high">
+      <title>AbilityCheckHandler Module Creation</title>
+      <given>the need for D&D 5e ability check mechanics</given>
+      <when>AbilityCheckHandler module is created</when>
+      <then>
+        - Export AbilityCheckHandler class from src/mechanics/ability-check-handler.js
+        - Accept optional dependencies via constructor (characterManager, diceRoller)
+        - Follow Result Object pattern: all methods return {success, data, error}
+        - Include comprehensive JSDoc documentation
+      </then>
+      <verification>Class exports correctly, constructor accepts dependencies</verification>
+    </criterion>
+
+    <criterion id="AC-2" priority="high">
+      <title>Basic Ability Check Execution</title>
+      <given>a character with an ability score (e.g., Wisdom 12, modifier +1)</given>
+      <when>AbilityCheckHandler.makeAbilityCheck(character, "wisdom", dc) is called</when>
+      <then>
+        - Retrieve ability score from character.abilities
+        - Calculate ability modifier using CharacterManager.getAbilityModifier(score)
+        - Roll 1d20 using DiceRoller
+        - Add modifier to roll
+        - Compare total to DC
+        - Return {success: true, data: {passed, total, roll, modifier, dc}, error: null}
+        - Complete operation in &lt; 50ms
+        - Handle errors: Invalid ability name, Invalid DC
+      </then>
+      <verification>Unit test with known character and DC</verification>
+    </criterion>
+
+    <criterion id="AC-3" priority="high">
+      <title>Skill Check with Proficiency</title>
+      <given>a character with Wisdom 12 (+1) and proficiency in Perception (+2 proficiency bonus)</given>
+      <when>AbilityCheckHandler.makeSkillCheck(character, "perception", dc, {proficient: true}) is called</when>
+      <then>
+        - Determine which ability the skill uses (perception → wisdom)
+        - Get ability modifier (+1 for wisdom)
+        - Add proficiency bonus if proficient (+2 at level 3)
+        - Roll 1d20 + ability modifier + proficiency bonus
+        - Compare total to DC
+        - Return {success: true, data: {passed, total, roll, abilityModifier, proficiencyBonus, dc}, error: null}
+        - Support all 18 D&D 5e skills mapped to correct abilities
+      </then>
+      <verification>Integration test with character proficient in perception</verification>
+    </criterion>
+
+    <criterion id="AC-4" priority="medium">
+      <title>Advantage and Disadvantage Mechanics</title>
+      <given>a character making an ability check</given>
+      <when>makeAbilityCheck(character, ability, dc, {advantage: true}) or {disadvantage: true} is called</when>
+      <then>
+        - Advantage: Roll 1d20 twice, take higher roll, add modifiers
+        - Disadvantage: Roll 1d20 twice, take lower roll, add modifiers
+        - Both advantage and disadvantage: Cancel out, roll normally
+        - Return result with both rolls shown: {rolls: [roll1, roll2], selectedRoll: higher/lower}
+      </then>
+      <verification>Unit tests with advantage/disadvantage options</verification>
+    </criterion>
+
+    <criterion id="AC-5" priority="high">
+      <title>Saving Throw Execution</title>
+      <given>a character with Constitution 15 (+2) and proficiency in Constitution saves</given>
+      <when>AbilityCheckHandler.makeSavingThrow(character, "constitution", dc) is called</when>
+      <then>
+        - Get ability modifier for constitution (+2)
+        - Check if character has saving throw proficiency in character.proficiencies.savingThrows
+        - Add proficiency bonus (+2) if proficient
+        - Roll 1d20 + ability modifier + proficiency (if applicable)
+        - Compare to DC
+        - Return {success: true, data: {passed, total, roll, modifier, proficiency, dc}, error: null}
+      </then>
+      <verification>Unit test with character proficient in Constitution saves</verification>
+    </criterion>
+
+    <criterion id="AC-6" priority="low">
+      <title>Critical Success and Failure (Natural 20/1)</title>
+      <given>an ability check is being made</given>
+      <when>the d20 roll is a natural 20 or natural 1</when>
+      <then>
+        - Natural 20: Include {critical: "success", total: 20 + modifiers, passed: true}
+        - Natural 1: Include {critical: "failure", total: 1 + modifiers, passed: false}
+        - For MVP: Treat as normal rolls but FLAG as critical for narrative
+        - Do NOT auto-succeed/fail (not RAW for ability checks)
+      </then>
+      <verification>Unit tests with mocked rolls of 1 and 20</verification>
+    </criterion>
+
+    <criterion id="AC-7" priority="high">
+      <title>Integration with CharacterManager and DiceRoller</title>
+      <given>AbilityCheckHandler has dependencies on CharacterManager and DiceRoller</given>
+      <when>a check is made</when>
+      <then>
+        - Use CharacterManager.getAbilityModifier(score) for modifier calculations
+        - Use CharacterManager.getProficiencyBonus(level) for proficiency bonus
+        - Use DiceRoller.roll("1d20", options) for dice rolling
+        - Handle advantage/disadvantage via DiceRoller or roll twice manually
+        - Return Result Object pattern from all operations
+      </then>
+      <verification>Integration test with real CharacterManager and DiceRoller instances</verification>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification - D&D 5e Mechanics Integration</title>
+        <section>AbilityCheckHandler API (lines 538-569)</section>
+        <snippet>Defines complete API signature for makeAbilityCheck, makeSkillCheck, makeSavingThrow methods. Includes parameters, return types, and integration requirements.</snippet>
+        <relevance>Primary specification for ability check mechanics implementation</relevance>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>AC-3: Ability Check Execution (lines 1338-1347)</section>
+        <snippet>Acceptance criteria defining ability check workflow: d20 + wisdom modifier (+1) + proficiency (+2), compare to DC 15, return result object, complete in &lt; 50ms.</snippet>
+        <relevance>Defines performance target and expected result structure</relevance>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Workflow: Ability Check (lines 728-752)</section>
+        <snippet>End-to-end workflow showing CharacterManager.loadCharacter → AbilityCheckHandler.makeSkillCheck → perception check with proficiency calculation.</snippet>
+        <relevance>Reference implementation flow for integration</relevance>
+      </doc>
+      <doc>
+        <path>docs/character-sheet-schema.yaml</path>
+        <title>D&D 5e Character Sheet Schema</title>
+        <section>abilities, proficiencies</section>
+        <snippet>Defines character data structure: abilities (strength, dexterity, constitution, intelligence, wisdom, charisma), proficiencies.skills array, proficiencies.savingThrows array.</snippet>
+        <relevance>Character data structure used by ability check methods</relevance>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture</title>
+        <section>Result Object Pattern, Dependency Injection</section>
+        <snippet>All async operations return {success, data, error}. Modules accept dependencies via constructor for testability.</snippet>
+        <relevance>Architectural patterns required for implementation</relevance>
+      </doc>
+      <doc>
+        <path>docs/dice-rolling-decision.md</path>
+        <title>Dice Rolling Design Decision</title>
+        <section>DiceRoller API</section>
+        <snippet>Documents DiceRoller.roll(notation, options) API, advantage/disadvantage support, performance targets (&lt;10ms).</snippet>
+        <relevance>Dependency API for d20 rolling in ability checks</relevance>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager.getAbilityModifier</symbol>
+        <lines>487-489</lines>
+        <reason>Static method to calculate ability modifiers: Math.floor((abilityScore - 10) / 2). Required for ability checks.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager.getProficiencyBonus</symbol>
+        <lines>502-504</lines>
+        <reason>Static method to calculate proficiency bonus: Math.ceil(level / 4) + 1. Required for skill checks and saves.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller.roll</symbol>
+        <lines>1-507</lines>
+        <reason>Dice rolling service for 1d20 rolls. Supports advantage/disadvantage options. Integration point for ability checks.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/character-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>CharacterManager test suite</symbol>
+        <lines>1-861</lines>
+        <reason>Reference implementation of Result Object testing patterns, mocking DI dependencies, 95% coverage standard.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/dice-roller.test.js</path>
+        <kind>test</kind>
+        <symbol>DiceRoller test suite</symbol>
+        <lines>1-500</lines>
+        <reason>Reference for testing dice rolling integration, advantage/disadvantage mechanics.</reason>
+      </artifact>
+      <artifact>
+        <path>characters/kapi.yaml</path>
+        <kind>test-fixture</kind>
+        <symbol>Sample character</symbol>
+        <lines>1-111</lines>
+        <reason>Level 3 Fighter (Str 16, Dex 14, proficient in athletics/perception/survival) - use for integration testing.</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0" usage="Character sheet parsing (indirect dependency via CharacterManager)" />
+        <package name="jest" version="^29.7.0" usage="Testing framework" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1" type="pattern">
+      <name>Result Object Pattern</name>
+      <description>All methods must return {success: boolean, data: any | null, error: string | null}. No exceptions thrown.</description>
+      <source>docs/technical-architecture.md, docs/tech-spec-epic-3.md</source>
+    </constraint>
+    <constraint id="2" type="pattern">
+      <name>Dependency Injection</name>
+      <description>Accept CharacterManager and DiceRoller as constructor parameters with default instances. Enables testing with mocks.</description>
+      <source>docs/tech-spec-epic-3.md (line 147-150)</source>
+    </constraint>
+    <constraint id="3" type="performance">
+      <name>Ability Check Performance Target</name>
+      <description>Complete ability checks in &lt; 50ms including character load + roll + modifier calculation. Log warnings if exceeded.</description>
+      <source>docs/tech-spec-epic-3.md (line 924-926)</source>
+    </constraint>
+    <constraint id="4" type="data">
+      <name>D&D 5e Rules Accuracy</name>
+      <description>Follow D&D 5e SRD rules exactly: ability modifiers = floor((score-10)/2), proficiency bonus = ceil(level/4)+1, advantage/disadvantage = roll 2d20 take higher/lower.</description>
+      <source>D&D 5e SRD, docs/tech-spec-epic-3.md</source>
+    </constraint>
+    <constraint id="5" type="testing">
+      <name>Test Coverage Standard</name>
+      <description>Achieve ≥95% statement coverage. Follow patterns from tests/mechanics/character-manager.test.js for Result Object testing and DI mocking.</description>
+      <source>docs/tech-spec-epic-3.md (line 1820)</source>
+    </constraint>
+    <constraint id="6" type="integration">
+      <name>CharacterManager Integration</name>
+      <description>Use CharacterManager.getAbilityModifier() and CharacterManager.getProficiencyBonus() static methods. Do not reimplement these calculations.</description>
+      <source>docs/tech-spec-epic-3.md (line 1540)</source>
+    </constraint>
+    <constraint id="7" type="integration">
+      <name>DiceRoller Integration</name>
+      <description>Use DiceRoller.roll("1d20", options) for all d20 rolls. Support advantage/disadvantage via options if DiceRoller supports it, otherwise roll twice manually.</description>
+      <source>docs/tech-spec-epic-3.md (line 1540)</source>
+    </constraint>
+    <constraint id="8" type="data">
+      <name>Skill-to-Ability Mapping</name>
+      <description>Use standard D&D 5e skill-to-ability mapping: athletics→strength, acrobatics/sleight_of_hand/stealth→dexterity, arcana/history/investigation/nature/religion→intelligence, animal_handling/insight/medicine/perception/survival→wisdom, deception/intimidation/performance/persuasion→charisma.</description>
+      <source>D&D 5e SRD</source>
+    </constraint>
+    <constraint id="9" type="rules">
+      <name>Critical Success/Failure (MVP)</name>
+      <description>For MVP, flag natural 20 as critical success and natural 1 as critical failure for narrative purposes. Do NOT auto-succeed/fail (not RAW for ability checks, only attacks).</description>
+      <source>Story 3-3 AC-6, D&D 5e SRD clarification</source>
+    </constraint>
+    <constraint id="10" type="module-structure">
+      <name>Module Location</name>
+      <description>Place module at src/mechanics/ability-check-handler.js, tests at tests/mechanics/ability-check-handler.test.js. Follow Epic 3 module structure.</description>
+      <source>docs/tech-spec-epic-3.md (line 206)</source>
+    </constraint>
+    <constraint id="11" type="documentation">
+      <name>JSDoc Documentation</name>
+      <description>All public methods require comprehensive JSDoc: @param, @returns, @example. Document skill-to-ability mapping in module header.</description>
+      <source>Story 3-3 AC-1, reference: src/mechanics/character-manager.js</source>
+    </constraint>
+    <constraint id="12" type="future-integration">
+      <name>Story 3-4 Integration</name>
+      <description>Story 3-4 (Skill Check System) may extend or replace skill check functionality. Design makeSkillCheck() for potential refactoring.</description>
+      <source>Story 3-3 Dev Notes</source>
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>AbilityCheckHandler.makeAbilityCheck</name>
+      <kind>function</kind>
+      <signature>async makeAbilityCheck(character: Object, ability: string, dc: number, options: {advantage?: boolean, disadvantage?: boolean} = {}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js</path>
+      <returns>{success: boolean, data: {passed: boolean, total: number, roll: number, modifier: number, dc: number, critical?: string, rolls?: number[], selectedRoll?: number}, error: string | null}</returns>
+    </interface>
+    <interface>
+      <name>AbilityCheckHandler.makeSkillCheck</name>
+      <kind>function</kind>
+      <signature>async makeSkillCheck(character: Object, skill: string, dc: number, options: {advantage?: boolean, disadvantage?: boolean} = {}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js</path>
+      <returns>{success: boolean, data: {passed: boolean, total: number, roll: number, abilityModifier: number, proficiencyBonus: number, dc: number, critical?: string, rolls?: number[], selectedRoll?: number}, error: string | null}</returns>
+    </interface>
+    <interface>
+      <name>AbilityCheckHandler.makeSavingThrow</name>
+      <kind>function</kind>
+      <signature>async makeSavingThrow(character: Object, ability: string, dc: number, options: {advantage?: boolean, disadvantage?: boolean} = {}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js</path>
+      <returns>{success: boolean, data: {passed: boolean, total: number, roll: number, modifier: number, proficiency: boolean, dc: number, critical?: string, rolls?: number[], selectedRoll?: number}, error: string | null}</returns>
+    </interface>
+    <interface>
+      <name>CharacterManager.getAbilityModifier</name>
+      <kind>static-method</kind>
+      <signature>static getAbilityModifier(abilityScore: number): number</signature>
+      <path>src/mechanics/character-manager.js:487</path>
+      <returns>number (ability modifier)</returns>
+      <usage>Calculate ability modifiers for ability checks</usage>
+    </interface>
+    <interface>
+      <name>CharacterManager.getProficiencyBonus</name>
+      <kind>static-method</kind>
+      <signature>static getProficiencyBonus(level: number): number</signature>
+      <path>src/mechanics/character-manager.js:502</path>
+      <returns>number (proficiency bonus +2 through +6)</returns>
+      <usage>Calculate proficiency bonus for skill checks and saving throws</usage>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll</name>
+      <kind>method</kind>
+      <signature>async roll(notation: string, options?: {advantage?: boolean, disadvantage?: boolean}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+      <returns>{success: boolean, data: {notation: string, rolls: number[], modifier: number, total: number, breakdown: string}, error: string | null}</returns>
+      <usage>Roll 1d20 for ability checks, skill checks, and saving throws</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Epic 3 follows Jest testing framework (v29.7.0) with ≥95% statement coverage target. All tests use Result Object pattern assertions (expect result.success, result.data, result.error). Dependency injection enables mocking CharacterManager and DiceRoller for deterministic tests. Test structure: describe blocks per method, separate unit tests (isolated logic) and integration tests (real dependencies). Reference implementation: tests/mechanics/character-manager.test.js (69 tests, 94.3% coverage).
+    </standards>
+
+    <locations>
+      <location>tests/mechanics/ability-check-handler.test.js (to be created)</location>
+      <location>tests/integration/ability-check-workflow.test.js (future E2E tests)</location>
+    </locations>
+
+    <tests>
+      <idea ac="AC-1">
+        <test>Constructor with default dependencies (CharacterManager, DiceRoller instances)</test>
+        <test>Constructor with custom dependencies via DI</test>
+        <test>Class exports correctly from module.exports</test>
+      </idea>
+      <idea ac="AC-2">
+        <test>Valid ability check: wisdom check vs DC 15, modifier +1, roll 12, total 13, fails</test>
+        <test>Valid ability check: wisdom check vs DC 15, modifier +1, roll 14, total 15, passes</test>
+        <test>Invalid ability name: "unknown" → error "Invalid ability: unknown"</test>
+        <test>Invalid DC: negative number → error "DC must be a positive number"</test>
+        <test>Invalid DC: non-number → error "DC must be a positive number"</test>
+        <test>All 6 abilities work: strength, dexterity, constitution, intelligence, wisdom, charisma</test>
+        <test>Result Object structure correct: {success: true, data: {passed, total, roll, modifier, dc}, error: null}</test>
+        <test>Performance: ability check completes in &lt; 50ms</test>
+      </idea>
+      <idea ac="AC-3">
+        <test>Skill check without proficiency: perception (wisdom +1), not proficient, DC 15</test>
+        <test>Skill check with proficiency: perception (wisdom +1 + proficiency +2), proficient, DC 15</test>
+        <test>All 18 skill-to-ability mappings correct: athletics→strength, acrobatics→dexterity, etc.</test>
+        <test>Invalid skill name: "unknown_skill" → error "Invalid skill: unknown_skill"</test>
+        <test>Proficiency bonus calculation correct for levels 1-20 (level 1-4: +2, 5-8: +3, etc.)</test>
+        <test>Result includes proficiency details: {abilityModifier, proficiencyBonus, total}</test>
+      </idea>
+      <idea ac="AC-4">
+        <test>Advantage: rolls [8, 15], takes 15, adds modifier, compares to DC</test>
+        <test>Disadvantage: rolls [8, 15], takes 8, adds modifier, compares to DC</test>
+        <test>Advantage + Disadvantage: cancel out, roll once normally</test>
+        <test>Result shows both rolls: {rolls: [8, 15], selectedRoll: 15}</test>
+        <test>Advantage works with skill checks</test>
+        <test>Disadvantage works with saving throws</test>
+      </idea>
+      <idea ac="AC-5">
+        <test>Saving throw without proficiency: constitution save, not proficient</test>
+        <test>Saving throw with proficiency: constitution save, proficient (Fighter: Str/Con proficient)</test>
+        <test>All 6 ability saves work: strength, dexterity, constitution, intelligence, wisdom, charisma</test>
+        <test>Result includes proficiency indicator: {proficiency: true/false}</test>
+        <test>Advantage/disadvantage work with saving throws</test>
+      </idea>
+      <idea ac="AC-6">
+        <test>Natural 20: roll is 20, flag as critical success, passed = true regardless of DC</test>
+        <test>Natural 1: roll is 1, flag as critical failure, passed = false regardless of DC</test>
+        <test>Natural 20 doesn't auto-succeed against impossible DC (narrative flag only)</test>
+        <test>Natural 1 doesn't auto-fail against trivial DC (narrative flag only)</test>
+        <test>Critical field present in result when natural 20/1: {critical: "success"/"failure"}</test>
+      </idea>
+      <idea ac="AC-7">
+        <test>Integration test: Load real character (Kapi), make ability check, verify modifiers</test>
+        <test>Integration test: DiceRoller called correctly with "1d20" notation</test>
+        <test>Integration test: CharacterManager.getAbilityModifier() used for modifier calculation</test>
+        <test>Integration test: CharacterManager.getProficiencyBonus() used for proficiency calculation</test>
+        <test>Integration test: Round-trip with CharacterManager.loadCharacter() → makeSkillCheck()</test>
+        <test>All methods return Result Object pattern</test>
+      </idea>
+      <idea ac="general">
+        <test>Edge case: Character with ability score 1 (modifier -5)</test>
+        <test>Edge case: Character with ability score 20 (modifier +5)</test>
+        <test>Edge case: Level 1 character (proficiency +2)</test>
+        <test>Edge case: Level 20 character (proficiency +6)</test>
+        <test>Edge case: DC 0 (always passes)</test>
+        <test>Edge case: DC 30 (very hard, rarely passes)</test>
+        <test>Mocking: Mock DiceRoller to return deterministic rolls for testing</test>
+        <test>Mocking: Mock CharacterManager methods to verify integration</test>
+        <test>Error handling: DiceRoller.roll() fails → propagate error</test>
+        <test>Error handling: CharacterManager.getAbilityModifier() with invalid score → handle gracefully</test>
+      </idea>
+    </tests>
+  </tests>
+</story-context>

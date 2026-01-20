@@ -1,0 +1,208 @@
+# Icon of Ravenloft - Very Rare Wondrous Item
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "icon_of_ravenloft"
+name: "Icon of Ravenloft"
+type: "magic_item"
+weight: 2.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "very_rare"
+requiresAttunement: true
+attunementRequirements: "by a creature of good alignment"
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null  # Not a weapon
+
+# === ARMOR PROPERTIES ===
+armorProperties: null  # Not armor
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "protection_from_undead"
+    description: "Undead creatures within 30 feet of the icon have disadvantage on attack rolls against you"
+
+  - type: "saving_throw_bonus"
+    value: 2
+    saveTypes: ["all"]
+    condition: "Against effects from undead creatures"
+    description: "+2 bonus to saving throws against effects from undead creatures"
+
+  - type: "healing_enhancement"
+    description: "Creatures within 30 feet that regain hit points from spells or class features regain an additional 1d4 hit points"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Sanctuary of Light"
+    description: "While holding the Icon, you are constantly under the effects of a Protection from Evil and Good spell that affects only undead. Undead creatures within 30 feet of you have disadvantage on attack rolls against you, and you cannot be charmed, frightened, or possessed by undead. This effect requires concentration as if concentrating on a spell."
+    activation: "passive"
+    duration: "while_held"
+    mechanics:
+      requiresConcentration: true
+      affectsCreatures: ["undead"]
+      protections: ["disadvantage_on_attacks", "charm_immunity", "fear_immunity", "possession_immunity"]
+      range: 30
+
+  - name: "Blessed Healing"
+    description: "When a creature within 30 feet of the Icon regains hit points from a spell of 1st level or higher or from a class feature (such as Lay on Hands or Channel Divinity), that creature regains an additional 1d4 hit points. This bonus healing occurs once per spell or ability use."
+    activation: "passive"
+    mechanics:
+      bonusHealing: "1d4"
+      range: 30
+      triggeredBy: ["healing_spell", "class_healing_feature"]
+      minimumSpellLevel: 1
+
+  - name: "Bane of the Undead"
+    description: "As an action while holding the Icon, you can speak a prayer and force undead creatures within 30 feet to make a DC 15 Wisdom saving throw. On a failed save, an undead creature is frightened of you for 1 minute. While frightened in this way, the creature must spend its turns trying to move as far away from you as possible. It can't willingly move to a space within 30 feet of you and cannot take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action. A frightened creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Once you use this property, you can't use it again until the next dawn."
+    activation: "action"
+    usesPerDay: 1
+    recharge: "dawn"
+    saveType: "wisdom"
+    saveDC: 15
+    range: 30
+    targetType: ["undead"]
+    effect: "frightened"
+    duration: "1_minute"
+    repeatSave: "end_of_turn"
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Icon of Ravenloft is a holy relic blessed by Saint Markovia, a priest of the Morninglord who challenged Strahd's tyranny centuries ago. The Icon is a beautifully crafted platinum amulet depicting the sun rising over the mountains. It radiates a soft, warm light and provides powerful protection against undead creatures. Saint Markovia carried this Icon when she led a failed uprising against Strahd, and it remained blessed even after her martyrdom."
+
+  history: "Saint Markovia was a powerful cleric of the Morninglord who came to Barovia with the mission of destroying Strahd and freeing the land from his curse. She blessed this Icon in a sacred ritual, imbuing it with divine power to protect the faithful and harm the undead. She led a group of paladins and clerics in an assault on Castle Ravenloft, wielding the Icon as both symbol and weapon. Though the assault failed and Markovia was captured, tortured, and killed, the Icon retained its holy power. After her death, the Icon was hidden away and its location became lost to history. Strahd fears this relic, as it represents the one mortal who nearly succeeded in destroying him."
+
+  saintMarkoviaStory:
+    - "Saint Markovia was a high priestess of the Morninglord from a land beyond the mists"
+    - "She received a divine vision calling her to free Barovia from Strahd's curse"
+    - "She gathered an army of faithful warriors and marched on Castle Ravenloft"
+    - "The assault breached the outer walls but was ultimately repelled"
+    - "Strahd captured Markovia and offered to spare her followers if she renounced her faith"
+    - "She refused, and Strahd tortured her to death over many days"
+    - "Her spirit is said to linger in the Abbey of Saint Markovia, still defying Strahd"
+    - "The Icon survived her death and became a symbol of resistance against tyranny"
+
+  legendsAndRumors:
+    - "The Icon contains a fragment of Saint Markovia's soul, sustaining its power"
+    - "Strahd cannot approach within 30 feet of the Icon without suffering great pain"
+    - "The Icon glows brighter in the presence of powerful undead"
+    - "Saint Markovia's spirit will appear to aid the Icon's bearer in their hour of greatest need"
+    - "If brought to the Abbey of Saint Markovia, the Icon might restore the Abbey to its former glory"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "All properties revealed through attunement and experimentation. The Bane of the Undead ability is discovered when the prayer inscribed on the Icon is spoken aloud."
+  hiddenProperties:
+    - "The Blessed Healing aura is not immediately apparent and may be discovered during combat healing"
+    - "The prayer for Bane of the Undead is inscribed in Celestial on the back of the Icon"
+    - "The Icon's requirement for concentration on the Sanctuary of Light effect is learned through experience"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Abbey of Saint Markovia in Krezk, or determined by Tarokka reading"
+  howObtained: "Commonly found in the Abbey of Saint Markovia, possibly in the possession of the Abbot, hidden in the abbey's ruins, or buried in Saint Markovia's tomb. If the Tarokka reading indicates another location, it may be in Castle Ravenloft (Strahd's trophy room), a church in Vallaki, or another holy site."
+  guardian: "May be guarded by the Abbot (who may or may not understand its significance), undead creatures in the abbey ruins, or locked in a reliquary requiring a DC 20 Thieves' Tools check to open"
+  notes: "The Icon emanates a faint golden light when held by a good-aligned creature. This light is visible in darkness but does not provide illumination like a torch. Strahd will recognize the Icon if he sees it and may react with anger or fear."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "Undead creatures have disadvantage on attack rolls against you while you hold the Icon"
+  damageRolls: null
+  spellDC: "Bane of the Undead ability uses DC 15 Wisdom saving throw"
+
+  integration:
+    combatManager: "Sanctuary of Light disadvantage on undead attacks integrates with advantage/disadvantage system. Bane of the Undead creates frightened condition for undead."
+    equipmentManager: "Equippable in neck slot or held in hand. Requires attunement by good-aligned creature. Counts toward 3-item attunement limit."
+    inventoryManager: "Weight 2 lbs, can be worn around neck or held in hand"
+
+  concentrationMechanics:
+    description: "The Sanctuary of Light effect requires concentration, which has important implications:"
+    rules:
+      - "Concentrating on the Icon prevents you from concentrating on spells simultaneously"
+      - "Taking damage requires a Constitution saving throw to maintain concentration (DC 10 or half damage, whichever is higher)"
+      - "If concentration is broken, the Sanctuary of Light effect ends until you concentrate on it again (no action required)"
+      - "You can choose to stop concentrating on the Icon (to cast a concentration spell) and resume later"
+
+  healingMechanics:
+    description: "Blessed Healing provides bonus healing in a 30-foot radius:"
+    interactions:
+      - "Stacks with other healing bonuses (Disciple of Life, Inspiring Leader, etc.)"
+      - "Applies to Cure Wounds, Healing Word, Lay on Hands, Second Wind, etc."
+      - "Does not apply to natural healing, hit dice spent during short rest, or regeneration"
+      - "1d4 bonus is rolled separately for each healing instance"
+      - "Multiple creatures can benefit from the same use of an area healing spell (Mass Cure Wounds)"
+
+  tacticalConsiderations:
+    - "The concentration requirement forces a choice between Icon protection and concentration spells"
+    - "Best used by non-spellcasters or characters with few concentration spells"
+    - "Bane of the Undead is excellent for crowd control against multiple weak undead"
+    - "Blessed Healing makes the Icon bearer a priority target during combat"
+    - "The 30-foot range requires positioning - stay near allies to maximize healing bonus"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "very_rare"
+  recommendedLevel: 5
+  notes: "Very powerful for clerics and paladins, especially in an undead-heavy campaign like Curse of Strahd. The disadvantage on attacks from undead is a strong defensive benefit, but the concentration requirement prevents stacking with powerful concentration spells. The healing bonus makes the party more durable. The Bane of the Undead ability is a once-per-day panic button against undead hordes."
+
+  dmGuidance:
+    - "The concentration requirement balances the powerful defensive benefit"
+    - "Undead creatures will quickly learn to target the Icon bearer to break concentration"
+    - "The Icon is especially valuable for non-spellcaster good-aligned characters (paladins, fighters)"
+    - "Consider having Strahd recognize the Icon and comment on Saint Markovia's failure"
+    - "If players visit the Abbey, consider tying the Icon to Saint Markovia's story for emotional impact"
+    - "The Bane of the Undead ability can trivialize encounters with weak undead - use sparingly or counter with undead who succeed the save"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A platinum amulet in the shape of a sunburst, approximately 4 inches in diameter. The craftsmanship is exquisite, with delicate rays extending from a central disc. The disc depicts a sunrise over mountains - the symbol of the Morninglord. Small gemstones (amber and topaz) are set in the rays, catching and reflecting light. The back is inscribed with a prayer in Celestial script. The Icon hangs on a thick platinum chain."
+
+  activeState: "When held or worn by a good-aligned creature, the Icon emits a soft golden glow, warm to the touch. The gemstones pulse gently with inner light. When the Bane of the Undead ability is activated, the Icon blazes with brilliant golden-white radiance, and the prayer inscribed on it seems to resonate in the air."
+
+  soundEffects: "When the Bane of the Undead ability is used, the Icon produces a sound like distant church bells or a choir singing a hymn. Undead creatures near the Icon sometimes make hissing or recoiling sounds, as if pained by its presence."
+
+# === ROLEPLAYING OPPORTUNITIES ===
+roleplayElements:
+  saintMarkoviaConnection:
+    - "Characters might research Saint Markovia's story to understand the Icon's significance"
+    - "Visiting the Abbey of Saint Markovia while bearing the Icon could trigger visions or ghostly encounters"
+    - "The Icon might react when near Saint Markovia's remains or relics"
+    - "Strahd might offer to trade valuable items or information for the Icon's destruction"
+
+  moralDilemmas:
+    - "Should the Icon be returned to the Abbey, kept for the party's use, or given to a worthy NPC?"
+    - "If the Abbot has the Icon, is it right to take it from him (even if he's fallen)?"
+    - "Could the Icon be used to inspire a rebellion among Barovia's people?"
+
+  reactionFromNPCs:
+    - "Devout NPCs recognize the Icon as a holy relic and show reverence"
+    - "Evil NPCs and undead recoil from the Icon in fear or anger"
+    - "Strahd might offer dark bargains to convince the party to destroy or surrender the Icon"
+    - "The Abbot (if present) might claim the Icon belongs to the Abbey"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.222"
+  official: true
+  srdContent: false
+
+  notes: "A powerful support item for good-aligned characters, especially clerics and paladins. The Icon provides both defensive benefits (protection from undead) and utility (enhanced healing). The concentration requirement adds tactical depth. The connection to Saint Markovia enriches the campaign lore and provides roleplaying opportunities."
+
+  dmReminders:
+    - "The Icon requires attunement by a good-aligned creature - neutral or evil characters cannot use it"
+    - "Sanctuary of Light requires concentration - enforce this rule strictly"
+    - "Blessed Healing applies to all healing within 30 feet, not just the bearer's healing"
+    - "Bane of the Undead is once per day and recharges at dawn"
+    - "Consider having Strahd react strongly if he sees the Icon (it represents his only serious defeat)"
+    - "The Icon can be a hook for exploring Saint Markovia's story and the Abbey of Saint Markovia"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

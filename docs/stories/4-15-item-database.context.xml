@@ -1,0 +1,213 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>4.15</storyId>
+    <title>Item Database</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-15-item-database.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Game Master running Curse of Strahd</asA>
+    <iWant>14 magic item definitions implemented with complete D&D 5e properties, effects, attunement requirements, and ItemDatabase/EquipmentManager integration</iWant>
+    <soThat>I can provide legendary artifacts, unique magic items, and standard equipment to players as rewards, enabling proper item management, attunement tracking, and combat integration throughout the campaign</soThat>
+    <tasks>
+      <task id="1">Create Item Infrastructure and Validate Templates (AC: #1, #5)</task>
+      <task id="2">Implement Legendary Artifacts - Sunsword, Holy Symbol of Ravenkind, Tome of Strahd (AC: #2, #7)</task>
+      <task id="3">Implement Unique Magic Items - Icon of Ravenloft, Gulthias Staff, Luck Blade, Blood Spear of Kavan (AC: #3, #7)</task>
+      <task id="4">Implement Standard Equipment & Consumables - 7 items (AC: #4, #8)</task>
+      <task id="5">Implement Special Mechanics and Integration (AC: #5, #6, #7, #8)</task>
+      <task id="6">Add Lore, Identification, and Location Data (AC: #9)</task>
+      <task id="7">Create Integration Tests - 40-60 tests (AC: #10)</task>
+      <task id="8">Validation and Documentation (AC: #1, #10)</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1">Magic Item Files Created - 14 unique YAML files in game-data/items/, conforming to templates/items/magic-item-template.yaml schema, 2,500-3,500 total lines</criterion>
+    <criterion id="AC-2">Legendary Artifacts Implemented - Sunsword (radiant longsword +2), Holy Symbol of Ravenkind (sentient amulet), Tome of Strahd (lore book)</criterion>
+    <criterion id="AC-3">Unique Magic Items Implemented - Icon of Ravenloft, Gulthias Staff, Luck Blade, Blood Spear of Kavan</criterion>
+    <criterion id="AC-4">Standard Equipment & Consumables - 2 +1 weapons, 1 +2 armor, 2 spell scrolls, 1 potion, 1 wondrous item</criterion>
+    <criterion id="AC-5">ItemDatabase Integration - All items load via ItemDatabase.loadItem(), validate against Epic 3 schema</criterion>
+    <criterion id="AC-6">EquipmentManager Integration - Attunement mechanics (max 3), slot management, AC calculation</criterion>
+    <criterion id="AC-7">Special Item Mechanics - Sentience, charges, sunlight emission, vampiric effects, cursed properties, Tarokka location</criterion>
+    <criterion id="AC-8">Combat & Spellcasting Integration - CombatManager weapon bonuses, SpellcastingModule scroll integration</criterion>
+    <criterion id="AC-9">Lore, Identification, and Location Data - Comprehensive lore, identification mechanics, location info, DM reminders, source references</criterion>
+    <criterion id="AC-10">Testing and Validation - tests/integration/items/item-database.test.js, 40-60 tests, 100% pass rate</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Curse of Strahd Content Implementation</title>
+        <section>AC-4: Magic Items and Artifacts Implemented</section>
+        <snippet>14 significant items for Curse of Strahd campaign: 3 legendary artifacts (Sunsword, Holy Symbol of Ravenkind, Tome of Strahd), 4 unique magic items (Icon of Ravenloft, Gulthias Staff, Luck Blade, Blood Spear of Kavan), 7 standard equipment/consumables. All items use Epic 3 ItemDatabase and EquipmentManager formats.</snippet>
+      </doc>
+      <doc>
+        <path>templates/items/magic-item-template.yaml</path>
+        <title>Magic Item Template - Comprehensive Schema v1.0.0</title>
+        <section>Template Structure</section>
+        <snippet>257-line schema defining required fields (id, name, type, weight, rarity, requiresAttunement), magic properties (effects[], specialAbilities[], charges, sentience, curse), weapon/armor properties, lore sections, identification mechanics, location info, combat integration metadata. Compatible with Epic 3 ItemDatabase and EquipmentManager.</snippet>
+      </doc>
+      <doc>
+        <path>templates/items/sunsword.yaml</path>
+        <title>Sunsword Example - Draft Legendary Artifact</title>
+        <section>Legendary Artifact Pattern</section>
+        <snippet>Draft implementation showing weapon properties (longsword +2, radiant damage), special abilities (sunlight emission), attunement requirements, Tarokka location randomization. Use as reference for legendary artifact structure.</snippet>
+      </doc>
+      <doc>
+        <path>templates/items/holy_symbol_of_ravenkind.yaml</path>
+        <title>Holy Symbol Example - Sentient Item Pattern</title>
+        <section>Sentience Mechanics</section>
+        <snippet>Draft showing sentience section (alignment CG, INT 17/WIS 15/CHA 16, telepathy, special purpose), Hold Vampires ability (DC 15 WIS save), attunement by cleric/paladin only. Reference for sentient magic items.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-14-monster-statblocks.md</path>
+        <title>Story 4-14 Monster Statblocks - Previous Story Learnings</title>
+        <section>Dev Agent Record - Completion Notes</section>
+        <snippet>Template-driven development pattern successfully used for 27 monsters. Follow same pattern for items: use magic-item-template.yaml as single source of truth. Integration testing structure: 199 tests organized by category in single test file. File sizes: simple items 80-120 lines, standard 150-200 lines, legendary 300-400 lines. 100% test pass rate before review.</snippet>
+      </doc>
+      <doc>
+        <path>docs/GDD.md</path>
+        <title>Game Design Document - Curse of Strahd</title>
+        <section>Magic Items and Artifacts</section>
+        <snippet>Legendary artifacts (Sunsword, Holy Symbol, Tome) are central to defeating Strahd. Locations determined by Tarokka reading at campaign start. Items provide mechanical advantages (radiant damage vs undead, vampire paralysis) and narrative context (Strahd's history, vampire weaknesses).</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/mechanics/item-database.js</path>
+        <kind>service</kind>
+        <symbol>ItemDatabase</symbol>
+        <lines>1-300</lines>
+        <reason>Core item loading system for Epic 3. Provides loadItems(filePath) to parse YAML, getItem(itemId) for O(1) lookups, queryByType(type) for filtering. Uses Result Object pattern. All 14 items must load successfully via this system.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/equipment-manager.js</path>
+        <kind>service</kind>
+        <symbol>EquipmentManager</symbol>
+        <lines>1-450</lines>
+        <reason>Equipment and attunement system from Epic 3 Story 3-14. Implements equipItem(character, itemId, slot), attune(character, itemId) with max 3 limit, calculateAC(character) with armor bonuses. Required for AC-5, AC-6 integration.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/combat-manager.js</path>
+        <kind>service</kind>
+        <symbol>CombatManager</symbol>
+        <lines>1-500</lines>
+        <reason>Combat system from Epic 3 Story 3-5. Processes weapon attack bonuses (+1/+2/+3), applies magic weapon damage, handles special combat effects. Weapon items must integrate with attack calculations for AC-8.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/monster/monster-statblock-template.yaml</path>
+        <kind>template</kind>
+        <symbol>N/A</symbol>
+        <lines>1-239</lines>
+        <reason>Reference for template structure pattern from Story 4-14. Magic item template follows similar comprehensive approach: all possible fields defined, metadata sections, integration notes, version tracking.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/monsters/</path>
+        <kind>directory</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Reference for content directory structure from Story 4-14. game-data/items/ should follow same pattern: kebab-case YAML files, organized by content type, validated against template schema.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/monsters/monster-loading.test.js</path>
+        <kind>test</kind>
+        <symbol>N/A</symbol>
+        <lines>1-310</lines>
+        <reason>Integration test pattern from Story 4-14. 199 tests in single file organized by category (Undead, Lycanthropes, etc.). Mirror this structure for items: organize by Legendary, Unique, Standard categories within item-database.test.js.</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for item definition files</package>
+        <package name="date-fns" version="^2.30.0">Date utilities (minimal relevance to items)</package>
+        <package name="jest" version="^29.7.0" dev="true">Testing framework for integration tests</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="C-1">Content-Only Story - Epic 4 creates ONLY content files (YAML items), NO new code modules. All items must validate against existing Epic 3 ItemDatabase and EquipmentManager systems without modifying source code.</constraint>
+    <constraint id="C-2">Template Compliance - All 14 items MUST conform to templates/items/magic-item-template.yaml schema v1.0.0. Required fields: id, name, type, weight, rarity, requiresAttunement. Template version and compatibleWith metadata required in all files.</constraint>
+    <constraint id="C-3">File Naming Convention - Use kebab-case YAML (e.g., holy-symbol-of-ravenkind.yaml for id: holy_symbol_of_ravenkind). Maintain consistency with Epic 4 content naming patterns.</constraint>
+    <constraint id="C-4">ItemDatabase Schema - All items must include weight (float), type (weapon/armor/magic_item/consumable), rarity (common/uncommon/rare/very_rare/legendary/artifact) as required by ItemDatabase.loadItems() validation.</constraint>
+    <constraint id="C-5">EquipmentManager Integration - Weapon items require weaponProperties section (baseWeapon, damage, damageType, category). Armor items require armorProperties (baseArmor, armorClass, category). Attunement items include requiresAttunement boolean and optional attunementRequirements string.</constraint>
+    <constraint id="C-6">Result Object Pattern - All Epic 3 systems use {success: boolean, data?: any, error?: string} pattern. No exceptions thrown. Item loading failures return graceful error messages.</constraint>
+    <constraint id="C-7">Testing Standards - 100% test pass rate required before code review. Tests must validate: file existence, YAML parsing, required fields, system integration (ItemDatabase, EquipmentManager, CombatManager), special mechanics. Follow Story 4-14 test organization pattern.</constraint>
+    <constraint id="C-8">Lore Completeness - Every item requires: lore.description (appearance and function), lore.history (backstory), identification section (basePropertiesReveal, fullPropertiesReveal), locationInfo (whereFound, howObtained), metadata.source (Curse of Strahd page reference).</constraint>
+    <constraint id="C-9">Project-Relative Paths - All file paths in metadata, references, and integration notes must be project-relative (e.g., "game-data/items/sunsword.yaml" not absolute paths). Enables portability across development environments.</constraint>
+    <constraint id="C-10">D&D 5e Accuracy - All mechanical values (damage dice, save DCs, ability bonuses, AC values) must match official Curse of Strahd sourcebook. Cite page numbers in metadata.pageReference field.</constraint>
+    <constraint id="C-11">Tarokka Integration Point - 3 legendary artifacts (Sunsword, Holy Symbol, Tome) have locations determined by Tarokka reading system (Story 4-16, currently backlog). Use placeholder in locationInfo.whereFound: "Determined by Tarokka reading" with note for future integration.</constraint>
+    <constraint id="C-12">No Code Modifications - Do NOT modify src/mechanics/item-database.js, equipment-manager.js, combat-manager.js, or any Epic 3 modules. Items must work with existing interfaces as-is. If incompatibility found, document in Dev Notes for future story addressing.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>ItemDatabase.loadItems(filePath)</name>
+      <kind>function</kind>
+      <signature>async loadItems(filePath: string): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/item-database.js:63-120</path>
+      <usage>Load and parse item YAML file. Validates structure (items[] array), caches in memory Map, returns {success, data, error}. All 14 items added to data/srd/items.yaml items[] array.</usage>
+    </interface>
+    <interface>
+      <name>ItemDatabase.getItem(itemId)</name>
+      <kind>function</kind>
+      <signature>async getItem(itemId: string): Promise&lt;ResultObject&lt;Item&gt;&gt;</signature>
+      <path>src/mechanics/item-database.js:140-180</path>
+      <usage>O(1) lookup for item by ID. Returns item object with all properties. Used by EquipmentManager.equipItem() to validate item before equipping. Tests should verify all 14 itemIds load successfully.</usage>
+    </interface>
+    <interface>
+      <name>EquipmentManager.equipItem(character, itemId, slot)</name>
+      <kind>function</kind>
+      <signature>async equipItem(character: Object, itemId: string, slot: string): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/equipment-manager.js:95-250</path>
+      <usage>Equip item to character slot. Validates item type matches slot, checks proficiency, validates strength requirements (heavy armor), recalculates AC, applies equipment effects. Returns {success, data: {equipped, slot, newAC, effects}, error}.</usage>
+    </interface>
+    <interface>
+      <name>EquipmentManager.attune(character, itemId)</name>
+      <kind>function</kind>
+      <signature>async attune(character: Object, itemId: string): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/equipment-manager.js:350-420</path>
+      <usage>Attune character to magic item. Validates requiresAttunement flag, checks attunementRequirements (class/alignment), enforces max 3 attuned items limit. Returns {success, data: {attuned, attunedItems: string[]}, error}. Critical for legendary artifacts and unique items.</usage>
+    </interface>
+    <interface>
+      <name>CombatManager.calculateAttackBonus(character, weapon)</name>
+      <kind>function</kind>
+      <signature>calculateAttackBonus(character: Object, weapon: Object): number</signature>
+      <path>src/mechanics/combat-manager.js:200-250</path>
+      <usage>Calculate total attack bonus including weapon magic bonus (+1/+2/+3). Reads weapon.weaponProperties.attackBonus if present. Used for magic weapon attack rolls (Sunsword +2, Luck Blade +1, Blood Spear +3).</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      All tests use Jest framework (package.json devDependencies). Integration tests in tests/integration/ directory. Test pattern: Arrange-Act-Assert with descriptive test names. Result Object validation (check success before accessing data). Target 80%+ code coverage for core systems. All tests must pass (100% pass rate) before code review. Follow Story 4-14 pattern: single test file per story, organized by acceptance criteria categories.
+    </standards>
+    <locations>
+      <location>tests/integration/items/item-database.test.js</location>
+      <location>tests/integration/monsters/ (reference for test structure)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test Suite 1 - File Existence: Verify all 14 item YAML files exist in game-data/items/, correct kebab-case naming</idea>
+      <idea ac="AC-1">Test Suite 2 - YAML Validity: All items parse as valid YAML without errors, no syntax issues</idea>
+      <idea ac="AC-1">Test Suite 3 - Required Fields: Every item has id, name, type, weight, rarity, effects[], lore, locationInfo, metadata</idea>
+      <idea ac="AC-2">Test Suite 4 - Legendary Artifacts: Validate Sunsword (weapon properties, +2 bonus, radiant damage, sunlight emission), Holy Symbol (sentience, Hold Vampires ability, attunement by cleric/paladin), Tome (no attunement, lore advantage effect)</idea>
+      <idea ac="AC-3">Test Suite 5 - Unique Items: Validate Icon (charm immunity, Turn Undead bonus), Gulthias Staff (charges, Vampiric Strike, Blight spell), Luck Blade (reroll, Wish spells), Blood Spear (curse, soul devour)</idea>
+      <idea ac="AC-4">Test Suite 6 - Standard Equipment: Validate longsword +1, shortbow +1, plate armor +2 (AC 20), spell scrolls, potion, amulet</idea>
+      <idea ac="AC-5">Test Suite 7 - ItemDatabase Loading: ItemDatabase.getItem(itemId) succeeds for all 14 items, returns correct properties</idea>
+      <idea ac="AC-6">Test Suite 8 - Attunement Mechanics: Test attunement requirements (cleric/paladin for Holy Symbol, good alignment for Icon), max 3 attuned items enforced, attune/unattune operations</idea>
+      <idea ac="AC-7">Test Suite 9 - Special Mechanics: Validate sentience properties (Holy Symbol intelligence/wisdom/charisma), charge mechanics (Gulthias Staff 10 max, recharge 1d6+4), sunlight emission (Sunsword 15ft bright), vampiric effects (heal half damage)</idea>
+      <idea ac="AC-8">Test Suite 10 - Combat Integration: Test weapon bonuses apply to attack rolls (+1/+2/+3), magic weapon damage calculations, spell scroll casting integration</idea>
+      <idea ac="AC-10">Test Suite 11 - Template Compliance: All items have templateVersion: "1.0.0", compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"</idea>
+      <idea ac="AC-10">Manual Test: Equip Sunsword to mainHand slot, verify +2 attack bonus appears in combat manager, sunlight emission triggers</idea>
+      <idea ac="AC-10">Manual Test: Attune 3 items to character, attempt 4th attunement, verify error message "Maximum 3 attuned items reached"</idea>
+      <idea ac="AC-10">Manual Test: Use Gulthias Staff to cast Blight (4 charges), verify charge depletion from 10 to 6, spell effect applies</idea>
+    </ideas>
+  </tests>
+</story-context>

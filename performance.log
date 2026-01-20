@@ -53,3 +53,506 @@
 2025-11-09T00:09:22.590Z [019da44e] 3059ms, 100 tokens
 2025-11-09T00:09:26.702Z [3dbbb08f] 1025ms, 100 tokens
 2025-11-09T00:09:33.525Z [a3aabb3b] 6008ms, 100 tokens [SLOW]
+2025-11-09T10:53:03.680Z [b4d07e9c] 3011ms, 100 tokens
+2025-11-09T10:53:04.103Z [8e3f61a9] 3029ms, 100 tokens
+2025-11-09T10:53:08.151Z [1e317458] 1004ms, 100 tokens
+2025-11-09T10:53:15.742Z [62bc7aad] 6012ms, 100 tokens [SLOW]
+2025-11-09T11:25:21.618Z [14d9fb13] 3059ms, 100 tokens
+2025-11-09T11:25:22.200Z [33b863a7] 3021ms, 100 tokens
+2025-11-09T11:25:26.266Z [5a3cf631] 1013ms, 100 tokens
+2025-11-09T11:25:33.708Z [48014c88] 6014ms, 100 tokens [SLOW]
+2025-11-09T21:56:47.924Z [dc93d044] 3034ms, 100 tokens
+2025-11-09T21:56:48.399Z [9d587930] 3019ms, 100 tokens
+2025-11-09T21:56:52.479Z [f0097ef9] 1005ms, 100 tokens
+2025-11-09T21:57:00.013Z [a3caeee4] 6015ms, 100 tokens [SLOW]
+2025-11-09T22:28:24.433Z [8cf67040] 3054ms, 100 tokens
+2025-11-09T22:28:25.020Z [33508572] 3035ms, 100 tokens
+2025-11-09T22:28:29.147Z [55a32a74] 1049ms, 100 tokens
+2025-11-09T22:28:36.553Z [2e590541] 6019ms, 100 tokens [SLOW]
+2025-11-09T23:11:37.591Z [ffd164e1] 3014ms, 100 tokens
+2025-11-09T23:11:38.114Z [b2c32b4a] 3036ms, 100 tokens
+2025-11-09T23:11:42.192Z [a076aafb] 1023ms, 100 tokens
+2025-11-09T23:11:49.716Z [595a4698] 6020ms, 100 tokens [SLOW]
+2025-11-10T12:15:10.678Z [7bdccb85] 3040ms, 100 tokens
+2025-11-10T12:15:11.328Z [58975e25] 3040ms, 100 tokens
+2025-11-10T12:15:15.458Z [50f365ae] 1033ms, 100 tokens
+2025-11-10T12:15:22.842Z [9902848f] 6012ms, 100 tokens [SLOW]
+2025-11-10T12:23:11.745Z [c5a02ff7] 3031ms, 100 tokens
+2025-11-10T12:23:12.327Z [fcb05dee] 3038ms, 100 tokens
+2025-11-10T12:23:16.412Z [6d36a692] 1027ms, 100 tokens
+2025-11-10T12:23:23.900Z [daa34225] 6009ms, 100 tokens [SLOW]
+2025-11-10T13:59:07.510Z [12ab82b6] 3025ms, 100 tokens
+2025-11-10T13:59:07.831Z [0347cf8b] 3028ms, 100 tokens
+2025-11-10T13:59:11.892Z [b3c04769] 1011ms, 100 tokens
+2025-11-10T13:59:19.583Z [f99886c2] 6012ms, 100 tokens [SLOW]
+2025-11-10T14:29:11.690Z [49e4f9d4] 3032ms, 100 tokens
+2025-11-10T14:29:12.581Z [46a7215f] 3040ms, 100 tokens
+2025-11-10T14:29:15.747Z [f4b6ef1f] 1001ms, 100 tokens
+2025-11-10T14:29:24.652Z [0b7135ed] 6017ms, 100 tokens [SLOW]
+2025-11-10T14:57:44.637Z [2cdc91c3] 3011ms, 100 tokens
+2025-11-10T14:57:45.692Z [5b4d9b8a] 3015ms, 100 tokens
+2025-11-10T14:57:48.724Z [8df4704c] 1010ms, 100 tokens
+2025-11-10T14:57:57.734Z [9ff70d16] 6002ms, 100 tokens [SLOW]
+2025-11-10T15:26:11.364Z [8031e76e] 3032ms, 100 tokens
+2025-11-10T15:26:12.473Z [13a713e3] 3021ms, 100 tokens
+2025-11-10T15:26:15.423Z [37f3075a] 1015ms, 100 tokens
+2025-11-10T15:26:24.542Z [81c38bf0] 6009ms, 100 tokens [SLOW]
+2025-11-10T18:05:08.925Z [a5344116] 3039ms, 100 tokens
+2025-11-10T18:05:10.261Z [11d0205d] 3038ms, 100 tokens
+2025-11-10T18:05:14.367Z [6e70fd62] 1027ms, 100 tokens
+2025-11-10T18:05:21.059Z [934a7ec5] 6012ms, 100 tokens [SLOW]
+2025-11-11T14:34:05.985Z [9a368950] 3042ms, 100 tokens
+2025-11-11T14:34:10.030Z [37cfa4b0] 1015ms, 100 tokens
+2025-11-11T14:37:23.719Z [1a75d87d] 3033ms, 100 tokens
+2025-11-11T14:37:24.898Z [54cbc063] 3018ms, 100 tokens
+2025-11-11T14:37:27.797Z [22fbd691] 1002ms, 100 tokens
+2025-11-11T14:37:36.967Z [ddef3ffd] 6014ms, 100 tokens [SLOW]
+2025-11-15T08:46:57.324Z [aa2f9ab0] 3058ms, 100 tokens
+2025-11-15T08:47:00.086Z [296acc60] 3084ms, 100 tokens
+2025-11-15T08:47:04.214Z [9f8f4a2e] 1057ms, 100 tokens
+2025-11-15T08:47:09.527Z [41eb7ac8] 6047ms, 100 tokens [SLOW]
+2025-11-15T09:37:04.071Z [7234beaf] 3045ms, 100 tokens
+2025-11-15T09:37:08.180Z [6a671fb3] 1017ms, 100 tokens
+2025-11-15T09:37:13.798Z [5b8ea714] 3051ms, 100 tokens
+2025-11-15T09:37:25.990Z [ca7fc2f0] 6005ms, 100 tokens [SLOW]
+2025-11-15T14:33:19.682Z [8826deba] 3048ms, 100 tokens
+2025-11-15T14:33:19.896Z [3621f234] 3046ms, 100 tokens
+2025-11-15T14:33:23.988Z [3355103a] 1011ms, 100 tokens
+2025-11-15T14:33:31.829Z [5cf60c1a] 6022ms, 100 tokens [SLOW]
+2025-11-21T21:38:31.862Z [e90140e7] 3041ms, 100 tokens
+2025-11-21T21:38:32.195Z [56629d9d] 3008ms, 100 tokens
+2025-11-21T21:38:36.277Z [825e29a1] 1021ms, 100 tokens
+2025-11-21T21:38:43.987Z [c8d1509d] 6012ms, 100 tokens [SLOW]
+2025-11-28T20:15:16.363Z [ecccc2d7] 3064ms, 100 tokens
+2025-11-28T20:15:20.467Z [e4aa8bab] 1012ms, 100 tokens
+2025-11-28T20:15:20.690Z [7ca835bc] 3037ms, 100 tokens
+2025-11-28T20:15:32.803Z [1d68493d] 6018ms, 100 tokens [SLOW]
+[2025-11-28T20:43:18.141Z] [test] 0ms
+[2025-11-28T20:43:18.158Z] [test] 1ms
+[2025-11-28T20:43:18.160Z] [test] 2ms
+[2025-11-28T20:43:18.161Z] [test] 3ms
+[2025-11-28T20:43:18.162Z] [test] 4ms
+[2025-11-28T20:43:18.164Z] [test] 5ms
+[2025-11-28T20:43:18.166Z] [test] 6ms
+[2025-11-28T20:43:18.175Z] [test] 7ms
+[2025-11-28T20:43:18.186Z] [test] 8ms
+[2025-11-28T20:43:18.191Z] [test] 9ms
+[2025-11-28T20:43:18.195Z] [test] 10ms
+[2025-11-28T20:43:18.214Z] [test] 11ms
+[2025-11-28T20:43:18.225Z] [test] 12ms
+[2025-11-28T20:43:18.226Z] [test] 13ms
+[2025-11-28T20:43:18.228Z] [test] 14ms
+[2025-11-28T20:43:18.229Z] [test] 15ms
+[2025-11-28T20:43:18.235Z] [test] 16ms
+[2025-11-28T20:43:18.236Z] [test] 17ms
+[2025-11-28T20:43:18.238Z] [test] 18ms
+[2025-11-28T20:43:18.239Z] [test] 19ms
+[2025-11-28T20:43:32.415Z] [test] 0ms
+[2025-11-28T20:43:32.416Z] [test] 1ms
+[2025-11-28T20:43:32.418Z] [test] 2ms
+[2025-11-28T20:43:32.419Z] [test] 3ms
+[2025-11-28T20:43:32.420Z] [test] 4ms
+[2025-11-28T20:43:32.421Z] [test] 5ms
+[2025-11-28T20:43:32.422Z] [test] 6ms
+[2025-11-28T20:43:32.423Z] [test] 7ms
+[2025-11-28T20:43:32.424Z] [test] 8ms
+[2025-11-28T20:43:32.425Z] [test] 9ms
+[2025-11-28T20:43:32.426Z] [test] 10ms
+[2025-11-28T20:43:32.427Z] [test] 11ms
+[2025-11-28T20:43:32.428Z] [test] 12ms
+[2025-11-28T20:43:32.429Z] [test] 13ms
+[2025-11-28T20:43:32.430Z] [test] 14ms
+[2025-11-28T20:43:32.432Z] [test] 15ms
+[2025-11-28T20:43:32.433Z] [test] 16ms
+[2025-11-28T20:43:32.434Z] [test] 17ms
+[2025-11-28T20:43:32.435Z] [test] 18ms
+[2025-11-28T20:43:32.436Z] [test] 19ms
+[2025-11-28T20:44:34.581Z] [test] 0ms
+[2025-11-28T20:44:34.583Z] [test] 1ms
+[2025-11-28T20:44:34.584Z] [test] 2ms
+[2025-11-28T20:44:34.585Z] [test] 3ms
+[2025-11-28T20:44:34.586Z] [test] 4ms
+[2025-11-28T20:44:34.587Z] [test] 5ms
+[2025-11-28T20:44:34.588Z] [test] 6ms
+[2025-11-28T20:44:34.589Z] [test] 7ms
+[2025-11-28T20:44:34.589Z] [test] 8ms
+[2025-11-28T20:44:34.590Z] [test] 9ms
+[2025-11-28T20:44:34.591Z] [test] 10ms
+[2025-11-28T20:44:34.592Z] [test] 11ms
+[2025-11-28T20:44:34.593Z] [test] 12ms
+[2025-11-28T20:44:34.594Z] [test] 13ms
+[2025-11-28T20:44:34.597Z] [test] 14ms
+[2025-11-28T20:44:34.598Z] [test] 15ms
+[2025-11-28T20:44:34.600Z] [test] 16ms
+[2025-11-28T20:44:34.601Z] [test] 17ms
+[2025-11-28T20:44:34.602Z] [test] 18ms
+[2025-11-28T20:44:34.604Z] [test] 19ms
+[2025-11-28T20:45:30.006Z] [test] 0ms
+[2025-11-28T20:45:30.007Z] [test] 1ms
+[2025-11-28T20:45:30.008Z] [test] 2ms
+[2025-11-28T20:45:30.009Z] [test] 3ms
+[2025-11-28T20:45:30.010Z] [test] 4ms
+[2025-11-28T20:45:30.010Z] [test] 5ms
+[2025-11-28T20:45:30.011Z] [test] 6ms
+[2025-11-28T20:45:30.012Z] [test] 7ms
+[2025-11-28T20:45:30.013Z] [test] 8ms
+[2025-11-28T20:45:30.013Z] [test] 9ms
+[2025-11-28T20:45:30.014Z] [test] 10ms
+[2025-11-28T20:45:30.015Z] [test] 11ms
+[2025-11-28T20:45:30.015Z] [test] 12ms
+[2025-11-28T20:45:30.016Z] [test] 13ms
+[2025-11-28T20:45:30.017Z] [test] 14ms
+[2025-11-28T20:45:30.018Z] [test] 15ms
+[2025-11-28T20:45:30.019Z] [test] 16ms
+[2025-11-28T20:45:30.021Z] [test] 17ms
+[2025-11-28T20:45:30.022Z] [test] 18ms
+[2025-11-28T20:45:30.024Z] [test] 19ms
+[2025-11-28T20:45:57.029Z] [test] 0ms
+[2025-11-28T20:45:57.030Z] [test] 1ms
+[2025-11-28T20:45:57.031Z] [test] 2ms
+[2025-11-28T20:45:57.032Z] [test] 3ms
+[2025-11-28T20:45:57.033Z] [test] 4ms
+[2025-11-28T20:45:57.035Z] [test] 5ms
+[2025-11-28T20:45:57.036Z] [test] 6ms
+[2025-11-28T20:45:57.037Z] [test] 7ms
+[2025-11-28T20:45:57.038Z] [test] 8ms
+[2025-11-28T20:45:57.039Z] [test] 9ms
+[2025-11-28T20:45:57.040Z] [test] 10ms
+[2025-11-28T20:45:57.041Z] [test] 11ms
+[2025-11-28T20:45:57.041Z] [test] 12ms
+[2025-11-28T20:45:57.042Z] [test] 13ms
+[2025-11-28T20:45:57.043Z] [test] 14ms
+[2025-11-28T20:45:57.044Z] [test] 15ms
+[2025-11-28T20:45:57.046Z] [test] 16ms
+[2025-11-28T20:45:57.047Z] [test] 17ms
+[2025-11-28T20:45:57.049Z] [test] 18ms
+[2025-11-28T20:45:57.050Z] [test] 19ms
+2025-11-28T20:46:16.504Z [3bacfd4a] 3030ms, 100 tokens
+[2025-11-28T20:46:20.376Z] [test] 0ms
+[2025-11-28T20:46:20.377Z] [test] 1ms
+[2025-11-28T20:46:20.379Z] [test] 2ms
+[2025-11-28T20:46:20.380Z] [test] 3ms
+[2025-11-28T20:46:20.381Z] [test] 4ms
+[2025-11-28T20:46:20.383Z] [test] 5ms
+[2025-11-28T20:46:20.389Z] [test] 6ms
+[2025-11-28T20:46:20.391Z] [test] 7ms
+[2025-11-28T20:46:20.393Z] [test] 8ms
+[2025-11-28T20:46:20.395Z] [test] 9ms
+[2025-11-28T20:46:20.396Z] [test] 10ms
+[2025-11-28T20:46:20.398Z] [test] 11ms
+[2025-11-28T20:46:20.399Z] [test] 12ms
+[2025-11-28T20:46:20.400Z] [test] 13ms
+[2025-11-28T20:46:20.402Z] [test] 14ms
+[2025-11-28T20:46:20.409Z] [test] 15ms
+[2025-11-28T20:46:20.410Z] [test] 16ms
+[2025-11-28T20:46:20.411Z] [test] 17ms
+[2025-11-28T20:46:20.413Z] [test] 18ms
+[2025-11-28T20:46:20.415Z] [test] 19ms
+2025-11-28T20:46:20.610Z [d44ac062] 1014ms, 100 tokens
+2025-11-28T20:46:21.662Z [923a343a] 3039ms, 100 tokens
+2025-11-28T20:46:33.720Z [e9418870] 6002ms, 100 tokens [SLOW]
+[2025-11-28T20:46:59.078Z] [test] 0ms
+[2025-11-28T20:46:59.085Z] [test] 1ms
+[2025-11-28T20:46:59.104Z] [test] 2ms
+[2025-11-28T20:46:59.144Z] [test] 3ms
+[2025-11-28T20:46:59.220Z] [test] 4ms
+[2025-11-28T20:46:59.373Z] [test] 5ms
+[2025-11-28T20:46:59.457Z] [test] 6ms
+[2025-11-28T20:46:59.517Z] [test] 7ms
+[2025-11-28T20:46:59.595Z] [test] 8ms
+[2025-11-28T20:46:59.638Z] [test] 9ms
+[2025-11-28T20:46:59.699Z] [test] 10ms
+[2025-11-28T20:46:59.820Z] [test] 11ms
+[2025-11-28T20:46:59.891Z] [test] 12ms
+[2025-11-28T20:46:59.921Z] [test] 13ms
+[2025-11-28T20:46:59.961Z] [test] 14ms
+[2025-11-28T20:46:59.997Z] [test] 15ms
+[2025-11-28T20:47:00.007Z] [test] 16ms
+[2025-11-28T20:47:00.022Z] [test] 17ms
+[2025-11-28T20:47:00.047Z] [test] 18ms
+[2025-11-28T20:47:00.149Z] [test] 19ms
+[2025-11-28T20:47:20.937Z] [test] 0ms
+[2025-11-28T20:47:20.938Z] [test] 1ms
+[2025-11-28T20:47:20.939Z] [test] 2ms
+[2025-11-28T20:47:20.940Z] [test] 3ms
+[2025-11-28T20:47:20.941Z] [test] 4ms
+[2025-11-28T20:47:20.942Z] [test] 5ms
+[2025-11-28T20:47:20.943Z] [test] 6ms
+[2025-11-28T20:47:20.944Z] [test] 7ms
+[2025-11-28T20:47:20.945Z] [test] 8ms
+[2025-11-28T20:47:20.945Z] [test] 9ms
+[2025-11-28T20:47:20.946Z] [test] 10ms
+[2025-11-28T20:47:20.947Z] [test] 11ms
+[2025-11-28T20:47:20.949Z] [test] 12ms
+[2025-11-28T20:47:20.950Z] [test] 13ms
+[2025-11-28T20:47:20.951Z] [test] 14ms
+[2025-11-28T20:47:20.953Z] [test] 15ms
+[2025-11-28T20:47:20.955Z] [test] 16ms
+[2025-11-28T20:47:20.956Z] [test] 17ms
+[2025-11-28T20:47:20.957Z] [test] 18ms
+[2025-11-28T20:47:20.958Z] [test] 19ms
+[2025-11-28T20:50:06.119Z] [contextLoad] 500ms
+[2025-11-28T20:50:06.141Z] [contextLoad] 600ms
+[2025-11-28T20:50:06.142Z] [fileRead] 10ms
+[2025-11-28T20:50:06.144Z] [test] 100ms
+[2025-11-28T20:50:06.196Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-28T20:50:06.217Z] [fast] 0.5ms
+[2025-11-28T20:50:06.218Z] [medium] 500ms
+[2025-11-28T20:50:06.218Z] [slow] 5000ms
+[2025-11-28T20:52:39.070Z] [contextLoad] 77.08ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.089Z] [contextLoad] 9.79ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1","cacheHitRate":0}
+[2025-11-28T20:52:39.104Z] [contextLoad] 12.57ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.123Z] [contextLoad] 7.55ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.133Z] [contextLoad] 7.62ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.145Z] [contextLoad] 9.31ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.154Z] [contextLoad] 6.7ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.167Z] [contextLoad] 7.64ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.178Z] [contextLoad] 9.08ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.187Z] [contextLoad] 6.73ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.198Z] [contextLoad] 7.39ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.208Z] [contextLoad] 8.35ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.218Z] [contextLoad] 6.29ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:39.235Z] [contextLoad] 6.47ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:52:55.048Z] [contextLoad] 500ms
+[2025-11-28T20:52:55.056Z] [contextLoad] 600ms
+[2025-11-28T20:52:55.057Z] [fileRead] 10ms
+[2025-11-28T20:52:55.063Z] [test] 100ms
+[2025-11-28T20:52:55.124Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-28T20:52:55.171Z] [fast] 0.5ms
+[2025-11-28T20:52:55.173Z] [medium] 500ms
+[2025-11-28T20:52:55.177Z] [slow] 5000ms
+[2025-11-28T20:52:55.187Z] [test] 0ms
+[2025-11-28T20:52:55.188Z] [test] 1ms
+[2025-11-28T20:52:55.189Z] [test] 2ms
+[2025-11-28T20:52:55.189Z] [test] 3ms
+[2025-11-28T20:52:55.190Z] [test] 4ms
+[2025-11-28T20:52:55.193Z] [test] 5ms
+[2025-11-28T20:52:55.194Z] [test] 6ms
+[2025-11-28T20:52:55.196Z] [test] 7ms
+[2025-11-28T20:52:55.197Z] [test] 8ms
+[2025-11-28T20:52:55.198Z] [test] 9ms
+[2025-11-28T20:52:55.200Z] [test] 10ms
+[2025-11-28T20:52:55.201Z] [test] 11ms
+[2025-11-28T20:52:55.202Z] [test] 12ms
+[2025-11-28T20:52:55.203Z] [test] 13ms
+[2025-11-28T20:52:55.204Z] [test] 14ms
+[2025-11-28T20:52:55.205Z] [test] 15ms
+[2025-11-28T20:52:55.206Z] [test] 16ms
+[2025-11-28T20:52:55.207Z] [test] 17ms
+[2025-11-28T20:52:55.208Z] [test] 18ms
+[2025-11-28T20:52:55.210Z] [test] 19ms
+[2025-11-28T20:56:46.552Z] [contextLoad] 500ms
+[2025-11-28T20:56:46.582Z] [contextLoad] 600ms
+[2025-11-28T20:56:46.600Z] [fileRead] 10ms
+[2025-11-28T20:56:46.611Z] [test] 100ms
+[2025-11-28T20:56:46.691Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-28T20:56:46.740Z] [fast] 0.5ms
+[2025-11-28T20:56:46.743Z] [medium] 500ms
+[2025-11-28T20:56:46.750Z] [slow] 5000ms
+[2025-11-28T20:56:46.828Z] [test] 0ms
+[2025-11-28T20:56:46.831Z] [test] 1ms
+[2025-11-28T20:56:46.832Z] [test] 2ms
+[2025-11-28T20:56:46.834Z] [test] 3ms
+[2025-11-28T20:56:46.835Z] [test] 4ms
+[2025-11-28T20:56:46.837Z] [test] 5ms
+[2025-11-28T20:56:46.838Z] [test] 6ms
+[2025-11-28T20:56:46.840Z] [test] 7ms
+[2025-11-28T20:56:46.842Z] [test] 8ms
+[2025-11-28T20:56:46.843Z] [test] 9ms
+[2025-11-28T20:56:46.845Z] [test] 10ms
+[2025-11-28T20:56:46.847Z] [test] 11ms
+[2025-11-28T20:56:46.848Z] [test] 12ms
+[2025-11-28T20:56:46.850Z] [test] 13ms
+[2025-11-28T20:56:46.851Z] [test] 14ms
+[2025-11-28T20:56:46.852Z] [test] 15ms
+[2025-11-28T20:56:46.854Z] [test] 16ms
+[2025-11-28T20:56:46.855Z] [test] 17ms
+[2025-11-28T20:56:46.856Z] [test] 18ms
+[2025-11-28T20:56:46.857Z] [test] 19ms
+[2025-11-28T20:56:47.898Z] [contextLoad] 64.97ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:47.917Z] [contextLoad] 8.73ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1","cacheHitRate":0}
+[2025-11-28T20:56:47.930Z] [contextLoad] 10.45ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:47.953Z] [contextLoad] 10.23ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:47.963Z] [contextLoad] 7.48ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:47.978Z] [contextLoad] 10.73ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:47.988Z] [contextLoad] 7.88ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.006Z] [contextLoad] 9.18ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.016Z] [contextLoad] 8.35ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.030Z] [contextLoad] 10.67ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.041Z] [contextLoad] 6.91ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.054Z] [contextLoad] 9.81ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.066Z] [contextLoad] 8.17ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T20:56:48.085Z] [contextLoad] 7.45ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.402Z] [test] 0ms
+[2025-11-28T21:17:52.407Z] [test] 1ms
+[2025-11-28T21:17:52.408Z] [test] 2ms
+[2025-11-28T21:17:52.410Z] [test] 3ms
+[2025-11-28T21:17:52.417Z] [test] 4ms
+[2025-11-28T21:17:52.419Z] [test] 5ms
+[2025-11-28T21:17:52.421Z] [test] 6ms
+[2025-11-28T21:17:52.429Z] [test] 7ms
+[2025-11-28T21:17:52.431Z] [test] 8ms
+[2025-11-28T21:17:52.433Z] [test] 9ms
+[2025-11-28T21:17:52.435Z] [test] 10ms
+[2025-11-28T21:17:52.437Z] [test] 11ms
+[2025-11-28T21:17:52.439Z] [test] 12ms
+[2025-11-28T21:17:52.441Z] [test] 13ms
+[2025-11-28T21:17:52.442Z] [test] 14ms
+[2025-11-28T21:17:52.447Z] [test] 15ms
+[2025-11-28T21:17:52.452Z] [test] 16ms
+[2025-11-28T21:17:52.467Z] [test] 17ms
+[2025-11-28T21:17:52.473Z] [test] 18ms
+[2025-11-28T21:17:52.487Z] [test] 19ms
+[2025-11-28T21:17:52.827Z] [contextLoad] 115.32ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.860Z] [contextLoad] 21.27ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1","cacheHitRate":0}
+[2025-11-28T21:17:52.885Z] [contextLoad] 16.43ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.927Z] [contextLoad] 20.79ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.955Z] [contextLoad] 17.33ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.972Z] [contextLoad] 9.22ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:52.994Z] [contextLoad] 12.2ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.045Z] [contextLoad] 33.26ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.070Z] [contextLoad] 19.07ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.091Z] [contextLoad] 17.52ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.147Z] [contextLoad] 19.95ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.181Z] [contextLoad] 25.05ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.193Z] [contextLoad] 8.87ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.220Z] [contextLoad] 12.83ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-28T21:17:53.586Z] [contextLoad] 500ms
+[2025-11-28T21:17:53.593Z] [contextLoad] 600ms
+[2025-11-28T21:17:53.597Z] [fileRead] 10ms
+[2025-11-28T21:17:53.609Z] [test] 100ms
+[2025-11-28T21:17:53.641Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-28T21:17:53.686Z] [fast] 0.5ms
+[2025-11-28T21:17:53.691Z] [medium] 500ms
+[2025-11-28T21:17:53.692Z] [slow] 5000ms
+2025-11-28T21:17:56.547Z [0eec6c23] 3024ms, 100 tokens
+2025-11-28T21:17:56.904Z [41b78338] 3015ms, 100 tokens
+2025-11-28T21:18:00.962Z [91a287c4] 1017ms, 100 tokens
+2025-11-28T21:18:08.685Z [c1fe9fd5] 6002ms, 100 tokens [SLOW]
+[2025-11-28T21:18:36.316Z] [test] 0ms
+[2025-11-28T21:18:36.316Z] [test] 1ms
+[2025-11-28T21:18:36.317Z] [test] 2ms
+[2025-11-28T21:18:36.318Z] [test] 3ms
+[2025-11-28T21:18:36.318Z] [test] 4ms
+[2025-11-28T21:18:36.319Z] [test] 5ms
+[2025-11-28T21:18:36.320Z] [test] 6ms
+[2025-11-28T21:18:36.320Z] [test] 7ms
+[2025-11-28T21:18:36.321Z] [test] 8ms
+[2025-11-28T21:18:36.321Z] [test] 9ms
+[2025-11-28T21:18:36.322Z] [test] 10ms
+[2025-11-28T21:18:36.323Z] [test] 11ms
+[2025-11-28T21:18:36.324Z] [test] 12ms
+[2025-11-28T21:18:36.324Z] [test] 13ms
+[2025-11-28T21:18:36.325Z] [test] 14ms
+[2025-11-28T21:18:36.326Z] [test] 15ms
+[2025-11-28T21:18:36.326Z] [test] 16ms
+[2025-11-28T21:18:36.327Z] [test] 17ms
+[2025-11-28T21:18:36.327Z] [test] 18ms
+[2025-11-28T21:18:36.328Z] [test] 19ms
+[2025-11-28T21:18:36.680Z] [contextLoad] 500ms
+[2025-11-28T21:18:36.681Z] [contextLoad] 600ms
+[2025-11-28T21:18:36.681Z] [fileRead] 10ms
+[2025-11-28T21:18:36.683Z] [test] 100ms
+[2025-11-28T21:18:36.712Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-28T21:18:36.722Z] [fast] 0.5ms
+[2025-11-28T21:18:36.725Z] [medium] 500ms
+[2025-11-28T21:18:36.726Z] [slow] 5000ms
+2025-11-29T07:45:48.413Z [79a2a0a0] 3047ms, 100 tokens
+2025-11-29T07:45:48.832Z [1d17c55c] 3053ms, 100 tokens
+2025-11-29T07:45:52.969Z [6ea02fc6] 1038ms, 100 tokens
+[2025-11-29T07:45:53.692Z] [contextLoad] 227.11ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:53.850Z] [contextLoad] 135.72ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1","cacheHitRate":0}
+[2025-11-29T07:45:53.878Z] [contextLoad] 13.95ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:53.998Z] [contextLoad] 60.46ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.045Z] [contextLoad] 32.89ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.099Z] [contextLoad] 48.28ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.163Z] [contextLoad] 48.21ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.268Z] [contextLoad] 65.67ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.385Z] [contextLoad] 88.79ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.486Z] [contextLoad] 70.19ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.558Z] [contextLoad] 40.29ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.721Z] [contextLoad] 123.48ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.855Z] [contextLoad] 102.39ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T07:45:54.975Z] [contextLoad] 68.21ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+2025-11-29T07:46:00.543Z [f74b8c7e] 6025ms, 100 tokens [SLOW]
+[2025-11-29T07:46:05.709Z] [contextLoad] 500ms
+[2025-11-29T07:46:05.759Z] [contextLoad] 600ms
+[2025-11-29T07:46:05.830Z] [fileRead] 10ms
+[2025-11-29T07:46:05.915Z] [test] 100ms
+[2025-11-29T07:46:05.997Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-29T07:46:06.147Z] [fast] 0.5ms
+[2025-11-29T07:46:06.197Z] [medium] 500ms
+[2025-11-29T07:46:06.235Z] [slow] 5000ms
+[2025-11-29T07:46:07.578Z] [test] 0ms
+[2025-11-29T07:46:07.634Z] [test] 1ms
+[2025-11-29T07:46:07.679Z] [test] 2ms
+[2025-11-29T07:46:07.714Z] [test] 3ms
+[2025-11-29T07:46:07.727Z] [test] 4ms
+[2025-11-29T07:46:07.744Z] [test] 5ms
+[2025-11-29T07:46:07.752Z] [test] 6ms
+[2025-11-29T07:46:07.764Z] [test] 7ms
+[2025-11-29T07:46:07.795Z] [test] 8ms
+[2025-11-29T07:46:07.817Z] [test] 9ms
+[2025-11-29T07:46:07.833Z] [test] 10ms
+[2025-11-29T07:46:07.846Z] [test] 11ms
+[2025-11-29T07:46:07.855Z] [test] 12ms
+[2025-11-29T07:46:07.872Z] [test] 13ms
+[2025-11-29T07:46:07.875Z] [test] 14ms
+[2025-11-29T07:46:07.877Z] [test] 15ms
+[2025-11-29T07:46:07.879Z] [test] 16ms
+[2025-11-29T07:46:07.880Z] [test] 17ms
+[2025-11-29T07:46:07.882Z] [test] 18ms
+[2025-11-29T07:46:07.883Z] [test] 19ms
+[2025-11-29T08:49:16.569Z] [test] 0ms
+[2025-11-29T08:49:16.571Z] [test] 1ms
+[2025-11-29T08:49:16.587Z] [test] 2ms
+[2025-11-29T08:49:16.593Z] [test] 3ms
+[2025-11-29T08:49:16.596Z] [test] 4ms
+[2025-11-29T08:49:16.602Z] [test] 5ms
+[2025-11-29T08:49:16.604Z] [test] 6ms
+[2025-11-29T08:49:16.612Z] [test] 7ms
+[2025-11-29T08:49:16.614Z] [test] 8ms
+[2025-11-29T08:49:16.617Z] [test] 9ms
+[2025-11-29T08:49:16.620Z] [test] 10ms
+[2025-11-29T08:49:16.622Z] [test] 11ms
+[2025-11-29T08:49:16.630Z] [test] 12ms
+[2025-11-29T08:49:16.631Z] [test] 13ms
+[2025-11-29T08:49:16.633Z] [test] 14ms
+[2025-11-29T08:49:16.635Z] [test] 15ms
+[2025-11-29T08:49:16.636Z] [test] 16ms
+[2025-11-29T08:49:16.638Z] [test] 17ms
+[2025-11-29T08:49:16.640Z] [test] 18ms
+[2025-11-29T08:49:16.642Z] [test] 19ms
+[2025-11-29T08:49:17.150Z] [contextLoad] 53.66ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.182Z] [contextLoad] 25.54ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1","cacheHitRate":0}
+[2025-11-29T08:49:17.213Z] [contextLoad] 22.52ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.242Z] [contextLoad] 9.67ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.256Z] [contextLoad] 9.75ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.279Z] [contextLoad] 18.38ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.295Z] [contextLoad] 11.92ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.320Z] [contextLoad] 16.12ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.334Z] [contextLoad] 11.39ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.351Z] [contextLoad] 13.39ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.368Z] [contextLoad] 13.88ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.392Z] [contextLoad] 15.31ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.411Z] [contextLoad] 11.49ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+[2025-11-29T08:49:17.488Z] [contextLoad] 36.5ms {"locationId":"village-of-barovia","tokenCount":1172,"priorities":"P1,P2","cacheHitRate":0}
+2025-11-29T08:49:17.846Z [6e3188c0] 3029ms, 100 tokens
+2025-11-29T08:49:18.043Z [c21ab638] 3041ms, 100 tokens
+[2025-11-29T08:49:19.786Z] [contextLoad] 500ms
+[2025-11-29T08:49:19.789Z] [contextLoad] 600ms
+[2025-11-29T08:49:19.794Z] [fileRead] 10ms
+[2025-11-29T08:49:19.798Z] [test] 100ms
+[2025-11-29T08:49:19.860Z] [contextLoad] 8000ms
+[PERF WARNING] contextLoad exceeded target: 8.0s (target: 5.0s, threshold: 7.5s)
+[2025-11-29T08:49:19.903Z] [fast] 0.5ms
+[2025-11-29T08:49:19.906Z] [medium] 500ms
+[2025-11-29T08:49:19.913Z] [slow] 5000ms
+2025-11-29T08:49:22.149Z [89caae64] 1027ms, 100 tokens
+2025-11-29T08:49:29.968Z [f4eae126] 6002ms, 100 tokens [SLOW]

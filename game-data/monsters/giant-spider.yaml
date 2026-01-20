@@ -1,0 +1,221 @@
+# Giant Spider - Massive Web-Spinning Arachnid
+# Source: D&D 5e Monster Manual p.328
+# Large spider with web attacks and poison bite
+
+# === BASIC INFORMATION ===
+name: "Giant Spider"
+monsterId: "giant_spider"
+size: "Large"
+type: "beast"
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 14
+armorType: "natural armor"
+
+hitPoints:
+  max: 26
+  current: 26
+  hitDice: "4d10"
+  hitDiceBonus: 4  # +1 Con modifier * 4 HD = +4
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 14    # +2
+  dexterity: 16   # +3
+  constitution: 12  # +1
+  intelligence: 2   # -4
+  wisdom: 11     # +0
+  charisma: 4    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: 30  # Spider Climb
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  stealth: 7  # +3 Dex + 4 (expertise from Web Walker)
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: []
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: 10
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: []
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "giant_spider_1"
+  name: "Giant Spider"
+  dexModifier: 3
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Spider Climb"
+    description: "The spider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+    mechanics:
+      type: "movement"
+      effect: "climb_any_surface_including_ceilings"
+
+  - name: "Web Sense"
+    description: "While in contact with a web, the spider knows the exact location of any other creature in contact with the same web."
+    mechanics:
+      type: "sense_enhancement"
+      trigger: "in_contact_with_web"
+      effect: "know_exact_location_of_creatures_on_web"
+
+  - name: "Web Walker"
+    description: "The spider ignores movement restrictions caused by webbing."
+    mechanics:
+      type: "movement"
+      effect: "ignore_web_difficult_terrain"
+
+# === ACTIONS ===
+actions:
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 5  # +3 Dex + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d8"
+      bonus: 3  # Dex modifier
+      damageType: "piercing"
+    additionalDamage:
+      dice: "2d8"
+      bonus: 0
+      damageType: "poison"
+    description: "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 7 (1d8 + 3) piercing damage, and the target must make a DC 11 Constitution saving throw, taking 9 (2d8) poison damage on a failed save, or half as much damage on a successful one. If the poison damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
+    additionalEffects:
+      - type: "poison_damage"
+        saveDC: 11
+        saveAbility: "constitution"
+        damage: "2d8"
+        onFailure: "full_damage"
+        onSuccess: "half_damage"
+      - type: "condition"
+        condition: "paralyzed"
+        trigger: "poison_damage_reduces_to_zero_hp"
+        duration: "1_hour"
+        note: "Target stable but paralyzed while poisoned"
+
+  - name: "Web (Recharge 5-6)"
+    type: "ranged_weapon_attack"
+    attackBonus: 5  # +3 Dex + 2 prof
+    range:
+      normal: 30
+      long: 60
+    targets: 1
+    recharge: [5, 6]
+    description: "Ranged Weapon Attack: +5 to hit, range 30/60 ft., one creature. Hit: The target is restrained by webbing. As an action, the restrained target can make a DC 12 Strength check, bursting the webbing on a success. The webbing can also be attacked and destroyed (AC 10; hp 5; vulnerability to fire damage; immunity to bludgeoning, poison, and psychic damage)."
+    additionalEffects:
+      - type: "condition"
+        condition: "restrained"
+        escapeDC: 12
+        escapeAbility: "strength"
+        escapeAction: "action"
+        destructible:
+          ac: 10
+          hp: 5
+          vulnerabilities: ["fire"]
+          immunities: ["bludgeoning", "poison", "psychic"]
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "spider_silk"
+      quantity: "2d6"
+      dropChance: 80
+      value: "5_gp_per_length"
+    - item: "poison_gland"
+      quantity: 1
+      dropChance: 50
+      note: "Crafting material for poison"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Ambush from webs on ceiling. Web attack (Recharge 5-6) restrains target (escape DC 12 Str). Bite deals piercing + poison (DC 11 Con save, 2d8 poison). If poison reduces target to 0 HP, target is paralyzed for 1 hour. Spider Climb allows ceiling attacks. Web Sense knows exact location of creatures on web. Hit-and-run using walls/ceiling."
+  intelligence: "animal_intelligence"
+  aggression: "medium"
+  groupTactics: "ambush"
+
+  preferredTargets:
+    - "isolated party members"
+    - "creatures caught in webs"
+
+  fleeThreshold: 8
+  fleeConditions: ["webs_destroyed", "below_30_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Caves, dungeons, ruins, Death House, Castle Ravenloft"
+  organization: "Solitary or colony (2-8)"
+
+lore:
+  description: "Giant spiders are Large arachnids that hunt prey using webs and venomous bites. They build extensive web networks in dark places, waiting for creatures to become ensnared. Their venom can paralyze victims, keeping them alive for later consumption."
+  weakness: "Webs vulnerable to fire. Moderate HP (26). Animal intelligence."
+  behavior: "Ambush predators. Web restrains prey. Poisonous bite paralyzes. Ceiling attacks. Web network early warning."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1-2 giant spiders for easy, 3-4 for medium, 5-8 for hard"
+  terrain: "Web-filled caves, ruined buildings"
+  tactics: "Ambush from ceiling. Web restrains (DC 12 Str escape). Bite has poison (DC 11 Con, 2d8). Poison to 0 HP = paralyzed 1 hour. Fire destroys webs quickly."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.328"
+  official: true
+  srdContent: true
+
+  notes: "Common dungeon monster. Web restrains, poison paralyzes. Fire is hard counter to webs."
+
+  dmReminders:
+    - "Web (Recharge 5-6): Restrains, DC 12 Str escape"
+    - "Web: AC 10, HP 5, vulnerable to fire"
+    - "Bite: 1d8+3 piercing + 2d8 poison (DC 11 Con save)"
+    - "Poison to 0 HP: Paralyzed for 1 hour"
+    - "Spider Climb: Walk on walls/ceilings"
+    - "Web Sense: Know location of creatures on web"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

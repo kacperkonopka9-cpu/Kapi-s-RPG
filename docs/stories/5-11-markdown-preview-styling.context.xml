@@ -1,0 +1,221 @@
+<story-context id="5-11-markdown-preview-styling" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>11</storyId>
+    <title>Markdown Preview Styling</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-29</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-11-markdown-preview-styling.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>solo RPG player</asA>
+    <iWant>custom CSS styling for markdown previews that matches the gothic horror aesthetic of Curse of Strahd</iWant>
+    <soThat>narrative text displays in an immersive, readable format that enhances the dark fantasy atmosphere of my sessions</soThat>
+    <tasks>
+      <task id="1" ac="AC-1">Create Gothic Horror Theme CSS
+        <subtask>1.1.1: Create extensions/kapis-rpg-dm/media/styles/narrative-theme.css</subtask>
+        <subtask>1.1.2: Define color palette CSS variables</subtask>
+        <subtask>1.1.3: Style base elements (body, headers, paragraphs, lists)</subtask>
+        <subtask>1.1.4: Style links with warm accent and hover effects</subtask>
+      </task>
+      <task id="2" ac="AC-2">Implement Typography System
+        <subtask>2.1.1: Define font-family stacks for serif and monospace</subtask>
+        <subtask>2.1.2: Set font-size scale (body: 16px, headers scaled)</subtask>
+        <subtask>2.1.3: Style code blocks and inline code with monospace</subtask>
+        <subtask>2.1.4: Add fallback fonts for cross-platform compatibility</subtask>
+      </task>
+      <task id="3" ac="AC-3">Implement Clickable Entity Links
+        <subtask>3.1.1: Create MarkdownLinkProvider class</subtask>
+        <subtask>3.1.2: Implement NPC name pattern matching</subtask>
+        <subtask>3.1.3: Implement location name pattern matching</subtask>
+        <subtask>3.1.4: Implement item name pattern matching</subtask>
+        <subtask>3.1.5: Register link handler commands</subtask>
+        <subtask>3.1.6: Create openEntityDefinition function</subtask>
+      </task>
+      <task id="4" ac="AC-4">Readability Optimization
+        <subtask>4.1.1: Set line-height to 1.6</subtask>
+        <subtask>4.1.2: Set max-width to 80ch and center content</subtask>
+        <subtask>4.1.3: Add appropriate paragraph margins</subtask>
+        <subtask>4.1.4: Verify WCAG AA contrast compliance</subtask>
+      </task>
+      <task id="5" ac="AC-5">Markdown Preview Integration
+        <subtask>5.1.1: Research VS Code markdown preview CSS injection</subtask>
+        <subtask>5.1.2: Implement CSS injection via markdown.styles contribution</subtask>
+        <subtask>5.1.3: Add kapis-rpg.narrativeTheme setting (optional)</subtask>
+        <subtask>5.1.4: Update package.json with markdown style contribution</subtask>
+      </task>
+      <task id="6" ac="AC-6">Special Game Element Formatting
+        <subtask>6.1.1: Style stat blocks</subtask>
+        <subtask>6.1.2: Style dice notation</subtask>
+        <subtask>6.1.3: Style condition names</subtask>
+        <subtask>6.1.4: Style blockquotes (NPC dialogue)</subtask>
+      </task>
+      <task id="7" ac="AC-1,AC-2,AC-3,AC-4,AC-5,AC-6">Testing
+        <subtask>7.1.1: Create test markdown file</subtask>
+        <subtask>7.1.2: Manual visual verification</subtask>
+        <subtask>7.1.3: Integration test for clickable links</subtask>
+        <subtask>7.1.4: Cross-platform font testing</subtask>
+        <subtask>7.1.5: Contrast compliance verification</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Gothic Horror Theme CSS Implemented">
+      Custom CSS provides gothic horror color scheme with dark background (#1a1a1a), warm parchment text (#d4c4a8), muted accent colors. Theme matches existing webview panels.
+    </criterion>
+    <criterion id="AC-2" title="Typography System Implemented">
+      Serif font for narrative (Georgia, Palatino), monospace for mechanics (Consolas). Font sizes: body 16px, headers scaled (H1: 2em, H2: 1.5em, H3: 1.25em), code 14px.
+    </criterion>
+    <criterion id="AC-3" title="Clickable Entity Links Implemented">
+      NPC names, item names, and location names render as clickable links navigating to definition files. Link styling consistent with theme.
+    </criterion>
+    <criterion id="AC-4" title="Readability Optimization">
+      Line height 1.6-1.8, paragraph margins 1em, max width 80ch, WCAG AA contrast compliance (4.5:1 minimum).
+    </criterion>
+    <criterion id="AC-5" title="Markdown Preview Extension Point">
+      CSS injected into VS Code markdown preview via markdown.styles contribution. Theme toggleable via optional setting.
+    </criterion>
+    <criterion id="AC-6" title="Special Formatting for Game Elements">
+      Stat blocks, dice rolls, condition names, and blockquotes (NPC dialogue) have distinct visual treatment.
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>AC-9: Markdown Preview Styling Implemented</section>
+        <snippet>Custom CSS provides gothic horror theme (dark background, warm text, Garamond-style serif). NPC names, item names, location names rendered as clickable links.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-10-calendar-widget.md</path>
+        <title>Story 5-10 Calendar Widget</title>
+        <section>Completion Notes - CSS Styling</section>
+        <snippet>Gothic horror CSS theme with variables: Background #1a1a1a, Text #d4c4a8, Accents #c9a86c. Pattern established for consistent styling across panels.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/media/styles/panel-theme.css</path>
+        <kind>stylesheet</kind>
+        <symbol>CSS Variables</symbol>
+        <lines>1-153</lines>
+        <reason>Existing panel theme with VS Code color integration. Reference for color variables and base styling patterns.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/media/templates/calendar-widget.html</path>
+        <kind>html-template</kind>
+        <symbol>Gothic Horror CSS</symbol>
+        <lines>8-100</lines>
+        <reason>Inline CSS with gothic horror theme colors. Reference: --bg-dark: #1a1a1a, --text-primary: #d4c4a8, --accent-gold: #c9a227</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/media/templates/character-sheet.html</path>
+        <kind>html-template</kind>
+        <symbol>Character Sheet CSS</symbol>
+        <reason>Gothic horror styling for character sheet webview panel. Reference for typography and layout patterns.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/media/templates/quest-tracker.html</path>
+        <kind>html-template</kind>
+        <symbol>Quest Tracker CSS</symbol>
+        <reason>Gothic horror styling for quest tracker webview panel. Reference for card and status badge styling.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/package.json</path>
+        <kind>config</kind>
+        <symbol>contributes</symbol>
+        <lines>30-147</lines>
+        <reason>Extension manifest. Must add markdown.styles contribution for CSS injection into markdown preview.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/src/extension.ts</path>
+        <kind>typescript</kind>
+        <symbol>activate</symbol>
+        <lines>22-183</lines>
+        <reason>Extension entry point. May need to register MarkdownLinkProvider if implementing entity navigation.</reason>
+      </artifact>
+      <artifact>
+        <path>extensions/kapis-rpg-dm/src/providers/location-tree-provider.ts</path>
+        <kind>typescript</kind>
+        <symbol>LocationTreeProvider</symbol>
+        <reason>Reference for VS Code provider pattern. May inform MarkdownLinkProvider implementation.</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="typescript" version="^5.0.0" dev="true" />
+        <package name="@types/vscode" version="^1.80.0" dev="true" />
+        <package name="@types/node" version="^18.0.0" dev="true" />
+        <package name="js-yaml" version="^4.1.0" />
+        <package name="date-fns" version="^2.30.0" />
+      </node>
+      <vscode-api>
+        <api>vscode.workspace.getConfiguration</api>
+        <api>vscode.commands.registerCommand</api>
+        <api>vscode.window.showTextDocument</api>
+        <api>markdown.styles contribution (package.json)</api>
+      </vscode-api>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern">Use CSS custom properties (variables) for all colors to maintain consistency with existing panels</constraint>
+    <constraint type="pattern">Follow VS Code markdown.styles contribution point for CSS injection - no custom markdown renderer</constraint>
+    <constraint type="architecture">Entity link navigation must use VS Code commands, not custom protocols</constraint>
+    <constraint type="compatibility">Font stacks must use web-safe fonts for cross-platform compatibility (Georgia, Palatino for serif; Consolas, Monaco for monospace)</constraint>
+    <constraint type="accessibility">Must maintain WCAG AA contrast ratio (4.5:1 minimum) for all text</constraint>
+    <constraint type="testing">Visual verification required - CSS cannot be unit tested directly</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>markdown.styles contribution</name>
+      <kind>VS Code package.json contribution</kind>
+      <signature>"markdown.styles": ["./media/styles/narrative-theme.css"]</signature>
+      <path>extensions/kapis-rpg-dm/package.json</path>
+    </interface>
+    <interface>
+      <name>configuration contribution</name>
+      <kind>VS Code package.json contribution</kind>
+      <signature>"kapis-rpg.narrativeTheme": { "type": "string", "enum": ["gothic", "default"], "default": "gothic" }</signature>
+      <path>extensions/kapis-rpg-dm/package.json</path>
+    </interface>
+    <interface>
+      <name>openEntityDefinition</name>
+      <kind>function</kind>
+      <signature>async function openEntityDefinition(entityType: 'npc' | 'item' | 'location', entityId: string): Promise&lt;void&gt;</signature>
+      <path>extensions/kapis-rpg-dm/src/providers/markdown-link-provider.ts (to create)</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing for this story is primarily visual/manual verification since CSS styling cannot be meaningfully unit tested. Integration tests should verify:
+      1. CSS file loads without syntax errors
+      2. Entity links navigate to correct files
+      3. Theme toggle setting works (if implemented)
+
+      Use Jest for any TypeScript/JavaScript logic (MarkdownLinkProvider). Manual testing checklist for visual verification.
+    </standards>
+    <locations>
+      <location>tests/extension/markdown-styling.test.js (to create)</location>
+      <location>tests/extension/ (existing extension tests)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Manual: Verify dark background (#1a1a1a) and parchment text (#d4c4a8) display correctly in markdown preview</idea>
+      <idea ac="AC-2">Manual: Verify serif font for narrative text, monospace for code blocks</idea>
+      <idea ac="AC-3">Integration: Test entity link navigation - NPC **Ireena Kolyana** opens game-data/npcs/ireena-kolyana.yaml</idea>
+      <idea ac="AC-4">Manual: Measure contrast ratio with accessibility tool (browser DevTools or VS Code extension)</idea>
+      <idea ac="AC-5">Integration: Verify markdown.styles contribution loads CSS into standard markdown preview</idea>
+      <idea ac="AC-6">Manual: Verify stat blocks, dice rolls (1d20+5), conditions (**Frightened**) have distinct styling</idea>
+      <idea ac="AC-6">Manual: Verify blockquotes (NPC dialogue) display with left border and italic text</idea>
+    </ideas>
+  </tests>
+</story-context>

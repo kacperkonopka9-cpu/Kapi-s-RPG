@@ -1,0 +1,84 @@
+location_name: "Tsolenka Pass"
+location_type: mountain_pass
+location_level: building
+region: balinok_mountains
+parent_location: null
+sub_locations: []
+danger_level: 5
+recommended_level: 8-10
+quest_critical: true
+
+description_short: "A treacherous mountain bridge spanning a thousand-foot chasm, guarded by a territorial Roc and serving as the only passage to the Amber Temple."
+
+connected_locations:
+  - name: "Amber Temple"
+    direction: west
+    travel_time: "1 hour on foot (beyond the pass)"
+    terrain: mountain_path
+    notes: "Narrow path carved into mountainside, leads to temple entrance"
+
+  - name: "Vallaki"
+    direction: east
+    travel_time: "6 hours on foot"
+    terrain: mountain_trail_descent
+    notes: "Return path through Balinok foothills to Vallaki region"
+
+points_of_interest:
+  - "Tsolenka Gate (western archway with ancient warnings)"
+  - "The Bridge (1,000-foot span across chasm)"
+  - "Northern Guard Tower (Roc's nest)"
+  - "Southern Guard Tower (frozen guards' shelter)"
+  - "The Chasm (deadly fall, scattered remains)"
+
+major_npcs:
+  - tsolenka_roc
+  - frozen_guards
+
+primary_quests:
+  - "Secure passage to Amber Temple"
+  - "Defeat or evade the Roc"
+  - "Recover treasure from Roc's nest"
+
+secondary_quests:
+  - "Give proper burial to frozen guards"
+  - "Decipher Tsolenka Gate warnings"
+  - "Recover items from chasm (requires flight magic)"
+
+environmental_hazards:
+  - "CR 11 Roc (deadly encounter)"
+  - "Bridge collapse risk during combat"
+  - "Mountain storms (reduced visibility, high winds)"
+  - "Extreme cold (1d4 damage/hour without protection)"
+  - "1,000-foot chasm (instant death on fall)"
+
+available_resources:
+  - "Shelter in southern guard tower"
+  - "Frozen guards' hidden cache"
+  - "Clean snow/ice for water"
+
+treasure_value: high
+treasure_notes: "Roc's nest contains substantial hoard from 20+ years of kills (1,500+ gp value plus magic items)"
+
+token_count: 1475
+last_validated: 2025-11-15
+validation_status: pending
+
+lore_significance: |
+  Tsolenka Pass represents the final natural barrier protecting the Amber Temple from casual discovery.
+  The Roc may have been drawn here by the temple's magical emanations, or Strahd may have deliberately
+  allowed it to nest here, creating an additional layer of defense. The frozen guards represent the last
+  attempt by Barovian authorities to monitor and restrict access to the temple—an effort abandoned when
+  Strahd withdrew support and let the garrison die of cold and starvation.
+
+dm_notes: |
+  The Roc encounter is DEADLY for parties below level 8. Consider telegraphing the danger (seeing the
+  Roc from a distance, finding fresh kills) before forcing combat. The pass can be navigated via stealth
+  (waiting for Roc to hunt elsewhere), magic (Invisibility, Fly), or social engineering (impossible—
+  Roc is a beast with Int 3).
+
+  The frozen guards provide lore and warnings about the Amber Temple's corruption. Their journal
+  foreshadows the dark gifts system. If party gives them proper burial, grant blessing: advantage on
+  first saving throw in Amber Temple.
+
+  Weather can be used to increase tension or provide cover for sneaking past the Roc (storms reduce
+  visibility both ways).

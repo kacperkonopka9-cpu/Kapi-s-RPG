@@ -1,0 +1,324 @@
+# D&D 5e Class Features by Level
+# Source: D&D 5e System Reference Document (SRD)
+#
+# Defines class features unlocked at each level for core classes.
+# Structure:
+#   classes:
+#     <class_name>:
+#       name: Display name
+#       hitDie: Hit die type (d6, d8, d10, d12)
+#       features:
+#         <level>:
+#           - name: Feature name
+#             description: Feature description
+#             uses: Number of uses (optional, for limited-use features)
+#             maxUses: Maximum uses (optional)
+#             recharge: When feature recharges (short_rest, long_rest, etc.) (optional)
+
+classes:
+  fighter:
+    name: Fighter
+    hitDie: d10
+    features:
+      1:
+        - name: Fighting Style
+          description: Choose a fighting style (Defense, Dueling, Great Weapon Fighting, Protection, Archery, Two-Weapon Fighting)
+        - name: Second Wind
+          description: Regain 1d10 + fighter level hit points as a bonus action
+          uses: 1
+          maxUses: 1
+          recharge: short_rest
+      2:
+        - name: Action Surge
+          description: Take one additional action on your turn
+          uses: 1
+          maxUses: 1
+          recharge: short_rest
+      3:
+        - name: Martial Archetype
+          description: Choose a martial archetype (Champion, Battle Master, Eldritch Knight)
+      4:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      5:
+        - name: Extra Attack
+          description: Attack twice whenever you take the Attack action on your turn
+      6:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      7:
+        - name: Martial Archetype Feature
+          description: Gain a feature from your chosen archetype
+      8:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      9:
+        - name: Indomitable
+          description: Reroll a failed saving throw
+          uses: 1
+          maxUses: 1
+          recharge: long_rest
+      10:
+        - name: Martial Archetype Feature
+          description: Gain a feature from your chosen archetype
+      11:
+        - name: Extra Attack (2)
+          description: Attack three times whenever you take the Attack action
+      12:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      13:
+        - name: Indomitable (2 uses)
+          description: Reroll a failed saving throw (2 uses)
+          uses: 2
+          maxUses: 2
+          recharge: long_rest
+      14:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      15:
+        - name: Martial Archetype Feature
+          description: Gain a feature from your chosen archetype
+      16:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      17:
+        - name: Action Surge (2 uses)
+          description: Take one additional action on your turn (2 uses)
+          uses: 2
+          maxUses: 2
+          recharge: short_rest
+        - name: Indomitable (3 uses)
+          description: Reroll a failed saving throw (3 uses)
+          uses: 3
+          maxUses: 3
+          recharge: long_rest
+      18:
+        - name: Martial Archetype Feature
+          description: Gain a feature from your chosen archetype
+      19:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      20:
+        - name: Extra Attack (3)
+          description: Attack four times whenever you take the Attack action
+
+  cleric:
+    name: Cleric
+    hitDie: d8
+    features:
+      1:
+        - name: Spellcasting
+          description: Cast cleric spells using Wisdom as your spellcasting ability
+        - name: Divine Domain
+          description: Choose a divine domain (Life, Light, Knowledge, Nature, Tempest, Trickery, War)
+      2:
+        - name: Channel Divinity
+          description: Use your Channel Divinity feature to produce magical effects
+          uses: 1
+          maxUses: 1
+          recharge: short_rest
+        - name: Divine Domain Feature
+          description: Gain Channel Divinity option from your domain
+      3: []  # No new features at level 3
+      4:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      5:
+        - name: Destroy Undead (CR 1/2)
+          description: Turn Undead destroys undead of CR 1/2 or lower
+      6:
+        - name: Channel Divinity (2 uses)
+          description: Use Channel Divinity twice between rests
+          uses: 2
+          maxUses: 2
+          recharge: short_rest
+        - name: Divine Domain Feature
+          description: Gain a feature from your domain
+      7: []  # No new features at level 7
+      8:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+        - name: Destroy Undead (CR 1)
+          description: Turn Undead destroys undead of CR 1 or lower
+        - name: Divine Domain Feature
+          description: Gain a feature from your domain
+      9: []  # No new features at level 9
+      10:
+        - name: Divine Intervention
+          description: Call on your deity to intervene on your behalf
+      11:
+        - name: Destroy Undead (CR 2)
+          description: Turn Undead destroys undead of CR 2 or lower
+      12:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      13: []  # No new features at level 13
+      14:
+        - name: Destroy Undead (CR 3)
+          description: Turn Undead destroys undead of CR 3 or lower
+      15: []  # No new features at level 15
+      16:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      17:
+        - name: Destroy Undead (CR 4)
+          description: Turn Undead destroys undead of CR 4 or lower
+        - name: Divine Domain Feature
+          description: Gain a feature from your domain
+      18:
+        - name: Channel Divinity (3 uses)
+          description: Use Channel Divinity three times between rests
+          uses: 3
+          maxUses: 3
+          recharge: short_rest
+      19:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      20:
+        - name: Divine Intervention Improvement
+          description: Your Divine Intervention automatically succeeds
+
+  rogue:
+    name: Rogue
+    hitDie: d8
+    features:
+      1:
+        - name: Expertise
+          description: Double your proficiency bonus for two skills or with thieves' tools
+        - name: Sneak Attack
+          description: Deal extra 1d6 damage when you have advantage or an ally is near the target
+        - name: Thieves' Cant
+          description: Secret language and code system known only to rogues
+      2:
+        - name: Cunning Action
+          description: Take Dash, Disengage, or Hide as a bonus action
+      3:
+        - name: Roguish Archetype
+          description: Choose an archetype (Thief, Assassin, Arcane Trickster)
+        - name: Sneak Attack (2d6)
+          description: Sneak Attack damage increases to 2d6
+      4:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      5:
+        - name: Uncanny Dodge
+          description: Use your reaction to halve damage from an attack you can see
+        - name: Sneak Attack (3d6)
+          description: Sneak Attack damage increases to 3d6
+      6:
+        - name: Expertise
+          description: Double your proficiency bonus for two more skills
+      7:
+        - name: Evasion
+          description: Take no damage on successful Dex saves, half on failures
+        - name: Sneak Attack (4d6)
+          description: Sneak Attack damage increases to 4d6
+      8:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      9:
+        - name: Roguish Archetype Feature
+          description: Gain a feature from your archetype
+        - name: Sneak Attack (5d6)
+          description: Sneak Attack damage increases to 5d6
+      10:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      11:
+        - name: Reliable Talent
+          description: Treat any d20 roll below 10 as a 10 for checks you're proficient in
+        - name: Sneak Attack (6d6)
+          description: Sneak Attack damage increases to 6d6
+      12:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      13:
+        - name: Roguish Archetype Feature
+          description: Gain a feature from your archetype
+        - name: Sneak Attack (7d6)
+          description: Sneak Attack damage increases to 7d6
+      14:
+        - name: Blindsense
+          description: Detect the location of hidden or invisible creatures within 10 feet
+      15:
+        - name: Slippery Mind
+          description: Gain proficiency in Wisdom saving throws
+        - name: Sneak Attack (8d6)
+          description: Sneak Attack damage increases to 8d6
+      16:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      17:
+        - name: Roguish Archetype Feature
+          description: Gain a feature from your archetype
+        - name: Sneak Attack (9d6)
+          description: Sneak Attack damage increases to 9d6
+      18:
+        - name: Elusive
+          description: No attack roll has advantage against you while you aren't incapacitated
+      19:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+        - name: Sneak Attack (10d6)
+          description: Sneak Attack damage increases to 10d6
+      20:
+        - name: Stroke of Luck
+          description: Turn a miss into a hit or a failed ability check into a 20
+          uses: 1
+          maxUses: 1
+          recharge: short_rest
+
+  wizard:
+    name: Wizard
+    hitDie: d6
+    features:
+      1:
+        - name: Spellcasting
+          description: Cast wizard spells using Intelligence as your spellcasting ability
+        - name: Arcane Recovery
+          description: Recover some expended spell slots during a short rest
+          uses: 1
+          maxUses: 1
+          recharge: long_rest
+      2:
+        - name: Arcane Tradition
+          description: Choose an arcane tradition (School of Evocation, School of Abjuration, etc.)
+      3: []  # No new features at level 3
+      4:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      5: []  # No new features at level 5
+      6:
+        - name: Arcane Tradition Feature
+          description: Gain a feature from your arcane tradition
+      7: []  # No new features at level 7
+      8:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      9: []  # No new features at level 9
+      10:
+        - name: Arcane Tradition Feature
+          description: Gain a feature from your arcane tradition
+      11: []  # No new features at level 11
+      12:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      13: []  # No new features at level 13
+      14:
+        - name: Arcane Tradition Feature
+          description: Gain a feature from your arcane tradition
+      15: []  # No new features at level 15
+      16:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      17: []  # No new features at level 17
+      18:
+        - name: Spell Mastery
+          description: Cast one 1st-level and one 2nd-level spell at will
+      19:
+        - name: Ability Score Improvement
+          description: Increase ability scores (+2 to one ability or +1 to two abilities)
+      20:
+        - name: Signature Spells
+          description: Choose two 3rd-level spells as signature spells that you always have prepared

@@ -1,0 +1,577 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>4</storyId>
+    <title>Skill Check System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-4-skill-check-system.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a game master running D&D 5e sessions</asA>
+    <iWant>a comprehensive skill check system that handles all 18 D&D 5e skills with proper ability mapping, proficiency bonuses, and advantage/disadvantage mechanics</iWant>
+    <soThat>skill-based challenges (stealth, persuasion, investigation, etc.) are resolved according to D&D 5e rules</soThat>
+    <tasks>
+      <task id="1" title="Analyze AbilityCheckHandler Integration">
+        <subtasks>
+          <subtask>Read AbilityCheckHandler.makeSkillCheck() implementation (Story 3-3)</subtask>
+          <subtask>Identify reusable components (SKILL_TO_ABILITY, proficiency logic)</subtask>
+          <subtask>Decide architecture: extend, refactor, or compose</subtask>
+          <subtask>Document integration strategy in Dev Notes</subtask>
+          <subtask>Ensure backward compatibility with existing skill check API</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-8</acceptanceCriteria>
+        <estimatedTime>1 hour</estimatedTime>
+      </task>
+      <task id="2" title="Create SkillCheckSystem Module">
+        <subtasks>
+          <subtask>Create src/mechanics/skill-check-system.js with class skeleton</subtask>
+          <subtask>Import AbilityCheckHandler and CharacterManager</subtask>
+          <subtask>Implement constructor with dependency injection (diceRoller, abilityCheckHandler)</subtask>
+          <subtask>Define SKILL_TO_ABILITY constant (or import from AbilityCheckHandler)</subtask>
+          <subtask>Add JSDoc documentation for class and constructor</subtask>
+          <subtask>Export module: module.exports = SkillCheckSystem;</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1, AC-8</acceptanceCriteria>
+        <estimatedTime>30 minutes</estimatedTime>
+      </task>
+      <task id="3" title="Implement Basic Skill Check">
+        <subtasks>
+          <subtask>Implement makeSkillCheck(character, skill, dc, options = {}) method</subtask>
+          <subtask>Validate skill name against SKILL_TO_ABILITY map</subtask>
+          <subtask>Validate DC (must be positive number)</subtask>
+          <subtask>Determine ability from skill using SKILL_TO_ABILITY</subtask>
+          <subtask>Delegate to AbilityCheckHandler if possible (DRY principle)</subtask>
+          <subtask>Or implement: get ability modifier, check proficiency, roll d20, calculate total</subtask>
+          <subtask>Return Result Object: {success, data: {passed, total, roll, abilityModifier, proficiencyBonus, skill, ability, dc}, error}</subtask>
+          <subtask>Add JSDoc documentation</subtask>
+          <subtask>Ensure &lt; 50ms performance</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-2</acceptanceCriteria>
+        <estimatedTime>2 hours</estimatedTime>
+      </task>
+      <task id="4" title="Implement Proficiency and Expertise">
+        <subtasks>
+          <subtask>Update makeSkillCheck() to check character.proficiencies.skills array</subtask>
+          <subtask>Check character.proficiencies.expertise array for double proficiency</subtask>
+          <subtask>If proficient: add proficiency bonus (CharacterManager.getProficiencyBonus)</subtask>
+          <subtask>If expertise: add proficiency bonus × 2</subtask>
+          <subtask>Include expertise flag in result data: {expertise: boolean, proficiencyBonus: number}</subtask>
+          <subtask>Add JSDoc documentation for expertise parameter</subtask>
+          <subtask>Add validation: expertise requires proficiency (can't be expert without proficiency)</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-3</acceptanceCriteria>
+        <estimatedTime>1 hour</estimatedTime>
+      </task>
+      <task id="5" title="Implement Passive Skill Scores">
+        <subtasks>
+          <subtask>Implement getPassiveScore(character, skill) method</subtask>
+          <subtask>Validate skill name</subtask>
+          <subtask>Determine ability from skill</subtask>
+          <subtask>Calculate: 10 + ability modifier + proficiency bonus (if proficient)</subtask>
+          <subtask>If expertise, add double proficiency</subtask>
+          <subtask>Return Result Object: {success: true, data: {passiveScore: number, skill, breakdown: string}, error: null}</subtask>
+          <subtask>Add JSDoc documentation</subtask>
+          <subtask>Support all 18 skills</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-4</acceptanceCriteria>
+        <estimatedTime>1 hour</estimatedTime>
+      </task>
+      <task id="6" title="Implement Advantage/Disadvantage">
+        <subtasks>
+          <subtask>Update makeSkillCheck() to handle options.advantage and options.disadvantage</subtask>
+          <subtask>If advantage: roll 1d20 twice, take higher</subtask>
+          <subtask>If disadvantage: roll 1d20 twice, take lower</subtask>
+          <subtask>If both advantage AND disadvantage: cancel out, roll once</subtask>
+          <subtask>Return both rolls in result: {rolls: [roll1, roll2], selectedRoll: number}</subtask>
+          <subtask>Delegate to DiceRoller advantage/disadvantage support if available</subtask>
+          <subtask>Add JSDoc documentation for options parameter</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-5</acceptanceCriteria>
+        <estimatedTime>1 hour</estimatedTime>
+      </task>
+      <task id="7" title="Implement Group Skill Checks">
+        <subtasks>
+          <subtask>Implement makeGroupCheck(characters, skill, dc, options = {}) method</subtask>
+          <subtask>Validate characters is array with length &gt; 0</subtask>
+          <subtask>Loop through characters, call makeSkillCheck() for each</subtask>
+          <subtask>Collect individual results</subtask>
+          <subtask>Determine group success: majority passed (&gt; 50%)</subtask>
+          <subtask>Return Result Object: {success: true, data: {groupPassed: boolean, individualResults: [], passCount, failCount, dc}, error: null}</subtask>
+          <subtask>Add JSDoc documentation</subtask>
+          <subtask>Ensure &lt; 200ms for 5 characters</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-6</acceptanceCriteria>
+        <estimatedTime>1.5 hours</estimatedTime>
+      </task>
+      <task id="8" title="Implement Skill Check Contests">
+        <subtasks>
+          <subtask>Implement makeContest(character1, skill1, character2, skill2, options = {}) method</subtask>
+          <subtask>Roll skill check for character1 using makeSkillCheck()</subtask>
+          <subtask>Roll skill check for character2 using makeSkillCheck()</subtask>
+          <subtask>Compare totals: higher wins</subtask>
+          <subtask>Handle ties: compare modifiers (higher modifier wins)</subtask>
+          <subtask>Return Result Object: {success: true, data: {winner: string, character1Result, character2Result, margin: number}, error: null}</subtask>
+          <subtask>Add JSDoc documentation</subtask>
+          <subtask>Support advantage/disadvantage for each character independently</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-7</acceptanceCriteria>
+        <estimatedTime>1.5 hours</estimatedTime>
+      </task>
+      <task id="9" title="Create Test Suite">
+        <subtasks>
+          <subtask>Create tests/mechanics/skill-check-system.test.js</subtask>
+          <subtask>Test suite structure: describe blocks for each method</subtask>
+          <subtask>Constructor Tests: Default dependencies, Custom dependencies via DI</subtask>
+          <subtask>makeSkillCheck() Tests: Valid skill check (proficient), Valid skill check (not proficient), Invalid skill name, Invalid DC, Expertise handling (double proficiency), Advantage/disadvantage</subtask>
+          <subtask>getPassiveScore() Tests: Passive perception (proficient), Passive investigation (expert), All 18 skills</subtask>
+          <subtask>makeGroupCheck() Tests: Group passes (majority), Group fails (minority), Edge case: 2 characters (tie)</subtask>
+          <subtask>makeContest() Tests: Character 1 wins, Character 2 wins, Tie (modifier decides)</subtask>
+          <subtask>Integration Tests: Integration with AbilityCheckHandler, Integration with CharacterManager, Round-trip test with real character</subtask>
+        </subtasks>
+        <acceptanceCriteria>All (verification)</acceptanceCriteria>
+        <estimatedTime>4 hours</estimatedTime>
+        <targetCoverage>≥ 95% statement coverage</targetCoverage>
+      </task>
+      <task id="10" title="Documentation and Examples">
+        <subtasks>
+          <subtask>Ensure all methods have JSDoc comments</subtask>
+          <subtask>Document parameters, return types, examples</subtask>
+          <subtask>Add module-level JSDoc header describing SkillCheckSystem</subtask>
+          <subtask>Document expertise rules (double proficiency)</subtask>
+          <subtask>Document group check rules (majority wins)</subtask>
+          <subtask>Document contest rules (higher total wins, ties use modifier)</subtask>
+          <subtask>Add usage examples to README (if applicable)</subtask>
+        </subtasks>
+        <acceptanceCriteria>AC-1, AC-8</acceptanceCriteria>
+        <estimatedTime>30 minutes</estimatedTime>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Skill-to-Ability Mapping Validation">
+      <given>the D&D 5e standard of 18 skills mapped to 6 abilities</given>
+      <when>SkillCheckSystem is initialized</when>
+      <then>
+        <requirement>Define complete SKILL_TO_ABILITY mapping for all 18 skills</requirement>
+        <requirement>Map Strength skills: athletics</requirement>
+        <requirement>Map Dexterity skills: acrobatics, sleight_of_hand, stealth</requirement>
+        <requirement>Map Intelligence skills: arcana, history, investigation, nature, religion</requirement>
+        <requirement>Map Wisdom skills: animal_handling, insight, medicine, perception, survival</requirement>
+        <requirement>Map Charisma skills: deception, intimidation, performance, persuasion</requirement>
+        <requirement>Validate all skill names are normalized (lowercase, underscores)</requirement>
+        <requirement>Export mapping as constant for use by other modules</requirement>
+      </then>
+      <verification>Unit test validates all 18 skills correctly mapped</verification>
+    </criterion>
+    <criterion id="AC-2" title="Basic Skill Check Execution">
+      <given>a character with Dexterity 14 (+2) and proficiency in Stealth (+2)</given>
+      <when>SkillCheckSystem.makeSkillCheck(character, "stealth", dc) is called</when>
+      <then>
+        <requirement>Determine skill uses Dexterity (from SKILL_TO_ABILITY map)</requirement>
+        <requirement>Get Dexterity modifier: 14 → +2 (via CharacterManager.getAbilityModifier)</requirement>
+        <requirement>Check if character proficient in "stealth" (character.proficiencies.skills array)</requirement>
+        <requirement>If proficient, add proficiency bonus: +2 (via CharacterManager.getProficiencyBonus)</requirement>
+        <requirement>Roll 1d20 using DiceRoller</requirement>
+        <requirement>Calculate total: d20 + ability modifier + proficiency bonus</requirement>
+        <requirement>Compare to DC</requirement>
+        <requirement>Return Result Object: {success: true, data: {passed, total, roll, abilityModifier, proficiencyBonus, skill, ability, dc}, error: null}</requirement>
+        <requirement>Complete in &lt; 50ms</requirement>
+      </then>
+      <errorCases>
+        <error>Invalid skill name → {success: false, data: null, error: "Invalid skill: [name]"}</error>
+        <error>Invalid DC → {success: false, data: null, error: "DC must be a positive number"}</error>
+        <error>Missing character abilities → {success: false, data: null, error: "Character missing ability: [ability]"}</error>
+      </errorCases>
+      <verification>Integration test with known character and DC</verification>
+    </criterion>
+    <criterion id="AC-3" title="Proficiency and Expertise Handling">
+      <given>a character proficient in Perception and expert in Investigation (double proficiency)</given>
+      <when>skill check is made for either skill</when>
+      <then>
+        <requirement>Proficiency: Add proficiency bonus once (e.g., +2 at level 3)</requirement>
+        <requirement>Expertise: Add proficiency bonus twice (e.g., +4 at level 3)</requirement>
+        <requirement>Check character.proficiencies.skills array for proficiency</requirement>
+        <requirement>Check character.proficiencies.expertise array for expertise</requirement>
+        <requirement>If expertise present, double proficiency bonus (not ability modifier)</requirement>
+        <requirement>Return bonus breakdown: {proficiencyBonus: number, expertise: boolean}</requirement>
+      </then>
+      <verification>Unit test with proficient vs expert character</verification>
+    </criterion>
+    <criterion id="AC-4" title="Passive Skill Scores">
+      <given>a character with Wisdom 14 (+2) and proficiency in Perception (+2)</given>
+      <when>SkillCheckSystem.getPassiveScore(character, "perception") is called</when>
+      <then>
+        <requirement>Calculate: 10 + ability modifier + proficiency bonus (if applicable)</requirement>
+        <requirement>For perception: 10 + 2 (wis) + 2 (prof) = 14</requirement>
+        <requirement>Return {success: true, data: {passiveScore: 14, skill: "perception"}, error: null}</requirement>
+        <requirement>Support all 18 skills as passive scores</requirement>
+        <requirement>If expertise, include double proficiency bonus</requirement>
+      </then>
+      <useCase>Passive Perception for hidden enemy detection</useCase>
+      <verification>Unit test for passive perception, passive investigation, passive insight</verification>
+    </criterion>
+    <criterion id="AC-5" title="Advantage and Disadvantage">
+      <given>a skill check with advantage or disadvantage</given>
+      <when>makeSkillCheck(character, skill, dc, {advantage: true}) is called</when>
+      <then>
+        <requirement>Roll 1d20 twice using DiceRoller</requirement>
+        <requirement>Take higher roll if advantage, lower roll if disadvantage</requirement>
+        <requirement>Add modifiers to selected roll</requirement>
+        <requirement>Return both rolls in result: {rolls: [roll1, roll2], selectedRoll: higher/lower}</requirement>
+        <requirement>If both advantage AND disadvantage specified → cancel out, roll normally</requirement>
+        <requirement>Support advantage/disadvantage for all skills</requirement>
+      </then>
+      <verification>Unit test with advantage/disadvantage options</verification>
+    </criterion>
+    <criterion id="AC-6" title="Group Skill Checks">
+      <given>multiple characters attempting the same skill check</given>
+      <when>SkillCheckSystem.makeGroupCheck(characters, skill, dc) is called</when>
+      <then>
+        <requirement>Roll skill check for each character individually</requirement>
+        <requirement>Determine success: majority of characters passed → group passes</requirement>
+        <requirement>Return Result Object: {success: true, data: {groupPassed: boolean, individualResults: [{character, passed, total}], dc}, error: null}</requirement>
+        <requirement>Complete in &lt; 200ms for 5 characters</requirement>
+      </then>
+      <useCase>Party attempting to sneak past guards (group stealth check)</useCase>
+      <verification>Integration test with 3 characters, 2 pass, 1 fails → group passes</verification>
+    </criterion>
+    <criterion id="AC-7" title="Skill Check Contests">
+      <given>two characters competing in the same skill (e.g., stealth vs perception)</given>
+      <when>SkillCheckSystem.makeContest(character1, skill1, character2, skill2) is called</when>
+      <then>
+        <requirement>Roll skill check for character1 (e.g., stealth)</requirement>
+        <requirement>Roll skill check for character2 (e.g., perception)</requirement>
+        <requirement>Compare totals: character1 total vs character2 total</requirement>
+        <requirement>Higher total wins (ties go to character with higher modifier)</requirement>
+        <requirement>Return Result Object: {success: true, data: {winner: "character1" | "character2" | "tie", character1Result, character2Result}, error: null}</requirement>
+      </then>
+      <useCase>Player sneaking (stealth) vs guard watching (perception)</useCase>
+      <verification>Integration test with contest scenario</verification>
+    </criterion>
+    <criterion id="AC-8" title="Integration with AbilityCheckHandler">
+      <given>AbilityCheckHandler already implements skill checks (Story 3-3)</given>
+      <when>SkillCheckSystem is created</when>
+      <then>
+        <requirement>Extend or refactor AbilityCheckHandler.makeSkillCheck() functionality</requirement>
+        <requirement>Use AbilityCheckHandler as dependency (or inherit from it)</requirement>
+        <requirement>Maintain backward compatibility with existing skill check API</requirement>
+        <requirement>Add new features (passive scores, group checks, contests)</requirement>
+        <requirement>Follow same Result Object pattern and dependency injection</requirement>
+        <requirement>Share SKILL_TO_ABILITY constant</requirement>
+      </then>
+      <verification>Unit test validates AbilityCheckHandler integration</verification>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2: Detailed Design - SkillCheckSystem Module</section>
+        <snippet>SkillCheckSystem module handles skill checks with proficiency. Key features: skill-to-ability mapping (18 skills to 6 abilities), proficiency bonus calculation, expertise support (double proficiency), passive scores, group checks, and contests. Integrates with AbilityCheckHandler for basic functionality.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2.2: Result Object Pattern</section>
+        <snippet>All async operations return {success, data, error}. No exceptions thrown, graceful error handling. Consistent interface across all mechanics modules (lines 154-157).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2.2: Dependency Injection Pattern</section>
+        <snippet>Accept dependencies as constructor parameters. Default to real instances if not provided. Enables unit testing with mocked dependencies (lines 149-152).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§3: Performance Targets</section>
+        <snippet>Skill checks must complete in &lt; 50ms. Group checks &lt; 200ms for 5 characters. Log performance warnings if exceeded (line 926).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§4: Acceptance Criteria AC-3</section>
+        <snippet>Character with wisdom 12 (+1) and proficiency in perception (+2). AbilityCheckHandler.makeSkillCheck(character, "perception", DC=15) rolls d20 + wisdom modifier (+1) + proficiency (+2). Proficiency bonus calculated via CharacterManager.getProficiencyBonus(level).</snippet>
+      </doc>
+      <doc>
+        <path>docs/character-sheet-schema.yaml</path>
+        <title>D&D 5e Character Sheet Schema</title>
+        <section>Proficiencies Section (lines 72-95)</section>
+        <snippet>proficiencies.skills array contains proficient skills. proficiencyBonus auto-calculated: ceil(level/4) + 1. Skills list: acrobatics, animal_handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight_of_hand, stealth, survival (18 total).</snippet>
+      </doc>
+      <doc>
+        <path>docs/character-sheet-schema.yaml</path>
+        <title>D&D 5e Character Sheet Schema</title>
+        <section>Ability Scores (lines 25-33)</section>
+        <snippet>abilities: strength, dexterity, constitution, intelligence, wisdom, charisma. Each 1-20. Ability modifiers auto-calculated: floor((score - 10) / 2).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-3-ability-checks-handler.md</path>
+        <title>Story 3.3: Ability Checks Handler</title>
+        <section>Implementation Summary</section>
+        <snippet>AbilityCheckHandler already implements makeSkillCheck() method with SKILL_TO_ABILITY mapping (lines 30-58), proficiency logic (lines 286-291), advantage/disadvantage (lines 328-342). Performance &lt;50ms verified. 43 tests, 92.76% coverage. Result Object pattern throughout.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-2-character-sheet-parser.md</path>
+        <title>Story 3.2: Character Sheet Parser</title>
+        <section>CharacterManager API</section>
+        <snippet>CharacterManager provides static methods: getAbilityModifier(score) returns Math.floor((score - 10) / 2). getProficiencyBonus(level) returns Math.ceil(level / 4) + 1. Used by all mechanics modules.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-1-dice-rolling-module.md</path>
+        <title>Story 3.1: Dice Rolling Module</title>
+        <section>DiceRoller API</section>
+        <snippet>DiceRoller.roll(notation, options) supports dice notation parsing (e.g., "1d20", "2d6+3"). Options include advantage/disadvantage (roll twice, take higher/lower). Returns Result Object with {success, data: {rolls, total, breakdown}, error}.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/ability-check-handler.js</path>
+        <kind>service</kind>
+        <symbol>AbilityCheckHandler</symbol>
+        <lines>66-515</lines>
+        <reason>Core dependency - already implements makeSkillCheck() method. SkillCheckSystem should compose/extend this class to add expertise, passive scores, group checks, and contests.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/ability-check-handler.js</path>
+        <kind>constant</kind>
+        <symbol>SKILL_TO_ABILITY</symbol>
+        <lines>30-58</lines>
+        <reason>Skill-to-ability mapping constant. All 18 D&amp;D 5e skills mapped to 6 abilities. SkillCheckSystem must use or import this mapping.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>19-507</lines>
+        <reason>Provides static utility methods: getAbilityModifier(score) and getProficiencyBonus(level). Used by all mechanics modules.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>static-method</kind>
+        <symbol>CharacterManager.getAbilityModifier</symbol>
+        <lines>487-489</lines>
+        <reason>Calculates ability modifier: Math.floor((score - 10) / 2). Required for skill check calculations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>static-method</kind>
+        <symbol>CharacterManager.getProficiencyBonus</symbol>
+        <lines>502-504</lines>
+        <reason>Calculates proficiency bonus: Math.ceil(level / 4) + 1. Required for proficiency and expertise calculations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller</symbol>
+        <lines>1-200</lines>
+        <reason>Dice rolling service with advantage/disadvantage support. Used via AbilityCheckHandler or directly for 1d20 rolls.</reason>
+      </artifact>
+      <artifact>
+        <path>characters/kapi.yaml</path>
+        <kind>test-data</kind>
+        <symbol>Sample Character</symbol>
+        <lines>1-100</lines>
+        <reason>Level 3 Fighter with proficiencies in athletics, perception, survival. Available for integration testing.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/ability-check-handler.test.js</path>
+        <kind>test</kind>
+        <symbol>AbilityCheckHandler Test Suite</symbol>
+        <lines>1-696</lines>
+        <reason>Comprehensive test suite with 43 tests, 92.76% coverage. Pattern reference for SkillCheckSystem tests (Result Object testing, mocking, integration tests).</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for character sheets</package>
+        <package name="jest" version="^29.7.0">Testing framework</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1" category="architecture">
+      <title>Result Object Pattern</title>
+      <description>All async operations must return {success: boolean, data: any | null, error: string | null}. No exceptions thrown for expected errors. Graceful error handling throughout.</description>
+      <source>docs/tech-spec-epic-3.md lines 154-157</source>
+    </constraint>
+    <constraint id="2" category="architecture">
+      <title>Dependency Injection</title>
+      <description>Accept dependencies as constructor parameters (diceRoller, abilityCheckHandler). Default to real instances if not provided. Enables unit testing with mocked dependencies.</description>
+      <source>docs/tech-spec-epic-3.md lines 149-152</source>
+    </constraint>
+    <constraint id="3" category="performance">
+      <title>Performance Targets</title>
+      <description>Skill checks must complete in &lt; 50ms. Group checks &lt; 200ms for 5 characters. Log performance warnings if exceeded.</description>
+      <source>docs/tech-spec-epic-3.md line 926</source>
+    </constraint>
+    <constraint id="4" category="integration">
+      <title>Compose AbilityCheckHandler</title>
+      <description>Use composition pattern (not inheritance) to integrate with AbilityCheckHandler. Delegate basic skill check logic to AbilityCheckHandler.makeSkillCheck(). Add new features: expertise, passive scores, group checks, contests.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 460-476</source>
+    </constraint>
+    <constraint id="5" category="compatibility">
+      <title>Backward Compatibility</title>
+      <description>Maintain backward compatibility with existing AbilityCheckHandler.makeSkillCheck() API. Do not break Story 3-3 implementation. Share SKILL_TO_ABILITY constant.</description>
+      <source>AC-8</source>
+    </constraint>
+    <constraint id="6" category="d&amp;d-rules">
+      <title>D&amp;D 5e Expertise Rules</title>
+      <description>Expertise doubles proficiency bonus (not ability modifier). Example: Level 5 rogue with expertise in Stealth has proficiency +3, expertise +6 (double). Total: 1d20 + Dex modifier + 6.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 403-408</source>
+    </constraint>
+    <constraint id="7" category="d&amp;d-rules">
+      <title>Passive Skill Score Formula</title>
+      <description>Passive score = 10 + ability modifier + proficiency bonus (if proficient). If expertise, include double proficiency. Example: Passive Perception with Wisdom 14 (+2), proficient (+2) = 14.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 410-413</source>
+    </constraint>
+    <constraint id="8" category="d&amp;d-rules">
+      <title>Group Check Rules</title>
+      <description>Each character rolls individually. Majority success (&gt;50%) = group passes. Example: 5 characters sneaking, 3 pass, 2 fail → group passes.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 415-418</source>
+    </constraint>
+    <constraint id="9" category="d&amp;d-rules">
+      <title>Contest Rules</title>
+      <description>Both sides roll skill check. Higher total wins. Tie: Higher modifier wins. Example: Stealth (15) vs Perception (12) → Stealth wins.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 420-424</source>
+    </constraint>
+    <constraint id="10" category="testing">
+      <title>Test Coverage Target</title>
+      <description>Target ≥ 95% statement coverage. Follow patterns from AbilityCheckHandler tests: Result Object testing, DI mocking, integration tests with real CharacterManager.</description>
+      <source>docs/stories/3-4-skill-check-system.md Task 9</source>
+    </constraint>
+    <constraint id="11" category="module-structure">
+      <title>Module Location</title>
+      <description>Module: src/mechanics/skill-check-system.js. Tests: tests/mechanics/skill-check-system.test.js. Follow Epic 3 mechanics module structure.</description>
+      <source>docs/stories/3-4-skill-check-system.md Dev Notes lines 430-436</source>
+    </constraint>
+    <constraint id="12" category="data-schema">
+      <title>Character Data Schema</title>
+      <description>character.proficiencies.skills array contains proficient skills. character.proficiencies.expertise array contains expert skills (if implemented). Skill names normalized: lowercase, underscores (e.g., "sleight_of_hand").</description>
+      <source>docs/character-sheet-schema.yaml lines 72-95</source>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>AbilityCheckHandler.makeSkillCheck</name>
+      <kind>method</kind>
+      <signature>async makeSkillCheck(character, skill, dc, options = {advantage, disadvantage}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js:249</path>
+      <description>Executes skill check: d20 + ability modifier + proficiency bonus (if proficient) vs DC. Returns Result Object with {passed, total, roll, abilityModifier, proficiencyBonus, dc}. Supports advantage/disadvantage.</description>
+    </interface>
+    <interface>
+      <name>CharacterManager.getAbilityModifier</name>
+      <kind>static-method</kind>
+      <signature>static getAbilityModifier(abilityScore: number): number</signature>
+      <path>src/mechanics/character-manager.js:487</path>
+      <description>Calculates D&amp;D 5e ability modifier: Math.floor((score - 10) / 2). Example: getAbilityModifier(16) returns 3.</description>
+    </interface>
+    <interface>
+      <name>CharacterManager.getProficiencyBonus</name>
+      <kind>static-method</kind>
+      <signature>static getProficiencyBonus(level: number): number</signature>
+      <path>src/mechanics/character-manager.js:502</path>
+      <description>Calculates D&amp;D 5e proficiency bonus: Math.ceil(level / 4) + 1. Example: getProficiencyBonus(5) returns 3.</description>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll</name>
+      <kind>method</kind>
+      <signature>async roll(notation: string, options = {advantage, disadvantage}): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+      <description>Rolls dice from notation (e.g., "1d20", "2d6+3"). Supports advantage/disadvantage (roll twice, take higher/lower). Returns Result Object with {rolls, total, breakdown}.</description>
+    </interface>
+    <interface>
+      <name>SKILL_TO_ABILITY</name>
+      <kind>constant</kind>
+      <signature>const SKILL_TO_ABILITY: Object&lt;string, string&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js:30</path>
+      <description>Maps all 18 D&amp;D 5e skills to their governing abilities. Example: {athletics: 'strength', stealth: 'dexterity', perception: 'wisdom'}. SkillCheckSystem should import or reuse this constant.</description>
+    </interface>
+    <interface>
+      <name>Character Data Schema</name>
+      <kind>data-structure</kind>
+      <signature>Character object with abilities, level, proficiencies</signature>
+      <path>docs/character-sheet-schema.yaml</path>
+      <description>Character schema: abilities (strength, dexterity, etc.), level (1-20), proficiencies.skills (array of proficient skills), proficiencies.expertise (array of expert skills). Skills normalized: lowercase, underscores.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Framework: Jest v29.7.0 with async/await support. Testing approach: Unit tests (70% coverage goal) for isolated modules with mocked dependencies, Integration tests (20% coverage goal) for module interactions. Test structure: Arrange-Act-Assert pattern with describe/test blocks. Mocking strategy: Mock DiceRoller for deterministic results, use real CharacterManager for integration tests. Result Object testing: Verify {success, data, error} structure for all methods. Coverage target: ≥95% statement coverage for mechanics modules. Performance testing: Verify &lt;50ms for skill checks, &lt;200ms for group checks (5 characters). Edge case testing: Test boundary conditions (ability scores 1-20, level 1-20, DC 0-30, natural 1/20 rolls). Reference pattern: Follow AbilityCheckHandler test suite structure (43 tests, 92.76% coverage).
+    </standards>
+    <locations>
+      <location>tests/mechanics/skill-check-system.test.js</location>
+      <location>tests/mechanics/*.test.js (existing mechanics tests)</location>
+      <location>tests/fixtures/test-character.yaml (sample test data)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1" priority="high">
+        <description>Unit test: Validate SKILL_TO_ABILITY mapping for all 18 skills</description>
+        <approach>Iterate through all 18 D&amp;D 5e skills, verify each maps to correct ability. Test skill name normalization (lowercase, underscores). Verify constant is exported and accessible.</approach>
+      </idea>
+      <idea ac="AC-2" priority="high">
+        <description>Integration test: Basic skill check execution with proficiency</description>
+        <approach>Create test character with Dexterity 14 (+2), proficient in Stealth. Call makeSkillCheck(character, "stealth", 15). Verify total = d20 + 2 (dex) + 2 (prof). Test passes DC, fails DC. Verify performance &lt;50ms. Mock DiceRoller for deterministic rolls.</approach>
+      </idea>
+      <idea ac="AC-2" priority="high">
+        <description>Unit test: Error handling for invalid inputs</description>
+        <approach>Test invalid skill name → error. Test invalid DC (negative, non-number) → error. Test missing character abilities → error. Verify Result Object error format.</approach>
+      </idea>
+      <idea ac="AC-3" priority="high">
+        <description>Unit test: Proficiency vs expertise handling</description>
+        <approach>Test character proficient in Perception: verify +2 proficiency bonus at level 3. Test character expert in Investigation: verify +4 (double proficiency) at level 3. Test character not proficient: verify 0 proficiency bonus. Verify expertise requires proficiency.</approach>
+      </idea>
+      <idea ac="AC-4" priority="high">
+        <description>Unit test: Passive skill score calculation</description>
+        <approach>Test passive Perception with Wisdom 14 (+2), proficient (+2): expect 14 (10+2+2). Test passive Investigation with expertise (+4): expect 14 (10+0+4). Test all 18 skills. Verify Result Object structure.</approach>
+      </idea>
+      <idea ac="AC-5" priority="high">
+        <description>Unit test: Advantage and disadvantage mechanics</description>
+        <approach>Mock DiceRoller to return [8, 15] for advantage: verify selectedRoll=15. Mock DiceRoller to return [8, 15] for disadvantage: verify selectedRoll=8. Test both advantage AND disadvantage: verify cancels out (single roll). Verify both rolls returned in result.</approach>
+      </idea>
+      <idea ac="AC-6" priority="high">
+        <description>Integration test: Group skill checks with majority</description>
+        <approach>Create 3 test characters. Mock DiceRoller for 2 pass, 1 fail. Call makeGroupCheck(characters, "stealth", 15). Verify groupPassed=true (majority). Test 3 characters with 1 pass, 2 fail: verify groupPassed=false. Test performance &lt;200ms for 5 characters.</approach>
+      </idea>
+      <idea ac="AC-6" priority="medium">
+        <description>Edge case: Group check with tie (2 characters, 1 pass 1 fail)</description>
+        <approach>Test 2-character group with 1 pass, 1 fail (50%). Verify tie-breaking logic or majority calculation.</approach>
+      </idea>
+      <idea ac="AC-7" priority="high">
+        <description>Integration test: Skill check contests</description>
+        <approach>Create 2 characters. Mock rolls: character1 Stealth total=15, character2 Perception total=12. Call makeContest(char1, "stealth", char2, "perception"). Verify winner="character1". Test tie scenario: verify higher modifier wins. Test with advantage/disadvantage for each character independently.</approach>
+      </idea>
+      <idea ac="AC-8" priority="critical">
+        <description>Integration test: AbilityCheckHandler composition</description>
+        <approach>Instantiate SkillCheckSystem with real AbilityCheckHandler. Verify makeSkillCheck delegates to AbilityCheckHandler. Test backward compatibility: verify existing AC-3 API still works. Verify SKILL_TO_ABILITY constant shared/imported correctly.</approach>
+      </idea>
+      <idea ac="ALL" priority="high">
+        <description>Performance test: Verify timing targets met</description>
+        <approach>Use performance.now() to measure execution time. Single skill check: &lt;50ms. Group check (5 characters): &lt;200ms. Run 100 iterations, verify 95th percentile meets targets.</approach>
+      </idea>
+      <idea ac="ALL" priority="medium">
+        <description>Integration test: Round-trip with real character file</description>
+        <approach>Load characters/kapi.yaml via CharacterManager. Make skill checks with real character data. Verify proficiencies (athletics, perception, survival) applied correctly. Test with real DiceRoller (no mocking) for end-to-end validation.</approach>
+      </idea>
+      <idea ac="AC-3" priority="medium">
+        <description>Edge case: Expertise without proficiency (validation)</description>
+        <approach>Test character with expertise array containing skill not in proficiencies.skills. Verify validation error or graceful handling (expertise ignored if not proficient).</approach>
+      </idea>
+      <idea ac="AC-4" priority="low">
+        <description>Regression test: Verify passive score formula matches D&amp;D 5e SRD</description>
+        <approach>Cross-reference passive score calculations with official D&amp;D 5e rules. Test edge cases: ability score 1 (mod -5), score 20 (mod +5), level 1 (prof +2), level 20 (prof +6).</approach>
+      </idea>
+      <idea ac="AC-6" priority="low">
+        <description>Stress test: Large group check (10+ characters)</description>
+        <approach>Test group check with 10 characters. Verify correctness and performance. Document if performance degrades significantly (&gt;500ms).</approach>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>

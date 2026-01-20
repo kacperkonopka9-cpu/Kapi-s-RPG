@@ -1,0 +1,68 @@
+# Holy Symbol of Ravenkind - Legendary Divine Artifact
+# Template stub for Epic 4 Story 4-12 (Artifact Quests)
+# Full mechanics implementation deferred to Epic 5
+
+itemId: "holy_symbol_of_ravenkind"
+name: "Holy Symbol of Ravenkind"
+type: "wondrous_item"
+subtype: "holy_symbol"
+rarity: "legendary"
+requiresAttunement: true
+
+description:
+  short: "A platinum amulet bearing the sun, wielded by Tasha Petrovna to wound Strahd centuries ago"
+  full: |
+    The Holy Symbol of Ravenkind is a platinum amulet depicting the sun, with a large
+    crystal embedded in its center. This sacred relic was created by the legendary cleric
+    Tasha Petrovna, the Morninglord's champion, who used it in a great battle against
+    Strahd shortly after his transformation. Though she was ultimately defeated, she
+    wounded Strahd gravely with the symbol's holy light. The symbol has three powerful
+    properties usable once per day each.
+
+properties:
+  weight: 1
+  ac_bonus: 0
+  slotType: "neck"  # Worn as amulet
+
+attunement:
+  required: true
+  restrictions:
+    - "Creature of good alignment (or neutral with strong conviction)"
+
+specialAbilities:
+    - name: "Hold Vampires"
+      description: "Action to target vampires within 30 ft. Each must make DC 15 Wis save or be paralyzed for 1 minute. 1/day."
+      mechanics: "Target all vampires in 30 ft, DC 15 Wis save, paralyzed 1 min, 1/day"
+
+    - name: "Turn Undead (Amplified)"
+      description: "If wielder can Turn Undead, affected creatures have disadvantage on saves vs turning."
+
+    - name: "Daylight"
+      description: "Cast Daylight spell (3rd level) at will. Lasts 1 hour, centered on symbol. True sunlight."
+      mechanics: "Daylight spell at will, 1 hour duration, 60 ft radius bright/60 ft dim, true sunlight"
+
+    - name: "Protection from Evil and Good"
+      description: "Cast Protection from Evil and Good on self. 1/day."
+      mechanics: "Protection from Evil and Good, self only, 1/day"
+
+    - name: "Sense Undead"
+      description: "While worn, bearer is aware of undead presence within 120 ft (not exact location)."
+
+lore:
+  history: "Created by Tasha Petrovna, Morninglord's champion, 200 years after Strahd's transformation. Used to wound Strahd in epic battle."
+  connectionToStrahd: "Strahd fears this relic - it represents genuine faith and divine power, forces he cannot corrupt."
+  creator: "Tasha Petrovna, legendary cleric of the Morninglord"
+
+source:
+  book: "Curse of Strahd"
+  page: "p.222"
+  notes: "One of three artifacts needed to defeat Strahd. Location determined by Tarokka reading. Grants Protection vs vampires."
+
+metadata:
+  developmentStage: "stub"  # Full mechanics in Epic 5
+  templateVersion: "1.0.0"
+  createdForStory: "4-12-artifact-quests"
+  compatibleWith: "Quest 8 (Find the Holy Symbol of Ravenkind)"
+
+# STUB: Full item mechanics (spell casting integration, daily use tracking, attunement mechanics)
+# deferred to Epic 5 (Equipment System, Story 3-14)

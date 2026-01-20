@@ -1,0 +1,102 @@
+# Location Metadata - Castle Ravenloft: Great Entry Hall
+
+location_name: "Castle Ravenloft - Great Entry Hall"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Massive"
+danger_level: 4
+recommended_level: "8-10"
+
+# Location Hierarchy
+parent_location: "castle-ravenloft"
+sub_locations: []  # Great Entry is a leaf node
+location_level: "room"
+
+# Connected Locations
+connected_locations:
+  - name: "Entrance"
+    direction: "Through entry door (K7), south"
+    travel_time: "Immediate"
+    description: "Heavy wooden door leads back to courtyard"
+  - name: "Dining Hall"
+    direction: "South corridor (K10)"
+    travel_time: "Immediate"
+    description: "Wide corridor with disturbing tapestries"
+  - name: "Guest Quarters"
+    direction: "Up grand staircase to upper galleries"
+    travel_time: "1 minute"
+    description: "Staircase splits and leads to multiple upper areas"
+  - name: "Chapel"
+    direction: "East door"
+    travel_time: "Immediate"
+    description: "Passage to desecrated chapel"
+  - name: "Upper Galleries (Secret)"
+    direction: "Secret passage from K9"
+    travel_time: "2 minutes"
+    description: "Hidden passage bypasses staircase"
+
+# Room Coverage
+rooms_included:
+  - "K8: Great Entry Hall (Main Chamber)"
+  - "K9: Guests' Hall"
+  - "K10: Dining Hall Approach"
+room_count: 3
+
+# Discovery and Visit Tracking
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+
+# Content Metadata
+description_token_count: 1700
+npc_count: 4  # Animated Armor, Strahd (appears here frequently), Invisible Stalker (conditional), Phantom Servants
+item_count: 11  # Candelabra, Portrait, Tapestries (10), Organ, Compositions, Secret switches, Tome (if placed here)
+event_count: 11
+
+# Special Properties
+central_hub: true  # All routes converge here
+strahd_favorite_location: true  # Prefers to greet guests here
+lair_actions_enabled: true
+scrying_focus_present: true  # Portrait can be used for scrying
+theatrical_encounter_space: true  # Grand staircase, organ, designed for dramatic entrances
+
+# Combat Encounters
+typical_encounters:
+  - name: "Animated Armor Guardians"
+    cr: 1
+    count: "2d4"
+    xp: "400-1600"
+  - name: "Vampire Spawn Reinforcements"
+    cr: 5
+    count: "2d3"
+    xp: "1800-5400"
+  - name: "Strahd von Zarovich (Roleplay, not combat)"
+    cr: 15
+    count: 1
+    xp: "N/A (First encounter is non-combat)"
+total_encounter_xp: "2200-7000"
+
+# Environmental Features
+features:
+  - "Pipe organ (magical animation, hypnotic music)"
+  - "Grand staircase (two branches to upper galleries)"
+  - "Tattered tapestries (conceal spy-holes)"
+  - "Animated armor alcoves (2d4 suits)"
+  - "Black marble floor (reflective, slippery DC 10 Acrobatics if running)"
+  - "Secret passages (behind portrait, behind tapestries)"
+  - "High vaulted ceiling (60 feet, darkness above)"
+
+# Lair Actions (When Strahd Present)
+lair_actions:
+  - "Doors slam shut and lock magically (DC 20 to force)"
+  - "Organ plays terror melody (DC 17 Wisdom save or frightened)"
+  - "Shadows animate and grasp at intruders (opportunity attacks)"
+
+# Quest Relevance
+potential_artifact_location: true  # Tome of Strahd may be in organ compartment
+first_strahd_encounter_location: true
+central_navigation_hub: true
+
+# Validation
+last_validated: null
+validation_status: "pending"

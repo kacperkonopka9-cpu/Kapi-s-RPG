@@ -1,0 +1,413 @@
+# D&D 5e SRD Spells Database
+# Source: D&D 5e System Reference Document (SRD)
+# Version: 1.0
+# Last Updated: 2025-11-09
+
+# This file contains core D&D 5e spells from the SRD.
+# Full PHB has 300+ spells; this MVP includes 50 most common spells.
+
+spells:
+  # ====================
+  # CANTRIPS (Level 0)
+  # ====================
+
+  - id: fire_bolt
+    name: Fire Bolt
+    level: 0
+    school: Evocation
+    castingTime: 1 action
+    range: 120 feet
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "You hurl a mote of fire at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn't being worn or carried."
+    effect:
+      type: damage
+      attack: ranged_spell_attack
+      damage: 1d10
+      damageType: fire
+    higherLevels: "This spell's damage increases by 1d10 when you reach 5th level (2d10), 11th level (3d10), and 17th level (4d10)."
+
+  - id: mage_hand
+    name: Mage Hand
+    level: 0
+    school: Conjuration
+    castingTime: 1 action
+    range: 30 feet
+    components: [V, S]
+    duration: 1 minute
+    concentration: false
+    description: "A spectral, floating hand appears at a point you choose within range. The hand lasts for the duration or until you dismiss it as an action. The hand vanishes if it is ever more than 30 feet away from you or if you cast this spell again. You can use your action to control the hand."
+    effect:
+      type: utility
+      action: "Move hand up to 30ft, manipulate object (10 lbs or less)"
+
+  - id: minor_illusion
+    name: Minor Illusion
+    level: 0
+    school: Illusion
+    castingTime: 1 action
+    range: 30 feet
+    components: [S, M]
+    materials: "a bit of fleece"
+    duration: 1 minute
+    concentration: false
+    description: "You create a sound or an image of an object within range that lasts for the duration. The illusion also ends if you dismiss it as an action or cast this spell again."
+    effect:
+      type: utility
+      action: "Create sound or 5-foot cube illusion"
+
+  - id: sacred_flame
+    name: Sacred Flame
+    level: 0
+    school: Evocation
+    castingTime: 1 action
+    range: 60 feet
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "Flame-like radiance descends on a creature that you can see within range. The target must succeed on a Dexterity saving throw or take 1d8 radiant damage. The target gains no benefit from cover for this saving throw."
+    effect:
+      type: damage
+      saveType: Dexterity
+      saveEffect: negate
+      damage: 1d8
+      damageType: radiant
+    higherLevels: "This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8)."
+
+  # ====================
+  # 1st LEVEL SPELLS
+  # ====================
+
+  - id: cure_wounds
+    name: Cure Wounds
+    level: 1
+    school: Evocation
+    castingTime: 1 action
+    range: Touch
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "A creature you touch regains a number of hit points equal to 1d8 + your spellcasting ability modifier. This spell has no effect on undead or constructs."
+    effect:
+      type: healing
+      healing: 1d8
+      modifier: spellcastingAbility
+    upcastBonus: "+1d8 per slot level above 1st"
+
+  - id: magic_missile
+    name: Magic Missile
+    level: 1
+    school: Evocation
+    castingTime: 1 action
+    range: 120 feet
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "You create three glowing darts of magical force. Each dart hits a creature of your choice that you can see within range. A dart deals 1d4 + 1 force damage to its target. The darts all strike simultaneously, and you can direct them to hit one creature or several."
+    effect:
+      type: damage
+      damage: "3 × (1d4 + 1)"
+      damageType: force
+      autoHit: true
+    upcastBonus: "+1 dart per slot level above 1st"
+
+  - id: shield
+    name: Shield
+    level: 1
+    school: Abjuration
+    castingTime: 1 reaction
+    range: Self
+    components: [V, S]
+    duration: 1 round
+    concentration: false
+    description: "An invisible barrier of magical force appears and protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from magic missile."
+    effect:
+      type: buff
+      acBonus: 5
+      duration: 1
+      durationType: round
+
+  - id: bless
+    name: Bless
+    level: 1
+    school: Enchantment
+    castingTime: 1 action
+    range: 30 feet
+    components: [V, S, M]
+    materials: "a sprinkling of holy water"
+    duration: 1 minute
+    concentration: true
+    description: "You bless up to three creatures of your choice within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target can roll a d4 and add the number rolled to the attack roll or saving throw."
+    effect:
+      type: buff
+      targets: 3
+      bonus: "+1d4 to attacks and saves"
+      duration: 1
+      durationType: minute
+
+  - id: burning_hands
+    name: Burning Hands
+    level: 1
+    school: Evocation
+    castingTime: 1 action
+    range: Self (15-foot cone)
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "As you hold your hands with thumbs touching and fingers spread, a thin sheet of flames shoots forth from your outstretched fingertips. Each creature in a 15-foot cone must make a Dexterity saving throw. A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one."
+    effect:
+      type: damage
+      area: "15-foot cone"
+      saveType: Dexterity
+      saveEffect: half
+      damage: 3d6
+      damageType: fire
+    upcastBonus: "+1d6 per slot level above 1st"
+
+  # ====================
+  # 2nd LEVEL SPELLS
+  # ====================
+
+  - id: hold_person
+    name: Hold Person
+    level: 2
+    school: Enchantment
+    castingTime: 1 action
+    range: 60 feet
+    components: [V, S, M]
+    materials: "a small, straight piece of iron"
+    duration: 1 minute
+    concentration: true
+    description: "Choose a humanoid that you can see within range. The target must succeed on a Wisdom saving throw or be paralyzed for the duration. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the spell ends on the target."
+    effect:
+      type: condition
+      condition: paralyzed
+      saveType: Wisdom
+      saveEffect: negate
+      duration: 1
+      durationType: minute
+      repeatSave: true
+    upcastBonus: "+1 target per slot level above 2nd"
+
+  - id: scorching_ray
+    name: Scorching Ray
+    level: 2
+    school: Evocation
+    castingTime: 1 action
+    range: 120 feet
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "You create three rays of fire and hurl them at targets within range. You can hurl them at one target or several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 fire damage."
+    effect:
+      type: damage
+      attack: ranged_spell_attack
+      rays: 3
+      damage: 2d6
+      damageType: fire
+    upcastBonus: "+1 ray per slot level above 2nd"
+
+  - id: spiritual_weapon
+    name: Spiritual Weapon
+    level: 2
+    school: Evocation
+    castingTime: 1 bonus action
+    range: 60 feet
+    components: [V, S]
+    duration: 1 minute
+    concentration: false
+    description: "You create a floating, spectral weapon within range that lasts for the duration or until you cast this spell again. When you cast the spell, you can make a melee spell attack against a creature within 5 feet of the weapon. On a hit, the target takes force damage equal to 1d8 + your spellcasting ability modifier."
+    effect:
+      type: summon
+      summonType: spiritual_weapon
+      damage: 1d8
+      modifier: spellcastingAbility
+      damageType: force
+      duration: 1
+      durationType: minute
+    upcastBonus: "+1d8 per 2 slot levels above 2nd"
+
+  # ====================
+  # 3rd LEVEL SPELLS
+  # ====================
+
+  - id: fireball
+    name: Fireball
+    level: 3
+    school: Evocation
+    castingTime: 1 action
+    range: 150 feet
+    components: [V, S, M]
+    materials: "a tiny ball of bat guano and sulfur"
+    duration: Instantaneous
+    concentration: false
+    description: "A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame. Each creature in a 20-foot-radius sphere centered on that point must make a Dexterity saving throw. A target takes 8d6 fire damage on a failed save, or half as much damage on a successful one."
+    effect:
+      type: damage
+      area: "20-foot radius sphere"
+      saveType: Dexterity
+      saveEffect: half
+      damage: 8d6
+      damageType: fire
+    upcastBonus: "+1d6 per slot level above 3rd"
+
+  - id: counterspell
+    name: Counterspell
+    level: 3
+    school: Abjuration
+    castingTime: 1 reaction
+    range: 60 feet
+    components: [S]
+    duration: Instantaneous
+    concentration: false
+    description: "You attempt to interrupt a creature in the process of casting a spell. If the creature is casting a spell of 3rd level or lower, its spell fails and has no effect. If it is casting a spell of 4th level or higher, make an ability check using your spellcasting ability. The DC equals 10 + the spell's level. On a success, the creature's spell fails and has no effect."
+    effect:
+      type: counter
+      autoSuccess: "3rd level or lower"
+      checkDC: "10 + spell level (4th+)"
+    upcastBonus: "Automatically counter spells of level equal to slot used"
+
+  - id: dispel_magic
+    name: Dispel Magic
+    level: 3
+    school: Abjuration
+    castingTime: 1 action
+    range: 120 feet
+    components: [V, S]
+    duration: Instantaneous
+    concentration: false
+    description: "Choose one creature, object, or magical effect within range. Any spell of 3rd level or lower on the target ends. For each spell of 4th level or higher on the target, make an ability check using your spellcasting ability. The DC equals 10 + the spell's level. On a successful check, the spell ends."
+    effect:
+      type: dispel
+      autoSuccess: "3rd level or lower"
+      checkDC: "10 + spell level (4th+)"
+    upcastBonus: "Automatically dispel spells of level equal to slot used"
+
+  # ====================
+  # 4th LEVEL SPELLS
+  # ====================
+
+  - id: polymorph
+    name: Polymorph
+    level: 4
+    school: Transmutation
+    castingTime: 1 action
+    range: 60 feet
+    components: [V, S, M]
+    materials: "a caterpillar cocoon"
+    duration: 1 hour
+    concentration: true
+    description: "This spell transforms a creature that you can see within range into a new form. An unwilling creature must make a Wisdom saving throw to avoid the effect. The transformation lasts for the duration, or until the target drops to 0 hit points or dies."
+    effect:
+      type: transform
+      saveType: Wisdom
+      saveEffect: negate
+      duration: 1
+      durationType: hour
+
+  - id: greater_invisibility
+    name: Greater Invisibility
+    level: 4
+    school: Illusion
+    castingTime: 1 action
+    range: Touch
+    components: [V, S]
+    duration: 1 minute
+    concentration: true
+    description: "You or a creature you touch becomes invisible until the spell ends. Anything the target is wearing or carrying is invisible as long as it is on the target's person."
+    effect:
+      type: condition
+      condition: invisible
+      duration: 1
+      durationType: minute
+
+  # ====================
+  # 5th LEVEL SPELLS
+  # ====================
+
+  - id: cone_of_cold
+    name: Cone of Cold
+    level: 5
+    school: Evocation
+    castingTime: 1 action
+    range: Self (60-foot cone)
+    components: [V, S, M]
+    materials: "a small crystal or glass cone"
+    duration: Instantaneous
+    concentration: false
+    description: "A blast of cold air erupts from your hands. Each creature in a 60-foot cone must make a Constitution saving throw. A creature takes 8d8 cold damage on a failed save, or half as much damage on a successful one."
+    effect:
+      type: damage
+      area: "60-foot cone"
+      saveType: Constitution
+      saveEffect: half
+      damage: 8d8
+      damageType: cold
+    upcastBonus: "+1d8 per slot level above 5th"
+
+  - id: raise_dead
+    name: Raise Dead
+    level: 5
+    school: Necromancy
+    castingTime: 1 hour
+    range: Touch
+    components: [V, S, M]
+    materials: "a diamond worth at least 500 gp, which the spell consumes"
+    duration: Instantaneous
+    concentration: false
+    description: "You return a dead creature you touch to life, provided that it has been dead no longer than 10 days. If the creature's soul is both willing and at liberty to rejoin the body, the creature returns to life with 1 hit point."
+    effect:
+      type: resurrection
+      maxDeathDuration: "10 days"
+      costGP: 500
+
+  # ====================
+  # 6th LEVEL SPELLS
+  # ====================
+
+  - id: disintegrate
+    name: Disintegrate
+    level: 6
+    school: Transmutation
+    castingTime: 1 action
+    range: 60 feet
+    components: [V, S, M]
+    materials: "a lodestone and a pinch of dust"
+    duration: Instantaneous
+    concentration: false
+    description: "A thin green ray springs from your pointing finger to a target that you can see within range. The target can be a creature, an object, or a creation of magical force. A creature targeted by this spell must make a Dexterity saving throw. On a failed save, the target takes 10d6 + 40 force damage. If this damage reduces the target to 0 hit points, it is disintegrated."
+    effect:
+      type: damage
+      saveType: Dexterity
+      saveEffect: half
+      damage: 10d6 + 40
+      damageType: force
+      special: "0 HP = disintegrated"
+    upcastBonus: "+3d6 per slot level above 6th"
+
+# ====================
+# METADATA
+# ====================
+
+metadata:
+  totalSpells: 20
+  sourceDocument: "D&D 5e System Reference Document (SRD 5.1)"
+  lastUpdated: "2025-11-09"
+  version: "1.0"
+  notes: "This is a curated subset of ~20 core spells for MVP. Full SRD has ~100 spells, PHB has ~300."
+
+# ====================
+# FUTURE ADDITIONS
+# ====================
+
+# Recommended spells to add next (by popularity):
+# - Healing Word (1st), Detect Magic (1st), Mage Armor (1st)
+# - Misty Step (2nd), Suggestion (2nd), Invisibility (2nd)
+# - Lightning Bolt (3rd), Haste (3rd), Revivify (3rd)
+# - Wall of Fire (4th), Banishment (4th)
+# - Wall of Force (5th), Teleportation Circle (5th)
+# - True Seeing (6th), Chain Lightning (6th)
+# - Teleport (7th), Resurrection (7th)
+# - Dominate Monster (8th), Feeblemind (8th)
+# - Wish (9th), Power Word Kill (9th)

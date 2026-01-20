@@ -1,0 +1,97 @@
+# Location Metadata - Town of Vallaki
+
+location_name: "Town of Vallaki"
+location_type: "settlement"
+region: "Barovia Valley"
+size: "Medium"
+danger_level: 3
+recommended_level: "3-5"
+
+parent_location: null
+sub_locations:
+  - "church-of-st-andral"
+  - "burgomaster-mansion"
+  - "blue-water-inn"
+  - "town-square"
+  - "reformation-center"
+  - "town-gates"
+  - "coffin-maker-shop"
+
+location_level: "settlement"
+
+connected_locations:
+  - name: "Village of Barovia"
+    direction: "east"
+    travel_time: "4 hours"
+    description: "Road through Svalich Woods back to starting village"
+  - name: "Lake Zarovich"
+    direction: "north"
+    travel_time: "30 minutes"
+    description: "Misty lake north of town walls"
+  - name: "Village of Krezk"
+    direction: "west"
+    travel_time: "6 hours"
+    description: "Westward road through wilderness to fortified village"
+  - name: "Wizard of Wines Winery"
+    direction: "southwest"
+    travel_time: "3 hours"
+    description: "Vineyard in the southern hills"
+  - name: "Tser Pool Encampment"
+    direction: "west"
+    travel_time: "4 hours"
+    description: "Stone bridge over Tser River to Vistani camp"
+  - name: "Old Bonegrinder"
+    direction: "west"
+    travel_time: "2 hours"
+    description: "Windmill on hill along Old Svalich Road"
+  - name: "Van Richten's Tower"
+    direction: "northwest"
+    travel_time: "4 hours"
+    description: "Tower on Lake Baratok island through forests"
+  - name: "Argynvostholt"
+    direction: "west"
+    travel_time: "3 hours"
+    description: "Ruined mansion of the Order of the Silver Dragon"
+  - name: "Tsolenka Pass"
+    direction: "north"
+    travel_time: "6 hours"
+    description: "Mountain pass leading to the Amber Temple"
+
+discovered: false
+first_visit_date: null
+
+description_token_count: 1500
+npc_count: 5
+item_count: 4
+event_count: 7
+
+population: 2000
+government: "Tyrannical burgomaster (Baron Vallakovich)"
+economy: "Trade hub, crafts, limited agriculture"
+defenses: "15-foot timber palisade walls, guard towers, gate patrols"
+
+special_features:
+  - "Weekly mandatory festivals"
+  - "Church of St. Andral (undead protection)"
+  - "Blue Water Inn (quest hub)"
+  - "Reformation Center (political prison)"
+
+quest_hub: true
+safe_rest: true  # Blue Water Inn provides safe lodging
+merchant_access: true
+fast_travel_point: true
+
+typical_encounters:
+  - name: "Town Guards"
+    cr: 0.5
+    count: "1d4+2"
+  - name: "Izek Strazni"
+    cr: 5
+    count: 1
+  - name: "Vampire Spawn (after St. Andral's Feast)"
+    cr: 5
+    count: "1d3"
+    conditional: "st_andrals_feast_triggered"
+
+last_validated: null
+validation_status: "pending"

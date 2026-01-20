@@ -1,0 +1,199 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>8</storyId>
+    <title>Ireena NPC Profile</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-8-ireena-npc-profile.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player embarking on the central quest of Curse of Strahd</asA>
+    <iWant>a complete Ireena Kolyana NPC profile with personality, dialogue, and quest integration</iWant>
+    <soThat>I can experience the Tatyana reincarnation storyline with a fully-realized companion NPC who reacts authentically to story events, builds relationships, and integrates with Epic 2 quest mechanics and Epic 3 character systems</soThat>
+    <tasks>
+- Task 1: Create Ireena NPC Profile File (AC: 1, 7)
+- Task 2: Define D&amp;D 5e Stat Block (AC: 1)
+- Task 3: Define Personality &amp; Dialogue (AC: 2)
+- Task 4: Write Extensive Dialogue Options (AC: 2)
+- Task 5: Define Quest Integration (AC: 3)
+- Task 6: Define Relationship Network (AC: 4)
+- Task 7: Define Tatyana Lore &amp; AI Behavior (AC: 5)
+- Task 8: Define Dynamic State Tracking (AC: 6)
+- Task 9: Define Schedule &amp; Location Tethering (AC: 7)
+- Task 10: Create Integration Tests (AC: 8)
+- Task 11: Reference Ireena in Village of Barovia NPCs.md (AC: 8)
+- Task 12: Validate and Document (AC: 7, 8)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: Complete D&amp;D 5e Stat Block - Ireena NPC profile contains full stat block as human noble with abilities, HP, AC, saves, skills, and basic combat capabilities
+
+AC-2: Personality &amp; Dialogue System - Profile defines comprehensive personality traits, ideals, bonds, flaws, voice description, appearance notes, and extensive dialogue options
+
+AC-3: Quest Integration - Profile documents Ireena's involvement in multiple quests with quest_giver/quest_target roles and state changes
+
+AC-4: Relationship Network - Relationships section defines connections to key NPCs (Ismark, Strahd, Kolyan, Sergei) and tracks player relationship development
+
+AC-5: Tatyana Lore Integration - Profile includes AI behavior notes about Tatyana identity, reincarnation cycle, connection to Strahd's curse, past life memories, and multiple possible endings
+
+AC-6: Dynamic State Tracking - Profile supports state changes for bitten_by_strahd_count, location tracking, emotional states, relationship with player, and quest milestone flags
+
+AC-7: NPC Profile Schema Compliance - Profile validates against templates/npc/npc-profile-template.yaml schema with all required fields
+
+AC-8: Epic 1-3 Integration Checkpoint - Integration tests verify CharacterManager loads profile, dialogue system accessible, quest involvement tracked, relationship changes persist, location movement works, EventScheduler triggers state updates
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification - Curse of Strahd Content</title>
+        <section>NPCs Section</section>
+        <snippet>Ireena Kolyana (Tatyana reincarnation, central quest NPC) - Complete NPC profile with personality, dialogue, quest involvement. Key quests: Bury the Burgomaster, Escort Ireena to Vallaki, St. Andral's Feast, Pool of Reflection ending.</snippet>
+      </doc>
+      <doc>
+        <path>templates/npc/npc-profile-template.yaml</path>
+        <title>NPC Profile Template v1.0.0</title>
+        <section>Schema Definition</section>
+        <snippet>Complete schema for NPC profiles including basic info, abilities, hit points, proficiencies, spellcasting, inventory, personality, dialogue, AI behavior, relationships, schedule, and quest involvement. Compatible with Epic 3 CharacterManager.</snippet>
+      </doc>
+      <doc>
+        <path>game-data/locations/village-of-barovia/NPCs.md</path>
+        <title>Village of Barovia NPCs</title>
+        <section>Ireena Kolyana</section>
+        <snippet>Striking young woman with auburn hair, haunting green eyes, two bite marks on neck. Quest hook: Father dying, Strahd's pursuit, needs escort to safety. Personality: fierce determination despite fear, protective of Ismark, haunted by nightmares.</snippet>
+      </doc>
+      <doc>
+        <path>game-data/npcs/strahd_von_zarovich.yaml</path>
+        <title>Strahd NPC Profile (Reference)</title>
+        <section>AI Behavior &amp; Relationships</section>
+        <snippet>Reference implementation for AI behavior structure, relationship network format, dialogue organization, and quest involvement patterns. Includes goals ("Possess Ireena"), bonds ("Tatyana/Ireena"), and special behaviors.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-7-strahd-npc-profile.md</path>
+        <title>Story 4-7 Learnings</title>
+        <section>Dev Notes - Learnings from Previous Story</section>
+        <snippet>NPC profile pattern established at game-data/npcs/*.yaml. Integration test suite at tests/integration/npcs/*.test.js. All profiles must validate with js-yaml, include templateVersion 1.0.0. CharacterManager successfully loads profiles (63/63 tests passed).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-60</lines>
+        <reason>Epic 3 module that loads and validates NPC profiles from YAML files. Ireena profile must be compatible with loadCharacter() method.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>N/A</lines>
+        <reason>Epic 2 module for quest triggers. Ireena's state changes (bitten 3rd time, location travel) must integrate with event system.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/npcs/strahd-integration.test.js</path>
+        <kind>test</kind>
+        <symbol>Strahd Integration Tests</symbol>
+        <lines>1-80</lines>
+        <reason>Reference test structure for NPC profile integration testing. Ireena tests should follow similar patterns: describe blocks per AC, specific assertions, CharacterManager loading.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/npcs/strahd_von_zarovich.yaml</path>
+        <kind>data</kind>
+        <symbol>Strahd NPC Profile</symbol>
+        <lines>N/A</lines>
+        <reason>Reference implementation showing AI behavior structure, relationship network format, dialogue organization. Use as template for Ireena's sections.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <usage>YAML parsing for NPC profile files</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.0.0</version>
+        <usage>Testing framework for integration tests</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- Epic 4 Content-Only Workflow: No code changes, YAML profile creation only
+- Profile must validate against templates/npc/npc-profile-template.yaml v1.0.0
+- Profile size under 2000 lines (readability/maintainability)
+- All dialogue must be string arrays (LLM-DM selects contextually appropriate option)
+- Quest involvement must reference valid quest IDs from Epic 4 quest system (stories 4-11 to 4-13)
+- Relationship NPC IDs must reference profiles that will exist after stories 4-7 to 4-10 complete
+- State variables must follow Epic 1 StateManager patterns (snake_case, boolean/number/string types)
+- Ireena is unaware she's Tatyana reincarnation (knowledge in AI behavior for DM only)
+- Past life memories surface as "dreams" or "déjà vu" - player experiences through dialogue, not exposition
+- Ireena is non-combatant - uses Dodge action or flees if forced into battle
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>CharacterManager.loadCharacter()</name>
+      <kind>function</kind>
+      <signature>async loadCharacter(characterId: string): Promise&lt;ResultObject&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+      <usage>Loads NPC profile from game-data/npcs/[characterId].yaml. Profile must return success: true with valid character data.</usage>
+    </interface>
+    <interface>
+      <name>NPC Profile Schema</name>
+      <kind>YAML schema</kind>
+      <signature>See templates/npc/npc-profile-template.yaml for complete structure</signature>
+      <path>templates/npc/npc-profile-template.yaml</path>
+      <usage>All NPC profiles must include: name, npcId, abilities, hitPoints, proficiencies, personality, dialogue, aiBehavior, relationships, schedule, questInvolvement, templateVersion</usage>
+    </interface>
+    <interface>
+      <name>EventScheduler Integration</name>
+      <kind>event system</kind>
+      <signature>State changes trigger EventScheduler via StateManager</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <usage>Ireena's state variables (bitten_by_strahd_count, location, quest_flags) can trigger Epic 2 events. Example: 3rd bite triggers vampire transformation countdown.</usage>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+Epic 4 content testing follows integration testing approach using Jest framework. All NPC profiles validated against schema using js-yaml parser. Test organization: One describe block per acceptance criteria with specific assertions (not just toBeDefined). CharacterManager compatibility verified through profile loading. Target: 35-40 test cases for Ireena (vs 63 for Strahd - simpler non-combatant NPC). Test files use file:line evidence format for failures. Pattern established in Story 4-7 (Strahd profile).
+    </standards>
+    <locations>
+tests/integration/npcs/*.test.js
+    </locations>
+    <ideas>
+      <test ac="AC-1">
+        <description>Validate D&amp;D 5e stat block: ability scores (STR 10, DEX 12, CON 10, INT 13, WIS 14, CHA 16), HP (9, 2d8), AC (12), proficiency bonus (+2), saving throws (WIS +4, CHA +5), skills (Insight +4, Persuasion +5, History +3, Perception +4)</description>
+      </test>
+      <test ac="AC-2">
+        <description>Validate personality structure: traits array contains 4 items, ideals/bonds/flaws defined, voice description present, appearance notes match Village of Barovia NPCs.md</description>
+      </test>
+      <test ac="AC-2">
+        <description>Validate dialogue completeness: greeting, quest hook, travel, Pool of Reflection ending, Strahd questions, combat, key quotes all present as string arrays</description>
+      </test>
+      <test ac="AC-3">
+        <description>Validate quest involvement: references to bury_the_burgomaster, escort_ireena_to_vallaki, st_andrals_feast, pool_of_reflection quests with role="quest_target"</description>
+      </test>
+      <test ac="AC-4">
+        <description>Validate relationship network: connections to ismark_kolyanovich (brother), strahd_von_zarovich (enemy), kolyan_indirovich (father), sergei_von_zarovich (past life), player (dynamic)</description>
+      </test>
+      <test ac="AC-5">
+        <description>Validate Tatyana lore in aiBehavior: knowledgeSecrets mentions Tatyana dreams, reincarnation cycle, Strahd's curse. Special behaviors include sleepwalking, past life flashbacks</description>
+      </test>
+      <test ac="AC-6">
+        <description>Validate state tracking variables: bitten_by_strahd_count (starts 2), current_location, mood (emotional states), relationship_with_player, quest milestone flags present</description>
+      </test>
+      <test ac="AC-7">
+        <description>Schema compliance: templateVersion="1.0.0", all required fields from npc-profile-template.yaml present, YAML parses without errors, file size under 2000 lines</description>
+      </test>
+      <test ac="AC-8">
+        <description>CharacterManager integration: loadCharacter("ireena_kolyana") returns success:true, EventScheduler compatibility verified (state changes can trigger events)</description>
+      </test>
+    </ideas>
+  </tests>
+</story-context>

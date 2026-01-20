@@ -1,0 +1,207 @@
+# Strahd Zombie - Enhanced Undead with Lightning Absorption
+# Source: Curse of Strahd p.241
+# Created by Strahd's dark magic, found in Castle Ravenloft and surrounding areas
+
+# === BASIC INFORMATION ===
+name: "Strahd Zombie"
+monsterId: "strahd_zombie"
+size: "Medium"
+type: "undead"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 8
+armorType: "natural armor"
+
+hitPoints:
+  max: 30
+  current: 30
+  hitDice: "4d8"
+  hitDiceBonus: 12  # +3 Con modifier * 4 HD = +12
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 13    # +1
+  dexterity: 6    # -2
+  constitution: 16  # +3
+  intelligence: 3  # -4
+  wisdom: 6      # -2
+  charisma: 5    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 20
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows:
+  wisdom: 0  # +0 (proficient: -2 Wis + 2 prof)
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["lightning", "poison"]
+conditionImmunities: ["poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 8  # 10 + Wis (-2)
+
+# === LANGUAGES ===
+languages: []
+languageNote: "understands the languages it knew in life but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "strahd_zombie_1"  # Will be set dynamically per instance
+  name: "Strahd Zombie"
+  dexModifier: -2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Loathsome Limbs"
+    description: "Whenever the Strahd zombie takes damage, roll a d20. If the number rolled is equal to or higher than the damage taken, one of the zombie's arms or legs (your choice) breaks off and drops to the ground. The zombie is unaffected if it loses a limb this way. If it is missing an arm, it can no longer Multiattack. If it is missing both arms, it loses the Slam action."
+    mechanics:
+      type: "limb_loss"
+      trigger: "takes_damage"
+      rollCheck: "1d20_vs_damage_taken"
+      effects:
+        - condition: "roll >= damage"
+          result: "lose_random_limb"
+        - condition: "one_arm_missing"
+          result: "no_multiattack"
+        - condition: "both_arms_missing"
+          result: "no_slam_action"
+
+  - name: "Lightning Absorption"
+    description: "Whenever the Strahd zombie is subjected to lightning damage, it takes no damage and instead regains a number of hit points equal to the lightning damage dealt."
+    mechanics:
+      type: "damage_conversion"
+      trigger: "takes_lightning_damage"
+      effect: "heal_equal_to_damage"
+      damageType: "lightning"
+
+  - name: "Undead Fortitude"
+    description: "If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead."
+    mechanics:
+      type: "survival_check"
+      trigger: "reduced_to_zero_hp"
+      saveDC: "5_plus_damage"
+      saveAbility: "constitution"
+      exceptions: ["radiant_damage", "critical_hit"]
+      onSuccess: "drop_to_1_hp"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The Strahd zombie makes two slam attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      condition: "both_arms_present"
+
+  - name: "Slam"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 1  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "torn_noble_clothing"
+      quantity: 1
+      dropChance: 40
+    - item: "tarnished_jewelry"
+      quantity: 1
+      dropChance: 15
+    - item: "zombie_limb"
+      quantity: "1d4"
+      dropChance: 60
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Shambles toward enemies and uses Multiattack when possible. Loses effectiveness as limbs are destroyed. Seeks lightning sources to heal when below 50% HP."
+  intelligence: "mindless"
+  aggression: "high"
+  groupTactics: "none"
+
+  preferredTargets:
+    - "nearest living creature"
+    - "spellcasters using lightning" # if healing needed
+
+  fleeThreshold: null  # Fights to death
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Castle Ravenloft, Barovia Village, Strahd's controlled areas"
+  organization: "Solitary, gang (2-4), or mob (5-15)"
+
+lore:
+  description: "Strahd zombies are corpses reanimated by Strahd von Zarovich's dark magic. Unlike common zombies, they are infused with necromantic lightning that holds their rotting bodies together. Even when dismembered, their severed limbs continue twitching with unnatural energy. These enhanced undead serve as Castle Ravenloft's eternal guardians."
+  weakness: "Radiant damage still effective. Can lose limbs making them less dangerous over time. Dismemberment reduces combat effectiveness even though it doesn't kill them."
+  behavior: "More aggressive than standard zombies. Will position themselves to intercept intruders. Lightning strikes (from Strahd or environmental) can restore them during combat, making them dangerous in storms or near Strahd's lightning-based lair actions."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1 Strahd zombie per PC for medium, 2 per PC for hard"
+  terrain: "Castle Ravenloft corridors, crypts, throne room, Barovia village during assaults"
+  tactics: "Deploy in groups near lightning-based hazards or with Strahd. Loathsome Limbs makes them unpredictable - severed limbs can create difficult terrain. Lightning Absorption allows healing mid-combat if Strahd casts lightning spells. Use in ambushes where PCs trigger lightning traps."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.241"
+  official: true
+  srdContent: false
+
+  notes: "Enhanced zombie variant unique to Curse of Strahd. Multiattack makes them more dangerous than CR 1/4 zombies. Lightning Absorption synergizes with Strahd's lightning spells and Castle Ravenloft's storm-themed areas. Loathsome Limbs creates interesting tactical situations."
+
+  dmReminders:
+    - "Roll 1d20 whenever it takes damage - if roll >= damage, lose a limb"
+    - "Lightning damage HEALS instead of hurting (immune to lightning)"
+    - "Multiattack requires both arms - track limb loss"
+    - "Undead Fortitude still applies (DC 5 + damage, Con save)"
+    - "Perfect for encounters near lightning hazards or with Strahd present"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

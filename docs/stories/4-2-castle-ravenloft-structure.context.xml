@@ -1,0 +1,369 @@
+<story-context id="4-2-castle-ravenloft-structure" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>4.2</storyId>
+    <title>Castle Ravenloft Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-11</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-2-castle-ravenloft-structure.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player progressing through the Curse of Strahd campaign</asA>
+    <iWant>Castle Ravenloft implemented as a navigable mega-dungeon with all 60+ rooms organized into accessible sub-locations</iWant>
+    <soThat>I can explore Strahd's fortress, encounter its inhabitants and dangers, and ultimately confront the vampire lord in his lair</soThat>
+    <tasks>
+      - Task 1: Create Parent Location Folder Structure (AC: 1)
+      - Task 2: Design Sub-Location Architecture (AC: 2, 3)
+      - Task 3: Create Sub-Location Folders (AC: 2, 3) - minimum 12 sub-locations
+      - Task 4: Author Parent Description.md (AC: 4)
+      - Task 5: Author Sub-Location Description.md Files (AC: 4)
+      - Task 6: Author Parent NPCs.md (AC: 5)
+      - Task 7: Author Sub-Location NPCs.md Files (AC: 5)
+      - Task 8: Author Parent Items.md (AC: 6)
+      - Task 9: Author Sub-Location Items.md Files (AC: 6)
+      - Task 10: Author Parent Events.md (AC: 7)
+      - Task 11: Author Sub-Location Events.md Files (AC: 7)
+      - Task 12: Create Parent State.md (AC: 8)
+      - Task 13: Create Sub-Location State.md Files (AC: 8)
+      - Task 14: Create Parent metadata.yaml (AC: 9)
+      - Task 15: Create Sub-Location metadata.yaml Files (AC: 9)
+      - Task 16: Integration Testing with Epic 1 LocationLoader (AC: 10)
+      - Task 17: Integration Testing with Epic 2 EventScheduler (AC: 11)
+      - Task 18: Validation and Documentation (AC: 12)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1">
+      <title>Parent Location Folder Created</title>
+      <description>Create parent folder at game-data/locations/castle-ravenloft/ with all 6 required files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml) and validate using npm run validate-location</description>
+    </criterion>
+    <criterion id="AC-2">
+      <title>Sub-Location Architecture Implemented</title>
+      <description>Implement nested sub-location architecture for Castle Ravenloft's 60+ rooms. Each sub-location has 6 required files, parent_location reference in metadata.yaml, and validates independently</description>
+    </criterion>
+    <criterion id="AC-3">
+      <title>Major Castle Areas Implemented (Minimum 12 Sub-Locations)</title>
+      <description>Create minimum 12 sub-locations: entrance, great-entry, chapel, dining-hall, tower-of-strahd, catacombs, larders, guest-quarters, hall-of-bones, audience-hall, treasury, overlook</description>
+    </criterion>
+    <criterion id="AC-4">
+      <title>Description.md - Atmospheric Castle Content</title>
+      <description>Parent Description.md includes castle exterior with 4 variants (initial, return, day, night). Sub-location Description.md files include room details with minimum 2 variants. All token counts &lt; 2000</description>
+    </criterion>
+    <criterion id="AC-5">
+      <title>NPCs.md - Castle Inhabitants</title>
+      <description>Parent NPCs.md lists major castle residents (Strahd, Rahadin, Escher, Helga, Cyrus). Sub-location NPCs.md lists area-specific encounters (vampire spawn, animated armor, wraiths, etc.)</description>
+    </criterion>
+    <criterion id="AC-6">
+      <title>Items.md - Castle Treasures and Loot</title>
+      <description>Parent Items.md lists major artifacts and treasures. Sub-location Items.md lists area-specific loot conforming to Epic 3 Item Database schema</description>
+    </criterion>
+    <criterion id="AC-7">
+      <title>Events.md - Castle-Wide and Area Events</title>
+      <description>Parent Events.md defines castle-wide events (Strahd Arrives, Lair Actions, Heart of Sorrow). Sub-location Events.md defines area-specific events. All use Epic 2 EventScheduler schema</description>
+    </criterion>
+    <criterion id="AC-8">
+      <title>State.md - Castle State Tracking</title>
+      <description>Parent State.md tracks castle-wide state (sub_locations_discovered, strahd_combat_encounters, heart_of_sorrow_destroyed). Sub-location State.md tracks area-specific state. All use YAML frontmatter pattern</description>
+    </criterion>
+    <criterion id="AC-9">
+      <title>metadata.yaml - Castle Structure and Connections</title>
+      <description>Parent metadata.yaml defines location_type: mega-dungeon, sub_locations array, external connected_locations. Sub-location metadata.yaml defines parent_location reference and internal navigation connections</description>
+    </criterion>
+    <criterion id="AC-10">
+      <title>Epic 1 LocationLoader Integration</title>
+      <description>LocationLoader successfully loads parent and sub-locations. Sub-locations load independently. Navigation works via connected_locations. Performance: parent &lt; 1s, sub-location &lt; 500ms</description>
+    </criterion>
+    <criterion id="AC-11">
+      <title>Epic 2 EventScheduler Integration</title>
+      <description>EventScheduler registers all parent and sub-location events. Conditional triggers work (Strahd appearances, traps). Lair actions trigger during Strahd combat</description>
+    </criterion>
+    <criterion id="AC-12">
+      <title>Documentation and Validation</title>
+      <description>All location folders pass validation. Token counts documented and &lt; 2000. Integration test suite created at tests/integration/locations/castle-ravenloft-structure.test.js. All tests pass</description>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>§3.1 Folder-Based Location System - Nested Sub-Location Architecture</section>
+        <snippet>Castle Ravenloft uses nested sub-location pattern to manage 60+ rooms within context limits. Each sub-location contains 3-8 rooms grouped logically. Parent location provides overview and castle-wide context.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>§6 Performance - Castle Ravenloft Optimization</section>
+        <snippet>Challenge: 60+ room mega-dungeon exceeds single-location context budget. Solution: Nested sub-location architecture with lazy loading. Parent Description ~1500 tokens, sub-locations ~1000-1500 tokens each.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>§2 Detailed Design - Content Creation Workflow</section>
+        <snippet>Epic 4 stories follow content authoring workflow, not code development. Create location folders, author markdown/YAML files, validate against templates. No code module changes.</snippet>
+      </doc>
+      <doc>
+        <path>docs/CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns - File-First Design</section>
+        <snippet>All game state persists in human-readable Markdown/YAML files. Git provides natural save/load functionality. Each location is a folder with standardized files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</snippet>
+      </doc>
+      <doc>
+        <path>docs/CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns - YAML Frontmatter Pattern</section>
+        <snippet>State files combine structured data (YAML) with narrative (Markdown). YAML between --- delimiters, narrative follows. Critical for State.md files.</snippet>
+      </doc>
+      <doc>
+        <path>docs/GDD.md</path>
+        <title>Game Design Document</title>
+        <section>Room/Location Structure</section>
+        <snippet>Location Count: 30+ distinct locations in Curse of Strahd. Castle Ravenloft is massive multi-level dungeon (60+ rooms), home of Strahd, final confrontation location, multiple approaches and entry points.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-1-village-of-barovia-location.md</path>
+        <title>Story 4-1: Village of Barovia Location</title>
+        <section>Dev Notes - Learnings from Previous Story</section>
+        <snippet>Content creation workflow validated. Epic 2 EventScheduler integration: 9/9 tests passed. LocationLoader has parser limitations (non-blocking). Token count management critical (&lt;2000 per Description.md).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-1-village-of-barovia-location.md</path>
+        <title>Story 4-1: Village of Barovia Location</title>
+        <section>Senior Developer Review</section>
+        <snippet>All content files created and validated. Content quality excellent. Epic 2 integration fully validated (9/9 tests). LocationLoader partial pass acceptable for content story (parser limitations, not content issues).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>54-621</lines>
+        <reason>LocationLoader class handles loading location folders and parsing 6 required files. Critical for validating Castle Ravenloft parent and sub-location structure works with existing Epic 1 system.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>method</kind>
+        <symbol>loadLocation</symbol>
+        <lines>71-200</lines>
+        <reason>Main method for loading location by ID. Must support nested sub-location loading for Castle Ravenloft architecture. Returns LocationData structure.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-300</lines>
+        <reason>Manages State.md file persistence using YAML frontmatter pattern. Required for castle-wide state (parent) and area-specific state (sub-locations).</reason>
+      </artifact>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>1-100</lines>
+        <reason>Validation script that checks location folder structure (6 required files). Must pass for parent and all 12+ sub-locations. Run via npm run validate-location.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-200</lines>
+        <reason>Registers and triggers events from Events.md files. Castle Ravenloft has castle-wide events (Strahd Arrives, Lair Actions) and area-specific events. Epic 2 integration.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-150</lines>
+        <reason>Applies event effects to world state. Castle events include state_update (heart_of_sorrow_destroyed), combat_encounter (Strahd legendary actions), custom effects.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/Description.md</path>
+        <kind>template</kind>
+        <symbol>Description.md template</symbol>
+        <lines>1-50</lines>
+        <reason>Template for location description files. Parent and sub-location Description.md files must follow this structure with variants.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/State.md</path>
+        <kind>template</kind>
+        <symbol>State.md template with YAML frontmatter</symbol>
+        <lines>1-50</lines>
+        <reason>Template showing YAML frontmatter pattern for State files. Critical for castle-wide state tracking (parent) and area state (sub-locations).</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/metadata.yaml</path>
+        <kind>template</kind>
+        <symbol>metadata.yaml template</symbol>
+        <lines>1-50</lines>
+        <reason>Template for location metadata. Parent metadata includes sub_locations array. Sub-location metadata includes parent_location reference.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/village-of-barovia</path>
+        <kind>reference-location</kind>
+        <symbol>Village of Barovia location folder</symbol>
+        <lines>N/A</lines>
+        <reason>Story 4-1 reference implementation. Demonstrates complete location folder structure, Epic 2 EventScheduler integration, YAML frontmatter State pattern.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/locations/village-of-barovia.test.js</path>
+        <kind>test</kind>
+        <symbol>Village of Barovia integration tests</symbol>
+        <lines>1-128</lines>
+        <reason>Reference test suite from Story 4-1. Pattern to follow for Castle Ravenloft integration tests. Tests LocationLoader integration, structure validation.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/events/village-of-barovia-events.test.js</path>
+        <kind>test</kind>
+        <symbol>Village of Barovia events integration tests</symbol>
+        <lines>1-117</lines>
+        <reason>Reference test suite for Epic 2 EventScheduler integration. Pattern to follow for Castle Ravenloft event tests. Achieved 9/9 tests passed.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for State.md and metadata.yaml files</package>
+        <package name="date-fns" version="^2.30.0">Date handling for event timestamps and calendar integration</package>
+        <package name="jest" version="^29.7.0">Testing framework for integration tests</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Pure Content Implementation**: This story creates only data files (markdown/YAML), zero code changes to src/ modules [Epic 4 Tech Spec §2]
+    - **Nested Sub-Location Architecture**: NEW pattern introduced for mega-dungeons. Parent location + 12+ sub-locations. Each validates independently [Epic 4 Tech Spec §3.1]
+    - **Token Count Limit**: All Description.md files must be &lt; 2000 tokens. Parent ~1500 tokens, sub-locations ~1000-1500 tokens [Epic 4 Tech Spec §6]
+    - **6 Required Files**: Every location (parent and sub-locations) must have: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml [Epic 1 Location System]
+    - **YAML Frontmatter Pattern**: All State.md files use YAML frontmatter (between --- delimiters) followed by narrative markdown [CLAUDE.md]
+    - **Epic 2 EventScheduler Schema**: All Events.md files must conform to Epic 2 schema (eventId, trigger_type, trigger_conditions, effects) [Epic 2 Tech Spec]
+    - **Parent-Child References**: Sub-location metadata.yaml must include parent_location: "castle-ravenloft". Parent metadata.yaml must list all sub_locations [This Story AC-2, AC-9]
+    - **Navigation via Metadata**: Internal castle navigation uses connected_locations in sub-location metadata.yaml. No hardcoded paths [Epic 1 Location System]
+    - **Performance Targets**: Parent location load &lt; 1 second, sub-location load &lt; 500ms. Lazy load sub-locations only when player navigates [Epic 4 Tech Spec §6]
+    - **Validation Required**: All folders must pass npm run validate-location before story completion [Story 4-1 Learnings]
+    - **Canon Compliance**: All content must match official Curse of Strahd module (room descriptions, NPCs, treasure placement) [Epic 4 Tech Spec §1]
+    - **Human-Readable Files**: All files must be editable in plain text editor (markdown/YAML only, no binary formats) [CLAUDE.md]
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationData Structure</name>
+      <kind>data-model</kind>
+      <signature>
+        {
+          locationId: string,
+          locationName: string,
+          description: { full: string, variants: object },
+          npcs: array,
+          items: array,
+          events: array,
+          state: object,
+          metadata: { location_name, location_type, parent_location, sub_locations, connected_locations }
+        }
+      </signature>
+      <path>src/data/location-loader.js</path>
+      <note>Return structure from LocationLoader.loadLocation(). Parent and sub-locations both return this structure. Parent includes sub_locations array in metadata.</note>
+    </interface>
+    <interface>
+      <name>LocationLoader.loadLocation(locationId)</name>
+      <kind>method</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js:71-200</path>
+      <note>Main method for loading locations. Must support nested loading: loadLocation('castle-ravenloft') loads parent, loadLocation('castle-ravenloft/entrance') loads sub-location.</note>
+    </interface>
+    <interface>
+      <name>StateManager.loadState(locationId)</name>
+      <kind>method</kind>
+      <signature>async loadState(locationId: string): Promise&lt;{success: boolean, data?: object, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <note>Loads and parses State.md YAML frontmatter. Used for both parent castle state and sub-location state. Returns Result Object pattern.</note>
+    </interface>
+    <interface>
+      <name>StateManager.saveState(locationId, state)</name>
+      <kind>method</kind>
+      <signature>async saveState(locationId: string, state: object): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <note>Saves state object back to State.md with YAML frontmatter. Atomic write operation. Used for castle-wide and area-specific state updates.</note>
+    </interface>
+    <interface>
+      <name>EventScheduler.registerEvents(locationId)</name>
+      <kind>method</kind>
+      <signature>async registerEvents(locationId: string): Promise&lt;void&gt;</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <note>Registers all events from Events.md for a location. Castle Ravenloft has castle-wide events (parent) and area events (sub-locations).</note>
+    </interface>
+    <interface>
+      <name>Epic 2 Event Schema</name>
+      <kind>data-model</kind>
+      <signature>
+        {
+          eventId: string,
+          name: string,
+          trigger_type: 'date_time' | 'conditional',
+          trigger_date?: string,  // ISO format for date_time triggers
+          trigger_conditions?: object,  // Conditions for conditional triggers
+          effects: array&lt;{type: 'npc_status' | 'state_update' | 'quest_trigger' | 'combat_encounter' | 'custom', ...effectData}&gt;
+        }
+      </signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <note>Required schema for all Events.md files. Castle events include Strahd Arrives (conditional), Lair Actions (combat), Heart of Sorrow (conditional).</note>
+    </interface>
+    <interface>
+      <name>npm run validate-location</name>
+      <kind>script</kind>
+      <signature>node scripts/validate-location.js &lt;location-path&gt;</signature>
+      <path>scripts/validate-location.js</path>
+      <note>Validates location folder structure (6 required files present, YAML syntax, metadata schema). Must pass for parent and all sub-locations.</note>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing follows Story 4-1 integration test pattern. Jest framework (v29.7.0) for all tests. Integration tests verify Epic 1 LocationLoader and Epic 2 EventScheduler integration. Focus on schema compliance and system integration rather than unit tests. Target: 80%+ coverage for integration test suite. AAA pattern (Arrange-Act-Assert) for all tests. Manual gameplay testing deferred to user acceptance.
+    </standards>
+    <locations>
+      - tests/integration/locations/ (LocationLoader integration tests)
+      - tests/integration/events/ (EventScheduler integration tests)
+    </locations>
+    <ideas>
+      <idea criterionId="AC-1">
+        Test parent location folder structure validation (6 files present, validation passes)
+      </idea>
+      <idea criterionId="AC-2">
+        Test sub-location folder structure (parent_location reference, validates independently)
+      </idea>
+      <idea criterionId="AC-3">
+        Test minimum 12 sub-locations exist and validate (entrance, great-entry, chapel, etc.)
+      </idea>
+      <idea criterionId="AC-4">
+        Test Description.md token counts (parent &lt; 2000, sub-locations &lt; 2000). Verify variants present.
+      </idea>
+      <idea criterionId="AC-5">
+        Test NPCs.md completeness (parent has Strahd, Rahadin, etc. Sub-locations have area encounters)
+      </idea>
+      <idea criterionId="AC-6">
+        Test Items.md schema compliance (Epic 3 Item Database format). Verify treasure distribution across sub-locations.
+      </idea>
+      <idea criterionId="AC-7">
+        Test Events.md Epic 2 EventScheduler schema (eventId, trigger_type, effects). Verify castle-wide and area events.
+      </idea>
+      <idea criterionId="AC-8">
+        Test State.md YAML frontmatter parsing (parent castle state, sub-location area state). Verify StateManager integration.
+      </idea>
+      <idea criterionId="AC-9">
+        Test metadata.yaml structure (parent has sub_locations array, sub-locations have parent_location). Verify connected_locations for navigation.
+      </idea>
+      <idea criterionId="AC-10">
+        Test LocationLoader integration (parent loads, sub-locations load independently). Test performance (&lt; 1s parent, &lt; 500ms sub-location).
+      </idea>
+      <idea criterionId="AC-11">
+        Test EventScheduler integration (castle-wide events registered, area events registered). Test conditional triggers (Strahd Arrives, Lair Actions).
+      </idea>
+      <idea criterionId="AC-12">
+        Test validation script passes for all folders. Test integration test suite execution. Verify all tests pass.
+      </idea>
+    </ideas>
+  </tests>
+</story-context>

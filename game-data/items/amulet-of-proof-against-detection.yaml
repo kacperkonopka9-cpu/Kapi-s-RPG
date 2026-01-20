@@ -1,0 +1,209 @@
+# Amulet of Proof Against Detection and Location - Uncommon Wondrous Item
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "amulet_of_proof_against_detection"
+name: "Amulet of Proof Against Detection and Location"
+type: "magic_item"
+weight: 0.5
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: true
+attunementRequirements: null  # Any creature can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "divination_immunity"
+    description: "Immunity to divination magic and scrying while wearing the amulet"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Divination Immunity"
+    description: "While wearing this amulet, you are hidden from divination magic. You can't be targeted by such magic or perceived through magical scrying sensors. This protection applies to spells such as Detect Thoughts, Locate Creature, Locate Object (when targeting you or your possessions), Scrying, and similar divination effects. You are also immune to effects that would sense your emotional state or alignment (such as Detect Evil and Good)."
+    activation: "passive"
+    mechanics:
+      blockedSpells:
+        - "Detect Thoughts"
+        - "Locate Creature"
+        - "Locate Object (targeting wearer or possessions)"
+        - "Scrying"
+        - "Clairvoyance (targeting wearer)"
+        - "Arcane Eye (cannot see wearer)"
+        - "Divination (questions about wearer)"
+        - "Detect Evil and Good"
+        - "Zone of Truth (cannot determine if wearer is lying, but they still cannot lie if in the zone)"
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A simple silver amulet on a delicate chain, engraved with intricate runes that seem to shift and change when not looked at directly. The amulet feels slightly cold to the touch and seems to absorb light rather than reflect it. This item is prized by spies, assassins, fugitives, and anyone who values privacy from magical surveillance. In Barovia, where Strahd watches everything through his scrying magic and animal spies, such an amulet is invaluable."
+
+  history: "Amulets of Proof Against Detection and Location are created by skilled enchanters to protect their wearers from divination magic. Such items are popular among thieves' guilds, spy networks, and those who have made powerful enemies. The enchantments woven into the amulet create a magical 'blind spot' that prevents divination spells from perceiving the wearer. In Barovia, these amulets have taken on special significance - they represent one of the few ways to hide from Strahd's all-seeing gaze."
+
+  legendsAndRumors:
+    - "The amulet prevents Strahd from scrying on the wearer"
+    - "Wearing the amulet marks you as someone with something to hide"
+    - "The amulet's protection extends to hiding you from the Dark Powers themselves"
+    - "Strahd can sense when someone uses divination-blocking magic in his domain"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "The amulet's protection is revealed when a divination spell fails to detect you. An Identify spell reveals the full extent of its protective properties."
+  hiddenProperties:
+    - "The protection is subtle - enemies using divination magic will simply fail to find you without knowing why"
+    - "The amulet does not block non-magical detection (guards can still see you, dogs can still smell you)"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Castle Ravenloft, Amber Temple, or possessed by paranoid NPCs"
+  howObtained: "May be found in Castle Ravenloft's treasury (ironically, among Strahd's collection), hidden in the Amber Temple, worn by the disguised Rictavio/Van Richten, or possessed by NPCs who fear Strahd's gaze. May be gifted by an NPC who trusts the party with their secret."
+  guardian: null
+  notes: "In Barovia, this amulet is extremely valuable for avoiding Strahd's scrying. However, Strahd may become suspicious if he suddenly cannot locate someone he was tracking. The amulet helps you hide but may also signal that you have something to hide."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: null
+  spellDC: null
+
+  integration:
+    combatManager: "No direct combat integration. Prevents enemies from using divination to locate the wearer before or during encounters."
+    equipmentManager: "Equippable in neck slot. Requires attunement. Counts toward 3-item attunement limit."
+    inventoryManager: "Weight 0.5 lbs, worn around neck"
+
+  divinationBlockingMechanics:
+    description: "The amulet blocks all divination magic targeting the wearer:"
+    blockedEffects:
+      - "Cannot be targeted by Scrying, Clairvoyance, or Arcane Eye"
+      - "Cannot be located by Locate Creature or similar spells"
+      - "Possessions cannot be located by Locate Object"
+      - "Thoughts cannot be read by Detect Thoughts"
+      - "Alignment and emotional state cannot be detected"
+      - "Questions about the wearer cannot be answered by Divination or Commune"
+
+    notBlocked:
+      - "Non-magical detection (sight, hearing, smell)"
+      - "Physical tracking (footprints, blood trails)"
+      - "Indirect divination (asking about 'anyone in this room' vs. 'where is Bob')"
+      - "Illusion magic (the amulet doesn't grant invisibility or disguise)"
+      - "Enchantment magic (Charm Person, Dominate Person still work)"
+
+  strahdsScrying:
+    description: "Strahd frequently uses scrying to monitor threats in Barovia"
+    impact:
+      - "Wearing the amulet prevents Strahd from scrying on you specifically"
+      - "Strahd can still scry on your allies who aren't protected"
+      - "Strahd may notice the sudden inability to scry on someone he was tracking"
+      - "The absence of information may itself be informative to Strahd"
+    dmGuidance: "Strahd should become suspicious if he loses the ability to scry on a target. He may send physical spies (wolves, bats, Vistani) to investigate."
+
+  tacticalApplications:
+    espionage:
+      - "Plan secret meetings without fear of Scrying"
+      - "Hide your location when resting in dangerous areas"
+      - "Prevent enemies from tracking you magically"
+
+    combatPrep:
+      - "Prevent enemies from using Detect Thoughts to read your battle plans"
+      - "Hide from Locate Creature when fleeing powerful enemies"
+      - "Approach enemy strongholds without triggering magical alarms keyed to divination"
+
+    socialEncounters:
+      - "Prevent Zone of Truth from revealing lies (you can still choose to lie, but they won't know for certain)"
+      - "Hide alignment from Detect Evil and Good (useful for disguises)"
+      - "Block Detect Thoughts in negotiations"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 3
+  notes: "Highly situational but extremely powerful in the right context. In campaigns with heavy divination use (like Curse of Strahd), this amulet is invaluable. In dungeon crawls with minimal divination threats, it's nearly useless. The attunement requirement prevents stacking multiple protective amulets."
+
+  dmGuidance:
+    - "In Curse of Strahd, this amulet is worth more than its rarity suggests"
+    - "Strahd should notice when he can no longer scry on someone - create tension"
+    - "The amulet blocks divination but not other forms of detection (use wolves, bats, spies)"
+    - "NPCs who possess this amulet are hiding something - story hook"
+    - "Consider having Strahd offer to trade for the amulet (he wants to neutralize it)"
+    - "The amulet creates paranoia - 'why can't I find them?'"
+    - "Allow the amulet to work as intended - don't nerf it with house rules"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A simple silver amulet, circular in shape and about 2 inches in diameter. The surface is polished smooth but covered in intricate, hairline runes that seem to shift and rearrange themselves when viewed peripherally. The runes glow very faintly with pale blue light in the presence of divination magic. The amulet hangs on a delicate silver chain approximately 18 inches long. Despite its simple appearance, close inspection reveals masterful craftsmanship."
+
+  activeState: "When worn, the amulet feels cool against the skin and seems to absorb ambient light, creating a subtle shadow around the wearer's neck. When divination magic attempts to target the wearer, the runes on the amulet flare briefly with cold blue light (visible only to the wearer) and the magic fails to penetrate."
+
+  soundEffects: "The amulet is silent, but wearers sometimes report a faint ringing in their ears when divination magic is attempted against them - like the echo of a distant bell being muffled."
+
+# === CURSE OF STRAHD APPLICATIONS ===
+baroviaContext:
+  strahdsReaction:
+    - "Strahd becomes immediately suspicious if he loses the ability to scry on someone"
+    - "May send physical scouts (wolves, bats, Vistani) to locate the 'blind spot'"
+    - "Could confront the party directly, demanding to know who wears the amulet and why"
+    - "Might offer a deal: remove the amulet and he'll leave you alone (he's lying)"
+
+  valuableFor:
+    - "Planning the assault on Castle Ravenloft without Strahd learning your strategy"
+    - "Hiding the location of Ireena or other protected NPCs"
+    - "Preventing Strahd from tracking the party when they're vulnerable (resting, researching)"
+    - "Protecting the bearer of the Sunsword, Holy Symbol, or Tome from Strahd's scrying"
+
+  npcsWhoMightHaveIt:
+    - "Rictavio/Van Richten (protecting his identity from Strahd)"
+    - "Ezmerelda d'Avenir (monster hunter who values secrecy)"
+    - "A paranoid Burgomaster who fears Strahd's surveillance"
+    - "A hidden resistance cell trying to coordinate rebellion"
+
+# === ROLEPLAYING OPPORTUNITIES ===
+roleplayElements:
+  paranoia:
+    - "Strahd's inability to scry on you makes him more dangerous (sends minions, confronts directly)"
+    - "NPCs may distrust someone using divination-blocking magic ('What are you hiding?')"
+    - "The amulet becomes a source of party debate (who should wear it?)"
+
+  strategicValue:
+    - "The party must decide: hide one person completely or spread protection thinner?"
+    - "Should the bearer be the most vulnerable member or the one carrying the legendary items?"
+    - "Using the amulet signals to Strahd that you're a serious threat"
+
+  moralDilemmas:
+    - "An NPC offers valuable information in exchange for the amulet (they're hunted by Strahd)"
+    - "Should you give the amulet to Ireena to protect her from Strahd's tracking?"
+    - "Strahd captures an NPC and offers to trade them for the amulet"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.150"
+  official: true
+  srdContent: true
+
+  notes: "The Amulet of Proof Against Detection and Location is a niche item that becomes incredibly valuable in the right campaign. In Curse of Strahd, where Strahd's omniscient gaze is a constant threat, this amulet provides a rare refuge from surveillance. It doesn't make you invisible or undetectable - it just blocks magical divination. Smart players will use it strategically, while Strahd will adapt his tactics to compensate."
+
+  dmReminders:
+    - "Requires attunement - counts toward 3-item limit"
+    - "Blocks all divination magic targeting the wearer"
+    - "Does NOT block non-magical detection (sight, sound, smell, tracking)"
+    - "Does NOT grant invisibility or disguise"
+    - "Strahd should react when he loses the ability to scry on someone"
+    - "The amulet creates story opportunities (Strahd's paranoia, NPC requests, strategic decisions)"
+    - "Allow the item to work as designed - don't nullify it with DM fiat"
+    - "Consider giving this item relatively early in Curse of Strahd (levels 3-5)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

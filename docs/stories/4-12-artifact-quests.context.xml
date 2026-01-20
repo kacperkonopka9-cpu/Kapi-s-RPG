@@ -1,0 +1,339 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>12</storyId>
+    <title>Artifact Quests</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-12-artifact-quests.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Game Master running Curse of Strahd</asA>
+    <iWant>location-specific encounter content and branching logic for the three legendary artifact quests (Sunsword, Holy Symbol of Ravenkind, Tome of Strahd)</iWant>
+    <soThat>artifact locations vary based on Tarokka reading results, creating unique quest experiences for each playthrough with proper encounter design and quest progression</soThat>
+    <tasks>
+      <task id="1" title="Enhance Quest 7 - Find the Sunsword">
+        <subtask id="1.1">Load existing game-data/quests/find-the-sunsword.yaml from Story 4-11</subtask>
+        <subtask id="1.2">Define 5-7 possible Sunsword locations (Castle Ravenloft crypt, Sergei's tomb, Amber Temple, etc.)</subtask>
+        <subtask id="1.3">Add tarokkaIntegration section with card-to-location mapping</subtask>
+        <subtask id="1.4">Create dmGuidance.locationVariants with encounter details for each location</subtask>
+        <subtask id="1.5">Define guardian encounters (Strahd Zombie, Flameskull, Arcanaloth, etc.) with CR 5-7</subtask>
+        <subtask id="1.6">Implement quest branching with branches array for location selection</subtask>
+        <subtask id="1.7">Add location-specific objectives and narrative hooks</subtask>
+        <subtask id="1.8">Update rewards section with sunsword item reference</subtask>
+        <subtask id="1.9">Write location variant comparison table in DM guidance</subtask>
+        <subtask id="1.10">Validate YAML schema compliance and test quest loading</subtask>
+      </task>
+      <task id="2" title="Enhance Quest 8 - Find the Holy Symbol of Ravenkind">
+        <subtask id="2.1">Load existing game-data/quests/find-the-holy-symbol-of-ravenkind.yaml</subtask>
+        <subtask id="2.2">Define 5-7 possible Holy Symbol locations (Ravenloft treasury, Abbey of St. Markovia, Argynvostholt, etc.)</subtask>
+        <subtask id="2.3">Add tarokkaIntegration section with card mappings</subtask>
+        <subtask id="2.4">Create location-specific guardian encounters (Vampire Spawn, Revenant, Abbot, etc.)</subtask>
+        <subtask id="2.5">Implement quest branching for location variants</subtask>
+        <subtask id="2.6">Add Holy Symbol attunement and sentience notes to quest description</subtask>
+        <subtask id="2.7">Define location access requirements (NPC cooperation, key items)</subtask>
+        <subtask id="2.8">Update rewards with holy_symbol_of_ravenkind item reference</subtask>
+        <subtask id="2.9">Write DM guidance for Holy Symbol's sentience roleplay</subtask>
+        <subtask id="2.10">Validate schema and test quest loading</subtask>
+      </task>
+      <task id="3" title="Enhance Quest 9 - Find the Tome of Strahd">
+        <subtask id="3.1">Load existing game-data/quests/find-the-tome-of-strahd.yaml</subtask>
+        <subtask id="3.2">Define 5-7 possible Tome locations (Castle Ravenloft library, Van Richten's Tower, Wachterhaus, etc.)</subtask>
+        <subtask id="3.3">Add tarokkaIntegration section with card mappings</subtask>
+        <subtask id="3.4">Create guardian encounters (Strahd's brides, cultists, magically warded tome)</subtask>
+        <subtask id="3.5">Implement quest branching for location variants</subtask>
+        <subtask id="3.6">Add Tome lore content summary in quest description (no mechanical benefits)</subtask>
+        <subtask id="3.7">Define stealth/investigation objectives for Tome retrieval</subtask>
+        <subtask id="3.8">Update rewards with tome_of_strahd item reference</subtask>
+        <subtask id="3.9">Write DM guidance for Tome's historical revelations</subtask>
+        <subtask id="3.10">Validate schema and test quest loading</subtask>
+      </task>
+      <task id="4" title="Implement Tarokka Reading Integration">
+        <subtask id="4.1">Define Tarokka card-to-location mapping table for all three artifacts</subtask>
+        <subtask id="4.2">Create tarokkaReading state structure in quest-state.yaml or calendar state</subtask>
+        <subtask id="4.3">Implement deterministic artifact placement logic (card result → location ID)</subtask>
+        <subtask id="4.4">Add fallback locations if Tarokka reading skipped</subtask>
+        <subtask id="4.5">Prevent artifact location changes after reading complete (state lock)</subtask>
+        <subtask id="4.6">Update Quest 5 (seek-the-vistani) with artifact location revelation mechanics</subtask>
+        <subtask id="4.7">Document Tarokka integration in artifact quest Dev Notes</subtask>
+        <subtask id="4.8">Test Tarokka state persistence with StateManager</subtask>
+      </task>
+      <task id="5" title="Design Guardian Encounters for All Locations">
+        <subtask id="5.1">Create encounter specification template (monster ID, CR, tactics, treasure)</subtask>
+        <subtask id="5.2">Define Sunsword guardian encounters (15-21 encounters across all variants)</subtask>
+        <subtask id="5.3">Define Holy Symbol guardian encounters</subtask>
+        <subtask id="5.4">Define Tome guardian encounters</subtask>
+        <subtask id="5.5">Balance CR across all encounters (target CR 5-7)</subtask>
+        <subtask id="5.6">Include environmental hazards and traps where appropriate</subtask>
+        <subtask id="5.7">Add tactical notes for each guardian (abilities, strategies)</subtask>
+        <subtask id="5.8">Specify treasure/loot for each encounter</subtask>
+        <subtask id="5.9">Reference monster IDs for Story 4-14 (monster statblock story)</subtask>
+        <subtask id="5.10">Validate encounter difficulty with CR calculations</subtask>
+      </task>
+      <task id="6" title="Implement Quest Branching Logic">
+        <subtask id="6.1">Design branch structure for location-based variants</subtask>
+        <subtask id="6.2">Implement autoDecide: true branching based on Tarokka state</subtask>
+        <subtask id="6.3">Define branch conditions checking artifact location in game state</subtask>
+        <subtask id="6.4">Create location-specific outcomes for each branch</subtask>
+        <subtask id="6.5">Add location-specific objectives to each branch outcome</subtask>
+        <subtask id="6.6">Define location-specific consequences (guardian defeated, NPC reactions)</subtask>
+        <subtask id="6.7">Ensure single quest file structure (not separate files per location)</subtask>
+        <subtask id="6.8">Test branching logic with QuestManager from Story 4-11</subtask>
+        <subtask id="6.9">Validate branch schema compliance</subtask>
+        <subtask id="6.10">Document branching design in Dev Notes</subtask>
+      </task>
+      <task id="7" title="Write DM Guidance for Location Variants">
+        <subtask id="7.1">Create location variants summary table (artifact → locations → cards)</subtask>
+        <subtask id="7.2">Write encounter difficulty comparison across locations</subtask>
+        <subtask id="7.3">Add narrative integration guidance (foreshadowing, clues)</subtask>
+        <subtask id="7.4">Write guardian roleplay tips for NPC guardians</subtask>
+        <subtask id="7.5">Document alternate solutions (stealth, negotiation, puzzles)</subtask>
+        <subtask id="7.6">Define failure consequences for each artifact quest</subtask>
+        <subtask id="7.7">List common pitfalls and how to guide players</subtask>
+        <subtask id="7.8">Add pacing guidance (when to reveal artifact locations)</subtask>
+        <subtask id="7.9">Include artifact mechanical benefits overview (preview of Story 4-15)</subtask>
+        <subtask id="7.10">Optimize DM guidance for LLM-DM consumption</subtask>
+      </task>
+      <task id="8" title="Create Artifact Item Reward Stubs">
+        <subtask id="8.1">Define artifact item IDs: sunsword, holy_symbol_of_ravenkind, tome_of_strahd</subtask>
+        <subtask id="8.2">Add item references to quest rewards sections</subtask>
+        <subtask id="8.3">Include item quantity (1) and source (quest_reward)</subtask>
+        <subtask id="8.4">Add attunement requirement notes to quest descriptions</subtask>
+        <subtask id="8.5">Write placeholder item descriptions in quest rewards</subtask>
+        <subtask id="8.6">Note Story 4-15 dependency for full item implementation</subtask>
+        <subtask id="8.7">Validate item ID format matches future Item Database schema</subtask>
+        <subtask id="8.8">Document artifact item properties for Quest 12 integration</subtask>
+      </task>
+      <task id="9" title="Update Cross-References">
+        <subtask id="9.1">Identify all artifact location candidates from game-data/locations/</subtask>
+        <subtask id="9.2">Update location Events.md files with artifact quest triggers</subtask>
+        <subtask id="9.3">Update NPC profiles for artifact guardians (add questInvolvement)</subtask>
+        <subtask id="9.4">Update Quest 5 (seek-the-vistani) with artifact revelation details</subtask>
+        <subtask id="9.5">Update Quest 12 (destroy-strahd-von-zarovich) with artifact check logic</subtask>
+        <subtask id="9.6">Validate all monster ID references for Story 4-14</subtask>
+        <subtask id="9.7">Validate all location ID references exist</subtask>
+        <subtask id="9.8">Check for broken NPC references</subtask>
+        <subtask id="9.9">Create artifact quest checklist for DM reference</subtask>
+        <subtask id="9.10">Document all cross-references in Dev Notes</subtask>
+      </task>
+      <task id="10" title="Write Integration Tests">
+        <subtask id="10.1">Create tests/integration/quests/artifact-quests.test.js</subtask>
+        <subtask id="10.2">Test AC-1: All three artifact quest files load with js-yaml</subtask>
+        <subtask id="10.3">Test AC-2: Tarokka integration structure validation</subtask>
+        <subtask id="10.4">Test AC-3: Location-specific objectives exist for all variants</subtask>
+        <subtask id="10.5">Test AC-4: Artifact item references validate</subtask>
+        <subtask id="10.6">Test AC-5: Quest branching logic validates</subtask>
+        <subtask id="10.7">Test AC-6: Guardian encounter CR within target range</subtask>
+        <subtask id="10.8">Test AC-7: DM guidance sections complete</subtask>
+        <subtask id="10.9">Test AC-8: Quest chain progression (Quest 5 → 7,8,9 → 12)</subtask>
+        <subtask id="10.10">Test AC-9: Schema compliance for all three quests</subtask>
+        <subtask id="10.11">Test location variant branching with different Tarokka states</subtask>
+        <subtask id="10.12">Test artifact reward integration with InventoryManager structure</subtask>
+        <subtask id="10.13">Organize tests by AC (10 ACs × 4-5 tests each)</subtask>
+        <subtask id="10.14">Target: 40-50 integration tests, 100% pass rate</subtask>
+        <subtask id="10.15">Use js-yaml validation in every test</subtask>
+      </task>
+      <task id="11" title="Documentation and Validation">
+        <subtask id="11.1">Run all integration tests (npm test tests/integration/quests/artifact-quests.test.js)</subtask>
+        <subtask id="11.2">Validate all three artifact quest YAML files with js-yaml</subtask>
+        <subtask id="11.3">Verify Tarokka card mappings cover all possible reading results</subtask>
+        <subtask id="11.4">Confirm all monster/NPC/location references resolve</subtask>
+        <subtask id="11.5">Test quest loading with QuestManager from Story 4-11</subtask>
+        <subtask id="11.6">Validate quest branching with sample Tarokka states</subtask>
+        <subtask id="11.7">Confirm quest-template.yaml v1.0.0 schema compliance</subtask>
+        <subtask id="11.8">Update story file with implementation notes</subtask>
+        <subtask id="11.9">Mark story as "review" status in sprint-status.yaml</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Artifact Quest Location Variants Implemented">
+      <description>Each artifact quest supports 5-7 possible locations with location-specific encounter details, guardian encounters (CR 3-7), narrative hooks, and quest-template.yaml v1.0.0 compliance</description>
+    </criterion>
+    <criterion id="AC-2" title="Tarokka Reading Integration">
+      <description>Tarokka integration section maps card results to location IDs, stores results in quest-state.yaml, prevents location changes after reading, supports deterministic placement</description>
+    </criterion>
+    <criterion id="AC-3" title="Location-Specific Objectives and Encounters">
+      <description>Each location variant includes unique objectives, guardian encounter specifications (monsters/NPCs/hazards), access requirements, narrative context, and DM guidance</description>
+    </criterion>
+    <criterion id="AC-4" title="Artifact Item Integration Stubs">
+      <description>Quest rewards reference artifact item IDs (sunsword, holy_symbol_of_ravenkind, tome_of_strahd) with quantity, source, attunement notes, and Story 4-15 dependency documentation</description>
+    </criterion>
+    <criterion id="AC-5" title="Quest Branching Logic for Variable Locations">
+      <description>Branching uses autoDecide pattern checking Tarokka reading state, creates location-specific outcomes with unique objectives and consequences, maintains single quest file structure</description>
+    </criterion>
+    <criterion id="AC-6" title="Encounter Design and CR Balancing">
+      <description>Guardian encounters target CR 5-7, include varied encounter types (single powerful/group/hazard), reference Story 4-14 monster IDs, include tactical notes and treasure</description>
+    </criterion>
+    <criterion id="AC-7" title="DM Guidance for Location Variants">
+      <description>DM guidance includes location variants table, encounter difficulty comparison, narrative integration, guardian roleplay, alternate solutions, failure consequences, common pitfalls</description>
+    </criterion>
+    <criterion id="AC-8" title="Integration with Quest Chain Progression">
+      <description>Quest 5 unlocks Quests 7-9, all three artifacts required for Quest 12, quests completable in any order, rewards integrate with Epic 3 systems, quest-state tracking validated</description>
+    </criterion>
+    <criterion id="AC-9" title="Artifact Quest Testing and Validation">
+      <description>Integration tests load all quest files, validate schema compliance, test Tarokka mapping (15-21 variants), test branching logic, verify cross-references. Target: 40-50 tests, 100% pass rate</description>
+    </criterion>
+    <criterion id="AC-10" title="File Updates and Cross-References">
+      <description>Update location Events.md, NPC questInvolvement, Quest 5 and Quest 12, validate all references (NPCs, monsters, locations, items), create artifact quest checklist</description>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-4.md" title="Epic 4 Technical Specification" section="AC-5: Quest System Implemented">
+        <snippet>Quest system implementation with 30 quests (12 main + 18 side). Story 4-12 enhances artifact quests with location variants based on Tarokka reading system. Quest branching, Epic 2 EventScheduler integration, Epic 3 systems integration (XP, items, reputation)</snippet>
+      </doc>
+      <doc path="docs/stories/4-11-main-quest-system.md" title="Story 4-11: Main Quest System" section="Dev Agent Record">
+        <snippet>Created QuestManager (src/quests/quest-manager.js) and 12 main quest files including three artifact quests (find-the-sunsword, find-the-holy-symbol-of-ravenkind, find-the-tome-of-strahd). Quest-template.yaml v1.0.0 schema, branching patterns (autoDecide), Epic 1-3 integration validated</snippet>
+      </doc>
+      <doc path="templates/quest/quest-template.yaml" title="Quest Template Schema v1.0.0" section="Schema Definition">
+        <snippet>Standard quest schema with questId, name, type, objectives, consequences, rewards, branches, dmGuidance. Story 4-12 adds tarokkaIntegration section and locationVariants to dmGuidance</snippet>
+      </doc>
+      <doc path="game-data/quests/destroy-strahd-von-zarovich.yaml" title="Quest 12: Destroy Strahd" section="Artifact Count Branching">
+        <snippet>Example of autoDecide branching based on artifact possession. Branches check artifact count (0-1, 2, or 3) and apply different combat modifiers. Pattern to reuse for artifact location branching</snippet>
+      </doc>
+      <doc path="game-data/quests/escort-ireena-to-vallaki.yaml" title="Quest 4: Escort Ireena" section="Sanctuary Choice Branching">
+        <snippet>Example of player choice branching with sanctuary location decision (church vs mansion). Different consequences per choice. Pattern reference for quest branching structure</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact path="src/quests/quest-manager.js" kind="module" symbol="QuestManager">
+        <lines>1-471</lines>
+        <reason>Core quest management API created in Story 4-11. Provides loadQuest(), getAllQuests(), getQuestsByType(), getActiveQuests(), getAvailableQuests() methods. Uses Result Object Pattern and dependency injection. Required for loading and validating enhanced artifact quests</reason>
+      </artifact>
+      <artifact path="game-data/quests/find-the-sunsword.yaml" kind="quest-data" symbol="find_the_sunsword">
+        <lines>1-252</lines>
+        <reason>Base artifact quest created in Story 4-11. This story enhances it with 5-7 location variants, Tarokka integration, and branching logic. Original: 252 lines, target: 400-600 lines with enhancements</reason>
+      </artifact>
+      <artifact path="game-data/quests/find-the-holy-symbol-of-ravenkind.yaml" kind="quest-data" symbol="find_the_holy_symbol_of_ravenkind">
+        <lines>1-242</lines>
+        <reason>Base artifact quest for Holy Symbol. Enhance with location variants, guardian encounters, attunement/sentience notes. Target: 400-600 lines with Tarokka integration</reason>
+      </artifact>
+      <artifact path="game-data/quests/find-the-tome-of-strahd.yaml" kind="quest-data" symbol="find_the_tome_of_strahd">
+        <lines>1-265</lines>
+        <reason>Base artifact quest for Tome. Enhance with location variants, lore-focused encounters (no mechanical benefits). Target: 400-600 lines with location-specific objectives</reason>
+      </artifact>
+      <artifact path="game-data/quests/seek-the-vistani.yaml" kind="quest-data" symbol="seek_the_vistani">
+        <lines>1-255</lines>
+        <reason>Quest 5 triggers Tarokka reading that determines artifact locations. Needs update to include artifact location revelation details and card-to-location mapping documentation</reason>
+      </artifact>
+      <artifact path="game-data/quests/destroy-strahd-von-zarovich.yaml" kind="quest-data" symbol="destroy_strahd_von_zarovich">
+        <lines>1-402</lines>
+        <reason>Quest 12 final battle. Includes autoDecide branching checking artifact count. Needs update to validate artifact possession before final battle accessibility</reason>
+      </artifact>
+      <artifact path="game-data/state/quest-state.yaml" kind="state-data" symbol="quest_state">
+        <lines>1-41</lines>
+        <reason>Quest state tracking structure. May need tarokkaReading section to store card results and artifact location assignments. Integrates with Epic 1 StateManager for persistence</reason>
+      </artifact>
+      <artifact path="tests/integration/quests/quest-system.test.js" kind="test" symbol="quest-system-tests">
+        <lines>1-630</lines>
+        <reason>Quest system integration tests from Story 4-11 (65 tests, AC-based organization). Pattern reference for Story 4-12 artifact quest tests. Target: 40-50 tests for artifact quests specifically</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0" scope="devDependencies">Test framework for integration tests</package>
+        <package name="js-yaml" version="^4.1.0" scope="dependencies">YAML parsing for quest files and validation</package>
+        <package name="date-fns" version="^2.30.0" scope="dependencies">Date/time utilities for calendar integration</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="schema-compliance">All quest files MUST validate against templates/quest/quest-template.yaml v1.0.0 schema</constraint>
+    <constraint type="file-structure">Maintain single quest file per artifact with all location variants (not separate files per location)</constraint>
+    <constraint type="branching-pattern">Use autoDecide: true pattern from Quest 12 for Tarokka-based location branching</constraint>
+    <constraint type="integration">Quest rewards must integrate with Epic 3 InventoryManager and LevelUpCalculator structures</constraint>
+    <constraint type="state-persistence">Tarokka reading results must persist in quest-state.yaml or calendar state (Epic 1 StateManager)</constraint>
+    <constraint type="cross-references">All monster/NPC/location references must resolve to existing or future Story 4-14/4-15 entities</constraint>
+    <constraint type="cr-balancing">Guardian encounters must target CR 5-7 for party levels 5-9 (deadly challenge for 4-person party)</constraint>
+    <constraint type="file-size">Enhanced artifact quests: 400-600 lines each (original 242-265 + 150-350 enhancement)</constraint>
+    <constraint type="testing">Target 40-50 integration tests, 100% pass rate, AC-based organization with js-yaml validation</constraint>
+    <constraint type="dm-guidance">DM guidance optimized for LLM-DM consumption (20-40 lines per quest, structured, actionable)</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="QuestManager API" kind="class-interface" path="src/quests/quest-manager.js">
+      <signature>
+        class QuestManager {
+          constructor(deps = {fs, path, yaml, questsDir, stateManager, eventScheduler})
+          async loadQuest(questId): {success, data, error}
+          async getAllQuests(): {success, data, error}
+          async getQuestsByType(type): {success, data, error}
+          async getActiveQuests(): {success, data, error}
+          async getAvailableQuests(): {success, data, error}
+          async updateQuestStatus(questId, status): {success, data, error}
+          async updateObjectiveStatus(questId, objectiveId, completed): {success, data, error}
+        }
+      </signature>
+      <usage>Use QuestManager.loadQuest() to load enhanced artifact quests for validation. Result Object Pattern returns {success, data, error}</usage>
+    </interface>
+    <interface name="Quest Template Schema" kind="yaml-schema" path="templates/quest/quest-template.yaml">
+      <signature>
+        questId: string
+        name: string
+        type: main|side|personal|faction
+        objectives: array of {objectiveId, type, description, completionTrigger, optional, rewards}
+        branches: array of {branchId, description, decision: {autoDecide, condition, choices/outcomes}}
+        consequences: {onCompletion, onFailure, onAbandonment}
+        rewards: {experience, items, currency, reputation, specialRewards}
+        dmGuidance: {narrativeHooks, roleplayTips, combatEncounters, commonPitfalls, alternatives, lore}
+        NEW in Story 4-12: tarokkaIntegration, dmGuidance.locationVariants
+      </signature>
+      <usage>All enhanced artifact quests must conform to this schema. Add tarokkaIntegration section and dmGuidance.locationVariants for location-based encounters</usage>
+    </interface>
+    <interface name="Tarokka Reading State" kind="state-structure" path="game-data/state/quest-state.yaml">
+      <signature>
+        tarokkaReading:
+          completed: boolean
+          readingDate: string (Barovian calendar date)
+          artifactLocations:
+            sunsword: string (location_id)
+            holy_symbol: string (location_id)
+            tome_of_strahd: string (location_id)
+          allyIdentity: string (npc_id)
+          strahdsWeakness: string
+      </signature>
+      <usage>Store Tarokka reading results here. Quest branching checks tarokkaReading.artifactLocations.{artifact} to determine which location variant to use</usage>
+    </interface>
+    <interface name="EventScheduler Integration" kind="epic-2-api" path="Epic 2 EventScheduler">
+      <signature>
+        eventSchedulerIntegration:
+          registeredEvents: array of {eventId, trigger: {type, condition}, effect}
+      </signature>
+      <usage>If artifact quests have time constraints, register events with EventScheduler. Example: Quest 6 (St. Andral's Bones) has 3-day hard deadline</usage>
+    </interface>
+    <interface name="InventoryManager Item Rewards" kind="epic-3-api" path="Epic 3 InventoryManager">
+      <signature>
+        rewards.items: array of {itemId, quantity, source: "quest_reward"}
+      </signature>
+      <usage>Artifact quest rewards must use this structure. itemId values: sunsword, holy_symbol_of_ravenkind, tome_of_strahd. Full item implementation in Story 4-15</usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest framework with AC-based test organization. All quest YAML files must parse successfully with js-yaml. Test files follow pattern: tests/integration/quests/{story-name}.test.js. Each AC should have 4-5 integration tests. Tests validate schema compliance, cross-references, branching logic, and Epic 1-3 integration. Target: 40-50 tests total for Story 4-12, 100% pass rate. Use Result Object Pattern assertions: expect(result.success).toBe(true)
+    </standards>
+    <locations>
+      <location>tests/integration/quests/artifact-quests.test.js (new file for Story 4-12)</location>
+      <location>tests/integration/quests/quest-system.test.js (existing pattern reference from Story 4-11)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test all three artifact quest files load with js-yaml without errors. Validate quest-template.yaml v1.0.0 schema compliance. Verify 5-7 location variants exist per artifact in dmGuidance.locationVariants</idea>
+      <idea ac="AC-2">Test tarokkaIntegration section structure for all three quests. Validate card-to-location mappings complete. Test deterministic artifact placement (same card = same location). Verify fallback locations defined</idea>
+      <idea ac="AC-3">Test location-specific objectives exist for each variant. Validate guardian encounter specifications (monster ID, CR, tactics). Verify location access requirements. Test narrative context presence</idea>
+      <idea ac="AC-4">Test artifact item IDs in rewards.items match expected format (sunsword, holy_symbol_of_ravenkind, tome_of_strahd). Validate quantity = 1, source = "quest_reward". Verify attunement notes in descriptions</idea>
+      <idea ac="AC-5">Test quest branching structure with branches array. Validate autoDecide: true set correctly. Test branch conditions reference tarokkaReading state. Verify single quest file structure (not separate files)</idea>
+      <idea ac="AC-6">Test guardian encounter CR within 5-7 range. Validate encounter composition variety (single/group/hazard). Verify monster ID references format. Test tactical notes presence. Validate treasure specifications</idea>
+      <idea ac="AC-7">Test dmGuidance sections complete (narrativeHooks, roleplayTips, combatEncounters, commonPitfalls, alternatives, lore). Validate locationVariants table exists. Verify encounter difficulty comparison. Test pacing guidance</idea>
+      <idea ac="AC-8">Test Quest 5 unlocks Quests 7, 8, 9 (seek_the_vistani → artifact quests). Validate Quest 12 requires all three artifacts. Test parallel completion (any order). Verify quest-state.yaml tracking</idea>
+      <idea ac="AC-9">Integration test: Load all quests, test Tarokka mapping for 15-21 variants, test branching with different states, validate all cross-references, confirm 100% pass rate target met</idea>
+      <idea ac="AC-10">Test location Events.md references exist for artifact locations. Validate NPC questInvolvement updates. Test Quest 5 and Quest 12 cross-references. Verify no broken monster/NPC/location/item references</idea>
+    </ideas>
+  </tests>
+</story-context>

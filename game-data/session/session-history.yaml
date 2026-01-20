@@ -1,0 +1,10 @@
+sessions:
+  - sessionId: 2025-11-29-380
+    startTime: '2025-11-29T16:56:20.507Z'
+    endTime: '2025-11-30T19:04:59.125Z'
+    duration: 26.14
+    character: c:\Users\ACER\Documents\GitHub\Kapi-s-RPG\characters\warrior.yaml
+    locationsVisited: 1
+    npcsInteracted: 0
+    xpGained: 0
+    logFile: game-data\session\logs\2025-11-29-session-380.md

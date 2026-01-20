@@ -1,0 +1,35 @@
+# Location Metadata - Town Square
+
+location_name: "Town Square"
+location_type: "outdoor"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 2
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Burgomaster Mansion"
+    direction: "north"
+    travel_time: "1 minute"
+  - name: "Church of St. Andral"
+    direction: "northwest"
+    travel_time: "2 minutes"
+  - name: "Blue Water Inn"
+    direction: "east"
+    travel_time: "3 minutes"
+  - name: "Coffin Maker Shop"
+    direction: "southwest"
+    travel_time: "2 minutes"
+
+description_token_count: 250
+npc_count: 3
+item_count: 3
+event_count: 2
+
+public_space: true
+festival_location: true
+
+last_validated: null
+validation_status: "pending"

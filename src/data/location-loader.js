@@ -1,9 +1,12 @@
 /**
  * LocationLoader - Load and parse location data from file system
  * Implements Epic 1 LocationLoader API specification
+ *
+ * Story 5-7 (AC-5): File I/O Batching - reads all 6 location files in parallel
  */
 
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 const yaml = require('js-yaml');
 
@@ -63,6 +66,8 @@ class LocationLoader {
 
   /**
    * Load complete location data from disk
+   * Story 5-7 (AC-5): File I/O Batching - reads all 6 files in parallel using Promise.all()
+   *
    * @param {string} locationId - Location identifier (folder name)
    * @returns {Promise<LocationData>} Parsed location data
    * @throws {LocationNotFoundError} If location doesn't exist
@@ -106,13 +111,33 @@ class LocationLoader {
     }
 
     try {
-      // Parse all files
-      const description = this.parseDescriptionFile(filePaths.description);
-      const npcs = this.parseNPCsFile(filePaths.npcs);
-      const items = this.parseItemsFile(filePaths.items);
-      const events = this.parseEventsFile(filePaths.events);
-      const state = this.parseStateFile(filePaths.state);
-      const metadata = this.parseMetadataFile(filePaths.metadata);
+      // Story 5-7 (AC-5): Read all 6 files in parallel using Promise.all()
+      const fileReadPromises = [
+        fsPromises.readFile(filePaths.description, 'utf-8'),
+        fsPromises.readFile(filePaths.npcs, 'utf-8'),
+        fsPromises.readFile(filePaths.items, 'utf-8'),
+        fsPromises.readFile(filePaths.events, 'utf-8'),
+        fsPromises.readFile(filePaths.state, 'utf-8'),
+        fsPromises.readFile(filePaths.metadata, 'utf-8')
+      ];
+
+      // Wait for all files to be read in parallel
+      const [
+        descriptionContent,
+        npcsContent,
+        itemsContent,
+        eventsContent,
+        stateContent,
+        metadataContent
+      ] = await Promise.all(fileReadPromises);
+
+      // Parse all files (parsing is CPU-bound, not I/O bound)
+      const description = this.parseDescriptionContent(descriptionContent);
+      const npcs = this.parseNPCsContent(npcsContent);
+      const items = this.parseItemsContent(itemsContent);
+      const events = this.parseEventsContent(eventsContent);
+      const state = this.parseStateContent(stateContent, filePaths.state);
+      const metadata = this.parseMetadataContent(metadataContent, filePaths.metadata);
 
       // Assemble LocationData object
       const locationData = {
@@ -136,6 +161,7 @@ class LocationLoader {
       if (error instanceof LocationParseError) {
         throw error;
       }
+      // AC-5: Error handling reports which specific file failed
       throw new LocationParseError(
         `Failed to parse location: ${error.message}`,
         locationPath
@@ -144,13 +170,21 @@ class LocationLoader {
   }
 
   /**
-   * Parse Description.md file
+   * Parse Description.md file (legacy sync method - kept for backward compatibility)
    * @param {string} filePath - Path to Description.md
    * @returns {Object} Parsed description with full text and variants
    */
   parseDescriptionFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseDescriptionContent(content);
+  }
 
+  /**
+   * Parse Description.md content (Story 5-7: content-based parsing for parallel I/O)
+   * @param {string} content - Description.md content
+   * @returns {Object} Parsed description with full text and variants
+   */
+  parseDescriptionContent(content) {
     // Extract sections using markdown headers
     const sections = this.extractMarkdownSections(content);
 
@@ -166,12 +200,21 @@ class LocationLoader {
   }
 
   /**
-   * Parse NPCs.md file
+   * Parse NPCs.md file (legacy sync method)
    * @param {string} filePath - Path to NPCs.md
    * @returns {NPCData[]} Array of NPC data objects
    */
   parseNPCsFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseNPCsContent(content);
+  }
+
+  /**
+   * Parse NPCs.md content (Story 5-7: content-based parsing for parallel I/O)
+   * @param {string} content - NPCs.md content
+   * @returns {NPCData[]} Array of NPC data objects
+   */
+  parseNPCsContent(content) {
     const npcs = [];
 
     // Split by ## headers to get individual NPCs
@@ -214,12 +257,21 @@ class LocationLoader {
   }
 
   /**
-   * Parse Items.md file
+   * Parse Items.md file (legacy sync method)
    * @param {string} filePath - Path to Items.md
    * @returns {ItemData[]} Array of item data objects
    */
   parseItemsFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseItemsContent(content);
+  }
+
+  /**
+   * Parse Items.md content (Story 5-7: content-based parsing for parallel I/O)
+   * @param {string} content - Items.md content
+   * @returns {ItemData[]} Array of item data objects
+   */
+  parseItemsContent(content) {
     const items = [];
 
     const sections = this.extractMarkdownSections(content);
@@ -293,12 +345,21 @@ class LocationLoader {
   }
 
   /**
-   * Parse Events.md file
+   * Parse Events.md file (legacy sync method)
    * @param {string} filePath - Path to Events.md
    * @returns {EventData[]} Array of event data objects
    */
   parseEventsFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseEventsContent(content);
+  }
+
+  /**
+   * Parse Events.md content (Story 5-7: content-based parsing for parallel I/O)
+   * @param {string} content - Events.md content
+   * @returns {EventData[]} Array of event data objects
+   */
+  parseEventsContent(content) {
     const events = [];
 
     // Parse directly from content, looking for event type sections
@@ -396,14 +457,24 @@ class LocationLoader {
   }
 
   /**
-   * Parse State.md file
+   * Parse State.md file (legacy sync method)
    * Handles both YAML frontmatter (from StateManager - Story 1.10) and legacy markdown sections
    * @param {string} filePath - Path to State.md
    * @returns {LocationState} Location state object
    */
   parseStateFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseStateContent(content, filePath);
+  }
 
+  /**
+   * Parse State.md content (Story 5-7: content-based parsing for parallel I/O)
+   * Handles both YAML frontmatter and legacy markdown sections
+   * @param {string} content - State.md content
+   * @param {string} filePath - Original file path for error reporting
+   * @returns {LocationState} Location state object
+   */
+  parseStateContent(content, filePath = 'State.md') {
     try {
       let yamlState = null;
       let narrativeContent = content;
@@ -468,13 +539,22 @@ class LocationLoader {
   }
 
   /**
-   * Parse metadata.yaml file
+   * Parse metadata.yaml file (legacy sync method)
    * @param {string} filePath - Path to metadata.yaml
    * @returns {LocationMetadata} Location metadata object
    */
   parseMetadataFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    return this.parseMetadataContent(content, filePath);
+  }
 
+  /**
+   * Parse metadata.yaml content (Story 5-7: content-based parsing for parallel I/O)
+   * @param {string} content - metadata.yaml content
+   * @param {string} filePath - Original file path for error reporting
+   * @returns {LocationMetadata} Location metadata object
+   */
+  parseMetadataContent(content, filePath = 'metadata.yaml') {
     try {
       const metadata = yaml.load(content);
 

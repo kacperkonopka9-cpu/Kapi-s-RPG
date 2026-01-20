@@ -1,0 +1,311 @@
+<story-context id="3-9-level-up-calculator" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>9</storyId>
+    <title>Level Up Calculator</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-9-level-up-calculator.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player managing character progression in D&D 5e gameplay</asA>
+    <iWant>a level-up system that handles XP tracking, level thresholds, HP increases, and feature unlocks</iWant>
+    <soThat>I can advance my character through levels 1-20 following D&D 5e Rules As Written with automated stat calculations and class feature grants</soThat>
+    <tasks>
+      <task id="1" ac="All">Analyze D&D 5e Level Up Rules - Review SRD level progression, XP thresholds (1-20), class features (Fighter/Cleric/Rogue/Wizard), hit dice, ASI levels, proficiency bonus progression, retroactive stat changes</task>
+      <task id="2" ac="1,7">Create XP Threshold Data - Create data/srd/xp-thresholds.yaml with XP required for each level 1→2 through 19→20, validate against D&D 5e SRD, write helper function and unit tests</task>
+      <task id="3" ac="4,8">Create Class Feature Data - Create/extend data/srd/classes.yaml with features for Fighter/Cleric/Rogue/Wizard (levels 1-20), include name/description/uses/recharge, write query function and unit tests</task>
+      <task id="4" ac="1">Implement canLevelUp() Method - Create src/mechanics/level-up-calculator.js, implement canLevelUp(character), compare XP to threshold, handle level 20 cap, target &lt;50ms performance</task>
+      <task id="5" ac="2">Implement HP Increase Calculation - Map class to hit die, roll using DiceRoller, calculate Con modifier, support manual override, return {hpRoll, conModifier, hpIncrease}</task>
+      <task id="6" ac="3,6">Implement levelUp() Method - Validate eligibility, increment level, apply HP increase, add hit die, update proficiency bonus at thresholds, grant features, detect ASI, target &lt;200ms</task>
+      <task id="7" ac="4,8">Implement Class Feature Grant - Load features from classes.yaml, query by class/level, append to character.features, format with uses/recharge</task>
+      <task id="8" ac="5">Implement ASI Handling - Detect ASI levels (4,8,12,16,19), validate choices (+2 one OR +1 two), validate 1-20 cap, apply increases, recalculate derived stats including retroactive Con HP</task>
+      <task id="9" ac="9">Implement Derived Stat Recalculation - Recalculate ability modifiers, proficiency bonus, AC if Dex changed (delegate to InventoryManager), retroactive HP if Con changed: (newMod - oldMod) × level</task>
+      <task id="10" ac="6">Implement Character Persistence - Save via CharacterManager.saveCharacter(), validate schema, create Git commit "Level Up: [name] reaches level [N]", log to mechanics activity log</task>
+      <task id="11" ac="10">Handle Multiclass Characters - Detect multiclass (character.classes array length &gt; 1), return error "Multiclassing not yet supported", log warning, unit test error handling</task>
+      <task id="12" ac="All">Create Test Suite - Unit tests (mocked deps, 15+), integration tests (real data, 10+), test all methods/workflows/edge cases, verify ≥95% statement/100% function coverage</task>
+      <task id="13" ac="All">Documentation and Examples - JSDoc for all public methods, document XP table/ASI levels/retroactive changes, create usage example for full level up workflow</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1" priority="P0">
+      <title>Check Level Up Eligibility</title>
+      <given>a character with current level and experience points</given>
+      <when>LevelUpCalculator.canLevelUp(character) is called</when>
+      <then>compare character.experience to D&D 5e XP threshold table AND return {canLevel, currentLevel, nextLevel, xpNeeded} AND handle levels 1-20 (level 20 max) AND complete in &lt;50ms</then>
+      <testApproach>Unit test with XP threshold table, test each level threshold (1→2 through 19→20), test at-threshold and below-threshold, test level 20 cap</testApproach>
+    </ac>
+    <ac id="2" priority="P0">
+      <title>Calculate HP Increase on Level Up</title>
+      <given>a character leveling up with class and Constitution modifier</given>
+      <when>HP increase is calculated</when>
+      <then>roll hit die for class (Fighter: d10, Cleric: d8, Rogue: d8, Wizard: d6) AND add Constitution modifier AND return {hpRoll, conModifier, hpIncrease} AND support manual HP entry AND complete in &lt;50ms</then>
+      <testApproach>Unit test with mocked DiceRoller, test all 4 class hit dice, test Con modifier calculation, test manual override option</testApproach>
+    </ac>
+    <ac id="3" priority="P0">
+      <title>Execute Level Up</title>
+      <given>a character eligible for level up</given>
+      <when>LevelUpCalculator.levelUp(character, options) is called</when>
+      <then>increment level by 1 AND roll HP increase (hit die + Con mod) AND add to max/current HP AND add 1 hit die AND update proficiencyBonus if crossing threshold (5,9,13,17) AND return Result Object {newLevel, hpIncrease, proficiencyBonus, features} AND complete in &lt;200ms</then>
+      <testApproach>Integration test with sample character level 3→4, verify all stat updates, test proficiency bonus updates at levels 5,9,13,17</testApproach>
+    </ac>
+    <ac id="4" priority="P1">
+      <title>Grant Class Features on Level Up</title>
+      <given>a character leveling up with a specific class</given>
+      <when>level up executes</when>
+      <then>query class feature table for new level AND add features to character.features array AND include name/description/uses AND return list of granted features AND support Fighter/Cleric/Rogue/Wizard</then>
+      <testApproach>Unit test with class feature tables, test Fighter (Second Wind at 1, Action Surge at 2, ASI at 4), test other classes similarly</testApproach>
+    </ac>
+    <ac id="5" priority="P1">
+      <title>Handle Ability Score Improvements (ASI)</title>
+      <given>a character reaching level 4, 8, 12, 16, or 19 (ASI levels)</given>
+      <when>level up executes</when>
+      <then>detect ASI unlock AND return {asiAvailable: true, options} AND accept user choice (+2 one OR +1 two) AND validate 1-20 range AND update character.abilities AND recalculate derived stats (modifiers, AC if Dex, HP if Con retroactive)</then>
+      <testApproach>Integration test level 3→4 (ASI unlock), apply +2 Str, verify modifier updates, AC recalculates if Dex, HP if Con</testApproach>
+    </ac>
+    <ac id="6" priority="P1">
+      <title>Persist Level Up Changes</title>
+      <given>a character that has leveled up</given>
+      <when>level up completes</when>
+      <then>persist all changes to characters/[name].yaml AND create Git commit "Level Up: [Character] reaches level [N]" AND verify valid YAML AND validate character schema</then>
+      <testApproach>Integration test: level up character, verify file updated, check Git commit exists, reload and verify stats match</testApproach>
+    </ac>
+    <ac id="7" priority="P2">
+      <title>Query XP Threshold Table</title>
+      <given>a character level (1-20)</given>
+      <when>XP threshold is queried</when>
+      <then>return XP required for next level from D&D 5e table AND support 1→2 (300 XP) through 19→20 (355,000 XP) AND if level 20 return null (max reached) AND load from data/srd/rules.yaml or constant</then>
+      <testApproach>Unit test with complete XP table (levels 1-20), verify all thresholds match D&D 5e SRD</testApproach>
+    </ac>
+    <ac id="8" priority="P2">
+      <title>Query Class Feature Table</title>
+      <given>a class name and level</given>
+      <when>class features are queried</when>
+      <then>return features unlocked at level from data/srd/classes.yaml AND include name/description/uses/recharge AND support Fighter/Cleric/Rogue/Wizard AND if no features return empty array AND complete in &lt;100ms</then>
+      <testApproach>Unit test with class feature data, test Fighter levels 1-5, verify Action Surge at 2, ASI at 4, Extra Attack at 5</testApproach>
+    </ac>
+    <ac id="9" priority="P1">
+      <title>Recalculate Derived Stats After Level Up</title>
+      <given>a character with updated level, abilities, and HP</given>
+      <when>level up completes</when>
+      <then>recalculate ability modifiers from scores AND recalculate proficiency bonus from level AND recalculate AC if Dex changed (via ASI) AND recalculate max HP if Con changed retroactive: (newMod - oldMod) × level AND ensure all derived stats consistent</then>
+      <testApproach>Integration test: level up with +2 Con (ASI), verify HP increases by (level + 1 from roll + level from retroactive), verify all modifiers correct</testApproach>
+    </ac>
+    <ac id="10" priority="P3">
+      <title>Handle Multiclassing (Out of Scope - Return Error)</title>
+      <given>a character with levels in multiple classes</given>
+      <when>LevelUpCalculator encounters multiclass character</when>
+      <then>return {success: false, error: "Multiclassing not yet supported (planned for Epic 5)"} AND prevent incorrect calculations AND log warning to mechanics log</then>
+      <testApproach>Unit test with multiclass character schema, verify error returned, no changes made</testApproach>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2.4 LevelUpCalculator API</section>
+        <snippet>Defines LevelUpCalculator API including canLevelUp(), levelUp(), HP increase calculation, class feature grants, and ASI handling. Specifies XP thresholds (300 XP for level 2 through 355,000 XP for level 20), proficiency bonus progression (Math.ceil(level/4)+1), and retroactive Constitution HP bonus formula.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2.2 Data Models - Character Schema</section>
+        <snippet>Character YAML schema with level, experience, abilities, hitPoints{max, current, hitDice{total, spent}}, proficiencyBonus, and features array. Shows structure for storing level progression state.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§4 Performance Requirements</section>
+        <snippet>Performance targets: canLevelUp &lt;50ms, HP calculation &lt;50ms, levelUp &lt;200ms. Requires caching XP thresholds and class feature data in memory for fast queries.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§7.4 Workflow 5: Level Up</section>
+        <snippet>Complete level up workflow showing sequence: check eligibility → roll HP increase → increment level/hit dice → update proficiency bonus → grant features → detect ASI → apply ASI choices → recalculate derived stats → persist character → create Git commit.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-1-dice-rolling-module.md</path>
+        <title>Story 3.1: Dice Rolling Module</title>
+        <section>Dev Notes - DiceRoller API</section>
+        <snippet>DiceRoller.roll(notation) returns {success, data: {rolls, modifier, total, breakdown}}. Used for rolling hit dice during level up (d6/d8/d10 based on class).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-2-character-sheet-parser.md</path>
+        <title>Story 3.2: Character Sheet Parser</title>
+        <section>Dev Notes - CharacterManager API</section>
+        <snippet>CharacterManager.loadCharacter(characterId) and saveCharacter(characterId, data) for reading/writing characters/[name].yaml. Includes getAbilityModifier(score) and getProficiencyBonus(level) helper methods.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-8-inventory-management.md</path>
+        <title>Story 3.8: Inventory Management</title>
+        <section>Dev Notes - InventoryManager._recalculateAC</section>
+        <snippet>InventoryManager._recalculateAC(character) recalculates AC when Dex modifier changes. Handles unarmored (10+Dex), light (AC+Dex), medium (AC+min(Dex,2)), heavy (AC no Dex), shield (+2). Reuse this method when ASI changes Dex.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-8-inventory-management.md</path>
+        <title>Story 3.8: Inventory Management</title>
+        <section>Completion Notes - YAML Loading Pattern</section>
+        <snippet>ItemDatabase demonstrates YAML loading pattern: load file with fs.promises.readFile(), parse with yaml.load(), validate schema, cache in Map for O(1) lookups. Follow same pattern for xp-thresholds.yaml and classes.yaml.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller.roll(notation, options)</symbol>
+        <lines>entire file</lines>
+        <reason>Required dependency for rolling hit dice during level up. Use roll('1d10') for Fighter, roll('1d8') for Cleric/Rogue, roll('1d6') for Wizard. Returns Result Object with rolls array and total.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager.loadCharacter(characterId), CharacterManager.saveCharacter(characterId, data)</symbol>
+        <lines>entire file</lines>
+        <reason>Required for loading character from characters/[name].yaml before level up and saving after. Also provides getAbilityModifier(score) and getProficiencyBonus(level) utility methods to reuse.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/inventory-manager.js</path>
+        <kind>service</kind>
+        <symbol>InventoryManager._recalculateAC(character)</symbol>
+        <lines>650-700 (approx)</lines>
+        <reason>Reuse this method when Dex modifier changes via ASI. Handles all armor type AC calculations (unarmored, light, medium, heavy, shield). DO NOT reimplement AC logic.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/item-database.js</path>
+        <kind>service</kind>
+        <symbol>ItemDatabase.loadItems(filePath), ItemDatabase constructor</symbol>
+        <lines>1-100 (approx)</lines>
+        <reason>Reference implementation for YAML loading pattern. Shows how to read YAML file, parse with js-yaml, validate schema, cache in Map. Follow same pattern for xp-thresholds.yaml and classes.yaml loading.</reason>
+      </artifact>
+      <artifact>
+        <path>data/srd/items.yaml</path>
+        <kind>data</kind>
+        <symbol>N/A</symbol>
+        <lines>entire file</lines>
+        <reason>Example of existing SRD data file structure. Use similar format for data/srd/xp-thresholds.yaml and data/srd/classes.yaml (top-level keys, nested structure, descriptive comments).</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for xp-thresholds.yaml and classes.yaml (already installed from Epic 1/2)</package>
+        <package name="lodash" version="^4.17.21">Utility functions if needed (already installed from Epic 2)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">Result Object Pattern: ALL async operations must return {success: boolean, data: any | null, error: string | null}. NO exceptions thrown.</constraint>
+    <constraint type="architecture">Dependency Injection: constructor(deps = {diceRoller, characterManager, inventoryManager}) for testability. Provide defaults for production, accept mocks for testing.</constraint>
+    <constraint type="performance">canLevelUp() must complete in &lt;50ms, HP calculation &lt;50ms, levelUp() &lt;200ms, class feature query &lt;100ms. Cache XP thresholds and class features in memory after first load.</constraint>
+    <constraint type="data">XP thresholds must match D&D 5e SRD exactly: Level 2=300, Level 3=900, Level 4=2700, Level 5=6500, Level 10=64000, Level 20=355000. Any deviation breaks D&D 5e compatibility.</constraint>
+    <constraint type="data">Proficiency bonus formula: Math.ceil(level / 4) + 1. Results: levels 1-4=+2, 5-8=+3, 9-12=+4, 13-16=+5, 17-20=+6. Must match D&D 5e SRD.</constraint>
+    <constraint type="data">Retroactive Constitution HP: When Con modifier increases via ASI, HP increases by (newMod - oldMod) × current level. This is in ADDITION to normal HP roll for new level. Example: Level 5, Con 14→16 (+2→+3): retroactive +5 HP plus 1d10+3 for new level.</constraint>
+    <constraint type="validation">Ability scores capped at 20 (without magic items). ASI cannot increase ability above 20. Validate and return error if user tries to exceed cap.</constraint>
+    <constraint type="validation">Level 20 is maximum. canLevelUp() must return {canLevel: false} if character.level === 20, even if XP exceeds 355,000. No level 21.</constraint>
+    <constraint type="git">Create Git commit after level up with message: "Level Up: [character name] reaches level [N]". Use git commit via child_process or similar. This is a major milestone commit.</constraint>
+    <constraint type="multiclass">Multiclassing NOT supported in Epic 3. If character.classes is array with length &gt; 1, return error: {success: false, error: "Multiclassing not yet supported (planned for Epic 5)"}. DO NOT attempt multiclass calculations.</constraint>
+    <constraint type="testing">Target ≥95% statement coverage, 100% function coverage. Use Jest. Mock DiceRoller for deterministic HP rolls in tests. Integration tests must use real xp-thresholds.yaml and classes.yaml files.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LevelUpCalculator.canLevelUp(character)</name>
+      <kind>async function</kind>
+      <signature>async canLevelUp(character: Object): Promise&lt;{success: boolean, data: {canLevel: boolean, currentLevel: number, nextLevel: number, xpNeeded: number} | null, error: string | null}&gt;</signature>
+      <path>src/mechanics/level-up-calculator.js</path>
+    </interface>
+    <interface>
+      <name>LevelUpCalculator.levelUp(character, options)</name>
+      <kind>async function</kind>
+      <signature>async levelUp(character: Object, options?: {manualHP?: number, asiChoices?: {option: string, abilities: string[]}}): Promise&lt;{success: boolean, data: {newLevel: number, oldLevel: number, hpIncrease: number, hpRoll: number, conModifier: number, proficiencyBonus: number, featuresGranted: Object[], asiAvailable: boolean} | null, error: string | null}&gt;</signature>
+      <path>src/mechanics/level-up-calculator.js</path>
+    </interface>
+    <interface>
+      <name>LevelUpCalculator.applyAbilityScoreImprovement(character, choices)</name>
+      <kind>async function</kind>
+      <signature>async applyAbilityScoreImprovement(character: Object, choices: {option: '+2 to one' | '+1 to two', abilities: string[]}): Promise&lt;{success: boolean, data: {updatedAbilities: Object, derivedStatsRecalculated: string[]} | null, error: string | null}&gt;</signature>
+      <path>src/mechanics/level-up-calculator.js</path>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll(notation, options)</name>
+      <kind>async function</kind>
+      <signature>async roll(notation: string, options?: {advantage?: boolean, disadvantage?: boolean}): Promise&lt;{success: boolean, data: {notation: string, rolls: number[], modifier: number, total: number, breakdown: string} | null, error: string | null}&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.loadCharacter(characterId)</name>
+      <kind>async function</kind>
+      <signature>async loadCharacter(characterId: string): Promise&lt;{success: boolean, data: Object | null, error: string | null}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter(characterId, characterData)</name>
+      <kind>async function</kind>
+      <signature>async saveCharacter(characterId: string, characterData: Object): Promise&lt;{success: boolean, data: null, error: string | null}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.getAbilityModifier(abilityScore)</name>
+      <kind>function</kind>
+      <signature>getAbilityModifier(abilityScore: number): number</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.getProficiencyBonus(level)</name>
+      <kind>function</kind>
+      <signature>getProficiencyBonus(level: number): number</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>InventoryManager._recalculateAC(character)</name>
+      <kind>function</kind>
+      <signature>_recalculateAC(character: Object): number</signature>
+      <path>src/mechanics/inventory-manager.js</path>
+    </interface>
+    <interface>
+      <name>XP Thresholds Data Structure</name>
+      <kind>yaml schema</kind>
+      <signature>xp_thresholds: {2: 300, 3: 900, 4: 2700, ..., 20: 355000}</signature>
+      <path>data/srd/xp-thresholds.yaml (to be created)</path>
+    </interface>
+    <interface>
+      <name>Class Features Data Structure</name>
+      <kind>yaml schema</kind>
+      <signature>classes: {fighter: {name: string, hitDie: string, features: {1: [{name, description, uses?, maxUses?, recharge?}], ...}}}</signature>
+      <path>data/srd/classes.yaml (to be created)</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest v29.7.0 for all tests. Follow Epic 3 testing patterns: Result Object validation, dependency injection with mocks, integration tests with real YAML files. Target ≥95% statement coverage, 100% function coverage. Mock DiceRoller for deterministic HP rolls. Use real xp-thresholds.yaml and classes.yaml in integration tests to verify data loading. Test edge cases: level 20 cap, ASI ability score cap at 20, retroactive Con HP bonus, multiclass error handling.
+    </standards>
+    <locations>
+      <location>tests/mechanics/level-up-calculator.test.js</location>
+    </locations>
+    <ideas>
+      <idea ac="1">Unit test canLevelUp: character at 299 XP (can't level to 2), at 300 XP (can level to 2), at level 20 with 400,000 XP (can't level to 21)</idea>
+      <idea ac="2">Unit test HP calculation: Fighter rolls d10(6)+Con(+3)=9 HP, Wizard rolls d6(4)+Con(+1)=5 HP, manual override: manualHP=6 ignores roll</idea>
+      <idea ac="3">Integration test levelUp: level 3→4, verify level incremented, HP increased, hit dice total +1, proficiencyBonus still 2 (no change until 5)</idea>
+      <idea ac="3">Integration test levelUp: level 4→5, verify proficiencyBonus updates from 2 to 3 (threshold crossed)</idea>
+      <idea ac="4">Unit test class feature grant: Fighter level 1 gets Second Wind + Fighting Style, level 2 gets Action Surge, level 4 gets ASI, level 5 gets Extra Attack</idea>
+      <idea ac="5">Integration test ASI: level 3→4, apply +2 Str (16→18), verify Str modifier updates (+3→+4), verify no other stats changed</idea>
+      <idea ac="5">Integration test ASI with Dex: level 3→4, apply +2 Dex (14→16), verify Dex modifier updates (+2→+3), verify AC recalculated via InventoryManager</idea>
+      <idea ac="5">Integration test ASI with Con: level 5, Con 14→16 (+2→+3), verify HP increases by: 1d10+3 (new level roll) + 5 (retroactive: +1 mod × 5 levels)</idea>
+      <idea ac="5">Unit test ASI validation: attempt +2 Str when Str=19, should cap at 20 (only +1 applied), return warning</idea>
+      <idea ac="6">Integration test persistence: level up character, verify characters/[name].yaml updated with new level/HP/features, Git commit created with "Level Up: Kapi reaches level 4"</idea>
+      <idea ac="7">Unit test XP thresholds: verify all 20 thresholds match D&D 5e SRD (300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000)</idea>
+      <idea ac="8">Unit test class feature query: query Fighter features at level 2, verify Action Surge returned with uses=1, recharge='short_rest', query level 3 (no features) returns empty array</idea>
+      <idea ac="9">Integration test derived stats: level 3→4 with +1 Dex +1 Con, verify ability modifiers recalculated, AC recalculated, HP retroactive bonus applied, proficiencyBonus updated</idea>
+      <idea ac="10">Unit test multiclass error: character with {classes: ['Fighter', 'Rogue']}, call levelUp(), verify returns {success: false, error: 'Multiclassing not yet supported'}, verify character unchanged</idea>
+      <idea>Performance test: canLevelUp completes in &lt;50ms (100 iterations), levelUp completes in &lt;200ms (50 iterations)</idea>
+      <idea>Integration test: full workflow - character level 1 to 2 to 3 to 4 (ASI), verify all stats correct at each level, features granted, HP accumulates correctly</idea>
+    </ideas>
+  </tests>
+</story-context>

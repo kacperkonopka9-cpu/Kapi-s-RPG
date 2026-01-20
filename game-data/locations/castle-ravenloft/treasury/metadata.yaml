@@ -1,0 +1,28 @@
+# Location Metadata - Castle Ravenloft: Treasury
+
+location_name: "Castle Ravenloft - Treasury"
+location_type: "dungeon_area"
+danger_level: 4
+recommended_level: "9-10"
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+rooms_included: ["K41: Treasury (Main)", "K78: Brazier Room"]
+room_count: 2
+description_token_count: 1100
+npc_count: 3
+item_count: 4
+event_count: 5
+treasure_value_gp: 37000
+magic_items: "3d4 + possible Sunsword"
+typical_encounters:
+  - name: "Wraith Guardian"
+    cr: 5
+  - name: "Strahd (if catches looters)"
+    cr: 15
+hazards:
+  - "Poisoned needle traps (DC 15 Dex, 2d6 poison)"
+  - "Alarm glyph (alerts castle)"
+  - "Locks (DC 15-20)"
+last_validated: null
+validation_status: "pending"

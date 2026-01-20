@@ -1,0 +1,101 @@
+location_name: "Wizard of Wines Winery"
+location_type: "settlement"
+region: "Barovia Valley - Southern Hills"
+parent_location: null
+location_level: "settlement"
+sub_locations: []
+connected_locations:
+  - name: "Town of Vallaki"
+    direction: "north"
+    travel_time: "3 hours"
+    description: "Road through hills to Vallaki, primary wine delivery route"
+  - name: "Village of Krezk"
+    direction: "west"
+    travel_time: "3 hours"
+    description: "Mountain path to isolated village"
+  - name: "Yester Hill"
+    direction: "south"
+    travel_time: "1 hour"
+    description: "Druid stronghold with gulthias tree, location of stolen gem #2"
+  - name: "Tser Pool Encampment"
+    direction: "northeast"
+    travel_time: "5 hours"
+    description: "Via roads through valley to Vistani camp"
+  - name: "Berez"
+    direction: "southwest"
+    travel_time: "5 hours"
+    description: "Ruined swamp village, Baba Lysaga's lair, location of stolen gem #3"
+danger_level: 3
+recommended_level: "4-6"
+size: "Medium (vineyard complex with multiple buildings)"
+description_token_count: 1100
+quest_critical: true
+quests:
+  - "Reclaim the Winery"
+  - "Rescue the Martikov Family"
+  - "Recover Magic Gem #1 (Fermentation Building)"
+  - "Recover Magic Gem #2 (Yester Hill)"
+  - "Recover Magic Gem #3 (Berez/Baba Lysaga)"
+  - "Wine Delivery to Settlements"
+  - "Alliance with Keepers of the Feather"
+features:
+  - "Vineyard under siege by druids and blights"
+  - "Three magic gems power vineyard (2 stolen, 1 hidden)"
+  - "Wereraven family secret (Keepers of the Feather)"
+  - "Barovia's only wine producer"
+  - "Multiple buildings and combat zones"
+  - "Tactical battle opportunity"
+  - "Faction alliance location"
+  - "Economic keystone for Barovia"
+population: 12
+government: "Family business (Martikov patriarch leads)"
+alignment: "Neutral Good (secret wereraven faction opposing Strahd)"
+economy: "Wine production and distribution, three vintages"
+defense: "Currently overrun, normally 4 wereraven defenders + workers"
+climate: "Hillside microclimate ideal for grapes, temperate"
+npcs:
+  - "Davian Martikov (wereraven patriarch, PRIMARY)"
+  - "Elvir Martikov (wereraven son)"
+  - "Stefania Martikov (wereraven daughter)"
+  - "Adrian Martikov (wereraven son, in Vallaki)"
+  - "Wereraven scouts (3-5, Keepers observers)"
+  - "Workers (non-wereraven, fled or killed)"
+enemies:
+  - name: "Druid Commander"
+    type: "human_druid_cultist"
+    cr: 2
+    count: 1
+  - name: "Druid Cultists"
+    type: "human_druid"
+    cr: 2
+    count: 2
+  - name: "Needle Blights"
+    type: "plant"
+    cr: 0.25
+    count: 12
+  - name: "Twig Blights"
+    type: "plant"
+    cr: 0.125
+    count: 20
+allies:
+  - name: "Martikov Family"
+    type: "wereraven_family"
+    notes: "Become devoted allies if winery saved"
+  - name: "Keepers of the Feather"
+    type: "secret_society"
+    notes: "Wereraven organization opposing Strahd, alliance unlocked after saving winery"
+treasure:
+  - "Wine stock (200+ bottles Purple Grapemash, 50 Red Dragon Crush, 12 Champagne)"
+  - "Magic Gem #1 (2500 gp, if not stolen)"
+  - "Druid commander's gulthias staff (800 gp, evil)"
+  - "Family coinage (156 gp, 240 sp, 380 cp)"
+  - "Keeper records and secrets (priceless)"
+  - "Emergency supplies in hidden cellar (potions, scrolls, 450 gp)"
+  - "Silvered weapons cache (250 gp)"
+  - "Wereraven whistle (summons 1d4 allies, one use)"
+  - "Martikov family records (historical value)"
+fast_travel_available: true
+discovered: false
+first_visit_date: null
+last_validated: "2025-11-12"
+notes: "Wizard of Wines is quest-critical location representing major combat encounter, faction alliance opportunity, and economic keystone for Barovia. Siege involves 3 druids (CR 2 each) plus 32 blights—difficult battle requiring tactics. Fire-based attacks are extremely effective (blights vulnerable). Martikov family are wereravens (Keepers of the Feather secret society) who become devoted allies if saved. Three magic gems power vineyard: one hidden on-site (DC 15 to find), one stolen to Yester Hill (druid stronghold), one stolen to Berez (Baba Lysaga CR 11). Recovering all three gems restores full wine production. Wine shortage affects Vallaki, Krezk, and Village of Barovia—creates pressure on party to help. Location connects to multiple other areas: Yester Hill (follow-up dungeon), Berez (high-level encounter), Vallaki (Blue Water Inn/Adrian), settlements (wine deliveries). Keepers alliance provides intelligence network, safe houses, and wereraven assistance. Winery can be used as safe house after reclaiming. Economic component: party can earn commissions delivering wine (5-10 gp per barrel). Recommended approach: use fire against blights, defeat druid leaders first (they control blights), free Martikovs early for assistance, search fermentation building for first gem immediately."

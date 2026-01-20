@@ -1,0 +1,183 @@
+# Plate Armor +2 - Very Rare Magic Armor
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "plate_armor_plus_2"
+name: "Plate Armor +2"
+type: "armor"
+weight: 65.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "very_rare"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null
+
+# === ARMOR PROPERTIES ===
+armorProperties:
+  baseArmor: "plate"
+  category: "heavy"
+  baseAC: 18
+  acBonus: 2  # Total AC = 20
+  maxDexBonus: 0  # Heavy armor does not add Dex modifier
+  stealthDisadvantage: true
+  strengthRequirement: 15
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "ac_bonus"
+    value: 2
+    description: "+2 bonus to Armor Class"
+
+# === SPECIAL ABILITIES ===
+specialAbilities: []
+# No special abilities - standard +2 armor
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A magnificent suit of full plate armor, polished to a mirror sheen and reinforced with powerful enchantments. The armor is lighter than it appears and fits perfectly to its wearer, as if custom-made. The metal bears intricate engravings of protective runes and symbols of strength. This is armor fit for a knight-commander or noble warrior, providing exceptional protection in battle."
+
+  history: "Suits of +2 plate armor are rare and expensive, typically commissioned by wealthy nobles, high-ranking military officers, or champions of the faith. This particular suit may have belonged to a Barovian knight who fell defending the realm, a paladin of the Morninglord who challenged Strahd, or a foreign warrior who met their end in the cursed land. The enchantments woven into the armor make it significantly more protective than mundane plate while reducing its weight and improving mobility."
+
+  legendsAndRumors:
+    - "The armor was forged for a champion of the Morninglord who sought to defeat Strahd"
+    - "The suit is cursed to always return to Castle Ravenloft's armory"
+    - "The engravings on the armor are prayers that protect against evil"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_use"
+  fullPropertiesReveal: "The +2 bonus to AC is revealed when wearing the armor in combat or with an Identify spell. The improved protection becomes obvious when comparing how often attacks miss versus mundane plate armor."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Castle Ravenloft (armory or treasury), Argynvostholt, or the Abbey of Saint Markovia"
+  howObtained: "Likely found in Castle Ravenloft's armory among Strahd's collection of trophies, at Argynvostholt worn by a revenant knight, or in the Abbey's reliquary. May require defeating a powerful guardian or solving a puzzle to access."
+  guardian: "Animated armor, vampire spawn, revenants, or magical wards"
+  notes: "This is one of the most valuable suits of armor in Barovia. Strahd may recognize it if he sees a character wearing it, commenting on its previous owner."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: null
+  spellDC: null
+
+  integration:
+    combatManager: "+2 AC bonus integrates with CombatManager AC calculations. Affects hit/miss determinations for all attacks against the wearer."
+    equipmentManager: "Equippable in armor slot. Does not require attunement. Requires proficiency in heavy armor to wear without penalty. Calculates total AC as 18 (base) + 2 (magic) = 20."
+    inventoryManager: "Weight 65 lbs. Wearing the armor reduces encumbrance impact. Removing armor takes 10 minutes, donning takes 10 minutes (5 with help)."
+
+  armorClassCalculations:
+    baseAC: 18
+    magicBonus: 2
+    totalAC: 20
+    dexModifier: "Does not apply (heavy armor)"
+    shieldBonus: "Can stack with shield (+2 AC, total 22)"
+    maxPossibleAC: "22 with shield, higher with defensive spells (Shield spell, Shield of Faith, etc.)"
+
+  strengthRequirement:
+    description: "Plate armor requires Strength 15 to wear without penalty"
+    penalty: "If Strength < 15, speed is reduced by 10 feet while wearing this armor"
+    note: "The magic does not reduce the Strength requirement"
+
+  stealthPenalty:
+    description: "Disadvantage on Dexterity (Stealth) checks"
+    reason: "Plate armor is heavy and makes noise when moving"
+    note: "The magic does not negate stealth disadvantage"
+
+  donningAndDoffing:
+    donningTime: "10 minutes (5 minutes with help)"
+    doffingTime: "10 minutes (5 minutes with help)"
+    sleepingInArmor: "Sleeping in armor does not grant the benefits of a long rest unless the character has special training"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "very_rare"
+  recommendedLevel: 9
+  notes: "Extremely powerful defensive item. AC 20 (or 22 with shield) makes the wearer very difficult to hit. Appropriate for high-tier play (levels 9-16). This armor can make heavily-armored characters nearly untouchable by low-level enemies. Best given as a major reward or found late in the campaign."
+
+  dmGuidance:
+    - "This is one of the best mundane-type armor pieces in the game"
+    - "AC 20 means enemies need to roll high to hit (CR 5 creatures with +7 to hit need 13+ on the die)"
+    - "Consider giving this armor late in the campaign (levels 9+) to avoid trivializing combat"
+    - "Strahd's +9 to hit still has a good chance to land attacks (needs 11+ on the die)"
+    - "The armor does not help against saving throw effects (spells, breath weapons, etc.)"
+    - "Stealth disadvantage and Strength requirement are important limitations"
+    - "This armor is a prize worth fighting for - make obtaining it memorable"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A complete suit of full plate armor crafted from silvery steel with a mirror-bright polish. The armor consists of articulated plates covering the entire body: helm with visor, gorget, pauldrons, breastplate and backplate, vambraces, gauntlets, tassets, cuisses, poleyns, greaves, and sabatons. Intricate engravings of protective runes and geometric patterns cover the surface, glowing faintly with silver-blue light. The joints are masterfully crafted to allow full range of motion despite the complete coverage. A flowing surcoat can be worn over the armor, bearing the arms of the previous owner (or left blank)."
+
+  activeState: "When worn, the armor seems to shift and adjust slightly to fit perfectly, as if custom-tailored. In combat, the enchanted plates deflect blows that would normally strike true, and the wearer moves with surprising grace despite the armor's apparent bulk. The runes glow brighter when the wearer is struck, absorbing the impact."
+
+  soundEffects: "The armor makes a distinctive metallic clinking sound when the wearer moves, though less than mundane plate due to the precision of the enchanted joints. When struck, the armor rings like a bell but the sound is muffled by the protective enchantments. Enemies often remark on hearing the wearer approach before seeing them."
+
+# === TACTICAL CONSIDERATIONS ===
+tacticalUse:
+  advantages:
+    - "AC 20 (22 with shield) makes the wearer a defensive powerhouse"
+    - "Allows tanking for the party by drawing attacks that are likely to miss"
+    - "Frees up other magic item slots (no attunement required)"
+    - "Excellent for paladins, fighters, and clerics built for frontline combat"
+    - "Combines well with defensive fighting style (+1 AC, total 23 with shield)"
+
+  disadvantages:
+    - "Requires Strength 15 (reduces speed by 10 ft if not met)"
+    - "Disadvantage on Stealth checks (makes sneaking nearly impossible)"
+    - "Heavy (65 lbs) - contributes to encumbrance if carrying significant other gear"
+    - "Takes 10 minutes to don/doff (cannot be quickly equipped)"
+    - "Does not protect against saving throw effects (Fireball, Hold Person, etc.)"
+    - "Useless in water (drowning risk due to weight)"
+
+  idealFor:
+    - "Paladins who need to protect the party"
+    - "Fighters built as defensive tanks"
+    - "Clerics who wade into melee combat"
+    - "Any character comfortable sacrificing stealth for survivability"
+
+# === CAMPAIGN INTEGRATION ===
+campaignNotes:
+  storyHooks:
+    - "The armor belonged to a fallen knight who tried to defeat Strahd - recovering it is a side quest"
+    - "Strahd offers to trade valuable information for the armor's return (it belonged to someone he knew)"
+    - "The revenants at Argynvostholt ask for the armor to be returned to their order"
+    - "The armor is cursed to attract Strahd's attention (DM choice)"
+
+  npcReactions:
+    - "Barovian peasants show awe and hope when seeing someone in such fine armor"
+    - "Knights and soldiers recognize the quality and show respect"
+    - "Strahd may comment on the armor's previous owner if he recognizes it"
+    - "The armor marks the wearer as a serious threat to Strahd's forces"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.152"
+  official: true
+  srdContent: true
+
+  notes: "Plate Armor +2 is one of the best non-artifact armors in D&D 5e. AC 20 provides exceptional protection, making the wearer a formidable tank. Best suited for characters who accept the trade-offs (no stealth, high Strength requirement, long donning time). This is a campaign-defining item that should be earned through significant effort."
+
+  dmReminders:
+    - "No attunement required - can be used immediately if proficient in heavy armor"
+    - "Requires Strength 15 to avoid speed penalty"
+    - "Disadvantage on Stealth checks while wearing"
+    - "Base AC 18 + 2 magic bonus = 20 AC"
+    - "Can combine with shield for AC 22"
+    - "Takes 10 minutes to don or doff (5 with help)"
+    - "Sleeping in armor prevents long rest benefits"
+    - "Worth 6,000+ gp (very valuable, attractive to thieves)"
+    - "This is a very rare item - treat it as a major reward"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

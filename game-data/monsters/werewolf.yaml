@@ -1,0 +1,267 @@
+# Werewolf - Shapeshifting Cursed Humanoid
+# Source: D&D 5e Monster Manual p.211, Curse of Strahd
+# Lycanthrope cursed to transform into wolf form
+
+# === BASIC INFORMATION ===
+name: "Werewolf"
+monsterId: "werewolf"
+size: "Medium"
+type: "humanoid"
+subtype: "human, shapechanger"
+alignment: "chaotic evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 3
+experiencePoints: 700
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12  # 11 in humanoid form, 12 in wolf/hybrid (natural armor)
+armorType: "natural armor (wolf/hybrid form)"
+
+hitPoints:
+  max: 58
+  current: 58
+  hitDice: "9d8"
+  hitDiceBonus: 18  # +2 Con modifier * 9 HD = +18
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 15    # +2
+  dexterity: 13   # +1
+  constitution: 14  # +2
+  intelligence: 10  # +0
+  wisdom: 11     # +0
+  charisma: 10   # +0
+
+# === SPEEDS ===
+speed:
+  walk: 30  # 40 ft in wolf form
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  perception: 4  # +0 Wis + 4 (double proficiency from Keen Hearing/Smell)
+  stealth: 3     # +1 Dex + 2 prof
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["bludgeoning", "piercing", "slashing from nonmagical attacks that aren't silvered"]
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: 60  # Wolf and hybrid forms only
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 14  # 10 + Perception (+4)
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "can't speak in wolf form"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "werewolf_1"  # Will be set dynamically per instance
+  name: "Werewolf"
+  dexModifier: 1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Shapechanger"
+    description: "The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+    mechanics:
+      type: "shapechange"
+      actionCost: "action"
+      forms: ["humanoid", "hybrid", "wolf"]
+      statsChange: "ac_only"
+      equipmentTransform: false
+      deathReversion: "true_form"
+
+  - name: "Keen Hearing and Smell"
+    description: "The werewolf has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+    mechanics:
+      type: "sense_enhancement"
+      advantage: ["perception_checks_hearing", "perception_checks_smell"]
+
+  - name: "Pack Tactics"
+    description: "The werewolf has advantage on an attack roll against a creature if at least one of the werewolf's allies is within 5 feet of the creature and the ally isn't incapacitated."
+    mechanics:
+      type: "tactical_advantage"
+      trigger: "ally_within_5_feet_of_target"
+      condition: "ally_not_incapacitated"
+      effect: "advantage_on_attack_rolls"
+
+# === ACTIONS (HUMANOID AND HYBRID FORM) ===
+actions:
+  - name: "Multiattack (Humanoid or Hybrid Form Only)"
+    description: "The werewolf makes two attacks: two with its spear (humanoid form) or one with its bite and one with its claws (hybrid form)."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+      formRestriction: ["humanoid", "hybrid"]
+      options: ["two_spear", "one_bite_one_claws"]
+
+  - name: "Bite (Wolf or Hybrid Form Only)"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5
+    targets: 1
+    formRestriction: ["wolf", "hybrid"]
+    damage:
+      dice: "1d8"
+      bonus: 2  # Str modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage. If the target is a humanoid, it must succeed on a DC 12 Constitution saving throw or be cursed with werewolf lycanthropy."
+    additionalEffects:
+      - type: "curse"
+        targetType: "humanoid"
+        curseName: "werewolf_lycanthropy"
+        saveDC: 12
+        saveAbility: "constitution"
+
+  - name: "Claws (Hybrid Form Only)"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5
+    targets: 1
+    formRestriction: ["hybrid"]
+    damage:
+      dice: "2d4"
+      bonus: 2  # Str modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 7 (2d4 + 2) slashing damage."
+
+  - name: "Spear (Humanoid Form Only)"
+    type: "melee_or_ranged_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 5  # Melee
+    range:
+      normal: 20
+      long: 60
+    targets: 1
+    formRestriction: ["humanoid"]
+    damage:
+      dice: "1d6"
+      bonus: 2  # Str modifier (one-handed melee or thrown)
+      damageType: "piercing"
+    damageVersatile:
+      dice: "1d8"
+      bonus: 2  # Two-handed melee
+    description: "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one creature. Hit: 5 (1d6 + 2) piercing damage, or 6 (1d8 + 2) piercing damage if used with two hands to make a melee attack."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment:
+  - item: "spear"
+    quantity: 1
+    formRestriction: "humanoid"
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "torn_clothing"
+      quantity: 1
+      dropChance: 60
+    - item: "silver_resistance_charm"
+      quantity: 1
+      dropChance: 10
+    - item: "werewolf_pelt"
+      quantity: 1
+      dropChance: 40
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Transform to hybrid form for combat. Use Pack Tactics by surrounding targets with allies. Multiattack with bite + claws. Target humanoids with bite to spread lycanthropy curse. Revert to wolf form to flee (40 ft speed). Use humanoid form for ambushes or social infiltration."
+  intelligence: "cunning"
+  aggression: "high"
+  groupTactics: "pack"  # Exploit Pack Tactics trait
+
+  preferredTargets:
+    - "humanoids (to spread curse)"
+    - "isolated party members"
+    - "low-AC targets"
+
+  fleeThreshold: 15  # HP threshold
+  fleeConditions: ["pack_mostly_dead", "below_25_percent_hp", "silver_weapons_present"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Forests, mountains, rural areas, werewolf dens"
+  organization: "Solitary, pair, or pack (3-8)"
+
+lore:
+  description: "Werewolves are humanoids cursed with the power to transform into wolves or wolf-humanoid hybrids. The curse of lycanthropy is spread through the bite of a werewolf. Most werewolves succumb to the curse's evil influence and become savage killers, though some resist and retain their humanity. In Barovia, werewolf packs serve Strahd, hunting on his behalf. The most famous pack is led by Kiril Stoyanovich at the Werewolf Den, though some werewolves secretly aid the resistance as wereravens. Silver weapons bypass their immunity, making them valuable against lycanthropes."
+  weakness: "Silvered or magical weapons bypass immunity. Relatively low AC (12). No regeneration. Remove Curse spell can cure lycanthropy if target willing."
+  behavior: "Hunt in packs exploiting Pack Tactics. Prefer hybrid form for combat (bite + claws). Spread lycanthropy curse deliberately to grow pack. Use humanoid form to infiltrate settlements. Wolf form for scouting and fleeing. Avoid opponents with silver weapons. Coordinate attacks - surround and overwhelm isolated targets."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 4
+  encounterSize: "1-2 werewolves for easy, 3-4 for medium, 5-8 for hard (full pack)"
+  terrain: "Werewolf Den, forests at night, mountain caves"
+  tactics: "Werewolf Den Hunt quest: Pack of 6-8 werewolves led by Kiril (werewolf alpha with legendary actions). Use Pack Tactics to surround PCs. Focus bite attacks on humanoids without lycanthropy resistance. Immune to non-silvered weapons creates major problem for parties without silver. Deploy in forests with difficult terrain to exploit 40 ft wolf form speed."
+
+# === VARIANTS ===
+variants:
+  - name: "Kiril Stoyanovich (Werewolf Pack Leader)"
+    changes:
+      challengeRating: 5
+      experiencePoints: 1800
+      hitPoints:
+        max: 90
+      abilities:
+        strength: 17  # +3
+        charisma: 14  # +2
+      legendaryActions:
+        actionsPerRound: 2
+        description: "Kiril can take 2 legendary actions per round (pack leader)"
+        actions:
+          - name: "Move"
+            cost: 1
+            description: "Kiril moves up to his speed without provoking opportunity attacks"
+          - name: "Howl (Costs 2 Actions)"
+            cost: 2
+            description: "All werewolves within 60 feet gain advantage on their next attack roll"
+      lore:
+        description: "Pack leader of the Werewolf Den. Commands through strength and ferocity. Seeks Strahd's favor."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual, Curse of Strahd"
+  pageReference: "MM p.211, CoS p.201 (Werewolf Den)"
+  official: true
+  srdContent: true
+
+  notes: "KEY MONSTER for Werewolf Den Hunt quest (Story 4-13). Pack of 6-8 werewolves is DEADLY for parties without silvered weapons. Immunity to nonmagical/non-silvered damage means they take NO damage from mundane weapons. Pack Tactics gives advantage on all attacks when pack surrounds targets. Lycanthropy curse can affect PCs long-term."
+
+  dmReminders:
+    - "IMMUNE to nonmagical, non-silvered bludgeoning/piercing/slashing"
+    - "Silvered weapons bypass immunity (silver costs 100 gp to apply to weapon)"
+    - "Pack Tactics: Advantage if ally within 5 ft of target"
+    - "Bite (hybrid/wolf): DC 12 CON save or cursed with lycanthropy"
+    - "Shapechange: Humanoid (AC 11, spear), Hybrid (AC 12, bite+claws), Wolf (AC 12, 40 ft speed, bite only)"
+    - "Multiattack in hybrid: Bite + Claws"
+    - "Werewolf Den: 6-8 werewolves + Kiril (alpha with legendary actions)"
+    - "Without silver weapons, party CANNOT damage werewolves"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

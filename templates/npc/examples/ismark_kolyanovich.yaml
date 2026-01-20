@@ -1,0 +1,323 @@
+# Ismark Kolyanovich - "Ismark the Lesser"
+# Example Major NPC for Epic 4 (Curse of Strahd)
+# Source: Curse of Strahd p.43
+
+# === BASIC INFORMATION ===
+name: "Ismark Kolyanovich"
+npcId: "ismark_kolyanovich"
+race: "Human"
+class: "Fighter"
+level: 4
+experience: null
+background: "Noble"
+alignment: "Lawful Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 16  # +3 modifier
+  dexterity: 12  # +1 modifier
+  constitution: 14  # +2 modifier
+  intelligence: 10  # +0 modifier
+  wisdom: 12  # +1 modifier
+  charisma: 13  # +1 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 42  # 4d10 (Fighter) + Constitution modifier (+2 * 4)
+  current: 42
+  temporary: 0
+  hitDice:
+    total: 4
+    spent: 0
+    die: "d10"
+
+armorClass: 16  # Chain shirt (13) + Dex (+1) + Shield (+2)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light", "medium", "heavy", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "constitution"]
+  skills: ["athletics", "history", "insight", "perception"]
+  tools: ["gaming_set"]
+  languages: ["Common", "Elvish"]
+
+proficiencyBonus: 2
+
+# === SPELLCASTING ===
+spellcasting: null  # Non-caster
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: "chain_shirt"
+    mainHand: "longsword"
+    offHand: "shield"
+    ring1: null
+    ring2: null
+    amulet: null
+    cloak: "heavy_cloak"
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "rations"
+      quantity: 7
+    - item: "rope_hemp_50ft"
+      quantity: 1
+    - item: "torch"
+      quantity: 4
+    - item: "holy_symbol_of_ravenkind_replica"
+      quantity: 1
+      notes: "Fake replica, not the real artifact"
+  currency:
+    platinum: 0
+    gold: 45
+    electrum: 0
+    silver: 12
+    copper: 30
+
+weight:
+  current: 75
+  capacity: 240  # Str 16 * 15
+  pushDragLift: 480  # Str 16 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 1  # Exhausted from lack of sleep (guarding Ireena)
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES ===
+features:
+  - name: "Fighting Style (Protection)"
+    description: "When a creature you can see attacks a target other than you within 5 feet, use reaction to impose disadvantage on attack roll. Must be wielding a shield."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Second Wind"
+    description: "Regain 1d10 + 4 HP as bonus action"
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Action Surge"
+    description: "Take one additional action on your turn"
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Extra Attack"
+    description: "Attack twice instead of once when taking Attack action"
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities: []
+legendaryActions: null
+lairActions: null
+
+# === DEATH SAVES ===
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === NPC PERSONALITY ===
+personality:
+  traits:
+    - "I am protective of those I care about, especially my sister Ireena"
+    - "I carry the weight of my father's death and Strahd's attacks on my family"
+    - "I am earnest and direct, with no patience for games or deception"
+
+  ideals:
+    - "Protection: I will defend my sister and the innocent at any cost (Good)"
+    - "Duty: I must honor my father's memory and protect Barovia (Lawful)"
+
+  bonds:
+    - "Ireena is my everything - I would die to protect her"
+    - "My father's death haunts me; I failed to save him"
+    - "The people of Barovia depend on me as the burgomaster's son"
+
+  flaws:
+    - "I carry guilt over my father's death and doubt my own strength"
+    - "I am nicknamed 'Ismark the Lesser' and it weighs on me"
+    - "I can be overprotective to the point of smothering those I care for"
+
+  mannerisms:
+    - "Rubs the scar on his left forearm when anxious"
+    - "Speaks deliberately and looks people in the eye"
+    - "Often glances toward doors and windows (vigilant)"
+
+  voiceDescription: "Deep, earnest voice. Speaks with conviction but underlying weariness."
+  appearanceNotes: "Tall and broad-shouldered with dark hair. Wears a chain shirt and carries a sword. Face shows exhaustion - dark circles under eyes from sleepless nights. Scar on left forearm."
+
+# === DIALOGUE ===
+dialogue:
+  greeting:
+    - "You're not from Barovia. I can see it in your eyes - you haven't given up hope yet."
+    - "Welcome to the Village of Barovia, stranger. I wish I had better news to share."
+
+  idle:
+    - "[Glances nervously at the window]"
+    - "These mists... they never lift. Not truly."
+    - "Have you seen my sister? I worry when she's out of my sight."
+
+  farewell:
+    - "Safe travels, friend. May you find what you seek."
+    - "Be careful out there. The land itself is cursed."
+
+  questGiving:
+    - "My sister Ireena is in grave danger. Strahd has taken an interest in her - he's bitten her twice already. We need to get her away from here, to the fortified town of Vallaki. Will you help us?"
+    - "Our father, Burgomaster Kolyan Indirovich, died three days ago. He fought to protect Ireena from Strahd's attacks. We must bury him properly before we can leave. Please, help us lay him to rest in the cemetery."
+
+  questComplete:
+    - "You've done more for us than I dared hope. My father can rest in peace now."
+    - "Thank you for escorting Ireena safely. I owe you a debt I can never repay."
+
+  combat:
+    - "You'll have to go through me first!"
+    - "For Barovia! For my father!"
+    - "[Interposes shield] Not while I still draw breath!"
+
+  keyQuotes:
+    - "They call me 'Ismark the Lesser'. After my father died, I understand why."
+    - "Strahd von Zarovich is a devil. He takes what he wants and leaves only death in his wake."
+    - "The mists are Barovia's prison walls. No one escapes. No one."
+    - "I've failed my father. I won't fail Ireena."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "ireena_kolyana"
+      relationship: "beloved sister"
+      notes: "Fiercely protective. Would sacrifice himself without hesitation."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "mortal enemy"
+      notes: "Hates Strahd for attacking Ireena and indirectly causing father's death. Knows he's no match for Strahd in combat."
+
+  family:
+    - npcId: "ireena_kolyana"
+      relationship: "sister"
+      notes: "Adopted sister (Ireena was found by the Kolyana family as a child)."
+
+    - npcId: "kolyan_indirovich"
+      relationship: "father (deceased)"
+      notes: "Burgomaster of Barovia. Died defending Ireena from Strahd's attacks. Body awaiting burial."
+
+  faction: "burgomaster_family"
+
+# === AI BEHAVIOR NOTES ===
+aiBehavior:
+  combatTactics: "Defensive fighter using Protection fighting style. Prioritizes defending Ireena and allies. Uses shield to impose disadvantage on attacks against others. Will interpose himself between threats and Ireena. Not reckless, but willing to sacrifice self for sister."
+
+  goals:
+    - "Get Ireena to safety in Vallaki"
+    - "Bury father with proper rites in consecrated ground"
+    - "Protect Ireena from Strahd at all costs"
+    - "Prove himself worthy of father's legacy"
+
+  motivations:
+    - "Overwhelming guilt over father's death"
+    - "Desperate need to protect Ireena"
+    - "Desire to prove he's not 'the Lesser'"
+    - "Sense of duty to Barovia's people"
+
+  fears:
+    - "Failing Ireena as he failed his father"
+    - "Strahd claiming Ireena"
+    - "Being remembered as 'the Lesser'"
+    - "Dying without fulfilling his duty"
+
+  knowledgeSecrets:
+    - "Knows Strahd has bitten Ireena twice on the neck"
+    - "Aware that father's death was caused by heart attack from stress, not direct attack"
+    - "Knows the cemetery has been desecrated - undead rise from graves"
+    - "Heard rumors of a 'mad wizard' at the windmill on the hill"
+    - "Knows Madam Eva and her Vistani camp near Tser Pool"
+    - "Aware of lights near Old Bonegrinder (hag windmill)"
+    - "Does not know Ireena is Tatyana reincarnated (Strahd's lost love)"
+
+  attitudeTowardPlayer: "helpful"
+  trustLevel: 6  # Starts cautiously hopeful, can rise to 10
+
+  questInvolvement:
+    - questId: "bury_the_burgomaster"
+      role: "quest_giver"
+      notes: "Asks players to help bury father in cemetery, will fight alongside them against undead"
+
+    - questId: "escort_ireena"
+      role: "quest_giver"
+      notes: "Asks players to escort Ireena to Vallaki. May accompany party or stay to protect village."
+
+  specialBehaviors:
+    - "Will not leave Ireena's side unless absolutely necessary"
+    - "Refuses to speak ill of his father despite 'the Lesser' nickname"
+    - "Distrusts Vistani (except Madam Eva) due to their service to Strahd"
+
+# === SCHEDULE ===
+schedule:
+  - time: "06:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Wakes after restless sleep, checks on Ireena, patrols mansion perimeter"
+
+  - time: "08:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Breakfast with Ireena, discusses plans for the day, repairs barricades"
+
+  - time: "10:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Tends to father's body, prepares for burial when help arrives"
+
+  - time: "12:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Lunch, sharpens weapons, checks supplies"
+
+  - time: "14:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Watches for threats, discourages Ireena from leaving mansion"
+
+  - time: "18:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Dinner with Ireena, tells stories of father and better times"
+
+  - time: "20:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Secures mansion for night, reinforces doors and windows"
+
+  - time: "22:00"
+    location: "village_of_barovia_burgomaster_mansion"
+    activity: "Night watch - does not sleep much, keeps vigil"
+
+# === LOCATION & STATUS ===
+currentLocation: "village_of_barovia_burgomaster_mansion"
+status: "alive"
+canMove: true
+tetheredToLocation: null  # Can travel with party to escort Ireena
+
+# === METADATA ===
+metadata:
+  created: "2025-11-10T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.43"
+  official: true
+
+  notes: "Ismark is a tragic figure - earnest and good-hearted but burdened by guilt. He's nicknamed 'Ismark the Lesser' because villagers compare him unfavorably to his deceased father. Despite this, he's a capable fighter and utterly devoted to protecting Ireena. Key early-game ally and quest-giver."
+
+  dmReminders:
+    - "Ismark can join party to escort Ireena to Vallaki (DM's choice)"
+    - "If Ireena dies, Ismark becomes suicidal with grief"
+    - "Ismark doesn't know Ireena is Tatyana reincarnated - this is Strahd's secret"
+    - "Nickname 'the Lesser' is unfair - Ismark is brave, just not legendary like his father"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

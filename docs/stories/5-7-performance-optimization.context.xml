@@ -1,0 +1,251 @@
+<story-context id="5-7-performance-optimization" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>7</storyId>
+    <title>Performance Optimization</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-11-28</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-7-performance-optimization.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player of Kapi's RPG</asA>
+    <iWant>the game engine to perform efficiently with fast startup, smooth location transitions, and responsive context loading</iWant>
+    <soThat>I can enjoy seamless gameplay without frustrating delays or performance degradation during long sessions</soThat>
+    <estimated-effort>Medium (5-8 hours)</estimated-effort>
+    <tasks>
+      <task id="1">PerformanceMonitor Implementation
+        <subtask id="1.1">Create src/performance/performance-monitor.js with class structure</subtask>
+        <subtask id="1.2">Implement record() method with ring buffer and log writing</subtask>
+        <subtask id="1.3">Implement startTimer() convenience method</subtask>
+        <subtask id="1.4">Implement query methods (getLastN, getAverageTime, getP95Time)</subtask>
+        <subtask id="1.5">Implement checkThresholds() for violation detection</subtask>
+        <subtask id="1.6">Integrate VS Code notification for threshold violations</subtask>
+      </task>
+      <task id="2">Preloader Implementation
+        <subtask id="2.1">Create src/performance/preloader.js with class structure</subtask>
+        <subtask id="2.2">Implement idle monitoring (startIdleMonitor, resetIdleTimer)</subtask>
+        <subtask id="2.3">Implement preloadAdjacent() for background loading</subtask>
+        <subtask id="2.4">Implement cancellation with AbortController</subtask>
+      </task>
+      <task id="3">ParsingCache Implementation
+        <subtask id="3.1">Create src/performance/parsing-cache.js with class structure</subtask>
+        <subtask id="3.2">Implement getOrParse() with mtime-based cache key</subtask>
+        <subtask id="3.3">Implement cache management (invalidate, clearAll, getStats)</subtask>
+      </task>
+      <task id="4">File I/O Batching
+        <subtask id="4.1">Update LocationLoader to use Promise.all() for parallel reads</subtask>
+        <subtask id="4.2">Update ContextLoader to batch P1/P2/P3 loading where possible</subtask>
+      </task>
+      <task id="5">Debug Commands Implementation
+        <subtask id="5.1">Create /debug performance command</subtask>
+        <subtask id="5.2">Create /debug session command</subtask>
+      </task>
+      <task id="6">Integration and Wiring
+        <subtask id="6.1">Integrate PerformanceMonitor with ContextLoader</subtask>
+        <subtask id="6.2">Integrate PerformanceMonitor with SessionManager</subtask>
+        <subtask id="6.3">Integrate Preloader with ContextLoader</subtask>
+        <subtask id="6.4">Integrate ParsingCache with file loading</subtask>
+      </task>
+      <task id="7">Testing
+        <subtask id="7.1">Unit tests for PerformanceMonitor</subtask>
+        <subtask id="7.2">Unit tests for Preloader</subtask>
+        <subtask id="7.3">Unit tests for ParsingCache</subtask>
+        <subtask id="7.4">Integration tests</subtask>
+        <subtask id="7.5">Stress tests for Castle Ravenloft</subtask>
+        <subtask id="7.6">Performance tests</subtask>
+      </task>
+      <task id="8">Documentation
+        <subtask id="8.1">Update docs/extension-development.md</subtask>
+        <subtask id="8.2">Update docs/slash-commands-guide.md</subtask>
+        <subtask id="8.3">Create performance optimization section in CLAUDE.md</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="AC-1">PerformanceMonitor Module Implemented - Centralized tracking with record(), getLastN(), getAverageTime(), getP95Time(), writes to performance.log</ac>
+    <ac id="AC-2">Performance Alerting System - Log warnings when operations exceed 50% over target, VS Code notifications</ac>
+    <ac id="AC-3">Context Preloading Strategy - Load adjacent locations in background after 10s idle, store with "preload-" prefix in cache</ac>
+    <ac id="AC-4">Markdown/YAML Parsing Cache - Cache parsed objects keyed by path+mtime, 5x+ speedup for repeated parses</ac>
+    <ac id="AC-5">File I/O Batching - Read all 6 location files in parallel with Promise.all(), &lt;1 second per location</ac>
+    <ac id="AC-6">Stress Test Castle Ravenloft - Load context (main hall + 5 adjacent) in &lt;5 seconds, within token budget</ac>
+    <ac id="AC-7">Debug Commands - /debug performance shows last 10 metrics, /debug session shows current state</ac>
+    <ac id="AC-8">Performance Targets Met - Session startup &lt;2min, context load &lt;5s, transition &lt;10s, cache hit &gt;75%</ac>
+    <ac id="AC-9">Integration with Existing Systems - Zero breaking changes to Stories 5-1 through 5-6</ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc id="tech-spec-5" path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification">
+        <section>NFR > Performance</section>
+        <snippet>Performance targets: Session startup &lt;2 minutes (95th percentile), Location transition &lt;10 seconds, LLM response &lt;10 seconds (95th percentile), Context load &lt;5 seconds, Cache hit rate &gt;75%.</snippet>
+      </doc>
+      <doc id="tech-spec-5-story" path="docs/tech-spec-epic-5.md" title="Epic 5 Tech Spec - Story 5-7">
+        <section>Story 5-7 Scope</section>
+        <snippet>Performance Optimization: Context preloading strategy (load next likely locations in background), Markdown parsing optimization (cache parsed YAML frontmatter), File I/O batching (reduce disk reads during context assembly).</snippet>
+      </doc>
+      <doc id="context-caching-design" path="docs/context-caching-design.md" title="Context Caching Design">
+        <section>Caching Strategy</section>
+        <snippet>ContextCache provides LRU eviction (100MB limit), cache hit rate &gt;75% target, file watcher invalidation. Key format: {type}:{id}:{version}.</snippet>
+      </doc>
+      <doc id="5-2-caching" path="docs/stories/5-2-context-caching-strategy.md" title="Story 5-2: Context Caching Strategy">
+        <section>Implementation Details</section>
+        <snippet>ContextCache class with get/set/invalidate methods, LRU eviction, memory tracking. FileWatcher integration for cache invalidation on file changes.</snippet>
+      </doc>
+      <doc id="5-6-session" path="docs/stories/5-6-session-management.md" title="Story 5-6: Session Management">
+        <section>Performance Logging</section>
+        <snippet>SessionManager._appendPerformanceLog() writes to performance.log. Session state tracks performance.startupTime, performance.contextLoadTimes, performance.avgLLMResponseTime.</snippet>
+      </doc>
+      <doc id="retrospective-4" path="docs/retrospectives/epic-4-retro-2025-11-16.md" title="Epic 4 Retrospective">
+        <section>Risk 3: Performance Optimization</section>
+        <snippet>Story 5-7 should prioritize non-breaking optimizations (caching, lazy loading) over refactoring. Castle Ravenloft stress test recommended.</snippet>
+      </doc>
+      <doc id="arch-perf" path="docs/technical-architecture.md" title="Technical Architecture">
+        <section>Performance Optimization</section>
+        <snippet>LocationLoader caches loaded locations in memory. Lazy loading (load location only when visited). Atomic file operations (minimize disk I/O).</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact id="context-loader" path="src/context/context-loader.js" kind="service">
+        <symbol>ContextLoader</symbol>
+        <lines>1-500</lines>
+        <reason>Core module to integrate performance tracking, preloading hooks, and parsing cache</reason>
+      </artifact>
+      <artifact id="context-cache" path="src/context/context-cache.js" kind="service">
+        <symbol>ContextCache</symbol>
+        <lines>1-300</lines>
+        <reason>Existing cache with LRU eviction and hit rate tracking. Preloader will store with "preload-" prefix keys.</reason>
+      </artifact>
+      <artifact id="location-loader" path="src/data/location-loader.js" kind="service">
+        <symbol>LocationLoader</symbol>
+        <lines>71-200</lines>
+        <reason>loadLocation() reads 6 files sequentially - needs Promise.all() batching for AC-5</reason>
+      </artifact>
+      <artifact id="session-manager" path="src/session/session-manager.js" kind="service">
+        <symbol>SessionManager</symbol>
+        <lines>425-550</lines>
+        <reason>Existing _appendPerformanceLog() pattern to follow. Integrate PerformanceMonitor for session metrics.</reason>
+      </artifact>
+      <artifact id="priority-resolver" path="src/context/priority-resolver.js" kind="service">
+        <symbol>PriorityResolver</symbol>
+        <reason>Filters NPCs/events by priority. May need optimization for large location sets.</reason>
+      </artifact>
+      <artifact id="file-watcher" path="src/context/file-watcher.js" kind="service">
+        <symbol>FileWatcher</symbol>
+        <reason>Existing file watching for cache invalidation. ParsingCache should integrate with this.</reason>
+      </artifact>
+      <artifact id="perf-tests" path="tests/integration/session/session-performance.test.js" kind="test">
+        <symbol>Performance test patterns</symbol>
+        <reason>Existing performance test using process.hrtime.bigint() - reuse this pattern for Story 5-7 tests</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0">YAML parsing for config files and game data</package>
+        <package name="date-fns" version="^2.30.0">Date manipulation for calendar and timing</package>
+        <package name="chokidar" version="^3.5.0">File watching for cache invalidation</package>
+        <package name="jest" version="^29.7.0" dev="true">Testing framework</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface id="perf-monitor-api" name="PerformanceMonitor" kind="class">
+      <signature>class PerformanceMonitor {
+  constructor(deps = {})
+  record(operationType: string, durationMs: number, context?: object): void
+  startTimer(operationType: string): () => number
+  getLastN(operationType: string, count?: number): MetricEntry[]
+  getAverageTime(operationType: string): number
+  getP95Time(operationType: string): number
+  checkThresholds(): ThresholdViolation[]
+}</signature>
+      <path>src/performance/performance-monitor.js</path>
+    </interface>
+    <interface id="preloader-api" name="Preloader" kind="class">
+      <signature>class Preloader {
+  constructor(deps = {})
+  startIdleMonitor(currentLocationId: string): void
+  resetIdleTimer(): void
+  preloadAdjacent(currentLocationId: string): Promise&lt;void&gt;
+  cancelPreload(): void
+}</signature>
+      <path>src/performance/preloader.js</path>
+    </interface>
+    <interface id="parsing-cache-api" name="ParsingCache" kind="class">
+      <signature>class ParsingCache {
+  constructor(deps = {})
+  getOrParse(filePath: string, parser: Function): Promise&lt;{data: any, cached: boolean}&gt;
+  invalidate(filePath: string): void
+  clearAll(): void
+  getStats(): {entries: number, hitRate: number}
+}</signature>
+      <path>src/performance/parsing-cache.js</path>
+    </interface>
+    <interface id="context-cache-existing" name="ContextCache" kind="class">
+      <signature>class ContextCache {
+  get(key: string): any | null
+  set(key: string, value: any, size?: number): void
+  invalidateByPattern(pattern: string): number
+  clearAll(): void
+  getStats(): CacheStats
+  static generateKey(type: string, id: string, version: string): string
+}</signature>
+      <path>src/context/context-cache.js</path>
+    </interface>
+    <interface id="session-manager-existing" name="SessionManager" kind="class">
+      <signature>class SessionManager {
+  startSession(characterPath, locationId, autoSaveInterval?): Promise&lt;Result&gt;
+  endSession(playerSummary?): Promise&lt;Result&gt;
+  updateSession(updates): Promise&lt;Result&gt;
+  getCurrentSession(): SessionState | null
+  _appendPerformanceLog(message): Promise&lt;void&gt;
+}</signature>
+      <path>src/session/session-manager.js</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint type="pattern">Result Object Pattern: All async operations return {success, data?, error?} - never throw exceptions</constraint>
+    <constraint type="pattern">Dependency Injection: All modules accept deps object for testability (fs, path, yaml, etc.)</constraint>
+    <constraint type="pattern">Timer Pattern: Use process.hrtime.bigint() for high-precision timing (nanoseconds)</constraint>
+    <constraint type="architecture">Non-breaking: All optimizations must not change existing APIs or break Epic 1-5 tests</constraint>
+    <constraint type="performance">Context Load: Must complete in &lt;5 seconds for typical locations</constraint>
+    <constraint type="performance">Cache Hit Rate: Target &gt;75% during normal gameplay</constraint>
+    <constraint type="performance">Parsing Cache: Must provide 5x+ speedup for repeated parses</constraint>
+    <constraint type="performance">File I/O: All 6 location files read in &lt;1 second total</constraint>
+    <constraint type="testing">Test Coverage: 75%+ for new modules (PerformanceMonitor, Preloader, ParsingCache)</constraint>
+    <constraint type="testing">Stress Test: Castle Ravenloft (60+ rooms) must load in &lt;5 seconds</constraint>
+    <constraint type="logging">Performance Log: Write to performance.log in structured format for analysis</constraint>
+  </constraints>
+
+  <tests>
+    <standards>
+      Jest testing framework (v29.7.0). Unit tests for isolated module logic. Integration tests for system interactions.
+      Performance tests using process.hrtime.bigint() for high-precision timing. Target 75%+ coverage for new modules.
+      Follow Arrange-Act-Assert pattern. Use dependency injection for mocking file system and external dependencies.
+    </standards>
+    <locations>
+      <location>tests/performance/performance-monitor.test.js</location>
+      <location>tests/performance/preloader.test.js</location>
+      <location>tests/performance/parsing-cache.test.js</location>
+      <location>tests/performance/stress-tests.test.js</location>
+      <location>tests/integration/session/session-performance.test.js (existing pattern)</location>
+    </locations>
+    <ideas>
+      <test ac="AC-1">Test record() adds to ring buffer and writes to performance.log. Test query methods filter and calculate correctly.</test>
+      <test ac="AC-2">Test checkThresholds() detects violations when duration exceeds target by 50%. Verify warning log format.</test>
+      <test ac="AC-3">Test idle monitor fires after 10s timeout. Test preloadAdjacent() loads connected locations. Test cancellation stops ongoing preload.</test>
+      <test ac="AC-4">Test getOrParse() returns cached data on hit. Test cache invalidation when file mtime changes. Measure 5x+ speedup.</test>
+      <test ac="AC-5">Test LocationLoader.loadLocation() reads all 6 files in parallel. Verify &lt;1 second total. Test error handling for individual file failures.</test>
+      <test ac="AC-6">Load Castle Ravenloft context with main hall + 5 adjacent rooms. Assert &lt;5 seconds. Assert token count &lt;4000.</test>
+      <test ac="AC-7">Test /debug performance outputs last 10 metrics in correct format. Test /debug session outputs current state.</test>
+      <test ac="AC-8">Performance suite: 10 iterations of each operation, calculate P95, assert within targets.</test>
+      <test ac="AC-9">Run full Epic 1-5 test suite after integration. Assert 100% pass rate (zero regressions).</test>
+    </ideas>
+  </tests>
+</story-context>

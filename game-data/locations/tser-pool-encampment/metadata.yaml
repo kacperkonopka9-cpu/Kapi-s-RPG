@@ -1,0 +1,68 @@
+location_name: "Tser Pool Encampment"
+location_type: "settlement"
+region: "Barovia Valley - Tser Pool"
+parent_location: null
+location_level: "settlement"
+sub_locations: []
+connected_locations:
+  - name: "Village of Barovia"
+    direction: "west"
+    travel_time: "2 hours"
+    description: "Old Svalich Road westward through Svalich Woods to village"
+  - name: "Town of Vallaki"
+    direction: "east"
+    travel_time: "4 hours"
+    description: "Old Svalich Road eastward across stone bridge, through forests to town"
+  - name: "Death House"
+    direction: "west"
+    travel_time: "2.5 hours"
+    description: "Via Village of Barovia, at village edge"
+  - name: "Lake Zarovich"
+    direction: "northeast"
+    travel_time: "2 hours"
+    description: "Misty lake where Arabelle was taken by Bluto"
+danger_level: 1
+recommended_level: "1-10"
+size: "Small (traveling encampment, ~20 Vistani)"
+description_token_count: 820
+quest_critical: true
+quests:
+  - "Tarokka Reading (campaign-critical)"
+  - "Find Arabelle (time-sensitive)"
+  - "Uncover Arrigal's Betrayal (optional)"
+features:
+  - "Madam Eva's fortune-telling tent"
+  - "Vistani trading wagons"
+  - "Central bonfire gathering place"
+  - "Tser Pool lakeside location"
+  - "Neutral ground respected by Strahd"
+  - "Horse corral and livestock"
+population: 20
+government: "Tribal (Luvash leads, Madam Eva advises)"
+alignment: "Chaotic Neutral (Vistani neutrality, self-interested)"
+economy: "Trading, fortune-telling, animal husbandry"
+defense: "4 guards, entire camp capable of fighting if needed"
+climate: "Mountain valley climate, cold lake, frequent mist"
+npcs:
+  - "Madam Eva (seer, PRIMARY)"
+  - "Luvash (camp leader)"
+  - "Arrigal (scout, Strahd's spy)"
+  - "Arabelle (Luvash's daughter, quest NPC)"
+  - "Vistani guards (4)"
+  - "Vistani traders (2)"
+  - "Vistani performers (3)"
+enemies: []
+allies:
+  - name: "Vistani"
+    type: "neutral_faction"
+    notes: "Maintain neutrality but can become loyal allies if Arabelle rescued"
+treasure:
+  - "Trading goods (various supplies and weapons at market prices)"
+  - "Tarokka reading (campaign information, priceless)"
+  - "Hidden cache near corral (silvered weapons, DC 15)"
+  - "Drowned treasure in Tser Pool shore (25 gp + items, DC 15)"
+fast_travel_available: true
+discovered: false
+first_visit_date: null
+last_validated: "2025-11-12"
+notes: "Tser Pool Encampment is campaign-critical location where Madam Eva performs the Tarokka reading that reveals locations of key items and Strahd's confrontation location. The reading determines campaign structure and must occur early. Arabelle quest creates time pressure and potential for Vistani alliance. Arrigal provides ongoing intrigue as Strahd's spy within seemingly neutral ground. Camp serves as safe haven and trading post throughout campaign. Strahd respects Vistani neutrality—will visit but not attack camp. Location is accessible to all character levels but most relevant early campaign."

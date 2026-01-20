@@ -1,0 +1,188 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>5.1</storyId>
+    <title>Intelligent Context Loader</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-17</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-1-intelligent-context-loader.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>LLM-DM integration developer</asA>
+    <iWant>a priority-based context loading system that assembles character, location, NPC, event, and quest data within token budget constraints (3500-4000 tokens) while filtering for relevance</iWant>
+    <soThat>Claude Code receives optimal context for narrative generation without exceeding API limits, enabling smooth 1-2 hour gameplay sessions</soThat>
+    <tasks>
+Task 1: Create ContextLoader Module Structure (AC: #1)
+Task 2: Implement Token Estimation (AC: #1, #6)
+Task 3: Create PriorityResolver Module (AC: #2)
+Task 4: Implement P1 Context Loading (AC: #1, #3, #4, #5)
+Task 5: Implement P2 Context Loading (AC: #2, #3)
+Task 6: Implement P3 Context Loading (AC: #2, #6)
+Task 7: Implement Token Budget Management (AC: #6)
+Task 8: Implement loadContext() Main Method (AC: #1)
+Task 9: Integration Tests (AC: #1-6)
+Task 10: Performance Validation (AC: #1)
+Task 11: Documentation and Story Completion (AC: All)</tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: ContextLoader Module Implemented
+- src/context/context-loader.js module created with ContextLoader class
+- loadContext(characterPath, locationId, sessionState, tokenBudget) method assembles complete context
+- Returns ContextObject with metadata (token count, priorities loaded, cache hit rate), character data, location data, NPCs, events, calendar, quests, formatted markdown
+- Token budget management: enforces 3500 soft limit, 4000 hard limit
+- Context assembly completes in <5 seconds for typical location
+- Token estimation method estimateTokens(markdown) accurate within ±10%
+
+AC-2: PriorityResolver Module Implemented
+- src/context/priority-resolver.js module created with PriorityResolver class
+- 3-priority classification system (P1: always load, P2: conditional, P3: deferred)
+- filterRelevantNPCs(npcs, locationId, adjacentLocations) filters by proximity
+- filterRelevantEvents(events, currentDate) filters by time window (7 days)
+- Priority classification reduces context from ~10,000 tokens to ~3200 tokens
+
+AC-3: Epic 1 LocationLoader Integration
+- ContextLoader calls LocationLoader.loadLocation(locationId)
+- Parses Description.md, State.md, NPCs.md, Items.md, Events.md, metadata.yaml
+- Location connections from metadata.yaml used for adjacent calculation
+
+AC-4: Epic 2 Calendar Integration
+- ContextLoader calls CalendarManager.getCalendarState()
+- Calendar data in P1 context (date, time, weather, moon phase)
+- Event filtering uses calendar date for 7-day window
+
+AC-5: Epic 3 Character Integration
+- ContextLoader loads character YAML from characterPath
+- Character data in P1 context (name, level, class, HP, spells, conditions)
+- Compact format (400 tokens max)
+
+AC-6: Token Budget Management Enforced
+- Budget defaults to 3500 soft limit, 4000 hard limit
+- Budget allocation: P1 ~1300, P2 ~1050, P3 ~1150 tokens
+- Remove P3 first if over budget, then P2, never P1
+- Warning logged if approaching 3800 tokens</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="AC-1: Intelligent Context Loading System Implemented" snippet="ContextLoader module loads character, location, NPCs, events, quests based on 3-priority system (P1/P2/P3). Token budget management enforced: context stays under 3500 tokens soft limit, 4000 hard limit. Smart NPC filtering loads only NPCs in current location + 1 connection distance." />
+
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Services and Modules: ContextLoader" snippet="ContextLoader (src/context/context-loader.js): Assemble game context for LLM prompts based on priority system. Inputs: Character file path, location ID, session state. Outputs: Context object (markdown string, token count, loaded entities)." />
+
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Services and Modules: PriorityResolver" snippet="PriorityResolver (src/context/priority-resolver.js): Classify context elements by priority (P1/P2/P3), filter based on relevance. Inputs: Entity list, current location, character state. Outputs: Priority-sorted entity list." />
+
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Data Models: ContextObject" snippet="ContextObject structure includes metadata (assembledAt, tokenCount, prioritiesLoaded, cacheHitRate), character (name, level, HP, spellSlots, conditions), location (locationId, description, state, connections), npcs (filtered by relevance), events (next 7 days), calendar (date, time, weather, moonPhase), quests (active only), contextMarkdown (formatted string)." />
+
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="APIs: ContextLoader API" snippet="loadContext(characterPath, locationId, sessionState, tokenBudget=3500): Assemble game context. estimateTokens(markdown): Calculate token count. filterRelevantNPCs(npcs, locationId, adjacentLocations): Filter NPCs by relevance." />
+
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Workflows: Token Budget Management" snippet="Initialize token budget 3500 (soft limit). Load P1 ~1300 tokens (character, location, calendar). Load P2 ~1050 tokens (relevant NPCs, upcoming events, active quests). Load P3 ~1150 tokens if budget allows. If over budget, remove P3 items first, then P2, never P1." />
+
+      <doc path="docs/technical-architecture.md" title="Technical Architecture" section="§6: Context Loading Strategy" snippet="3-priority context loading system. P1 (Always Load): Character sheet, current location Description+State, calendar state, active conditions. P2 (Conditional): NPCs in current+adjacent locations, upcoming events (7 days), current quests. P3 (Deferred): Full Events.md, distant NPCs, completed quests." />
+
+      <doc path="docs/technical-architecture.md" title="Technical Architecture" section="§7: LLM-DM Integration" snippet="Claude Code as narrative engine. System prompt components: DM persona, current context (assembled by context-loader), RAW reference (on-demand), consistency guidelines. Context passed via MCP (Model Context Protocol)." />
+
+      <doc path="templates/location/Description.md" title="Location Template" section="Location Folder Structure" snippet="Standard location structure: Description.md (environmental descriptions), NPCs.md (NPC profiles), Items.md (items), Events.md (scheduled events), State.md (YAML frontmatter + narrative), metadata.yaml (location metadata, connections)." />
+
+      <doc path="docs/stories/4-17-strahd-ai-behavior.md" title="Previous Story Learnings" section="Epic 5 First Story Pattern" snippet="Result Object Pattern: All methods return {success, data, error}. Dependency Injection: Constructor accepts {fs, path, yaml, LocationLoader, CalendarManager}. JSDoc documentation for all public methods. Target 30+ tests, 85% coverage for critical modules." />
+    </docs>
+
+    <code>
+      <artifact path="src/data/location-loader.js" kind="service" symbol="LocationLoader" lines="1-200" reason="Epic 1 module for loading location folders. ContextLoader will call LocationLoader.loadLocation(locationId) to retrieve location data (Description, NPCs, Events, State, metadata)." />
+
+      <artifact path="src/core/state-manager.js" kind="service" symbol="StateManager" lines="1-150" reason="Epic 1 module for loading/saving State.md files. ContextLoader will use StateManager patterns for YAML frontmatter parsing if needed." />
+
+      <artifact path="src/calendar/calendar-manager.js" kind="service" symbol="CalendarManager" lines="1-180" reason="Epic 2 module for calendar state. ContextLoader will call CalendarManager.getCalendarState() to retrieve current date/time for P1 context and event filtering." />
+
+      <artifact path="src/calendar/event-scheduler.js" kind="service" symbol="EventScheduler" lines="1-200" reason="Epic 2 module for event scheduling. ContextLoader will use event data structures for filtering upcoming events (next 7 days) in P2 context." />
+
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" lines="1-250" reason="Epic 3 module for parsing character sheets. ContextLoader can optionally use CharacterManager for parsing, otherwise fallback to direct YAML parse." />
+
+      <artifact path="game-data/locations/village-of-barovia/Description.md" kind="data" symbol="VillageOfBarovia" lines="all" reason="Test location for validation. Small location (5 NPCs) used to test P1 context loading and verify <5 second load time." />
+
+      <artifact path="game-data/locations/village-of-barovia/metadata.yaml" kind="data" symbol="VillageMetadata" lines="all" reason="Location metadata with connections field. ContextLoader will use connections array to calculate adjacent locations for P2 NPC filtering." />
+
+      <artifact path="game-data/locations/castle-ravenloft/metadata.yaml" kind="data" symbol="CastleMetadata" lines="all" reason="Stress test location (60+ rooms, 20+ NPCs). Used to validate P2 NPC filtering excludes distant NPCs when not adjacent to current location." />
+
+      <artifact path="game-data/calendar.yaml" kind="data" symbol="CalendarState" lines="all" reason="Global calendar state file. Contains current date/time used for P1 context and event filtering (next 7 days window)." />
+
+      <artifact path="characters/kapi.yaml" kind="data" symbol="KapiCharacter" lines="all" reason="Example character file for testing. ContextLoader will parse character YAML and include in P1 context (compact format, 400 tokens max)." />
+
+      <artifact path="package.json" kind="config" symbol="Dependencies" lines="dependencies" reason="Node.js dependencies including js-yaml (YAML parsing), date-fns (date manipulation). ContextLoader will use js-yaml for parsing character/location YAML files." />
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="js-yaml" version="^4.1.0" usage="YAML parsing for character files, location metadata, calendar state" />
+        <package name="date-fns" version="^2.30.0" usage="Date manipulation for calendar integration, event filtering (next 7 days window)" />
+        <package name="jest" version="^29.7.0" usage="Testing framework for unit and integration tests" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture" priority="critical">Result Object Pattern: All async methods must return {success: boolean, data?: any, error?: string}. Never throw exceptions. Forces explicit error handling.</constraint>
+
+    <constraint type="architecture" priority="critical">Dependency Injection Pattern: Constructor must accept {fs, path, yaml, LocationLoader, CalendarManager, CharacterManager} for testability. Defaults to production dependencies if not provided.</constraint>
+
+    <constraint type="architecture" priority="critical">Token Budget Hard Limit: 4000 tokens maximum (Claude Code API constraint). Context must never exceed this limit or LLM requests will fail.</constraint>
+
+    <constraint type="architecture" priority="high">Token Budget Soft Limit: 3500 tokens recommended. Reserve 500 tokens for long LLM responses. Warn if approaching 3800 tokens (95% of hard limit).</constraint>
+
+    <constraint type="architecture" priority="high">No Modifications to Epic 1-4 Systems: ContextLoader is pure integration layer. Must NOT modify LocationLoader, CalendarManager, CharacterManager. Only call existing APIs.</constraint>
+
+    <constraint type="performance" priority="critical">Context Load Time <5 seconds: loadContext() must complete in <5 seconds for typical location (Village of Barovia with 5 NPCs, 3 quests, 2 events).</constraint>
+
+    <constraint type="performance" priority="high">Token Estimation Accuracy ±10%: estimateTokens() must be accurate within ±10% of actual Claude Code token counts. Calibrate with manual testing.</constraint>
+
+    <constraint type="testing" priority="high">Coverage Target 85%: ContextLoader and PriorityResolver are critical path modules. Must achieve 85%+ test coverage with 30+ integration tests.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="ContextLoader.loadContext()" kind="method" signature="async loadContext(characterPath: string, locationId: string, sessionState: object, tokenBudget: number = 3500): Promise<{success: boolean, data?: ContextObject, error?: string}>" path="src/context/context-loader.js" />
+
+    <interface name="ContextLoader.estimateTokens()" kind="method" signature="estimateTokens(markdown: string): number" path="src/context/context-loader.js" />
+
+    <interface name="PriorityResolver.filterRelevantNPCs()" kind="method" signature="filterRelevantNPCs(npcs: Array<NPC>, locationId: string, adjacentLocations: Array<string>): Array<NPC>" path="src/context/priority-resolver.js" />
+
+    <interface name="PriorityResolver.filterRelevantEvents()" kind="method" signature="filterRelevantEvents(events: Array<Event>, currentDate: string): Array<Event>" path="src/context/priority-resolver.js" />
+
+    <interface name="PriorityResolver.classifyPriority()" kind="method" signature="classifyPriority(entity: any, entityType: string, context: object): string" path="src/context/priority-resolver.js" />
+
+    <interface name="LocationLoader.loadLocation()" kind="method" signature="async loadLocation(locationId: string): Promise<{success: boolean, data?: LocationData}>" path="src/data/location-loader.js" />
+
+    <interface name="CalendarManager.getCalendarState()" kind="method" signature="getCalendarState(): object" path="src/calendar/calendar-manager.js" />
+
+    <interface name="ContextObject" kind="data-structure" signature="{metadata: {assembledAt, tokenCount, prioritiesLoaded, cacheHitRate}, character: {...}, location: {...}, npcs: [...], events: [...], calendar: {...}, quests: [...], contextMarkdown: string}" path="src/context/context-loader.js" />
+
+    <interface name="LocationData" kind="data-structure" signature="{locationId, locationName, description, npcs, items, events, state, metadata}" path="src/data/location-loader.js" />
+  </interfaces>
+
+  <tests>
+    <standards>Jest v29.7.0 testing framework (existing Epic 1-4 standard). AAA pattern (Arrange-Act-Assert). Dependency injection for mocking Epic 1-4 modules. Integration tests in tests/integration/context/, unit tests in tests/unit/context/. Target 30+ integration tests across 8 suites, 85% coverage for ContextLoader and PriorityResolver.</standards>
+
+    <locations>
+      tests/integration/context/context-loader.test.js (main integration test file)
+      tests/unit/context/priority-resolver.test.js (unit tests for filtering logic)
+      tests/unit/context/token-estimation.test.js (unit tests for token estimation accuracy)
+    </locations>
+
+    <ideas>
+      <idea ac="AC-1" desc="Test Suite 1: P1 Context Loading - Load Village of Barovia, verify character data included (name, level, HP), location Description+State included, calendar state included (date, time, weather). Verify token count ~1300 tokens for P1." />
+
+      <idea ac="AC-2" desc="Test Suite 2: P2 NPC Filtering - Load Village of Barovia (adjacent to Death House, Tser Pool). Verify NPCs in Village + Death House + Tser Pool included. Verify Strahd (Castle Ravenloft, distant) excluded. Test adjacency calculation from metadata.yaml connections." />
+
+      <idea ac="AC-2" desc="Test Suite 3: P2 Event Filtering - Mock calendar date 735-10-1. Load location with events on 735-10-2 (include, 1 day away), 735-10-8 (include, 7 days away), 735-10-9 (exclude, 8 days away), 735-09-30 (exclude, past). Verify only next 7 days included." />
+
+      <idea ac="AC-6" desc="Test Suite 4: Token Budget Management - Test budget=3500: verify P1+P2 loaded, P3 excluded if total >3500. Test budget=4000: verify P1+P2+P3 all loaded. Test budget=2000: verify P1 loaded, P2 partially loaded, P3 excluded. Test P1 alone >3500: verify error thrown (location too large)." />
+
+      <idea ac="AC-1" desc="Test Suite 5: Token Estimation Accuracy - Test estimateTokens() with known strings: 'hello world' (2 tokens), 400-char paragraph (~100 tokens), markdown with code blocks (overhead), full P1 context (~1300 tokens). Verify ±10% accuracy." />
+
+      <idea ac="AC-3,AC-4,AC-5" desc="Test Suite 6: Epic Integration - Mock LocationLoader, CalendarManager, CharacterManager. Verify loadContext() calls LocationLoader.loadLocation(locationId), CalendarManager.getCalendarState(). Verify character YAML parsed correctly (name, level, HP, spellSlots). Verify Result Object pattern returned." />
+
+      <idea ac="AC-1" desc="Test Suite 7: Performance - Measure loadContext() execution time for Village of Barovia. Verify <5 seconds. Stress test: Load Castle Ravenloft (60+ rooms, 20+ NPCs), verify <5 seconds with P2 filtering (should exclude most NPCs)." />
+
+      <idea ac="AC-1" desc="Test Suite 8: Error Handling - Test invalid locationId (should return {success: false, error: 'Invalid location'}). Test missing character file (should return error). Test corrupted YAML (should return parse error). Verify Result Object format for all errors." />
+    </ideas>
+  </tests>
+</story-context>

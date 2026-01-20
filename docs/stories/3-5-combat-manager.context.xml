@@ -1,0 +1,213 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>5</storyId>
+    <title>Combat Manager</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-5-combat-manager.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master running D&D 5e combat encounters</asA>
+    <iWant>a combat manager that tracks initiative order, turn sequence, and combat state</iWant>
+    <soThat>tactical combat encounters are properly sequenced and managed according to D&D 5e rules</soThat>
+    <tasks>
+      - Task 1: Analyze Combat System Requirements (1 hour)
+      - Task 2: Create CombatManager Module (30 minutes)
+      - Task 3: Implement Combat State Structure (30 minutes)
+      - Task 4: Implement startCombat() Method (2 hours)
+      - Task 5: Implement nextTurn() Method (1 hour)
+      - Task 6: Implement endCombat() Method (30 minutes)
+      - Task 7: Implement getCombat() Method (30 minutes)
+      - Task 8: Implement Error Handling and Validation (1 hour)
+      - Task 9: Create Test Suite (4 hours)
+      - Task 10: Documentation and Examples (30 minutes)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Combat State Structure">
+      Combat state must include: unique combat ID, combatants array with initiative scores, current turn index, current round number, combat status (active/inactive), timestamp of combat start.
+    </criterion>
+    <criterion id="AC-2" title="Initiative Rolling and Sorting">
+      Roll initiative for each combatant (1d20 + Dex modifier), sort by initiative descending (highest first), handle ties by preserving original order, create combat state with sorted initiative order, set currentTurn to 0, set currentRound to 1, mark status as "active", return Result Object.
+    </criterion>
+    <criterion id="AC-3" title="Turn Advancement">
+      Validate combat exists and is active, increment currentTurn index, if currentTurn >= combatants.length then reset to 0 and increment currentRound, return updated combat state with Result Object pattern.
+    </criterion>
+    <criterion id="AC-4" title="Combat End">
+      Validate combat exists, mark status as "inactive", preserve final combat state for review, return Result Object with final state.
+    </criterion>
+    <criterion id="AC-5" title="Combat State Retrieval">
+      Return current combat state if combat exists, return error if combat ID not found, follow Result Object pattern.
+    </criterion>
+    <criterion id="AC-6" title="Memory-Based State Management">
+      Store combat state in memory (Map or object), support multiple concurrent combats, persist only on endCombat() (future enhancement), accept risk of state loss on crash (acceptable for MVP).
+    </criterion>
+    <criterion id="AC-7" title="Integration with DiceRoller">
+      Use DiceRoller.roll('1d20') from Story 3-1 for initiative rolls, add Dexterity modifier to roll, follow Result Object pattern for dice rolls, handle dice roll failures gracefully.
+    </criterion>
+    <criterion id="AC-8" title="Result Object Pattern and Error Handling">
+      Return Result Object {success, data, error} for all operations, no exceptions thrown for expected errors, validate all inputs (combatants array, combat IDs), return descriptive error messages, handle edge cases.
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="AC-4: Combat Initiative">
+        Lines 1351-1362: Combat initiative requirements - roll initiative for each combatant (d20 + Dex modifier), sort by initiative descending, create combat state object with initiative order, set currentTurn to first combatant, persist combat state to memory.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="CombatManager API">
+        Lines 572-610: CombatManager API specification with startCombat(), nextTurn(), and endCombat() method signatures and behavior descriptions.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Q-4: Combat State Persistence">
+        Lines 1681-1689: Decision to use memory-based combat state management (Option B) - store in memory, save on combat end only, acceptable risk for MVP.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Result Object Pattern">
+        Lines 154-157: All async operations must return {success, data, error} objects with no exceptions thrown for graceful error handling.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Dependency Injection Pattern">
+        Lines 149-152: Accept dependencies as constructor parameters with defaults to enable unit testing with mocked dependencies.
+      </doc>
+      <doc path="docs/stories/3-4-skill-check-system.md" title="Story 3-4: Skill Check System" section="Dev Agent Record - Architectural Patterns">
+        Composition pattern with dependency injection: constructor(deps = {}) { this.dependency = deps.dependency || new DefaultDependency(); }. Result Object pattern for all methods. Comprehensive JSDoc documentation. 94.77% test coverage achieved.
+      </doc>
+    </docs>
+    <code>
+      <artifact path="src/mechanics/dice-roller.js" kind="service" symbol="DiceRoller" lines="1-200" reason="Dependency for rolling initiative (1d20). Story 3-1 implementation. Use roll() method with Result Object pattern.">
+        DiceRoller class with roll(notation, options) method. Returns {success, data: {rolls, total}, error}. Supports advantage/disadvantage. Used for initiative rolls in combat.
+      </artifact>
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" lines="1-300" reason="Static methods for ability modifiers and proficiency bonus calculations. May be used for character stat lookups in combat.">
+        CharacterManager.getAbilityModifier(abilityScore) - calculate ability modifier. CharacterManager.getProficiencyBonus(level) - calculate proficiency bonus by level.
+      </artifact>
+      <artifact path="src/mechanics/skill-check-system.js" kind="service" symbol="SkillCheckSystem" lines="1-523" reason="Reference implementation for Result Object pattern, DI, and comprehensive error handling patterns.">
+        Example of composition pattern (uses AbilityCheckHandler as dependency), Result Object pattern throughout, comprehensive JSDoc, 94.77% test coverage.
+      </artifact>
+      <artifact path="tests/mechanics/dice-roller.test.js" kind="test" symbol="DiceRoller tests" lines="1-300" reason="Reference for testing dice-rolling integration and mocking strategies.">
+        Unit tests for DiceRoller with mock strategies, deterministic testing patterns, Result Object validation.
+      </artifact>
+      <artifact path="tests/mechanics/skill-check-system.test.js" kind="test" symbol="SkillCheckSystem tests" lines="1-769" reason="Reference implementation for testing patterns: constructor DI tests, method tests, integration tests, performance tests.">
+        47 tests with 94.77% coverage. Patterns: mock DiceRoller for deterministic tests, integration tests with real dependencies, performance validation.
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <dependency name="jest" version="^29.7.0" dev="true" reason="Testing framework for unit and integration tests" />
+        <dependency name="date-fns" version="^2.30.0" reason="Date manipulation (not directly used in combat manager but available)" />
+        <dependency name="js-yaml" version="^4.1.0" reason="YAML parsing for character sheets (future integration)" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      Result Object Pattern REQUIRED: All async operations must return {success: boolean, data: any | null, error: string | null}. No exceptions thrown for expected errors.
+    </constraint>
+    <constraint type="architecture">
+      Dependency Injection REQUIRED: Constructor must accept deps parameter with defaults: constructor(deps = {}) { this.diceRoller = deps.diceRoller || new DiceRoller(); }
+    </constraint>
+    <constraint type="data">
+      Memory-Based State Management: Store combat state in Map or object. Do NOT persist to file during combat. Save on combat end only (future enhancement). Multiple concurrent combats supported.
+    </constraint>
+    <constraint type="dnd-rules">
+      Initiative: 1d20 + Dexterity modifier. Sort descending (highest first). Ties: preserve original order or use highest Dex as tie-breaker.
+    </constraint>
+    <constraint type="dnd-rules">
+      Turn Order: Each combatant gets one turn per round. currentTurn increments each turn. When currentTurn reaches combatants.length, reset to 0 and increment currentRound.
+    </constraint>
+    <constraint type="performance">
+      Combat operations should complete quickly. Target: &lt;100ms for combat state operations. Log warnings if exceeded.
+    </constraint>
+    <constraint type="testing">
+      Test Coverage Target: ≥95% statement coverage. Include unit tests, integration tests, and performance tests.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="CombatManager.startCombat" kind="method">
+      <signature>async startCombat(combatants): Promise&lt;ResultObject&lt;CombatState&gt;&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Roll initiative for all combatants, sort by initiative descending, create combat state object, return Result Object.</description>
+      <parameters>
+        <param name="combatants" type="Array&lt;Combatant&gt;">
+          Array of combatants with properties: {id, name, dexModifier, type (player/monster)}
+        </param>
+      </parameters>
+      <returns type="ResultObject&lt;CombatState&gt;">
+        {success: true, data: {combatId, combatants (with initiative), currentTurn, currentRound, status, startTime}, error: null}
+      </returns>
+    </interface>
+    <interface name="CombatManager.nextTurn" kind="method">
+      <signature>async nextTurn(combatId): Promise&lt;ResultObject&lt;CombatState&gt;&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Advance to next turn in initiative order. If end of round, reset turn and increment round.</description>
+      <parameters>
+        <param name="combatId" type="string">Unique combat identifier</param>
+      </parameters>
+      <returns type="ResultObject&lt;CombatState&gt;">
+        {success: true, data: updated CombatState with new currentTurn/currentRound, error: null}
+      </returns>
+    </interface>
+    <interface name="CombatManager.endCombat" kind="method">
+      <signature>async endCombat(combatId): Promise&lt;ResultObject&lt;CombatState&gt;&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Mark combat as inactive and preserve final state.</description>
+      <parameters>
+        <param name="combatId" type="string">Unique combat identifier</param>
+      </parameters>
+      <returns type="ResultObject&lt;CombatState&gt;">
+        {success: true, data: final CombatState with status="inactive", error: null}
+      </returns>
+    </interface>
+    <interface name="CombatManager.getCombat" kind="method">
+      <signature>async getCombat(combatId): Promise&lt;ResultObject&lt;CombatState&gt;&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <description>Retrieve current combat state by ID.</description>
+      <parameters>
+        <param name="combatId" type="string">Unique combat identifier</param>
+      </parameters>
+      <returns type="ResultObject&lt;CombatState&gt;">
+        {success: true, data: current CombatState, error: null} or {success: false, data: null, error: "Combat not found"}
+      </returns>
+    </interface>
+    <interface name="DiceRoller.roll" kind="method">
+      <signature>async roll(notation, options): Promise&lt;ResultObject&lt;RollResult&gt;&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+      <description>Roll dice using standard notation (e.g., "1d20"). From Story 3-1.</description>
+      <parameters>
+        <param name="notation" type="string">Dice notation (e.g., "1d20", "2d6")</param>
+        <param name="options" type="object">Optional: {advantage, disadvantage}</param>
+      </parameters>
+      <returns type="ResultObject&lt;RollResult&gt;">
+        {success: true, data: {rolls: [numbers], total: number}, error: null}
+      </returns>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest v29.7.0 testing framework. Unit tests with mocked dependencies for deterministic behavior. Integration tests with real dependencies to verify actual behavior. Performance tests to validate &lt;100ms target for combat operations. Mock DiceRoller for deterministic initiative rolls in unit tests. Use real DiceRoller in integration tests. Target: ≥95% statement coverage. Test structure: describe blocks for constructor, each method, error cases, and integration scenarios.
+    </standards>
+    <locations>
+      tests/mechanics/combat-manager.test.js (to be created)
+      tests/mechanics/ (existing mechanics test directory)
+    </locations>
+    <ideas>
+      <test ac="AC-1" idea="Unit test: Validate combat state structure has all required fields (combatId, combatants, currentTurn, currentRound, status, startTime)" />
+      <test ac="AC-2" idea="Integration test: Start combat with 3 combatants, verify initiative rolled and sorted correctly, verify currentTurn=0 and currentRound=1" />
+      <test ac="AC-2" idea="Unit test: Test initiative tie handling (preserve original order)" />
+      <test ac="AC-3" idea="Unit test: Advance through 3 turns, verify currentTurn increments 0-&gt;1-&gt;2" />
+      <test ac="AC-3" idea="Unit test: Test end of round logic (currentTurn=2, combatants.length=3, after nextTurn: currentTurn=0, currentRound=2)" />
+      <test ac="AC-4" idea="Unit test: End combat, verify status='inactive' and state preserved" />
+      <test ac="AC-5" idea="Unit test: getCombat with valid ID returns combat state, invalid ID returns error" />
+      <test ac="AC-6" idea="Unit test: Create multiple concurrent combats (2+), verify each has unique ID and independent state" />
+      <test ac="AC-7" idea="Integration test: Verify DiceRoller.roll('1d20') called for each combatant during startCombat" />
+      <test ac="AC-8" idea="Unit tests: Empty combatants array error, invalid combatId error, missing dexModifier error, all return Result Objects with descriptive errors" />
+      <test ac="AC-8" idea="Unit test: DiceRoller failure during initiative, verify graceful error handling" />
+      <test idea="Performance test: Measure startCombat execution time with 5 combatants, verify &lt;100ms" />
+      <test idea="Integration test: Full combat workflow (startCombat -&gt; 3x nextTurn -&gt; endCombat), verify all state transitions correct" />
+    </ideas>
+  </tests>
+</story-context>

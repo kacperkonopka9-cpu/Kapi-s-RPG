@@ -1,0 +1,219 @@
+# Tree Blight - Massive Animated Tree
+# Source: Curse of Strahd p.230
+# Largest and most dangerous blight type, corrupted tree animated by evil
+
+# === BASIC INFORMATION ===
+name: "Tree Blight"
+monsterId: "tree_blight"
+size: "Huge"
+type: "plant"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 3
+experiencePoints: 700
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 15
+armorType: "natural armor (bark)"
+
+hitPoints:
+  max: 149
+  current: 149
+  hitDice: "13d12"
+  hitDiceBonus: 52  # +4 Con modifier * 13 HD = +52
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 21    # +5 (massive strength)
+  dexterity: 10   # +0
+  constitution: 18  # +4
+  intelligence: 6   # -2
+  wisdom: 10     # +0
+  charisma: 3    # -4
+
+# === SPEEDS ===
+speed:
+  walk: 20  # Slow but powerful
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: ["fire"]
+damageResistances: ["bludgeoning", "piercing"]
+damageImmunities: []
+conditionImmunities: ["blinded", "deafened"]
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 120  # Enhanced sensing
+  blindsightNote: "blind beyond this radius"
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common", "Druidic"]
+languageNote: "understands but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "tree_blight_1"  # Will be set dynamically per instance
+  name: "Tree Blight"
+  dexModifier: 0
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "False Appearance"
+    description: "While the blight remains motionless, it is indistinguishable from a dead tree."
+    mechanics:
+      type: "stealth"
+      condition: "motionless"
+      effect: "indistinguishable_from_dead_tree"
+
+  - name: "Siege Monster"
+    description: "The blight deals double damage to objects and structures."
+    mechanics:
+      type: "damage_bonus"
+      target: "objects_and_structures"
+      effect: "double_damage"
+
+# === ACTIONS ===
+actions:
+  - name: "Multiattack"
+    description: "The tree blight makes two branch attacks."
+    mechanics:
+      type: "multiattack"
+      attacks: 2
+
+  - name: "Branch"
+    type: "melee_weapon_attack"
+    attackBonus: 7  # +5 Str + 2 prof
+    reach: 10  # Long reach due to huge size
+    targets: 1
+    damage:
+      dice: "3d8"
+      bonus: 5  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "blighted_wood"
+      quantity: "4d6"
+      dropChance: 100
+      note: "Cursed wood, worth 5 gp each to collectors"
+    - item: "tree_blight_heartwood"
+      quantity: 1
+      dropChance: 50
+      note: "Rare crafting material for dark magic staves"
+    - item: "gulthias_branch"
+      quantity: 1
+      dropChance: 10
+      note: "Fragment of Gulthias Tree corruption"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Huge tank with massive HP (149) and high AC (15). Multiattack with two branches (avg 36 damage/round). Reach 10 ft allows hitting from distance. False Appearance: Stand motionless as dead tree for ambush. Siege Monster: Double damage to doors, walls, structures. Vulnerable to fire but high HP mitigates. Resistant to bludgeoning and piercing. Slow (20 ft) but devastating when engaged. Use as immovable guardian or boss of blight encounters. Block chokepoints with huge size."
+  intelligence: "animal_intelligence"
+  aggression: "high"
+  groupTactics: "tank"  # Frontline while smaller blights support
+
+  preferredTargets:
+    - "nearest threat"
+    - "heavily armored targets (high damage output)"
+    - "structures (Siege Monster)"
+
+  fleeThreshold: 40  # HP threshold
+  fleeConditions: ["fire_present_and_below_50_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Wizard of Wines vineyard, Yester Hill (Gulthias Tree grove), corrupted forests"
+  organization: "Solitary or grove (1 tree blight + 2-4 vine blights + 6-12 needle blights)"
+
+lore:
+  description: "Tree blights are the largest and most dangerous of the blight creatures, formed when entire trees are corrupted by the evil influence of Gulthias Trees. They stand 20-30 feet tall, appearing as massive dead trees with gnarled branches and roots. Tree blights serve as the shock troops and guardians of blight infestations, using their immense size and strength to crush enemies and destroy structures. When motionless, they are indistinguishable from dead trees, making them perfect ambush predators. In Barovia, tree blights guard the Gulthias Tree at Yester Hill and defend the corrupted areas of Wizard of Wines vineyard."
+  weakness: "Vulnerable to fire (double damage), though high HP (149) requires multiple fire spells. Slow speed (20 ft). Low Intelligence. Huge size makes it easy target (hard to miss)."
+  behavior: "Ambush with False Appearance (appear as dead tree). Multiattack branches (avg 36 damage/round). Use Siege Monster trait to destroy barricades and structures. Tank damage with high HP and resistances. Coordinate with smaller blights - tree blight frontline, vine blights grapple, needle blights ranged. Stand ground and fight to death (low Intelligence, no fear). Block passages with huge size."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 4
+  encounterSize: "1 tree blight for medium, 1 tree blight + 2 vine blights + 6 needle blights for hard, 2 tree blights for deadly"
+  terrain: "Wizard of Wines vineyard, Yester Hill Gulthias Tree grove, corrupted forest clearings"
+  tactics: "WIZARD OF WINES DELIVERY QUEST: Tree blight boss of vineyard infestation. Huge size blocks chokepoints. Multiattack branches (avg 36 damage/round, reach 10 ft). False Appearance: Appears as dead tree until party approaches. Siege Monster: Double damage to winery doors/walls. HP 149 makes it soak tremendous damage. Fire vulnerability - Fireball (8d6 doubled = 16d6) is devastating but still requires multiple castings. Resistant to bludgeoning/piercing (martial characters less effective). Deploy with vine blights (grapple) and needle blights (ranged harassment)."
+
+# === VARIANTS ===
+variants:
+  - name: "Gulthias Tree Spawn (Enhanced)"
+    changes:
+      challengeRating: 5
+      experiencePoints: 1800
+      hitPoints:
+        max: 200
+        current: 200
+      traits:
+        - name: "Regeneration"
+          description: "The tree blight regains 10 hit points at the start of its turn if it has at least 1 hit point. If the tree blight takes fire damage, this trait doesn't function at the start of the tree blight's next turn."
+          mechanics:
+            type: "healing"
+            trigger: "start_of_turn"
+            healAmount: 10
+            disabledBy: ["fire_damage"]
+            disableDuration: "until_next_turn"
+      lore:
+        description: "Tree blight spawned directly from Gulthias Tree at Yester Hill. Enhanced with regeneration (disabled by fire). Extremely dangerous."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.230"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY monster for Wizard of Wines Delivery quest. Strongest blight type (CR 3). Boss of blight encounters. Huge size (20-30 ft tall). Massive HP (149) makes it tank. Multiattack 36 avg damage/round. Fire vulnerability but HP pool requires multiple fire spells. Siege Monster trait (double damage to structures). Often leads blight armies."
+
+  dmReminders:
+    - "CR 3 (700 XP) - strongest blight"
+    - "Huge size (20-30 ft tall) - blocks passages"
+    - "VULNERABLE TO FIRE - double damage (but HP 149 mitigates)"
+    - "Resistant to bludgeoning and piercing damage"
+    - "Multiattack: Two branches (avg 36 damage/round)"
+    - "Branch: Reach 10 ft, 3d8+5 bludgeoning (avg 18)"
+    - "HP 149 (MASSIVE) - requires sustained damage"
+    - "AC 15 (natural armor)"
+    - "Siege Monster: Double damage to objects and structures"
+    - "False Appearance: Indistinguishable from dead tree when motionless"
+    - "Speed 20 ft (SLOW)"
+    - "Blindsight 120 ft (enhanced range)"
+    - "Deploy with vine blights (grapple) and needle blights (ranged)"
+    - "Fireball 8d6 damage becomes 16d6 (doubled) against this creature"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

@@ -1,0 +1,185 @@
+# Needle Blight - Ambulatory Plant Creature
+# Source: Curse of Strahd p.230
+# Evil plant creature created by Gulthias Tree, shoots needle barrage
+
+# === BASIC INFORMATION ===
+name: "Needle Blight"
+monsterId: "needle_blight"
+size: "Medium"
+type: "plant"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12
+armorType: "natural armor"
+
+hitPoints:
+  max: 11
+  current: 11
+  hitDice: "2d8"
+  hitDiceBonus: 2  # +1 Con modifier * 2 HD = +2
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 12    # +1
+  dexterity: 12   # +1
+  constitution: 13  # +1
+  intelligence: 4   # -3
+  wisdom: 8      # -1
+  charisma: 3    # -4
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: ["fire"]
+damageResistances: []
+damageImmunities: []
+conditionImmunities: ["blinded", "deafened"]
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 60  # Senses through vibrations, not eyes
+  blindsightNote: "blind beyond this radius"
+  tremorsense: null
+  truesight: null
+  passivePerception: 9  # 10 + Wis (-1)
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "understands but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "needle_blight_1"  # Will be set dynamically per instance
+  name: "Needle Blight"
+  dexModifier: 1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits: []
+
+# === ACTIONS ===
+actions:
+  - name: "Claws"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d4"
+      bonus: 1  # Str modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (2d4 + 1) piercing damage."
+
+  - name: "Needles"
+    type: "ranged_weapon_attack"
+    attackBonus: 3  # +1 Dex + 2 prof
+    range:
+      normal: 30
+      long: 60
+    targets: 1
+    damage:
+      dice: "2d4"
+      bonus: 1  # Dex modifier
+      damageType: "piercing"
+    description: "Ranged Weapon Attack: +3 to hit, range 30/60 ft., one target. Hit: 6 (2d4 + 1) piercing damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "blight_needles"
+      quantity: "2d6"
+      dropChance: 70
+      note: "Can be used as improvised weapons or crafting material"
+    - item: "withered_branch"
+      quantity: 1
+      dropChance: 40
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Low-level plant creature. Use Needles ranged attack (30/60 ft, 2d4+1) to harass from distance. Fall back to Claws if enemies close in (2d4+1 piercing). Vulnerable to fire - avoid fire spells and torches. Blindsight 60 ft allows fighting in darkness. Low HP (11) means fragile. Often deployed in groups to swarm enemies. No tactics or intelligence - just attack nearest threat."
+  intelligence: "animal_intelligence"
+  aggression: "high"
+  groupTactics: "swarm"  # Deploy in groups
+
+  preferredTargets:
+    - "nearest threat"
+    - "non-armored targets"
+
+  fleeThreshold: 3  # HP threshold
+  fleeConditions: ["fire_present", "below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Wizard of Wines vineyard, Yester Hill, forests corrupted by Gulthias Tree"
+  organization: "Patch (2-5), grove (6-12), or infestation (20+)"
+
+lore:
+  description: "Needle blights are the weakest and most common of the blight creatures spawned by the corrupting influence of Gulthias Trees. They appear as hunched, humanoid-shaped masses of thorny vines and dead wood, with needle-like spines covering their bodies. Needle blights can launch volleys of these needles at distant enemies. They are mindless servants of evil druids and dark forces, spreading blight and death wherever they go. In Barovia, needle blights infest the Wizard of Wines vineyard and Yester Hill, servants of the druids who worship Strahd."
+  weakness: "Vulnerable to fire (double damage). Low HP (11). Low Intelligence (animal-level). Blindsight only 60 ft range."
+  behavior: "Mindless plant creatures. Attack on sight. Use Needles ranged attack to harass. Claws in melee. Swarm tactics when in groups. Flee from fire. No self-preservation beyond fire avoidance. Serve evil druids and corrupting forces. Spread through forests like invasive species."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "2-3 needle blights for easy, 4-6 for medium, 8-12 for hard"
+  terrain: "Wizard of Wines vineyard, Yester Hill, corrupted forests"
+  tactics: "WIZARD OF WINES DELIVERY QUEST: Swarms of needle blights attack vineyard. Deploy in groups of 6-12. Needles ranged attack (30 ft) softens targets. Fire vulnerability means area fire spells (Burning Hands, Fireball later) devastate groups. Low HP (11) means they die quickly. Use terrain (vines, undergrowth) for cover. Pair with vine blights and tree blights for mixed encounters."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.230"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY monster for Wizard of Wines Delivery quest. Weakest blight type. Fire vulnerability makes them easy targets for fire spells. Often deployed in swarms (8-12+). Blindsight 60 ft allows darkness combat. Low CR (1/4) but dangerous in numbers."
+
+  dmReminders:
+    - "CR 1/4 (50 XP) - weakest blight"
+    - "VULNERABLE TO FIRE - double damage from fire"
+    - "Needles: Ranged 30/60 ft, 2d4+1 piercing (avg 6)"
+    - "Claws: Melee 5 ft, 2d4+1 piercing (avg 6)"
+    - "HP 11 (LOW) - dies quickly"
+    - "Blindsight 60 ft (blind beyond)"
+    - "Understands Common but can't speak"
+    - "Immune to blinded, deafened"
+    - "Swarm tactics: Deploy 6-12 for proper threat"
+    - "Wizard of Wines: Blight infestation ruins vineyard"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

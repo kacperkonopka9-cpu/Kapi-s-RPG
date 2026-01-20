@@ -1,0 +1,385 @@
+# Father Lucian Petrovich - Priest of the Morninglord
+# St. Andral's Church, Vallaki
+# Epic 4 Story 4-9: Major NPCs Batch 1
+
+# === BASIC INFORMATION ===
+name: "Father Lucian Petrovich"
+npcId: "father_lucian_petrovich"
+race: "Human"
+age: 52
+class: "Cleric"
+level: 4
+experience: null
+background: "Priest"
+alignment: "Lawful Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 10     # +0 modifier
+  dexterity: 10    # +0 modifier
+  constitution: 12  # +1 modifier
+  intelligence: 13  # +1 modifier
+  wisdom: 16       # +3 modifier
+  charisma: 14     # +2 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 22  # 4d8 + 4 (CON modifier +1 * 4)
+  current: 22
+  temporary: 0
+  hitDice:
+    total: 4
+    spent: 0
+    die: "d8"
+
+armorClass: 10  # No armor (priest vestments)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light", "medium", "shields"]  # Cleric proficiencies (not worn)
+  weapons: ["simple"]
+  savingThrows: ["wisdom", "charisma"]
+  skills: ["medicine", "religion", "insight", "persuasion"]
+  tools: []
+  languages: ["Common"]
+
+proficiencyBonus: 2  # Level 4 cleric
+
+# === SPELLCASTING (4th Level Cleric) ===
+spellcasting:
+  ability: "wisdom"
+  spellSaveDC: 13  # 8 + proficiency (2) + WIS modifier (3)
+  spellAttackBonus: 5  # proficiency (2) + WIS modifier (3)
+  spellSlots:
+    1: 4
+    2: 3
+  spellsPrepared:
+    - "cure_wounds"
+    - "bless"
+    - "sanctuary"
+    - "lesser_restoration"
+    - "spiritual_weapon"
+    - "aid"
+  cantrips:
+    - "sacred_flame"
+    - "light"
+    - "thaumaturgy"
+  concentration: null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null  # Worn vestments (no AC bonus)
+    mainHand: null  # Unarmed
+    offHand: null
+    ring1: null
+    ring2: null
+    amulet: "silver_holy_symbol"  # Symbol of the Morninglord
+    cloak: null
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "prayer_book"
+      quantity: 1
+    - item: "holy_water"
+      quantity: 2
+    - item: "incense"
+      quantity: 5
+    - item: "vestments"
+      quantity: 1
+  currency:
+    platinum: 0
+    gold: 15
+    electrum: 0
+    silver: 30
+    copper: 50
+
+weight:
+  current: 20
+  capacity: 150  # Str 10 * 15
+  pushDragLift: 300  # Str 10 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Channel Divinity (2/Rest)"
+    description: "As a cleric, Father Lucian can channel divine energy. He can use Turn Undead or other domain features."
+    uses: 2
+    maxUses: 2
+    recharge: "short_rest"
+
+  - name: "Turn Undead"
+    description: "As an action, each undead that can see or hear Father Lucian within 30 feet must make a Wisdom saving throw (DC 13). If it fails, it is turned for 1 minute or until it takes damage."
+    uses: null  # Uses Channel Divinity
+    maxUses: null
+    recharge: null
+
+  - name: "Disciple of Life"
+    description: "When Father Lucian uses a spell of 1st level or higher to restore hit points, the creature regains additional hit points equal to 2 + the spell's level."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Divine Intervention"
+    description: "Father Lucian can call on the Morninglord for aid. Once per day, he can attempt to beseech divine intervention (4% chance at level 4, automatic success at level 20)."
+    uses: 1
+    maxUses: 1
+    recharge: "dawn"
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Weary faith struggling against Barovia's oppressive darkness"
+    - "Compassionate to all who suffer, offers sanctuary freely"
+    - "Guilt over St. Andral's bones theft - feels he failed his congregation"
+    - "Maintains hope despite overwhelming despair around him"
+
+  ideals:
+    - "Hope - Even in Barovia, the Morninglord's light can shine (Good)"
+    - "Redemption - Every soul deserves a chance at salvation (Good)"
+    - "Protection - The church must be a sanctuary for the innocent (Lawful)"
+
+  bonds:
+    - "St. Andral's Church - his sacred duty and spiritual home"
+    - "Congregation of Vallaki - his flock to protect and guide"
+    - "The Morninglord - his faith, though tested daily in Barovia"
+
+  flaws:
+    - "Naive trust in others led to St. Andral's bones being stolen"
+    - "Doubts his own ability to protect his congregation"
+    - "Sometimes paralyzed by fear of failure"
+
+  mannerisms:
+    - "Touches holy symbol when anxious or praying"
+    - "Speaks in gentle, measured tones even under stress"
+    - "Offers blessings to those in need reflexively"
+    - "Sighs deeply when contemplating Barovia's darkness"
+
+  voiceDescription: "Soft-spoken and compassionate, voice carries weight of experience and sorrow. Speaks with quiet conviction despite inner doubts."
+
+  appearanceNotes: "Middle-aged man with graying hair and kind but tired eyes. Wears worn but clean vestments of the Morninglord (sun symbol embroidered in gold). Silver holy symbol hangs around neck. Gentle smile lines around eyes contrast with worry lines on forehead. Moves with quiet dignity befitting a priest."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Welcome to St. Andral's Church, travelers. You are safe here - at least for now. The Morninglord's light protects all who enter in peace."
+    - "Blessings of the Morninglord upon you. I am Father Lucian Petrovich, priest of this church. How may I serve you?"
+    - "You bear the look of those who have seen much suffering. Come, sit. Rest. St. Andral's offers sanctuary to all in need."
+
+  idle:
+    - "[Kneels before altar in prayer]"
+    - "[Lights candles for fallen congregation members]"
+    - "The bones... if only I had been more vigilant..."
+    - "The Morninglord's light still shines, even here. We must believe that."
+
+  farewell:
+    - "Go with the Morninglord's blessing. May his light guide you through the darkness."
+    - "Return anytime you need sanctuary or healing. The church's doors are always open to you."
+    - "Be careful out there. Barovia tests even the strongest faith."
+
+  questGiving:
+    - "I must confess something grave. St. Andral's bones have been stolen from beneath the church. Without them, this place is no longer consecrated ground. Strahd could enter at will. Please, you must help me recover them before the Baron's festival."
+    - "My altar boy, Milivoj, has been behaving strangely. I fear he knows something about the bones. Perhaps you could speak with him? I cannot bear to accuse him myself."
+    - "If you seek sanctuary for Ireena Kolyana, she may stay here - but only if the bones are returned. Without them, I cannot guarantee her safety from Strahd."
+
+  questComplete:
+    - "[If bones recovered] Blessings upon you! The bones are returned and the church is consecrated once more. Ireena is safe here now. You have done a great service to the Morninglord and to Vallaki."
+    - "[If bones not recovered before festival] The festival... Strahd came. So many dead. I failed them. I failed everyone. [Weeps quietly]"
+
+  combat:
+    - "Morninglord, give me strength! [Casts Sacred Flame]"
+    - "I will not let you harm these innocents!"
+    - "[To undead] By the Morninglord's light, I turn you back! [Channel Divinity: Turn Undead]"
+    - "[Healing ally] Be healed in the Morninglord's name! [Casts Cure Wounds]"
+
+  sanctuary:
+    - "You are welcome to rest here as long as needed. The church provides shelter, healing, and spiritual guidance."
+    - "I can tend to your wounds and offer what small comfort faith provides in this dark land."
+    - "Ireena may find sanctuary here, but I beg you - recover the bones first. Without them, I cannot protect her from HIM."
+
+  keyQuotes:
+    - "The Morninglord's light still shines, even here. We must believe that."
+    - "A church is only as strong as the faith of those within it. My faith has been tested, but it has not broken."
+    - "I failed to protect the bones. I will not fail to protect my congregation."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "player_character"
+      relationship: "helper"
+      notes: "Offers sanctuary, healing, and quest guidance. Grateful if players recover St. Andral's bones. Provides spiritual support and refuge."
+
+    - npcId: "ireena_kolyana"
+      relationship: "protector"
+      notes: "Offers Ireena sanctuary at St. Andral's Church (if bones recovered). Sympathetic to her plight and willing to risk Strahd's wrath to shelter her."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "feared enemy"
+      notes: "Father Lucian fears Strahd deeply but opposes him on principle. Knows Strahd can enter church if bones not recovered. Will use Turn Undead if Strahd attacks congregation."
+
+  family: []  # No known family
+
+  relationships:
+    - npcId: "milivoj"
+      relationship: "altar boy (betrayer)"
+      notes: "Milivoj stole St. Andral's bones and sold them to the coffin maker. Father Lucian is heartbroken by this betrayal but forgives him if asked."
+
+    - npcId: "vasili_von_holtz"
+      relationship: "visitor to church"
+      notes: "Father Lucian doesn't realize Vasili is Strahd in disguise. Sees him as a polite nobleman who visits church occasionally."
+
+    - npcId: "baron_vargas_vallakovich"
+      relationship: "complicated"
+      notes: "The Baron funds the church but his tyrannical 'All will be well' decree troubles Father Lucian. Politically dependent on Baron's support."
+
+  faction: "church_of_the_morninglord"
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Non-combatant healer and support. Father Lucian avoids direct combat. If allies are wounded, uses Cure Wounds and Aid. Against undead, uses Turn Undead (Channel Divinity) to scatter them. Uses Sacred Flame only if forced to fight. Stays behind frontline fighters. Uses Sanctuary on self if targeted. Prioritizes healing innocents over self-defense."
+
+  goals:
+    - "Protect congregation and maintain St. Andral's as sanctuary"
+    - "Recover St. Andral's bones to re-consecrate church"
+    - "Provide shelter and healing to those in need"
+    - "Maintain faith in Morninglord despite Barovia's darkness"
+
+  motivations:
+    - "Faith in the Morninglord and duty as priest"
+    - "Compassion for suffering souls in Barovia"
+    - "Guilt over bones theft - must make amends"
+    - "Hope that outsiders can break Strahd's curse"
+
+  fears:
+    - "Strahd entering church and slaughtering congregation"
+    - "Failing to protect those who seek sanctuary"
+    - "Losing faith completely in face of overwhelming evil"
+    - "St. Andral's Feast massacre (if bones not recovered)"
+
+  knowledgeSecrets:
+    - "Knows St. Andral's bones were stolen but not who took them initially"
+    - "Suspects Milivoj knows something but can't bring himself to accuse"
+    - "Understands church is no longer consecrated without bones"
+    - "Knows Strahd can enter desecrated ground freely"
+    - "Aware of Ireena's plight and Strahd's obsession with her"
+    - "Doesn't realize Vasili von Holtz is Strahd in disguise"
+
+  attitudeTowardPlayer: "helpful"
+
+  trustLevel: 7  # Priests are trusting by nature, especially to those seeking sanctuary
+
+  questInvolvement:
+    - questId: "st_andrals_feast"
+      role: "quest_giver"
+      notes: "Father Lucian asks party to recover St. Andral's bones from coffin maker. If bones not recovered before Baron's festival, Strahd attacks church and massacres congregation. Critical timed quest."
+
+    - questId: "ireena_sanctuary"
+      role: "helper"
+      notes: "Provides sanctuary for Ireena at St. Andral's Church - but only if bones recovered and church re-consecrated. Otherwise cannot guarantee her safety."
+
+    - questId: "recover_st_andrals_bones"
+      role: "quest_giver"
+      notes: "Bones stolen by Milivoj and sold to coffin maker Henrik. Must be recovered before Baron's festival or Strahd attacks during feast."
+
+  specialBehaviors:
+    - "Offers sanctuary to anyone seeking refuge (except obvious evil)"
+    - "Provides free healing to the injured and sick"
+    - "Refuses to turn away those in need even at personal risk"
+    - "Forgives Milivoj if confronted about theft"
+    - "Heartbroken and guilt-ridden if St. Andral's Feast massacre occurs"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  - time: "06:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Morning prayers and meditation before altar"
+
+  - time: "08:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Prepare church for daily services, light candles"
+
+  - time: "10:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Morning service for congregation"
+
+  - time: "12:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Tend to sick and injured, offer healing"
+
+  - time: "14:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Study scriptures, counsel troubled souls"
+
+  - time: "18:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Evening service, prayers for the fallen"
+
+  - time: "20:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Private prayers, worry about missing bones"
+
+  - time: "22:00"
+    location: "vallaki_st_andrals_church"
+    activity: "Final prayers before rest, sleeps in church quarters"
+
+# === LOCATION & STATUS ===
+currentLocation: "vallaki_st_andrals_church"
+status: "alive"
+canMove: true  # Can leave church if necessary but rarely does
+tetheredToLocation: "vallaki_st_andrals_church"  # Spiritually tethered - won't abandon church
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  st_andrals_bones_stolen: true  # Church not consecrated
+  st_andrals_bones_recovered: false
+  knows_milivoj_betrayed: false  # Learns if players tell him
+  st_andrals_feast_occurred: false  # Massacre event
+  ireena_sanctuary_granted: false
+  mood: "anxious"  # anxious → relieved (if bones recovered) → devastated (if feast massacre)
+  relationship_with_player: "helpful"
+
+# === QUEST INVOLVEMENT ===
+questInvolvement:
+  - questId: "st_andrals_feast"
+    role: "quest_giver"
+    description: "Father Lucian gives the party the quest to recover St. Andral's bones and prevent the vampire spawn attack on his church"
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.97"
+  official: true
+
+  notes: "Father Lucian Petrovich is the weary but compassionate priest of St. Andral's Church in Vallaki. He offers sanctuary, healing, and spiritual guidance to all in need. The theft of St. Andral's bones has left him anxious and guilt-ridden - without them, the church is not consecrated and Strahd can enter freely. He is central to the St. Andral's Feast quest, one of the most dramatic events in Curse of Strahd."
+
+  dmReminders:
+    - "St. Andral's Feast is a timed quest - if bones not recovered before Baron's festival, Strahd attacks"
+    - "Father Lucian is genuinely good and selfless - he will shelter Ireena even at great risk"
+    - "If massacre occurs, Father Lucian is devastated and may lose faith entirely"
+    - "He doesn't know Vasili von Holtz is Strahd - dramatic irony opportunity"
+    - "Milivoj's betrayal breaks Father Lucian's heart but he forgives if asked"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

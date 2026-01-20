@@ -1,0 +1,127 @@
+# Longsword +1 - Uncommon Magic Weapon
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "longsword_plus_1"
+name: "Longsword +1"
+type: "weapon"
+weight: 3.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "longsword"
+  category: "martial_melee"
+  damage: "1d8"
+  damageType: "slashing"
+  properties: ["versatile"]
+  versatileDamage: "1d10"
+  range: null
+  attackBonus: 1
+  damageBonus: 1
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 1
+    description: "+1 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 1
+    damageType: "slashing"
+    description: "+1 slashing damage"
+
+# === SPECIAL ABILITIES ===
+specialAbilities: []
+# No special abilities - standard +1 weapon
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A well-crafted longsword with a blade that holds a faint magical shimmer. The sword is perfectly balanced and seems to strike true more often than an ordinary blade. The crossguard is simple but elegant, and the grip is wrapped in quality leather. This is a reliable weapon for any warrior, enhanced with minor enchantments to improve accuracy and striking power."
+
+  history: "Magic weapons like this longsword are created by skilled artisans working in cooperation with enchanters. The blade is forged from high-quality steel and then imbued with minor enchantments that enhance its effectiveness in combat. Such weapons are relatively common among professional soldiers, knights, and adventurers who can afford them. This particular longsword may have been crafted for a Barovian knight, commissioned by a wealthy merchant, or brought to Barovia from lands beyond the mists."
+
+  legendsAndRumors: []
+  # Standard magic item, no particular legends
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_use"
+  fullPropertiesReveal: "The +1 bonus is revealed through use in combat or with an Identify spell."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Various locations throughout Barovia"
+  howObtained: "May be found as treasure in Castle Ravenloft, purchased from the Vistani, looted from fallen knights in Argynvostholt, or rewarded by grateful NPCs. Common enough that multiple longswords +1 may exist in the campaign."
+  guardian: null
+  notes: "A practical and useful weapon, especially for martial characters without access to magic weapons. Helps overcome resistance to non-magical damage."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+1 to attack rolls"
+  damageRolls: "1d8 (or 1d10 versatile) + 1 slashing damage"
+  spellDC: null
+
+  integration:
+    combatManager: "+1 bonus integrates with CombatManager.calculateAttackBonus() and damage calculations. Counts as magical weapon for overcoming resistance."
+    equipmentManager: "Equippable in mainHand or twoHanded slot. Does not require attunement."
+    inventoryManager: "Weight 3 lbs, takes up weapon slot"
+
+  magicWeaponBenefits:
+    - "Overcomes resistance and immunity to non-magical weapons"
+    - "+1 to hit increases average damage output by ~10%"
+    - "+1 to damage adds consistent bonus to every hit"
+    - "No attunement required, freeing attunement slots for other items"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 3
+  notes: "A straightforward upgrade from a mundane longsword. The +1 bonus provides a meaningful but not overwhelming improvement. Appropriate for Tier 1-2 play (levels 1-10). Does not overshadow more powerful magic items but remains useful throughout the campaign."
+
+  dmGuidance:
+    - "Can be given relatively early (levels 3-5) without breaking balance"
+    - "Multiple party members can have +1 weapons without issue"
+    - "This is a good 'first magic weapon' reward"
+    - "No special features means no complexity in tracking effects"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A well-maintained longsword with a straight, double-edged blade of silvery steel. The blade is 3 feet long with a fuller running down the center. The crossguard is simple and functional, made of steel with a subtle etched pattern. The grip is wrapped in dark brown leather, worn smooth by use. The pommel is a simple steel sphere. The blade has a very faint shimmer when light catches it at the right angle - the only outward sign of its magical nature."
+
+  activeState: "In combat, the blade feels perfectly balanced in the hand, seeming to guide itself toward targets. The magical shimmer becomes slightly more pronounced when the sword is swung."
+
+  soundEffects: "The sword makes the normal sounds of a well-made blade - a clear ring when drawn, a crisp swish when swung through the air, and a satisfying impact when striking targets."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.213"
+  official: true
+  srdContent: true
+
+  notes: "The longsword +1 is one of the most common magic weapons in D&D. It's a straightforward upgrade that provides meaningful benefit without complexity. Perfect for martial characters who need a reliable magical weapon."
+
+  dmReminders:
+    - "No attunement required - can be used immediately"
+    - "Counts as magical for overcoming resistance/immunity"
+    - "+1 bonus applies to both attack rolls and damage rolls"
+    - "Versatile property allows 1d10 damage when wielded two-handed"
+    - "Can be combined with shield for AC boost or two-handed for damage boost"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

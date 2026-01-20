@@ -1,0 +1,241 @@
+<story-context id="4-6-major-locations-batch-2" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>6</storyId>
+    <title>Major Locations Batch 2</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-12</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-6-major-locations-batch-2.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player progressing through the Curse of Strahd campaign</asA>
+    <iWant>access to the remaining major locations across Barovia</iWant>
+    <soThat>I can explore high-level dungeons, complete critical quests, and access end-game content including the Amber Temple and Order of the Silver Dragon storylines</soThat>
+    <tasks>
+      <task id="1" acs="1,2,3,4">Create Tsolenka Pass Location (6 files)</task>
+      <task id="2" acs="1,2,3,4,6,7">Create Amber Temple Location (6 files)</task>
+      <task id="3" acs="1,2,3,4,6,7">Create Yester Hill Location (6 files)</task>
+      <task id="4" acs="1,2,3,4,6,7">Create Argynvostholt Location (6 files)</task>
+      <task id="5" acs="1,2,3,4,6,7">Create Berez (Ruined Village) Location (6 files)</task>
+      <task id="6" acs="1,2,3,4,7">Create Lake Zarovich Location (6 files)</task>
+      <task id="7" acs="5">Establish Location Network Connections</task>
+      <task id="8" acs="5,8">Integration Testing (LocationLoader compatibility)</task>
+      <task id="9" acs="4,8">Epic 2 Event Schema Validation</task>
+      <task id="10" acs="8">Content Validation and Documentation</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">Six Major Locations Implemented (Tsolenka Pass, Amber Temple, Yester Hill, Argynvostholt, Berez, Lake Zarovich) with Epic 1 folder structure</criterion>
+    <criterion id="2">Epic 1 Folder Structure Compliance - Each location has 6 required files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml)</criterion>
+    <criterion id="3">Description.md Token Budget Compliance - All descriptions under 2000 tokens</criterion>
+    <criterion id="4">Epic 2 Event Schema Compliance - Events.md conform to EventScheduler schema</criterion>
+    <criterion id="5">Connected Location Network - metadata.yaml establishes connections to existing locations</criterion>
+    <criterion id="6">High-Level Content Integrated - CR 5-15 encounters, complex quest chains, end-game content</criterion>
+    <criterion id="7">NPC Integration - Key NPCs placed correctly (Baba Lysaga, Vladimir Horngaard, Exethanter, etc.)</criterion>
+    <criterion id="8">Content Validation - 100% pass rate on npm run validate-location</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>Story-to-AC Mapping</section>
+        <snippet>Story 4-6 implements AC-1 (Core Locations) and AC-8 (Content Validation). Batch story grouping similar content for efficient authoring. High-level locations: Amber Temple (CR 10+ end-game), Berez (Baba Lysaga CR 11 boss).</snippet>
+      </doc>
+      <doc>
+        <path>docs/epic-4-content-audit.md</path>
+        <title>Epic 4 Content Audit</title>
+        <section>Locations - Tier 2</section>
+        <snippet>6 major locations for Batch 2: Tsolenka Pass (bridge/Roc nest), Amber Temple (dark vestiges temple), Yester Hill (druid grove), Argynvostholt (Silver Dragon ruins), Berez (Baba Lysaga lair), Lake Zarovich (landmark/quest). Priority P1-P2.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-5-major-locations-batch-1.md</path>
+        <title>Story 4-5 (Previous Batch)</title>
+        <section>Completion Notes and Code Review</section>
+        <snippet>6 locations implemented with 750-1100 token budget (excellent). Single-folder structure worked well. Integration tests pattern established (batch-1-structure.test.js, batch-1-events.test.js). APPROVED with no HIGH/MEDIUM issues.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns</section>
+        <snippet>File-First Design: Each location is a folder with 6 standardized files. YAML Frontmatter Pattern: State.md combines YAML frontmatter with narrative. Result Object Pattern: All async operations return {success, data, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Location Loader System</section>
+        <snippet>LocationLoader loads complete location data from folders. Validates 6-file structure. Returns consistent LocationData structure. Template validation via scripts/validate-location.js.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Event Scheduler Schema</section>
+        <snippet>EventScheduler requires: eventId (string), name (string), trigger_type (date_time|conditional|recurring|location), trigger_conditions (array), effects (array: npc_status, state_update, quest_trigger, combat_encounter, custom).</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/</path>
+        <title>Location Template Directory</title>
+        <section>Standard Location Structure</section>
+        <snippet>Template contains 6 files with placeholder content: Description.md (overview, variants), NPCs.md (profiles, dialogue, stats), Items.md (loot, treasure), Events.md (triggers), State.md (YAML+narrative), metadata.yaml (connections, danger).</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>full</lines>
+        <reason>Loads location data from 6-file folder structure. Used to validate Epic 1 compliance in integration tests.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>full</lines>
+        <reason>Manages State.md files with YAML frontmatter pattern. Handles location state persistence.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>full</lines>
+        <reason>Epic 2 event system. All Events.md files must conform to EventScheduler schema for compatibility.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>full</lines>
+        <reason>Applies event effects to world state. Ensures Events.md effect types are valid.</reason>
+      </artifact>
+      <artifact>
+        <path>scripts/validate-location.js</path>
+        <kind>validation</kind>
+        <symbol>validateLocation</symbol>
+        <lines>full</lines>
+        <reason>Epic 1 validation script. Checks 6-file structure, YAML parsing, metadata requirements. Must pass for AC-8.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/locations/batch-1-structure.test.js</path>
+        <kind>test</kind>
+        <symbol>batch-1-structure-tests</symbol>
+        <lines>full</lines>
+        <reason>Pattern for batch integration testing. Replicate for batch-2-structure.test.js with new location IDs.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/integration/events/batch-1-events.test.js</path>
+        <kind>test</kind>
+        <symbol>batch-1-events-tests</symbol>
+        <lines>full</lines>
+        <reason>Pattern for Epic 2 event schema validation testing. Replicate for batch-2-events.test.js.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/death-house/</path>
+        <kind>location-example</kind>
+        <symbol>death-house</symbol>
+        <lines>all-files</lines>
+        <reason>Reference implementation from Story 4-5. Token budget 850, Epic 2 schema compliance, proper YAML frontmatter pattern.</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/locations/wizard-of-wines/</path>
+        <kind>location-example</kind>
+        <symbol>wizard-of-wines</symbol>
+        <lines>all-files</lines>
+        <reason>Complex Events.md example with quest chains (gem recovery). Reference for Yester Hill and Berez (winery gem quest continuation).</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <nodejs>
+        <package name="js-yaml" version="^4.1.0" reason="YAML parsing for metadata.yaml, State.md frontmatter, Events.md" />
+        <package name="jest" version="^29.0.0" reason="Integration test framework for batch-2-structure.test.js and batch-2-events.test.js" />
+        <package name="fs" version="built-in" reason="File system operations for reading/writing location files" />
+        <package name="path" version="built-in" reason="Path resolution for location directories" />
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1">All Description.md files MUST stay under 2000 tokens. Target range: 500-1400 tokens per location.</constraint>
+    <constraint id="2">Use single-folder structure for all 6 locations (no nested sub-locations). Lessons from Story 4-5: single-folder works for mid-sized locations.</constraint>
+    <constraint id="3">Epic 1 compliance: Each location requires exactly 6 files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml).</constraint>
+    <constraint id="4">Epic 2 schema compliance: All Events.md must use valid trigger_type (date_time, conditional, recurring, location) and effect types (npc_status, state_update, quest_trigger, combat_encounter, custom).</constraint>
+    <constraint id="5">YAML frontmatter pattern: State.md uses YAML between --- delimiters followed by narrative Markdown.</constraint>
+    <constraint id="6">Token budget targets per location: Tsolenka Pass 600-800, Amber Temple 1200-1800, Yester Hill 700-900, Argynvostholt 1000-1400, Berez 900-1200, Lake Zarovich 500-700.</constraint>
+    <constraint id="7">High-level content: Amber Temple is end-game (levels 9-12, CR 10+). Baba Lysaga is CR 11 boss. Roc is CR 11. Wintersplinter is CR 7. All must feel appropriately dangerous.</constraint>
+    <constraint id="8">Quest integration required: Yester Hill and Berez continue winery gem quest from Story 4-5. Lake Zarovich connects to Arabelle rescue quest from Tser Pool (Story 4-5).</constraint>
+    <constraint id="9">Location connections must be bidirectional. Update existing location metadata.yaml files to establish reverse connections.</constraint>
+    <constraint id="10">All locations must pass validate-location script with 100% compliance before marking story complete.</constraint>
+    <constraint id="11">Integration tests must follow batch-1 pattern from Story 4-5. Test LocationLoader compatibility and Epic 2 event schema.</constraint>
+    <constraint id="12">Content sources: Curse of Strahd official module. Adapt for file-first architecture, do not directly copy. Focus on atmospheric detail, quest hooks, AI behavior notes.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation()</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <note>Returns LocationData structure with locationId, locationName, description, npcs, items, events, state, metadata. Used for validation in integration tests.</note>
+    </interface>
+    <interface>
+      <name>StateManager.loadState()</name>
+      <kind>function</kind>
+      <signature>async loadState(locationId: string): Promise&lt;{success: boolean, data: object, error: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <note>Loads State.md with YAML frontmatter parsing. Returns Result Object pattern {success, data, error}.</note>
+    </interface>
+    <interface>
+      <name>EventScheduler Schema</name>
+      <kind>data-schema</kind>
+      <signature>{ eventId: string, name: string, trigger_type: enum, trigger_conditions: array, effects: array }</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <note>All Events.md YAML blocks must conform to this schema. Trigger types: date_time, conditional, recurring, location. Effect types: npc_status, state_update, quest_trigger, combat_encounter, custom.</note>
+    </interface>
+    <interface>
+      <name>validate-location script</name>
+      <kind>cli-tool</kind>
+      <signature>npm run validate-location &lt;location-path&gt;</signature>
+      <path>scripts/validate-location.js</path>
+      <note>Validates Epic 1 6-file structure, YAML parsing, metadata requirements. Must pass for all 6 locations (AC-8).</note>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest for all integration tests. Follow patterns established in Story 4-5 (batch-1-structure.test.js, batch-1-events.test.js). Create tests/integration/locations/batch-2-structure.test.js to validate LocationLoader compatibility with all 6 new locations. Create tests/integration/events/batch-2-events.test.js to validate Epic 2 event schema compliance. Run validate-location script on each location to ensure Epic 1 compliance. Target: 100% validation pass rate (6/6 locations).
+    </standards>
+    <locations>
+      <location>tests/integration/locations/</location>
+      <location>tests/integration/events/</location>
+      <location>scripts/validate-location.js</location>
+    </locations>
+    <ideas>
+      <suite name="Batch 2 Structure Tests" acs="1,2,8">
+        <test>LocationLoader successfully loads all 6 locations (tsolenka-pass, amber-temple, yester-hill, argynvostholt, berez, lake-zarovich)</test>
+        <test>Each location has complete 6-file structure (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml)</test>
+        <test>All metadata.yaml files have required fields (location_name, location_type, region, danger_level)</test>
+        <test>All token counts documented in metadata.yaml and under 2000</test>
+      </suite>
+      <suite name="Batch 2 Events Schema Tests" acs="4,8">
+        <test>All Events.md files parse as valid YAML</test>
+        <test>All events have required fields (eventId, name, trigger_type, effects)</test>
+        <test>All trigger_type values are valid Epic 2 types</test>
+        <test>All effect types are valid Epic 2 types</test>
+      </suite>
+      <suite name="Location Network Tests" acs="5">
+        <test>All connected_locations references point to existing locations</test>
+        <test>Bidirectional connections verified (A→B implies B→A exists)</test>
+      </suite>
+      <suite name="Content Validation Tests" acs="8">
+        <test>validate-location script passes for all 6 locations</test>
+        <test>100% validation pass rate (6/6)</test>
+      </suite>
+    </ideas>
+  </tests>
+</story-context>

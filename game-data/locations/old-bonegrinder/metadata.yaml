@@ -1,0 +1,85 @@
+location_name: "Old Bonegrinder"
+location_type: "building"
+region: "Barovia Valley - Between Village and Vallaki"
+parent_location: null
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village of Barovia"
+    direction: "west"
+    travel_time: "2 hours"
+    description: "Visible from village, windmill sits on hill west of Old Svalich Road"
+  - name: "Town of Vallaki"
+    direction: "east"
+    travel_time: "2 hours"
+    description: "East along Old Svalich Road toward town"
+  - name: "Tser Pool Encampment"
+    direction: "northwest"
+    travel_time: "3 hours"
+    description: "Cross-country through hills to Vistani camp"
+danger_level: 4
+recommended_level: "4-6"
+size: "Small (three-story windmill with basement)"
+description_token_count: 950
+quest_critical: true
+quests:
+  - "Destroy the Hag Coven"
+  - "Rescue the Children"
+  - "Stop the Dream Pastry Operation"
+  - "Investigate Death House Connection"
+features:
+  - "Night hag coven lair (3 hags)"
+  - "Child prison on third floor"
+  - "Dream pastry production facility"
+  - "Grinding mechanism (bone processing)"
+  - "Connection to Death House via deed"
+  - "Wereraven surveillance point"
+  - "Three-story building with basement"
+  - "Major combat encounter"
+population: 5
+npcs:
+  - "Morgantha (night hag leader, PRIMARY)"
+  - "Bella Sunbane (night hag daughter)"
+  - "Offalia Wormwiggle (night hag daughter)"
+  - "Freek (captive child)"
+  - "Myrtle (captive child)"
+  - "Wereraven spy (Keepers of the Feather observer)"
+enemies:
+  - name: "Morgantha"
+    type: "night_hag"
+    cr: 5
+    count: 1
+  - name: "Bella Sunbane"
+    type: "night_hag"
+    cr: 5
+    count: 1
+  - name: "Offalia Wormwiggle"
+    type: "night_hag"
+    cr: 5
+    count: 1
+allies:
+  - name: "Keepers of the Feather"
+    type: "wereraven_faction"
+    notes: "Wereravens observe and may assist in combat against hags"
+treasure:
+  - "Hag Heartstones (3, 500 gp each)"
+  - "Soul Bag with 6 larvae (1200 gp total, evil)"
+  - "Coinage (445 gp, 89 sp, 200 cp)"
+  - "Jewelry from victims (180 gp total)"
+  - "Spell components (100 gp)"
+  - "Potions (2x Healing, 1x Greater Healing, 1x Poison)"
+  - "Scrolls (Protection from Good/Evil, Dimension Door)"
+  - "Spellbook (5 spells)"
+  - "Windmill deed (connects to Death House)"
+  - "Hidden lockbox (590 gp + items)"
+  - "Dream pastries (12 remaining, addictive)"
+government: "Coven hierarchy (Morgantha leads)"
+alignment: "Neutral Evil (pragmatic, cruel, profit-motivated)"
+economy: "Dream pastry sales (funded by addiction), child kidnapping"
+defense: "Three CR 5 night hags, coven magic, Etherealness escape, strategic high ground"
+climate: "Exposed hilltop, constant wind, cold"
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+last_validated: "2025-11-12"
+notes: "Old Bonegrinder is major mid-level combat encounter featuring night hag coven (deadly for level 4-6 parties). Three CR 5 creatures plus coven magic makes this extremely dangerous if all hags present. Strategic timing (wait for Morgantha to leave) reduces difficulty. Moral imperative: two children are captive and will be killed if party delays too long. Dream pastry operation creates addiction crisis throughout Barovia, affecting multiple settlements. Windmill deed connects to Death House, revealing Durst family sold property to hags 15 years ago. Wereraven surveillance ties to Keepers of the Feather faction and Wizard of Wines location. Defeating coven earns Keepers' alliance and significant reputation boost. Failure or delay results in more child deaths and spreading addiction. Hags use Etherealness to escape if losing—destroying Heartstones prevents this. Location has complex loot including evil items (soul bag, Infernal contracts) that test party morality. Recommended approach: scout location, wait for Morgantha to depart, attack when only 2 hags present, free children, destroy coven, secure Heartstones to prevent returns."

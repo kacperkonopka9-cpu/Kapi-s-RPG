@@ -1,0 +1,346 @@
+# Quest: Dream Pastry Investigation
+# Minor Side Quest - Investigation with Moral Dilemma
+# Investigate dream pastries and decide whether to stop the hag coven
+
+# === BASIC INFORMATION ===
+questId: "dream_pastry_investigation"
+name: "Dream Pastry Investigation"
+type: "side"
+category: "investigation"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "morgantha"
+  location: "village_of_barovia_streets"
+  dialogue: "Dream pastries, dear! Freshly baked! One bite and you'll forget your troubles. Just one gold piece for blissful dreams all night long. Don't you want a little happiness in this dreary land?"
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Investigate the source of dream pastries and rescue kidnapped children from a hag coven"
+  full: "An old woman named Morgantha sells 'dream pastries' in the Village of Barovia - magical pastries that grant euphoric dreams and temporary escape from Barovia's horrors. The pastries are addictive, and many villagers spend their last coin on them. Investigation reveals that Morgantha is actually a night hag, and she makes the pastries at Old Bonegrinder windmill with her two daughters (also night hags). The secret ingredient: ground-up children she kidnaps from desperate parents. The party must decide: stop the coven (saving future children but removing the only source of happiness for addicted villagers), bargain with the hags (possibly trading something for the children), or ignore the situation. A coven of 3 night hags (CR 9 total) is a dangerous fight for level 5 parties."
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 4
+
+  requiredQuests:
+    completed: []
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive: []
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited:
+      - "village_of_barovia"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "encounter_morgantha"
+    description: "Encounter Morgantha selling dream pastries"
+    type: "event"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "morgantha"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "event_witnessed"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "investigate_pastries"
+    description: "Investigate the dream pastries and their effects"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "item"
+      id: "dream_pastry"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "investigation_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "find_old_bonegrinder"
+    description: "Track Morgantha to Old Bonegrinder windmill"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "old_bonegrinder"
+      location: "old_bonegrinder"
+    optional: false
+    completionTrigger:
+      type: "location_discovered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "discover_children"
+    description: "Discover the kidnapped children in the windmill"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "secret"
+      id: "hag_victims"
+      location: "old_bonegrinder"
+    optional: false
+    completionTrigger:
+      type: "secret_discovered"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+  - objectiveId: "decide_action"
+    description: "Decide how to handle the hag coven: fight, bargain, or leave"
+    type: "decision"
+    status: "pending"
+    target:
+      type: "npc_group"
+      id: "night_hag_coven"
+      location: "old_bonegrinder"
+    optional: false
+    completionTrigger:
+      type: "decision_made"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "rescue_children"
+    description: "Rescue the kidnapped children from the hags"
+    type: "escort"
+    status: "pending"
+    target:
+      type: "npc_group"
+      id: "kidnapped_children"
+      location: "old_bonegrinder"
+    optional: false
+    completionTrigger:
+      type: "npcs_rescued"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "old_bonegrinder"
+        changes:
+          hag_coven_defeated: true
+          children_rescued: true
+
+      - type: "location_state"
+        locationId: "village_of_barovia"
+        changes:
+          dream_pastries_gone: true
+          addicted_villagers_angry: true
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "rescued_children"
+        attitudeChange: +50
+        dialogue: "Thank you for saving us! We thought we'd never see our families again."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+# === REWARDS ===
+rewards:
+  experience: 400
+
+  items:
+    - itemId: "potion_of_healing"
+      quantity: 1
+      source: "old_bonegrinder_loot"
+
+  currency:
+    gold: 50
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "village_of_barovia_parents"
+      change: +20
+
+  specialRewards: []
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "hag_coven_approach"
+    description: "Player decides how to deal with the hag coven"
+    autoDecide: false
+    decision:
+      prompt: "You've discovered that the hags kidnap children to grind into their dream pastries. The children are in cages upstairs. The hags are powerful (CR 9 coven), and fighting them will be dangerous. What do you do?"
+      choices:
+        - choiceId: "fight_coven"
+          description: "Fight the hag coven to rescue the children"
+          consequences:
+            - type: "combat_encounter"
+              encounterId: "night_hag_coven"
+              cr: 9
+              description: "3 night hags fight as a coven. Hard encounter. If one hag is killed, the other two may flee."
+            - type: "reputation"
+              faction: "village_of_barovia"
+              change: -5
+              note: "Addicted villagers blame party for destroying their only source of happiness"
+
+        - choiceId: "bargain_with_hags"
+          description: "Bargain with the hags for the children's freedom"
+          consequences:
+            - type: "negotiation_challenge"
+              dc: 16
+              description: "Hags might accept a trade (party's service, a soul, or valuable item) for children's release"
+            - type: "moral_compromise"
+              description: "Hags remain active and will kidnap more children eventually"
+
+        - choiceId: "stealth_rescue"
+          description: "Sneak in and rescue the children without confronting the hags"
+          consequences:
+            - type: "skill_challenge"
+              skill: "stealth"
+              dc: 15
+              description: "If successful, rescue children without combat. If failed, hags are alerted."
+            - type: "future_consequence"
+              description: "Hags will continue kidnapping children and making pastries"
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "I encountered an old woman named Morgantha selling 'dream pastries' in the Village of Barovia. The pastries grant euphoric dreams, providing the only happiness many villagers know. But something feels wrong about them."
+
+  updates:
+    - trigger: "investigate_pastries_complete"
+      entry: "Investigation reveals that the dream pastries are magical and highly addictive. Villagers spend their last coins on them, and some have become entirely dependent. I need to find out where Morgantha makes these pastries."
+
+    - trigger: "find_old_bonegrinder_complete"
+      entry: "I've tracked Morgantha to Old Bonegrinder, a derel ict windmill. There are three women here - Morgantha and her two daughters. Something is very wrong about this place."
+
+    - trigger: "discover_children_complete"
+      entry: "Horror! I've discovered that Morgantha and her daughters are night hags, and they kidnap children to grind into their pastries. There are children locked in cages upstairs, terrified and awaiting a gruesome fate. I must decide how to handle this."
+
+  completion: "I have dealt with the night hag coven at Old Bonegrinder. The children are safe, but the dream pastries - the only source of happiness for many desperate villagers - are gone. It's a bittersweet victory."
+
+  failure: "I was forced to flee from Old Bonegrinder. The hag coven was too powerful, and the children remain imprisoned."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "Morgantha appears as a harmless old woman. Her true hag form is hideous."
+    - "The dream pastries are the only happiness villagers have. Destroying the coven has consequences."
+    - "Children in cages are terrified but too weak to escape on their own."
+
+  roleplayTips:
+    - "Morgantha: Sweet grandmotherly act, hides cruel nature. Offers pastries to everyone."
+    - "Bella & Offalia Wormwiggle: Morgantha's daughters, crueler and less subtle than their mother."
+    - "Kidnapped children: Traumatized, desperate, beg for rescue."
+
+  combatEncounters:
+    - encounter: "night_hag_coven"
+      location: "old_bonegrinder"
+      cr: 9
+      description: "3 night hags (CR 3 each) fight as coven with shared spellcasting. Can turn ethereal. If 1 dies, coven breaks and others may flee."
+
+  commonPitfalls:
+    - "Party may buy and consume pastries without investigating. Effects are addictive."
+    - "Party may attack without rescuing children first. Children could be harmed in fight."
+    - "Party may expect villagers to be grateful. Many are angry the pastries are gone."
+
+  alternatives:
+    - "Party could destroy the hags but learn the pastry recipe (without child ingredients)."
+    - "Party could relocate children to safety before fighting."
+    - "Party could convince villagers to stop buying pastries (very hard)."
+
+  lore:
+    - "Night hags feed on corruption and despair. Making Barovians addicted to pastries made from their own children is peak evil."
+    - "The windmill has been abandoned for years. Hags claimed it as perfect lair."
+    - "Some children's parents sold them to Morgantha willingly for more pastries (ultimate despair)."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain: null
+  blocksQuests: []
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 5
+  challengeRating: 9
+  skillChecks:
+    - skill: "investigation"
+      dc: 13
+      description: "To discover the pastries' true ingredients"
+    - skill: "persuasion"
+      dc: 16
+      description: "To bargain with hags for children's release"
+    - skill: "stealth"
+      dc: 15
+      description: "To sneak past hags and rescue children"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "Dream pastries are the only escape from Barovia's horror for many villagers. Addiction is widespread, and families have been destroyed by dependence on them."
+
+  connectionToMainStory: "This quest demonstrates Barovia's corruption - even 'happiness' is poisoned. The moral dilemma (save children vs preserve villagers' only joy) has no good answer, mirroring larger themes of the campaign."
+
+  historicalContext: "The windmill was built centuries ago by millers who fled when Strahd's curse fell. It stood empty until the hag coven claimed it 50 years ago."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.125-127"
+  official: true
+
+  estimatedDuration: "1 session"
+
+  tags: ["side", "investigation", "moral-dilemma", "hags", "children", "horror"]
+
+  notes: "This quest is morally dark. Children are in danger, and the 'right' choice isn't clear. DM should handle sensitively."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 LevelUpCalculator"

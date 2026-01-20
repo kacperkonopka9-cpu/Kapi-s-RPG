@@ -1,0 +1,46 @@
+# calendar.yaml - Game Calendar State
+# Location: game-data/calendar.yaml
+
+# Current game time
+current:
+  date: '735-10-1'
+  time: '08:00'
+  day_of_week: 'Moonday'
+  season: 'autumn'
+
+# Time advancement configuration
+advancement:
+  mode: 'hybrid'
+  auto_advance_on_travel: true
+  auto_advance_on_rest: true
+  default_action_minutes: 10
+
+# Moon phase tracking (critical for werewolf encounters)
+moon:
+  current_phase: 'new'
+  days_until_full: 14
+  last_full_moon: null
+  next_full_moon: null
+
+# Weather system
+weather:
+  current: 'foggy'
+  temperature: 10
+  wind: 'light'
+  visibility: 'poor'
+  last_updated: null
+
+# Scheduled events
+events: []
+
+# NPC schedules
+npc_schedules: []
+
+# Event history
+history: []
+
+# Campaign metadata
+metadata:
+  campaign_start_date: null
+  real_world_session_count: 0
+  total_in_game_hours: 0

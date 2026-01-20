@@ -1,0 +1,150 @@
+# Shortbow +1 - Uncommon Magic Weapon
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "shortbow_plus_1"
+name: "Shortbow +1"
+type: "weapon"
+weight: 2.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "shortbow"
+  category: "simple_ranged"
+  damage: "1d6"
+  damageType: "piercing"
+  properties: ["ammunition", "two-handed"]
+  versatileDamage: null
+  range: "80/320"
+  attackBonus: 1
+  damageBonus: 1
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 1
+    description: "+1 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 1
+    damageType: "piercing"
+    description: "+1 piercing damage"
+
+# === SPECIAL ABILITIES ===
+specialAbilities: []
+# No special abilities - standard +1 weapon
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "An elegant shortbow crafted from flexible wood and enhanced with minor enchantments. The bow is slightly lighter than a normal shortbow and the string never frays. Arrows fired from this bow fly straighter and strike harder than those from mundane bows. The wood has a faint silvery sheen, indicating its magical nature."
+
+  history: "Magical bows are prized by hunters, scouts, and rangers who rely on ranged combat. This shortbow was likely crafted by an elven bowyer or a human artisan with access to magical materials. The enchantments enhance the bow's accuracy and the force of its arrows. Such weapons are valuable in Barovia, where keeping distance from threats can mean the difference between life and death."
+
+  legendsAndRumors: []
+  # Standard magic item, no particular legends
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_use"
+  fullPropertiesReveal: "The +1 bonus is revealed through use in combat or with an Identify spell. The improved accuracy becomes apparent when comparing hit rates to a mundane bow."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Various locations throughout Barovia"
+  howObtained: "May be found among the gear of fallen hunters in the forests, purchased from the Vistani, discovered in Castle Ravenloft's armory, or gifted by the Keepers of the Feather. Rangers and scouts in Barovia may carry such weapons."
+  guardian: null
+  notes: "Useful for characters who prefer ranged combat. Particularly valuable in Barovia where many threats are best engaged from a distance."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+1 to attack rolls. Uses Dexterity modifier."
+  damageRolls: "1d6 + 1 + Dex modifier piercing damage"
+  spellDC: null
+
+  integration:
+    combatManager: "+1 bonus integrates with CombatManager.calculateAttackBonus() and damage calculations. Counts as magical weapon for overcoming resistance. Requires ammunition."
+    equipmentManager: "Equippable in twoHanded slot (ranged weapon requires both hands). Does not require attunement."
+    inventoryManager: "Weight 2 lbs. Requires arrows (ammunition not magical unless specified)."
+
+  ammunitionNotes:
+    - "Requires arrows to use (arrows are not magical unless specifically stated)"
+    - "Each arrow used in combat is typically lost or destroyed (DM discretion)"
+    - "Retrieving arrows after combat: DC 10 Survival or Investigation check to recover 1d6 arrows"
+    - "The bow itself is magical, but it does not grant magical properties to ammunition"
+
+  magicWeaponBenefits:
+    - "Overcomes resistance and immunity to non-magical weapons"
+    - "+1 to hit increases chance of hitting distant or agile targets"
+    - "+1 to damage provides consistent damage boost"
+    - "No attunement required"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 3
+  notes: "A solid upgrade for ranged weapon users. The +1 bonus makes the bow more accurate and slightly more damaging. Appropriate for characters who rely on ranged attacks. Does not overshadow other magic items but remains useful throughout the campaign."
+
+  dmGuidance:
+    - "Can be given relatively early (levels 3-5) without balance concerns"
+    - "Particularly valuable for rangers, rogues, and fighters using archery fighting style"
+    - "Remember that ammunition must still be tracked (arrows are consumable)"
+    - "The bow is magical but normal arrows are not unless specifically enchanted"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A gracefully curved shortbow approximately 3 feet in length when strung. The wood is smooth and polished, with a subtle silvery-gray tint. The bowstring appears to be made of fine silk or sinew and is always taut and perfect. The grip is wrapped in soft leather dyed forest green. Small runes are etched near the grip, barely visible unless examined closely. The bow has an elegant, flowing design that suggests elven craftsmanship."
+
+  activeState: "When drawn, the bow feels effortless to pull, the string releasing smoothly with minimal vibration. Arrows nocked on the string seem to align perfectly with the target. A faint shimmer runs along the bow's length when an arrow is drawn."
+
+  soundEffects: "The bow makes a clear, musical 'twang' when fired, and the arrows it launches fly with a distinctive whisper. The sound is quieter than a mundane bow, making it suitable for stealthy attacks."
+
+# === TACTICAL CONSIDERATIONS ===
+tacticalUse:
+  advantages:
+    - "Allows engagement at range (80 ft normal, 320 ft maximum)"
+    - "Particularly effective against flying enemies or enemies across chasms"
+    - "Can be used while mounted (unlike crossbows which require reloading)"
+    - "Works well with archery fighting style (+2 to hit, stacks with +1 from bow)"
+    - "Enables sneak attack damage for rogues without risk of melee"
+
+  disadvantages:
+    - "Requires ammunition (arrows must be tracked and purchased/crafted)"
+    - "Two-handed weapon (cannot use shield)"
+    - "Less effective in melee range (disadvantage if enemy within 5 feet)"
+    - "Projectiles may be ineffective against some creatures (incorporeal, amorphous)"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.213"
+  official: true
+  srdContent: true
+
+  notes: "The shortbow +1 is a common magic weapon ideal for ranged combatants. It provides a straightforward benefit without added complexity. Particularly valuable in Barovia where ranged options can keep characters safe from vampires, werewolves, and other dangerous creatures."
+
+  dmReminders:
+    - "No attunement required - can be used immediately"
+    - "Counts as magical for overcoming resistance/immunity"
+    - "+1 bonus applies to attack rolls and damage rolls"
+    - "Requires ammunition (track arrows)"
+    - "Two-handed weapon - cannot use with shield"
+    - "Disadvantage on attack rolls if enemy is within 5 feet"
+    - "Normal range 80 ft, long range 320 ft (disadvantage beyond 80 ft)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

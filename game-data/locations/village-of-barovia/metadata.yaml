@@ -33,8 +33,16 @@ connected_locations:
   - name: "Death House"
     direction: "Southwest"
     travel_time: "15 minutes"
+  - name: "Old Bonegrinder"
+    direction: "West"
+    travel_time: "2 hours"
+    description: "Windmill visible on hilltop west of village"
 
 # Discovery and Visit Tracking
 fast_travel_available: true
 discovered: true  # Starting location for Curse of Strahd
 first_visit_date: "2024-03-10"
+
+# Content Metadata
+description_token_count: 1200  # Estimated token count for Description.md (well under 2000 limit)
+last_validated: "2025-11-11"  # Date location passed validation

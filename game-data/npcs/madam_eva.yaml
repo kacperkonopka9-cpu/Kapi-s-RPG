@@ -1,0 +1,434 @@
+# Madam Eva - Vistani Seer and Fortune Teller
+# Tser Pool Encampment, Leader of the Vistani
+# Epic 4 Story 4-9: Major NPCs Batch 1
+
+# === BASIC INFORMATION ===
+name: "Madam Eva"
+npcId: "madam_eva"
+race: "Human (Vistana)"
+age: "Appears 70+, possibly ancient"
+class: "Diviner"  # Unique NPC spellcaster class
+level: 9
+experience: null
+background: "Vistani Elder"
+alignment: "Chaotic Neutral"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 8      # -1 modifier
+  dexterity: 12    # +1 modifier
+  constitution: 14  # +2 modifier
+  intelligence: 16  # +3 modifier
+  wisdom: 18       # +4 modifier
+  charisma: 16     # +3 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 58  # 9d8 + 18 (CON modifier +2 * 9)
+  current: 58
+  temporary: 0
+  hitDice:
+    total: 9
+    spent: 0
+    die: "d8"
+
+armorClass: 12  # 10 + DEX (+1) + natural intuition (+1)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: []  # No armor proficiencies
+  weapons: []  # Relies on magic
+  savingThrows: ["intelligence", "wisdom"]
+  skills: ["arcana", "history", "insight", "perception", "deception"]
+  tools: ["tarokka_deck"]
+  languages: ["Common", "Elvish", "Vistani"]
+
+proficiencyBonus: 4  # Level 9 spellcaster
+
+# === SPELLCASTING (9th Level Diviner) ===
+spellcasting:
+  ability: "wisdom"
+  spellSaveDC: 16  # 8 + proficiency (4) + WIS modifier (4)
+  spellAttackBonus: 8  # proficiency (4) + WIS modifier (4)
+  spellSlots:
+    1: 4
+    2: 3
+    3: 3
+    4: 3
+    5: 1
+  spellsPrepared:
+    - "detect_thoughts"
+    - "scrying"
+    - "clairvoyance"
+    - "divination"
+    - "legend_lore"
+    - "commune"
+    - "augury"
+    - "locate_object"
+    - "locate_creature"
+  cantrips:
+    - "mage_hand"
+    - "prestidigitation"
+    - "minor_illusion"
+  concentration: null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null  # Colorful shawls and robes (no AC)
+    mainHand: null
+    offHand: null
+    ring1: "ring_of_protection"  # +1 AC (included above)
+    ring2: null
+    amulet: "vistani_charm"
+    cloak: "colorful_shawl"
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "tarokka_deck"
+      quantity: 1
+    - item: "crystal_ball"
+      quantity: 1
+    - item: "incense"
+      quantity: 10
+    - item: "herbs_and_roots"
+      quantity: 1
+  currency:
+    platinum: 10
+    gold: 150
+    electrum: 0
+    silver: 200
+    copper: 50
+
+weight:
+  current: 15
+  capacity: 120  # Str 8 * 15
+  pushDragLift: 240  # Str 8 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: ["ring_of_protection", "crystal_ball"]
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Portent (3/Day)"
+    description: "Madam Eva can glimpse the future. When she finishes a long rest, she rolls 3d20 and records the results. She can replace any attack roll, saving throw, or ability check made by her or a creature she can see with one of these rolls."
+    uses: 3
+    maxUses: 3
+    recharge: "long_rest"
+
+  - name: "Expert Divination"
+    description: "When Madam Eva casts a divination spell of 2nd level or higher using a spell slot, she regains one expended spell slot of a level lower than the spell cast."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "The Third Eye"
+    description: "Madam Eva can use her action to increase her powers of perception, gaining one of the following benefits for 1 minute: darkvision 60 ft., ethereal sight, greater comprehension (understand any language), or see invisibility."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Curse (1/Day)"
+    description: "Madam Eva can curse a creature within 30 feet. Target must succeed on a DC 16 Wisdom saving throw or be cursed. While cursed, target has disadvantage on ability checks and saving throws made with the ability score of Madam Eva's choice. The curse lasts until removed by remove curse or greater restoration."
+    uses: 1
+    maxUses: 1
+    recharge: "dawn"
+
+  - name: "Tarokka Reading"
+    description: "Madam Eva can perform the legendary Tarokka reading for adventurers, revealing locations of three artifacts (Sunsword, Holy Symbol of Ravenkind, Tome of Strahd), Strahd's location for final battle, and party's ally. This reading determines key elements of campaign."
+    uses: null  # One-time special event
+    maxUses: null
+    recharge: null
+
+  - name: "Vistani Immunity"
+    description: "As Vistana, Madam Eva is immune to Strahd's charm abilities and can move freely through the mists of Barovia without harm."
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Cryptic fortune teller who speaks in prophecy and riddles"
+    - "Protects Vistani people fiercely, above all other loyalties"
+    - "Ancient knowledge and mysterious connection to Strahd's history"
+    - "Patient and enigmatic, never rushes or reveals all she knows"
+
+  ideals:
+    - "Fate - All is written in the cards; destiny cannot be escaped (Neutral)"
+    - "Freedom - The Vistani wanderer's life above all else (Chaotic)"
+    - "Knowledge - The truth is precious but must be earned (Neutral)"
+
+  bonds:
+    - "Vistani people - her tribe, whom she leads and protects"
+    - "Tarokka deck - sacred artifact of divination, never leaves her side"
+    - "Mysterious connection to Strahd's past she never fully explains"
+
+  flaws:
+    - "Speaks in riddles frustrating to those seeking direct answers"
+    - "Will not act directly against Strahd due to ancient pacts"
+    - "Bound by fate - even she cannot change what the cards reveal"
+
+  mannerisms:
+    - "Constantly shuffles and touches her Tarokka deck"
+    - "Stares into distance as if seeing beyond the present"
+    - "Speaks slowly with dramatic pauses for effect"
+    - "Smiles knowingly at questions she won't answer directly"
+
+  voiceDescription: "Low, smoky voice with heavy accent. Speaks in measured, cryptic tones. Every word carefully chosen. Dramatic pauses between sentences."
+
+  appearanceNotes: "Ancient Vistani woman with deeply lined face and piercing dark eyes that seem to see through souls. Long gray hair in braids woven with trinkets and charms. Colorful layered shawls and skirts in traditional Vistani style. Tarokka deck always in hand. Aura of otherworldly knowledge and power. Moves with surprising grace despite apparent age."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "I have been expecting you, travelers. The cards foretold your coming many moons ago."
+    - "Welcome to the camp of Madam Eva. Sit. Share bread and wine. And perhaps... I shall share what the cards reveal."
+    - "You seek answers, yes? The Tarokka can show you what you need - if you are brave enough to look."
+
+  idle:
+    - "[Shuffles Tarokka deck absently]"
+    - "[Gazes into crystal ball, murmuring]"
+    - "The mists whisper many secrets to those who listen..."
+    - "Ah, but that is not for me to say. The cards will tell you when the time is right."
+
+  farewell:
+    - "Go, children. Your path is laid before you. Walk it with courage, for the darkness ahead is deep."
+    - "The cards have spoken. What you do with this knowledge is your choice - the only choice any of us truly have."
+    - "We shall meet again, when fate decrees. Until then, trust in what you have learned."
+
+  questGiving:
+    - "You come seeking a way to destroy the devil Strahd. This is wise. But first, you must know where to find the treasures that can aid you. Sit. I shall read the cards."
+    - "The Tarokka will reveal three holy artifacts hidden in this land: the Sunsword, the Holy Symbol of Ravenkind, and the Tome of Strahd. They will also show you an ally and where you shall face the devil."
+
+  tarokkaReading:
+    opening:
+      - "Sit, children. The Tarokka will reveal your path. But know this - the cards show only what is, what may be, and what must be. The choice of what to do with this knowledge... that is yours alone."
+      - "[Shuffles the ancient Tarokka deck with practiced hands, her eyes distant as if seeing beyond this moment]"
+      - "I shall draw five cards. Three will reveal the location of artifacts that can aid you against the darkness. One will show you an ally. The last... the place where you shall face the devil himself."
+
+    card1_tome:
+      - "[Draws first card] This card tells of history. Knowledge of the ancient will help you better understand your enemy."
+      - "The Tome of Strahd - his confessions, written in his own hand. Seek it where the card points, and you shall learn the devil's darkest secrets."
+      - "[Reveals card name and describes its imagery, then points to location shown]"
+
+    card2_holySymbol:
+      - "[Draws second card] This card tells of a powerful force for good and protection, a holy symbol of great hope."
+      - "The Holy Symbol of Ravenkind - blessed by the saints, bane of the undead. The card shows where this sacred relic awaits those brave enough to claim it."
+      - "[Reveals card name and describes its imagery, then points to location shown]"
+
+    card3_sunsword:
+      - "[Draws third card] This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight."
+      - "The Sunsword - forged in light, deadly to creatures of darkness. The blade waits where this card reveals."
+      - "[Reveals card name and describes its imagery, then points to location shown]"
+
+    card4_ally:
+      - "[Draws fourth card] This card sheds light on one who will help you greatly in the battle against darkness."
+      - "Your destined ally - one whose fate is intertwined with yours. Seek them out, for you will need all the aid you can muster."
+      - "[Reveals card name and describes the ally it indicates]"
+
+    card5_enemy:
+      - "[Draws fifth card] Your enemy is a creature of darkness, whose powers are beyond mortality. This card will lead you to him."
+      - "When the time comes for final battle, seek the devil in this place. There, fate shall be decided."
+      - "[Reveals card name and describes the location where Strahd awaits]"
+
+    closing:
+      - "The reading is complete. Five cards drawn, five destinies revealed. Go forth and seek what has been shown."
+      - "But know this - the path will not be easy, and not all of you may survive. The cards show possibility, not certainty. Your choices still matter."
+      - "I have seen his rise and fall through many ages. Your part in this tale is yet unwritten - but it has been foreseen."
+      - "[Gathers the cards slowly, her ancient eyes weighing the adventurers before her]"
+
+    systemNotes:
+      - "Use /tarokka command to trigger TarokkaReader.performFullReading()"
+      - "Reading results save to game-data/state/tarokka-reading.yaml"
+      - "Narrate each card's name, suit, description, and fortune-telling meaning"
+      - "For locations: describe cryptically, let players deduce exact location from card meaning"
+      - "For ally: describe their role, not their name - create mystery"
+      - "Reading is one-time event (dynamicState.tarokka_reading_performed = true)"
+
+  crypticWarnings:
+    - "Beware the one who smiles when all others weep. He sees more than he reveals."
+    - "The devil has walked these lands for centuries. He knows every stone, every shadow. You are but children playing in his domain."
+    - "Three treasures to find, one ally to seek, and a devil to face. The cards show the way, but they do not promise victory."
+    - "I have seen his rise and fall through many ages. Your part in this tale is yet unwritten - but it has been foreseen."
+
+  vistaniLore:
+    - "We Vistani are travelers, bound to no land. Even this cursed valley cannot hold us, for we alone can pass through the mists freely."
+    - "Strahd does not harm us. An ancient pact protects the Vistani - but I will not speak of its terms."
+    - "My people have served many masters over the centuries. We survive by knowing when to speak and when to remain silent."
+
+  keyQuotes:
+    - "The cards reveal much, but understanding comes only to those who dare to look."
+    - "I have seen the dark lord rise and fall through many ages. Your part in this tale is yet unwritten."
+    - "Fate is a river. You may choose which current to swim in, but the river flows where it will."
+    - "Some call me seer. Others call me witch. I am neither. I am merely one who reads what is written in the cards."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "player_character"
+      relationship: "mysterious helper"
+      notes: "Provides Tarokka reading to guide party but does not intervene directly. Offers cryptic advice and Vistani hospitality. Will not fight alongside party against Strahd."
+
+  relationships:
+    - npcId: "strahd_von_zarovich"
+      relationship: "ancient connection (neither enemy nor ally)"
+      notes: "Madam Eva has mysterious connection to Strahd's past. She is protected by ancient pact - Strahd will not harm her or her tribe. She will not act directly against him. Exact nature of relationship unknown to players."
+
+    - npcId: "rudolph_van_richten"
+      relationship: "complex enemy"
+      notes: "Van Richten killed Madam Eva's son years ago, triggering her curse upon him. She knows of his presence in Barovia but takes no action. Tragic, unresolved conflict."
+
+  family:
+    - npcId: "madam_evas_son"
+      relationship: "son (deceased, killed by Van Richten)"
+      notes: "Madam Eva's son was a vampire. Van Richten killed him, leading her to curse the vampire hunter. She still grieves this loss."
+
+  faction: "vistani"  # Leader of Vistani people
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Non-combatant oracle. Madam Eva avoids combat entirely. If threatened, uses Portent to ensure enemy attacks miss or fail saves. Casts Misty Step or Dimension Door to escape. Uses Curse (1/day) on greatest threat. Relies on Vistani guards for protection. Can use divination magic to foresee attacks and avoid danger. Never fights directly - beneath her dignity and unnecessary given her foresight."
+
+  goals:
+    - "Guide worthy heroes via Tarokka reading to face Strahd"
+    - "Protect Vistani people and maintain ancient pacts"
+    - "Preserve knowledge and prophecy for future generations"
+    - "Observe fate's unfolding without direct interference"
+
+  motivations:
+    - "Duty as Vistani elder and seer"
+    - "Ancient connection to Strahd's story (ambiguous)"
+    - "Fascination with watching destiny unfold"
+    - "Protection of her people above all else"
+
+  fears:
+    - "Breaking ancient pacts that protect the Vistani"
+    - "Revealing too much too soon (violates prophecy's nature)"
+    - "Losing another child or tribe member"
+    - "Fate itself - she sees it but cannot change it"
+
+  knowledgeSecrets:
+    - "Knows Strahd's entire history: murder of Sergei, pact with dark powers, 400+ years of reign"
+    - "Aware of Tatyana reincarnation cycle and Ireena's identity"
+    - "Knows locations of all three artifacts (revealed via Tarokka)"
+    - "Understands Barovia's curse and dark powers' role"
+    - "Aware of Van Richten's presence and identity despite his disguise"
+    - "Knows party's probable fates but will not reveal directly"
+    - "Ancient pact with Strahd protects Vistani - exact terms unknown to outsiders"
+    - "Cursed Van Richten after he killed her vampire son - curse haunts him still"
+
+  attitudeTowardPlayer: "neutral"  # Helpful but detached
+
+  trustLevel: 5  # Vistani are enigmatic - neither fully trusted nor hostile
+
+  questInvolvement:
+    - questId: "tarokka_reading"
+      role: "quest_giver"
+      notes: "Madam Eva performs legendary Tarokka reading revealing locations of three artifacts, party ally, and Strahd's lair for final battle. Central NPC for Story 4-16 Tarokka Reading System implementation."
+
+    - questId: "vistani_lore"
+      role: "information_source"
+      notes: "Provides cryptic lore about Barovia, Strahd, and ancient history. Never gives direct answers but hints at truths."
+
+    - questId: "van_richten_curse"
+      role: "antagonist"
+      notes: "If party allies with Van Richten, her curse upon him creates complications. She may lift curse if party performs service for Vistani."
+
+  specialBehaviors:
+    - "Performs Tarokka reading as scripted event (Story 4-16)"
+    - "Speaks only in prophecy and riddles when discussing important matters"
+    - "Never lies but rarely tells full truth"
+    - "Uses Portent to avoid danger or help/hinder party at key moments"
+    - "Protects Vistani at all costs - will use magic if tribe threatened"
+    - "Cannot be charmed or controlled by Strahd due to Vistani immunity"
+    - "Knows more than she reveals - dramatic irony for DM"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  - time: "08:00"
+    location: "tser_pool_encampment"
+    activity: "Wake, morning divination with crystal ball"
+
+  - time: "10:00"
+    location: "tser_pool_encampment"
+    activity: "Consult with Vistani elders, tribal matters"
+
+  - time: "12:00"
+    location: "tser_pool_encampment"
+    activity: "Sit by fire, available for fortune telling"
+
+  - time: "14:00"
+    location: "tser_pool_encampment"
+    activity: "Study Tarokka cards, meditate on future visions"
+
+  - time: "18:00"
+    location: "tser_pool_encampment"
+    activity: "Evening meal with tribe, storytelling"
+
+  - time: "20:00"
+    location: "tser_pool_encampment"
+    activity: "Tarokka readings for Vistani and visitors"
+
+  - time: "22:00"
+    location: "tser_pool_encampment"
+    activity: "Scry distant events, commune with spirits"
+
+  - time: "24:00"
+    location: "tser_pool_encampment"
+    activity: "Midnight divinations, rest in tent"
+
+# === LOCATION & STATUS ===
+currentLocation: "tser_pool_encampment"
+status: "alive"
+canMove: true  # Can travel with Vistani wagons
+tetheredToLocation: "tser_pool_encampment"  # Rarely leaves camp
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  tarokka_reading_performed: false  # One-time event
+  party_met: false
+  prophecy_revealed: false
+  van_richten_curse_active: true
+  strahd_relationship_known: false  # Players don't know full truth
+  mood: "enigmatic"  # Always enigmatic and cryptic
+  relationship_with_player: "neutral"
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.36-38"
+  official: true
+
+  notes: "Madam Eva is the ancient and enigmatic leader of the Vistani at Tser Pool Encampment. She is a powerful diviner and oracle who performs the legendary Tarokka reading that determines locations of key artifacts and party ally. Her relationship with Strahd is mysterious - they have an ancient connection and pact, but she neither helps nor hinders him directly. She speaks only in prophecy and riddles, making her fascinating but frustrating to interact with."
+
+  dmReminders:
+    - "Tarokka reading is THE defining moment that sets up entire campaign structure"
+    - "Madam Eva knows EVERYTHING but reveals almost nothing directly - maintain mystery"
+    - "Her connection to Strahd is ambiguous - never fully explain it (DM choice: daughter? former lover? ancient ally?)"
+    - "She cursed Van Richten after he killed her vampire son - tragic irony if party allies with him"
+    - "Vistani are immune to Strahd's charm and can pass through mists - this is crucial"
+    - "Use Portent to create memorable moments - save party at critical moment OR ensure villain succeeds for drama"
+    - "Her knowledge is GM tool - she can hint at things players need to know through cryptic prophecy"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

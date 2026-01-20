@@ -1,0 +1,32 @@
+location_name: "Shrine of the White Sun"
+location_type: "building"
+region: "Barovia Valley - Western Mountains"
+parent_location: "krezk"
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village Center"
+    direction: "outside"
+    travel_time: "immediate"
+    description: "Shrine is near village center"
+danger_level: 1
+recommended_level: "Any"
+size: "Small (village shrine)"
+description_token_count: 461
+quest_critical: false
+quests:
+  - "Seek Father Andrei's Guidance"
+  - "Attend Ilya's Funeral (if he dies)"
+features:
+  - "Religious sanctuary"
+  - "Father Andrei's base"
+  - "Prayer services"
+  - "Blessing services"
+npcs:
+  - "Father Andrei"
+  - "Worshippers (20-40)"
+treasure:
+  - "Prayer books (50 gp)"
+  - "Donations (minimal)"
+last_validated: "2025-11-12"
+notes: "Spiritual center of Krezk. Father Andrei provides minor healing, blessings, and religious guidance. Safe sanctuary. No combat expected here. Represents village's faith and hope against darkness."

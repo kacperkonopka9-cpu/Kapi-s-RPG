@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Sheet</title>
+  <style>
+    /* Gothic Horror Theme - Curse of Strahd Style */
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: #252525;
+      --bg-section: #2a2a2a;
+      --text-parchment: #d4c4a8;
+      --text-light: #e8dcc8;
+      --text-muted: #8a8070;
+      --accent-blood: #8b0000;
+      --accent-gold: #c9a959;
+      --hp-healthy: #4a7c4e;
+      --hp-hurt: #b8860b;
+      --hp-critical: #8b0000;
+      --border-dark: #3a3a3a;
+      --shadow: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-parchment);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 12px;
+      min-height: 100vh;
+    }
+
+    /* Header - Character Identity */
+    .character-header {
+      text-align: center;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--accent-gold);
+    }
+
+    .character-name {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--text-light);
+      text-shadow: 1px 1px 2px var(--shadow);
+      margin-bottom: 4px;
+    }
+
+    .character-info {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .character-info .level {
+      color: var(--accent-gold);
+      font-weight: bold;
+    }
+
+    /* Stats Section */
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--text-light);
+    }
+
+    /* HP Section */
+    .hp-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .hp-section:hover {
+      border-color: var(--accent-gold);
+    }
+
+    .hp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .hp-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hp-values {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .hp-current { color: var(--hp-healthy); }
+    .hp-current.hurt { color: var(--hp-hurt); }
+    .hp-current.critical { color: var(--hp-critical); }
+
+    .hp-bar-container {
+      height: 8px;
+      background: var(--bg-dark);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .hp-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--hp-healthy), var(--hp-healthy));
+      transition: width 0.3s, background 0.3s;
+      border-radius: 4px;
+    }
+
+    .hp-bar.hurt {
+      background: linear-gradient(90deg, var(--hp-hurt), var(--hp-hurt));
+    }
+
+    .hp-bar.critical {
+      background: linear-gradient(90deg, var(--hp-critical), var(--hp-critical));
+    }
+
+    /* Ability Scores */
+    .abilities-section {
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 14px;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .abilities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .ability-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 4px;
+      padding: 6px;
+      text-align: center;
+    }
+
+    .ability-name {
+      font-size: 10px;
+      font-weight: bold;
+      color: var(--text-muted);
+    }
+
+    .ability-score {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--text-light);
+    }
+
+    .ability-mod {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent-gold);
+    }
+
+    /* Spell Slots */
+    .spell-slots-section {
+      margin-bottom: 12px;
+    }
+
+    .spell-level {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding: 4px;
+      background: var(--bg-section);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .spell-level:hover {
+      background: var(--bg-card);
+    }
+
+    .spell-level-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      min-width: 45px;
+    }
+
+    .spell-slots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .slot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-gold);
+      background: transparent;
+    }
+
+    .slot.filled {
+      background: var(--accent-gold);
+    }
+
+    .slot.used {
+      background: var(--bg-dark);
+      border-color: var(--text-muted);
+    }
+
+    /* Conditions */
+    .conditions-section {
+      margin-bottom: 12px;
+    }
+
+    .conditions-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .condition-badge {
+      background: var(--accent-blood);
+      color: var(--text-light);
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .condition-badge:hover {
+      transform: scale(1.05);
+    }
+
+    .no-conditions {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    /* Features */
+    .features-section {
+      margin-bottom: 12px;
+    }
+
+    .feature-item {
+      background: var(--bg-section);
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+    }
+
+    .feature-name {
+      font-weight: bold;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    .feature-uses {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--accent-gold);
+      float: right;
+    }
+
+    /* Error State */
+    .error-container {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .error-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .error-message {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding-top: 8px;
+      margin-top: 12px;
+      border-top: 1px solid var(--border-dark);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .last-updated {
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="loading">Loading character data...</div>
+  </div>
+
+  <script nonce="{{nonce}}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+
+      // Calculate ability modifier
+      function getModifier(score) {
+        const mod = Math.floor((score - 10) / 2);
+        return mod >= 0 ? `+${mod}` : `${mod}`;
+      }
+
+      // Get HP status class
+      function getHpClass(current, max) {
+        const ratio = current / max;
+        if (ratio <= 0.25) return 'critical';
+        if (ratio <= 0.5) return 'hurt';
+        return '';
+      }
+
+      // Render error state
+      function renderError(message) {
+        return `
+          <div class="error-container">
+            <div class="error-icon">&#9760;</div>
+            <div class="error-message">${message}</div>
+            <button class="btn" onclick="selectCharacter()">Load Character</button>
+          </div>
+        `;
+      }
+
+      // Render spell slots
+      function renderSpellSlots(spellSlots) {
+        if (!spellSlots || Object.keys(spellSlots).length === 0) {
+          return '';
+        }
+
+        let html = '<div class="spell-slots-section"><div class="section-title">Spell Slots</div>';
+
+        for (const [level, slots] of Object.entries(spellSlots)) {
+          const available = slots.total - slots.used;
+          html += `
+            <div class="spell-level" onclick="showSpellSlotInfo('${level}')">
+              <span class="spell-level-label">Level ${level}</span>
+              <div class="spell-slots">
+          `;
+
+          for (let i = 0; i < slots.total; i++) {
+            const slotClass = i < available ? 'slot filled' : 'slot used';
+            html += `<div class="${slotClass}"></div>`;
+          }
+
+          html += '</div></div>';
+        }
+
+        html += '</div>';
+        return html;
+      }
+
+      // Render conditions
+      function renderConditions(conditions) {
+        if (!conditions || conditions.length === 0) {
+          return '<span class="no-conditions">No active conditions</span>';
+        }
+
+        return conditions.map(c =>
+          `<span class="condition-badge" onclick="showConditionInfo('${c}')">${c}</span>`
+        ).join('');
+      }
+
+      // Render features
+      function renderFeatures(features) {
+        if (!features || features.length === 0) {
+          return '';
+        }
+
+        let html = '<div class="features-section"><div class="section-title">Features</div>';
+
+        for (const feature of features) {
+          html += `<div class="feature-item">`;
+          html += `<span class="feature-name">${feature.name}</span>`;
+          if (feature.maxUses !== undefined && feature.maxUses !== null) {
+            const uses = feature.uses ?? feature.maxUses;
+            html += `<span class="feature-uses">${uses}/${feature.maxUses}</span>`;
+          }
+          html += `</div>`;
+        }
+
+        html += '</div>';
+        return html;
+      }
+
+      // Render character sheet
+      function renderCharacter(data) {
+        const char = data.character;
+        const hpClass = getHpClass(char.hp.current, char.hp.max);
+        const hpPercent = Math.max(0, Math.min(100, (char.hp.current / char.hp.max) * 100));
+
+        return `
+          <div class="character-header">
+            <div class="character-name">${char.name}</div>
+            <div class="character-info">
+              <span class="level">Level ${char.level}</span> ${char.race ? char.race + ' ' : ''}${char.class}
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-box">
+              <div class="stat-label">AC</div>
+              <div class="stat-value">${char.ac}</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Prof</div>
+              <div class="stat-value">+${char.proficiencyBonus || 2}</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Speed</div>
+              <div class="stat-value">${char.speed || 30}</div>
+            </div>
+          </div>
+
+          <div class="hp-section" onclick="showHpAction()">
+            <div class="hp-header">
+              <span class="hp-label">Hit Points</span>
+              <div class="hp-values">
+                <span class="hp-current ${hpClass}">${char.hp.current}</span>
+                <span style="color: var(--text-muted)"> / </span>
+                <span>${char.hp.max}</span>
+              </div>
+            </div>
+            <div class="hp-bar-container">
+              <div class="hp-bar ${hpClass}" style="width: ${hpPercent}%"></div>
+            </div>
+          </div>
+
+          <div class="abilities-section">
+            <div class="section-title">Ability Scores</div>
+            <div class="abilities-grid">
+              ${Object.entries(char.abilities).map(([name, score]) => `
+                <div class="ability-box">
+                  <div class="ability-name">${name}</div>
+                  <div class="ability-score">${score}</div>
+                  <div class="ability-mod">${getModifier(score)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          ${renderSpellSlots(char.spellSlots)}
+
+          <div class="conditions-section">
+            <div class="section-title">Conditions</div>
+            <div class="conditions-list">
+              ${renderConditions(char.conditions)}
+            </div>
+          </div>
+
+          ${renderFeatures(char.features)}
+
+          <div class="footer">
+            <div class="last-updated">Updated: ${new Date(data.lastUpdated).toLocaleTimeString()}</div>
+          </div>
+        `;
+      }
+
+      // Global functions for onclick handlers
+      window.selectCharacter = function() {
+        vscode.postMessage({ type: 'selectCharacter' });
+      };
+
+      window.showHpAction = function() {
+        vscode.postMessage({ type: 'hpAction', payload: { action: 'heal' } });
+      };
+
+      window.showConditionInfo = function(condition) {
+        vscode.postMessage({ type: 'conditionInfo', payload: { condition } });
+      };
+
+      window.showSpellSlotInfo = function(level) {
+        vscode.postMessage({ type: 'spellSlotInfo', payload: { level } });
+      };
+
+      // Handle messages from extension
+      window.addEventListener('message', event => {
+        const message = event.data;
+        const app = document.getElementById('app');
+
+        switch (message.type) {
+          case 'initialize':
+          case 'refresh':
+            if (message.payload.error) {
+              app.innerHTML = renderError(message.payload.error);
+            } else {
+              app.innerHTML = renderCharacter(message.payload);
+            }
+            break;
+
+          case 'error':
+            app.innerHTML = renderError(message.payload.message);
+            break;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

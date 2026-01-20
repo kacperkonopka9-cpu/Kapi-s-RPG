@@ -1,0 +1,270 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>5.2</storyId>
+    <title>Context Caching Strategy</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-21</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-2-context-caching-strategy.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>LLM-DM integration developer</asA>
+    <iWant>an intelligent caching layer for game context data</iWant>
+    <soThat>repeated context loads during gameplay are 5x faster with >75% cache hit rates, enabling smooth 1-2 hour sessions without performance degradation</soThat>
+    <tasks>
+### Task 1: Create ContextCache Module Structure
+- 1.1: Create `src/context/context-cache.js` file
+- 1.2: Implement ContextCache class with constructor accepting dependencies (for testing)
+- 1.3: Define cache data structure (Map-based with metadata: `{key: {data, size, timestamp, accessCount}}`)
+- 1.4: Add LRU tracking: maintain access order using doubly-linked list or Map insertion order
+- 1.5: Implement max size enforcement (100MB limit)
+- 1.6: Add JSDoc documentation for ContextCache class and all public methods
+
+### Task 2: Implement Core Cache Operations
+- 2.1: Implement `get(key)` method - return cached value or null (update LRU on hit)
+- 2.2: Implement `set(key, value, size)` method - store value, evict LRU if over limit
+- 2.3: Implement `invalidate(key)` method - remove specific cache entry
+- 2.4: Implement `invalidatePattern(pattern)` method - remove all keys matching pattern (e.g., `location:*`)
+- 2.5: Implement `clear()` method - remove all cache entries
+- 2.6: Implement cache key generation utility: `_generateKey(type, id, version)` returning `{type}:{id}:{version}`
+- 2.7: Add error handling: cache operations never throw (log errors and return null on failure)
+
+### Task 3: Implement LRU Eviction Policy
+- 3.1: Track memory usage: sum of all cached entry sizes
+- 3.2: Implement `_evictLRU()` private method - remove least recently accessed entry
+- 3.3: Trigger eviction when total memory > 100MB
+- 3.4: Log eviction events to debug log: `Evicted cache entry {key}, size {size}KB`
+- 3.5: Update cache statistics on eviction: increment eviction count
+
+### Task 4: Implement Cache Statistics
+- 4.1: Add statistics object: `{hits: 0, misses: 0, evictions: 0, memoryUsage: 0, totalRequests: 0}`
+- 4.2: Implement `getStats()` method - return copy of statistics object with calculated hit rate
+- 4.3: Implement `resetStats()` method - reset all counters to 0
+- 4.4: Update hit counter on `get()` hit
+- 4.5: Update miss counter on `get()` miss
+- 4.6: Calculate hit rate: `hits / totalRequests * 100` (handle division by zero)
+- 4.7: Add memory usage calculation: sum all entry sizes
+
+### Task 5: Integrate File System Watcher
+- 5.1: Add `chokidar` dependency to package.json (cross-platform file watcher)
+- 5.2: Create `src/context/file-watcher.js` module
+- 5.3: Implement FileWatcher class with methods: `start(paths)`, `stop()`, `on(event, callback)`
+- 5.4: Watch `game-data/` directories: locations, npcs, quests, items, monsters
+- 5.5: Debounce file changes: 500ms delay to batch rapid changes
+- 5.6: On file change: emit event with file path and change type (add/change/unlink)
+- 5.7: ContextCache listens to FileWatcher events and invalidates affected cache entries
+- 5.8: Map file paths to cache keys (e.g., `game-data/locations/village-of-barovia/Description.md` → `location:village-of-barovia:*`)
+- 5.9: Limit to 100 file watchers (VS Code limit) - use recursive watch on parent directories
+- 5.10: Handle watcher errors gracefully: log error and continue (don't crash)
+
+### Task 6: Integrate ContextCache with ContextLoader
+- 6.1: Modify `src/context/context-loader.js` to inject ContextCache dependency
+- 6.2: Update `_loadP1Context()`: check cache before calling `LocationLoader.loadLocation()`
+- 6.3: Cache population: store parsed LocationData in cache after successful load
+- 6.4: Generate cache keys: `location:{locationId}:v1`, `npc:{npcId}:v1`, `calendar:current:v1`
+- 6.5: Update `_loadP2Context()` to use cache for NPC/event data
+- 6.6: Update `_loadP3Context()` to use cache
+- 6.7: Update `_loadCharacter()` to cache character YAML parsing results
+- 6.8: Ensure ContextLoader API unchanged (no breaking changes to Story 5-1)
+- 6.9: Add cache statistics to ContextObject metadata: `cacheHitRate` field
+- 6.10: Add fallback: if cache fails, load directly from file (log warning)
+
+### Task 7: Implement Session Lifecycle Integration
+- 7.1: Add cache initialization on session start: clear all cache entries
+- 7.2: Reset cache statistics on session start
+- 7.3: Start FileWatcher on session start
+- 7.4: Cache warmup: preload current location + adjacent locations after session start
+- 7.5: Stop FileWatcher on session end
+- 7.6: Log final cache statistics on session end (hit rate, memory usage, evictions)
+- 7.7: Add cache stats to session summary: `Cache Performance: {hitRate}% hit rate, {evictions} evictions`
+
+### Task 8: Implement Background Preloading
+- 8.1: Identify preload candidates: locations connected to current location
+- 8.2: Schedule preload during idle time (500ms after last user action)
+- 8.3: Preload in background: `setImmediate()` or `process.nextTick()` to avoid blocking
+- 8.4: Preload limit: maximum 3 locations per idle cycle
+- 8.5: Cancel preload if user action occurs (don't waste resources)
+- 8.6: Log preload activity to debug log: `Preloaded {locationId} in {time}ms`
+
+### Task 9: Performance Monitoring and Logging
+- 9.1: Integrate with `src/performance/monitor.js` (if exists) or create minimal logger
+- 9.2: Log cache operations to `performance.log`: cache hits, misses, evictions
+- 9.3: Log performance comparison: cached load time vs uncached load time
+- 9.4: Add warning log if hit rate <50%: `⚠️ Cache hit rate low ({hitRate}%) - check file watcher`
+- 9.5: Implement `/debug cache` command (future story 5-4): display cache statistics
+- 9.6: Add cache metrics to session end summary
+
+### Task 10: Integration Tests
+- 10.1: Test cache hit/miss scenarios: first load (miss), second load (hit)
+- 10.2: Test LRU eviction: fill cache to 100MB, verify oldest entry evicted
+- 10.3: Test file watcher invalidation: modify location file, verify cache invalidated
+- 10.4: Test cache hit rate >75%: simulate 10-action session, measure hit rate
+- 10.5: Test performance improvement: load same location 10x, verify 5x+ speedup
+- 10.6: Test cache clear on session start
+- 10.7: Test cache statistics tracking (hits, misses, evictions, memory)
+- 10.8: Test graceful degradation: cache disabled, verify gameplay still works
+- 10.9: Test concurrent access: multiple context loads simultaneously
+- 10.10: Test ContextLoader integration: verify API unchanged, all Story 5-1 tests still pass
+- 10.11: Target: 40+ integration tests, 90%+ pass rate
+
+### Task 11: Documentation and Story Completion
+- 11.1: Create `docs/context-caching-design.md` with architecture, cache key strategy, eviction policy
+- 11.2: Document cache configuration options (max size, eviction policy, preload settings)
+- 11.3: Document performance benchmarks (before/after caching)
+- 11.4: Add JSDoc documentation for all public methods
+- 11.5: Update `docs/context-loading-design.md` (Story 5-1) to reference caching layer
+- 11.6: Run all tests: `npm test tests/integration/context/`
+- 11.7: Verify all 6 acceptance criteria met with evidence
+- 11.8: Update story file with completion notes
+- 11.9: Update sprint-status.yaml: mark story as "in-progress" → "review"
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+**AC-1: ContextCache Module Implemented**
+- ContextCache provides in-memory cache with LRU (Least Recently Used) eviction policy
+- Maximum cache size: 100MB (evicts oldest entries when exceeded)
+- Cache keys based on: `{type}:{id}:{version}` (e.g., `location:village-of-barovia:v1`)
+- Methods: `get(key)`, `set(key, value)`, `invalidate(key)`, `clear()`, `getStats()`
+- Cache statistics tracked: hit rate, miss rate, eviction count, memory usage
+- Graceful degradation: cache failures don't break gameplay (fall back to direct file loads)
+
+**AC-2: File System Watcher Integration**
+- File system watcher monitors all `game-data/` directories for changes
+- Cache invalidation triggered on file modification, creation, or deletion
+- Debounced invalidation: 500ms delay to batch rapid file changes
+- Watcher uses `chokidar` library for cross-platform compatibility
+- Maximum 100 file watchers (VS Code limitation)
+- Watcher stopped/restarted on session start/end
+
+**AC-3: Cache Hit Rate >75% During Gameplay**
+- Measured after initial context load (first load always misses)
+- Typical session (10+ player actions): cache hit rate >75%
+- Performance improvement: 5x+ speedup for cached loads
+- Cache warmup on session start: preload current location + adjacent locations
+- Background preloading: cache likely next locations during idle time
+- Statistics logged to `performance.log` after each session
+
+**AC-4: Session Lifecycle Integration**
+- Cache cleared on session start (fresh context for new session)
+- Cache statistics reset on session start
+- Final cache statistics logged on session end
+- Session logs include cache performance metrics (hit rate, memory usage)
+- No cache data persists between sessions
+
+**AC-5: ContextLoader Integration**
+- ContextLoader modified to use ContextCache for all file loads
+- Cache-first strategy: check cache before file I/O
+- Cache population: parse result stored in cache after file load
+- Cached data includes: parsed location data, NPC data, event data, calendar data
+- Integration is transparent: ContextLoader API unchanged
+- Zero breaking changes to Story 5-1 implementation
+
+**AC-6: Performance Monitoring and Logging**
+- PerformanceMonitor tracks cache metrics in real-time
+- Metrics logged: cache hits, misses, evictions, memory usage, load times
+- Performance comparison: cached vs uncached load times
+- Warning threshold: log warning if cache hit rate <50% (indicates misconfiguration)
+- All metrics written to `performance.log` with timestamps
+- Cache statistics available via `/debug cache` command
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="AC-2: Context Caching Strategy Implemented" snippet="ContextCache module provides in-memory cache with LRU eviction policy (100MB limit). Cache hit rate >75% during normal gameplay session. File system watcher invalidates cache when files modified on disk." />
+      <doc path="docs/context-loading-design.md" title="Context Loading Design (Story 5-1)" section="Architecture" snippet="Priority-based context loading system (P1/P2/P3) with token budget management (3500/4000 limits). ContextLoader assembles character, location, NPCs, events, calendar into ContextObject." />
+      <doc path="docs/technical-architecture.md" title="Technical Architecture" section="Context Loading Strategy" snippet="3-priority context loading system with intelligent caching. File-first design pattern maintained across all game systems." />
+      <doc path="docs/stories/5-1-intelligent-context-loader.md" title="Story 5-1: Intelligent Context Loader" section="Completion Notes" snippet="ContextLoader implemented (580 lines), PriorityResolver (170 lines). Performance: ~7ms context load without cache. All 29 tests passing. ContextObject metadata includes cacheHitRate field (currently hardcoded to 0)." />
+      <doc path="CLAUDE.md" title="Project Instructions" section="Result Object Pattern" snippet="All async operations return {success, data, error} objects instead of throwing exceptions. Forces explicit error handling and consistent interface across all modules." />
+    </docs>
+    <code>
+      <artifact path="src/context/context-loader.js" kind="service" symbol="ContextLoader" lines="1-580" reason="Core context loading module to be modified - inject ContextCache dependency, add cache-first strategy for all file loads" />
+      <artifact path="src/context/priority-resolver.js" kind="service" symbol="PriorityResolver" lines="1-170" reason="NPC/event filtering logic - UNCHANGED, but cached results will benefit from caching" />
+      <artifact path="src/context/index.js" kind="module" symbol="exports" lines="1-10" reason="Module exports - modify to export ContextCache alongside ContextLoader" />
+      <artifact path="tests/integration/context/context-loader.test.js" kind="test" symbol="ContextLoader tests" lines="1-540" reason="29 existing tests that MUST still pass - zero breaking changes to ContextLoader API required" />
+      <artifact path="src/data/location-loader.js" kind="service" symbol="LocationLoader" lines="all" reason="Epic 1 module - throws exceptions (not Result Objects), wrap calls in try/catch when caching" />
+      <artifact path="game-data/calendar.yaml" kind="data" symbol="calendar state" lines="all" reason="Calendar data loaded directly - candidate for caching with key 'calendar:current:v1'" />
+    </code>
+    <dependencies>
+      <node>
+        <existing>
+          <package name="js-yaml" version="^4.1.0" purpose="YAML parsing for cache data serialization" />
+          <package name="date-fns" version="^2.30.0" purpose="Timestamp handling for cache entries" />
+          <package name="jest" version="^29.7.0" purpose="Testing framework (devDependency)" />
+        </existing>
+        <new>
+          <package name="chokidar" version="^3.5.0" purpose="Cross-platform file system watcher for cache invalidation" />
+        </new>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Zero Breaking Changes**: ContextLoader API must remain unchanged - all Story 5-1 tests (29/29) must pass
+    - **Result Object Pattern**: All ContextCache methods return {success, data?, error?} format
+    - **Graceful Degradation**: Cache failures never break gameplay - fall back to direct file loads
+    - **LRU Eviction**: Least Recently Used policy - evict oldest entries when memory > 100MB
+    - **Cache Key Format**: {type}:{id}:{version} (e.g., location:village-of-barovia:v1)
+    - **File Watcher Limit**: Maximum 100 watchers (VS Code limitation) - use recursive watch on parent directories
+    - **Debounced Invalidation**: 500ms delay to batch rapid file changes
+    - **Session Isolation**: Cache cleared on session start, no persistence between sessions
+    - **Performance Target**: 5x speedup for cached loads, >75% hit rate after initial load
+    - **Memory Limit**: 100MB maximum cache size with automatic LRU eviction
+    - **Dependency Injection**: ContextCache injected into ContextLoader constructor for testability
+    - **Error Handling**: Cache operations never throw - log errors and return null on failure
+    - **Integration**: Story 5-1 LocationLoader throws exceptions (not Result Objects) - wrap in try/catch
+  </constraints>
+
+  <interfaces>
+    <interface name="ContextCache.get(key)" kind="method" signature="async get(key: string): Promise&lt;any | null&gt;" path="src/context/context-cache.js" />
+    <interface name="ContextCache.set(key, value, size)" kind="method" signature="async set(key: string, value: any, size: number): Promise&lt;void&gt;" path="src/context/context-cache.js" />
+    <interface name="ContextCache.invalidate(key)" kind="method" signature="invalidate(key: string): void" path="src/context/context-cache.js" />
+    <interface name="ContextCache.invalidatePattern(pattern)" kind="method" signature="invalidatePattern(pattern: string): void" path="src/context/context-cache.js" />
+    <interface name="ContextCache.clear()" kind="method" signature="clear(): void" path="src/context/context-cache.js" />
+    <interface name="ContextCache.getStats()" kind="method" signature="getStats(): {hits, misses, evictions, memoryUsage, totalRequests, hitRate}" path="src/context/context-cache.js" />
+    <interface name="ContextCache.resetStats()" kind="method" signature="resetStats(): void" path="src/context/context-cache.js" />
+    <interface name="FileWatcher.start(paths)" kind="method" signature="start(paths: string[]): void" path="src/context/file-watcher.js" />
+    <interface name="FileWatcher.stop()" kind="method" signature="stop(): void" path="src/context/file-watcher.js" />
+    <interface name="FileWatcher.on(event, callback)" kind="method" signature="on(event: string, callback: Function): void" path="src/context/file-watcher.js" />
+    <interface name="ContextLoader.loadContext()" kind="method" signature="async loadContext(characterPath, locationId, sessionState, tokenBudget): Promise&lt;{success, data?, error?}&gt;" path="src/context/context-loader.js" note="API UNCHANGED - integration is transparent" />
+    <interface name="ContextObject.metadata.cacheHitRate" kind="data" signature="metadata: {tokenCount, prioritiesLoaded, cacheHitRate}" path="src/context/context-loader.js" note="Update cacheHitRate field from ContextCache.getStats()" />
+  </interfaces>
+
+  <tests>
+    <standards>
+Use Jest framework (v29.7.0) with AAA pattern (Arrange-Act-Assert). Mock dependencies via dependency injection (constructor params). Integration tests in tests/integration/context/ directory. Target coverage: 85% for ContextCache (critical path), 80% for FileWatcher. All existing Story 5-1 tests must pass (29/29) - zero regressions allowed. Performance tests measure cache hit rate and speedup ratio.
+    </standards>
+
+    <locations>
+tests/integration/context/context-cache.test.js (NEW - cache operations, LRU eviction, statistics)
+tests/integration/context/file-watcher.test.js (NEW - file watching, cache invalidation, debouncing)
+tests/integration/context/context-loader.test.js (EXISTING - 29 tests must still pass, no modifications)
+    </locations>
+
+    <ideas>
+      <test ac="AC-1" idea="Test cache get/set/invalidate operations - verify LRU tracking updates on access" />
+      <test ac="AC-1" idea="Test LRU eviction when cache exceeds 100MB - fill with large location data, verify oldest evicted" />
+      <test ac="AC-1" idea="Test cache statistics tracking - hits, misses, evictions, memory usage, hit rate calculation" />
+      <test ac="AC-1" idea="Test graceful degradation - disable cache, verify ContextLoader still works" />
+      <test ac="AC-2" idea="Test file watcher integration - modify location file, verify cache invalidated" />
+      <test ac="AC-2" idea="Test debounced invalidation - rapid file changes, verify single invalidation after 500ms" />
+      <test ac="AC-2" idea="Test file watcher start/stop lifecycle - verify watcher stops on session end" />
+      <test ac="AC-2" idea="Test cache key pattern matching - invalidatePattern('location:*') clears all locations" />
+      <test ac="AC-3" idea="Test cache hit rate >75% - simulate 10-action session, measure hits vs misses" />
+      <test ac="AC-3" idea="Test 5x speedup - load same location 10 times, compare first (uncached) vs subsequent (cached)" />
+      <test ac="AC-3" idea="Test cache warmup - session start preloads current + adjacent locations" />
+      <test ac="AC-3" idea="Test background preloading - idle time triggers preload of connected locations" />
+      <test ac="AC-4" idea="Test session lifecycle - cache cleared on start, stats reset, watcher started" />
+      <test ac="AC-4" idea="Test session end logging - final cache stats logged to performance.log" />
+      <test ac="AC-5" idea="Test ContextLoader integration - verify all Story 5-1 tests (29/29) still pass" />
+      <test ac="AC-5" idea="Test cache-first strategy - ContextLoader checks cache before LocationLoader.loadLocation()" />
+      <test ac="AC-5" idea="Test cache population - parsed LocationData stored in cache after load" />
+      <test ac="AC-5" idea="Test ContextObject metadata - cacheHitRate field populated from ContextCache.getStats()" />
+      <test ac="AC-6" idea="Test performance logging - cache hits, misses, evictions logged to performance.log" />
+      <test ac="AC-6" idea="Test warning threshold - log warning if cache hit rate <50%" />
+      <test ac="AC-6" idea="Test concurrent cache access - multiple loadContext() calls simultaneously" />
+    </ideas>
+  </tests>
+</story-context>

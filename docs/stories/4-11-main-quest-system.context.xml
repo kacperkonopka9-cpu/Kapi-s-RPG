@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Story Context: 4-11 Main Quest System
+  Generated: 2025-11-15
+  Epic: 4 (Curse of Strahd Content Implementation)
+  Story Points: 13 (Highest complexity in Epic 4)
+
+  This context file provides all documentation, code references, dependencies,
+  and testing guidance needed to implement the Main Quest System for Curse of Strahd.
+
+  CRITICAL: AC-9 (Epic 1-3 Integration Checkpoint) validates all Epic systems work
+  together. This is the integration testing gate before Stories 4-12 and 4-13.
+-->
+
+<story-context>
+  <story-metadata>
+    <story-id>4-11-main-quest-system</story-id>
+    <story-name>Main Quest System</story-name>
+    <epic>4</epic>
+    <epic-name>Curse of Strahd Content Implementation</epic-name>
+    <story-points>13</story-points>
+    <complexity>CRITICAL - New System + 12 Quest Files + Epic 1-3 Integration</complexity>
+    <status>Awaiting Development</status>
+
+    <description>
+      Implement comprehensive quest tracking system with QuestManager module and 12 main
+      quest YAML files covering complete Curse of Strahd campaign. Integrates Epic 1
+      StateManager for quest persistence, Epic 2 EventScheduler for time constraints,
+      and Epic 3 mechanics (InventoryManager, LevelUpCalculator) for rewards.
+
+      AC-9 serves as CRITICAL integration checkpoint validating Epic 1-3 system compatibility.
+    </description>
+
+    <key-deliverables>
+      <deliverable>QuestManager module (src/quests/quest-manager.js)</deliverable>
+      <deliverable>12 main quest YAML files (game-data/quests/*.yaml)</deliverable>
+      <deliverable>Quest state schema (game-data/state/quest-state.yaml)</deliverable>
+      <deliverable>80-100 integration tests validating all ACs</deliverable>
+      <deliverable>NPC/Location file updates with quest references</deliverable>
+    </key-deliverables>
+
+    <previous-story-learnings from="4-10">
+      <learning>NPC profiles use questInvolvement field - reference quest IDs here</learning>
+      <learning>Schema compliance 100% - use quest-template.yaml v1.0.0 strictly</learning>
+      <learning>AC-based test organization highly effective (66 tests, 100% pass)</learning>
+      <learning>New mechanics introduced: disguise, roaming, branching - apply to quests</learning>
+      <learning>File size targets: NPCs averaged 393.5 lines - quests should be 200-400 lines</learning>
+    </previous-story-learnings>
+  </story-metadata>
+
+  <!-- ========================================================================
+       DOCUMENTATION ARTIFACTS
+       All relevant documentation for quest system implementation
+       ======================================================================== -->
+  <documentation-artifacts>
+
+    <!-- Epic 4 Technical Specification -->
+    <artifact type="epic-tech-spec">
+      <name>Epic 4 Technical Specification</name>
+      <path>docs/tech-spec-epic-4.md</path>
+      <relevance>PRIMARY - Defines quest system architecture, integration requirements</relevance>
+      <key-sections>
+        <section name="Quest System Architecture">
+          Quest data structure, QuestManager API, state persistence patterns
+        </section>
+        <section name="Integration with Epic 1-3">
+          StateManager for quest state, EventScheduler for deadlines, mechanics for rewards
+        </section>
+        <section name="Story 4-11 Requirements">
+          12 main quest chain, time constraints, branching, Epic 1-3 integration checkpoint
+        </section>
+      </key-sections>
+      <critical-notes>
+        AC-9 Integration Checkpoint: Must validate EventScheduler registers quest time triggers,
+        EventExecutor applies quest state changes, InventoryManager/LevelUpCalculator receive
+        rewards, quest branching works correctly. Gate before Stories 4-12/4-13.
+      </critical-notes>
+    </artifact>
+
+    <!-- Epic 2 Technical Specification (EventScheduler Integration) -->
+    <artifact type="epic-tech-spec">
+      <name>Epic 2 Technical Specification</name>
+      <path>docs/tech-spec-epic-2.md</path>
+      <relevance>CRITICAL - EventScheduler for quest time constraints</relevance>
+      <key-sections>
+        <section name="EventScheduler API" lines="342-394">
+          checkTriggers(), addEvent(), updateEventStatus() - quest deadline integration
+        </section>
+        <section name="Event Execution" lines="395-433">
+          EventExecutor applies quest consequences atomically
+        </section>
+        <section name="Time Advancement" lines="260-341">
+          TimeManager.advanceTime() used for quest deadline checks
+        </section>
+      </key-sections>
+      <integration-points>
+        <point>Quest deadlines register events with EventScheduler (AC-4)</point>
+        <point>Quest consequences trigger events via EventExecutor (AC-5)</point>
+        <point>Time-based quest failures detected during time advancement</point>
+      </integration-points>
+    </artifact>
+
+    <!-- Epic 3 Technical Specification (Mechanics Integration) -->
+    <artifact type="epic-tech-spec">
+      <name>Epic 3 Technical Specification</name>
+      <path>docs/tech-spec-epic-3.md</path>
+      <relevance>CRITICAL - InventoryManager, LevelUpCalculator for quest rewards</relevance>
+      <key-sections>
+        <section name="InventoryManager API" lines="436-445">
+          addItem() for quest item rewards, equipment tracking
+        </section>
+        <section name="LevelUpCalculator API" lines="446-457">
+          Award XP from quests, trigger level-up checks
+        </section>
+        <section name="CharacterManager" lines="489-535">
+          Load/save character data, ability modifiers, proficiency bonus
+        </section>
+      </key-sections>
+      <integration-points>
+        <point>Quest rewards grant XP via LevelUpCalculator (AC-6)</point>
+        <point>Quest item rewards added via InventoryManager (AC-6)</point>
+        <point>Quest giver NPCs load from CharacterManager</point>
+      </integration-points>
+    </artifact>
+
+    <!-- Quest Template -->
+    <artifact type="template">
+      <name>Quest Template v1.0.0</name>
+      <path>templates/quest/quest-template.yaml</path>
+      <relevance>PRIMARY - Schema definition for all quest files</relevance>
+      <key-fields>
+        <field>questId, name, type, category - Basic identification</field>
+        <field>objectives[] - Multi-objective tracking with types and triggers</field>
+        <field>timeConstraints - Deadline support (AC-4)</field>
+        <field>consequences.onCompletion - State changes, triggered events, unlocked quests (AC-5)</field>
+        <field>rewards - XP, items, currency, reputation (AC-6)</field>
+        <field>branches[] - Quest branching and player choices (AC-7)</field>
+        <field>journalEntries - Initial, updates, completion, failure (AC-8)</field>
+        <field>eventSchedulerIntegration - Epic 2 integration (AC-4)</field>
+        <field>dmGuidance - Narrative hooks, roleplay tips, combat, pitfalls (AC-10)</field>
+      </key-fields>
+      <validation-rules>
+        <rule>All required fields must be present</rule>
+        <rule>ObjectiveIds unique within quest scope</rule>
+        <rule>Quest chain unlocking via consequences.onCompletion.unlockedQuests</rule>
+        <rule>Time constraints use Barovian calendar format (Epic 2)</rule>
+      </validation-rules>
+    </artifact>
+
+    <!-- Example Quest: Escort Ireena to Vallaki -->
+    <artifact type="example">
+      <name>Escort Ireena to Vallaki (Quest 4 Example)</name>
+      <path>templates/quest/examples/escort-ireena-to-vallaki.yaml</path>
+      <relevance>REFERENCE - Complete quest example with all features</relevance>
+      <demonstrates>
+        <feature>Multi-objective quest (4 objectives: accept, prepare, travel, deliver)</feature>
+        <feature>Time constraint with soft deadline (failOnMissedDeadline: false)</feature>
+        <feature>EventScheduler integration (Strahd ambush warning, deadline warning)</feature>
+        <feature>Quest branching (Madam Eva detour, church vs mansion choice)</feature>
+        <feature>Consequences on completion (unlocks St. Andral's Feast, Baron Vargas quests)</feature>
+        <feature>DM guidance (narrative hooks, combat encounters, common pitfalls)</feature>
+      </demonstrates>
+      <file-size>393 lines YAML - target for standard quest complexity</file-size>
+    </artifact>
+
+    <!-- Location Files (Quest Integration) -->
+    <artifact type="game-data">
+      <name>Epic 4 Location Files</name>
+      <paths>
+        <path>game-data/locations/village-of-barovia/**</path>
+        <path>game-data/locations/vallaki/**</path>
+        <path>game-data/locations/castle-ravenloft/**</path>
+        <path>game-data/locations/tser-pool-encampment/**</path>
+        <path>game-data/locations/death-house/**</path>
+      </paths>
+      <relevance>INTEGRATION - Quest triggers in Events.md, quest-giving NPCs in NPCs.md</relevance>
+      <integration-tasks>
+        <task>Update Events.md with quest trigger events</task>
+        <task>Update NPCs.md with questInvolvement references</task>
+        <task>Quest objectives reference location IDs for location_reached triggers</task>
+      </integration-tasks>
+    </artifact>
+
+    <!-- NPC Files (Quest Givers) -->
+    <artifact type="game-data">
+      <name>Epic 4 NPC Profiles (Quest Givers)</name>
+      <paths>
+        <path>game-data/npcs/ismark_kolyanovich.yaml - Quest 3 (Bury Burgomaster)</path>
+        <path>game-data/npcs/ireena_kolyana.yaml - Quest 4 (Escort Ireena)</path>
+        <path>game-data/npcs/madam_eva.yaml - Quest 5 (Tarokka Reading)</path>
+        <path>game-data/npcs/father_lucian_petrovich.yaml - Quest 6 (St. Andral's Bones)</path>
+        <path>game-data/npcs/strahd_von_zarovich.yaml - Quest 12 (Final Battle)</path>
+        <path>game-data/npcs/rudolph_van_richten.yaml - Quest 10 (Ally option)</path>
+        <path>game-data/npcs/ezmerelda_davenir.yaml - Quest 10 (Ally option)</path>
+      </paths>
+      <relevance>INTEGRATION - Quest giver dialogue, questInvolvement field</relevance>
+      <quest-involvement-pattern>
+        NPCs have questInvolvement: ["quest_id_1", "quest_id_2"] field referencing
+        quests they give or participate in. Dialogue sections include quest-giving lines.
+      </quest-involvement-pattern>
+    </artifact>
+
+  </documentation-artifacts>
+
+  <!-- ========================================================================
+       CODE ARTIFACTS
+       Existing code modules to integrate with
+       ======================================================================== -->
+  <code-artifacts>
+
+    <!-- Epic 1 StateManager -->
+    <artifact type="module">
+      <name>StateManager (Epic 1)</name>
+      <path>src/core/state-manager.js</path>
+      <purpose>Quest state persistence in State.md YAML frontmatter</purpose>
+      <key-api lines="70-200">
+        <method name="loadState(locationId)">
+          Load location State.md with quest status, active objectives, timestamps
+        </method>
+        <method name="saveState(locationId, stateData)">
+          Persist quest state changes atomically
+        </method>
+        <method name="updateState(locationId, updates)">
+          Apply quest consequences as state updates
+        </method>
+      </key-api>
+      <integration-pattern>
+        QuestManager saves quest state to game-data/state/quest-state.yaml via StateManager.
+        Quest consequences (AC-5) apply location state changes via updateState().
+        State persists across sessions (Result Object pattern).
+      </integration-pattern>
+      <lines-of-interest>
+        <range>1-100: Dependency injection, validation, file path construction</range>
+        <range>150-250: YAML frontmatter parsing (use for quest-state.yaml)</range>
+        <range>300-400: Atomic file writes (apply to quest state persistence)</range>
+      </lines-of-interest>
+    </artifact>
+
+    <!-- Epic 2 EventScheduler -->
+    <artifact type="module">
+      <name>EventScheduler (Epic 2)</name>
+      <path>src/calendar/event-scheduler.js</path>
+      <purpose>Quest time constraint integration (deadlines, warnings)</purpose>
+      <key-api lines="70-200">
+        <method name="checkTriggers(calendar, oldDate, oldTime, newDate, newTime, context)">
+          Check if quest deadline events triggered during time advancement
+        </method>
+        <method name="addEvent(calendar, event)">
+          Register quest deadline warning/failure events
+        </method>
+        <method name="updateEventStatus(calendar, eventId, status)">
+          Mark quest deadline events as completed/failed
+        </method>
+      </key-api>
+      <integration-pattern>
+        Quest timeConstraints.hasDeadline: true quests register events with EventScheduler.
+        Quest deadline warnings fire at warningThreshold days before deadline.
+        Quest failure events fire if failOnMissedDeadline: true and deadline missed.
+      </integration-pattern>
+      <quest-deadline-example>
+        Quest 6 (St. Andral's Bones): 3-day hard deadline, failOnMissedDeadline: true.
+        Register 2 events: warning at deadline - 2 days, failure at deadline + 0 days.
+      </quest-deadline-example>
+      <lines-of-interest>
+        <range>1-100: Trigger condition types, recurring intervals</range>
+        <range>150-250: Date/time trigger detection logic</range>
+        <range>300-400: Event status management</range>
+      </lines-of-interest>
+    </artifact>
+
+    <!-- Epic 2 EventExecutor -->
+    <artifact type="module">
+      <name>EventExecutor (Epic 2)</name>
+      <path>src/calendar/event-executor.js</path>
+      <purpose>Apply quest consequences (state changes, triggered events)</purpose>
+      <key-api lines="85-200">
+        <method name="execute(event, gameState)">
+          Execute quest consequence events, apply state changes atomically
+        </method>
+        <method name="loadEventDefinition(eventId, locationId)">
+          Load quest-triggered events from Events.md files
+        </method>
+        <method name="generateEventNarrative(event, playerPresent)">
+          Generate LLM narrative for quest consequences
+        </method>
+      </key-api>
+      <integration-pattern>
+        Quest consequences.onCompletion.triggeredEvents register with EventExecutor.
+        EventExecutor applies stateChanges via StateManager (batch updates).
+        Quest failure consequences also applied via EventExecutor.
+      </integration-pattern>
+      <consequence-types>
+        <type>npc_status - Update NPC status (alive, dead, spared, captured)</type>
+        <type>location_state - Update location State.md (flags, reputation)</type>
+        <type>quest_unlock - Make new quests available</type>
+        <type>npc_reaction - Change NPC attitude, unlock dialogue</type>
+      </consequence-types>
+      <lines-of-interest>
+        <range>1-100: Dependency injection, validation</range>
+        <range>150-300: Effect type handling (npc_status, state_update)</range>
+        <range>400-500: Atomic state application</range>
+      </lines-of-interest>
+    </artifact>
+
+    <!-- Epic 3 InventoryManager -->
+    <artifact type="module">
+      <name>InventoryManager (Epic 3)</name>
+      <path>src/mechanics/inventory-manager.js</path>
+      <purpose>Quest item reward integration</purpose>
+      <key-api lines="44-100">
+        <method name="addItem(character, itemId, quantity)">
+          Add quest reward items to character inventory
+        </method>
+        <method name="removeItem(character, itemId, quantity)">
+          Remove items (quest requirements)
+        </method>
+        <method name="calculateWeight(character)">
+          Recalculate encumbrance after quest rewards
+        </method>
+      </key-api>
+      <integration-pattern>
+        Quest rewards.items[] granted via InventoryManager.addItem().
+        Quest prerequisites.requiredItems validated via inventory check.
+        Item source tracked (source: "quest_giver" in rewards).
+      </integration-pattern>
+      <quest-reward-example>
+        Quest 1 (Escape Death House): rewards.items: [{itemId: "letter_from_strahd", quantity: 1, source: "quest_completion"}]
+        Quest 7-9 (Artifacts): rewards.items: [{itemId: "sunsword", quantity: 1, source: "artifact_recovery"}]
+      </quest-reward-example>
+      <lines-of-interest>
+        <range>1-100: Dependency injection, validation, Result pattern</range>
+        <range>200-300: Item addition with weight validation</range>
+      </lines-of-interest>
+    </artifact>
+
+    <!-- Epic 3 LevelUpCalculator -->
+    <artifact type="module">
+      <name>LevelUpCalculator (Epic 3)</name>
+      <path>src/mechanics/level-up-calculator.js</path>
+      <purpose>Quest XP reward integration, level-up triggers</purpose>
+      <key-api lines="100-200">
+        <method name="awardXP(character, xpAmount)">
+          Award quest XP, trigger level-up check
+        </method>
+        <method name="canLevelUp(character)">
+          Check if quest XP pushes character over level threshold
+        </method>
+        <method name="levelUp(character)">
+          Execute level-up (triggered by quest XP)
+        </method>
+      </key-api>
+      <integration-pattern>
+        Quest rewards.experience awarded via LevelUpCalculator.awardXP().
+        Objective rewards stack with quest completion rewards.
+        Quest 4 (Escort Ireena): 500 XP total (400 for travel objective, 100 for delivery).
+        Quest 12 (Destroy Strahd): 5000 XP (campaign completion).
+      </integration-pattern>
+      <xp-distribution>
+        <quest-type type="tutorial" xp="200-500">Quest 1-2</quest-type>
+        <quest-type type="standard" xp="500-1200">Quest 3-6</quest-type>
+        <quest-type type="artifact" xp="1500">Quest 7-9</quest-type>
+        <quest-type type="ally" xp="1000">Quest 10</quest-type>
+        <quest-type type="final" xp="5000">Quest 12</quest-type>
+      </xp-distribution>
+      <lines-of-interest>
+        <range>1-100: XP thresholds loading, dependency injection</range>
+        <range>200-300: XP award and level-up check logic</range>
+      </lines-of-interest>
+    </artifact>
+
+    <!-- Epic 3 CharacterManager -->
+    <artifact type="module">
+      <name>CharacterManager (Epic 3)</name>
+      <path>src/mechanics/character-manager.js</path>
+      <purpose>Quest-giving NPC loading, player character data</purpose>
+      <key-api lines="489-535">
+        <method name="loadCharacter(characterId)">
+          Load quest-giving NPC or player character
+        </method>
+        <method name="saveCharacter(characterId, characterData)">
+          Persist quest-related character changes
+        </method>
+        <method name="getAbilityModifier(abilityScore)">
+          Calculate modifiers for quest skill checks
+        </method>
+      </key-api>
+      <integration-pattern>
+        Quest questGiver.npcId references NPC loaded via CharacterManager.
+        Quest objectives requiring NPC interaction validate NPC exists.
+        Quest rewards.specialRewards.npc_joins_party uses CharacterManager.
+      </integration-pattern>
+    </artifact>
+
+  </code-artifacts>
+
+  <!-- ========================================================================
+       DEPENDENCIES
+       Package and module dependencies
+       ======================================================================== -->
+  <dependencies>
+
+    <npm-packages>
+      <package name="js-yaml" version="4.1.0">
+        Quest YAML file parsing (quest-template.yaml schema)
+      </package>
+      <package name="date-fns" version="2.30.0">
+        Quest deadline date calculations (Epic 2 integration)
+      </package>
+      <package name="jest" version="29.7.0">
+        Testing framework for 80-100 integration tests
+      </package>
+    </npm-packages>
+
+    <internal-modules>
+      <module name="StateManager" epic="1">Quest state persistence</module>
+      <module name="EventScheduler" epic="2">Quest deadline tracking</module>
+      <module name="EventExecutor" epic="2">Quest consequence application</module>
+      <module name="TimeManager" epic="2">Quest time constraint calculations</module>
+      <module name="InventoryManager" epic="3">Quest item rewards</module>
+      <module name="LevelUpCalculator" epic="3">Quest XP rewards</module>
+      <module name="CharacterManager" epic="3">Quest-giving NPCs</module>
+      <module name="LocationLoader" epic="1">Quest location references</module>
+    </internal-modules>
+
+  </dependencies>
+
+  <!-- ========================================================================
+       INTERFACES AND CONTRACTS
+       API contracts for QuestManager and quest state
+       ======================================================================== -->
+  <interfaces>
+
+    <quest-manager-api>
+      <method>
+        <signature>async loadQuest(questId)</signature>
+        <returns>ResultObject with Quest data</returns>
+        <description>Load quest YAML from game-data/quests/, validate schema, cache in memory</description>
+        <error-cases>
+          <case>Quest file not found</case>
+          <case>Invalid YAML syntax</case>
+          <case>Schema validation failure</case>
+        </error-cases>
+      </method>
+
+      <method>
+        <signature>async getAllQuests()</signature>
+        <returns>ResultObject with Quest[] array</returns>
+        <description>Load all quest files from quests directory</description>
+      </method>
+
+      <method>
+        <signature>async getQuestsByType(type)</signature>
+        <returns>ResultObject with filtered Quest[] array</returns>
+        <description>Filter quests by type: main, side, personal, faction</description>
+        <parameters>
+          <param name="type">Quest type filter (main, side, personal, faction)</param>
+        </parameters>
+      </method>
+
+      <method>
+        <signature>async getActiveQuests()</signature>
+        <returns>ResultObject with active Quest[] array</returns>
+        <description>Return quests with status "active" from quest state</description>
+      </method>
+
+      <method>
+        <signature>async getAvailableQuests()</signature>
+        <returns>ResultObject with available Quest[] array</returns>
+        <description>
+          Return quests with status "not_started" where prerequisites are met
+          (checks level, completed quests, NPC status, items, locations)
+        </description>
+      </method>
+
+      <method>
+        <signature>async updateQuestStatus(questId, newStatus)</signature>
+        <returns>ResultObject</returns>
+        <description>
+          Update quest status (not_started → available → active → completed/failed/abandoned)
+          Persist to quest-state.yaml via StateManager
+        </description>
+        <parameters>
+          <param name="questId">Quest identifier</param>
+          <param name="newStatus">New status value (validated against allowed values)</param>
+        </parameters>
+      </method>
+
+      <method>
+        <signature>async updateObjectiveStatus(questId, objectiveId, newStatus)</signature>
+        <returns>ResultObject</returns>
+        <description>
+          Update objective status (pending → in_progress → completed/failed)
+          Check if all objectives complete → trigger quest completion
+        </description>
+      </method>
+
+      <method>
+        <signature>async checkPrerequisites(quest, gameState)</signature>
+        <returns>Boolean - true if prerequisites met</returns>
+        <description>
+          Validate quest prerequisites against current game state:
+          - Level check (character level >= prerequisites.level)
+          - Required quests completed
+          - Required NPCs alive/dead
+          - Required items in inventory
+          - Required locations visited
+        </description>
+      </method>
+
+    </quest-manager-api>
+
+    <quest-state-schema>
+      <file-path>game-data/state/quest-state.yaml</file-path>
+      <structure>
+        <field name="quests">
+          Map of questId → quest state object
+          {
+            questId: {
+              status: "not_started" | "available" | "active" | "completed" | "failed" | "abandoned",
+              acceptedDate: "735-10-02",
+              acceptedTime: "14:30",
+              completedDate: "735-10-05",
+              completedTime: "18:00",
+              objectives: {
+                objectiveId: {
+                  status: "pending" | "in_progress" | "completed" | "failed",
+                  completedDate: "735-10-03"
+                }
+              }
+            }
+          }
+        </field>
+        <field name="activeQuests">
+          Array of questIds with status "active"
+        </field>
+        <field name="completedQuests">
+          Array of questIds with status "completed"
+        </field>
+        <field name="playerChoices">
+          Map of questId → branchId → choiceId for quest branching persistence
+        </field>
+      </structure>
+    </quest-state-schema>
+
+    <state-manager-integration>
+      <pattern>QuestManager uses StateManager for persistence</pattern>
+      <implementation>
+        QuestManager.saveQuestState() → StateManager.saveState("global", questStateData)
+        QuestManager.loadQuestState() → StateManager.loadState("global") → parse quest-state.yaml
+      </implementation>
+      <atomic-updates>
+        All quest state changes saved atomically (read → modify → write)
+      </atomic-updates>
+    </state-manager-integration>
+
+  </interfaces>
+
+  <!-- ========================================================================
+       CONSTRAINTS AND REQUIREMENTS
+       Technical and design constraints
+       ======================================================================== -->
+  <constraints>
+
+    <file-size-targets>
+      <target>Simple quests (Quest 2, 5): 150-250 lines YAML</target>
+      <target>Standard quests (Quest 1, 3, 4, 6): 250-350 lines YAML</target>
+      <target>Complex quests (Quest 7-9, 10, 11): 300-400 lines YAML</target>
+      <target>Final quest (Quest 12): 400-500 lines YAML</target>
+      <target>Total quest content: 3,500-4,500 lines across 12 quests</target>
+      <target>QuestManager module: 200-300 lines JavaScript</target>
+    </file-size-targets>
+
+    <schema-compliance>
+      <requirement>All 12 quests MUST validate against quest-template.yaml v1.0.0</requirement>
+      <requirement>Required fields: questId, name, type, objectives, rewards, dmGuidance</requirement>
+      <requirement>ObjectiveIds unique within quest scope</requirement>
+      <requirement>Quest chain progression via consequences.onCompletion.unlockedQuests</requirement>
+      <requirement>Time constraints use Barovian calendar format (Epic 2 CalendarManager)</requirement>
+    </schema-compliance>
+
+    <quest-chain-progression>
+      <chain-structure>
+        Quest 1 (Death House) → Quest 2 (Arrival in Village)
+        Quest 2 → Quest 3 (Bury Burgomaster)
+        Quest 3 → Quest 4 (Escort Ireena)
+        Quest 4 → Quest 5 (Tarokka Reading) + Quest 6 (St. Andral's Bones)
+        Quest 5 → Quest 7, 8, 9 (Artifacts) + Quest 10 (Ally) + Quest 11 (Weakness)
+        Quest 7+8+9+10+11 (all complete) → Quest 12 (Destroy Strahd)
+      </chain-structure>
+      <unlocking-mechanism>
+        consequences.onCompletion.unlockedQuests: ["next_quest_id"]
+        Quest 12 requires ALL artifact quests + ally + weakness complete
+      </unlocking-mechanism>
+    </quest-chain-progression>
+
+    <epic-integration-requirements>
+      <epic-1-statemanager>
+        Quest state persists in game-data/state/quest-state.yaml
+        Quest consequences apply location state changes via StateManager.updateState()
+      </epic-1-statemanager>
+
+      <epic-2-eventscheduler>
+        Quest deadlines register events with EventScheduler
+        Quest deadline warnings fire at warningThreshold days before deadline
+        Quest failure events fire if failOnMissedDeadline and deadline missed
+      </epic-2-eventscheduler>
+
+      <epic-2-eventexecutor>
+        Quest consequences.triggeredEvents execute via EventExecutor
+        State changes apply atomically (batch updates for same location)
+      </epic-2-eventexecutor>
+
+      <epic-3-inventorymanager>
+        Quest item rewards added via InventoryManager.addItem()
+        Quest prerequisites validate items in inventory
+      </epic-3-inventorymanager>
+
+      <epic-3-levelupcalculator>
+        Quest XP awards trigger level-up checks via LevelUpCalculator.awardXP()
+        Objective XP stacks with quest completion XP
+      </epic-3-levelupcalculator>
+    </epic-integration-requirements>
+
+    <time-constraint-design>
+      <hard-deadline quest="6">
+        St. Andral's Bones: 3-day deadline, failOnMissedDeadline: true
+        Deadline missed → vampire attack event, Father Lucian endangered
+      </hard-deadline>
+      <soft-deadline quest="4">
+        Escort Ireena: No hard date, but Strahd aggression increases over time
+        failOnMissedDeadline: false, daily_check event escalates difficulty
+      </soft-deadline>
+      <implementation>
+        EventScheduler integration via eventSchedulerIntegration.registeredEvents[]
+        Warning events fire at deadline - warningThreshold days
+      </implementation>
+    </time-constraint-design>
+
+    <branching-requirements>
+      <quest-4-branching>
+        Branch: Madam Eva detour (visit camp vs bypass)
+        Branch: Church vs mansion (where to deliver Ireena in Vallaki)
+      </quest-4-branching>
+      <quest-12-branching>
+        Auto-branch: Artifact count affects combat difficulty (0-1, 2, 3 artifacts)
+        Consequences adjust Strahd's combat modifiers
+      </quest-12-branching>
+      <persistence>
+        Player choices stored in quest-state.yaml playerChoices map
+        Branches affect later quest availability and NPC reactions
+      </persistence>
+    </branching-requirements>
+
+    <dm-guidance-standards>
+      <narrative-hooks>3-5 hooks per quest for foreshadowing and introduction</narrative-hooks>
+      <roleplay-tips>Character voice, emotional context, motivations for quest-giving NPCs</roleplay-tips>
+      <combat-encounters>Location, CR, monsters, tactics for expected encounters</combat-encounters>
+      <common-pitfalls>Player mistakes and DM guidance to steer back</common-pitfalls>
+      <alternatives>Non-standard solution paths players might discover</alternatives>
+      <lore-sections>
+        background: Quest backstory and context
+        connectionToMainStory: How quest relates to defeating Strahd
+        historicalContext: Historical events relevant to quest
+      </lore-sections>
+      <llm-optimization>DM guidance written for LLM-DM consumption (Claude Code integration)</llm-optimization>
+    </dm-guidance-standards>
+
+  </constraints>
+
+  <!-- ========================================================================
+       TESTING STRATEGY
+       Test approach, coverage targets, test ideas by AC
+       ======================================================================== -->
+  <testing-strategy>
+
+    <test-coverage-targets>
+      <target>Total tests: 80-100 (QuestManager unit + quest integration + Epic 1-3 integration)</target>
+      <target>Pass rate: 100% (match Stories 4-9 and 4-10)</target>
+      <target>Test organization: AC-based (10 ACs × 5-10 tests each)</target>
+      <target>Test locations: tests/quests/quest-manager.test.js, tests/integration/quests/</target>
+    </test-coverage-targets>
+
+    <test-breakdown-by-ac>
+
+      <ac-1 name="QuestManager Module Created" tests="10">
+        <test>Initialization with dependency injection</test>
+        <test>loadQuest() loads and parses YAML correctly</test>
+        <test>loadQuest() returns Result object pattern</test>
+        <test>getAllQuests() returns all quest files</test>
+        <test>getQuestsByType() filters by type (main, side, personal, faction)</test>
+        <test>getActiveQuests() returns only active quests</test>
+        <test>getAvailableQuests() checks prerequisites correctly</test>
+        <test>Quest caching works (subsequent loads from memory)</test>
+        <test>Schema validation catches invalid quests</test>
+        <test>Error handling for missing quest files</test>
+      </ac-1>
+
+      <ac-2 name="Main Quest Chain Implemented" tests="8">
+        <test>All 12 main quests load without errors</test>
+        <test>Quest chain progression (each quest unlocks next correctly)</test>
+        <test>Quest 1 (Escape Death House) schema validation passes</test>
+        <test>Quest 3 (Bury Burgomaster) questGiver references valid NPC</test>
+        <test>Quest 4 (Escort Ireena) has valid objectives array</test>
+        <test>Quest 5 (Seek Vistani) links to Tarokka system</test>
+        <test>Quest 12 (Destroy Strahd) has correct prerequisites (all artifacts + ally + weakness)</test>
+        <test>All main quests have type: "main"</test>
+      </ac-2>
+
+      <ac-3 name="Quest Objectives System" tests="6">
+        <test>All objectives have unique objectiveIds within quest</test>
+        <test>Objective types are valid (dialogue, combat, exploration, fetch, escort, investigate)</test>
+        <test>Completion triggers are valid types</test>
+        <test>Objectives with targets reference valid NPCs/locations/items</test>
+        <test>Optional objectives marked correctly</test>
+        <test>Objective rewards have valid structure</test>
+      </ac-3>
+
+      <ac-4 name="Quest Time Constraints" tests="6">
+        <test>Quest 4 (Escort Ireena) soft deadline validation</test>
+        <test>Quest 6 (St. Andral's Bones) hard deadline validation</test>
+        <test>Deadline dates use valid Barovian calendar format</test>
+        <test>Warning thresholds are positive integers</test>
+        <test>EventScheduler integration registered events are valid</test>
+        <test>failOnMissedDeadline boolean validation</test>
+      </ac-4>
+
+      <ac-5 name="Quest Consequences" tests="6">
+        <test>Completion consequences have valid stateChanges</test>
+        <test>triggeredEvents reference valid event IDs</test>
+        <test>unlockedQuests reference valid quest IDs</test>
+        <test>npcReactions reference valid NPC IDs</test>
+        <test>Failure consequences structure validation</test>
+        <test>canRetry and canRestart booleans present</test>
+      </ac-5>
+
+      <ac-6 name="Quest Rewards System" tests="6">
+        <test>All quests have experience > 0</test>
+        <test>Item rewards reference valid item IDs</test>
+        <test>Currency rewards have valid structure (gold, silver, copper)</test>
+        <test>Reputation changes reference valid factions</test>
+        <test>Special rewards have valid types (npc_joins_party, location_unlocked)</test>
+        <test>Quest 12 rewards include campaign completion</test>
+      </ac-6>
+
+      <ac-7 name="Quest Branching" tests="5">
+        <test>Branches have unique branchIds</test>
+        <test>Choices have unique choiceIds within branch</test>
+        <test>Choice consequences have valid structure</test>
+        <test>Quest 4 (Escort Ireena) branching validation (church vs mansion)</test>
+        <test>DM guidance documents all branches</test>
+      </ac-7>
+
+      <ac-8 name="Quest Journal System" tests="5">
+        <test>All quests have initial journal entry</test>
+        <test>Journal updates reference valid triggers</test>
+        <test>Completion journal entries present</test>
+        <test>Failure journal entries present for quests with failure states</test>
+        <test>Journal entries are non-empty strings</test>
+      </ac-8>
+
+      <ac-9 name="Epic 1-3 Integration Checkpoint (CRITICAL)" tests="7">
+        <test>StateManager loads/saves quest state from quest-state.yaml correctly</test>
+        <test>EventScheduler registers quest deadline events correctly</test>
+        <test>EventExecutor applies quest state changes atomically</test>
+        <test>InventoryManager receives quest item rewards correctly</test>
+        <test>LevelUpCalculator processes quest XP awards and triggers level-up</test>
+        <test>Quest-giving NPCs reference correct quest IDs in questInvolvement</test>
+        <test>Full quest lifecycle test: accept → progress → complete → rewards applied</test>
+      </ac-9>
+
+      <ac-10 name="DM Guidance" tests="6">
+        <test>All quests have 3+ narrative hooks</test>
+        <test>Roleplay tips present for quests with questGiver</test>
+        <test>Combat encounters have location, CR, monsters</test>
+        <test>Common pitfalls documented</test>
+        <test>Alternatives documented for complex quests</test>
+        <test>Lore sections complete (background, connectionToMainStory, historicalContext)</test>
+      </ac-10>
+
+    </test-breakdown-by-ac>
+
+    <test-framework>
+      <framework>Jest</framework>
+      <yaml-parsing>js-yaml for quest file validation in every test</yaml-parsing>
+      <organization>AC-based test files (quest-manager-ac1.test.js, main-quest-chain-ac2.test.js, etc.)</organization>
+      <mocking>Mock fs, StateManager, EventScheduler for unit tests</mocking>
+      <integration>Real file I/O for integration tests with quest files</integration>
+    </test-framework>
+
+    <edge-cases>
+      <case>Quest with 0 objectives (invalid - should fail schema validation)</case>
+      <case>Quest with circular dependency (Quest A unlocks Quest B, Quest B unlocks Quest A)</case>
+      <case>Quest deadline in the past (should trigger immediately)</case>
+      <case>Quest with invalid NPC reference in questGiver</case>
+      <case>Quest with invalid location reference in objectives</case>
+      <case>Quest with negative XP reward (invalid)</case>
+      <case>Quest branching with duplicate choiceIds</case>
+      <case>Quest state persistence failure (disk full)</case>
+    </edge-cases>
+
+  </testing-strategy>
+
+  <!-- ========================================================================
+       IMPLEMENTATION GUIDANCE
+       Step-by-step implementation approach
+       ======================================================================== -->
+  <implementation-guidance>
+
+    <development-sequence>
+      <phase number="1" name="QuestManager Module">
+        <step>Create src/quests/quest-manager.js with dependency injection</step>
+        <step>Implement loadQuest() with YAML parsing and schema validation</step>
+        <step>Implement getAllQuests() to scan quests directory</step>
+        <step>Implement filter methods (getQuestsByType, getActiveQuests, getAvailableQuests)</step>
+        <step>Add quest caching with Map for performance</step>
+        <step>Write 10 unit tests for AC-1</step>
+      </phase>
+
+      <phase number="2" name="Quest State Persistence">
+        <step>Create game-data/state/quest-state.yaml schema</step>
+        <step>Implement updateQuestStatus() with StateManager integration</step>
+        <step>Implement updateObjectiveStatus() with completion detection</step>
+        <step>Implement checkPrerequisites() validation logic</step>
+        <step>Test state persistence (save/load cycles)</step>
+      </phase>
+
+      <phase number="3" name="Simple Quests (1-3)">
+        <step>Create Quest 1 (Escape Death House): 250-350 lines, 6-8 objectives</step>
+        <step>Create Quest 2 (Arrival in Village): 150-250 lines, 3-5 objectives</step>
+        <step>Create Quest 3 (Bury Burgomaster): 250-350 lines, 4-6 objectives</step>
+        <step>Validate schema compliance for all 3 quests</step>
+        <step>Write integration tests for Quest 1-3 (AC-2)</step>
+      </phase>
+
+      <phase number="4" name="Time-Constrained Quests (4, 6)">
+        <step>Create Quest 4 (Escort Ireena): 350-400 lines, soft deadline, branching</step>
+        <step>Create Quest 6 (St. Andral's Bones): 300-350 lines, hard deadline</step>
+        <step>Implement EventScheduler integration for deadlines</step>
+        <step>Test deadline warnings and failure events (AC-4)</step>
+      </phase>
+
+      <phase number="5" name="Tarokka and Quests 5, 7-11">
+        <step>Create Quest 5 (Seek Vistani/Tarokka): 200-250 lines</step>
+        <step>Create Quest 7-9 (Find Artifacts): 300-400 lines each, Tarokka-dependent</step>
+        <step>Create Quest 10 (Identify Ally): 300-350 lines, Tarokka-dependent</step>
+        <step>Create Quest 11 (Confront Weakness): 250-300 lines, Tarokka-dependent</step>
+        <step>Implement Tarokka variability in quest objectives</step>
+      </phase>
+
+      <phase number="6" name="Final Quest (12)">
+        <step>Create Quest 12 (Destroy Strahd): 400-500 lines, complex prerequisites</step>
+        <step>Implement artifact count branching (0-1, 2, 3 artifacts)</step>
+        <step>Add combat phase documentation for Strahd legendary creature</step>
+        <step>Define campaign completion rewards and consequences</step>
+      </phase>
+
+      <phase number="7" name="Epic 1-3 Integration (CRITICAL)">
+        <step>Test StateManager quest state persistence (AC-9.1)</step>
+        <step>Test EventScheduler deadline registration (AC-9.2)</step>
+        <step>Test EventExecutor consequence application (AC-9.3)</step>
+        <step>Test InventoryManager item reward integration (AC-9.4)</step>
+        <step>Test LevelUpCalculator XP award integration (AC-9.5)</step>
+        <step>Test full quest lifecycle: accept → progress → complete → rewards (AC-9.7)</step>
+        <step>Verify NPC questInvolvement references (AC-9.6)</step>
+      </phase>
+
+      <phase number="8" name="NPC and Location Updates">
+        <step>Update game-data/npcs/ismark_kolyanovich.yaml with Quest 3 reference</step>
+        <step>Update game-data/npcs/ireena_kolyana.yaml with Quest 4 reference</step>
+        <step>Update game-data/npcs/madam_eva.yaml with Quest 5 reference</step>
+        <step>Update game-data/npcs/father_lucian_petrovich.yaml with Quest 6 reference</step>
+        <step>Update location Events.md files with quest triggers</step>
+      </phase>
+
+      <phase number="9" name="Testing and Validation">
+        <step>Run all 80-100 integration tests</step>
+        <step>Validate all quest YAML files with js-yaml parser</step>
+        <step>Verify quest chain progression (manual walkthrough)</step>
+        <step>Verify all NPC/location/item references resolve</step>
+        <step>Confirm 100% test pass rate</step>
+      </phase>
+
+    </development-sequence>
+
+    <critical-integration-points>
+      <point name="EventScheduler Deadline Registration" criticality="HIGH">
+        Quest timeConstraints.hasDeadline: true → register 2 events with EventScheduler:
+        1. Warning event at deadline - warningThreshold days
+        2. Failure event at deadline (if failOnMissedDeadline: true)
+
+        Example (Quest 6 St. Andral's Bones):
+        deadline: {date: "735-10-8", time: "00:00"}
+        warningThreshold: 2
+        → Register events at "735-10-6 08:00" (warning) and "735-10-8 00:00" (failure)
+      </point>
+
+      <point name="StateManager Quest Persistence" criticality="HIGH">
+        QuestManager saves quest state to game-data/state/quest-state.yaml via StateManager.
+        State includes:
+        - quest status (not_started, available, active, completed, failed, abandoned)
+        - objective status (pending, in_progress, completed, failed)
+        - timestamps (acceptedDate, completedDate)
+        - player choices (branchId → choiceId)
+
+        Use StateManager.saveState("global", questStateData) for atomic writes.
+      </point>
+
+      <point name="Quest Consequence Application" criticality="HIGH">
+        Quest consequences.onCompletion.stateChanges applied via EventExecutor:
+        - EventExecutor batches updates to same location (single State.md write)
+        - Types: npc_status, location_state, quest_unlock, npc_reaction
+
+        Example (Quest 4 completion):
+        stateChanges: [
+          {type: "npc_status", npcId: "ireena_kolyana", status: "safe_in_vallaki"},
+          {type: "location_state", locationId: "vallaki", changes: {ireena_arrived: true}}
+        ]
+        → EventExecutor applies both changes atomically
+      </point>
+
+      <point name="Quest Reward Distribution" criticality="MEDIUM">
+        Quest rewards.experience → LevelUpCalculator.awardXP(character, xpAmount)
+        Quest rewards.items → InventoryManager.addItem(character, itemId, quantity)
+
+        Objective rewards stack with quest completion rewards.
+        Special rewards (npc_joins_party, location_unlocked) require custom handling.
+      </point>
+    </critical-integration-points>
+
+    <common-pitfalls>
+      <pitfall>
+        <issue>Quest chain circular dependency (Quest A unlocks Quest B, Quest B unlocks Quest A)</issue>
+        <solution>Validate quest chain DAG (directed acyclic graph) during schema validation</solution>
+      </pitfall>
+
+      <pitfall>
+        <issue>Quest deadline in the past triggers immediately on load</issue>
+        <solution>EventScheduler should handle past deadlines gracefully (trigger immediately or mark failed)</solution>
+      </pitfall>
+
+      <pitfall>
+        <issue>Quest with invalid NPC reference in questGiver causes load failure</issue>
+        <solution>Validate NPC references during schema validation, fail with clear error</solution>
+      </pitfall>
+
+      <pitfall>
+        <issue>Quest state file corruption prevents all quests from loading</issue>
+        <solution>StateManager validates quest-state.yaml on load, offer recovery from Git if corrupted</solution>
+      </pitfall>
+
+      <pitfall>
+        <issue>EventScheduler overwhelmed by 12+ quest deadline events</issue>
+        <solution>EventScheduler designed for 100+ events (performance tested), 12 quest deadlines acceptable</solution>
+      </pitfall>
+    </common-pitfalls>
+
+  </implementation-guidance>
+
+  <!-- ========================================================================
+       ACCEPTANCE CRITERIA SUMMARY
+       Complete list of all 10 ACs with verification methods
+       ======================================================================== -->
+  <acceptance-criteria-summary>
+
+    <ac id="1" name="QuestManager Module Created">
+      <verification>Unit tests pass for all API methods (10 tests)</verification>
+      <verification>Module exports QuestManager class with dependency injection</verification>
+      <verification>Result Object pattern used for all async methods</verification>
+      <verification>Quest caching implemented with Map</verification>
+    </ac>
+
+    <ac id="2" name="Main Quest Chain Implemented (12 Quests)">
+      <verification>All 12 quest YAML files exist in game-data/quests/</verification>
+      <verification>Schema validation passes for all 12 quests</verification>
+      <verification>Quest chain progression tested (each unlocks next correctly)</verification>
+      <verification>Quest 12 prerequisites include all artifacts + ally + weakness</verification>
+    </ac>
+
+    <ac id="3" name="Quest Objectives System Implemented">
+      <verification>All objectives have unique objectiveIds within quest</verification>
+      <verification>Objective types validated (dialogue, combat, exploration, fetch, escort, investigate)</verification>
+      <verification>Completion triggers validated</verification>
+      <verification>Multi-objective quests tested (Quest 4 has 4 objectives)</verification>
+    </ac>
+
+    <ac id="4" name="Quest Time Constraints Integration">
+      <verification>Quest 6 hard deadline validated (3-day, failOnMissedDeadline: true)</verification>
+      <verification>Quest 4 soft deadline validated (Strahd aggression increases)</verification>
+      <verification>EventScheduler integration events registered correctly</verification>
+      <verification>Warning threshold events fire at correct times</verification>
+    </ac>
+
+    <ac id="5" name="Quest Consequences and State Changes">
+      <verification>Completion consequences validated (stateChanges, triggeredEvents, unlockedQuests)</verification>
+      <verification>EventExecutor applies consequences atomically</verification>
+      <verification>Quest chain unlocking tested (Quest 4 → Quest 5 + Quest 6)</verification>
+      <verification>NPC reactions tested</verification>
+    </ac>
+
+    <ac id="6" name="Quest Rewards System">
+      <verification>All quests have experience > 0</verification>
+      <verification>InventoryManager receives item rewards correctly</verification>
+      <verification>LevelUpCalculator processes XP awards correctly</verification>
+      <verification>Objective rewards stack with quest completion rewards</verification>
+    </ac>
+
+    <ac id="7" name="Quest Branching and Player Choices">
+      <verification>Quest 4 branching validated (church vs mansion)</verification>
+      <verification>Quest 12 artifact count branching validated</verification>
+      <verification>Player choices persist in quest-state.yaml</verification>
+      <verification>DM guidance documents all branches</verification>
+    </ac>
+
+    <ac id="8" name="Quest Journal System">
+      <verification>All quests have initial journal entry</verification>
+      <verification>Journal updates reference valid triggers</verification>
+      <verification>Completion and failure journal entries present</verification>
+      <verification>Journal state persists via StateManager</verification>
+    </ac>
+
+    <ac id="9" name="Epic 1-3 Integration Checkpoint (CRITICAL GATE)">
+      <verification>StateManager loads/saves quest state correctly (7 integration tests)</verification>
+      <verification>EventScheduler registers quest deadline events correctly</verification>
+      <verification>EventExecutor applies quest state changes atomically</verification>
+      <verification>InventoryManager and LevelUpCalculator receive rewards correctly</verification>
+      <verification>Full quest lifecycle test passes: accept → progress → complete → rewards</verification>
+      <verification>NPC questInvolvement references resolve correctly</verification>
+      <verification>All Epic 1-3 systems work together without conflicts</verification>
+    </ac>
+
+    <ac id="10" name="DM Guidance and Lore Documentation">
+      <verification>All quests have 3+ narrative hooks</verification>
+      <verification>Roleplay tips present for quest-giving NPCs</verification>
+      <verification>Combat encounters documented (location, CR, monsters)</verification>
+      <verification>Common pitfalls and alternatives documented</verification>
+      <verification>Lore sections complete (background, connectionToMainStory, historicalContext)</verification>
+      <verification>DM guidance optimized for LLM-DM consumption</verification>
+    </ac>
+
+  </acceptance-criteria-summary>
+
+  <!-- ========================================================================
+       QUALITY METRICS TARGETS
+       Expected deliverable metrics
+       ======================================================================== -->
+  <quality-metrics>
+
+    <code-metrics>
+      <metric name="Quest YAML Lines">3,500-4,500 lines across 12 quests</metric>
+      <metric name="QuestManager Lines">200-300 lines JavaScript</metric>
+      <metric name="Test Lines">800-1,100 lines (80-100 tests)</metric>
+      <metric name="Quest State Schema">50-100 lines YAML</metric>
+    </code-metrics>
+
+    <test-metrics>
+      <metric name="Total Tests">80-100</metric>
+      <metric name="Pass Rate">100%</metric>
+      <metric name="Coverage">80%+ for QuestManager module</metric>
+      <metric name="Test Organization">AC-based (10 files, one per AC)</metric>
+    </test-metrics>
+
+    <quality-targets>
+      <target name="Schema Compliance">100% (all 12 quests validate)</target>
+      <target name="Reference Validation">100% (no broken NPC/location/item references)</target>
+      <target name="Quest Chain Integrity">100% (all unlocking logic tested)</target>
+      <target name="Epic 1-3 Integration">100% (AC-9 checkpoint passed)</target>
+    </quality-targets>
+
+    <file-organization>
+      <structure>
+        src/quests/quest-manager.js (QuestManager module)
+        game-data/quests/escape_from_death_house.yaml (Quest 1)
+        game-data/quests/arrival_in_the_village.yaml (Quest 2)
+        ... (Quests 3-12)
+        game-data/state/quest-state.yaml (Quest state persistence)
+        tests/quests/quest-manager.test.js (Unit tests)
+        tests/integration/quests/main-quest-chain.test.js (Integration tests)
+        tests/integration/quests/epic-integration.test.js (AC-9 integration tests)
+      </structure>
+    </file-organization>
+
+  </quality-metrics>
+
+  <!-- ========================================================================
+       REFERENCES AND RELATED STORIES
+       Cross-references to other stories and epics
+       ======================================================================== -->
+  <references>
+
+    <related-stories>
+      <story id="4-7" name="Strahd NPC Profile" relevance="Quest 12 references Strahd">
+        Strahd NPC profile includes legendary actions, lair actions, vampire abilities
+        for Quest 12 final battle. Quest 12 DM guidance references Strahd's combat phases.
+      </story>
+
+      <story id="4-8" name="Ireena NPC Profile" relevance="Quest 3, 4 involve Ireena">
+        Ireena NPC profile includes questInvolvement: ["bury_the_burgomaster", "escort_ireena_to_vallaki"].
+        Quest 3 and Quest 4 reference Ireena as quest giver and escort target.
+      </story>
+
+      <story id="4-9" name="Ismark NPC Profile" relevance="Quest 3 quest giver">
+        Ismark NPC profile includes questInvolvement: ["bury_the_burgomaster"].
+        Quest 3 references Ismark as quest giver in burgomaster's mansion.
+      </story>
+
+      <story id="4-10" name="Major NPCs Batch 2" relevance="Quest 10 ally options">
+        Van Richten and Ezmerelda marked as Tarokka ally options in NPC profiles.
+        Quest 10 (Identify Ally) references these NPCs based on Tarokka reading.
+      </story>
+
+      <story id="4-1" name="Village of Barovia Location" relevance="Quest 2, 3 location">
+        Village of Barovia location includes Events.md with quest triggers.
+        Quest 2 (Arrival in Village) and Quest 3 (Bury Burgomaster) occur here.
+      </story>
+
+      <story id="4-3" name="Vallaki Location" relevance="Quest 4, 6 location">
+        Vallaki location includes Church of St. Andral and Burgomaster's mansion.
+        Quest 4 (Escort Ireena) delivers to Vallaki. Quest 6 (St. Andral's Bones) occurs here.
+      </story>
+
+      <story id="4-2" name="Castle Ravenloft Structure" relevance="Quest 12 location">
+        Castle Ravenloft location includes lair actions for Strahd.
+        Quest 12 (Destroy Strahd) final battle occurs at Castle Ravenloft.
+      </story>
+    </related-stories>
+
+    <epic-dependencies>
+      <epic id="1" name="Core Game Systems">
+        StateManager for quest state persistence (AC-1, AC-9)
+        LocationLoader for quest location references
+      </epic>
+
+      <epic id="2" name="Game Calendar &amp; Dynamic World">
+        EventScheduler for quest deadline tracking (AC-4, AC-9)
+        EventExecutor for quest consequence application (AC-5, AC-9)
+        TimeManager for quest time constraint calculations
+      </epic>
+
+      <epic id="3" name="D&amp;D 5e Mechanics Integration">
+        InventoryManager for quest item rewards (AC-6, AC-9)
+        LevelUpCalculator for quest XP awards (AC-6, AC-9)
+        CharacterManager for quest-giving NPCs (AC-1, AC-9)
+      </epic>
+    </epic-dependencies>
+
+    <future-stories>
+      <story id="4-12" name="Artifact Quests (Side Quests)" depends-on="4-11">
+        Side quests for artifact recovery (complements main Quest 7-9).
+        Requires QuestManager and quest system from Story 4-11.
+      </story>
+
+      <story id="4-13" name="Faction Quests" depends-on="4-11">
+        Faction-specific quests (Keepers of Feather, Vistani).
+        Requires QuestManager and quest system from Story 4-11.
+      </story>
+
+      <story id="4-16" name="Tarokka Reading System" integrates-with="4-11">
+        Tarokka card reading system determines artifact/ally locations.
+        Quest 5, 7-11 reference Tarokka results for variability.
+      </story>
+    </future-stories>
+
+  </references>
+
+  <!-- ========================================================================
+       ADDITIONAL NOTES
+       Important context and reminders
+       ======================================================================== -->
+  <additional-notes>
+
+    <critical-success-factors>
+      <factor priority="HIGHEST">
+        AC-9 Integration Checkpoint: This AC validates Epic 1-3 systems work together.
+        MUST pass before proceeding to Stories 4-12, 4-13. Integration tests are gate.
+      </factor>
+
+      <factor priority="HIGH">
+        Quest Chain Integrity: Quest unlocking logic must be correct (DAG validation).
+        Quest 12 requires all artifacts + ally + weakness. Test thoroughly.
+      </factor>
+
+      <factor priority="HIGH">
+        Time Constraint Implementation: EventScheduler integration for deadlines is NEW pattern.
+        Quest 6 (St. Andral's Bones) hard deadline MUST work correctly (3-day limit).
+      </factor>
+
+      <factor priority="MEDIUM">
+        Schema Compliance: All 12 quests MUST validate against quest-template.yaml v1.0.0.
+        Use js-yaml schema validation in every test. 100% compliance target.
+      </factor>
+    </critical-success-factors>
+
+    <development-reminders>
+      <reminder>Quest IDs use snake_case: "escape_from_death_house" not "escapeFromDeathHouse"</reminder>
+      <reminder>Quest files named with kebab-case: "escape-from-death-house.yaml"</reminder>
+      <reminder>Barovian calendar format: "735-10-15" (year-month-day)</reminder>
+      <reminder>Result Object pattern: {success, data, error} for all async operations</reminder>
+      <reminder>Dependency injection for testability (fs, path, yaml, stateManager, eventScheduler)</reminder>
+      <reminder>AC-based test organization: One test file per AC (quest-manager-ac1.test.js, etc.)</reminder>
+    </development-reminders>
+
+    <integration-checkpoint-details>
+      <checkpoint name="AC-9: Epic 1-3 Integration">
+        This is the CRITICAL validation gate before Stories 4-12 and 4-13.
+
+        Test Requirements:
+        1. StateManager loads/saves quest-state.yaml correctly (atomic writes)
+        2. EventScheduler registers quest deadline events without conflicts
+        3. EventExecutor applies quest consequences atomically (batch location updates)
+        4. InventoryManager receives quest item rewards correctly (weight validation)
+        5. LevelUpCalculator processes quest XP correctly (level-up trigger)
+        6. Quest-giving NPCs have correct questInvolvement references
+        7. Full lifecycle test: accept quest → progress objectives → complete → apply rewards
+
+        Success Criteria:
+        - All 7 integration tests pass (100% pass rate)
+        - No Epic 1-3 system conflicts detected
+        - Quest state persists across session end/resume
+        - Epic 2 time constraints work with Epic 3 mechanics
+
+        Failure Impact:
+        If AC-9 fails, Stories 4-12, 4-13 CANNOT start. Must resolve integration issues first.
+      </checkpoint>
+    </integration-checkpoint-details>
+
+    <time-estimates>
+      <estimate phase="QuestManager Module">8-12 hours (complex API, caching, validation)</estimate>
+      <estimate phase="Quest 1-6 (Simple/Standard)">16-24 hours (6 quests × 3-4 hours each)</estimate>
+      <estimate phase="Quest 7-11 (Complex)">20-30 hours (5 quests × 4-6 hours each)</estimate>
+      <estimate phase="Quest 12 (Final)">8-12 hours (most complex single quest)</estimate>
+      <estimate phase="Integration Tests">12-16 hours (80-100 tests, AC-9 critical)</estimate>
+      <estimate phase="NPC/Location Updates">4-6 hours (update questInvolvement fields)</estimate>
+      <estimate total="Total">68-100 hours (Story Points: 13 justified)</estimate>
+    </time-estimates>
+
+  </additional-notes>
+
+</story-context>

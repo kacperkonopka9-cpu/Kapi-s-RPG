@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run compile:*)",
+      "Bash(dir \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\src\" /b)",
+      "mcp__ide__getDiagnostics",
+      "Bash(dir \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\game-data\\session\" /b)",
+      "Bash(dir \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\game-data\\session\")",
+      "Bash(dir \"C:\\Users\\ACER\\Documents\\GitHub\\Kapi-s-RPG\\game-data\\session\\logs\" /b)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

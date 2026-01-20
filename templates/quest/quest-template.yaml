@@ -1,0 +1,286 @@
+# Quest Template for Curse of Strahd
+# Tracks main quests, side quests, and objectives
+# Integrates with Epic 2 EventScheduler for time-based triggers
+
+# === BASIC INFORMATION ===
+questId: "unique_quest_id"  # lowercase_with_underscores
+name: "Quest Name"
+type: "main"  # main, side, personal, faction
+category: "story"  # story, exploration, combat, social, investigation
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "npc_id"  # NPC who gives the quest
+  location: "location_id"  # Where quest is given
+  dialogue: "Quest-giving dialogue snippet"
+
+questRecipient: "player"  # Who receives the quest (usually "player")
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "One-sentence quest summary"
+  full: "Detailed description of what the quest entails, why it's important, and what the stakes are."
+
+# === QUEST STATUS ===
+status: "not_started"  # not_started, available, active, completed, failed, abandoned
+
+# Workflow:
+# not_started -> available (when prerequisites met)
+# available -> active (when player accepts)
+# active -> completed/failed/abandoned
+
+# === PREREQUISITES ===
+prerequisites:
+  level: null  # Minimum character level (null = any level)
+
+  requiredQuests:
+    completed: []  # Quest IDs that must be completed first
+    # - "previous_quest_id"
+
+  requiredEvents: []  # Events that must have occurred
+  # - eventId: "event_id"
+  #   status: "triggered"
+
+  requiredNPCs:
+    alive: []  # NPCs that must be alive
+    # - "npc_id"
+    dead: []  # NPCs that must be dead
+    # - "npc_id"
+
+  requiredItems: []  # Items player must possess
+  # - "item_id"
+
+  requiredLocations:
+    visited: []  # Locations player must have visited
+    # - "location_id"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "objective_1"
+    description: "Objective description (e.g., 'Talk to Ismark in the mansion')"
+    type: "dialogue"  # dialogue, combat, exploration, fetch, escort, investigate
+    status: "pending"  # pending, in_progress, completed, failed
+
+    target: null  # Target NPC, location, or item
+    # target:
+    #   type: "npc"
+    #   id: "ismark_kolyanovich"
+    #   location: "village_of_barovia_burgomaster_mansion"
+
+    optional: false  # Can quest be completed without this objective?
+
+    completionTrigger:
+      type: "dialogue_complete"  # How this objective is marked complete
+      # dialogue_complete, npc_defeated, item_obtained, location_reached, event_triggered
+
+    rewards:
+      experience: 0  # XP for completing this objective
+      items: []
+      currency: {}
+
+  # Example objectives:
+  # - objectiveId: "objective_2"
+  #   description: "Escort Ireena to Vallaki"
+  #   type: "escort"
+  #   status: "pending"
+  #   target:
+  #     type: "npc"
+  #     id: "ireena_kolyana"
+  #     destination: "vallaki"
+  #   completionTrigger:
+  #     type: "npc_reaches_location"
+  #     npcId: "ireena_kolyana"
+  #     locationId: "vallaki"
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false  # Does quest have a time limit?
+
+  deadline: null  # If hasDeadline, specify date/time
+  # deadline:
+  #   date: "735-10-15"  # Barovian calendar date
+  #   time: "18:00"
+
+  failOnMissedDeadline: false  # Auto-fail if deadline passes?
+
+  warningThreshold: null  # Warn player X days before deadline
+  # warningThreshold: 2  # days
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges: []  # World state changes when completed
+    # - type: "npc_status"
+    #   npcId: "ireena_kolyana"
+    #   status: "safe_in_vallaki"
+    # - type: "location_state"
+    #   locationId: "vallaki"
+    #   changes:
+    #     ireena_arrived: true
+
+    triggeredEvents: []  # Events that trigger on completion
+    # - eventId: "strahd_learns_ireenas_location"
+    #   delay: "1d3"  # Days delay
+
+    unlockedQuests: []  # Quests that become available
+    # - "next_quest_id"
+
+    npcReactions: []  # How NPCs react to completion
+    # - npcId: "ismark_kolyanovich"
+    #   attitudeChange: +20  # Trust level increase
+    #   dialogue: "Thank you for keeping Ireena safe!"
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: false  # Can quest be retried after failure?
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true  # Can quest be restarted after abandonment?
+
+# === REWARDS ===
+rewards:
+  experience: 500  # Total XP for completing quest
+
+  items: []  # Items rewarded
+  # - itemId: "magic_item"
+  #   quantity: 1
+  #   source: "quest_giver"  # Where item comes from
+
+  currency:
+    gold: 100
+    silver: 0
+    copper: 0
+
+  reputation: []  # Faction reputation changes
+  # - faction: "keepers_of_the_feather"
+  #   change: +10
+
+  specialRewards: []  # Unique non-item rewards
+  # - type: "npc_joins_party"
+  #   npcId: "npc_id"
+  # - type: "location_unlocked"
+  #   locationId: "location_id"
+
+# === BRANCHING & CHOICES ===
+branches: []  # Quest can branch based on player choices
+# branches:
+#   - branchId: "spare_or_kill"
+#     description: "Player chooses to spare or kill the enemy"
+#     decision:
+#       prompt: "What do you do with the defeated enemy?"
+#       choices:
+#         - choiceId: "spare"
+#           description: "Spare their life"
+#           consequences:
+#             - type: "npc_status"
+#               npcId: "enemy_npc"
+#               status: "spared"
+#             - type: "reputation"
+#               faction: "good_npcs"
+#               change: +5
+#
+#         - choiceId: "kill"
+#           description: "Execute them"
+#           consequences:
+#             - type: "npc_status"
+#               npcId: "enemy_npc"
+#               status: "dead"
+#             - type: "reputation"
+#               faction: "good_npcs"
+#               change: -5
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Journal entry when quest is accepted"
+
+  updates: []  # Journal entries for objective completions
+  # - trigger: "objective_1_complete"
+  #   entry: "Journal entry after completing objective 1"
+
+  completion: "Journal entry when quest is completed"
+
+  failure: "Journal entry if quest fails"
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []  # Events this quest registers with EventScheduler
+  # - eventId: "quest_deadline_warning"
+  #   trigger:
+  #     type: "date_time"
+  #     date: "735-10-13"
+  #     time: "08:00"
+  #   effect:
+  #     type: "notification"
+  #     message: "You have 2 days left to complete the escort quest!"
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "Narrative hook or foreshadowing opportunity"
+
+  roleplayTips:
+    - "Tip for roleplaying NPCs in this quest"
+
+  combatEncounters: []  # Expected combat encounters
+  # - encounter: "zombie_ambush"
+  #   location: "village_of_barovia_cemetery"
+  #   cr: 2
+
+  commonPitfalls:
+    - "Common mistake players make and how to guide them"
+
+  alternatives:
+    - "Alternative solution paths players might discover"
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain: null  # If part of a quest chain
+  # partOfQuestChain:
+  #   chainId: "main_story"
+  #   position: 2  # Second quest in chain
+
+  blocksQuests: []  # Quests that can't start until this completes
+  # - "dependent_quest_id"
+
+  conflictsWith: []  # Quests that can't be active simultaneously
+  # - "conflicting_quest_id"
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 3  # Party level
+  challengeRating: 2  # Overall CR of quest encounters
+  skillChecks:
+    - skill: "persuasion"
+      dc: 15
+    - skill: "investigation"
+      dc: 12
+
+# === LORE & CONTEXT ===
+lore:
+  background: "Backstory and context for this quest"
+
+  connectionToMainStory: "How this quest relates to defeating Strahd"
+
+  historicalContext: "Historical events relevant to this quest"
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.XX"
+  official: true
+
+  estimatedDuration: "1-2 sessions"  # How long quest typically takes
+
+  tags: ["story", "escort", "combat", "roleplay"]
+
+  notes: "DM notes about this quest"
+
+  developmentStage: "draft"  # draft, reviewed, playtest, final
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

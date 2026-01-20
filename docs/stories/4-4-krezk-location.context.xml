@@ -1,0 +1,273 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>4</storyId>
+    <title>Krezk Location</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-12</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-4-krezk-location.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a player progressing through the Curse of Strahd campaign</asA>
+    <iWant>the Village of Krezk implemented as a navigable settlement with the Abbey of St. Markovia and all key locations</iWant>
+    <soThat>I can seek sanctuary for Ireena, interact with the Abbot, access the blessed pool, and engage with quest lines centered in this fortified mountain village</soThat>
+    <tasks>
+      <task id="1" ac="1">Create Parent Location Folder Structure - Create krezk parent directory with all 6 required files, validate structure</task>
+      <task id="2" ac="2,3">Design Sub-Location Architecture - Identify and map all major village areas to sub-location folders (minimum 5)</task>
+      <task id="3" ac="2,3">Create Sub-Location Folders - Create minimum 5 sub-location directories (abbey, burgomaster-house, blessed-pool, village-gates, shrine) with 6 files each</task>
+      <task id="4" ac="4">Author Parent Description.md - Village exterior, walls, mountain setting with 4+ variants, verify token count</task>
+      <task id="5" ac="4">Author Sub-Location Description.md Files - Area descriptions with 2+ variants for each sub-location</task>
+      <task id="6" ac="5">Author Parent NPCs.md - Major village residents (Dmitri, Abbot, Anna, Father Andrei, Gatekeeper)</task>
+      <task id="7" ac="5">Author Sub-Location NPCs.md Files - Area-specific NPCs and encounters for each sub-location</task>
+      <task id="8" ac="6">Author Parent Items.md - Major village treasures and legendary artifact locations</task>
+      <task id="9" ac="6">Author Sub-Location Items.md Files - Area-specific loot for each sub-location</task>
+      <task id="10" ac="7">Author Parent Events.md - Village-wide events (Ilya's Death, Pool Resurrection, Abbot's Wrath)</task>
+      <task id="11" ac="7">Author Sub-Location Events.md Files - Area-specific events conforming to Epic 2 schema</task>
+      <task id="12" ac="8">Create Parent State.md - Village-wide state tracking with YAML frontmatter</task>
+      <task id="13" ac="8">Create Sub-Location State.md Files - Area-specific state for each sub-location</task>
+      <task id="14" ac="9">Create Parent metadata.yaml - Village structure, connections, sub_locations array</task>
+      <task id="15" ac="9">Create Sub-Location metadata.yaml Files - Sub-location metadata with parent references</task>
+      <task id="16" ac="10">Integration Testing with Epic 1 LocationLoader - Test nested loading, performance</task>
+      <task id="17" ac="11">Integration Testing with Epic 2 EventScheduler - Test event registration and triggers</task>
+      <task id="18" ac="12">Validation and Documentation - Run validation on all folders, integration tests</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1">Parent Location Folder Created - krezk parent directory with 6 required files, passes validation</ac>
+    <ac id="2">Sub-Location Architecture Implemented - Nested sub-location structure following Story 4-2/4-3 pattern</ac>
+    <ac id="3">Major Village Areas Implemented - Minimum 5 sub-locations: Abbey of St. Markovia, Burgomaster's House, Blessed Pool, Village Gates, Shrine of the White Sun</ac>
+    <ac id="4">Description.md Atmospheric Content - Parent with 4+ variants, sub-locations with 2+ variants, all &lt;2000 tokens</ac>
+    <ac id="5">NPCs.md Village Inhabitants - Major NPCs in parent, area-specific encounters in sub-locations</ac>
+    <ac id="6">Items.md Village Treasures - Area-specific loot distribution following Epic 3 schema</ac>
+    <ac id="7">Events.md Village and Area Events - Village-wide and area-specific events using Epic 2 EventScheduler schema</ac>
+    <ac id="8">State.md Village State Tracking - YAML frontmatter with village and area-specific state</ac>
+    <ac id="9">metadata.yaml Structure and Connections - Parent declares sub_locations, sub-locations declare parent_location</ac>
+    <ac id="10">Epic 1 LocationLoader Integration - Nested loading works, performance targets met</ac>
+    <ac id="11">Epic 2 EventScheduler Integration - Events register correctly, conditional triggers work</ac>
+    <ac id="12">Documentation and Validation - All folders pass validation, integration tests pass</ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification: Curse of Strahd Content Implementation</title>
+        <section>Overview, Locations, System Architecture</section>
+        <snippet>Implements complete Curse of Strahd campaign content including 34 major locations. Village of Krezk specified as one of major settlements with Abbey of St. Markovia and blessed pool. All locations use Epic 1 folder structure with standardized 6-file template.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification: Core Engine &amp; Location System</title>
+        <section>Folder-Based Location System, Data Structures</section>
+        <snippet>Defines location folder structure with 6 required files (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml). LocationLoader module loads and parses location data. StateManager updates and persists State.md files atomically.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification: Game Calendar &amp; Dynamic World System</title>
+        <section>Event Scheduling, Event Execution, State Propagation</section>
+        <snippet>EventScheduler checks for triggered events (date/time, conditional, location-based, recurring). EventExecutor loads Event.md definitions and applies effects to State.md. WorldStatePropagator cascades state changes across connected locations.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture Patterns, File-First Design, YAML Frontmatter Pattern</section>
+        <snippet>All game state persists in human-readable Markdown/YAML files. Each location is a folder with standardized files. State.md combines YAML frontmatter (structured data) with narrative Markdown. Result Object pattern for async operations.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-3-vallaki-location.md</path>
+        <title>Story 4.3: Vallaki Location</title>
+        <section>Implementation, Review Notes, Learnings</section>
+        <snippet>Nested sub-location architecture successfully applied (3rd time). 49 files created (6 parent + 42 sub-locations). 100% validation pass rate. Token management strategy effective. Integration tests created for LocationLoader and EventScheduler compatibility. Patterns to reuse: sub-location-design.md, YAML frontmatter, Epic 2 event schema.</snippet>
+      </doc>
+      <doc>
+        <path>templates/location/</path>
+        <title>Location Folder Template</title>
+        <section>Standard Structure</section>
+        <snippet>Template directory with all 6 required files pre-created. Copy to game-data/locations/ and fill in content. Provides standard structure for Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-80</lines>
+        <reason>Loads and parses location data from game-data/locations/ directories. API: loadLocation(locationId) returns LocationData object with all 6 files parsed. Caches loaded locations for performance. Must work with nested sub-location architecture (krezk/abbey-of-st-markovia/).</reason>
+      </file>
+      <file>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-80</lines>
+        <reason>Manages State.md files with YAML frontmatter pattern. API: loadState(locationId), saveState(locationId, stateData). Tracks visited status, discovered items, completed events, NPC states. Atomic read-modify-write operations. Required for Krezk state tracking (Ilya dying, pool used, Abbey secrets).</reason>
+      </file>
+      <file>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-60</lines>
+        <reason>Detects when events should trigger based on time, location, or conditions. Supports date/time triggers, conditional triggers (NPC status, game flags), and recurring events. Required for Krezk conditional events (Ilya's death, blessed pool resurrection, Abbot's wrath).</reason>
+      </file>
+      <file>
+        <path>src/calendar/event-executor.js</path>
+        <kind>service</kind>
+        <symbol>EventExecutor</symbol>
+        <lines>1-50</lines>
+        <reason>Loads Event.md definitions and applies effects to world state. Integrates with StateManager to update State.md files. Required for executing Krezk events and propagating state changes.</reason>
+      </file>
+      <file>
+        <path>scripts/validate-location.js</path>
+        <kind>script</kind>
+        <symbol>validateLocation</symbol>
+        <lines>1-100</lines>
+        <reason>Validation script for location folder structure. Checks for 6 required files, validates YAML syntax, verifies metadata schema. Must run on all Krezk locations (parent + 5 sub-locations) per AC-12.</reason>
+      </file>
+      <file>
+        <path>tests/integration/locations/vallaki-structure.test.js</path>
+        <kind>test</kind>
+        <symbol>Vallaki Integration Tests</symbol>
+        <lines>1-239</lines>
+        <reason>Integration test template for nested sub-location architecture. Tests LocationLoader with parent + sub-locations, validates 6-file structure, verifies metadata relationships. Pattern to reuse for krezk-structure.test.js.</reason>
+      </file>
+      <file>
+        <path>game-data/locations/vallaki/sub-location-design.md</path>
+        <kind>doc</kind>
+        <symbol>Sub-Location Design Pattern</symbol>
+        <lines>1-100</lines>
+        <reason>Design document mapping Vallaki areas to sub-location folders. Pattern to reuse for Krezk: create krezk/sub-location-design.md before implementation to plan structure.</reason>
+      </file>
+      <file>
+        <path>templates/location/</path>
+        <kind>template</kind>
+        <symbol>Location Template</symbol>
+        <lines>N/A</lines>
+        <reason>Template directory with all 6 required location files pre-created. Copy to game-data/locations/krezk/ and each sub-location to bootstrap folder structure.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="js-yaml">Used for parsing YAML frontmatter in State.md and metadata.yaml files</package>
+        <package name="fs">File system operations for reading/writing location files</package>
+        <package name="path">Path manipulation for nested location directories (krezk/abbey-of-st-markovia/)</package>
+      </node>
+      <testing>
+        <package name="jest">Test framework for integration tests (krezk-structure.test.js)</package>
+      </testing>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Pure Content Implementation - This story creates only data files (Markdown/YAML), no code changes required</constraint>
+    <constraint>Epic 1 Folder Structure - All locations must follow standardized 6-file template (Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml)</constraint>
+    <constraint>Nested Sub-Location Architecture - Krezk uses parent/sub-location pattern validated in Stories 4-2 and 4-3</constraint>
+    <constraint>Token Count Limit - All Description.md files must stay under 2000 tokens to fit in LLM context window</constraint>
+    <constraint>YAML Frontmatter Pattern - State.md files must use YAML frontmatter (between --- delimiters) followed by narrative Markdown</constraint>
+    <constraint>Epic 2 Event Schema - All Events.md files must conform to EventScheduler schema (eventId, name, trigger_type, trigger_conditions, effects)</constraint>
+    <constraint>Epic 3 Data Schemas - NPC and item definitions must conform to Epic 3 CharacterManager and ItemDatabase schemas</constraint>
+    <constraint>Validation Required - All location folders must pass npm run validate-location script before completion</constraint>
+    <constraint>Integration Tests Required - Must create krezk-structure.test.js and krezk-events.test.js following Vallaki pattern</constraint>
+    <constraint>Project-Relative Paths - All file paths in metadata must be project-relative, not absolute</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>LocationLoader.loadLocation(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadLocation(locationId: string): Promise&lt;LocationData&gt;</signature>
+      <path>src/data/location-loader.js</path>
+      <usage>Load Krezk parent location: await locationLoader.loadLocation('krezk'). Load sub-locations: await locationLoader.loadLocation('krezk/abbey-of-st-markovia')</usage>
+    </interface>
+    <interface>
+      <name>StateManager.loadState(locationId)</name>
+      <kind>function</kind>
+      <signature>async loadState(locationId: string): Promise&lt;{success: boolean, data?: StateData, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <usage>Load Krezk state: const result = await stateManager.loadState('krezk'). Returns Result Object pattern {success, data, error}</usage>
+    </interface>
+    <interface>
+      <name>StateManager.saveState(locationId, stateData)</name>
+      <kind>function</kind>
+      <signature>async saveState(locationId: string, stateData: object): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <usage>Save Krezk state: await stateManager.saveState('krezk', updatedState). Atomic write operation.</usage>
+    </interface>
+    <interface>
+      <name>EventScheduler.checkTriggers(calendar, oldTime, newTime)</name>
+      <kind>function</kind>
+      <signature>checkTriggers(calendar: CalendarData, oldTime: string, newTime: string): Array&lt;TriggeredEvent&gt;</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <usage>Detect triggered Krezk events when time advances. Returns array of events that should execute (Ilya's death deadline, etc.)</usage>
+    </interface>
+    <interface>
+      <name>Epic 1 Location Folder Structure</name>
+      <kind>data schema</kind>
+      <signature>6 required files: Description.md, NPCs.md, Items.md, Events.md, State.md, metadata.yaml</signature>
+      <path>docs/tech-spec-epic-1.md</path>
+      <usage>All Krezk folders (parent + sub-locations) must conform to this structure. Validated by scripts/validate-location.js</usage>
+    </interface>
+    <interface>
+      <name>Epic 2 Event Schema</name>
+      <kind>data schema</kind>
+      <signature>Event: {eventId, name, trigger_type: (date_time|conditional|recurring), trigger_conditions, effects: [{type, ...}]}</signature>
+      <path>docs/tech-spec-epic-2.md</path>
+      <usage>All Events.md files must use this YAML schema. Required for Krezk conditional events (Ilya's death, pool resurrection, Abbot's wrath)</usage>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing framework: Jest. Integration tests validate Epic 1 LocationLoader and Epic 2 EventScheduler compatibility with new content. Test structure follows established pattern from Stories 4-1, 4-2, 4-3: create location-structure tests for LocationLoader verification and event tests for EventScheduler validation. All tests must pass before story completion. Target: 100% validation pass rate for all location folders.
+    </standards>
+    <locations>
+      <location>tests/integration/locations/</location>
+      <location>tests/integration/events/</location>
+    </locations>
+    <ideas>
+      <test ac="1,2,3">
+        <file>tests/integration/locations/krezk-structure.test.js</file>
+        <description>Integration test suite for Krezk location structure following vallaki-structure.test.js pattern</description>
+        <tests>
+          - Test parent location loads successfully via LocationLoader
+          - Test all 6 required parent files present and parsed
+          - Test parent metadata declares 5+ sub-locations
+          - Test each sub-location loads independently
+          - Test each sub-location has all 6 required files
+          - Test sub-location metadata declares parent_location: "krezk"
+          - Test metadata relationships (location_type, danger_level, connected_locations)
+          - Test quest-critical locations marked correctly (Abbey, Pool)
+          - Test all Description.md files under 2000 tokens
+        </tests>
+      </test>
+      <test ac="7,11">
+        <file>tests/integration/events/krezk-events.test.js</file>
+        <description>Integration test suite for Krezk event validation following vallaki-events.test.js pattern</description>
+        <tests>
+          - Test parent Events.md schema validation (eventId, trigger_type, effects)
+          - Test sub-location Events.md schema validation
+          - Test conditional event triggers (Ilya's death, pool resurrection, Abbot's wrath)
+          - Test event effects conform to Epic 2 EventExecutor types
+          - Test EventScheduler registers all events successfully
+        </tests>
+      </test>
+      <test ac="10">
+        <file>tests/integration/locations/krezk-structure.test.js</file>
+        <description>LocationLoader performance tests</description>
+        <tests>
+          - Test parent location load time &lt; 1 second
+          - Test sub-location load time &lt; 500ms
+          - Test nested loading works correctly (parent -&gt; sub-location traversal)
+        </tests>
+      </test>
+      <test ac="12">
+        <file>Validation via npm run validate-location</file>
+        <description>Epic 1 validation script execution</description>
+        <tests>
+          - Run validation on krezk parent: npm run validate-location game-data/locations/krezk
+          - Run validation on each sub-location independently
+          - Verify 100% pass rate (no errors)
+        </tests>
+      </test>
+    </ideas>
+  </tests>
+</story-context>

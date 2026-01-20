@@ -1,0 +1,460 @@
+# Quest: Wizard of Wines Delivery
+# Major Side Quest - Combat and Alliance Building
+# Defeat druids and blights to restore wine production at the Wizard of Wines winery
+
+# === BASIC INFORMATION ===
+questId: "wizard_of_wines_delivery"
+name: "Wizard of Wines Delivery"
+type: "side"
+category: "combat"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "urwin_martikov"
+  location: "vallaki_blue_water_inn"
+  dialogue: "We've had no wine deliveries from the Wizard of Wines winery in two weeks. The winery is our livelihood - and Vallaki's only source of joy in this cursed land. Something terrible must have happened. Would you investigate? My family would be eternally grateful."
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Investigate the Wizard of Wines winery and restore wine production"
+  full: "The Wizard of Wines winery, run by the Martikov family for generations, has stopped producing wine. Urwin Martikov at the Blue Water Inn is desperate for news and help. The winery has been overrun by needle blights and evil druids who serve Strahd. The party must travel to the winery, defeat the druids and their blight minions, rescue the Martikov family members, recover the stolen gemstone that enchants the grapevines, and restore wine production. Optional: discover the Martikov family secret (they are wereravens), find all three magic gemstones."
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 4
+
+  requiredQuests:
+    completed: []
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive:
+      - "urwin_martikov"
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited:
+      - "vallaki"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "speak_to_urwin"
+    description: "Speak to Urwin Martikov about the wine shortage"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "urwin_martikov"
+      location: "vallaki_blue_water_inn"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_winery"
+    description: "Travel to the Wizard of Wines winery"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "wizard_of_wines"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "defeat_druids_and_blights"
+    description: "Defeat the druids and needle blights occupying the winery"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "enemy_group"
+      id: "druid_blighters"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "enemies_defeated"
+    rewards:
+      experience: 300
+      items: []
+      currency: {}
+
+  - objectiveId: "rescue_martikovs"
+    description: "Rescue Davian, Elvir, and Adrian Martikov"
+    type: "escort"
+    status: "pending"
+    target:
+      type: "npc_group"
+      id: "martikov_family"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "npcs_rescued"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "recover_stolen_gem"
+    description: "Recover the stolen gemstone that enchants the grapevines"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "item"
+      id: "wizard_of_wines_gem"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "item_obtained"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+  - objectiveId: "restore_wine_production"
+    description: "Return the gemstone to restore wine production"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "location"
+      id: "wizard_of_wines_fermentation_vats"
+      location: "wizard_of_wines"
+    optional: false
+    completionTrigger:
+      type: "item_placed"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+  - objectiveId: "discover_martikov_secret"
+    description: "Discover the Martikov family secret (wereravens)"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "secret"
+      id: "martikov_wereravens"
+      location: "wizard_of_wines"
+    optional: true
+    completionTrigger:
+      type: "secret_discovered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "find_all_three_gems"
+    description: "Learn about all three gemstones (optional long-term goal)"
+    type: "investigate"
+    status: "pending"
+    target: null
+    optional: true
+    completionTrigger:
+      type: "lore_discovered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "wizard_of_wines"
+        changes:
+          wine_production_restored: true
+          druids_defeated: true
+          gem_recovered: true
+
+      - type: "location_state"
+        locationId: "vallaki"
+        changes:
+          wine_supply_restored: true
+          morale: "improved"
+
+    triggeredEvents: []
+
+    unlockedQuests:
+      - "return_berez_gem"
+
+    npcReactions:
+      - npcId: "urwin_martikov"
+        attitudeChange: +30
+        dialogue: "You've saved our family business! The wine flows again, and Vallaki has hope. You have our eternal gratitude."
+
+      - npcId: "davian_martikov"
+        attitudeChange: +30
+        dialogue: "Thank you for rescuing us and defeating those foul druids. The winery is ours again. Please, take these bottles of our finest wine as thanks."
+
+  onFailure:
+    stateChanges:
+      - type: "location_state"
+        locationId: "wizard_of_wines"
+        changes:
+          winery_permanently_lost: true
+
+      - type: "location_state"
+        locationId: "vallaki"
+        changes:
+          wine_shortage: "permanent"
+          morale: "declining"
+
+    triggeredEvents: []
+
+    npcReactions:
+      - npcId: "urwin_martikov"
+        attitudeChange: -20
+        dialogue: "The winery is lost... our family's legacy, gone. Vallaki will have no wine, no joy, only despair."
+
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+# === REWARDS ===
+rewards:
+  experience: 700
+
+  items:
+    - itemId: "purple_grapemash_wine"
+      quantity: 6
+      source: "davian_martikov"
+    - itemId: "champagne_du_stompe"
+      quantity: 2
+      source: "davian_martikov"
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "keepers_of_the_feather"
+      change: +20
+    - faction: "vallaki_citizens"
+      change: +10
+
+  specialRewards:
+    - type: "alliance"
+      description: "Martikov family becomes allies; wereravens of the Keepers of the Feather may aid the party in future"
+      npcId: "davian_martikov"
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "gem_recovery_outcome"
+    description: "Quest outcome based on how many gemstones are recovered"
+    autoDecide: true
+    decision:
+      condition: "gems_recovered_count"
+      outcomes:
+        - outcomeId: "one_gem_recovered"
+          condition: "gems_recovered == 1"
+          consequences:
+            - type: "location_state"
+              locationId: "wizard_of_wines"
+              changes:
+                wine_production: "normal"
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: +20
+
+        - outcomeId: "two_gems_recovered"
+          condition: "gems_recovered == 2"
+          consequences:
+            - type: "location_state"
+              locationId: "wizard_of_wines"
+              changes:
+                wine_production: "enhanced"
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: +30
+
+        - outcomeId: "three_gems_recovered"
+          condition: "gems_recovered == 3"
+          consequences:
+            - type: "location_state"
+              locationId: "wizard_of_wines"
+              changes:
+                wine_production: "legendary"
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: +40
+            - type: "special_reward"
+              description: "Wereraven transformation option offered by Martikov family"
+
+  - branchId: "wereraven_revelation"
+    description: "Player discovers the Martikov family secret"
+    autoDecide: false
+    decision:
+      prompt: "You discover that the Martikovs are wereravens, members of the Keepers of the Feather who fight against Strahd. How do you react?"
+      choices:
+        - choiceId: "accept_secret"
+          description: "Accept their secret and offer to help their cause"
+          consequences:
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: +15
+            - type: "quest_unlock"
+              questId: "keepers_of_the_feather_alliance"
+
+        - choiceId: "wary_but_accepting"
+          description: "Be wary but accept their secret without judgment"
+          consequences:
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: +5
+
+        - choiceId: "reject_secret"
+          description: "Reject them as unnatural creatures"
+          consequences:
+            - type: "reputation"
+              faction: "keepers_of_the_feather"
+              change: -20
+            - type: "npc_reaction"
+              npcId: "davian_martikov"
+              reaction: "hostile"
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Urwin Martikov, innkeeper at the Blue Water Inn in Vallaki, has asked me to investigate the Wizard of Wines winery. The winery hasn't delivered wine in two weeks, and he fears something terrible has happened to his family's business."
+
+  updates:
+    - trigger: "travel_to_winery_complete"
+      entry: "I've arrived at the Wizard of Wines winery. The vineyards are overrun with twisted needle blights, and evil druids have taken control of the winery building. I can see Martikov family members trapped inside."
+
+    - trigger: "defeat_druids_and_blights_complete"
+      entry: "The druids and blights are defeated! The winery is clear, but the Martikovs say one of the three magic gemstones that enchant the grapevines has been stolen by the druids. I must recover it to restore full wine production."
+
+    - trigger: "recover_stolen_gem_complete"
+      entry: "I have recovered the stolen gemstone! Now I must return it to the fermentation vats to restore the winery's enchantment."
+
+    - trigger: "discover_martikov_secret_complete"
+      entry: "I've discovered the Martikov family secret: they are wereravens, members of an organization called the Keepers of the Feather who work to undermine Strahd's power in Barovia. This explains their resilience and resourcefulness."
+
+  completion: "The Wizard of Wines winery is saved! Wine production has been restored, and the Martikov family is grateful. Vallaki's wine supply is secure once more, bringing a rare moment of joy to the cursed land of Barovia. The Martikovs have become valuable allies in the fight against Strahd."
+
+  failure: "The winery has fallen to the druids and blights. The Martikov family has fled, and wine production is permanently halted. Vallaki's last source of comfort is gone, and the people's spirits sink ever lower."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "The winery is surrounded by needle blights disguised as grapevines. Players may not realize they're under attack until the blights animate."
+    - "The druids are members of a circle that worships Strahd and seeks to destroy sources of hope in Barovia."
+    - "The Martikovs are grateful but cautious about revealing their wereraven nature until they trust the party."
+
+  roleplayTips:
+    - "Urwin Martikov: Worried, desperate for news, tries to maintain a cheerful innkeeper demeanor."
+    - "Davian Martikov: Gruff, practical, fiercely protective of his family and winery. Suspicious of outsiders."
+    - "Druid Blighters: Fanatic, cruel, believe they're doing Strahd's will by destroying hope."
+
+  combatEncounters:
+    - encounter: "needle_blight_ambush"
+      location: "wizard_of_wines_vineyards"
+      cr: 3
+      description: "30 needle blights surround the winery. They attack in waves of 6-10."
+
+    - encounter: "druid_blighters"
+      location: "wizard_of_wines_main_building"
+      cr: 5
+      description: "3 druid blighters (CR 2 each) control the winery interior. They fight to the death."
+
+    - encounter: "gulthias_tree"
+      location: "wizard_of_wines_fermentation_vat"
+      cr: 4
+      description: "A Gulthias tree (source of blights) grows in the fermentation vat. It must be destroyed."
+
+  commonPitfalls:
+    - "Players may try to negotiate with the druids. The druids are fanatics and won't negotiate."
+    - "Players may forget to recover the gemstone. Remind them that wine production won't fully restore without it."
+    - "Players may attack the Martikovs if they discover they're wereravens. Emphasize that the Martikovs are allies, not enemies."
+
+  alternatives:
+    - "Players could sneak into the winery instead of fighting all the blights head-on."
+    - "Players could negotiate with the Martikovs for a share of the wine profits in exchange for help."
+    - "Players could investigate the location of the other two gemstones (leads to future quests)."
+
+  lore:
+    - "The three gemstones were created by a wizard centuries ago to enchant the grapevines and produce magical wine that brings comfort and hope."
+    - "One gemstone is at the winery (stolen by druids), one is at Berez (held by Baba Lysaga), and one is at Argynvostholt (hidden in the ruins)."
+    - "The Keepers of the Feather are a secret society of wereravens who oppose Strahd. The Martikov family are members."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain:
+    chainId: "wizard_of_wines_gemstones"
+    position: 1
+
+  blocksQuests:
+    - "return_berez_gem"
+
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 4
+  challengeRating: 4
+  skillChecks:
+    - skill: "investigation"
+      dc: 14
+      description: "To discover the wereraven secret or locate the hidden gemstone"
+    - skill: "persuasion"
+      dc: 12
+      description: "To gain the Martikovs' trust"
+    - skill: "nature"
+      dc: 13
+      description: "To identify the Gulthias tree and understand how to destroy it"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "The Wizard of Wines winery has produced wine for Barovia for ten generations. The Martikov family guards the secret of the three enchanted gemstones that make their wine magical, bringing rare moments of joy to the cursed land."
+
+  connectionToMainStory: "The winery represents hope and normalcy in Barovia. Strahd's druids attacked it to crush that hope. Saving the winery shows the party can protect what little good remains in the land and builds alliances with the Keepers of the Feather, who may prove invaluable against Strahd."
+
+  historicalContext: "The wizard who enchanted the gemstones centuries ago was attempting to create a sanctuary against Strahd's curse. While the gemstones can't break the curse, they do bring comfort and reduce despair, which weakens Strahd's psychological hold on the people."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.173-178"
+  official: true
+
+  estimatedDuration: "1-2 sessions"
+
+  tags: ["side", "combat", "alliance", "winery", "druids", "blights", "wereravens"]
+
+  notes: "This quest introduces the Keepers of the Feather faction and sets up future quests to recover the other two gemstones. The wereraven revelation should be handled with care to avoid player hostility."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 InventoryManager, Epic 3 LevelUpCalculator"

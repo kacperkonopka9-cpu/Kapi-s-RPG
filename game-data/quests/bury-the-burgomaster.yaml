@@ -1,0 +1,341 @@
+# Quest 3: Bury the Burgomaster
+# Meet Ismark and Ireena, conduct Kolyan Indirovich's funeral
+
+questId: "bury_the_burgomaster"
+name: "Bury the Burgomaster"
+type: "main"
+category: "social"
+
+questGiver:
+  npcId: "ismark_kolyanovich"
+  location: "village_of_barovia_burgomaster_mansion"
+  dialogue: "Please, we need help. My father is dead, and my sister... Strahd has been coming for her. We must bury our father properly, but I fear what will happen during the funeral."
+
+questRecipient: "player"
+
+description:
+  short: "Help Ismark bury his father and protect Ireena from Strahd's attention"
+  full: "Burgomaster Kolyan Indirovich has died, likely from a heart attack brought on by stress and fear. His son Ismark and daughter Ireena need help conducting a proper burial in the village cemetery. However, they fear that Strahd's minions will attack during the funeral - the vampire lord has been visiting Ireena nightly, and her father died trying to protect her. You must escort the coffin to the cemetery, defend against any attacks, and ensure Kolyan is laid to rest with dignity."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "arrival_in_the_village"
+  requiredEvents: []
+  requiredNPCs:
+    alive:
+      - "ismark_kolyanovich"
+      - "ireena_kolyana"
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "village_of_barovia"
+
+objectives:
+  - objectiveId: "talk_to_ismark"
+    description: "Speak with Ismark in the burgomaster's mansion"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "ismark_kolyanovich"
+      location: "village_of_barovia_burgomaster_mansion"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "meet_ireena"
+    description: "Meet Ireena Kolyana and learn about Strahd's visits"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "ireena_kolyana"
+      location: "village_of_barovia_burgomaster_mansion"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "prepare_funeral"
+    description: "Help prepare Kolyan's body for burial"
+    type: "social"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "escort_coffin"
+    description: "Escort the coffin to the cemetery"
+    type: "escort"
+    status: "pending"
+    target:
+      type: "location"
+      id: "village_of_barovia_cemetery"
+      location: "village_of_barovia"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "defend_funeral"
+    description: "Defend the funeral from Strahd's zombie minions"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "monster"
+      id: "zombie"
+      location: "village_of_barovia_cemetery"
+    optional: false
+    completionTrigger:
+      type: "npc_defeated"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+  - objectiveId: "complete_burial"
+    description: "Complete the burial ceremony and say final words"
+    type: "social"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "kolyan_indirovich"
+        status: "buried"
+
+      - type: "location_state"
+        locationId: "village_of_barovia_cemetery"
+        changes:
+          kolyan_buried: true
+
+      - type: "npc_status"
+        npcId: "ismark_kolyanovich"
+        status: "father_buried"
+
+      - type: "npc_status"
+        npcId: "ireena_kolyana"
+        status: "father_buried"
+
+    triggeredEvents:
+      - eventId: "strahd_awareness_increases"
+        delay: "1d3"
+
+    unlockedQuests:
+      - "escort_ireena_to_vallaki"
+
+    npcReactions:
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: 20
+        dialogue: "Thank you for honoring my father. Now we must get Ireena to safety. Will you help us?"
+
+      - npcId: "ireena_kolyana"
+        attitudeChange: 20
+        dialogue: "You have my gratitude. But I fear Strahd's attention has turned to you as well now."
+
+  onFailure:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "kolyan_indirovich"
+        status: "unburied"
+
+    triggeredEvents:
+      - eventId: "zombie_attack_escalates"
+        delay: "0"
+
+    npcReactions:
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: -10
+        dialogue: "We couldn't even bury my father properly..."
+
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions:
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: -20
+        dialogue: "You would abandon us in our hour of need? Very well. We expected nothing more."
+    canRestart: false
+
+rewards:
+  experience: 300
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "village_of_barovia"
+      change: 10
+
+  specialRewards:
+    - type: "npc_ally"
+      npcId: "ismark_kolyanovich"
+      description: "Ismark offers to fight alongside you"
+
+    - type: "npc_ally"
+      npcId: "ireena_kolyana"
+      description: "Ireena trusts you with her safety"
+
+branches: []
+
+journalEntries:
+  initial: "We've agreed to help Ismark bury his father, Burgomaster Kolyan Indirovich. The man died trying to protect his daughter Ireena from Strahd's nightly visits. Ismark fears zombies or worse will attack during the funeral, drawn by Strahd's malice. We must escort the coffin to the cemetery and ensure the burial is completed safely."
+
+  updates:
+    - trigger: "meet_ireena_complete"
+      entry: "I've met Ireena Kolyana. She bears scars on her neck - bite marks. Strahd has been visiting her, drawn to her in a way he describes as 'destiny.' She resembles someone from his past, though she won't say who. Her father died of a heart attack trying to keep Strahd out. The poor girl is terrified but trying to remain strong."
+
+    - trigger: "defend_funeral_complete"
+      entry: "Zombies erupted from the cemetery grounds during the funeral, just as Ismark feared. We fought them off while Ismark and Ireena sheltered behind Kolyan's coffin. The undead are relentless in this cursed land, animated by Strahd's will. We prevailed, but it's clear Strahd knows about us now."
+
+  completion: "We've laid Burgomaster Kolyan Indirovich to rest with dignity, despite Strahd's interference. Ismark and Ireena are grateful, but now we must address the larger problem: Ireena cannot stay in the village. Strahd will return for her, and next time he may not send mere zombies. We must find her sanctuary somewhere in this cursed land."
+
+  failure: "We were overwhelmed by the undead during the funeral. Kolyan remains unburied, and Ismark and Ireena's situation grows more desperate."
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "zombie_ambush_at_cemetery"
+      trigger:
+        type: "event_triggered"
+        eventId: "coffin_arrives_at_cemetery"
+      effect:
+        type: "combat_encounter"
+        message: "The earth cracks and splits as zombie hands claw their way to the surface!"
+        monsters:
+          - "zombie"
+          - "zombie"
+          - "zombie"
+
+dmGuidance:
+  narrativeHooks:
+    - "The mansion is fortified with barricaded windows and holy symbols - evidence of Kolyan's desperate defense"
+    - "Ireena has two puncture wounds on her neck, partially healed but visible"
+    - "Ismark is exhausted from sleepless nights watching over his sister"
+    - "The fog thickens as the funeral procession moves through the village - Strahd is watching"
+    - "Villagers watch from windows but won't attend the funeral - they're too afraid of Strahd's wrath"
+
+  roleplayTips:
+    - "Ismark is stoic and protective - he blames himself for not being able to protect his family"
+    - "Speak with a weary, defeated tone, but with underlying determination"
+    - "Ireena is strong-willed but frightened - she hates feeling helpless"
+    - "She speaks of Strahd with a mix of fear and strange recognition ('He says we've met before, but I have no memory of it')"
+    - "Both siblings loved their father deeply - allow emotional moments during the burial"
+
+  combatEncounters:
+    - encounter: "cemetery_zombie_ambush"
+      location: "village_of_barovia_cemetery"
+      cr: 2
+      monsters:
+        - "zombie"
+        - "zombie"
+        - "zombie"
+      tactics: "Zombies emerge from graves when coffin arrives. Ismark fights alongside party (treat as Fighter 2). Zombies focus on disrupting the burial, not necessarily killing PCs. Undead Fortitude makes them hard to drop."
+
+  commonPitfalls:
+    - "Players may want to immediately escort Ireena away - emphasize the importance of burying Kolyan first (cultural/emotional closure)"
+    - "Players may try to fight Ismark or suspect him - he's genuinely trying to help his sister"
+    - "Some players will blame Ireena for bringing Strahd's attention - discourage victim-blaming"
+    - "Players may want to fortify the mansion instead - explain this only delays the inevitable"
+
+  alternatives:
+    - "Players can bury Kolyan at night to avoid zombie attack - but risk Strahd himself appearing"
+    - "Players can convince Father Donavich to perform the burial rites (difficult, he's traumatized by his vampire spawn son)"
+    - "Players can set a trap for the zombies using the funeral as bait"
+    - "Players can explore the mansion and find Kolyan's journal detailing Strahd's visits"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 3
+
+  blocksQuests:
+    - "escort_ireena_to_vallaki"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 2
+  challengeRating: 2
+  skillChecks:
+    - skill: "persuasion"
+      dc: 12
+      description: "Convince Ismark to trust you"
+    - skill: "medicine"
+      dc: 10
+      description: "Examine Ireena's bite wounds"
+    - skill: "religion"
+      dc: 12
+      description: "Perform burial rites properly"
+
+lore:
+  background: |
+    Kolyan Indirovich was a good man trying to protect his people and family in an impossible
+    situation. He became burgomaster after his father, ruling with compassion and fairness. When
+    Strahd began visiting Ireena, Kolyan fortified the mansion and stood guard every night. The
+    stress and sleepless nights weakened his heart, and he died of a heart attack after a
+    particularly intense siege. He died knowing he had failed to protect his daughter.
+
+  connectionToMainStory: |
+    This quest establishes Ireena as a central figure in the campaign. She is Tatyana reincarnated,
+    the woman Strahd loved and lost centuries ago. Strahd believes Ireena is his destiny, and he
+    will pursue her relentlessly. Protecting Ireena becomes a major motivation for the players, and
+    her fate may determine how the campaign ends. The funeral also demonstrates that Strahd's evil
+    touches everyone, even those who serve him indirectly.
+
+  historicalContext: |
+    The Kolyanovich family has served as burgomasters for three generations. They've walked a fine
+    line between protecting their people and avoiding Strahd's direct wrath. Kolyan's father told
+    him, 'Never refuse the Devil, but never invite him in either.' Kolyan broke this rule to
+    protect Ireena, and it cost him his life.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.43-44"
+  official: true
+  estimatedDuration: "1 session"
+  tags: ["social", "combat", "escort", "emotional", "introduction"]
+  notes: "This quest introduces two key NPCs (Ismark and Ireena) who will feature throughout the campaign. The zombie encounter should be tense but not lethal - it's meant to show Strahd's reach and malice."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

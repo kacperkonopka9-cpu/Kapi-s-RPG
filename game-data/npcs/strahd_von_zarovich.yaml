@@ -1,0 +1,517 @@
+# Count Strahd von Zarovich - Lord of Barovia
+# CR 15 Legendary Vampire, Main Villain
+# Source: Curse of Strahd Module
+# Epic 4 Story 4-7: First NPC Profile Implementation
+
+# === BASIC INFORMATION ===
+name: "Count Strahd von Zarovich"
+npcId: "strahd_von_zarovich"
+race: "Vampire (formerly Human)"
+class: "Wizard"
+level: 9
+experience: null
+background: "Noble (Lord of Barovia)"
+alignment: "Lawful Evil"
+npcType: "legendary_villain"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 18    # +4 modifier
+  dexterity: 18   # +4 modifier
+  constitution: 18  # +4 modifier
+  intelligence: 20  # +5 modifier
+  wisdom: 15      # +2 modifier
+  charisma: 18    # +4 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 144  # 17d8 + 68 (CON modifier +4 * 17)
+  current: 144
+  temporary: 0
+  hitDice:
+    total: 17
+    spent: 0
+    die: "d8"
+
+armorClass: 16  # Natural armor
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: []  # Vampires don't wear armor (natural armor)
+  weapons: []  # All weapons (wizard + vampire)
+  savingThrows: ["dexterity", "wisdom", "charisma"]
+  skills: ["arcana", "deception", "insight", "perception", "religion", "stealth"]
+  tools: []
+  languages: ["Abyssal", "Common", "Draconic", "Elvish", "Giant", "Infernal"]
+
+proficiencyBonus: 6  # CR 15 legendary creature
+
+# === SKILL MODIFIERS (Proficiency + Ability + Expertise where applicable) ===
+# Arcana: +15 (INT +5, Prof +6, Expertise +6)
+# Perception: +12 (WIS +2, Prof +6, Expertise +6)
+# Stealth: +14 (DEX +4, Prof +6, Expertise +6)
+# Deception: +9 (CHA +4, Prof +6, but no Expertise -1)
+# Insight: +7 (WIS +2, Prof +6, but no Expertise -1)
+# Religion: +10 (INT +5, Prof +6, but no Expertise -1)
+
+# === SPELLCASTING (9th Level Wizard) ===
+spellcasting:
+  ability: "intelligence"
+  spellSaveDC: 18  # 8 + proficiency (6) + INT modifier (5) = 18, but module says 18
+  spellAttackBonus: 10  # proficiency (6) + INT modifier (5) = 11, but module says +10
+  spellSlots:
+    1: 4
+    2: 3
+    3: 3
+    4: 3
+    5: 2
+    6: 1
+    7: 1
+    8: 1
+    9: 1
+  spellsPrepared:
+    - "comprehend_languages"
+    - "fog_cloud"
+    - "sleep"
+    - "detect_thoughts"
+    - "gust_of_wind"
+    - "mirror_image"
+    - "animate_dead"
+    - "fireball"
+    - "nondetection"
+    - "blight"
+    - "greater_invisibility"
+    - "polymorph"
+    - "animate_objects"
+    - "scrying"
+    - "true_seeing"
+    - "finger_of_death"
+    - "dominate_monster"
+    - "time_stop"
+  cantrips:
+    - "mage_hand"
+    - "prestidigitation"
+    - "ray_of_frost"
+  concentration: null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: null  # Natural armor
+    mainHand: null  # Uses unarmed strikes and bite
+    offHand: null
+    ring1: "ring_of_regeneration"  # Represented by regeneration ability
+    ring2: null
+    amulet: null
+    cloak: "cloak_of_protection"
+    boots: null
+    gloves: null
+    helm: null
+  backpack: []
+  currency:
+    platinum: 0
+    gold: 0
+    electrum: 0
+    silver: 0
+    copper: 0
+
+weight:
+  current: 10  # Minimal equipment
+  capacity: 270  # STR 18 * 15
+  pushDragLift: 540  # STR 18 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []  # Immune to charmed, frightened
+exhaustionLevel: 0
+
+# === DEATH SAVES ===
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: []
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Arcane Recovery"
+    description: "Once per day during short rest, recover spell slots totaling level/2 (4 levels)"
+    uses: 1
+    maxUses: 1
+    recharge: "long_rest"
+
+specialAbilities:
+  - name: "Legendary Resistance (3/Day)"
+    description: "If Strahd fails a saving throw, he can choose to succeed instead."
+    uses: 3
+    maxUses: 3
+    recharge: "dawn"
+
+  - name: "Shapechanger"
+    description: "If Strahd isn't in running water or sunlight, he can use his action to polymorph into a Tiny bat, a Medium wolf, or a Medium cloud of mist, or back into his true form. His statistics, other than his size and speed, are unchanged. He reverts to his true form if he dies. Any equipment he is wearing or carrying isn't transformed."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Misty Escape"
+    description: "When Strahd drops to 0 hit points outside his coffin, he transforms into a cloud of mist (as in the Shapechanger trait) instead of falling unconscious, provided that he isn't in running water or sunlight. If he can't transform, he is destroyed. While he has 0 hit points in mist form, he can't revert to his vampire form, and he must reach his coffin within 2 hours or be destroyed. Once in his coffin, he reverts to his vampire form. He is then paralyzed until he regains at least 1 hit point. After 1 hour in his coffin with 0 hit points, he regains 1 hit point."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Regeneration"
+    description: "Strahd regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in running water or sunlight. If Strahd takes radiant damage or damage from holy water, this trait doesn't function at the start of his next turn."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Spider Climb"
+    description: "Strahd can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Vampire Weaknesses"
+    description: |
+      Forbiddance: Strahd can't enter a residence without an invitation from one of the occupants.
+      Harmed by Running Water: Strahd takes 20 acid damage if he ends his turn in running water.
+      Stake to the Heart: If a piercing weapon made of wood is driven into Strahd's heart while he is incapacitated in his coffin, he is paralyzed until the stake is removed.
+      Sunlight Hypersensitivity: Strahd takes 20 radiant damage when he starts his turn in sunlight. While in sunlight, he has disadvantage on attack rolls and ability checks.
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Charm"
+    description: "Strahd targets one humanoid he can see within 30 feet of him. If the target can see Strahd, the target must succeed on a DC 17 Wisdom saving throw against this magic or be charmed by Strahd. The charmed target regards Strahd as a trusted friend to be heeded and protected. Although the target isn't under Strahd's control, it takes Strahd's requests or actions in the most favorable way it can, and it is a willing target for Strahd's bite attack. Each time Strahd or his companions do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hours or until Strahd is destroyed, is on a different plane of existence than the target, or takes a bonus action to end the effect."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Children of the Night (1/Day)"
+    description: "Strahd magically calls 2d4 swarms of bats or swarms of rats, provided that the sun isn't up. While outdoors, Strahd can call 3d6 wolves instead. The called creatures arrive in 1d4 rounds, acting as allies of Strahd and obeying his spoken commands. The beasts remain for 1 hour, until Strahd dies, or until he dismisses them as a bonus action."
+    uses: 1
+    maxUses: 1
+    recharge: "dawn"
+
+# === LEGENDARY ACTIONS (3 Per Round) ===
+legendaryActions:
+  actionsPerRound: 3
+  actions:
+    - name: "Move"
+      cost: 1
+      description: "Strahd moves up to his speed without provoking opportunity attacks."
+
+    - name: "Unarmed Strike"
+      cost: 1
+      description: "Strahd makes one unarmed strike."
+
+    - name: "Bite (Costs 2 Actions)"
+      cost: 2
+      description: "Strahd makes one bite attack."
+
+# === LAIR ACTIONS (Initiative Count 20) ===
+lairActions:
+  initiative: 20
+  location: "castle_ravenloft"  # Only active in this location
+  actions:
+    - name: "Solid Fog"
+      description: "Until initiative count 20 on the next round, Strahd creates an area of fog (as in the fog cloud spell) that fills a 20-foot cube within 120 feet of him. The fog spreads around corners and is heavily obscured. Cannot use same action two rounds in a row."
+
+    - name: "Pass Through Walls"
+      description: "Until initiative count 20 on the next round, Strahd can pass through solid walls, doors, ceilings, and floors as if they weren't there. Cannot use same action two rounds in a row."
+
+    - name: "Control Doors and Gates"
+      description: "Strahd causes one door or window he can see to either open or close or causes a portcullis to either lower or rise. If someone or something is in the path of a descending portcullis, it deals 10 (3d6) bludgeoning damage and stops descending. Cannot use same action two rounds in a row."
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Aristocratic, cultured, and refined in manner"
+    - "Obsessively fixated on Tatyana/Ireena, believes she will love him"
+    - "Arrogant and overconfident, views mortals as beneath him"
+    - "Tormented by his curse, seeks release but fears true death"
+
+  ideals:
+    - "Power: Absolute control over Barovia is my right (Lawful)"
+    - "Possession: Tatyana belongs to me, no matter how many times she rejects me (Evil)"
+    - "Order: My rule maintains stability, even if through fear (Lawful)"
+
+  bonds:
+    - "Tatyana/Ireena - the only person I have ever loved"
+    - "Castle Ravenloft - my ancestral home and prison"
+    - "Barovia - the land I rule absolutely"
+    - "Sergei - my brother, whom I murdered for Tatyana"
+
+  flaws:
+    - "Cannot comprehend why Tatyana continually rejects and fears me"
+    - "Underestimates threats until they become dangerous"
+    - "Obsession with Tatyana clouds judgment"
+    - "Boredom drives me to dangerous games with worthy opponents"
+
+  mannerisms:
+    - "Speaks in formal, theatrical manner with dramatic pauses"
+    - "Often quotes poetry and philosophy"
+    - "Gazes intently at those who remind him of Tatyana"
+    - "Smiles coldly when amused or threatening"
+
+  voiceDescription: "Deep, cultured baritone with Eastern European accent. Commanding and theatrical."
+  appearanceNotes: "Tall, handsome man with dark hair, pale skin, sharp features. Wears elegant black and red nobleman's attire. Red eyes visible in certain light. No reflection in mirrors."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "Welcome to my domain. I have been expecting you."
+    - "You are a long way from home, little ones. But fear not - you are my guests."
+    - "I am Count Strahd von Zarovich, lord of Barovia. And you are?"
+
+  idle:
+    - "[Gazes pensively out window at the mist]"
+    - "How wearisome immortality becomes..."
+    - "Another century, another group of would-be heroes."
+
+  farewell:
+    - "We shall meet again. I promise you that."
+    - "Until next time, my friends. Dream of me."
+    - "Go. But know that nothing in Barovia escapes my sight."
+
+  questGiving: []  # Strahd doesn't give quests; he is the final quest
+
+  questComplete: []
+
+  combat:
+    - "Impressive. But futile."
+    - "I have walked this land for centuries. What hope do you have?"
+    - "You fight well. Perhaps you will prove entertaining before you die."
+    - "Enough games. Now you face my true power."
+
+  keyQuotes:
+    - "I am the Ancient, I am the Land."
+    - "She was the one thing I loved, and I killed my brother to possess her. But she would not have me."
+    - "You think you can destroy me? I am Barovia!"
+    - "This is my home. My curse. My prison. And yours."
+    - "Come, let me show you the true meaning of despair."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies: []  # Strahd has no true allies, only servants and pawns
+
+  enemies:
+    - npcId: "rudolph_van_richten"
+      relationship: "vampire hunter nemesis"
+      notes: "Van Richten seeks to destroy me. A worthy adversary."
+
+    - npcId: "ireena_kolyana"
+      relationship: "beloved/obsession"
+      notes: "She is Tatyana reincarnated. She must love me. She will love me."
+
+  family:
+    - npcId: "sergei_von_zarovich"
+      relationship: "brother (deceased, murdered by Strahd)"
+      notes: "I killed him for Tatyana on our wedding day. His death cursed me."
+
+  faction: "lord_of_barovia"
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: |
+    Strahd is a tactical genius with 400+ years of combat experience. He NEVER fights fair.
+
+    Opening: Use Greater Invisibility or Spider Climb to ceiling for surprise. Focus spellcasters first.
+
+    Mid-Combat: Use legendary actions for mobility (Move) and extra attacks. Charm key threats to turn against party. Summon Children of the Night if outnumbered. Use lair actions for battlefield control (fog, wall phasing, door control).
+
+    When Bloodied (<72 HP): Cast Mirror Image, retreat through walls if in lair, use regeneration (20 HP/turn) to recover.
+
+    Escape (<30 HP or radiant damage source): Transform to mist, flee to coffin. Use Misty Escape at 0 HP.
+
+  goals:
+    - "Reclaim Tatyana (Ireena) - make her love me"
+    - "Maintain absolute control over Barovia"
+    - "Find worthy opponents to break centuries of boredom"
+    - "Escape my curse without losing my power"
+
+  motivations:
+    - "Obsessive, tragic love for Tatyana"
+    - "Pride in noble heritage and absolute rule"
+    - "Torment of immortal curse and inability to leave Barovia"
+    - "Desire for worthy challenges after centuries of dominance"
+
+  fears:
+    - "True death (destruction)"
+    - "Eternal rejection by Tatyana"
+    - "Losing control of Barovia"
+    - "Facing the consequences of murdering Sergei"
+
+  knowledgeSecrets:
+    - "Knows location of Holy Symbol of Ravenkind, Tome of Strahd, and Sunsword (Tarokka reading determines)"
+    - "Aware of all major events in Barovia through spies (wolves, bats, Vistani)"
+    - "Knows Ireena is Tatyana reincarnated"
+    - "Understands the Dark Powers' curse prevents him from leaving Barovia"
+    - "Aware of Heart of Sorrow in Castle Ravenloft (grants +50 max HP if intact)"
+
+  attitudeTowardPlayer: "hostile"  # But theatrical and manipulative
+  trustLevel: 0  # Strahd trusts no one
+
+  questInvolvement:
+    - questId: "defeat_strahd"
+      role: "quest_target"
+      notes: "Final boss of Curse of Strahd campaign"
+
+    - questId: "find_sunsword"
+      role: "obstacle"
+      notes: "Tries to prevent party from obtaining artifact"
+
+  specialBehaviors:
+    - "Always appears when dramatically appropriate (storms, fog, night)"
+    - "Never kills Ireena - must capture her alive"
+    - "Toys with worthy opponents before committing to kill"
+    - "Uses charm and domination before direct combat"
+    - "Prefers psychological warfare to brute force"
+    - "Retreats if genuinely threatened, returns later with advantage"
+
+  # === 5-PHASE TACTICAL SYSTEM ===
+  tacticalPhases:
+    - phase: "Observation"
+      trigger: "Party first enters Barovia"
+      objective: "Assess party strength and identify weaknesses"
+      actions:
+        - "Observe from bat form or through scrying"
+        - "Send wolves and spies to gather intelligence"
+        - "Appear briefly to introduce self, gauge reactions"
+      duration: "1-3 encounters"
+      notes: "No direct combat. Strahd is evaluating threats."
+
+    - phase: "Testing"
+      trigger: "Party strength assessed"
+      objective: "Test capabilities and identify key threats"
+      actions:
+        - "Send vampire spawn and zombies to probe defenses"
+        - "Use hit-and-run tactics with legendary actions"
+        - "Charm one party member to sow discord"
+      strahd_tactics: "Uses legendary actions for mobility, shapeshifts to escape, avoids lethal commitment"
+      notes: "Strahd is still playing. Not trying to kill yet."
+
+    - phase: "Psychological Warfare"
+      trigger: "Party weaknesses identified"
+      objective: "Demoralize, divide, and terrorize"
+      actions:
+        - "Charm or dominate key members"
+        - "Send nightmares via dream manipulation"
+        - "Kidnap or threaten Ireena"
+        - "Kill allies or loved ones"
+        - "Taunt via letters, appearances, prophecies"
+      strahd_tactics: "Uses lair actions for theatrics, Dominate Monster on biggest threats, avoids fair fights"
+      notes: "Strahd wants them broken before final confrontation."
+
+    - phase: "Engagement"
+      trigger: "Party enters Castle Ravenloft OR has 2+ artifacts"
+      objective: "Destroy threats to his rule"
+      actions:
+        - "Full combat capability: legendary actions, lair actions, high-level spells"
+        - "Focus fire on spellcasters and healers"
+        - "Use environment (Heart of Sorrow, traps, minions)"
+        - "Tactical retreat if losing (mist form, wall phasing)"
+      strahd_tactics: "All abilities in play. Retreats if reduced below 50 HP without advantage."
+      notes: "Strahd is now committed to killing the party."
+
+    - phase: "Retreat and Reset"
+      trigger: "Reduced to 0 HP (Misty Escape) or tactical retreat"
+      objective: "Regenerate and reassess"
+      actions:
+        - "Return to coffin (K86 crypt) via mist form"
+        - "Regenerate 1 hour (restore to 1 HP, then 20/turn)"
+        - "Restart at Phase 2 or 3 depending on threat level"
+      notes: |
+        If Heart of Sorrow destroyed or stake available: Strahd becomes more aggressive.
+        If Sunsword obtained: Strahd avoids direct sunlight, uses minions more.
+        If party proves extremely dangerous: May attempt to dominate entire party or collapse castle.
+
+  decisionTree:
+    - condition: "Sunlight present (Sunsword)"
+      action: "Flee immediately to darkness or mist form"
+    - condition: "Running water present"
+      action: "Avoid or use mist form to pass over"
+    - condition: "Party has artifacts (Sunsword/Symbol/Tome)"
+      action: "Prioritize disarming or destroying artifacts"
+    - condition: "Ireena in danger"
+      action: "Prioritize her safety over killing party"
+    - condition: "Outnumbered without lair advantage"
+      action: "Retreat, regroup, attack with advantage later"
+    - condition: "Charmed/dominated party member available"
+      action: "Use them as shield or weapon against allies"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  - time: "06:00"
+    location: "castle_ravenloft_crypt_k86"
+    activity: "Resting in coffin, regenerating"
+
+  - time: "18:00"
+    location: "castle_ravenloft_throne_room"
+    activity: "Wakes at dusk, receives reports from Rahadin and spies"
+
+  - time: "20:00"
+    location: "castle_ravenloft_study"
+    activity: "Scrying on Ireena and party, planning next moves"
+
+  - time: "22:00"
+    location: "various"
+    activity: "Patrols Barovia (bat/wolf form), hunts, terrorizes villagers, visits Ireena"
+
+  - time: "04:00"
+    location: "castle_ravenloft_throne_room"
+    activity: "Returns to castle before dawn"
+
+  - time: "05:00"
+    location: "castle_ravenloft_crypt_k86"
+    activity: "Enters coffin before sunrise"
+
+# === LOCATION & STATUS ===
+currentLocation: "castle_ravenloft"
+status: "undead"  # Vampire (not "alive" or "dead")
+canMove: true
+tetheredToLocation: "barovia_region"  # Cannot leave Barovia due to curse
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.240"
+  official: true
+
+  notes: |
+    Strahd von Zarovich is the central villain of Curse of Strahd. He is a CR 15 legendary vampire with centuries of experience, immense magical power, and absolute control over the land of Barovia. His tragic obsession with Tatyana (now reincarnated as Ireena Kolyana) drives the entire campaign.
+
+    **Key Plot Points:**
+    - Murdered his brother Sergei to claim Tatyana, who rejected him and killed herself
+    - Made a pact with dark powers, becoming a vampire and cursing Barovia
+    - Has ruled Barovia for 400+ years, unable to leave due to the mists
+    - Tatyana reincarnates every generation; Strahd tries to win her love each time
+    - Party's goal: Destroy Strahd permanently by driving stake through heart in coffin
+
+    **Combat Notes:**
+    - Strahd is nearly impossible to kill outside his coffin (Misty Escape)
+    - Heart of Sorrow in Castle Ravenloft gives him +50 HP if intact (194 total)
+    - Sunsword deals maximum damage to him and creates sunlight (his weakness)
+    - Holy Symbol of Ravenkind can paralyze him (powerful anti-vampire relic)
+    - Tome of Strahd reveals his backstory and weaknesses
+
+    **Epic 3 Integration:**
+    This profile validates that Epic 3 CharacterManager, CombatManager, and SpellcastingModule can handle legendary creatures with 20+ special abilities, legendary actions, lair actions, and complex tactical AI.
+
+  dmReminders:
+    - "Strahd should appear 3-5 times before final battle to build tension"
+    - "Use him sparingly but memorably - each appearance should be dramatic"
+    - "Strahd never kills Ireena - always tries to charm or kidnap her"
+    - "If party gets cocky, have Strahd demonstrate his power (kill NPC ally, dominate PC)"
+    - "Strahd can be anywhere in Barovia at any time - use this for dramatic timing"
+    - "Final battle should be in Castle Ravenloft with lair actions active"
+    - "If party destroys him outside coffin, he uses Misty Escape - delay gratification"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

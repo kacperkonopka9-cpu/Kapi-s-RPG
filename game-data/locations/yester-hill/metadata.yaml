@@ -1,0 +1,122 @@
+location_name: "Yester Hill"
+location_type: hilltop_grove
+location_level: building
+region: svalich_woods
+parent_location: null
+sub_locations: []
+danger_level: 4
+recommended_level: 5-7
+quest_critical: true
+
+description_short: "A windswept hilltop crowned by the Gulthias Tree and ancient standing stones, headquarters of the druid cult and birthplace of Wintersplinter."
+
+connected_locations:
+  - name: "Wizard of Wines Winery"
+    direction: north
+    travel_time: "2 hours on foot"
+    terrain: forest_path
+    notes: "Direct connection to winery gem quest chain"
+
+  - name: "Berez"
+    direction: southwest
+    travel_time: "4 hours on foot"
+    terrain: forest_and_swamp
+    notes: "Location of third winery gem (held by Baba Lysaga)"
+
+points_of_interest:
+  - "Gulthias Tree (200-foot abomination, blight spawner)"
+  - "Standing Stone Circle (12 ancient megaliths)"
+  - "Blood-Stained Altar (sacrificial site)"
+  - "Wintersplinter's Recess (mega-blight dormant location)"
+  - "Druid Camp (shelters, cages, leader's tent)"
+  - "Valley Overlook (views of winery and Castle Ravenloft)"
+
+major_npcs:
+  - yester_hill_druids
+  - wintersplinter
+  - yester_hill_twig_blights
+  - yester_hill_needle_blights
+
+primary_quests:
+  - "Recover winery magic gem (Red Dragon Crush)"
+  - "Prevent Wintersplinter from destroying Wizard of Wines"
+  - "Defeat druid cult"
+
+secondary_quests:
+  - "Destroy Gulthias Tree to end blight spawning"
+  - "Free sacrificial prisoners"
+  - "Recover Strahd's correspondence (lore)"
+  - "Return stolen wine barrels to Martikovs"
+
+environmental_hazards:
+  - "Blight swarm (12 twig, 6 needle, 1 vine)"
+  - "Druid spellcasters (Entangle, Spike Growth terrain control)"
+  - "Wintersplinter (CR 7 boss if awakened)"
+  - "Gulthias Tree (spawns blights, animated branches)"
+  - "Blood-slick ground (DC 12 Dexterity save to avoid falling prone)"
+  - "Corrupted air (4+ hours exposure, DC 13 Constitution save or exhaustion)"
+
+available_resources:
+  - "Stolen wine barrels (3)"
+  - "Ritual components (150 gp value)"
+  - "Druid equipment (minimal)"
+  - "Gulthias Tree sap (dangerous alchemical reagent)"
+
+treasure_value: moderate
+treasure_notes: "Primary treasure is winery gem (quest item). Additional loot includes ritual components (150 gp), Strahd letters (lore), Wintersplinter heartwood if boss defeated (500 gp)."
+
+quest_chain_position: |
+  Winery Gem Recovery Arc (3 phases):
+  - Phase 1: Reclaim winery from druid siege (Story 4-5)
+  - Phase 2: Recover Red Dragon Crush gem from Yester Hill (this location)
+  - Phase 3: Recover Champagne du Stompe gem from Berez (Story 4-6)
+
+boss_encounters:
+  - name: "Wintersplinter"
+    cr: 7
+    optional: conditional
+    notes: "Awakens if druids desperate or ritual completed. If awakened, marches to winery (2-hour deadline)."
+  - name: "Gulthias Tree"
+    cr: varies
+    optional: true
+    notes: "HP 200, AC 15, vulnerable to fire. Destroying ends blight spawning."
+
+token_count: 900
+last_validated: null
+validation_status: pending
+
+lore_significance: |
+  Yester Hill is where druid fanatics worship Strahd as a dark nature god, believing his vampiric curse represents
+  evolution's pinnacle. The Gulthias Tree grew from a slain dragon's heart, corrupted by druid magic into a blight
+  factory. The druids stole the winery gems on Strahd's orders, using their power to create Wintersplinter—a living
+  siege weapon designed to crush the Martikovs' resistance.
+
+  The standing stones predate Strahd by centuries, originally erected by ancient druids who worshipped nature's
+  balance. The current cult has perverted this legacy, carving Strahd's image onto the stones and performing blood
+  sacrifices that would horrify their ancestors.
+
+dm_notes: |
+  Yester Hill is a mid-level dungeon (designed for parties 5-7) that tests combat tactics and time management. Key
+  design elements:
+
+  **Fire Vulnerability**: All blights take double fire damage. Parties with fire spells dominate; those without must
+  adapt. This teaches resource management—save Fireball for blight swarms, use mundane fire for cleanup.
+
+  **Wintersplinter Timing**: If awakened, creates time pressure. Party must choose: fight now (difficult but prevents
+  march), pursue later (easier terrain advantages but risks winery destruction). This tests decision-making under
+  pressure.
+
+  **Gem Recovery**: Primary objective is non-negotiable for winery quest chain. Gem is in tree roots, requires
+  digging or tree destruction. If party destroys tree carelessly, gem might be damaged (DM discretion on
+  consequences).
+
+  **Standing Stones**: Destroying historical artifacts to weaken tree creates moral choice. Is easier combat worth
+  losing irreplaceable cultural heritage? Track player choices—some may refuse to destroy stones on principle.
+
+  **Druid Tactics**: Cultists use Entangle/Spike Growth to create "kill zones" filled with blights. Intelligent
+  players counter with ranged attacks, flight, or area denial. Punish players who charge blindly into prepared
+  positions.
+
+  **Wintersplinter Chase**: If mega-blight escapes and marches to winery, create cinematic chase. Party pursues
+  through forest, launching attacks from trees/cliffsides. Wintersplinter ignores them, focused on winery
+  destruction. Tension builds as winery approaches. Can party stop it in time?

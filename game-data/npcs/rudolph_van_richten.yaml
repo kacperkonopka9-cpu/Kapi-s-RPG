@@ -1,0 +1,419 @@
+# Rudolph van Richten - Legendary Vampire Hunter
+# Disguised as Rictavio (Carnival Ringmaster)
+# Epic 4 Story 4-10: Major NPCs Batch 2
+# Level 9 Ranger/Fighter Multiclass
+
+# === BASIC INFORMATION ===
+name: "Rudolph van Richten"
+npcId: "rudolph_van_richten"
+race: "Human"
+age: 65
+class: "Ranger/Fighter"
+level: 9  # Ranger 5 / Fighter 4
+experience: null
+background: "Monster Hunter"
+alignment: "Lawful Good"
+npcType: "major"
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 14     # +2 modifier
+  dexterity: 18    # +4 modifier
+  constitution: 14  # +2 modifier
+  intelligence: 16  # +3 modifier
+  wisdom: 16       # +3 modifier
+  charisma: 10     # +0 modifier
+
+# === HIT POINTS & COMBAT ===
+hitPoints:
+  max: 84  # Ranger 5d10 + Fighter 4d10 + CON (+2 * 9) = 84
+  current: 84
+  temporary: 0
+  hitDice:
+    total: 9
+    spent: 0
+    die: "d10"  # Both ranger and fighter use d10
+
+armorClass: 17  # Studded leather (12) + DEX (+4) + Ring of Protection (+1)
+
+# === PROFICIENCIES ===
+proficiencies:
+  armor: ["light", "medium", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "dexterity", "constitution"]  # Fighter: Str/Con, Ranger: Str/Dex
+  skills: ["insight", "investigation", "medicine", "perception", "survival"]
+  tools: ["herbalism_kit", "poisoners_kit"]
+  languages: ["Common", "Elvish", "Giant", "Abyssal", "Infernal"]
+
+proficiencyBonus: 4  # Level 9
+
+# === SPELLCASTING (Ranger 5th Level) ===
+spellcasting:
+  ability: "wisdom"
+  spellSaveDC: 14  # 8 + proficiency (4) + WIS modifier (3)
+  spellAttackBonus: 7  # proficiency (4) + WIS modifier (3)
+  spellSlots:
+    1: 4
+    2: 2
+  spellsPrepared:
+    - "hunters_mark"
+    - "protection_from_evil_and_good"
+    - "lesser_restoration"
+    - "pass_without_trace"
+  cantrips: []  # Rangers don't get cantrips
+  concentration: null
+
+# === INVENTORY & EQUIPMENT ===
+inventory:
+  equipped:
+    armor: "studded_leather"
+    mainHand: "heavy_crossbow_masterwork"  # +1 heavy crossbow
+    offHand: null
+    ring1: "ring_of_protection"  # +1 AC and saves
+    ring2: null
+    amulet: "holy_symbol_ravenkind"  # Legendary anti-vampire artifact
+    cloak: null
+    boots: null
+    gloves: null
+    helm: "hat_of_disguise"  # Used to masquerade as Rictavio
+  backpack:
+    - item: "silvered_crossbow_bolts"
+      quantity: 40
+    - item: "wooden_stakes"
+      quantity: 10
+    - item: "holy_water_vials"
+      quantity: 6
+    - item: "vampire_hunting_kit"
+      quantity: 1  # Contains garlic, mirrors, mallet, stakes
+    - item: "spellbook_vr"
+      quantity: 1  # Van Richten's journal and notes on vampires
+    - item: "rations"
+      quantity: 5
+    - item: "healing_potions"
+      quantity: 3
+  currency:
+    platinum: 10
+    gold: 250
+    electrum: 0
+    silver: 50
+    copper: 0
+
+weight:
+  current: 85
+  capacity: 210  # Str 14 * 15
+  pushDragLift: 420  # Str 14 * 30
+
+# === CONDITIONS & STATUS ===
+conditions: []
+exhaustionLevel: 0
+deathSaves:
+  successes: 0
+  failures: 0
+
+# === ATTUNEMENT ===
+attunement:
+  items: ["ring_of_protection", "holy_symbol_ravenkind", "hat_of_disguise"]
+  max: 3
+
+# === CLASS FEATURES & SPECIAL ABILITIES ===
+features:
+  - name: "Favored Enemy: Undead"
+    description: "Advantage on Survival checks to track undead and Intelligence checks to recall information about them. Learn one language spoken by undead (chose Abyssal)."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Natural Explorer: Forests & Swamps"
+    description: "In favored terrain, difficult terrain doesn't slow group's travel, group can't become lost except by magic, remain alert to danger even when engaged in other activities, can move stealthily at normal pace alone, find twice as much food/water when foraging, learn exact number/size/how long ago creatures passed within 1 mile."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Fighting Style: Archery"
+    description: "+2 bonus to attack rolls with ranged weapons."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Action Surge"
+    description: "On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again."
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Second Wind"
+    description: "On your turn, you can use a bonus action to regain 1d10 + 4 hit points. Once you use this feature, you must finish a short or long rest before you can use it again."
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+  - name: "Extra Attack"
+    description: "When you take the Attack action on your turn, you can make two attacks instead of one."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Primeval Awareness"
+    description: "You can use your action and expend one ranger spell slot to focus your awareness on the region around you. For 1 minute per level of the spell slot you expend, you can sense whether undead, aberrations, celestials, dragons, elementals, fey, or fiends are present within 1 mile (or within 6 miles if in favored terrain)."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Colossus Slayer (Hunter)"
+    description: "Your tenacity can wear down the most potent foes. When you hit a creature with a weapon attack, the creature takes an extra 1d8 damage if it's below its hit point maximum. You can deal this extra damage only once per turn."
+    uses: null
+    maxUses: null
+    recharge: null
+
+specialAbilities:
+  - name: "Legendary Monster Hunter"
+    description: "Van Richten has spent decades hunting vampires and other undead. He has advantage on all checks related to vampire lore, tactics, and weaknesses. He can identify vampire spawn vs true vampires instantly."
+    uses: null
+    maxUses: null
+    recharge: null
+
+  - name: "Holy Symbol of Ravenkind (Attuned)"
+    description: "While attuned: (1) Can use action to hold symbol aloft and speak command word, vampires/spawn within 30ft must make DC 15 WIS save or be paralyzed 1 minute (save each turn to end), (2) Can cast dispel magic once per day, (3) Can cast zone of truth once per day, (4) Sheds bright light 30ft/dim 30ft more as action."
+    uses: null
+    maxUses: null
+    recharge: null
+
+legendaryActions: null
+lairActions: null
+
+# === NPC-SPECIFIC PERSONALITY ===
+personality:
+  traits:
+    - "Cautious to the point of paranoia - decades of hunting monsters taught him to trust no one"
+    - "Speaks in measured, tactical terms - every word is calculated"
+    - "Haunted by past failures, especially the death of his family to vampires"
+    - "Uses disguises and misdirection to avoid drawing Strahd's attention"
+
+  ideals:
+    - "Justice - Evil must be hunted down and destroyed, no matter the cost (Lawful)"
+    - "Protection - Innocent lives must be preserved, even at risk to my own (Good)"
+    - "Knowledge - Understanding your enemy is the first step to victory (Neutral)"
+
+  bonds:
+    - "Ezmerelda d'Avenir - former protégé, like a daughter to him, though they separated after disagreement"
+    - "Tower near Van Richten - his base of operations, contains decades of research"
+    - "The families destroyed by vampires - he fights to honor their memory"
+
+  flaws:
+    - "Guilt over Ezmerelda's prosthetic leg - happened during training he supervised"
+    - "Refuses help from others - believes his crusade endangers anyone who aids him"
+    - "Obsessive focus on Strahd - willing to sacrifice almost anything to destroy him"
+
+  mannerisms:
+    - "Constantly scans surroundings for threats, even in safe locations"
+    - "Touches holy symbol unconsciously when nervous"
+    - "Speaks in low, quiet tones to avoid being overheard"
+    - "Avoids using real name in public - always 'Rictavio' when disguised"
+
+  voiceDescription: "Gravelly and weary when unmasked. Every word carries weight of experience and loss. As Rictavio, completely different - jovial and theatrical."
+
+  appearanceNotes: "Weathered human man in his mid-60s with gray hair and piercing blue eyes. Deep lines etched around eyes and mouth from decades of stress. Moves with practiced efficiency of veteran warrior. When disguised as Rictavio, uses Hat of Disguise to appear younger (40s) with brown hair, colorful clothing, and flamboyant demeanor."
+
+# === DIALOGUE & ROLEPLAY ===
+dialogue:
+  greeting:
+    - "[As Van Richten] You've discovered my true identity. I hope you understand the danger that knowledge brings - to both of us."
+    - "[Unmasked] Rudolph van Richten, vampire hunter. If you know that name, you know why I hide it from Strahd."
+    - "[Suspicious] How did you find me? Who sent you? Speak quickly and honestly if you value your life."
+
+  idle:
+    - "[Studying vampire hunting notes]"
+    - "[Cleaning and checking crossbow bolts methodically]"
+    - "Sixty years I've hunted monsters. Strahd is the worst I've encountered."
+    - "Every vampire has a weakness. Find it. Exploit it. No mercy."
+
+  farewell:
+    - "Trust no one completely. Not even me. This land corrupts all who linger."
+    - "If you face Strahd, strike fast and hard. Hesitation is death."
+    - "May the Morninglord light your path. You'll need every blessing you can get."
+
+  questGiving:
+    - "I've spent months studying Strahd's patterns. If you're truly committed to destroying him, I have information that might help. But first, prove you can be trusted."
+    - "My tower contains decades of research on vampires. If you can navigate its traps and protections, you're welcome to study what I've learned."
+    - "Ezmerelda d'Avenir... I taught her everything she knows about hunting monsters. If you find her, tell her... tell her I'm sorry."
+
+  questComplete:
+    - "[After earning trust] You've proven yourself. Here's what I know about Strahd's weaknesses..."
+    - "[If reunited with Ezmerelda] Ezmerelda... you're alive. And well. I'm... relieved."
+
+  combat:
+    - "Silvered bolts to the heart! Standard vampire protocol!"
+    - "[Activating Holy Symbol] By Ravenkind's light, be BANISHED!"
+    - "[Wounded] I've survived worse. Keep fighting!"
+    - "Aim for the head or heart! Nothing else matters!"
+
+  revelation:
+    - "[Hat of Disguise fails] Very well. You've seen through my disguise. Let's speak plainly."
+    - "[Discovered in tower] You're either very brave or very foolish to enter my sanctum uninvited."
+    - "[When identity exposed] Yes, I'm Van Richten. The vampire hunter. And if Strahd learns I'm here, we're both dead."
+
+  tarokkaAlly:
+    - "[If drawn as ally] The cards have chosen me? Fate has a dark sense of humor. Very well - I'll stand with you against Strahd."
+    - "I work alone. Always have. But the Tarokka reading is rarely wrong... I'll make an exception this once."
+
+  keyQuotes:
+    - "I've hunted vampires for sixty years. Strahd is the apex predator - intelligent, powerful, and utterly without mercy. Underestimate him and you die. Simple as that."
+    - "The Hat of Disguise keeps me hidden from Strahd's scrying. As 'Rictavio,' I'm just another fool who wandered into Barovia. As Van Richten... I'm a target."
+    - "Ezmerelda lost her leg because of my training. I pushed too hard. She survived, but our bond didn't. My greatest failure wasn't losing to a vampire - it was failing her."
+    - "This tower has protected me for months. Every trap, every ward, every defense - built to kill Strahd if he dares enter. He knows I'm here. He's just... waiting."
+
+# === RELATIONSHIPS ===
+relationships:
+  allies:
+    - npcId: "ezmerelda_davenir"
+      relationship: "former protégé / estranged daughter figure"
+      notes: "Van Richten trained Ezmerelda in vampire hunting. She lost her leg during training exercise he supervised. They separated due to disagreement over tactics (Van Richten wanted her to stop hunting, Ezmerelda refused). Deep mutual respect despite estrangement. Both want reconciliation but too proud to initiate."
+
+    - npcId: "player_character"
+      relationship: "suspicious → ally → trusted (dynamic)"
+      notes: "Initially suspects players are Strahd's spies. If they prove trustworthy (completing tower tests, showing commitment to destroying Strahd), becomes invaluable ally with tactical knowledge and legendary artifacts."
+
+  enemies:
+    - npcId: "strahd_von_zarovich"
+      relationship: "nemesis"
+      notes: "Van Richten's ultimate target. Strahd is the most powerful vampire Van Richten has ever faced. Mutual awareness - Strahd knows legendary hunter is in Barovia, Van Richten knows he's outmatched without help. Cat-and-mouse game of concealment and revelation."
+
+  family:
+    - npcId: "van_richten_family"
+      relationship: "wife and son (deceased - killed by vampires)"
+      notes: "Van Richten's family was murdered by vampires decades ago, triggering his lifelong crusade against undead. Their deaths haunt him still. Primary motivation for hunting Strahd."
+
+  faction: null  # Works alone, no faction allegiance
+
+# === AI BEHAVIOR NOTES (for LLM DM) ===
+aiBehavior:
+  combatTactics: "Tactical ranged combatant. Uses heavy crossbow with silvered bolts from maximum range. Applies Hunter's Mark to primary target (Strahd if present). Uses Action Surge to deliver devastating multi-attack rounds. Activates Holy Symbol of Ravenkind to paralyze vampires. Falls back to melee only if cornered. Uses Protection from Evil and Good pre-combat against undead. Exploits terrain and cover constantly. Prioritizes keeping distance from vampires to avoid grapple/bite."
+
+  goals:
+    - "Destroy Count Strahd von Zarovich permanently"
+    - "Prevent innocent deaths from vampire attacks"
+    - "Maintain Rictavio disguise to avoid Strahd's direct attention"
+    - "Reconcile with Ezmerelda d'Avenir if opportunity arises"
+
+  motivations:
+    - "Vengeance for murdered family"
+    - "Duty to protect innocent from monsters"
+    - "Professional pride - Strahd is ultimate challenge for legendary hunter"
+    - "Guilt over Ezmerelda's injury drives him to finish Strahd alone"
+
+  fears:
+    - "Failing to kill Strahd and dooming Barovia"
+    - "Losing more people he cares about (especially Ezmerelda or players if allied)"
+    - "Strahd discovering his true identity before he's ready to strike"
+    - "Becoming vampire himself - ultimate corruption of his life's work"
+
+  knowledgeSecrets:
+    - "Knows Strahd's full history from centuries of research"
+    - "Aware of Holy Symbol of Ravenkind's power (attuned to it)"
+    - "Understands Tarokka reading and Madam Eva's prophecies"
+    - "Knows location of Tome of Strahd (one of three artifacts needed)"
+    - "Familiar with Barovia's geography after months of reconnaissance"
+    - "Has incomplete knowledge of Strahd's weaknesses - missing critical pieces"
+    - "Knows sabertooth tiger in carnival wagon (Strahd hunter, trained poorly)"
+
+  attitudeTowardPlayer: "suspicious"  # Initial attitude
+
+  trustLevel: 2  # 1-10 scale. Starts very suspicious. Becomes 6 if players pass tower tests, 9 if help defeat Strahd's spawn/minions
+
+  questInvolvement:
+    - questId: "hunt_strahd"
+      role: "key_ally"
+      notes: "Van Richten is legendary vampire hunter with knowledge, artifacts, and tactical expertise crucial for hunting Strahd. Can provide Holy Symbol of Ravenkind, share weaknesses, coordinate assault on Castle Ravenloft. If Tarokka ally, fights alongside party in final battle."
+
+    - questId: "tower_secrets"
+      role: "quest_giver"
+      notes: "Van Richten's tower near Vallaki contains traps and wards to test intruders. If party navigates successfully, Van Richten grants access to his research library (Vampire Hunting Manual, tactical notes, Strahd's patterns)."
+
+    - questId: "ezmerelda_reunion"
+      role: "quest_target"
+      notes: "Ezmerelda seeks Van Richten to reconcile. Players can broker meeting between estranged mentor/protégé. Success strengthens both NPCs' resolve and grants party powerful duo as allies."
+
+    - questId: "rictavio_reveal"
+      role: "revelation_target"
+      notes: "Players discover Rictavio is actually Van Richten in disguise. Can happen via: (1) Dispelling Hat of Disguise, (2) Investigating carnival wagon (sabertooth tiger), (3) Ezmerelda recognition, (4) Van Richten voluntarily reveals if trusts party."
+
+  specialBehaviors:
+    - "Maintains Rictavio persona in public - never breaks character unless disguise compromised"
+    - "Avoids using real name or vampire hunter reputation in Vallaki"
+    - "Will not reveal Holy Symbol of Ravenkind to untrustworthy parties (too dangerous)"
+    - "Refuses to work with Vistani (distrusts their alliance with Strahd)"
+    - "Prioritizes Ezmerelda's safety above own if she's present"
+    - "Uses tower as fallback position if identity exposed"
+
+# === SCHEDULE (Epic 2 EventScheduler Integration) ===
+schedule:
+  # Vallaki - Blue Water Inn (as Rictavio)
+  - time: "08:00"
+    location: "vallaki"
+    activity: "[As Rictavio] Wake, breakfast at Blue Water Inn, tell carnival stories to guests"
+
+  - time: "10:00"
+    location: "vallaki"
+    activity: "[As Rictavio] Visit town square, maintain carnival ringmaster persona, gather gossip"
+
+  - time: "12:00"
+    location: "vallaki"
+    activity: "[As Rictavio] Check on carnival wagon (sabertooth tiger), ensure it's secure"
+
+  - time: "14:00"
+    location: "vallaki"
+    activity: "[Secret] Slip away to tower, study vampire research, plan assault on Strahd"
+
+  - time: "18:00"
+    location: "vallaki"
+    activity: "[As Rictavio] Return to inn for evening meal, entertain guests with stories"
+
+  - time: "20:00"
+    location: "vallaki"
+    activity: "[Secret] Patrol Vallaki perimeter for vampire spawn, investigate Strahd activity"
+
+  - time: "22:00"
+    location: "vallaki"
+    activity: "[As Rictavio] Retire to room at inn, drop disguise in private, review notes"
+
+# === LOCATION & STATUS ===
+currentLocation: "vallaki"  # Blue Water Inn
+status: "alive"
+canMove: true  # Can travel between tower and Vallaki
+tetheredToLocation: null  # Not tethered but prefers staying near tower base
+
+# === DYNAMIC STATE TRACKING ===
+dynamicState:
+  disguise_active: true  # Rictavio persona active
+  identity_revealed_to_party: false
+  ezmerelda_reunited: false
+  tower_accessed_by_party: false
+  holy_symbol_shared: false
+  trust_with_party: 2  # 1-10
+  tarokka_ally_accepted: false
+  relationship_with_party: "suspicious"  # suspicious → ally → trusted
+  strahd_knows_location: false  # If true, Van Richten relocates to tower permanently
+
+# === METADATA ===
+metadata:
+  created: "2025-11-15T00:00:00Z"
+  source: "Curse of Strahd"
+  pageReference: "CoS p.119-120"
+  official: true
+  tarokka_ally_option: true  # Can be drawn as Tarokka ally
+
+  notes: "Rudolph van Richten is the legendary vampire hunter disguised as 'Rictavio,' a flamboyant carnival ringmaster. He uses a Hat of Disguise to hide his identity from Strahd. Van Richten wields the Holy Symbol of Ravenkind and has decades of experience hunting undead. He is estranged from his former protégé Ezmerelda d'Avenir after she lost her leg during training. Van Richten is cautious, tactical, and haunted by past failures. He can be a crucial ally in destroying Strahd if the party earns his trust."
+
+  dmReminders:
+    - "Van Richten NEVER breaks Rictavio disguise in public unless Hat of Disguise fails"
+    - "He is paranoid but not unreasonable - players can earn trust through actions, not words"
+    - "Holy Symbol of Ravenkind is incredibly powerful against vampires - only shares if party proves worthy"
+    - "Reunion with Ezmerelda is emotional high point - Van Richten shows vulnerability"
+    - "If Tarokka ally, Van Richten joins final battle with full resources (Holy Symbol, tactical plan, crossbow expertise)"
+    - "Van Richten's tower contains deadly traps - designed to kill Strahd, not test players (clarify intent before they enter)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CharacterManager (Story 3-2)"

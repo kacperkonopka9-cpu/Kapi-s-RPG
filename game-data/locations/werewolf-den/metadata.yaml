@@ -1,0 +1,79 @@
+location_name: "Werewolf Den"
+location_type: "dungeon"
+region: "Barovia Valley - Western Mountains"
+parent_location: null
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village of Krezk"
+    direction: "south"
+    travel_time: "2 hours"
+    description: "Mountain path down to village, frequent target of werewolf raids"
+  - name: "Wizard of Wines Winery"
+    direction: "southeast"
+    travel_time: "4 hours"
+    description: "Through mountain passes to winery valley"
+danger_level: 5
+recommended_level: "5-7"
+size: "Medium (cave network, multiple chambers)"
+description_token_count: 750
+quest_critical: true
+quests:
+  - "Stop Werewolf Raids on Krezk"
+  - "Free Emil Toranescu"
+  - "Defeat Kiril Stoyanovich"
+  - "Rescue Kidnapped Children"
+  - "Reform the Pack (optional)"
+features:
+  - "Werewolf pack lair (8 werewolves + alpha)"
+  - "Moral choice: reform vs. destroy"
+  - "Leadership challenge mechanics (Emil vs. Kiril)"
+  - "Imprisoned former alpha (Emil)"
+  - "Three kidnapped children"
+  - "Cave system with multiple chambers"
+  - "Silvered weapons required"
+  - "Pack tactics combat"
+  - "Connection to Strahd's strategy"
+population: 11
+government: "Pack hierarchy (alpha rules)"
+alignment: "Chaotic Evil under Kiril, Neutral if Emil restored"
+economy: "Raiding and hunting"
+defense: "8 werewolves (CR 3 each) + Kiril alpha (CR 5), immunity to non-silvered weapons"
+climate: "Mountain caves, cold, damp"
+npcs:
+  - "Kiril Stoyanovich (werewolf alpha, PRIMARY)"
+  - "Emil Toranescu (imprisoned former alpha)"
+  - "Zuleika Toranescu (conflicted guard)"
+  - "Werewolf pack members (6-8)"
+  - "Kidnapped children (3)"
+enemies:
+  - name: "Kiril Stoyanovich"
+    type: "werewolf_alpha"
+    cr: 5
+    count: 1
+  - name: "Werewolf Pack"
+    type: "werewolf"
+    cr: 3
+    count: 6-8
+allies:
+  - name: "Emil Toranescu"
+    type: "werewolf_former_alpha"
+    notes: "Potential ally if freed, will reform pack if restored to leadership"
+  - name: "Zuleika Toranescu"
+    type: "werewolf"
+    notes: "Conflicted, can be persuaded to help Emil (DC 16)"
+treasure:
+  - "Coinage (~940 gp total)"
+  - "Silvered weapons cache (325 gp: 2 shortswords, 1 handaxe, 20 bolts)"
+  - "Kiril's silvered greataxe (500 gp)"
+  - "Stolen jewelry (190 gp)"
+  - "Healing potions (4, 200 gp)"
+  - "Stolen trade goods (150 gp)"
+  - "Letter from Strahd (evidence)"
+  - "Children's belongings (return to families)"
+  - "Victim remains (evidence of crimes)"
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+last_validated: "2025-11-12"
+notes: "Werewolf Den is high-danger combat encounter with moral choice element. Primary threat: 8 CR 3 werewolves plus CR 5 alpha, all immune to non-silvered/non-magical weapons. Silvered weapon cache on-site provides solution. Multiple resolution paths: (1) Violent—kill entire pack, (2) Diplomatic—free Emil, support in leadership challenge vs. Kiril, reform pack, (3) Hybrid—kill Kiril, negotiate with survivors. Emil restoration is better outcome: ends raids on Krezk, frees children, creates neutral faction. Destroying pack also works but less elegant. Three kidnapped children must be rescued—time-sensitive moral imperative. Zuleika (Emil's wife) guards prison but conflicted—DC 16 Persuasion to stand aside. Letter in Kiril's chamber proves Strahd connection (raids are part of strategy to destabilize Krezk). Pack uses tactics: flanking, coordination, reinforcements from patrols. Best approach: silvered weapons essential, time assault for when hunting parties are out, free Emil first, support in challenge to Kiril, negotiate pack reform. If reformed, pack stops raids and becomes neutral—major win for Krezk. Children returned earn significant gratitude from Dmitri Krezkov. Total loot ~2745 gp but much should be returned to victims' families. Keepers of the Feather observe party's choices (violence vs. diplomacy). Connection to Krezk quest line: solving werewolf threat is prerequisite for village trust and Ireena sanctuary."

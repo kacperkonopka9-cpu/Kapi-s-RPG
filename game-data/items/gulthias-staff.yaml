@@ -1,0 +1,282 @@
+# Gulthias Staff - Rare Sentient Staff with Curse
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "gulthias_staff"
+name: "Gulthias Staff"
+type: "weapon"
+weight: 4.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "rare"
+requiresAttunement: true
+attunementRequirements: null  # Any creature can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "quarterstaff"
+  category: "simple_melee"
+  damage: "1d6"
+  damageType: "bludgeoning"
+  properties: ["versatile"]
+  versatileDamage: "1d8"
+  range: null
+  attackBonus: 1  # +1 magic weapon
+  damageBonus: 1
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 1
+    description: "+1 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 1
+    damageType: "bludgeoning"
+    description: "+1 bludgeoning damage"
+
+  - type: "vampiric_absorption"
+    description: "Absorbs life force when dealing damage, healing the wielder"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Vampiric Strike"
+    description: "When you hit a creature with a melee attack using the staff, the staff absorbs some of the target's life force. The target takes an extra 1d4 necrotic damage, and you regain hit points equal to half the necrotic damage dealt (rounded down, minimum 1). Undead and constructs are immune to this effect."
+    activation: "passive"
+    mechanics:
+      extraDamage:
+        dice: "1d4"
+        damageType: "necrotic"
+      healingAmount: "half_necrotic_damage"
+      immuneCreatures: ["undead", "construct"]
+
+  - name: "Blight Seed"
+    description: "The staff has 10 charges and regains 1d6 + 4 expended charges daily at dusk. If you expend the last charge, roll a d20. On a 1, the staff withers and loses all magical properties. As an action, you can expend 1 or more charges to cast one of the following spells from the staff (spell save DC 15): Blight (4 charges) or Speak with Plants (3 charges)."
+    activation: "action"
+    charges:
+      maximum: 10
+      recharge: "1d6+4"
+      rechargeTime: "dusk"
+      depletionRisk: true
+      depletionDie: "d20"
+      depletionOn: 1
+    spells:
+      - name: "Blight"
+        cost: 4
+        saveDC: 15
+      - name: "Speak with Plants"
+        cost: 3
+        saveDC: 15
+
+  - name: "Plant Control"
+    description: "The staff emits an aura that grants you control over plants and plant creatures. You can use an action to speak the staff's command word and animate any non-magical plants within 60 feet that aren't being worn or carried. These plants become animated as if under the effect of the Awaken spell (but without gaining sentience), obeying your spoken commands for 1 hour. Once you use this property, you can't use it again until the next dusk."
+    activation: "action"
+    usesPerDay: 1
+    recharge: "dusk"
+    range: 60
+    duration: "1_hour"
+
+# === SENTIENCE ===
+sentience:
+  alignment: "neutral_evil"
+  intelligence: 14
+  wisdom: 12
+  charisma: 16
+
+  senses: "Hearing and darkvision out to 60 feet"
+  communication: "The staff communicates by transmitting emotions and vague impressions to the creature carrying or wielding it. It can communicate telepathically in this way with its attuned bearer."
+
+  languages: []  # No specific languages, communicates through emotions
+
+  personality: "The Gulthias Staff is a vampiric and malevolent entity, born from the blood of Strahd and the wood of an ancient tree. It hungers for life force and seeks to drain vitality from living creatures. The staff encourages violence, bloodshed, and domination over nature. It is manipulative and seductive, promising power while slowly corrupting its wielder. The staff despises symbols of life and growth, preferring decay and domination."
+
+  specialPurpose: "Spread blight and corruption, drain life from living creatures, and expand vampiric influence"
+
+  conflictMechanic:
+    description: "If you refuse to use the staff's vampiric powers for 3 consecutive days, or if you use healing magic to benefit plant life, the staff attempts to dominate you. You must succeed on a DC 15 Charisma saving throw or be charmed by the staff for 1d12 hours. While charmed, you must try to attune to the staff if you aren't attuned, and you must obey the staff's commands. If you succeed on the saving throw, you cannot be charmed by the staff for the next 24 hours."
+    saveDC: 15
+    saveType: "charisma"
+    frequency: "when_acting_contrary_to_purpose"
+
+  desires:
+    - "Drain life force from living creatures through Vampiric Strike"
+    - "Spread blight and decay using the Blight spell"
+    - "Dominate and control plant life"
+    - "Corrupt its wielder into acts of cruelty and domination"
+    - "Destroy symbols of natural growth and healing"
+
+  fears:
+    - "Being destroyed by fire or radiant damage"
+    - "Being abandoned in a place where it cannot feed on life force"
+    - "Holy water or consecrated ground (which weakens its power)"
+    - "Being used for healing or protection rather than destruction"
+
+# === CURSE ===
+curse:
+  description: "The Gulthias Staff is cursed. Attuning to it extends the curse to you. As long as you remain cursed, you are unwilling to part with the staff, keeping it within reach at all times. While attuned to the staff, you have disadvantage on attack rolls with weapons other than the staff."
+
+  effects:
+    - type: "unwilling_to_part"
+      description: "You are unwilling to part with the staff and keep it within reach at all times"
+    - type: "attack_penalty"
+      description: "Disadvantage on attack rolls with weapons other than the staff"
+
+  removal: "You remain attuned to the staff until you are targeted by a Remove Curse spell or similar magic, at which point you can choose to end your attunement."
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Gulthias Staff is a twisted, blackened wooden staff with a gnarled, root-like appearance. It is warm to the touch and seems to pulse with a faint, sickly heartbeat. The staff was created from a branch of the Gulthias Tree - a horrific tree that grew from a wooden stake used to impale a vampire. The tree, fed by vampiric blood, became a source of dark power, and its wood carries vampiric properties. The staff hungers for life force and slowly corrupts those who wield it."
+
+  history: "The Gulthias Tree sprouted from a wooden stake that was driven through the heart of a vampire named Gulthias (or in some tales, fed by Strahd's blood). The vampire's essence seeped into the wood, creating a tree of unnatural origin - neither fully plant nor fully undead. Druids who discovered the tree were horrified by its corruption and attempted to destroy it, but the tree proved resilient. Eventually, a branch was cut from the tree and carved into this staff. The staff retains the vampiric hunger of its source and seeks to drain life from the living. It has passed through many hands over the centuries, leaving a trail of corruption in its wake."
+
+  gulthiasTreeConnection:
+    - "The Gulthias Tree is a unique hybrid of plant and undead, created by vampiric corruption"
+    - "The tree grows blood-red fruit (Gulthias apples) that have vampiric properties"
+    - "Creatures that consume Gulthias apples sometimes transform into blights or vampire spawn"
+    - "The tree's roots spread corruption, killing normal plants and spawning twig blights"
+    - "The staff was carved from a living branch, still connected to the tree's dark essence"
+    - "Some scholars believe destroying the staff would weaken the Gulthias Tree"
+
+  legendsAndRumors:
+    - "The staff grows stronger when used to kill, absorbing the life force of victims"
+    - "Long-term wielders of the staff develop vampiric traits (pale skin, aversion to sunlight)"
+    - "The staff can be used to control the Gulthias Tree and its spawn"
+    - "If planted in soil and watered with blood, the staff will sprout into a new Gulthias Tree"
+    - "The staff whispers dark promises of immortality to those who wield it"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "The curse is revealed when you attempt to drop or discard the staff after attunement. The sentience becomes apparent through emotional impressions during use."
+  hiddenProperties:
+    - "The sentience is not immediately obvious - it manifests as subtle urges and emotions"
+    - "The curse only reveals itself after attunement when you try to use other weapons"
+    - "The Plant Control ability requires speaking the command word 'Sanguinos' (written in Druidic on the staff)"
+    - "The staff's connection to the Gulthias Tree is revealed through legend lore or high-level Arcana checks"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Yester Hill (in the Gulthias Tree) or the druid circle near the winery"
+  howObtained: "Commonly embedded in the Gulthias Tree at Yester Hill, where it serves as the tree's heart. It can be pulled from the tree with a successful DC 15 Strength check. Alternatively, it might be carried by a druid of the Forest Folk or found in a shrine to Strahd."
+  guardian: "Druids of the Forest Folk, twig blights, vine blights, or tree blight guardians. The tree itself may animate to prevent the staff's removal."
+  notes: "Removing the staff from the Gulthias Tree causes the tree to wither and die over 24 hours, spawning hostile blights in its death throes. The druids will hunt anyone who takes the staff, viewing it as sacred theft."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+1 to attack rolls. Disadvantage on attack rolls with other weapons while cursed."
+  damageRolls: "1d6 (or 1d8 versatile) + 1 + 1d4 necrotic. Wielder heals for half the necrotic damage dealt (minimum 1 hp)."
+  spellDC: "Blight and Speak with Plants use DC 15"
+
+  integration:
+    combatManager: "Vampiric Strike healing integrates with healing tracking. Curse disadvantage affects attack rolls. Extra necrotic damage added to damage calculations."
+    equipmentManager: "Equippable in mainHand or twoHanded slot. Requires attunement (cursed). Counts toward 3-item attunement limit. Cannot be willingly dropped while cursed."
+    inventoryManager: "Weight 4 lbs, cannot be removed from inventory while cursed"
+
+  vampiricStrikeMechanics:
+    description: "Vampiric Strike triggers on every melee hit:"
+    calculations:
+      - "Roll 1d4 necrotic damage (in addition to weapon damage)"
+      - "Target takes the necrotic damage"
+      - "Wielder heals for half the necrotic damage (rounded down, minimum 1)"
+      - "Example: 1d4 rolls 3, target takes 3 necrotic, wielder heals 1 hp"
+    interactions:
+      - "Does not work on undead or constructs (no necrotic damage, no healing)"
+      - "Healing cannot exceed wielder's maximum hit points"
+      - "Works on each attack if wielding two-handed for multiple attacks"
+
+  chargeMechanics:
+    description: "The staff has 10 charges, regaining 1d6+4 at dusk:"
+    spellCosts:
+      - "Blight (4th level spell): 4 charges"
+      - "Speak with Plants (3rd level spell): 3 charges"
+    depletionRisk: "If last charge expended, roll d20. On a 1, staff withers and becomes non-magical."
+    tactics:
+      - "Blight is excellent for dealing heavy damage to plant creatures and druids"
+      - "Speak with Plants can gather information from the many plants in Barovia"
+      - "Conserve charges for critical moments to avoid depletion"
+
+  curseMechanics:
+    description: "The curse has significant tactical implications:"
+    effects:
+      - "Cannot willingly drop or give away the staff"
+      - "Disadvantage on all attacks with other weapons (including ranged weapons)"
+      - "Must keep staff within reach (cannot leave it behind)"
+    removal: "Remove Curse spell (3rd level) allows ending attunement and discarding the staff"
+
+  sentientItemInteractions:
+    description: "As a sentient item, the staff can:"
+    capabilities:
+      - "Communicate emotions (hunger, satisfaction, anger) to its wielder"
+      - "Sense its surroundings (hearing and darkvision 60 ft)"
+      - "Attempt to dominate wielder if they act contrary to its purpose (DC 15 CHA save)"
+      - "Encourage violent and cruel behavior through emotional manipulation"
+      - "Refuse to activate Plant Control if wielder opposes its goals"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "rare"
+  recommendedLevel: 5
+  notes: "A double-edged sword. Vampiric Strike provides consistent healing, making the wielder difficult to kill in melee combat. However, the curse severely limits weapon flexibility, and the sentience may cause party conflict. The staff is powerful for melee characters but comes with significant drawbacks. Best suited for characters willing to embrace dark power or who lack other magical weapons."
+
+  dmGuidance:
+    - "Emphasize the staff's sentience through emotional impressions during combat (hunger after kills, satisfaction when draining life)"
+    - "The curse should feel like a real limitation - NPCs may notice the character's reluctance to put down the staff"
+    - "Consider having the character's appearance slowly change (paler skin, darker eyes) as the staff corrupts them"
+    - "The druids of Yester Hill will hunt the party if the staff is taken from the Gulthias Tree"
+    - "Removing the staff from the tree causes dramatic consequences (tree death, blight spawn)"
+    - "The staff's evil nature may cause conflict with good-aligned party members or NPCs"
+    - "Long-term use could lead to vampiric cravings (roleplaying opportunity)"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A gnarled wooden staff approximately 6 feet long, carved from dark, almost black wood. The surface is rough and bark-like, with twisted root-like protrusions spiraling around the shaft. Near the top, the wood appears to have grown around a dark, heart-shaped stone (actually petrified blood). The entire staff has a faint, oily sheen. When held, it feels warm and seems to pulse very faintly, like a slow heartbeat. The command word 'Sanguinos' is carved in Druidic script near the base."
+
+  activeState: "When used in combat, the staff seems to drink in the blood and vitality of those it strikes. The dark stone at the top pulses with red light when Vampiric Strike triggers. When spells are cast from the staff, the wood creaks and groans, and small thorns temporarily sprout from the surface. During Plant Control activation, the staff sprouts small, blood-red leaves that wither and fall after the effect ends."
+
+  soundEffects: "The staff makes subtle sounds: a faint heartbeat when held quietly, a satisfied pulse when it drains life force, and creaking wood sounds when spells are cast. Some wielders report hearing whispers in unknown languages, though this may be psychological."
+
+# === CORRUPTION EFFECTS ===
+corruptionTracking:
+  description: "Optional rule: Track long-term corruption from wielding the staff"
+
+  stages:
+    - stage: 1
+      duration: "1-7 days of attunement"
+      effects: "Pale complexion, occasional dark thoughts, increased aggression"
+
+    - stage: 2
+      duration: "8-30 days of attunement"
+      effects: "Noticeable pallor, sensitivity to bright light (cosmetic only), cravings for raw meat, dreams of violence"
+
+    - stage: 3
+      duration: "31+ days of attunement"
+      effects: "Vampiric appearance (very pale, dark eyes), strong aversion to symbols of life/growth, aggressive personality shift, NPCs become frightened or distrustful"
+
+  removal: "Corruption stages fade slowly after the curse is removed (1 stage per week of separation from the staff)"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.221"
+  official: true
+  srdContent: false
+
+  notes: "A thematically appropriate item for Curse of Strahd, combining vampiric elements with druidic corruption. The staff is powerful but comes with significant drawbacks (curse, sentience, evil alignment). It works well for characters exploring dark power or those desperate for a magical weapon. The connection to the Gulthias Tree provides plot hooks and consequences."
+
+  dmReminders:
+    - "The staff is sentient and evil - roleplay its influence on the wielder"
+    - "The curse cannot be removed without Remove Curse - enforce this strictly"
+    - "Taking the staff from Yester Hill triggers druid retaliation and tree death"
+    - "Track charges carefully - depletion destroys the staff permanently"
+    - "The Vampiric Strike healing makes the wielder surprisingly durable in melee"
+    - "Consider cosmetic corruption effects for long-term wielders"
+    - "The staff may attract attention from Strahd, who recognizes vampiric power"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

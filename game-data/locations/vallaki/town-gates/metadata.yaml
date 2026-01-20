@@ -1,0 +1,35 @@
+# Location Metadata - Town Gates
+
+location_name: "Town Gates"
+location_type: "outdoor"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 3
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Svalich Road (East)"
+    direction: "east"
+    travel_time: "varies"
+    notes: "Road to Village of Barovia and Castle Ravenloft"
+  - name: "Svalich Road (West)"
+    direction: "west"
+    travel_time: "varies"
+    notes: "Road to Wizard of Wines and Krezk"
+  - name: "Town Square"
+    direction: "center"
+    travel_time: "5 minutes"
+
+description_token_count: 350
+npc_count: 4
+item_count: 4
+event_count: 3
+
+fortified_location: true
+entry_point: true
+curfew_enforced: true
+
+last_validated: null
+validation_status: "pending"

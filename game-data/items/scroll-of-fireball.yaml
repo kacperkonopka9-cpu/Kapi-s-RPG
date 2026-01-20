@@ -1,0 +1,176 @@
+# Scroll of Fireball - Uncommon Consumable
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and SpellcastingModule (Story 3-7)
+
+# === BASIC INFORMATION ===
+id: "scroll_of_fireball"
+name: "Scroll of Fireball"
+type: "consumable"
+weight: 0.1
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "spell_scroll"
+    spellName: "Fireball"
+    spellLevel: 3
+    description: "Contains the Fireball spell, which can be cast once before the scroll is consumed"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Cast Fireball"
+    description: "You can use an action to read the scroll and cast Fireball (3rd level). A bright streak flashes from your pointing finger to a point you choose within 150 feet and then blossoms with a low roar into an explosion of flame. Each creature in a 20-foot-radius sphere centered on that point must make a DC 15 Dexterity saving throw. A creature takes 8d6 fire damage on a failed save, or half as much damage on a successful one. The fire spreads around corners. It ignites flammable objects in the area that aren't being worn or carried. Once used, the scroll crumbles to ash."
+    activation: "action"
+    usesPerDay: 1  # Single use, then destroyed
+    saveType: "dexterity"
+    saveDC: 15
+    range: 150
+    area: "20-foot-radius sphere"
+    damageType: "fire"
+    damageDice: "8d6"
+
+# === SPELL SCROLL MECHANICS ===
+spellScroll:
+  spellName: "Fireball"
+  spellLevel: 3
+  schoolOfMagic: "evocation"
+  castingTime: "1 action"
+  range: 150
+  components: ["V", "S"]  # No material components needed for scrolls
+  duration: "instantaneous"
+
+  # Spell scroll usage rules (DMG p.200)
+  usage:
+    description: "If the spell is on your class's spell list, you can read the scroll and cast the spell without material components. Otherwise, the scroll is unintelligible. If the spell is on your class's spell list but of a higher level than you can normally cast, you must make a DC 13 ability check using your spellcasting ability to successfully cast it. On a failed check, the spell disappears from the scroll with no other effect."
+    abilityCheckDC: 13
+    abilityCheckRequirement: "If spell level > your max spell slot level"
+
+  # Who can use this scroll
+  eligibleClasses:
+    - "Wizard"
+    - "Sorcerer"
+    - "Warlock" # Via Mystic Arcanum or pact slots
+    - "Arcane Trickster (Rogue subclass, if 3rd level slots available)"
+    - "Eldritch Knight (Fighter subclass, if 3rd level slots available)"
+    - "Artificer"
+    - "Any class with Fireball on their spell list or via Magic Initiate/other features"
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A rolled parchment sealed with wax, containing the arcane formula for the Fireball spell. The parchment is covered in intricate magical runes and diagrams written in flowing script. Opening the scroll reveals glowing red-orange text that seems to flicker like flames. The scroll radiates warmth to the touch, hinting at the destructive power contained within."
+
+  history: "Spell scrolls are created by spellcasters who inscribe magical formulas onto parchment using special inks and components. A Fireball scroll is particularly valuable, as the spell is one of the most iconic and powerful evocation spells available to mid-level casters. This scroll may have been created by a wizard in Barovia's past, looted from Strahd's library, or brought to the cursed land by adventurers from beyond the mists."
+
+  legendsAndRumors: []
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_inspection"
+  fullPropertiesReveal: "Reading the scroll reveals it contains the Fireball spell. An Identify spell or Arcana check DC 10 confirms the spell level and save DC."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Various locations throughout Barovia"
+  howObtained: "May be found in Castle Ravenloft's library, the Amber Temple, Van Richten's Tower, among a wizard's possessions, or purchased from the Vistani. Scrolls are relatively rare but not unique."
+  guardian: null
+  notes: "Fireball scrolls are valuable for dealing with groups of enemies or destroying key objects. Particularly useful against vampire spawn and other undead that cluster together."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: "8d6 fire damage (average 28 damage), half on successful Dex save (DC 15)"
+  spellDC: 15
+
+  integration:
+    combatManager: "Fireball targets all creatures in 20-foot radius. Each target makes DC 15 Dex save. Fire damage triggers vulnerabilities/resistances. Area effect spreads around corners."
+    equipmentManager: "Stored in inventory. Does not require equipping to use."
+    inventoryManager: "Weight 0.1 lbs. Single-use consumable, destroyed after use."
+    spellcastingModule: "Integrates with spell scroll rules. Eligible casters can use without ability check if they can cast 3rd level spells. Lower-level casters require DC 13 spellcasting ability check."
+
+  usageRules:
+    spellOnYourList: "If Fireball is on your class spell list, you can use the scroll"
+    spellNotOnList: "If Fireball is not on your class spell list, the scroll is unintelligible and cannot be used"
+    lowLevelCaster: "If you can cast 1st or 2nd level spells but not 3rd, make DC 13 spellcasting ability check (Int for wizards, Cha for sorcerers, etc.)"
+    failedCheck: "On failed check, the scroll is consumed with no effect (spell fails, scroll destroyed)"
+
+  tacticalUse:
+    bestAgainst:
+      - "Groups of weak enemies (minions, spawn, cultists)"
+      - "Enemies clustered in a room or corridor"
+      - "Swarms of small creatures"
+      - "Combustible barriers or objects"
+
+    risksAndDrawbacks:
+      - "Affects allies in the area (friendly fire possible)"
+      - "Destroys valuable items and treasure in the area"
+      - "May cause structural damage (collapse ceilings, burn buildings)"
+      - "Loud and conspicuous - alerts nearby enemies"
+      - "Ineffective against fire-resistant or fire-immune enemies"
+
+    damageComparison:
+      - "8d6 average: 28 damage (14 on save)"
+      - "Affects multiple targets (potentially 10+ creatures)"
+      - "Total damage potential: 280+ damage if 10 creatures all fail saves"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 5
+  notes: "A powerful consumable that can turn the tide of a difficult encounter. The 8d6 damage (average 28) can eliminate groups of weak enemies or soften up tougher foes. The area effect makes positioning critical. Single-use nature means players will save it for important moments."
+
+  dmGuidance:
+    - "Fireball is iconic and players love using it - make the moment epic"
+    - "Describe the explosion cinematically (flame, sound, shockwave)"
+    - "Remember friendly fire - allies in the area must also save"
+    - "Fire spreads around corners and ignites flammable objects"
+    - "Some enemies (devils, demons, red dragons) have fire resistance or immunity"
+    - "Can be used to destroy obstacles, doors, or important objects"
+    - "The scroll is consumed after use - cannot be recovered"
+    - "Consider giving 1-2 scrolls over the course of the campaign"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A rolled parchment approximately 12 inches long, sealed with crimson wax bearing an arcane sigil. The parchment is yellowed with age and has slightly singed edges. When unrolled, the scroll reveals dense text written in glowing red-orange ink that seems to flicker and dance like flames. Intricate diagrams of arcane circles, runes, and geometric patterns surround the central incantation. The scroll is warm to the touch and smells faintly of sulfur and smoke."
+
+  activeState: "When read aloud, the text glows brilliantly and the runes lift from the parchment, swirling around the caster in a vortex of fire. As the final words are spoken, the scroll ignites in a flash of flame, leaving only ash as a bright streak of fire launches from the caster's finger toward the target point."
+
+  soundEffects: "Reading the scroll produces a crackling sound like a fire burning. When the spell is cast, there's a WHOOSH as the fire streak launches, followed by a thunderous BOOM as the fireball detonates. The explosion roars like a bonfire and the heat can be felt from outside the area of effect."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.200"
+  official: true
+  srdContent: true
+
+  notes: "Spell scrolls are versatile consumables that allow non-casters to use magic or give casters access to spells not in their repertoire. Fireball is one of the most iconic damage spells in D&D. The scroll is particularly valuable in Curse of Strahd for dealing with groups of undead or Strahd's minions."
+
+  dmReminders:
+    - "Single use - destroyed after casting"
+    - "Only usable by classes with Fireball on their spell list (wizards, sorcerers, etc.)"
+    - "Lower-level casters require DC 13 ability check to use successfully"
+    - "Save DC is 15 (fixed, not based on user's stats)"
+    - "8d6 fire damage, Dex save for half"
+    - "20-foot radius sphere, 150-foot range"
+    - "Spreads around corners, ignites flammable objects"
+    - "Affects all creatures in area (including allies)"
+    - "Cannot be used by non-spellcasters without magic items/feats that grant the ability"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), SpellcastingModule (Story 3-7)"

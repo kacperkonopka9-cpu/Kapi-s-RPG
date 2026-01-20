@@ -1,0 +1,297 @@
+# Quest 5: Seek the Vistani (Tarokka Reading)
+# Find Madam Eva and receive the Tarokka prophecy
+
+questId: "seek_the_vistani"
+name: "Seek the Vistani"
+type: "main"
+category: "investigation"
+
+questGiver:
+  npcId: null
+  location: "tser_pool_encampment"
+  dialogue: "Seek Madam Eva at the Vistani encampment. She alone can reveal your fate in this cursed land."
+
+questRecipient: "player"
+
+description:
+  short: "Find Madam Eva and receive a Tarokka reading about your destiny"
+  full: "The Vistani are neutral travelers who move freely through Barovia. Their leader, Madam Eva, is a seer who reads the Tarokka cards to divine the future. Locals whisper that she can reveal the locations of powerful artifacts that could help defeat Strahd, as well as identify an ally who will aid your cause. You must find the Vistani encampment at Tser Pool and convince Madam Eva to perform a reading."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "escort_ireena_to_vallaki"
+  requiredEvents: []
+  requiredNPCs:
+    alive:
+      - "madam_eva"
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited: []
+
+objectives:
+  - objectiveId: "learn_about_vistani"
+    description: "Learn about Madam Eva and the Vistani from locals"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: true
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_tser_pool"
+    description: "Travel to the Vistani encampment at Tser Pool"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "tser_pool_encampment"
+      location: "tser_pool_encampment"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "meet_madam_eva"
+    description: "Speak with Madam Eva and request a reading"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "madam_eva"
+      location: "tser_pool_encampment"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "receive_tarokka_reading"
+    description: "Receive the Tarokka reading revealing artifact locations and your ally"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 250
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "tser_pool_encampment"
+        changes:
+          tarokka_reading_complete: true
+          artifact_locations_revealed: true
+
+    triggeredEvents:
+      - eventId: "tarokka_reading_complete"
+        delay: "0"
+
+    unlockedQuests:
+      - "find_the_sunsword"
+      - "find_the_holy_symbol_of_ravenkind"
+      - "find_the_tome_of_strahd"
+      - "identify_the_ally"
+      - "confront_strahds_weakness"
+
+    npcReactions:
+      - npcId: "madam_eva"
+        attitudeChange: 20
+        dialogue: "The cards have spoken. Your path is clear, though the journey will be perilous."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 500
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "vistani"
+      change: 15
+
+  specialRewards:
+    - type: "knowledge_gained"
+      description: "Knowledge of artifact locations and destined ally"
+
+branches: []
+
+journalEntries:
+  initial: "We've heard tales of Madam Eva, a Vistani seer who can divine the future through Tarokka cards. If anyone knows how to defeat Strahd, it would be her. We must seek the Vistani camp at Tser Pool."
+
+  updates:
+    - trigger: "meet_madam_eva_complete"
+      entry: "We've met Madam Eva. She's ancient, wise, and sees far more than mortal eyes should. She's agreed to perform a Tarokka reading - a powerful divination that will reveal the locations of three artifacts of power and identify an ally who will aid our cause."
+
+  completion: "The Tarokka reading is complete. Madam Eva has revealed the locations of three legendary artifacts: the Sunsword, the Holy Symbol of Ravenkind, and the Tome of Strahd. She's also identified an ally who will stand with us against Strahd, and hinted at his weakness. Armed with this knowledge, we can now begin the hunt for these items. Our destiny in Barovia is becoming clear."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "tarokka_reading_ceremony"
+      trigger:
+        type: "event_triggered"
+        eventId: "madam_eva_agrees_to_reading"
+      effect:
+        type: "narrative_event"
+        message: "Madam Eva shuffles the Tarokka deck and begins the reading..."
+
+dmGuidance:
+  narrativeHooks:
+    - "The Vistani camp is colorful and lively, contrasting sharply with Barovia's gloom"
+    - "Madam Eva's tent is filled with incense, candles, and mysterious objects"
+    - "The Tarokka reading should be atmospheric - describe each card drawn and its meaning"
+    - "Madam Eva knows more than she reveals - she serves Strahd but also hopes for his redemption"
+    - "The reading determines major quest locations - make it memorable and mysterious"
+    - "Foreshadow artifact locations subtly - describe imagery matching the cards drawn"
+    - "After the reading, Madam Eva may provide cryptic hints about each location's challenges"
+
+  roleplayTips:
+    - "Madam Eva speaks in riddles and metaphors"
+    - "She's warm but cryptic, grandmother-like but otherworldly"
+    - "She refers to players as 'children' and speaks of destiny and fate"
+    - "During the reading, her voice becomes distant and trance-like"
+    - "When revealing artifact locations, describe the card's symbolism before naming the place"
+    - "Madam Eva knows the dangers at each location - she may warn party to prepare carefully"
+
+  artifactQuestReferences:
+    - questId: "find_the_sunsword"
+      cardPossibilities:
+        - "Avenger (Swords) → Castle Ravenloft Armory"
+        - "Mists (High Deck) → Sergei's Tomb"
+        - "Enchanter (Stars) → Amber Temple"
+        - "Artifact (High Deck) → Argynvostholt"
+        - "Innocent (Glyphs) → Abbey of St. Markovia"
+        - "Donjon (High Deck) → Castle North Tower"
+        - "Master (Stars) → Van Richten's Tower"
+      notes: "Sunsword locations vary in difficulty - party should strategize based on Tarokka result"
+
+    - questId: "find_the_holy_symbol_of_ravenkind"
+      cardPossibilities:
+        - "Bishop (Glyphs) → Church of St. Andral Crypt"
+        - "Priest (Stars) → Abbey Main Hall"
+        - "Angel (High Deck) → Argynvostholt Chapel"
+        - "Innocent (Glyphs) → Krezk Blessed Pool"
+        - "Artifact (High Deck) → Castle Ravenloft Chapel"
+        - "Diviner (Stars) → Madam Eva's Tent"
+        - "Executioner (Swords) → Van Richten's Tower"
+      notes: "Holy Symbol locations test faith and worthiness - not all require combat"
+
+    - questId: "find_the_tome_of_strahd"
+      cardPossibilities:
+        - "Tome (High Deck) → Castle Ravenloft Library"
+        - "Necromancer (Stars) → Strahd's Bedchamber"
+        - "Ghost (Glyphs) → Sergei's Tomb"
+        - "Crypts (Swords) → Castle Catacombs"
+        - "Broken One (Low Deck) → Burgomaster Mansion"
+        - "Darklord (High Deck) → Amber Temple Vault"
+        - "Raven (Glyphs) → Wizard of Wines"
+      notes: "Tome provides psychological insight into Strahd - essential for final confrontation"
+
+  combatEncounters: []
+
+  commonPitfalls:
+    - "Players may distrust the Vistani - establish they're neutral, not evil"
+    - "Players may try to force specific Tarokka results - the reading is predetermined by DM"
+    - "Players may ignore the reading's guidance - emphasize its importance"
+    - "Players may rush to hardest artifact location first - Madam Eva can warn about difficulty tiers"
+    - "Players may forget which card corresponds to which artifact - provide written summary after reading"
+
+  alternatives:
+    - "Players can visit the camp during festival (more NPCs, entertainment)"
+    - "Players can learn Vistani songs or customs (cultural exchange)"
+    - "Players can encounter Ezmerelda d'Avenir at camp (if she's the destined ally)"
+    - "Players can ask Madam Eva follow-up questions about artifact locations (she provides cryptic hints)"
+    - "Players can return to Madam Eva after claiming artifacts for her reactions and additional guidance"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 5
+
+  blocksQuests:
+    - "find_the_sunsword"
+    - "find_the_holy_symbol_of_ravenkind"
+    - "find_the_tome_of_strahd"
+    - "identify_the_ally"
+    - "confront_strahds_weakness"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 4
+  challengeRating: 0
+  skillChecks:
+    - skill: "persuasion"
+      dc: 10
+      description: "Convince Madam Eva to perform reading"
+    - skill: "insight"
+      dc: 15
+      description: "Interpret Tarokka card meanings"
+
+lore:
+  background: |
+    Madam Eva is centuries old and has served Strahd since before his transformation. She's seen
+    countless adventurers enter Barovia, and most have died. She performs Tarokka readings out of a
+    mix of duty, hope, and curiosity - perhaps this group will finally end Strahd's curse.
+
+  connectionToMainStory: |
+    The Tarokka reading is the campaign's roadmap. It determines where the three artifacts are
+    hidden, who the destined ally is, and where Strahd will make his final stand. This quest is the
+    pivot point between early exploration and the endgame artifact hunt.
+
+  historicalContext: |
+    The Tarokka deck is an ancient Vistani tradition. Madam Eva's deck is special - it always tells
+    truth, though that truth is often veiled in symbolism. The reading for adventurers entering
+    Barovia has become a ritual, performed countless times over centuries.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.10-11, 36-37"
+  official: true
+  estimatedDuration: "Half session"
+  tags: ["investigation", "social", "prophecy", "tarokka"]
+  notes: "The Tarokka reading should be run as written in Curse of Strahd. DM determines results or uses random draw. This quest unlocks the artifact quests (7-9) and ally quest (10)."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

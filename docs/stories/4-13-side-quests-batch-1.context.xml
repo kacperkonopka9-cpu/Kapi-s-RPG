@@ -1,0 +1,371 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>13</storyId>
+    <title>Side Quests Batch 1</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-13-side-quests-batch-1.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Game Master running Curse of Strahd</asA>
+    <iWant>a collection of well-defined side quests that provide optional content and exploration opportunities in Barovia</iWant>
+    <soThat>players can engage with the world beyond the main quest chain, discover lore, gain rewards, and experience the full breadth of the Curse of Strahd module</soThat>
+    <tasks>
+### Task 1: Create Quest 1 - St. Andral's Feast
+- Create quest YAML file with metadata
+- Define objectives (investigate, find culprit, prevent attack)
+- Implement time constraint (5-day deadline)
+- Create branching for outcomes (success/partial/failure)
+- Define consequences and rewards
+- Write DM guidance
+- Validate and test
+
+### Task 2: Create Quest 2 - Wizard of Wines Delivery
+- Create quest YAML file
+- Define objectives (winery, defeat enemies, restore production)
+- Add optional objectives (find gems, Martikov secret)
+- Create branching for gem recovery
+- Define alliance consequences and rewards
+- Write DM guidance
+- Validate and test
+
+### Task 3: Create Quest 3 - Werewolf Den Hunt
+- Create quest YAML file
+- Define objectives (locate den, deal with pack)
+- Create branching for Emil's fate
+- Define pack behavior consequences
+- Set rewards and DM guidance
+- Validate and test
+
+### Task 4: Create Quest 4 - Abbey Investigation
+- Create quest YAML file
+- Define objectives (investigate Abbot, discover plan)
+- Create branching (help/oppose/ignore)
+- Define blessing vs wrath consequences
+- Write moral complexity guidance
+- Validate and test
+
+### Task 5: Create Quest 5 - Return Berez Gem
+- Create quest YAML file with prerequisites
+- Define objectives (infiltrate, defeat Baba Lysaga)
+- Create branching (combat/stealth/bargain)
+- Define CR 11 encounter consequences
+- Set rewards and lair hazard guidance
+- Validate and test
+
+### Task 6: Create Quest 6 - Dream Pastry Investigation
+- Create quest YAML file
+- Define objectives (investigate, rescue children)
+- Create branching (fight/bargain/stealth)
+- Define moral dilemma consequences
+- Write coven tactics guidance
+- Validate and test
+
+### Task 7: Create Quest 7 - Missing Vistana
+- Create quest YAML file
+- Define objectives (track, rescue from drowning)
+- Implement time pressure
+- Create branching (save/fail)
+- Define Vistani alliance consequences
+- Write time pressure guidance
+- Validate and test
+
+### Task 8: Integration and Cross-References
+- Update location Events.md files
+- Add questInvolvement to NPC profiles
+- Update quest-state.yaml schema
+- Verify all NPC/location references
+- Create monster ID reference list
+- Document prerequisites
+- Create DM checklist
+
+### Task 9: Integration Testing
+- Create side-quests-batch-1.test.js
+- Test all 7 quest loads
+- Validate schema compliance
+- Test time constraints and branching
+- Test consequence execution
+- Validate cross-references
+- Target: 30-40 tests, 100% pass
+
+### Task 10: Documentation and Validation
+- Run all integration tests
+- Validate YAML files
+- Verify cross-references
+- Confirm schema compliance
+- Create DM guide
+- Update story file
+- Mark story complete
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: Major Side Quest - St. Andral's Feast
+Quest ID st_andrals_feast - Type: side/investigation - Time constraint: 5 days before vampire spawn attack - Branching: Player choices affect outcome - Consequences: Father Lucian fate, church desecration - Rewards: 500 XP, reputation +15, blessing - Integration: Church of St. Andral, Father Lucian NPC, vampire spawn
+
+### AC-2: Major Side Quest - Wizard of Wines Delivery
+Quest ID wizard_of_wines_delivery - Type: side/combat - Objectives: Defeat druids/blights, restore wine production, recover gem - Optional: Discover Martikov secret, find all 3 gems - Rewards: 700 XP, wine bottles, reputation +20 - Integration: Wizard of Wines location, Martikov NPCs, blight monsters
+
+### AC-3: Major Side Quest - Werewolf Den Hunt
+Quest ID werewolf_den_hunt - Type: side/combat - Branching: Save Emil vs kill Emil affects pack - Moral dilemma: Kill vs save decision - Rewards: 600 XP, silvered weapons, potential ally - Integration: Werewolf Den location, werewolf NPCs/monsters
+
+### AC-4: Major Side Quest - Abbey Investigation
+Quest ID abbey_investigation - Type: side/investigation - Branching: Help Abbot, oppose, or ignore - Consequences: Abbey blessing OR combat with CR 10 deva - Moral complexity: Abbot believes he's helping - Integration: Abbey location, Abbot NPC, mongrelfolk/flesh golem
+
+### AC-5: Major Side Quest - Return Berez Gem
+Quest ID return_berez_gem - Type: side/combat - Prerequisites: Complete Wizard of Wines first - Boss fight: Baba Lysaga CR 11 - Rewards: 1000 XP, gemstone, magic item - Integration: Berez location, Baba Lysaga NPC, night hag monster
+
+### AC-6: Minor Side Quest - Dream Pastry Investigation
+Quest ID dream_pastry_investigation - Type: side/investigation - Moral dilemma: Pastries provide only happiness in Barovia - Combat: Hag coven CR 9 - Rewards: 400 XP, children's gratitude - Integration: Old Bonegrinder location, Morgantha NPC, night hag coven
+
+### AC-7: Minor Side Quest - Missing Vistana
+Quest ID missing_vistana - Type: side/investigation - Time pressure: Arabelle drowning - Branching: Save vs fail affects Vistani alliance - Rewards: 300 XP, treasure (250gp + ring of warmth), reputation +25 - Integration: Tser Pool location, Luvash/Arabelle NPCs
+
+### AC-8: Integration with Existing Quest System
+All quests use quest-template.yaml v1.0.0 - Quest files in game-data/quests/ - EventScheduler integration for time constraints - Epic 3 systems integration (XP, items, reputation) - Valid NPC/location/monster references - Quest state tracking in quest-state.yaml
+
+### AC-9: Side Quest Testing and Validation
+Load all 7 quests with QuestManager - Validate quest-template.yaml v1.0.0 compliance - Test time constraints, branching, consequences - Validate all references - Target: 30-40 integration tests, 100% pass rate - Organize by AC
+
+### AC-10: Documentation and Cross-References
+Update location Events.md with quest triggers - Add questInvolvement to NPC profiles - Create side quest DM guide - Ensure no broken references - Add quest hints to location descriptions
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>AC-5: Quest System Implemented</section>
+        <snippet>30 total quests (12 main + 18 side). Story 4-13 implements first batch of side quests (5 major + 2 minor). Quest-template.yaml v1.0.0 schema compliance. Epic 2 EventScheduler integration for time constraints.</snippet>
+      </doc>
+      <doc>
+        <path>templates/quest/quest-template.yaml</path>
+        <title>Quest Template Schema v1.0.0</title>
+        <section>Complete Schema Definition</section>
+        <snippet>Defines quest structure: metadata, questGiver, description, status, prerequisites, objectives, timeConstraints, consequences, rewards, branches, eventSchedulerIntegration, dmGuidance. Compatible with Epic 2 EventScheduler and Epic 1 StateManager.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-11-main-quest-system.md</path>
+        <title>Story 4-11: Main Quest System</title>
+        <section>Implementation Patterns</section>
+        <snippet>Created QuestManager with Result Object Pattern. Quest files in game-data/quests/. Quest state tracking in quest-state.yaml. Integration with StateManager and EventScheduler established.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-12-artifact-quests.md</path>
+        <title>Story 4-12: Artifact Quests</title>
+        <section>Quest Enhancement Patterns</section>
+        <snippet>Enhanced 3 artifact quests with location variants (7 per quest), Tarokka integration, branching with autoDecide. Quest files expanded to 460-486 lines with detailed DM guidance. 49 integration tests, 100% pass rate.</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Architecture Guide</title>
+        <section>File-First Design, Result Object Pattern</section>
+        <snippet>All game state persists in Markdown/YAML files. Result Object Pattern: {success, data, error}. Dependency injection for testability. Quest system integrates with Epic 1-3 systems (StateManager, EventScheduler, InventoryManager).</snippet>
+      </doc>
+      <doc>
+        <path>game-data/quests/escort-ireena-to-vallaki.yaml</path>
+        <title>Sample Quest Implementation</title>
+        <section>Quest 4: Escort Ireena to Vallaki</section>
+        <snippet>Main quest example showing prerequisites (requiredQuests, requiredNPCs), objectives with targets and completion triggers, rewards structure, and quest workflow (not_started → available → active → completed).</snippet>
+      </doc>
+      <doc>
+        <path>game-data/locations/vallaki/church-of-st-andral/Events.md</path>
+        <title>Location Events - Quest Trigger Example</title>
+        <section>St. Andral's Church Events</section>
+        <snippet>Shows quest_trigger effect type in location Events.md. Event bones_theft_discovery triggers st_andrals_feast quest when conditions met. Vampire spawn attack event shows combat_encounter integration.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/quests/quest-manager.js</path>
+        <kind>service</kind>
+        <symbol>QuestManager</symbol>
+        <lines>1-472</lines>
+        <reason>Core quest management system. Provides loadQuest(), getAllQuests(), updateQuestStatus(), updateObjectiveStatus(), checkPrerequisites(). All methods return {success, data, error} Result Objects. Required for quest file validation and testing.</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-80</lines>
+        <reason>Handles time-based event triggering. Side quests with deadlines (St. Andral's Feast, Missing Vistana) integrate with EventScheduler via eventSchedulerIntegration section in quest YAML. Provides checkTriggers() for date/time-based events.</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/state-manager.js</path>
+        <kind>service</kind>
+        <symbol>StateManager</symbol>
+        <lines>1-60</lines>
+        <reason>Manages location state persistence in State.md files. Quest consequences update location state via StateManager. Supports YAML frontmatter pattern for state tracking (visited, discovered_items, completed_events, npc_states).</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/npcs/father_lucian_petrovich.yaml</path>
+        <kind>data</kind>
+        <symbol>father_lucian_petrovich</symbol>
+        <lines>-</lines>
+        <reason>Quest giver for St. Andral's Feast quest. Existing NPC profile from Story 4-9. Reference in quest YAML and update with questInvolvement field.</reason>
+      </artifact>
+      <artifact>
+        <path>templates/location/Events.md</path>
+        <kind>template</kind>
+        <symbol>Events.md template</symbol>
+        <lines>-</lines>
+        <reason>Template for adding quest triggers to location Events.md files. Shows structure for quest_trigger effect type and trigger_conditions.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <nodejs>
+        <package name="js-yaml" version="^4.1.0">YAML parsing and dumping for quest files and state files</package>
+        <package name="jest" version="^29.0.0">Testing framework for integration tests</package>
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>All quests MUST conform to quest-template.yaml v1.0.0 schema (templateVersion: "1.0.0")</constraint>
+    <constraint>Quest files saved to game-data/quests/{quest_id}.yaml with kebab-case filenames (e.g., st-andrals-feast.yaml for questId: st_andrals_feast)</constraint>
+    <constraint>All NPC references must use existing NPC IDs from Stories 4-7 to 4-10 (52 NPCs created)</constraint>
+    <constraint>All location references must use existing location IDs from Stories 4-1 to 4-6 (34 locations created)</constraint>
+    <constraint>Monster references forward-reference Story 4-14 with clear monster IDs (vampire_spawn, blights, druids, werewolves, night_hags, mongrelfolk, flesh_golem)</constraint>
+    <constraint>Item references forward-reference Story 4-15 with clear item IDs (ring_of_warmth, purple_grapemash_wine)</constraint>
+    <constraint>Quest branching uses branches array with branchId and autoDecide boolean (false = player choice, true = state-based)</constraint>
+    <constraint>Time constraints require eventSchedulerIntegration section with registeredEvents array for Epic 2 EventScheduler integration</constraint>
+    <constraint>All quest methods return Result Object Pattern: {success: boolean, data?: any, error?: string}</constraint>
+    <constraint>Quest state tracked in game-data/state/quest-state.yaml (activeQuests, completedQuests arrays, quests object)</constraint>
+    <constraint>DM guidance sections must be concise (20-40 lines) and optimized for LLM-DM consumption</constraint>
+    <constraint>Integration tests organized by AC with 3-5 tests per acceptance criterion, 100% pass rate target</constraint>
+    <constraint>File size targets: Major side quests 300-400 lines, Moderate 200-300 lines, Minor 150-200 lines</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>QuestManager.loadQuest(questId)</name>
+      <kind>function</kind>
+      <signature>async loadQuest(questId: string): Promise&lt;{success: boolean, data?: Object, error?: string}&gt;</signature>
+      <path>src/quests/quest-manager.js</path>
+      <description>Loads quest from game-data/quests/{questId}.yaml, validates schema, caches result. Use in integration tests to validate all 7 quest files load correctly.</description>
+    </interface>
+    <interface>
+      <name>QuestManager.updateQuestStatus(questId, newStatus)</name>
+      <kind>function</kind>
+      <signature>async updateQuestStatus(questId: string, newStatus: string): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/quests/quest-manager.js</path>
+      <description>Updates quest status in quest-state.yaml. Valid statuses: not_started, available, active, completed, failed, abandoned. Used to test quest workflow transitions.</description>
+    </interface>
+    <interface>
+      <name>EventScheduler.checkTriggers(events, oldDate, oldTime, newDate, newTime, context)</name>
+      <kind>function</kind>
+      <signature>checkTriggers(events: Object[], oldDate: string, oldTime: string, newDate: string, newTime: string, context: Object): Object[]</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <description>Detects events triggered between timestamps. Side quests with deadlines register events in eventSchedulerIntegration section. Use to test time-based quest triggers (St. Andral's Feast, Missing Vistana).</description>
+    </interface>
+    <interface>
+      <name>StateManager.updateLocationState(locationId, stateUpdates)</name>
+      <kind>function</kind>
+      <signature>async updateLocationState(locationId: string, stateUpdates: Object): Promise&lt;{success: boolean, error?: string}&gt;</signature>
+      <path>src/core/state-manager.js</path>
+      <description>Updates location State.md YAML frontmatter. Quest consequences apply state changes (e.g., father_lucian_dead: true, church_desecrated: true). Used to test consequence execution.</description>
+    </interface>
+    <interface>
+      <name>quest-template.yaml v1.0.0</name>
+      <kind>schema</kind>
+      <signature>YAML schema with fields: questId, name, type, category, questGiver, description, status, prerequisites, objectives, timeConstraints, consequences, rewards, branches, eventSchedulerIntegration, dmGuidance, metadata</signature>
+      <path>templates/quest/quest-template.yaml</path>
+      <description>All 7 side quests must conform to this schema. Integration tests validate schema compliance with js-yaml load and field checks.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing framework: Jest (^29.0.0). Integration tests in tests/integration/quests/side-quests-batch-1.test.js.
+      Organize tests by AC with describe() blocks (9 ACs). Use QuestManager.loadQuest() to load quest files and validate.
+      All quest loads validate with js-yaml and schema compliance checks. Target: 30-40 tests, 100% pass rate.
+      Pattern from Story 4-12: AC-based organization, js-yaml validation in every test, Result Object Pattern checks.
+      Test structure: beforeEach() setup QuestManager, describe() per AC, test() for each validation criterion.
+    </standards>
+    <locations>
+      tests/integration/quests/side-quests-batch-1.test.js (new file to create)
+      tests/integration/quests/artifact-quests.test.js (reference for patterns)
+      game-data/quests/ (quest files to test)
+      game-data/state/quest-state.yaml (quest state tracking)
+    </locations>
+    <ideas>
+      <ac id="AC-1">
+        - Load st_andrals_feast quest with QuestManager
+        - Validate questId, name, type: "side", category: "investigation"
+        - Check timeConstraints.hasDeadline is true, deadline exists
+        - Validate eventSchedulerIntegration.registeredEvents for 5-day deadline
+        - Test quest branching structure (branches array with player choices)
+        - Validate consequences.onCompletion and onFailure effects
+        - Verify rewards: 500 XP, reputation +15
+      </ac>
+      <ac id="AC-2">
+        - Load wizard_of_wines_delivery quest
+        - Validate type: "side", category: "combat"
+        - Check objectives include defeat enemies, restore wine, recover gem
+        - Test optional objectives exist (find 3 gems, Martikov secret)
+        - Validate branching for gem recovery outcomes
+        - Verify consequences include Martikov alliance
+        - Check rewards: 700 XP, wine items, reputation +20
+      </ac>
+      <ac id="AC-3">
+        - Load werewolf_den_hunt quest
+        - Validate type: "side", category: "combat"
+        - Test branches array for Emil fate decision (save vs kill)
+        - Check consequences differ based on Emil's fate
+        - Verify rewards: 600 XP, silvered weapons
+        - Validate DM guidance includes moral dilemma notes
+      </ac>
+      <ac id="AC-4">
+        - Load abbey_investigation quest
+        - Validate type: "side", category: "investigation"
+        - Test branches for help/oppose/ignore Abbot choices
+        - Check consequences include blessing OR CR 10 combat
+        - Verify DM guidance notes moral complexity
+        - Validate rewards structure with conditional outcomes
+      </ac>
+      <ac id="AC-5">
+        - Load return_berez_gem quest
+        - Validate prerequisites.requiredQuests includes wizard_of_wines
+        - Check type: "side", category: "combat"
+        - Test branching for approach (combat/stealth/bargain)
+        - Verify difficulty.challengeRating is 11 (CR 11 boss)
+        - Validate rewards: 1000 XP, gemstone, magic item
+      </ac>
+      <ac id="AC-6">
+        - Load dream_pastry_investigation quest
+        - Validate type: "side", category: "investigation"
+        - Test branches for coven approach (fight/bargain/stealth)
+        - Check consequences for different outcomes
+        - Verify DM guidance includes moral dilemma notes
+        - Validate rewards: 400 XP, children gratitude
+      </ac>
+      <ac id="AC-7">
+        - Load missing_vistana quest
+        - Validate type: "side", category: "investigation"
+        - Check timeConstraints for time pressure (drowning urgency)
+        - Test branches for save vs fail outcomes
+        - Verify consequences affect Vistani alliance
+        - Validate rewards: 300 XP, treasure, ring_of_warmth
+      </ac>
+      <ac id="AC-8">
+        - Test all 7 quests conform to quest-template.yaml v1.0.0
+        - Validate templateVersion: "1.0.0" in all quest files
+        - Check all quests have required fields: questId, name, type, objectives, rewards
+        - Verify all NPC references exist in game-data/npcs/
+        - Validate all location references exist in game-data/locations/
+        - Test eventSchedulerIntegration structure for time-based quests
+        - Verify quest state tracking structure
+      </ac>
+      <ac id="AC-9">
+        - Load all 7 quests without errors (st_andrals_feast, wizard_of_wines_delivery, werewolf_den_hunt, abbey_investigation, return_berez_gem, dream_pastry_investigation, missing_vistana)
+        - Validate js-yaml parsing for all quest files
+        - Check quest file sizes (Major: 300-400 lines, Minor: 150-200 lines)
+        - Test QuestManager.loadQuest() returns success: true for all
+        - Verify no duplicate questIds across all quests
+        - Count total tests: 30-40 range, 100% pass rate
+      </ac>
+    </ideas>
+  </tests>
+</story-context>

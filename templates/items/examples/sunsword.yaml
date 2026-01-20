@@ -1,0 +1,177 @@
+# The Sunsword - Sacred Artifact of Curse of Strahd
+# Source: Curse of Strahd p.223
+# One of three legendary artifacts needed to defeat Strahd
+
+# === BASIC INFORMATION ===
+id: "sunsword"
+name: "Sunsword"
+type: "magic_item"  # Functions as a weapon
+weight: 1.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"
+requiresAttunement: true
+attunementRequirements: null  # Anyone can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "longsword"
+  category: "martial_melee"
+  damage: "1d8"
+  damageType: "radiant"  # Radiant instead of slashing!
+  properties: ["versatile", "finesse"]
+  versatileDamage: "1d10"
+  range: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 2
+    description: "+2 bonus to attack and damage rolls made with this magic weapon"
+
+  - type: "damage_bonus"
+    value: 2
+    damageType: "radiant"
+    description: "+2 radiant damage on all hits"
+
+  - type: "extra_damage_vs_type"
+    targetType: "undead"
+    dice: "1d8"
+    damageType: "radiant"
+    description: "Deals an extra 1d8 radiant damage to undead creatures"
+
+  - type: "light_source"
+    brightLight: 15
+    dimLight: 15
+    description: "When activated, emits bright light in 15-foot radius, dim light for additional 15 feet"
+
+  - type: "sunlight_effect"
+    description: "The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each."
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Sunlight Blade"
+    description: "While grasping the hilt, you can use a bonus action to cause a blade of pure radiance to spring into existence, or make the blade disappear. While the blade exists, this magic longsword has the finesse property. If you are proficient with shortswords or longswords, you are proficient with the Sunsword."
+    activation: "bonus_action"
+    duration: "until_dismissed"
+    mechanics:
+      type: "activation"
+      bladeAppears: true
+      lightEmitted: true
+      proficiencyGranted: ["shortsword", "longsword"]
+
+  - name: "Sunlight Effect"
+    description: "The sword's luminous blade emits bright light in a 15-foot radius and dim light for an additional 15 feet. The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each."
+    activation: "action"
+    duration: "until_adjusted"
+    mechanics:
+      type: "light_adjustment"
+      minRadius: 10
+      maxRadius: 30
+      adjustmentIncrement: 5
+
+  - name: "Anti-Vampire Weapon"
+    description: "The Sunsword is especially deadly against vampires and vampire spawn. It deals maximum damage (not rolled) against these creatures."
+    mechanics:
+      type: "max_damage"
+      targetType: ["vampire", "vampire_spawn"]
+      effect: "always_max_damage"
+      # Normal: 1d8+2 (or 1d10+2 versatile) + 1d8 vs undead
+      # Against vampires: MAX(1d8)+2 + MAX(1d8) = 8+2+8 = 18 (or 10+2+8 = 20 versatile)
+
+# === CHARGES ===
+charges: null  # No charges - always active once blade is summoned
+
+# === SENTIENCE ===
+sentience: null  # Not sentient (unlike Holy Symbol of Ravenkind)
+
+# === CURSE ===
+curse: null  # Not cursed
+
+# === RESTRICTIONS ===
+restrictions:
+  usableBy: []  # Anyone can use
+  alignmentRestriction: null
+  otherRestrictions: []
+
+# === DESTRUCTION ===
+destruction:
+  description: "The Sunsword is indestructible by normal means. It can only be destroyed if it is plunged into the heart of a solar angel while that angel weeps for the loss of an innocent child."
+  requirements:
+    - "Plunge sword into heart of a solar angel"
+    - "Angel must be weeping for loss of innocent child"
+    - "Extremely unlikely scenario - effectively indestructible"
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Sunsword is a unique blade once possessed by Strahd's brother, Sergei von Zarovich. In its dormant state, the weapon appears as a longsword hilt with no blade. When activated by touching the hilt, a blade of pure sunlight extends from the crossguard. The blade is immaterial and weightless, composed entirely of radiant energy in the shape of a longsword blade."
+
+  history: "Sergei von Zarovich wielded this holy blade until he was murdered by his brother Strahd on the day of Sergei's wedding to Tatyana. After Sergei's death, the blade was lost. The weapon is one of three artifacts prophesied to help defeat Strahd von Zarovich."
+
+  legendsAndRumors:
+    - "The blade was forged by clerics of the Morninglord and gifted to Sergei"
+    - "Strahd fears the Sunsword more than any other weapon"
+    - "The sword's light can dispel the darkness of Castle Ravenloft itself"
+    - "Vampires scream in agony when struck by the Sunsword's radiance"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "With Identify spell, but anti-vampire max damage property only revealed through experimentation"
+  hiddenProperties:
+    - "Maximum damage against vampires and vampire spawn (not revealed by Identify)"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Determined by Madam Eva's Tarokka reading"
+  howObtained: "Location varies based on card draw. Could be in: Castle Ravenloft, Amber Temple, Werewolf Den, or carried by an NPC."
+  guardian: "Varies by location"  # Could be vampire spawn, werewolves, or arcanaloth
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+2 bonus to attack rolls. Finesse property allows using Dex or Str."
+
+  damageRolls: "1d8+2 radiant (versatile 1d10+2). +1d8 radiant vs undead. MAX damage vs vampires/vampire spawn."
+
+  spellDC: null
+
+  integration:
+    combatManager: "Standard weapon attack. Track sunlight aura (affects vampire tactics)."
+    equipmentManager: "Equippable in mainHand slot. Requires attunement."
+    inventoryManager: "Weight 1 lb (crystal hilt). Blade is immaterial when summoned."
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"
+  recommendedLevel: 8  # Party should have Sunsword before final Strahd confrontation
+  notes: "Extremely powerful vs Strahd specifically. Can deal 20+ radiant damage per hit (MAX vs vampires). Combined with sunlight aura, makes Strahd vulnerable. Essential for final battle."
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A longsword hilt made of platinum with a large crystal embedded in the pommel. The crossguard is gilded silver with sun motifs. No blade is present - the 'blade' end is open, showing internal crystal structures."
+
+  activeState: "When activated, a brilliant blade of pure sunlight extends from the hilt. The blade is translucent and seems to shimmer with golden-white radiance. It illuminates everything within 15 feet with warm, natural sunlight."
+
+  soundEffects: "When the blade is summoned, there is a soft 'shing' sound like metal on glass. The blade hums faintly with power, growing louder when near undead. Vampires struck by the blade scream as if burned."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.223"
+  official: true
+  srdContent: false
+
+  notes: "The Sunsword is THE iconic anti-Strahd weapon. Its sunlight effect negates Strahd's regeneration (sunlight prevents vampire regeneration). The maximum damage vs vampires makes it devastating - guaranteed 18-20 radiant per hit vs Strahd. Combined with other artifacts (Holy Symbol, Tome), gives party a real chance vs CR 15 Strahd."
+
+  dmReminders:
+    - "Sunlight from sword negates Strahd's regeneration (20 HP/turn normally)"
+    - "Strahd will focus attacks on Sunsword wielder"
+    - "Max damage: 1d8=8 base + 2 bonus + 1d8=8 vs undead = 18 (1-handed) or 20 (2-handed)"
+    - "Sunsword light counts as sunlight - affects vampire weaknesses"
+    - "Can't be destroyed in combat - even by Strahd"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

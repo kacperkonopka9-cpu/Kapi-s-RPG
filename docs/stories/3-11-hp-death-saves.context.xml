@@ -1,0 +1,298 @@
+<story-context id="3-11-hp-death-saves" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>11</storyId>
+    <title>HP and Death Saves</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-11-hp-death-saves.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player using the D&D 5e RPG engine</asA>
+    <iWant>accurate HP tracking, damage application, healing mechanics, and death saving throws</iWant>
+    <soThat>character survival and combat outcomes follow D&D 5e rules precisely, with unconsciousness at 0 HP and death saves managing life-or-death situations</soThat>
+    <tasks>
+      - Task 1: Design HPManager Module Architecture (AC: All)
+      - Task 2: Implement HP Validation and Initialization (AC: 12)
+      - Task 3: Implement applyDamage Method (AC: 1, 4, 5, 11)
+      - Task 4: Implement applyHealing Method (AC: 2, 10)
+      - Task 5: Implement makeDeathSave Method (AC: 3, 6, 7, 8, 9)
+      - Task 6: Implement Instant Death Logic (AC: 4)
+      - Task 7: Implement Stabilization Mechanics (AC: 6)
+      - Task 8: Implement Damage While Unconscious (AC: 11)
+      - Task 9: Integration with CharacterManager (AC: All)
+      - Task 10: Create Test Suite (AC: All, Target ≥80% coverage)
+      - Task 11: Documentation and Examples (AC: All)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1" priority="P0">
+      <title>Apply Damage to Character</title>
+      <given>character with 20/31 HP</given>
+      <when>HPManager.applyDamage(character, 9) is called</when>
+      <then>reduce current HP by damage amount: 20 → 11 AND ensure HP does not go below 0 AND persist HP change to character data AND if HP reaches 0: set character to unconscious and begin death saves AND if damage exceeds (max HP + current HP): instant death AND return result: {success: true, data: {oldHP: 20, newHP: 11, unconscious: false, dead: false}, error: null} AND operation completes in &lt;50ms</then>
+      <testApproach>Unit tests for normal damage, overkill damage (instant death at -max HP), damage to 0 HP (unconscious), negative HP clamping. Integration test with CharacterManager persistence.</testApproach>
+    </ac>
+    <ac id="2" priority="P0">
+      <title>Apply Healing to Character</title>
+      <given>character with 15/31 HP</given>
+      <when>HPManager.applyHealing(character, 10) is called</when>
+      <then>increase current HP by healing amount: 15 → 25 AND cap HP at max HP (cannot exceed max) AND persist HP change to character data AND if character was at 0 HP and unconscious: restore consciousness (no longer unconscious) AND if character was at 0 HP and unconscious: clear death save successes/failures AND return result: {success: true, data: {oldHP: 15, newHP: 25, maxHP: 31, restoredConsciousness: false}, error: null} AND operation completes in &lt;50ms</then>
+      <testApproach>Unit tests for normal healing, healing beyond max HP (cap at max), healing from 0 HP (restore consciousness, clear death saves). Integration test with CharacterManager persistence.</testApproach>
+    </ac>
+    <ac id="3" priority="P0">
+      <title>Death Saving Throws</title>
+      <given>character at 0 HP (unconscious)</given>
+      <when>HPManager.makeDeathSave(character) is called</when>
+      <then>roll d20 using DiceRoller (no modifiers) AND if roll >= 10: record one death save success AND if roll &lt; 10: record one death save failure AND if natural 20: character regains 1 HP and becomes conscious (clear death saves) AND if natural 1: record two death save failures AND if 3 successes reached: character is stabilized (still unconscious, 0 HP, death saves cleared) AND if 3 failures reached: character dies AND persist death save state (successes, failures) to character data AND return result: {success: true, data: {roll: 15, result: 'success', successes: 2, failures: 1, stabilized: false, dead: false, regainedConsciousness: false}, error: null} AND operation completes in &lt;100ms</then>
+      <testApproach>Unit tests for all death save outcomes (success, failure, natural 20, natural 1, stabilization at 3 successes, death at 3 failures). Integration test with DiceRoller and CharacterManager.</testApproach>
+    </ac>
+    <ac id="4" priority="P0">
+      <title>Instant Death Check</title>
+      <given>character with 20/31 HP (max HP = 31)</given>
+      <when>HPManager.applyDamage(character, 52) is called (damage ≥ current HP + max HP)</when>
+      <then>character HP set to 0 AND character marked as dead (not unconscious, but dead) AND death saves are not initiated (instant death) AND persist death status to character data AND return result: {success: true, data: {oldHP: 20, newHP: 0, unconscious: false, dead: true, instantDeath: true}, error: null}</then>
+      <testApproach>Unit tests for overkill damage threshold (exactly current HP + max HP, and exceeding). Verify instant death flag set, death saves not triggered.</testApproach>
+    </ac>
+    <ac id="5" priority="P0">
+      <title>Unconsciousness at 0 HP</title>
+      <given>character with 5/31 HP</given>
+      <when>HPManager.applyDamage(character, 5) is called (exactly enough to reach 0 HP)</when>
+      <then>character HP set to 0 AND character marked as unconscious AND death save state initialized: {successes: 0, failures: 0} AND persist unconscious state to character data AND return result: {success: true, data: {oldHP: 5, newHP: 0, unconscious: true, dead: false}, error: null}</then>
+      <testApproach>Unit tests for damage to exactly 0 HP. Verify unconscious flag set, death saves initialized. Integration test with subsequent makeDeathSave() calls.</testApproach>
+    </ac>
+    <ac id="6" priority="P0">
+      <title>Stabilization Mechanics</title>
+      <given>character at 0 HP with 2 death save successes and 1 failure</given>
+      <when>HPManager.makeDeathSave(character) is called and rolls 15 (success)</when>
+      <then>death save successes increase to 3 AND character is stabilized (still unconscious, 0 HP) AND death save state cleared: {successes: 0, failures: 0} AND stabilized flag set on character AND persist stabilized state to character data AND return result: {success: true, data: {roll: 15, result: 'success', successes: 3, failures: 1, stabilized: true, dead: false}, error: null}</then>
+      <testApproach>Unit tests for reaching 3 successes. Verify stabilized flag set, death saves cleared, character remains unconscious at 0 HP. Test that subsequent damage restarts death saves.</testApproach>
+    </ac>
+    <ac id="7" priority="P0">
+      <title>Death at 3 Failures</title>
+      <given>character at 0 HP with 1 death save success and 2 failures</given>
+      <when>HPManager.makeDeathSave(character) is called and rolls 5 (failure)</when>
+      <then>death save failures increase to 3 AND character marked as dead AND death save state persists final values: {successes: 1, failures: 3} AND persist death status to character data AND return result: {success: true, data: {roll: 5, result: 'failure', successes: 1, failures: 3, stabilized: false, dead: true}, error: null}</then>
+      <testApproach>Unit tests for reaching 3 failures. Verify dead flag set, death saves show final state. Test that character cannot be healed after death (requires resurrection).</testApproach>
+    </ac>
+    <ac id="8" priority="P0">
+      <title>Natural 20 on Death Save (Regain Consciousness)</title>
+      <given>character at 0 HP with 1 death save success and 1 failure</given>
+      <when>HPManager.makeDeathSave(character) is called and rolls natural 20</when>
+      <then>character regains 1 HP (HP: 0 → 1) AND character becomes conscious (no longer unconscious) AND death save state cleared: {successes: 0, failures: 0} AND persist HP and conscious state to character data AND return result: {success: true, data: {roll: 20, result: 'critical_success', successes: 0, failures: 0, stabilized: false, dead: false, regainedConsciousness: true, newHP: 1}, error: null}</then>
+      <testApproach>Unit tests for natural 20 roll. Verify HP increased to 1, unconscious cleared, death saves cleared. Test character can take actions immediately after.</testApproach>
+    </ac>
+    <ac id="9" priority="P0">
+      <title>Natural 1 on Death Save (Two Failures)</title>
+      <given>character at 0 HP with 1 death save success and 0 failures</given>
+      <when>HPManager.makeDeathSave(character) is called and rolls natural 1</when>
+      <then>death save failures increase by 2 (0 → 2) AND death save successes remain unchanged (1) AND character remains unconscious at 0 HP AND persist death save state to character data AND return result: {success: true, data: {roll: 1, result: 'critical_failure', successes: 1, failures: 2, stabilized: false, dead: false}, error: null}</then>
+      <testApproach>Unit tests for natural 1 roll. Verify 2 failures added. Test edge case: natural 1 with 2 existing failures results in death (3 total failures).</testApproach>
+    </ac>
+    <ac id="10" priority="P0">
+      <title>Healing from Unconsciousness Clears Death Saves</title>
+      <given>character at 0 HP with 2 death save successes and 1 failure</given>
+      <when>HPManager.applyHealing(character, 5) is called</when>
+      <then>character HP increases to 5 AND character becomes conscious (no longer unconscious) AND death save state cleared: {successes: 0, failures: 0} AND persist HP, conscious state, and cleared death saves to character data AND return result: {success: true, data: {oldHP: 0, newHP: 5, maxHP: 31, restoredConsciousness: true}, error: null}</then>
+      <testApproach>Unit tests for healing from 0 HP. Verify death saves cleared, unconscious cleared, HP increased. Test with various death save states.</testApproach>
+    </ac>
+    <ac id="11" priority="P0">
+      <title>Damage to Unconscious Character (Failed Death Save)</title>
+      <given>character at 0 HP (unconscious)</given>
+      <when>HPManager.applyDamage(character, 5) is called (any damage while unconscious)</when>
+      <then>record one death save failure (damage at 0 HP counts as 1 failure) AND if damage is from critical hit or attacker is within 5 feet: record two death save failures AND if failures reach 3: character dies AND persist death save state to character data AND return result: {success: true, data: {oldHP: 0, newHP: 0, unconscious: true, dead: false, deathSaveFailure: true, failures: 2}, error: null}</then>
+      <testApproach>Unit tests for damage at 0 HP. Test normal damage (1 failure), critical hit damage (2 failures), damage causing 3rd failure (death). Integration test with combat workflow.</testApproach>
+    </ac>
+    <ac id="12" priority="P1">
+      <title>Max HP Tracking and Validation</title>
+      <given>character data structure</given>
+      <when>HPManager initializes or loads character</when>
+      <then>validate max HP exists and is positive integer AND validate current HP is between 0 and max HP (inclusive) AND if current HP > max HP: cap at max HP (data correction) AND if current HP &lt; 0: set to 0 (data correction) AND return result: {success: true, data: {currentHP: 20, maxHP: 31, valid: true}, error: null} AND operation completes in &lt;10ms</then>
+      <testApproach>Unit tests for validation with valid data, current HP > max HP, current HP &lt; 0, missing max HP, non-integer HP values. Test data correction behavior.</testApproach>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§2.2.6 HPManager Module</section>
+        <snippet>HPManager module responsible for tracking HP, damage, healing, death saves. Includes instant death check (damage ≥ current HP + max HP), unconsciousness at 0 HP, death saving throws (d20 rolls, 3 successes = stabilized, 3 failures = dead).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§8 AC-13 Death Saving Throws</section>
+        <snippet>Given character at 0 HP (unconscious), when HPManager.makeDeathSave(character) is called, then roll d20 (no modifiers), 10+ = success, &lt;10 = failure, track successes and failures (3 of either ends death saves), natural 20 = regain 1 HP (conscious), natural 1 = 2 failures, 3 successes = stabilized, 3 failures = character dies.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§2 Dependency Injection Pattern</section>
+        <snippet>All mechanics modules accept injected dependencies (DiceRoller, CharacterManager). Enables unit testing with mocked file system. HPManager must follow same pattern.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§2.3 Result Object Pattern</section>
+        <snippet>All async operations return {success, data, error} objects. No exceptions thrown, graceful error handling. Consistent interface across all mechanics modules.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-10-mechanics-slash-commands.md</path>
+        <title>Story 3-10: Mechanics Slash Commands</title>
+        <section>Completion Notes</section>
+        <snippet>MechanicsCommandHandler integrates HPManager into /attack and /cast commands. /attack calls HPManager.applyDamage(target, damage) after hit. /cast calls HPManager.applyHealing(target, healing) for healing spells. Result Object Pattern expected from all mechanics modules.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-10-mechanics-slash-commands.md</path>
+        <title>Story 3-10: Mechanics Slash Commands</title>
+        <section>Senior Developer Review</section>
+        <snippet>Test coverage target: ≥80% statement, 100% function. Performance targets all met via automated testing. Result Object Pattern maintained throughout. 0 security issues - maintain safe HP validation (no negative HP exploits).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller</symbol>
+        <lines>1-150</lines>
+        <reason>Death save rolls use DiceRoller.roll("1d20") for d20 rolls with no modifiers. Must integrate for makeDeathSave method.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-300</lines>
+        <reason>Character HP persistence via CharacterManager.saveCharacter(). HP data stored in character.hitPoints structure. Must integrate for all HP changes.</reason>
+      </artifact>
+      <artifact>
+        <path>src/commands/mechanics-commands.js</path>
+        <kind>command-handler</kind>
+        <symbol>MechanicsCommandHandler</symbol>
+        <lines>371-457, 459-528</lines>
+        <reason>/attack command (lines 371-457) calls HPManager.applyDamage(target, damage). /cast command (lines 459-528) calls HPManager.applyHealing(target, healing). HPManager must provide these methods.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/combat-manager.js</path>
+        <kind>service</kind>
+        <symbol>CombatManager</symbol>
+        <lines>1-250</lines>
+        <reason>Combat state management. AttackResolver calls HPManager.applyDamage after successful attack. HPManager may need combat context for critical hit detection.</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/spell-manager.js</path>
+        <kind>service</kind>
+        <symbol>SpellManager</symbol>
+        <lines>1-200</lines>
+        <reason>Spell effect application. Healing spells call HPManager.applyHealing. Damage spells call HPManager.applyDamage. Must integrate seamlessly.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/dice-roller.test.js</path>
+        <kind>test</kind>
+        <symbol>DiceRoller tests</symbol>
+        <lines>1-150</lines>
+        <reason>Test pattern for DiceRoller integration. Shows how to mock dice rolls for deterministic death save testing.</reason>
+      </artifact>
+      <artifact>
+        <path>tests/mechanics/character-manager.test.js</path>
+        <kind>test</kind>
+        <symbol>CharacterManager tests</symbol>
+        <lines>1-200</lines>
+        <reason>Test pattern for character persistence. Shows how to verify HP changes persist correctly to character data.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="jest" version="^29.7.0">Test framework for unit and integration testing</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern">Result Object Pattern: All HPManager methods must return {success: boolean, data: any | null, error: string | null}. No exceptions should be thrown; all errors must be returned as Result Objects.</constraint>
+    <constraint type="pattern">Dependency Injection: HPManager constructor must accept optional dependencies (DiceRoller, CharacterManager) with defaults. Format: constructor(deps = {}) { this.diceRoller = deps.diceRoller || new DiceRoller(); }</constraint>
+    <constraint type="performance">Performance Targets: applyDamage &lt;50ms, applyHealing &lt;50ms, makeDeathSave &lt;100ms, validateHP &lt;10ms. All must be validated via automated tests.</constraint>
+    <constraint type="data">Character HP Data Structure: character.hitPoints = {current, max, unconscious, dead, stabilized, deathSaves: {successes, failures}}. All HP operations must persist via CharacterManager.saveCharacter().</constraint>
+    <constraint type="rules">D&D 5e Death Save Rules (RAW): Natural 20 = regain 1 HP and consciousness. Natural 1 = 2 failures. 10+ = success, &lt;10 = failure. 3 successes = stabilized. 3 failures = dead. Instant death at damage ≥ (current HP + max HP).</constraint>
+    <constraint type="validation">HP Validation: currentHP must be 0 to maxHP (inclusive). maxHP must be positive integer. Invalid values must be corrected automatically with logging (no crashes).</constraint>
+    <constraint type="integration">MechanicsCommandHandler Integration: /attack command expects applyDamage(character, damage, options = {critical, melee}). /cast command expects applyHealing(character, healing). Both expect Result Object return.</constraint>
+    <constraint type="testing">Test Coverage: Minimum 80% statement coverage, 100% function coverage. Must include unit tests (damage, healing, death saves), integration tests (CharacterManager persistence, DiceRoller integration), and edge case tests (instant death, stabilization, natural 20/1).</constraint>
+    <constraint type="file-first">File-First Design: All HP changes must persist to character YAML files via CharacterManager. No in-memory-only state. HP must survive application restart.</constraint>
+    <constraint type="security">HP Validation Security: Prevent negative HP exploits. Validate all damage/healing inputs are non-negative integers. Cap HP at max HP. Clamp HP to 0 minimum.</constraint>
+    <constraint type="logging">Error Logging: All data correction (HP > maxHP, HP &lt; 0) must log warnings but not crash. Invalid inputs must return Result Object with error message, not throw exceptions.</constraint>
+    <constraint type="combat">Damage While Unconscious: Damage to character at 0 HP adds death save failure (1 for normal, 2 for critical hit or melee). Must integrate with combat system attack options.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>HPManager.applyDamage</name>
+      <kind>function</kind>
+      <signature>async applyDamage(character, damage, options = {critical: false, melee: false}) → Result&lt;{oldHP, newHP, unconscious, dead, instantDeath?, deathSaveFailure?, failures?}&gt;</signature>
+      <path>src/mechanics/hp-manager.js</path>
+    </interface>
+    <interface>
+      <name>HPManager.applyHealing</name>
+      <kind>function</kind>
+      <signature>async applyHealing(character, healing) → Result&lt;{oldHP, newHP, maxHP, restoredConsciousness}&gt;</signature>
+      <path>src/mechanics/hp-manager.js</path>
+    </interface>
+    <interface>
+      <name>HPManager.makeDeathSave</name>
+      <kind>function</kind>
+      <signature>async makeDeathSave(character) → Result&lt;{roll, result, successes, failures, stabilized, dead, regainedConsciousness?, newHP?}&gt;</signature>
+      <path>src/mechanics/hp-manager.js</path>
+    </interface>
+    <interface>
+      <name>HPManager.validateHP</name>
+      <kind>function</kind>
+      <signature>validateHP(character) → Result&lt;{currentHP, maxHP, valid, corrected}&gt;</signature>
+      <path>src/mechanics/hp-manager.js</path>
+    </interface>
+    <interface>
+      <name>Character.hitPoints</name>
+      <kind>data-structure</kind>
+      <signature>{current: number, max: number, unconscious: boolean, dead: boolean, stabilized: boolean, deathSaves: {successes: number, failures: number}}</signature>
+      <path>characters/[character-id].yaml</path>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll</name>
+      <kind>function</kind>
+      <signature>async roll(notation, options) → Result&lt;{notation, rolls, modifier, total}&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.saveCharacter</name>
+      <kind>function</kind>
+      <signature>async saveCharacter(character) → Result&lt;{saved: boolean, path: string}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest test framework with Arrange-Act-Assert pattern. Mocked dependencies injected via constructor. Tests isolated and independent. Performance validated via timing assertions. Edge cases (instant death, stabilization, natural 20/1, damage while unconscious) comprehensively covered. Integration tests validate CharacterManager persistence and DiceRoller integration. Target: ≥80% statement coverage, 100% function coverage.
+    </standards>
+    <locations>
+      - tests/mechanics/hp-manager.test.js (unit and integration tests)
+      - tests/commands/mechanics-commands.test.js (integration tests for /attack and /cast commands)
+    </locations>
+    <ideas>
+      <idea ac="1">Test applyDamage: normal damage (20 → 11), damage to exactly 0 HP (5 → 0, unconscious), damage below 0 (clamped to 0), negative damage (rejected with error)</idea>
+      <idea ac="2">Test applyHealing: normal healing (15 → 25), healing beyond max HP (25 → 31 capped), healing from 0 HP (0 → 5, restore consciousness, clear death saves)</idea>
+      <idea ac="3">Test makeDeathSave: success (roll 15, +1 success), failure (roll 5, +1 failure), natural 20 (regain 1 HP, restore consciousness), natural 1 (+2 failures), stabilization (3rd success), death (3rd failure)</idea>
+      <idea ac="4">Test instant death: damage exactly (current HP + max HP), damage exceeding threshold, damage just below threshold (unconscious instead)</idea>
+      <idea ac="5">Test unconsciousness: damage to exactly 0 HP, verify unconscious flag, verify death saves initialized {successes: 0, failures: 0}</idea>
+      <idea ac="6">Test stabilization: 3rd success reached, verify stabilized flag, verify death saves cleared, verify character remains unconscious at 0 HP, test subsequent damage restarts death saves</idea>
+      <idea ac="7">Test death: 3rd failure reached, verify dead flag, verify death saves show final state, test character cannot be healed after death</idea>
+      <idea ac="8">Test natural 20 on death save: verify HP increased to 1, verify unconscious cleared, verify death saves cleared</idea>
+      <idea ac="9">Test natural 1 on death save: verify 2 failures added, test edge case (natural 1 with 2 existing failures = death)</idea>
+      <idea ac="10">Test healing from unconsciousness: verify death saves cleared, verify unconscious cleared, test with various death save states</idea>
+      <idea ac="11">Test damage while unconscious: normal damage (+1 failure), critical hit damage (+2 failures), damage causing 3rd failure (death)</idea>
+      <idea ac="12">Test HP validation: valid data (no changes), current HP > max HP (capped), current HP &lt; 0 (set to 0), missing max HP (error), non-integer HP (error or correction)</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,185 @@
+# Dire Wolf - Massive Predatory Wolf
+# Source: D&D 5e Monster Manual p.321
+# Large wolf, pack hunter with Pack Tactics
+
+# === BASIC INFORMATION ===
+name: "Dire Wolf"
+monsterId: "dire_wolf"
+size: "Large"
+type: "beast"
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 14
+armorType: "natural armor"
+
+hitPoints:
+  max: 37
+  current: 37
+  hitDice: "5d10"
+  hitDiceBonus: 10  # +2 Con modifier * 5 HD = +10
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 17    # +3
+  dexterity: 15   # +2
+  constitution: 15  # +2
+  intelligence: 3   # -4
+  wisdom: 12     # +1
+  charisma: 7    # -2
+
+# === SPEEDS ===
+speed:
+  walk: 50  # Fast hunter
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  perception: 3   # +1 Wis + 2 prof
+  stealth: 4      # +2 Dex + 2 prof
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: []
+conditionImmunities: []
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 13  # 10 + Perception (+3)
+
+# === LANGUAGES ===
+languages: []
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "dire_wolf_1"
+  name: "Dire Wolf"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Keen Hearing and Smell"
+    description: "The wolf has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+    mechanics:
+      type: "sense_enhancement"
+      advantage: ["perception_checks_hearing", "perception_checks_smell"]
+
+  - name: "Pack Tactics"
+    description: "The wolf has advantage on an attack roll against a creature if at least one of the wolf's allies is within 5 feet of the creature and the ally isn't incapacitated."
+    mechanics:
+      type: "tactical_advantage"
+      trigger: "ally_within_5_feet_of_target"
+      condition: "ally_not_incapacitated"
+      effect: "advantage_on_attack_rolls"
+
+# === ACTIONS ===
+actions:
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 5  # +3 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d6"
+      bonus: 3  # Str modifier
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
+    additionalEffects:
+      - type: "condition"
+        condition: "prone"
+        saveDC: 13
+        saveAbility: "strength"
+        targetType: "creature"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "dire_wolf_pelt"
+      quantity: 1
+      dropChance: 70
+      value: "10_gp"
+    - item: "wolf_fang"
+      quantity: "2d4"
+      dropChance: 60
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Pack hunter using Pack Tactics (advantage when ally within 5 ft of target). Bite attack knocks prone on failed DC 13 Str save. Prone enemies grant advantage to melee attackers. Fast (50 ft speed) for hit-and-run. Surround targets with pack. Coordinated attacks. Target weakest prey first."
+  intelligence: "animal_intelligence"
+  aggression: "high"
+  groupTactics: "pack"
+
+  preferredTargets:
+    - "isolated party members"
+    - "low-AC targets"
+    - "wounded creatures"
+
+  fleeThreshold: 10
+  fleeConditions: ["pack_mostly_dead", "below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Forests, mountains, Svalich Woods"
+  organization: "Solitary, pair, or pack (3-8)"
+
+lore:
+  description: "Dire wolves are larger, more ferocious versions of normal wolves. They hunt in packs, using coordinated tactics to bring down prey much larger than themselves. In Barovia, dire wolves roam the Svalich Woods, often serving as mounts for werewolves or as hunting beasts under Strahd's command."
+  weakness: "Animal intelligence. No special resistances."
+  behavior: "Pack hunters. Surround prey. Knock prone with bite. Exploit Pack Tactics for advantage. Fast (50 ft) pursuit."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1-2 dire wolves for easy, 3-4 for medium, 5-8 for hard"
+  terrain: "Svalich Woods, mountain trails"
+  tactics: "Pack surrounds target. Pack Tactics grants advantage. Bite knocks prone (DC 13 Str). Prone targets grant advantage to allies. Fast pursuit (50 ft speed)."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.321"
+  official: true
+  srdContent: true
+
+  notes: "Common beast in Barovia forests. Pack Tactics makes them dangerous in groups. Knock prone mechanic synergizes with pack attacks."
+
+  dmReminders:
+    - "Pack Tactics: Advantage when ally within 5 ft of target"
+    - "Bite: DC 13 Str save or knocked prone"
+    - "Prone: Advantage for melee attackers, disadvantage for ranged"
+    - "Speed 50 ft (fast pursuit)"
+    - "Deploy in packs (3-8) for proper threat"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

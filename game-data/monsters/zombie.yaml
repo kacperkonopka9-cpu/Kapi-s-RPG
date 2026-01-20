@@ -1,0 +1,184 @@
+# Zombie - Standard Undead Enemy
+# Source: D&D 5e Monster Manual p.316, Curse of Strahd
+# Common in Barovia graveyards and Death House
+
+# === BASIC INFORMATION ===
+name: "Zombie"
+monsterId: "zombie"
+size: "Medium"
+type: "undead"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 8
+armorType: "natural armor"
+
+hitPoints:
+  max: 22
+  current: 22
+  hitDice: "3d8"
+  hitDiceBonus: 9  # +3 Con modifier * 3 HD = +9
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 13    # +1
+  dexterity: 6    # -2
+  constitution: 16  # +3
+  intelligence: 3  # -4
+  wisdom: 6      # -2
+  charisma: 5    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 20
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows:
+  wisdom: 0  # +0 (proficient: -2 Wis + 2 prof)
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["poison"]
+conditionImmunities: ["poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 8  # 10 + Wis (-2)
+
+# === LANGUAGES ===
+languages: []
+languageNote: "understands the languages it knew in life but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "zombie_1"  # Will be set dynamically per instance
+  name: "Zombie"
+  dexModifier: -2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Undead Fortitude"
+    description: "If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead."
+    mechanics:
+      type: "survival_check"
+      trigger: "reduced_to_zero_hp"
+      saveDC: "5_plus_damage"
+      saveAbility: "constitution"
+      exceptions: ["radiant_damage", "critical_hit"]
+      onSuccess: "drop_to_1_hp"
+
+# === ACTIONS ===
+actions:
+  - name: "Slam"
+    type: "melee_weapon_attack"
+    attackBonus: 3  # +1 Str + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "1d6"
+      bonus: 1  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "torn_clothing"
+      quantity: 1
+      dropChance: 30
+    - item: "rusty_weapon"
+      quantity: 1
+      dropChance: 10
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Shambles directly toward nearest living creature in a straight line. Attacks with slam. No strategy, no self-preservation, no dodge."
+  intelligence: "mindless"
+  aggression: "high"
+  groupTactics: "none"
+
+  preferredTargets:
+    - "nearest living creature"
+
+  fleeThreshold: null  # Fights to death
+  fleeConditions: []
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Any (graveyards, dungeons, battlefields in Barovia)"
+  organization: "Solitary, gang (2-4), or mob (5-20)"
+
+lore:
+  description: "From below the ground, dead hands reach up to claw at the living. Corpses animated by dark magic rise from shallow graves as zombie horrors. These shambling undead creatures mindlessly obey their necromantic masters."
+  weakness: "Radiant damage effective. Undead Fortitude keeps them alive but can be overcome by crits or radiant damage."
+  behavior: "Zombies pursue living creatures with single-minded determination. They cannot be reasoned with, frightened, or distracted. They attack until destroyed or their master commands otherwise."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "1 zombie per PC for easy, 2 per PC for medium"
+  terrain: "Graveyards, dungeons, roads (random encounters)"
+  tactics: "Zombies emerge from graves or shamble from dark corners. They move directly toward PCs in straight lines. Use terrain to create funnels or force PCs to navigate around zombies."
+
+# === VARIANTS ===
+variants:
+  - name: "Plague Zombie"
+    changes:
+      traits:
+        - name: "Plague Bearer"
+          description: "Any creature that starts its turn within 5 feet of the plague zombie must succeed on a DC 10 Constitution saving throw or become poisoned until the end of its next turn."
+
+  - name: "Ash Zombie"
+    changes:
+      traits:
+        - name: "Undead Fortitude (Enhanced)"
+          description: "When reduced to 0 HP, make Con save DC 5 + damage. On success, drop to 1 HP and release a cloud of ash. Creatures within 5 feet must succeed on DC 10 Con save or be blinded until end of their next turn."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.316"
+  official: true
+  srdContent: true
+
+  notes: "Classic low-level undead. Very common in Barovia - Death House, Village cemetery, random encounters on roads. Undead Fortitude makes them surprisingly durable for CR 1/4."
+
+  dmReminders:
+    - "Undead Fortitude: DC 5 + damage taken, Con save, drop to 1 HP instead of 0"
+    - "Does NOT trigger on radiant damage or critical hits"
+    - "Shambles in straight lines - won't navigate around obstacles intelligently"
+    - "Perfect for ambush encounters emerging from graves"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

@@ -1,0 +1,55 @@
+# Tarokka Deck Template Schema v1.0.0
+# Defines structure for Tarokka cards used in Curse of Strahd fortune-telling
+
+# === TEMPLATE METADATA ===
+templateVersion: "1.0.0"
+templateType: "tarokka-card"
+compatibleWith: "Epic 4 Tarokka Reading System (Story 4-16)"
+description: "Schema for individual Tarokka cards including High Deck and Common Deck suits"
+
+# === CARD STRUCTURE ===
+# Each card in the deck should follow this structure:
+
+id: "card_id_in_snake_case"  # Unique identifier (e.g., "high_deck_master", "swords_1")
+suit: "suit_name"  # "high_deck", "swords", "coins", "glyphs", "stars"
+name: "Card Name"  # Display name (e.g., "The Master", "One of Swords")
+rank: 0  # Numeric rank (High Deck: 1-14, Common Deck: 1-10)
+category: "category"  # "major" for High Deck, "minor" for Common Deck
+
+# === DESCRIPTION ===
+description: "Brief description of the card's visual imagery and symbolism"
+
+# === LORE ===
+lore: "Background and story significance of this card in Barovian culture"
+
+# === FORTUNE-TELLING MEANING ===
+fortuneTelling:
+  general: "General interpretation when this card appears in a reading"
+  light: "Positive aspect or blessing associated with this card"
+  dark: "Negative aspect or warning associated with this card"
+  advice: "Guidance or counsel provided by this card"
+
+# === TAROKKA READING MAPPINGS ===
+# These fields map the card to specific game elements in Curse of Strahd
+readings:
+  artifact: null  # Which artifact location this card reveals (if any): "sunsword", "holy_symbol", "tome", or null
+  ally: null  # Which ally this card identifies (if any): NPC ID or null
+  enemy: null  # Which enemy location this card reveals (if any): Castle Ravenloft room ID or null
+  location: null  # Generic location ID if card has location significance
+  significance: "Contextual meaning of this card in Curse of Strahd campaign"
+
+# === VISUAL REFERENCE ===
+visual:
+  asciiArt: |
+    Simple ASCII representation of card (optional)
+  imageDescription: "Detailed description of card artwork for narration purposes"
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd Campaign Book"
+  pageReference: "CoS p.11-16 (Tarokka Reading tables)"
+  official: true
+  notes: "Additional DM notes or special considerations for this card"
+
+# === EXAMPLE USAGE ===
+# See game-data/tarokka/tarokka-deck.yaml for complete 54-card implementation

@@ -1,0 +1,360 @@
+<story-context id="5-10-calendar-widget" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>10</storyId>
+    <title>Calendar Widget</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-11-29</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-10-calendar-widget.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player of Kapi's RPG</asA>
+    <iWant>a VS Code sidebar panel displaying the current in-game date/time, moon phase, weather, and upcoming events</iWant>
+    <soThat>I can track the passage of time in Barovia and plan for scheduled events without manually checking the calendar file</soThat>
+    <tasks>
+      <task id="1" name="Create CalendarWidget Base Class" ac="AC-1">
+        <subtask>1.1.1: Implement VS Code WebviewViewProvider interface (extends BasePanel)</subtask>
+        <subtask>1.1.2: Set up webview HTML template structure</subtask>
+        <subtask>1.1.3: Implement getInstance() static method (singleton pattern)</subtask>
+        <subtask>1.1.4: Implement resetInstance() for testability</subtask>
+        <subtask>1.1.5: Implement dispose() for cleanup</subtask>
+        <subtask>1.2.1: Add registerCalendarWidgetCommands() in extension.ts</subtask>
+        <subtask>1.2.2: Replace stub command for kapis-rpg.showCalendar</subtask>
+      </task>
+      <task id="2" name="Implement Calendar Data Loading" ac="AC-2">
+        <subtask>2.1.1: Implement loadCalendarData() to read game-data/calendar.yaml</subtask>
+        <subtask>2.1.2: Parse YAML using js-yaml</subtask>
+        <subtask>2.1.3: Map parsed data to CalendarWidgetState interface</subtask>
+        <subtask>2.1.4: Handle missing/optional fields gracefully</subtask>
+        <subtask>2.2.1: Convert "735-10-1" to "1st of Leaffall, 735 BC" format</subtask>
+        <subtask>2.2.2: Convert "08:00" to "8:00 AM" format</subtask>
+        <subtask>2.2.3: Map season names to display format</subtask>
+      </task>
+      <task id="3" name="Implement Moon Phase Display" ac="AC-3">
+        <subtask>3.1.1: Read moon.current_phase from calendar.yaml</subtask>
+        <subtask>3.1.2: Calculate days until/since full moon</subtask>
+        <subtask>3.1.3: Map phase to display name</subtask>
+        <subtask>3.2.1: Map phase to emoji icon</subtask>
+        <subtask>3.2.2: Highlight full moon with special styling (Strahd warning)</subtask>
+        <subtask>3.2.3: Show days until full moon countdown</subtask>
+      </task>
+      <task id="4" name="Implement Weather Display" ac="AC-4">
+        <subtask>4.1.1: Read weather.current from calendar.yaml</subtask>
+        <subtask>4.1.2: Read weather.temperature from calendar.yaml</subtask>
+        <subtask>4.1.3: Map weather to gameplay effects</subtask>
+        <subtask>4.2.1: Map weather to emoji icon</subtask>
+        <subtask>4.2.2: Display temperature with unit (Celsius)</subtask>
+        <subtask>4.2.3: Show gameplay effect if applicable</subtask>
+      </task>
+      <task id="5" name="Implement Upcoming Events Display" ac="AC-5">
+        <subtask>5.1.1: Scan game-data/locations/*/Events.md files</subtask>
+        <subtask>5.1.2: Parse events with trigger dates within 7 days</subtask>
+        <subtask>5.1.3: Calculate days until each event</subtask>
+        <subtask>5.1.4: Sort events by trigger date (soonest first)</subtask>
+        <subtask>5.1.5: Limit to 5 events maximum</subtask>
+        <subtask>5.2.1: Show event name and trigger date</subtask>
+        <subtask>5.2.2: Show days until</subtask>
+        <subtask>5.2.3: Color code by urgency (green/yellow/red)</subtask>
+        <subtask>5.2.4: Store file path for click-to-open</subtask>
+      </task>
+      <task id="6" name="Implement Auto-Refresh File Watcher" ac="AC-6">
+        <subtask>6.1.1: Watch game-data/calendar.yaml for changes</subtask>
+        <subtask>6.1.2: Debounce rapid changes (300ms threshold)</subtask>
+        <subtask>6.1.3: Trigger refresh on file modification</subtask>
+        <subtask>6.2.1: Start watcher in setupFileWatcher()</subtask>
+        <subtask>6.2.2: Dispose watcher in panel dispose() method</subtask>
+      </task>
+      <task id="7" name="Create Webview HTML/CSS Styling" ac="AC-7">
+        <subtask>7.1.1: Gothic horror dark theme</subtask>
+        <subtask>7.1.2: Date/time display with large readable typography</subtask>
+        <subtask>7.1.3: Moon phase section with visual indicator</subtask>
+        <subtask>7.1.4: Weather section with icon and temperature</subtask>
+        <subtask>7.1.5: Upcoming events list with urgency colors</subtask>
+        <subtask>7.1.6: Refresh button</subtask>
+        <subtask>7.2.1: Dark background (#1a1a1a), parchment text (#d4c4a8)</subtask>
+        <subtask>7.2.2: Moon phase icons (emoji or CSS-drawn)</subtask>
+        <subtask>7.2.3: Weather icons</subtask>
+        <subtask>7.2.4: Event urgency color coding</subtask>
+        <subtask>7.2.5: Responsive layout for narrow sidebar</subtask>
+      </task>
+      <task id="8" name="Implement Quick Actions" ac="AC-8">
+        <subtask>8.1.1: Date click to open calendar.yaml in editor</subtask>
+        <subtask>8.1.2: Event click to open source Events.md file</subtask>
+        <subtask>8.1.3: Refresh button to force reload calendar data</subtask>
+        <subtask>8.2.1: Loading spinner during refresh</subtask>
+        <subtask>8.2.2: Hover effects for clickable elements</subtask>
+      </task>
+      <task id="9" name="Error Handling" ac="AC-9">
+        <subtask>9.1.1: "Calendar not initialized" state with helpful message</subtask>
+        <subtask>9.1.2: Parse error state with error message and file path</subtask>
+        <subtask>9.1.3: Missing data handling (show "Unknown" defaults)</subtask>
+        <subtask>9.1.4: No events handling</subtask>
+        <subtask>9.2.1: "Refresh" button to reload calendar data</subtask>
+        <subtask>9.2.2: Graceful degradation (show partial data if some fields fail)</subtask>
+      </task>
+      <task id="10" name="Update package.json Contributions" ac="AC-1">
+        <subtask>10.1: Update kapis-rpg.showCalendar command (replace stub)</subtask>
+        <subtask>10.2: Add icon for show-calendar command</subtask>
+        <subtask>10.3: Ensure activation event already exists</subtask>
+      </task>
+      <task id="11" name="Testing" ac="ALL">
+        <subtask>11.1.1: Test YAML parsing with valid calendar file</subtask>
+        <subtask>11.1.2: Test handling of missing optional fields</subtask>
+        <subtask>11.1.3: Test date formatting (735-10-1 to "1st of Leaffall, 735 BC")</subtask>
+        <subtask>11.1.4: Test time formatting (08:00 to "8:00 AM")</subtask>
+        <subtask>11.1.5: Test moon phase calculations</subtask>
+        <subtask>11.1.6: Test weather parsing</subtask>
+        <subtask>11.2.1: Test CalendarWidgetState mapping</subtask>
+        <subtask>11.2.2: Test file watcher debouncing</subtask>
+        <subtask>11.2.3: Test upcoming events loading and sorting</subtask>
+        <subtask>11.2.4: Test urgency calculation</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" name="Calendar Widget Panel Webview Implemented">
+      Panel opens via "Show Calendar" command showing date, time, day of week, season, moon phase, and weather conditions
+    </criterion>
+    <criterion id="AC-2" name="Calendar Data Loading from Calendar.yaml">
+      Panel loads/parses game-data/calendar.yaml, displays fields correctly formatted, handles missing fields gracefully
+    </criterion>
+    <criterion id="AC-3" name="Moon Phase Display">
+      Shows current phase name, visual icon/emoji, days until/since full moon, highlights full moon prominently
+    </criterion>
+    <criterion id="AC-4" name="Weather Display">
+      Shows weather condition, temperature in Celsius, visual icon, and gameplay effects if applicable
+    </criterion>
+    <criterion id="AC-5" name="Upcoming Events Display">
+      Shows next 5 events within 7 days, displays name/date/days until, sorted by date, color-coded by urgency
+    </criterion>
+    <criterion id="AC-6" name="Auto-Refresh on Calendar Changes">
+      Panel auto-refreshes within 1 second when calendar.yaml is modified on disk
+    </criterion>
+    <criterion id="AC-7" name="Visual Design - Gothic Horror Theme">
+      Dark background (#1a1a1a), parchment text (#d4c4a8), visual icons for moon/weather/seasons, urgency color coding
+    </criterion>
+    <criterion id="AC-8" name="Quick Actions">
+      Click date opens calendar.yaml, click event opens Events.md file, refresh button reloads data
+    </criterion>
+    <criterion id="AC-9" name="Error Handling and Edge Cases">
+      Shows appropriate error messages for missing file, corrupted YAML, missing data, no events
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>AC-5: VS Code UI Panels - CalendarWidget</section>
+        <snippet>CalendarWidget displays current in-game date/time, upcoming events, moon phase, weather. Services table defines CalendarWidget at extensions/.../panels/calendar-widget.ts</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/5-9-quest-tracker-panel.md</path>
+        <title>Story 5.9: Quest Tracker Panel</title>
+        <section>Dev Agent Record - Learnings</section>
+        <snippet>Patterns for BasePanel extension, singleton pattern, file watcher, gothic CSS styling (#1a1a1a dark, #d4c4a8 parchment), XSS protection, message handling</snippet>
+      </doc>
+      <doc>
+        <path>CLAUDE.md</path>
+        <title>Project Instructions</title>
+        <section>Core Architecture - CalendarManager</section>
+        <snippet>Calendar system tracks in-game date/time, moon phases, weather, seasons. Event Scheduler triggers events at specified times.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-687</lines>
+        <reason>Core calendar state management. loadCalendar() returns {success, calendar} with current date/time/moon/weather. VALID_MOON_PHASES and VALID_WEATHER_CONDITIONS enums at lines 79-82.</reason>
+      </file>
+      <file>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-150</lines>
+        <reason>Event scheduling and upcoming events detection. getUpcomingEvents() for events within lookahead window.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts</path>
+        <kind>base-class</kind>
+        <symbol>BasePanel</symbol>
+        <lines>1-150</lines>
+        <reason>Abstract base class for all webview panels. Must implement getInitialState(), handleMessage(), refreshData(). PanelConfig, PanelState, PanelMessage, PanelResult interfaces.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/panels/quest-tracker-panel.ts</path>
+        <kind>reference-implementation</kind>
+        <symbol>QuestTrackerPanel</symbol>
+        <lines>1-200</lines>
+        <reason>Reference implementation for CalendarWidget. Shows singleton pattern (getInstance/resetInstance), QuestTrackerPanelState interface, file watcher setup with 300ms debounce, calendar reading pattern at lines 416-431.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/media/templates/quest-tracker.html</path>
+        <kind>template</kind>
+        <symbol>quest-tracker.html</symbol>
+        <reason>HTML template reference for gothic horror styling. CSS variables, urgency colors, responsive layout.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/src/extension.ts</path>
+        <kind>extension-entry</kind>
+        <symbol>activate, registerQuestTrackerCommands</symbol>
+        <lines>175-183</lines>
+        <reason>Extension activation point. Contains stub command for showCalendar at line 181. Replace with registerCalendarWidgetCommands call.</reason>
+      </file>
+      <file>
+        <path>extensions/kapis-rpg-dm/package.json</path>
+        <kind>manifest</kind>
+        <symbol>contributes.commands</symbol>
+        <lines>97-104</lines>
+        <reason>Command contribution for kapis-rpg.showCalendar already exists. Add icon: "$(calendar)".</reason>
+      </file>
+      <file>
+        <path>tests/extension/quest-tracker-panel.test.js</path>
+        <kind>test</kind>
+        <symbol>QuestTrackerPanel tests</symbol>
+        <reason>Test pattern reference. 54 tests covering parsing, state mapping, calculations, debouncing, error handling. Follow same structure for CalendarWidget tests.</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <purpose>YAML parsing for calendar.yaml</purpose>
+      </node>
+      <node>
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <purpose>Date manipulation for time formatting</purpose>
+      </node>
+      <node>
+        <package>@types/vscode</package>
+        <version>^1.80.0</version>
+        <purpose>VS Code API types for TypeScript</purpose>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <purpose>Testing framework</purpose>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern">Extend BasePanel abstract class - implement getInitialState(), handleMessage(), refreshData()</constraint>
+    <constraint type="pattern">Use singleton pattern with getInstance() and resetInstance() for testability</constraint>
+    <constraint type="pattern">Return Result Objects {success, data?, error?} for all async operations</constraint>
+    <constraint type="pattern">XSS protection via escapeHtml() function for all user-displayable content</constraint>
+    <constraint type="pattern">File watcher with 300ms debounce for auto-refresh</constraint>
+    <constraint type="styling">Gothic horror theme: #1a1a1a dark background, #d4c4a8 parchment text</constraint>
+    <constraint type="styling">Urgency colors: green (safe/5+ days), yellow (soon/2-4 days), red (urgent/0-1 days or overdue)</constraint>
+    <constraint type="performance">Panel should render within 1 second of command execution</constraint>
+    <constraint type="performance">Auto-refresh within 1 second of file change</constraint>
+    <constraint type="testing">Target 25+ unit tests covering all ACs</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>CalendarWidgetState</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+interface CalendarWidgetState {
+  current: {
+    date: string;            // "735-10-1"
+    formattedDate: string;   // "1st of Leaffall, 735 BC"
+    time: string;            // "08:00"
+    formattedTime: string;   // "8:00 AM"
+    dayOfWeek: string;       // "Moonday"
+    season: string;          // "autumn"
+  };
+  moon: {
+    phase: string;           // "waxing_gibbous"
+    phaseName: string;       // "Waxing Gibbous"
+    daysUntilFull: number;
+    icon: string;            // "🌔"
+    isFullMoon: boolean;
+  };
+  weather: {
+    condition: string;       // "foggy"
+    conditionName: string;   // "Foggy"
+    temperature: number;     // Celsius
+    icon: string;
+    gameplayEffect?: string;
+  };
+  upcomingEvents: Array&lt;{
+    eventId: string;
+    name: string;
+    triggerDate: string;
+    daysUntil: number;
+    urgency: 'safe' | 'soon' | 'urgent';
+    locationId?: string;
+    filePath?: string;
+  }&gt;;
+  lastUpdated: string;
+  errors: Array&lt;{ file: string; message: string }&gt;;
+}
+      </signature>
+      <path>extensions/kapis-rpg-dm/src/panels/calendar-widget.ts</path>
+    </interface>
+    <interface>
+      <name>CalendarManager.loadCalendar()</name>
+      <kind>function signature</kind>
+      <signature>async loadCalendar(): Promise&lt;{success: boolean, calendar?: Object, error?: string}&gt;</signature>
+      <path>src/calendar/calendar-manager.js:505-559</path>
+    </interface>
+    <interface>
+      <name>BasePanel abstract methods</name>
+      <kind>abstract interface</kind>
+      <signature>
+protected abstract getInitialState(): Promise&lt;any&gt;;
+protected abstract handleMessage(message: PanelMessage): Promise&lt;void&gt;;
+protected abstract refreshData(): Promise&lt;any&gt;;
+      </signature>
+      <path>extensions/kapis-rpg-dm/src/panels/base-panel.ts:82-86</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use Jest testing framework with async/await patterns. Mock file system operations via dependency injection.
+      Follow Arrange-Act-Assert pattern. Target 80%+ coverage for core systems.
+      Test file location: tests/extension/calendar-widget.test.js
+      Follow patterns from tests/extension/quest-tracker-panel.test.js (54 tests reference).
+    </standards>
+    <locations>
+      <location>tests/extension/calendar-widget.test.js</location>
+      <location>tests/calendar/*.test.js (reference for CalendarManager tests)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC-1">Test panel creation and singleton pattern</idea>
+      <idea ac="AC-2">Test YAML parsing with valid calendar file</idea>
+      <idea ac="AC-2">Test handling of missing optional fields</idea>
+      <idea ac="AC-2">Test date formatting (735-10-1 to "1st of Leaffall, 735 BC")</idea>
+      <idea ac="AC-2">Test time formatting (08:00 to "8:00 AM")</idea>
+      <idea ac="AC-3">Test moon phase to emoji mapping</idea>
+      <idea ac="AC-3">Test days until full moon calculation</idea>
+      <idea ac="AC-3">Test full moon detection</idea>
+      <idea ac="AC-4">Test weather condition to icon mapping</idea>
+      <idea ac="AC-4">Test temperature display formatting</idea>
+      <idea ac="AC-4">Test gameplay effect mapping (fog = -2 Perception)</idea>
+      <idea ac="AC-5">Test event loading and sorting</idea>
+      <idea ac="AC-5">Test urgency calculation (safe/soon/urgent)</idea>
+      <idea ac="AC-5">Test 7-day window filtering</idea>
+      <idea ac="AC-5">Test 5 event limit</idea>
+      <idea ac="AC-6">Test file watcher debouncing (300ms)</idea>
+      <idea ac="AC-6">Test refresh on file change</idea>
+      <idea ac="AC-8">Test message handling for quick actions</idea>
+      <idea ac="AC-9">Test missing calendar file error state</idea>
+      <idea ac="AC-9">Test corrupted YAML error handling</idea>
+      <idea ac="AC-9">Test missing fields defaults</idea>
+      <idea ac="AC-9">Test no events state</idea>
+    </ideas>
+  </tests>
+</story-context>

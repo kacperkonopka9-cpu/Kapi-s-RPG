@@ -1,0 +1,519 @@
+# Quest 8: Find the Holy Symbol of Ravenkind
+# Locate and claim the Holy Symbol artifact
+
+questId: "find_the_holy_symbol_of_ravenkind"
+name: "Find the Holy Symbol of Ravenkind"
+type: "main"
+category: "exploration"
+
+questGiver:
+  npcId: "madam_eva"
+  location: "tser_pool_encampment"
+  dialogue: "The Holy Symbol - 'an icon of faith, a beacon in darkness.' Seek it where the cards have shown."
+
+questRecipient: "player"
+
+description:
+  short: "Locate the Holy Symbol of Ravenkind using the Tarokka reading"
+  full: "The Tarokka reading has revealed the location of the Holy Symbol of Ravenkind, a sacred amulet with the power to harm vampires and hold them at bay. This ancient relic once belonged to a powerful cleric who opposed Strahd's rise. With this symbol, you can channel divine power against undead and protect the innocent. Decipher the Tarokka clue and claim the symbol."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "seek_the_vistani"
+  requiredEvents:
+    - eventId: "tarokka_reading_complete"
+      status: "triggered"
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "tser_pool_encampment"
+
+objectives:
+  - objectiveId: "decipher_tarokka_clue"
+    description: "Interpret the Tarokka card to identify the Holy Symbol's location"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_location"
+    description: "Travel to the location revealed by the Tarokka reading"
+    type: "exploration"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "overcome_challenge"
+    description: "Overcome the challenge protecting the Holy Symbol"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+  - objectiveId: "claim_holy_symbol"
+    description: "Claim the Holy Symbol of Ravenkind"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "item"
+      id: "holy_symbol_of_ravenkind"
+      location: "variable"
+    optional: false
+    completionTrigger:
+      type: "item_obtained"
+    rewards:
+      experience: 700
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "item_status"
+        itemId: "holy_symbol_of_ravenkind"
+        status: "claimed"
+
+    triggeredEvents: []
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "strahd_von_zarovich"
+        attitudeChange: -20
+        dialogue: "That trinket again... it wounded me once before. I will not be careless a second time."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 1500
+
+  items:
+    - itemId: "holy_symbol_of_ravenkind"
+      quantity: 1
+      source: "quest_reward"
+      attunementRequired: true
+
+  currency:
+    gold: 300  # Offerings and treasures at the holy site
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "legendary_item"
+      description: "Holy Symbol can cast powerful anti-undead spells and hold vampires at bay"
+
+# ============================================================================
+# TAROKKA INTEGRATION
+# ============================================================================
+tarokkaIntegration:
+  artifactType: "holy_symbol_of_ravenkind"
+  determinedBy: "tarokka_reading"
+
+  cardMappings:
+    - card: "Bishop (Glyphs)"
+      location: "church_of_st_andral_crypt"
+      description: "In the crypt beneath the Church of St. Andral in Vallaki"
+
+    - card: "Priest (Stars)"
+      location: "abbey_of_st_markovia_main_hall"
+      description: "In the Abbey of St. Markovia's main hall, upon the altar"
+
+    - card: "Angel (High Deck)"
+      location: "argynvostholt_chapel"
+      description: "In Argynvostholt's ruined chapel, where the Silver Dragon was blessed"
+
+    - card: "Innocent (Glyphs)"
+      location: "krezk_blessed_pool"
+      description: "At the bottom of Krezk's blessed pool, where miracles occur"
+
+    - card: "Artifact (High Deck)"
+      location: "castle_ravenloft_chapel"
+      description: "In Castle Ravenloft's chapel, desecrated but still holding divine echoes"
+
+    - card: "Diviner (Stars)"
+      location: "tser_pool_encampment_madam_eva_tent"
+      description: "Hidden within Madam Eva's tent, protected by Vistani wards"
+
+    - card: "Executioner (Swords)"
+      location: "van_richtens_tower_reliquary"
+      description: "In Van Richten's reliquary, among his collection of holy artifacts"
+
+  fallbackLocation: "church_of_st_andral_crypt"
+  fallbackDescription: "If Tarokka reading was skipped, defaults to Church of St. Andral crypt in Vallaki"
+
+  stateKey: "tarokkaReading.artifactLocations.holy_symbol"
+  locked: true  # Location cannot change after Tarokka reading complete
+
+# ============================================================================
+# QUEST BRANCHING (autoDecide based on Tarokka reading)
+# ============================================================================
+branches:
+  - branchId: "holy_symbol_location"
+    description: "The Holy Symbol's location is determined by the Tarokka reading"
+    decision:
+      autoDecide: true
+      condition: "tarokkaReading.artifactLocations.holy_symbol"
+      outcomes:
+        # Outcome 1: Church of St. Andral Crypt
+        - conditionValue: "church_of_st_andral_crypt"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to the Church of St. Andral in Vallaki and descend to the crypt"
+              target: "church_of_st_andral_crypt"
+            - objectiveId: "overcome_challenge"
+              description: "Face the revenant guardian protecting the Holy Symbol"
+              target: "revenant_tasha_petrovna"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "revenant_tasha_petrovna"
+            - type: "location_discovered"
+              locationId: "church_of_st_andral_crypt"
+
+        # Outcome 2: Abbey of St. Markovia Main Hall
+        - conditionValue: "abbey_of_st_markovia_main_hall"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to the Abbey of St. Markovia in Krezk and seek the main hall altar"
+              target: "abbey_of_st_markovia_main_hall"
+            - objectiveId: "overcome_challenge"
+              description: "Negotiate with the Abbot or pass his test of faith"
+              target: "the_abbot"
+          consequences:
+            - type: "npc_interaction"
+              npcId: "the_abbot"
+            - type: "location_discovered"
+              locationId: "abbey_of_st_markovia_main_hall"
+
+        # Outcome 3: Argynvostholt Chapel
+        - conditionValue: "argynvostholt_chapel"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Argynvostholt and find the ruined chapel"
+              target: "argynvostholt_chapel"
+            - objectiveId: "overcome_challenge"
+              description: "Light the beacon and receive Vladimir's blessing to claim the symbol"
+              target: "vladimir_horngaard"
+          consequences:
+            - type: "npc_interaction"
+              npcId: "vladimir_horngaard"
+            - type: "location_discovered"
+              locationId: "argynvostholt_chapel"
+
+        # Outcome 4: Krezk Blessed Pool
+        - conditionValue: "krezk_blessed_pool"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Krezk and approach the Blessed Pool"
+              target: "krezk_blessed_pool"
+            - objectiveId: "overcome_challenge"
+              description: "Dive into the pool and retrieve the symbol from its depths"
+              target: "pool_guardian_spirit"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "pool_guardian_spirit"
+            - type: "location_discovered"
+              locationId: "krezk_blessed_pool"
+
+        # Outcome 5: Castle Ravenloft Chapel
+        - conditionValue: "castle_ravenloft_chapel"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Infiltrate Castle Ravenloft and reach the desecrated chapel"
+              target: "castle_ravenloft_chapel"
+            - objectiveId: "overcome_challenge"
+              description: "Defeat the vampire spawn guarding the defiled altar"
+              target: "vampire_spawn_guardian"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "vampire_spawn_guardian"
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_chapel"
+
+        # Outcome 6: Madam Eva's Tent
+        - conditionValue: "tser_pool_encampment_madam_eva_tent"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Return to Madam Eva's tent at Tser Pool"
+              target: "tser_pool_encampment_madam_eva_tent"
+            - objectiveId: "overcome_challenge"
+              description: "Prove your worthiness to Madam Eva to receive the symbol"
+              target: "madam_eva"
+          consequences:
+            - type: "npc_interaction"
+              npcId: "madam_eva"
+            - type: "location_discovered"
+              locationId: "tser_pool_encampment_madam_eva_tent"
+
+        # Outcome 7: Van Richten's Tower Reliquary
+        - conditionValue: "van_richtens_tower_reliquary"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Van Richten's Tower and find his hidden reliquary"
+              target: "van_richtens_tower_reliquary"
+            - objectiveId: "overcome_challenge"
+              description: "Navigate the tower's traps and unlock the reliquary"
+              target: "tower_traps"
+          consequences:
+            - type: "location_discovered"
+              locationId: "van_richtens_tower_reliquary"
+
+journalEntries:
+  initial: "The Tarokka reading has revealed the Holy Symbol of Ravenkind's location. This sacred amulet was once wielded by a legendary cleric who fought Strahd in ages past. The symbol can hold vampires at bay and channel divine wrath against undead. We must find and claim it."
+
+  updates:
+    - trigger: "decipher_tarokka_clue_complete"
+      entry: "We've determined the Holy Symbol lies at [LOCATION]. The symbol has waited there for centuries, perhaps guarded by its last bearer's spirit or hidden by powerful wards."
+
+    - trigger: "travel_to_location_complete"
+      entry: "We've arrived at the Holy Symbol's resting place. The air hums with residual divine magic. We must locate the exact hiding spot and claim the relic."
+
+  completion: "We've claimed the Holy Symbol of Ravenkind! The platinum amulet bears the image of the sun, and I can feel its holy power resonating. With this, we can repel vampires and channel divine might against Strahd himself. One more piece of our arsenal is complete."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "The Holy Symbol radiates palpable divine energy - NPCs react with reverence or fear"
+    - "The symbol has a history - it wounded Strahd during a past confrontation with Tasha Petrovna"
+    - "Guardian spirits may test the claimant's faith or worthiness"
+    - "The symbol's power scales with the bearer's conviction and divine connection"
+    - "Foreshadow the Holy Symbol's location with divine imagery matching the Tarokka card"
+    - "At each location, emphasize the contrast between divine power and Barovia's gloom"
+
+  roleplayTips:
+    - "If guardian spirits appear: They seek someone worthy to continue the fight against evil"
+    - "The symbol may show visions of its previous bearer's final stand against Strahd"
+    - "Describe the claim moment as a blessing - divine light, warmth, hope"
+    - "At Church Crypt: Revenant is not hostile initially - tests party's intentions"
+    - "At Abbey: The Abbot is enigmatic and may demand a favor or proof of purity"
+    - "At Argynvostholt: Vladimir respects those who honor the beacon quest"
+    - "At Blessed Pool: Emphasize miracle, healing, and cleansing themes"
+    - "At Madam Eva's Tent: She knew the symbol's location all along - tests if party is ready"
+
+  locationVariants:
+    - location: "church_of_st_andral_crypt"
+      card: "Bishop (Glyphs)"
+      difficulty: "Medium"
+      guardianType: "Revenant (Tasha Petrovna)"
+      guardianCR: 5
+      guardianCount: 1
+      encounterNotes: "Tasha Petrovna's revenant guards the Holy Symbol she once wielded. She manifests when party enters the crypt, demanding to know their purpose. Not immediately hostile - conducts verbal test of worthiness. If party proves worthy (DC 15 Persuasion or Insight check to answer her three questions), she grants the symbol with her blessing. If party fails or attacks, she fights to test their strength."
+      tactics: "Revenant has resistance to nonmagical damage, regeneration 10 HP/turn (unless radiant/fire). Uses Vengeful Fist +7 to hit, 2d6+3 bludgeoning + 2d6 necrotic. Glowing Eyes grants advantage on saves vs charm/frighten. If party is truly good-aligned, she may reduce damage to test without killing. Fights until party proves worthy or flees."
+      treasure: "Holy Symbol of Ravenkind on stone altar, 300 gp in offerings from past pilgrims, Tasha's Journal (lore about her battle with Strahd), 2 potions of greater healing"
+      accessRequirements: "Church of St. Andral must be accessible (Story 4-3 Vallaki). Crypt entrance behind altar requires DC 12 Investigation to find or Father Lucian can reveal it."
+      environmentalHazards: "Hallowed ground - undead have disadvantage on attacks. Old stone may crumble if heavy impacts (DC 13 Dex save or 2d6 bludgeoning from falling debris)."
+      stealthOption: "Not applicable - revenant detects living presence automatically. Respectful approach and honest answers (DC 15 Persuasion) avoids combat entirely."
+      narrativeContext: "Tasha Petrovna died fighting Strahd 200 years ago. Her revenant guards the symbol, ensuring only worthy champions claim it. She seeks someone who fights for justice, not vengeance. Emphasize her sorrowful determination - she's been waiting centuries for the right hero."
+
+    - location: "abbey_of_st_markovia_main_hall"
+      card: "Priest (Stars)"
+      difficulty: "Easy (if diplomatic)"
+      guardianType: "The Abbot (NPC negotiation)"
+      guardianCR: 10
+      guardianCount: 1
+      encounterNotes: "The Abbot possesses the Holy Symbol, kept on the main hall altar. He views it as a holy relic but is willing to part with it if the party can convince him they'll use it for good. Negotiation encounter - DC 16 Persuasion to convince him, or party can complete a task for him (help with Vasilka, resolve a dilemma, etc.). The Abbot is enigmatic and may test party's morality. Combat should be avoided - he's CR 10 and will defend himself if attacked."
+      tactics: "If combat occurs (strongly discouraged): Deva stat block, AC 17, 136 HP. Multiattack with mace +8 to hit (2d6+4 + 4d8 radiant). Healing Touch 3/day (20 HP), Change Shape at will. Magic Resistance, immunity to charm/exhaust/frighten. Can cast Commune, Raise Dead. Party should flee or surrender if combat starts."
+      treasure: "Holy Symbol of Ravenkind on altar, 300 gp in Abbey's treasury (if Abbot gifts it), blessed incense worth 100 gp, prayer book with Remove Curse ritual"
+      accessRequirements: "Abbey of St. Markovia accessible via Krezk (Story 4-4). Abbot meets visitors in main hall. Respectful demeanor required."
+      environmentalHazards: "Consecrated ground - advantage on saves vs fear/charm for good creatures. If party desecrates altar or attacks Abbot, divine wrath may manifest (DC 15 Con save or 4d10 radiant damage)."
+      stealthOption: "Stealth possible but risky - DC 18 Stealth to sneak past mongrelfolk and take symbol from altar. If caught, Abbot is disappointed and may refuse to help party in future. Honest approach is better."
+      narrativeContext: "The Abbot found the Holy Symbol decades ago and placed it on St. Markovia's altar as tribute. He believes it belongs to a worthy champion but wants assurance it will be used righteously. This is a test of character - violent or selfish parties may be denied."
+
+    - location: "argynvostholt_chapel"
+      card: "Angel (High Deck)"
+      difficulty: "Medium (quest prerequisite)"
+      guardianType: "Vladimir Horngaard (NPC prerequisite)"
+      guardianCR: 7
+      guardianCount: 1
+      encounterNotes: "The Holy Symbol rests in Argynvostholt's chapel, but Vladimir Horngaard will only allow access if party has honored the Silver Dragon (lit the beacon or shown commitment to that quest). No combat if party has Vladimir's respect. If party hasn't engaged with Argynvostholt quests, Vladimir's revenants block access - 3 revenants CR 5 each. Party should return after completing beacon-related objectives."
+      tactics: "If revenants fight: Each has resistance to nonmagical damage, regeneration 10/turn, Vengeful Fist +7 (2d6+3 bludgeoning + 2d6 necrotic). Coordinate attacks, focus on threats. Vladimir watches but doesn't intervene unless party attacks him directly. Defeating 3 revenants is very hard for level 6 party - negotiation or retreat recommended."
+      treasure: "Holy Symbol of Ravenkind in chapel alcove, 300 gp in ancient knight offerings, Silver Dragon statuette worth 150 gp, scroll of Protection from Evil and Good"
+      accessRequirements: "Argynvostholt accessible (Story 4-5). Chapel is in main manor, but Vladimir controls access. Must have positive relationship with Vladimir or have completed beacon quest objectives."
+      environmentalHazards: "Ruined chapel - unstable floor sections (DC 13 Dex save or fall 10 ft into cellar, 1d6 bludgeoning). Spiritual echoes of Silver Dragon knights may provide guidance or warnings."
+      stealthOption: "DC 17 Stealth to sneak past revenants, but Vladimir senses intruders (high passive Perception 18). Sneaking angers Vladimir - locks party out of future Argynvostholt cooperation. Honest approach and completing beacon quest is far better."
+      narrativeContext: "The Holy Symbol was brought to Argynvostholt by one of Vladimir's knights who survived Tasha Petrovna's crusade. It's kept as a relic honoring those who fought Strahd. Vladimir respects the symbol's power but guards it jealously - only grants it to those who prove dedication to destroying evil."
+
+    - location: "krezk_blessed_pool"
+      card: "Innocent (Glyphs)"
+      difficulty: "Medium (environmental)"
+      guardianType: "Pool Guardian Spirit (Celestial)"
+      guardianCR: 6
+      guardianCount: 1
+      encounterNotes: "The Holy Symbol rests at the bottom of Krezk's blessed pool, guarded by a celestial spirit (water elemental appearance with radiant glow). When party approaches, the spirit rises from the pool and telepathically communicates: 'Only the pure of heart may claim the sacred relic.' Party must pass a test - one PC dives into pool (DC 14 Con save vs cold water, DC 12 Athletics to swim down), and spirit evaluates their soul. Good-aligned PC: spirit blesses and grants symbol. Neutral/selfish: spirit poses riddle or task. Evil: spirit attacks."
+      tactics: "If combat occurs: Water Elemental stat block with celestial modifications, AC 14, 90 HP. Slam +7 (2d8+4 bludgeoning), Whelm attack (DC 15 Str save or restrained). In water, has advantage on attacks. Can cast Protection from Evil, Cure Wounds. Fights defensively, trying to drive away rather than kill. Surrender or fleeing ends combat."
+      treasure: "Holy Symbol of Ravenkind at pool bottom, 300 gp in coins tossed by pilgrims over centuries, 3 vials of holy water, gemstone worth 100 gp"
+      accessRequirements: "Krezk accessible (Story 4-4). Blessed Pool is in village center. Burgomaster Dmitri or villagers may warn party the pool is sacred - taking from it requires worthiness."
+      environmentalHazards: "Cold water - DC 14 Con save each round submerged or gain 1 level exhaustion. Pool is 20 ft deep - DC 12 Athletics to swim down and back up. If pool is defiled (blood, violence), miracle properties fade and Krezk villagers become hostile."
+      stealthOption: "Not applicable - spirit detects anyone who touches the water. However, party can prepare by demonstrating good deeds in Krezk (helping villagers, bringing Ireena) to gain spirit's favor. DC 12 Persuasion to explain intent before diving reduces test difficulty."
+      narrativeContext: "The blessed pool is Krezk's miracle - water heals and blesses. The Holy Symbol was placed here by an angel centuries ago, waiting for a champion. Emphasize the pool's serenity, warmth (despite cold water), and divine presence. Claiming the symbol here is a spiritual moment, not a combat encounter."
+
+    - location: "castle_ravenloft_chapel"
+      card: "Artifact (High Deck)"
+      difficulty: "Hard"
+      guardianType: "Vampire Spawn"
+      guardianCR: 5
+      guardianCount: 3
+      encounterNotes: "The Holy Symbol is hidden in Castle Ravenloft's desecrated chapel, placed there by Strahd as a trophy (he can't touch it directly). Three vampire spawn guard the defiled altar where the symbol rests. They attack on sight - no negotiation. The spawn may taunt party: 'You dare take the master's trophy? He will feast on you for this insolence!' Combat is inevitable and dangerous."
+      tactics: "3 vampire spawn, AC 15, 82 HP each. Multiattack with claws +6 (1d8+3 slashing + 2d6 necrotic, grapple). Bite +6 vs grappled target (1d6+3 piercing + 2d6 necrotic, reduce max HP). Regeneration 10 HP/turn (unless radiant damage or running water). Vulnerable to sunlight (disadvantage, 20 radiant damage/turn). Coordinate attacks - 1 grapples while 2 attack. Spider Climb allows ambush from ceiling. If reduced below 30 HP, retreat to shadows and ambush again."
+      treasure: "Holy Symbol of Ravenkind on defiled altar, 300 gp in plundered offerings, 2 potions of greater healing, corrupted prayer book (lore about chapel's fall), onyx gemstones worth 200 gp"
+      accessRequirements: "Castle Ravenloft infiltration (extremely dangerous at level 6-7). Chapel is in castle's upper floors. Random encounters with castle guardians likely. Strahd may appear if alerted."
+      environmentalHazards: "Desecrated ground - good-aligned clerics/paladins have disadvantage on spell attacks. Unhallowed effect: Protection from Evil can't be cast, advantage for undead on saves. Stained glass windows can be shattered to let in limited sunlight (deals 20 radiant/turn to vampire spawn in direct beams)."
+      stealthOption: "DC 18 Stealth to approach chapel unseen, but vampire spawn have darkvision 60 ft and passive Perception 14. Surprise round possible with good stealth. Alternatively, use Daylight spell or shatter windows to create sunlight - spawn must flee or take massive damage."
+      narrativeContext: "Strahd keeps the Holy Symbol in his chapel as mockery - the very weapon used against him, now his trophy in his own desecrated house of worship. Emphasize the chapel's corruption: inverted symbols, dried blood, oppressive darkness. Claiming the symbol here is an act of defiance against Strahd himself. He will know when it's taken."
+
+    - location: "tser_pool_encampment_madam_eva_tent"
+      card: "Diviner (Stars)"
+      difficulty: "Easy (if party is ready)"
+      guardianType: "Madam Eva (NPC test)"
+      guardianCR: 0
+      guardianCount: 1
+      encounterNotes: "Madam Eva has possessed the Holy Symbol all along, hidden within her tent's reliquary. When party returns seeking it (after Tarokka reading), she reveals she was testing their readiness. 'I knew where the symbol lay - I needed to know if you were worthy to wield it.' Roleplay encounter - she asks party about their journey, their resolve, their understanding of sacrifice. DC 14 Persuasion or Insight to demonstrate growth and readiness. If party passes, she gifts the symbol with her blessing. If party fails, she tells them to 'journey further' and return when they've proven themselves."
+      tactics: "No combat unless party foolishly attacks Madam Eva. She's protected by Vistani (12 bandits, 4 scouts, Luvash) and her divination magic. Attacking her makes all Vistani hostile permanently and loses critical story ally. Strongly discouraged."
+      treasure: "Holy Symbol of Ravenkind from Madam Eva's reliquary, 300 gp gift from Vistani, Tarokka deck replica (decorative), Madam Eva's blessing (inspiration die)"
+      accessRequirements: "Tser Pool Encampment accessible (Story 4-5). Madam Eva welcomes party back. Must have completed Tarokka reading first (Quest 5 prerequisite)."
+      environmentalHazards: "None - Madam Eva's tent is safe. Vistani are friendly (unless provoked). Mystical wards protect tent from scrying and intrusion."
+      stealthOption: "Not applicable and extremely unwise. Stealing from Madam Eva loses critical ally, makes Vistani hostile, and may trigger divine retribution (she has prophetic warnings). Honest approach is only viable path."
+      narrativeContext: "This outcome represents Madam Eva's test of the party - she could have given them the symbol at the start, but they needed to journey and grow first. Emphasize her wisdom, her knowing smile, and her faith in the party's destiny. This is the 'easiest' location but requires the most character development."
+
+    - location: "van_richtens_tower_reliquary"
+      card: "Executioner (Swords)"
+      difficulty: "Medium (traps and puzzles)"
+      guardianType: "Tower Traps and Wards"
+      guardianCR: 5
+      guardianCount: 0
+      encounterNotes: "Van Richten collected the Holy Symbol during his vampire hunting career and stored it in his tower's reliquary. The tower is protected by elaborate traps (non-lethal but incapacitating). Party must navigate: 1) Elevator trap (DC 14 Investigation to notice, DC 15 Thieves' Tools to disable), 2) Arcane lock on reliquary door (DC 16 Arcana to dispel or knock spell), 3) Glyph of Warding on reliquary chest (DC 15 Perception to notice, DC 16 Thieves' Tools to disable, triggers Sleep spell if failed). Puzzle-solving encounter rather than combat."
+      tactics: "No direct combat. Elevator trap: Fails and drops party 40 ft (4d6 bludgeoning, DC 15 Dex save for half). Glyph triggers Sleep spell (5d8 HP worth of creatures fall asleep, starting with lowest HP). If Ezmerelda or Van Richten are present, they can guide party through traps. Brute force (breaking down doors) triggers additional wards - DC 13 Con save or paralyzed 1 minute."
+      treasure: "Holy Symbol of Ravenkind in reliquary, 300 gp in Van Richten's emergency funds, vampire hunting kit (stakes, holy water, mirror), journal with vampire lore (+2 to checks vs vampires), silvered hand crossbow"
+      accessRequirements: "Van Richten's Tower accessible (Story 4-6). Tower entrance requires solving the door puzzle (speak 'friend' in Elvish or DC 18 Arcana). If Ezmerelda has joined party, she knows the tower's secrets and can bypass most traps."
+      environmentalHazards: "Traps throughout tower (see encounter notes). Tower is unstable in upper levels - loud noises or violence may cause structural damage. Animated brooms and cleaning constructs are harmless but distracting."
+      stealthOption: "Stealth doesn't help with traps - requires Investigation, Thieves' Tools, and Arcana checks. However, careful exploration (moving slowly, checking for traps) grants advantage on detection checks. If party has Ezmerelda's trust, she provides trap locations and disarm instructions."
+      narrativeContext: "Van Richten acquired the Holy Symbol decades ago, planning to use it against Strahd. He never got the chance (his son's death broke his resolve) and hid it away. Emphasize Van Richten's tragedy - he gathered weapons to fight evil but couldn't bring himself to use them after losing his family. The party claiming the symbol completes what he couldn't."
+
+  encounterDifficultyComparison: |
+    EASY: Madam Eva's Tent (roleplay test, requires character growth), Abbey (negotiation, favor for Abbot), Blessed Pool (purity test, diving challenge)
+    MEDIUM: Church Crypt (revenant test, combat avoidable), Argynvostholt (requires beacon quest progress), Van Richten's Tower (traps and puzzles)
+    HARD: Castle Ravenloft Chapel (3 vampire spawn, CR 5 each, dangerous location)
+
+    Party level 6-7 recommendation: Avoid Castle Ravenloft until level 8+ or with artifacts. Madam Eva and Abbey are safest if party is good-aligned and diplomatic. Church Crypt and Van Richten's Tower are good mid-tier options.
+
+  combatEncounters:
+    - encounter: "variable_by_tarokka"
+      location: "see_location_variants"
+      cr: 5-7
+      monsters: []
+      tactics: "See location-specific tactics in locationVariants above. Guardian types vary from revenants to vampire spawn to celestials."
+
+  commonPitfalls:
+    - "Players may assume only clerics/paladins can use - symbol works for any good character"
+    - "Players may not understand symbol's powers - provide vision or instruction from guardian"
+    - "Symbol's location may be obscure - environmental clues should guide players"
+    - "At Church Crypt: Attacking revenant immediately loses peaceful path - she tests party first"
+    - "At Abbey: Demanding symbol from Abbot angers him - respectful negotiation required"
+    - "At Castle Chapel: Underestimating 3 vampire spawn - very dangerous for level 6 party"
+    - "At Blessed Pool: Defiling the pool (violence, dishonesty) loses the symbol and angers Krezk"
+    - "At Madam Eva's Tent: Trying to steal from her is catastrophic - loses critical ally"
+
+  alternatives:
+    - "Players can research symbol's history to understand its significance (libraries, Father Lucian, Van Richten)"
+    - "Players can consult religious NPCs (Father Lucian, Abbot) for guidance on symbol's powers"
+    - "Players can pray or make offerings to prove worthiness to guardians"
+    - "At Church Crypt: Answer Tasha's questions truthfully to avoid combat entirely"
+    - "At Abbey: Complete a task for the Abbot (help with Vasilka, deliver message) instead of persuading"
+    - "At Argynvostholt: Light the beacon first to gain Vladimir's respect"
+    - "At Castle Chapel: Use Daylight spell or shatter windows to create sunlight, giving huge advantage vs vampire spawn"
+    - "At Van Richten's Tower: Recruit Ezmerelda to guide through traps and bypass reliquary wards"
+
+relationships:
+  partOfQuestChain:
+    chainId: "artifact_hunt"
+    position: 2
+
+  blocksQuests:
+    - "destroy_strahd_von_zarovich"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 6
+  challengeRating: 6
+  skillChecks:
+    - skill: "religion"
+      dc: 14
+      description: "Understand Holy Symbol's divine significance"
+    - skill: "investigation"
+      dc: 13
+      description: "Decipher Tarokka clue"
+
+lore:
+  background: |
+    The Holy Symbol of Ravenkind was created by a legendary cleric named Tasha Petrovna, the
+    Morninglord's champion. She wielded it in a great battle against Strahd shortly after his
+    transformation, wounding him gravely with its holy light. Though she was ultimately defeated,
+    the symbol survived and has been hidden ever since, waiting for a worthy champion.
+
+  connectionToMainStory: |
+    The Holy Symbol is one of three key artifacts for defeating Strahd. It can hold vampires at
+    bay, dispel darkness, and channel divine wrath. Strahd fears this relic because it represents
+    the one force he cannot corrupt - genuine faith and divine power.
+
+  historicalContext: |
+    Tasha Petrovna led a crusade against Strahd 200 years after his transformation. She came closer
+    to destroying him than anyone before or since, using the Holy Symbol to pin him in sunlight.
+    Strahd escaped by flooding the battlefield with shadows, but he's never forgotten the symbol's
+    power.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.81 (Tarokka outcomes), p.222 (item stats)"
+  official: true
+  estimatedDuration: "1 session"
+  tags: ["artifact", "exploration", "divine", "legendary_item", "tarokka_variable"]
+  notes: "Holy Symbol location determined by Tarokka. Common locations: Church crypts, Abbey, Castle chapel, Argynvostholt. Requires attunement. Grants Protection from Evil/Good 1/day, Hold Vampires 1/day, and continual Daylight."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

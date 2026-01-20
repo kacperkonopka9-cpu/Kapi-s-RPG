@@ -1,0 +1,186 @@
+# Ghoul - Flesh-Eating Undead
+# Source: D&D 5e Monster Manual p.148
+# Cannibalistic undead that feed on corpses
+
+# === BASIC INFORMATION ===
+name: "Ghoul"
+monsterId: "ghoul"
+size: "Medium"
+type: "undead"
+alignment: "chaotic evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 1
+experiencePoints: 200
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12
+armorType: "natural armor"
+
+hitPoints:
+  max: 22
+  current: 22
+  hitDice: "5d8"
+  hitDiceBonus: 0  # +0 Con modifier * 5 HD = +0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 13    # +1
+  dexterity: 15   # +2
+  constitution: 10  # +0
+  intelligence: 7  # -2
+  wisdom: 10     # +0
+  charisma: 6    # -2
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: []
+damageImmunities: ["poison"]
+conditionImmunities: ["charmed", "exhaustion", "poisoned"]
+
+# === SENSES ===
+senses:
+  darkvision: 60
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "ghoul_1"  # Will be set dynamically per instance
+  name: "Ghoul"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits: []
+
+# === ACTIONS ===
+actions:
+  - name: "Bite"
+    type: "melee_weapon_attack"
+    attackBonus: 2  # +1 Str - 1 (no prof) + 2 prof = +3... actually should be +3
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d6"
+      bonus: 2  # Str modifier (using Dex for finesse)
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 9 (2d6 + 2) piercing damage."
+
+  - name: "Claws"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "2d4"
+      bonus: 2  # Dex modifier
+      damageType: "slashing"
+    description: "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) slashing damage. If the target is a creature other than an undead, it must succeed on a DC 10 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+    additionalEffects:
+      - type: "condition"
+        condition: "paralyzed"
+        saveDC: 10
+        saveAbility: "constitution"
+        duration: "1_minute"
+        repeatSave: "end_of_each_turn"
+        excludes: ["undead"]
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "humanoid_bones"
+      quantity: "1d6"
+      dropChance: 70
+    - item: "partially_eaten_flesh"
+      quantity: 1
+      dropChance: 50
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Use claws to paralyze targets, then bite paralyzed victims. Paralyzing multiple enemies is priority. Focus on non-undead targets (paralysis doesn't affect undead). Work with other ghouls to overwhelm isolated targets."
+  intelligence: "animalistic"
+  aggression: "high"
+  groupTactics: "pack"  # Hunt in packs
+
+  preferredTargets:
+    - "non-undead creatures"
+    - "isolated party members"
+    - "paralyzed targets (for bite)"
+
+  fleeThreshold: 5  # HP threshold
+  fleeConditions: ["alone", "outnumbered_3_to_1"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Graveyards, crypts, dungeons, battlefields"
+  organization: "Solitary, gang (2-4), or pack (5-10)"
+
+lore:
+  description: "Ghouls are vile, flesh-eating undead that haunt graveyards and crypts. They were once humanoids who either practiced cannibalism in life or were cursed to eternal hunger for living flesh. Their paralyzing touch makes them far more dangerous than their appearance suggests. The stench of death and rot surrounds them."
+  weakness: "No special resistances or regeneration. Relatively low HP for CR 1. Paralysis doesn't work on undead."
+  behavior: "Ghouls are driven by insatiable hunger for flesh. They prefer fresh corpses but will attack living creatures. Hunt in packs, using paralysis to immobilize prey before feasting. More intelligent than zombies but still bestial. Will flee if severely wounded and alone."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1 ghoul per PC for easy, 2 per PC for medium, 3+ per PC for hard"
+  terrain: "Graveyards (emerging from graves), crypts, Death House dining room"
+  tactics: "Deploy ghouls in groups of 3-5. Have them emerge from graves or hidden alcoves. Focus claws on different targets to paralyze multiple PCs. Paralyzed PCs are easy targets for bite attacks. Pair with other undead - ghouls paralyze, zombies finish off paralyzed victims."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.148"
+  official: true
+  srdContent: true
+
+  notes: "Paralyzing claws make ghouls very dangerous for low-level parties. DC 10 Con save isn't high but paralysis is devastating. Common in Barovia graveyards and Death House. Often found with ghasts (their tougher cousins)."
+
+  dmReminders:
+    - "Claw attack: DC 10 CON save or be paralyzed for 1 minute"
+    - "Target can repeat save at end of each turn to break paralysis"
+    - "Paralysis does NOT work on undead"
+    - "Paralyzed = auto-crit if hit in melee (devastating)"
+    - "Multiple ghouls can paralyze entire party quickly"
+    - "Good initiative (+2 Dex) - often acts before low-Dex PCs"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

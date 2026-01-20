@@ -1,0 +1,279 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>17</storyId>
+    <title>Strahd AI Behavior System</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/4-17-strahd-ai-behavior.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>Dungeon Master running Curse of Strahd</asA>
+    <iWant>comprehensive AI behavior documentation and implementation guidelines for Strahd von Zarovich as a legendary creature, including his 5-phase tactical approach, legendary actions, lair actions, and vampire mechanics</iWant>
+    <soThat>I can run tactically intelligent and dramatically satisfying Strahd encounters using the existing Epic 3 CombatManager with clear guidance on legendary creature mechanics, psychological warfare, and retreat conditions</soThat>
+    <tasks>
+      <task id="1">Create Strahd AI Behavior Guide Structure (AC: #1) - 5 subtasks</task>
+      <task id="2">Document 5-Phase Tactical System (AC: #1) - 7 subtasks covering Observation, Testing, Psychological Warfare, Engagement, Retreat phases</task>
+      <task id="3">Document Legendary Actions System (AC: #2) - 7 subtasks covering 3 actions/round, timing rules, Epic 3 integration</task>
+      <task id="4">Document Lair Actions System (AC: #3) - 7 subtasks covering initiative 20, 3 lair actions, Epic 3 integration</task>
+      <task id="5">Document Vampire Mechanics Implementation (AC: #4) - 8 subtasks covering Regeneration, Charm, Children of the Night, Shapechanger, Misty Escape, Sunlight Sensitivity, Running Water Damage, Spider Climb</task>
+      <task id="6">Document Combat Tactics and Spell Selection (AC: #5) - 8 subtasks covering opening round, mid-combat, bloodied state, escape threshold, spell categories, legendary/lair action synergies</task>
+      <task id="7">Document Psychological Warfare Phase (AC: #6) - 8 subtasks covering charm/domination, nightmares, kidnapping, murders, taunts, personality integration, DM guidance, examples</task>
+      <task id="8">Document Epic 3 Integration Points (AC: #7) - 8 subtasks covering CharacterManager, CombatManager, SpellcastingModule, HP Manager, ConditionTracker, DiceRoller, integration notes, content-first approach</task>
+      <task id="9">Create Integration Tests for Strahd Profile (AC: #8) - 11 subtasks covering 8 test suites (profile loading, legendary actions, lair actions, abilities, spellcasting, AI behavior, stats, personality), target 30-40 tests</task>
+      <task id="10">Create Playtest Script and Validation (AC: #9) - 7 subtasks covering 3 scenarios (Tser Pool Testing, Castle Engagement, Escape), validation checklist, DM debrief</task>
+      <task id="11">Document Epic 5 Enhancement Recommendations (AC: #10) - 7 subtasks covering slash commands, LLM-DM integration, UI enhancements, Combat Manager extensions, AI Behavior Engine, future Epic 5 markers</task>
+      <task id="12">Validation and Story Completion (AC: All) - 8 subtasks covering test execution, guide review, profile validation, integration verification, content-first validation, story updates</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1">Strahd AI Behavior Documentation Created - Complete guide in docs/strahd-ai-behavior-guide.md with 5-phase tactical system (Observation, Testing, Psychological Warfare, Engagement, Retreat), each phase with triggers, objectives, actions, tactics, DM notes, examples. Guide format matches tarokka-reading-guide.md quality (1000+ lines)</ac>
+    <ac id="2">Legendary Actions Implementation Guidelines Documented - 3 actions/round system (Move cost 1, Unarmed Strike cost 1, Bite cost 2), timing rules (end of other creatures' turns), reset mechanics, Epic 3 CombatManager integration, tactical guidance, 3 sample combat rounds</ac>
+    <ac id="3">Lair Actions Implementation Guidelines Documented - Initiative count 20 mechanics, Castle Ravenloft location restriction, 3 lair actions (Solid Fog, Pass Through Walls, Control Doors), cannot-repeat rule, Epic 3 CombatManager integration, tactical guidance with battlefield control examples</ac>
+    <ac id="4">Vampire Mechanics Implementation Guidelines Documented - All vampire mechanics with Epic 3 integration: Regeneration (20 HP/turn), Charm (DC 17, 24hr), Children of the Night (1/day summon), Shapechanger (bat/wolf/mist), Misty Escape (0 HP → mist, 2hr coffin deadline), Sunlight Sensitivity (20 damage/turn), Running Water (20 damage/turn), Spider Climb (narrative)</ac>
+    <ac id="5">Combat Tactics and Spell Selection Documented - Detailed spell selection for each phase: Opening (Greater Invisibility, Spider Climb), Mid-Combat (Charm, Summon), Bloodied (Mirror Image, retreat), Escape (<30 HP, mist form). Legendary action patterns, lair action synergies, retreat conditions</ac>
+    <ac id="6">Psychological Warfare Phase Detailed - Comprehensive tactics: Charm/Domination (target selection, dramatic reveals), Nightmares (narrative), Kidnapping (Ireena capture, allies), Murders (strategic executions), Taunts (letters, prophecies). Strahd personality integration, DM guidance, 3 example scenarios</ac>
+    <ac id="7">Integration with Epic 3 Systems Documented - Integration points identified: CharacterManager (load Strahd NPC), CombatManager (legendary/lair actions), SpellcastingModule (9th-level wizard), HP Manager (regeneration, max HP reduction, Misty Escape), ConditionTracker (Charmed by Strahd), DiceRoller (all rolls). No Epic 3 code modifications required (content-first)</ac>
+    <ac id="8">Integration Tests for Strahd NPC Profile - Test file tests/integration/npcs/strahd-profile.test.js with 8 suites: Profile Loading, Legendary Actions (3 actions, costs), Lair Actions (initiative 20, 3 actions), Special Abilities (7 vampire abilities), Spellcasting (9th-level, DC 18), AI Behavior (5 phases, tactics), Combat Stats (AC 16, HP 144), Personality/Dialogue. Target 30-40 tests, 100% pass</ac>
+    <ac id="9">Playtest Script and Validation - Playtest script docs/strahd-encounter-playtest.md with 3 scenarios: Tser Pool (Testing Phase), Castle Ravenloft (Engagement Phase with lair actions), Escape (Misty Escape and regeneration). Validation checklist, DM debrief with feedback</ac>
+    <ac id="10">Epic 5 Enhancement Recommendations - Future enhancements documented: Slash commands (/strahd-phase, /legendary-action), LLM-DM integration (phase detection, action prompts), UI enhancements (action counter, phase indicator), Combat Manager extensions (legendary creature support), AI Behavior Engine (decision tree). All clearly marked "Future Epic 5", maintain Epic 4 content-first approach</ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/strahd-mechanics-research.md</path>
+        <title>Strahd von Zarovich - Custom Mechanics Research</title>
+        <section>Complete Analysis</section>
+        <snippet>Comprehensive research on Strahd as legendary creature (CR 15). Documents all required mechanics: Legendary Actions (3/round), Lair Actions (initiative 20), Vampire Mechanics (Regeneration 20 HP/turn, Charm DC 17, Misty Escape, Shapechanger, Children of the Night). Includes 5-phase tactical system (Observation, Testing, Psychological Warfare, Engagement, Retreat) and Epic 3 compatibility analysis. Implementation checklist identifies what's compatible vs needs documentation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-4.md</path>
+        <title>Technical Specification - Epic 4: Curse of Strahd Content Implementation</title>
+        <section>AC-7: Strahd AI Behavior System Implemented</section>
+        <snippet>Defines requirements for Story 4-17: Strahd AI behavior documented with 5-phase tactical approach (observation, testing, psychological warfare, engagement, retreat), legendary actions implementation guidelines, lair actions for Castle Ravenloft, vampire mechanics (charm DC 17, children of the night, misty escape, sunlight sensitivity, regeneration 20 HP/turn), combat tactics, AI behavior notes integrated into Strahd NPC profile, playtest validation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Technical Specification - Epic 3: D&D 5e Mechanics Integration</title>
+        <section>Core Systems</section>
+        <snippet>Documents Epic 3 systems relevant to Strahd: CharacterManager (Story 3-2, loads NPC profiles), CombatManager (Story 3-5, handles combat encounters), SpellcastingModule (Story 3-7, 9th-level wizard spells), HP Manager (Story 3-11, HP tracking, regeneration), ConditionTracker (Story 3-12, custom conditions), DiceRoller (Story 3-1, all rolls). All systems use Result Object Pattern and Dependency Injection.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-2.md</path>
+        <title>Technical Specification - Epic 2: Game Calendar & Dynamic World System</title>
+        <section>Event System</section>
+        <snippet>Documents Epic 2 systems: EventScheduler (Story 2-3, triggers timed events), CalendarManager (tracks time for durations), EventExecutor (Story 2-6, applies event effects). Relevant for Children of the Night arrival timing (1d4 rounds), Misty Escape coffin deadline (2 hours), Charm duration (24 hours).</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-7-strahd-npc-profile.md</path>
+        <title>Story 4.7: Strahd NPC Profile</title>
+        <section>Complete Story</section>
+        <snippet>Story 4-7 created complete Strahd NPC profile at game-data/npcs/strahd_von_zarovich.yaml with all required fields: legendary actions (3/round with Move, Unarmed Strike, Bite costs), lair actions (initiative 20, 3 actions for Castle Ravenloft), special abilities (7 vampire abilities), spellcasting (9th-level wizard), AI behavior fields (5 tactical phases, combat tactics, decision tree). Story 4-17 references and expands this profile's AI behavior documentation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/4-16-tarokka-reading-system.md</path>
+        <title>Story 4.16: Tarokka Reading System</title>
+        <section>Dev Notes, Senior Developer Review</section>
+        <snippet>Previous story (4-16) sets quality standard for Story 4-17: delivered 1000+ line comprehensive guide (tarokka-reading-guide.md), 58 integration tests (exceeded 30-40 target by 93%), exemplary documentation with examples, content-first approach (YAML data + minimal logic), Epic 2/3 integration notes, DM tools and overrides, Epic 5 recommendations. Review noted "exemplary implementation" with zero defects. Story 4-17 should match this quality standard.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tarokka-reading-guide.md</path>
+        <title>Tarokka Reading Guide for Dungeon Masters</title>
+        <section>Complete Guide</section>
+        <snippet>1000+ line DM guide created in Story 4-16 serving as quality reference for Story 4-17. Structure: comprehensive card documentation (54 cards), example readings (3 scenarios), DM tools (manual overrides), Epic 5 integration notes. Demonstrates expected quality, thoroughness, and clarity for strahd-ai-behavior-guide.md.</snippet>
+      </doc>
+      <doc>
+        <path>templates/npc/npc-profile-template.yaml</path>
+        <title>NPC Profile Template</title>
+        <section>Schema Definition</section>
+        <snippet>Defines NPC profile schema used by Strahd (Story 4-7). Includes fields for: legendaryActions (actionsPerRound, actions array with cost), lairActions (initiative, location, actions), specialAbilities (with uses tracking), aiBehavior (combatTactics, goals, tacticalPhases, decisionTree), spellcasting (ability, DC, slots, prepared spells). Story 4-17 documents how to populate and use these fields.</snippet>
+      </doc>
+      <doc>
+        <path>docs/technical-architecture.md</path>
+        <title>Technical Architecture Document</title>
+        <section>Overall Architecture</section>
+        <snippet>File-first architecture with Git version control. All game state in human-readable Markdown/YAML files. Core patterns: Result Object Pattern (all async return {success, data, error}), Dependency Injection (constructor accepts deps), YAML Frontmatter Pattern (state files combine structured YAML + narrative Markdown). Epic 4 content-first approach: create ONLY content files + documentation, no core system modifications.</snippet>
+      </doc>
+      <doc>
+        <path>docs/GDD.md</path>
+        <title>Game Design Document</title>
+        <section>Curse of Strahd Campaign</section>
+        <snippet>Curse of Strahd is core campaign. Strahd von Zarovich is main villain (CR 15 legendary vampire). Campaign goal: destroy Strahd permanently by driving stake through heart in coffin. Key mechanics: Tarokka reading randomizes artifact locations, 5-phase Strahd encounters (observation → testing → psychological warfare → engagement → retreat), legendary/lair actions for epic boss battles.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>service</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-400</lines>
+        <reason>Epic 3 Story 3-2. Loads NPC profiles from YAML including Strahd. Story 4-17 documents how CharacterManager loads legendary actions, lair actions, AI behavior fields from strahd_von_zarovich.yaml</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/combat-manager.js</path>
+        <kind>service</kind>
+        <symbol>CombatManager</symbol>
+        <lines>1-500</lines>
+        <reason>Epic 3 Story 3-5. Handles combat encounters, initiative tracking, attack resolution. Story 4-17 documents how to integrate legendary actions (prompt at turn end), lair actions (pseudo-combatant at initiative 20), tactical decision-making with existing combat system</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/spell-manager.js</path>
+        <kind>service</kind>
+        <symbol>SpellManager</symbol>
+        <lines>1-300</lines>
+        <reason>Epic 3 Story 3-7. Manages spell system for NPCs and PCs. Strahd is 9th-level wizard with spell save DC 18, +10 to hit. Story 4-17 documents spell selection tactics for each combat phase using existing spell system (no modifications needed)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/hp-manager.js</path>
+        <kind>service</kind>
+        <symbol>HPManager</symbol>
+        <lines>1-250</lines>
+        <reason>Epic 3 Story 3-11. Tracks HP, damage, death saves. Story 4-17 documents integration for: Regeneration (20 HP/turn with conditions), Max HP reduction (bite attack), Misty Escape (0 HP → mist form transformation)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/condition-tracker.js</path>
+        <kind>service</kind>
+        <symbol>ConditionTracker</symbol>
+        <lines>1-200</lines>
+        <reason>Epic 3 Story 3-12. Tracks conditions and effects. Story 4-17 documents custom "Charmed by Strahd" condition (DC 17 Wis save, 24-hour duration, save when harmed, willing bite victim)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>service</kind>
+        <symbol>DiceRoller</symbol>
+        <lines>1-150</lines>
+        <reason>Epic 3 Story 3-1. Handles all dice rolls. Used for Strahd's attack rolls (+9 unarmed, +10 spell attacks), damage rolls, saving throws (DC 17 Charm, DC 18 spells), ability checks</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>service</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-300</lines>
+        <reason>Epic 2 Story 2-3. Triggers timed events. Story 4-17 documents integration for: Children of the Night arrival delay (1d4 rounds), Misty Escape coffin deadline (2 hours), Charm duration (24 hours)</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-400</lines>
+        <reason>Epic 2. Tracks game time and calendar. Used for time-based mechanics: Legendary Resistance recharge (dawn), Children of the Night recharge (dawn), Strahd's daily schedule (rests in coffin 06:00-18:00)</reason>
+      </artifact>
+      <artifact>
+        <path>game-data/npcs/strahd_von_zarovich.yaml</path>
+        <kind>data</kind>
+        <symbol>Strahd NPC Profile</symbol>
+        <lines>1-518</lines>
+        <reason>Epic 4 Story 4-7. Complete Strahd NPC definition. Story 4-17 references this file extensively: legendary actions (lines 199-213), lair actions (lines 215-227), special abilities (lines 138-197), aiBehavior section (lines 317-444) including 5 tactical phases, combat tactics, decision tree. Guide documents how to use all fields.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <dependency name="date-fns" version="^2.30.0" usage="Date and time utilities (Epic 2 CalendarManager). Not directly used in Story 4-17 but relevant for time-based vampire mechanics (24-hour charm, 2-hour coffin deadline, dawn recharge)." />
+        <dependency name="js-yaml" version="^4.1.0" usage="YAML parsing for NPC profiles (CharacterManager loads strahd_von_zarovich.yaml). Story 4-17 tests validate YAML structure of legendary actions, lair actions, AI behavior fields." />
+        <dependency name="jest" version="^29.7.0" dev="true" usage="Testing framework for integration tests. Story 4-17 creates tests/integration/npcs/strahd-profile.test.js with 8 test suites (30-40 tests) validating Strahd NPC profile structure." />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Content-First Approach: Epic 4 creates ONLY content files and documentation. NO modifications to Epic 1-3 core systems (CharacterManager, CombatManager, etc.). All legendary/lair actions documented in Strahd NPC YAML and AI behavior guide, not implemented in code. Epic 5 will deliver automation.</constraint>
+    <constraint>Documentation-Driven Design: Strahd AI Behavior Guide is primary deliverable (1000+ lines, matches tarokka-reading-guide.md quality). Guide provides comprehensive DM reference for running Strahd encounters with Epic 3 systems.</constraint>
+    <constraint>Epic 3 Integration: All mechanics must work with existing Epic 3 modules via DM adjudication. No new Epic 3 module features required. Document what works out-of-box, what needs DM judgment, what needs Epic 5 automation.</constraint>
+    <constraint>Testing Standards: Target 30-40 integration tests validating Strahd NPC profile structure (legendary actions, lair actions, AI behavior fields). 100% pass rate required. Tests validate data structure, not combat mechanics implementation.</constraint>
+    <constraint>Quality Standard: Match Story 4-16 (Tarokka Reading System) quality: comprehensive documentation with examples, thorough testing, clear DM guidance, no gaps. Previous story review noted "exemplary implementation" - Story 4-17 should meet same standard.</constraint>
+    <constraint>Result Object Pattern: All Epic 1-3 async methods return {success, data, error} structure. AI behavior guide should reference this pattern when discussing integration (e.g., "CharacterManager.loadNPC() returns Result Object, check success before accessing data").</constraint>
+    <constraint>File-First Architecture: All state persists in human-readable Markdown/YAML. Strahd's current state (HP, spell slots, legendary resistance uses, tactical phase) persists in NPC profile state loaded/saved by CharacterManager.</constraint>
+    <constraint>Template Compliance: Strahd NPC profile follows templates/npc/npc-profile-template.yaml schema (Story 4-7). AI behavior guide documents how to populate and use template fields (legendaryActions, lairActions, aiBehavior, etc.).</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>CharacterManager.loadNPC()</name>
+      <kind>function</kind>
+      <signature>async loadNPC(npcId: string): Promise&lt;Result&lt;NPCProfile&gt;&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+      <usage>Load Strahd NPC profile from game-data/npcs/strahd_von_zarovich.yaml. Returns NPC object with all fields including legendaryActions, lairActions, aiBehavior. AI guide documents how DM uses loaded profile data for encounter management.</usage>
+    </interface>
+    <interface>
+      <name>CombatManager.startCombat()</name>
+      <kind>function</kind>
+      <signature>async startCombat(participants: Combatant[]): Promise&lt;Result&lt;CombatState&gt;&gt;</signature>
+      <path>src/mechanics/combat-manager.js</path>
+      <usage>Initiate combat with Strahd and party. AI guide documents legendary action prompts (after each creature's turn), lair action pseudo-combatant at initiative 20, tactical decision-making during combat.</usage>
+    </interface>
+    <interface>
+      <name>SpellManager.castSpell()</name>
+      <kind>function</kind>
+      <signature>async castSpell(caster: NPC, spellId: string, target: Combatant): Promise&lt;Result&lt;SpellEffect&gt;&gt;</signature>
+      <path>src/mechanics/spell-manager.js</path>
+      <usage>Cast Strahd's wizard spells (9th-level, DC 18, +10 to hit). AI guide documents spell selection by combat phase: Greater Invisibility (opening), Charm/Dominate (mid-combat), Mirror Image (bloodied), Fireball/Blight (damage).</usage>
+    </interface>
+    <interface>
+      <name>HPManager.applyDamage()</name>
+      <kind>function</kind>
+      <signature>async applyDamage(combatant: Combatant, damage: number, damageType: string): Promise&lt;Result&lt;HPState&gt;&gt;</signature>
+      <path>src/mechanics/hp-manager.js</path>
+      <usage>Apply damage to Strahd or party. AI guide documents: Regeneration check (20 HP/turn if no radiant damage), Max HP reduction tracking (bite attack), Misty Escape trigger (0 HP → mist form if not in sunlight/running water).</usage>
+    </interface>
+    <interface>
+      <name>ConditionTracker.addCondition()</name>
+      <kind>function</kind>
+      <signature>async addCondition(combatant: Combatant, condition: string, duration: number): Promise&lt;Result&lt;void&gt;&gt;</signature>
+      <path>src/mechanics/condition-tracker.js</path>
+      <usage>Add custom "Charmed by Strahd" condition. AI guide documents: DC 17 Wisdom save, 24-hour duration, save when harmed by Strahd/allies, charmed target is willing bite victim.</usage>
+    </interface>
+    <interface>
+      <name>EventScheduler.scheduleEvent()</name>
+      <kind>function</kind>
+      <signature>async scheduleEvent(event: Event, trigger: TriggerCondition): Promise&lt;Result&lt;EventId&gt;&gt;</signature>
+      <path>src/calendar/event-scheduler.js</path>
+      <usage>Schedule timed events for Strahd mechanics. AI guide documents: Children of the Night arrival (1d4 rounds after summon), Misty Escape coffin deadline (2 hours from 0 HP), Charm duration expiry (24 hours).</usage>
+    </interface>
+    <interface>
+      <name>NPCProfile.legendaryActions</name>
+      <kind>data-structure</kind>
+      <signature>{actionsPerRound: 3, actions: [{name, cost, description}]}</signature>
+      <path>game-data/npcs/strahd_von_zarovich.yaml:199-213</path>
+      <usage>Legendary actions definition in Strahd NPC YAML. AI guide documents how DM uses this data: track action pool (3/round), prompt for usage at end of each creature's turn (not Strahd's), reset at Strahd's turn start.</usage>
+    </interface>
+    <interface>
+      <name>NPCProfile.lairActions</name>
+      <kind>data-structure</kind>
+      <signature>{initiative: 20, location: "castle_ravenloft", actions: [{name, description}]}</signature>
+      <path>game-data/npcs/strahd_von_zarovich.yaml:215-227</path>
+      <usage>Lair actions definition in Strahd NPC YAML. AI guide documents: only active in Castle Ravenloft, trigger at initiative 20, cannot repeat same action two rounds in row, 3 actions (Solid Fog, Pass Through Walls, Control Doors).</usage>
+    </interface>
+    <interface>
+      <name>NPCProfile.aiBehavior</name>
+      <kind>data-structure</kind>
+      <signature>{combatTactics: string, tacticalPhases: Phase[], decisionTree: Decision[]}</signature>
+      <path>game-data/npcs/strahd_von_zarovich.yaml:317-444</path>
+      <usage>AI behavior fields in Strahd NPC YAML. Story 4-17 expands this documentation into comprehensive DM guide with detailed tactics, examples, decision trees for each of 5 tactical phases.</usage>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing framework: Jest v29.7.0. Test pattern: Arrange-Act-Assert. File naming: {category}/{story-key}.test.js (e.g., npcs/strahd-profile.test.js). Test organization: describe() blocks for suites, test() for individual tests. Target: 30-40 tests for Story 4-17, 100% pass rate required. Tests validate Strahd NPC profile data structure (not combat mechanics implementation - that's Epic 5). Integration tests load actual YAML files and verify structure matches expectations. Use beforeAll() for test setup (load NPC profile once), beforeEach() for per-test state reset. Epic 4 pattern: tests validate content files, not code behavior.
+    </standards>
+    <locations>
+      <location>tests/integration/npcs/strahd-profile.test.js - New test file for Story 4-17 (8 suites, 30-40 tests total)</location>
+      <location>tests/integration/npcs/ - Existing NPC tests directory (strahd-integration.test.js from Story 4-7 exists, strahd-profile.test.js is NEW)</location>
+      <location>game-data/npcs/strahd_von_zarovich.yaml - Test data source (load and validate structure)</location>
+    </locations>
+    <ideas>
+      <testIdea ac="1" suite="Documentation Existence">Test that docs/strahd-ai-behavior-guide.md file exists and is >1000 lines. Verify guide contains all required sections (5-phase system, legendary actions, lair actions, vampire mechanics, combat tactics, psychological warfare, Epic 3 integration, playtest script, Epic 5 recommendations).</testIdea>
+      <testIdea ac="2" suite="Legendary Actions Structure">Load Strahd NPC YAML. Verify legendaryActions.actionsPerRound === 3. Verify legendaryActions.actions array has exactly 3 items. Verify each action has name, cost, description. Verify costs: Move=1, Unarmed Strike=1, Bite=2. Verify cost sum allows flexibility (can use all 3 actions per round).</testIdea>
+      <testIdea ac="3" suite="Lair Actions Structure">Load Strahd NPC YAML. Verify lairActions.initiative === 20. Verify lairActions.location === "castle_ravenloft". Verify lairActions.actions array has exactly 3 items (Solid Fog, Pass Through Walls, Control Doors). Verify each action has name and description.</testIdea>
+      <testIdea ac="4" suite="Special Abilities (Vampire Mechanics)">Load Strahd NPC YAML. Verify specialAbilities array has 7 vampire abilities: Legendary Resistance (with uses=3, maxUses=3, recharge="dawn"), Shapechanger, Misty Escape, Regeneration, Spider Climb, Charm, Children of the Night (with uses=1, maxUses=1, recharge="dawn"). Verify each ability has name and description.</testIdea>
+      <testIdea ac="5" suite="Spellcasting and Combat Stats">Load Strahd NPC YAML. Verify spellcasting.ability === "intelligence". Verify spellcasting.spellSaveDC === 18. Verify spellcasting.spellAttackBonus === 10. Verify all 14 prepared spells present (Greater Invisibility, Dominate Monster, Fireball, etc.). Verify 3 cantrips. Verify armorClass === 16, hitPoints.max === 144.</testIdea>
+      <testIdea ac="6" suite="AI Behavior Fields">Load Strahd NPC YAML. Verify aiBehavior.combatTactics string exists and mentions 5-phase system. Verify aiBehavior.tacticalPhases array has exactly 5 phases (Observation, Testing, Psychological Warfare, Engagement, Retreat). Verify each phase has: phase name, trigger, objective, actions. Verify aiBehavior.decisionTree array exists with conditional behaviors.</testIdea>
+      <testIdea ac="7" suite="Epic 3 Integration Points">Verify CharacterManager can load strahd_von_zarovich.yaml without errors (Result Object success=true). Verify loaded NPC object structure matches NPCProfile interface. Verify all integration-relevant fields accessible (legendaryActions, lairActions, spellcasting, specialAbilities, aiBehavior).</testIdea>
+      <testIdea ac="8" suite="Profile Completeness">Verify Strahd NPC has all required top-level fields: npcId, name, race, class, level, abilities (6 scores), hitPoints, armorClass, proficiencies, spellcasting, inventory, legendaryActions, lairActions, specialAbilities, personality, dialogue, relationships, aiBehavior, schedule, currentLocation, metadata. Cross-reference with templates/npc/npc-profile-template.yaml schema.</testIdea>
+      <testIdea ac="9" suite="Playtest Script Existence">Test that docs/strahd-encounter-playtest.md file exists. Verify file contains 3 scenario sections (Tser Pool, Castle Ravenloft, Escape). Verify each scenario has setup, encounter breakdown, validation checklist.</testIdea>
+      <testIdea ac="10" suite="Epic 5 Recommendations Section">Verify strahd-ai-behavior-guide.md contains Epic 5 recommendations section. Verify recommendations include slash commands, LLM-DM integration, UI enhancements, Combat Manager extensions, AI Behavior Engine. Verify all recommendations clearly marked "Future Epic 5" (grep for "Epic 5" markers).</testIdea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,25 @@
+# Location Metadata - Castle Ravenloft: Audience Hall
+
+location_name: "Castle Ravenloft - Audience Hall"
+location_type: "dungeon_area"
+danger_level: 4
+recommended_level: "8-10"
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+rooms_included: ["K25: Audience Hall", "K26-K30: Adjacent Chambers"]
+room_count: 6
+description_token_count: 1000
+npc_count: 3
+item_count: 4
+event_count: 3
+typical_encounters:
+  - name: "Strahd (formal court)"
+    cr: 15
+  - name: "Rahadin"
+    cr: 10
+  - name: "Animated Armor"
+    cr: 1
+    count: "1d4+1"
+last_validated: null
+validation_status: "pending"

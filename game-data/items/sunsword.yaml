@@ -1,0 +1,199 @@
+# Sunsword - Legendary Artifact for Curse of Strahd
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "sunsword"
+name: "Sunsword"
+type: "weapon"
+weight: 3.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "legendary"
+requiresAttunement: true
+attunementRequirements: null  # Any creature can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "longsword"
+  category: "martial_melee"
+  damage: "1d8"
+  damageType: "radiant"
+  properties: ["finesse", "versatile"]
+  versatileDamage: "1d10"
+  range: null
+  attackBonus: 2  # +2 magic weapon
+  damageBonus: 2
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 2
+    description: "+2 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 2
+    damageType: "radiant"
+    description: "+2 radiant damage on all hits"
+
+  - type: "special_damage"
+    damageType: "radiant"
+    dice: "1d8"
+    targetType: "undead"
+    description: "Deals an extra 1d8 radiant damage to undead creatures"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Sunlight Blade"
+    description: "While grasping the hilt, you can use a bonus action to cause a blade of pure radiance to spring into existence, or make the blade disappear. While the blade exists, this magic longsword has the finesse property. If you are proficient with shortswords or longswords, you are proficient with the Sunsword. While the blade persists, the sword emits bright light in a 15-foot radius and dim light for an additional 15 feet."
+    activation: "bonus_action"
+    duration: "until_dismissed"
+    mechanics:
+      lightRadius: 15
+      dimLightRadius: 15
+      canBeDeactivated: true
+
+  - name: "Undead Bane"
+    description: "While the blade exists, this sword deals radiant damage instead of slashing damage. When you hit an undead with it, that target takes an extra 1d8 radiant damage."
+    activation: "passive"
+    mechanics:
+      extraDamage:
+        dice: "1d8"
+        damageType: "radiant"
+        targetType: "undead"
+
+  - name: "Sunlight Sensitivity"
+    description: "The sword's luminous blade emits actual sunlight. Creatures with sunlight sensitivity or hypersensitivity have disadvantage on attack rolls when within the sword's bright light."
+    activation: "passive"
+    mechanics:
+      affectsCreatures: ["undead_with_sunlight_sensitivity", "vampire", "vampire_spawn"]
+      effect: "disadvantage_on_attacks"
+      range: 15
+
+# === SENTIENCE (Optional) ===
+sentience: null
+# The Sunsword is not sentient in the official module, but DMs may choose to make it so
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Sunsword is a unique blade once possessed by Strahd's brother, Sergei von Zarovich. In its dormant state, the weapon appears as a longsword hilt. While grasping the hilt, you can use a bonus action to make a blade of pure sunlight spring from the hilt, or cause the blade to disappear. The Sunsword is one of three legendary treasures that can help destroy Count Strahd von Zarovich."
+
+  history: "This sword was forged by ancient
+
+ wizards and blessed by clerics of the Morninglord (Lathander) specifically to combat the darkness that would one day threaten Barovia. The blade was wielded by Sergei von Zarovich before his murder at Strahd's hands. After Sergei's death, the blade was lost and its location must be divined through the Tarokka reading."
+
+  legendsAndRumors:
+    - "The blade was blessed by the Morninglord himself and burns with the light of the sun"
+    - "Strahd fears this weapon above all others, for it was his brother's sword"
+    - "The sword can dispel magical darkness and harm creatures of shadow"
+    - "Only the pure of heart can wield the Sunsword effectively against evil"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "Through attunement and experimentation with the blade's powers"
+  hiddenProperties:
+    - "The sword's ability to activate/deactivate as a bonus action is discovered through experimentation"
+    - "The extra damage against undead is revealed when first striking an undead creature"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Determined by Tarokka reading at campaign start"
+  howObtained: "The Tarokka reading reveals one of several possible locations throughout Barovia. Common locations include: Sergei's tomb in Castle Ravenloft (Crypt 21), the Abbey of Saint Markovia in Krezk, Argynvostholt, or Van Richten's Tower."
+  guardian: "Varies by location - may be guarded by vampire spawn, wraiths, revenants, or other powerful undead"
+  notes: "The sword hilt is always present; the blade must be activated. Without activation, it appears as a mundane (if ornate) sword hilt."
+
+# === TAROKKA READING INTEGRATION (Story 4-16) ===
+tarokkaReading:
+  artifactType: "sunsword"
+  cardPosition: 3  # Third card drawn in the reading
+  readingDescription: "This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight."
+
+  currentLocationId: null  # Populated by Tarokka reading event (madam_eva_tarokka_reading)
+
+  possibleLocations:
+    # From game-data/tarokka/reading-config.yaml - 10 possible locations
+    - locationId: "castle-ravenloft-treasury"
+      description: "Strahd's Trophy Room - K41"
+    - locationId: "castle-ravenloft-sergei-tomb"
+      description: "Tomb of Sergei von Zarovich - Crypt 21"
+    - locationId: "abbey-of-st-markovia-main-hall"
+      description: "Abbey of Saint Markovia - Main Hall"
+    - locationId: "argynvostholt-dragon-tomb"
+      description: "Argynvostholt - Tomb of Argynvost"
+    - locationId: "van-richtens-tower-top-floor"
+      description: "Van Richten's Tower - Top Floor"
+    - locationId: "amber-temple-vault"
+      description: "Amber Temple - Vault of Sorcery"
+    - locationId: "wizard-of-wines-cellar"
+      description: "Wizard of Wines Winery - Wine Cellar"
+    - locationId: "yester-hill-summit"
+      description: "Yester Hill - Gulthias Tree Summit"
+    - locationId: "berez-baba-lysaga-hut"
+      description: "Berez - Baba Lysaga's Hut"
+    - locationId: "lake-zarovich-underwater"
+      description: "Lake Zarovich - Sunken Treasure"
+
+  notes: "Location is set during Tarokka reading event (tser-pool-encampment/Events.md). Once set, currentLocationId determines where the Sunsword can be found. The reading is permanent for the playthrough."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "Add +2 to all attack rolls made with this weapon. The finesse property allows using DEX instead of STR for attack and damage rolls."
+
+  damageRolls: "+2 to damage rolls, plus an extra 1d8 radiant damage against undead. Base damage is radiant, not slashing."
+
+  spellDC: null
+
+  integration:
+    combatManager: "Weapon attack bonus (+2) integrates with CombatManager.calculateAttackBonus(). Radiant damage type registered for undead vulnerability calculations."
+    equipmentManager: "Equippable in mainHand or twoHanded (versatile) slot. Requires attunement. No class restrictions."
+    inventoryManager: "Weight 3 lbs, takes up weapon slot in inventory"
+
+  sunlightMechanics:
+    description: "The sword emits actual sunlight (not magical light). This has several effects:"
+    effects:
+      - "Dispels magical darkness of 2nd level or lower within the bright light radius"
+      - "Creatures with Sunlight Sensitivity have disadvantage on attack rolls and Perception checks while in the bright light"
+      - "Creatures with Sunlight Hypersensitivity (like vampires) take additional penalties as per their stat blocks"
+      - "The light can be seen from a distance, potentially attracting attention"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "legendary"
+  recommendedLevel: 5
+  notes: "Extremely powerful against undead, especially Strahd. The +2 bonus and radiant damage make this one of the most valuable weapons in the campaign. The sunlight emission provides both tactical advantage and potential risk (visibility). Designed as a key item for defeating Strahd."
+
+  dmGuidance:
+    - "The sword should be found mid-campaign (levels 5-7) to give players time to learn its powers before confronting Strahd"
+    - "Remember that the blade can be deactivated to avoid attracting unwanted attention"
+    - "The sunlight effect is actual sunlight, not magical light - this bypasses magical darkness"
+    - "Consider having Strahd react with fear/anger when he first sees the Sunsword"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "The Sunsword appears as an ornate longsword hilt made of platinum and gold, with intricate sun motifs worked into the crossguard. A large crystal sits in the pommel, faintly glowing with inner light. When activated, a blade of brilliant golden radiance extends from the hilt, appearing as solid sunlight."
+
+  activeState: "When activated, the blade glows with intense golden-white light, warm to the touch (but not burning to the wielder). The light pulses gently like a heartbeat. The crystal in the pommel blazes with inner fire."
+
+  soundEffects: "When activated, the blade makes a sound like a chorus of distant bells. When striking undead, the sword rings with a pure, clear tone."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.223"
+  official: true
+  srdContent: false
+
+  notes: "One of three legendary artifacts needed to have a chance at defeating Strahd. The sword is particularly effective because Strahd and most of his minions are vulnerable to radiant damage and sunlight."
+
+  dmReminders:
+    - "The Tarokka reading determines the location - note this during session zero"
+    - "The blade must be activated with a bonus action; it's not always glowing"
+    - "This weapon makes stealth difficult when activated due to the bright light"
+    - "Strahd will avoid direct confrontation with a character wielding the active Sunsword if possible"
+    - "The extra 1d8 radiant damage vs undead stacks with the base radiant damage and +2 bonus"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14)"

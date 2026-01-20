@@ -1,0 +1,326 @@
+# Quest 1: Escape from Death House
+# Tutorial dungeon that introduces players to Barovia and Strahd
+
+questId: "escape_from_death_house"
+name: "Escape from Death House"
+type: "main"
+category: "exploration"
+
+questGiver:
+  npcId: null  # No explicit quest giver - players enter voluntarily
+  location: "death_house"
+  dialogue: "The house beckons you inside with the promise of shelter from the mists..."
+
+questRecipient: "player"
+
+description:
+  short: "Survive the haunted Death House and escape its dark secrets"
+  full: "You've taken refuge in a seemingly abandoned townhouse on the outskirts of the Village of Barovia. As you explore, you discover the tragic history of the Durst family and the dark secrets lurking in the basement. To escape, you must confront the horror that dwells below and find your way out before the house claims you as its own."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed: []
+  requiredEvents: []
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited: []
+
+objectives:
+  - objectiveId: "enter_death_house"
+    description: "Enter the mysterious townhouse"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "death_house"
+      location: "death_house"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "explore_upper_floors"
+    description: "Explore the upper floors and discover the Durst family's secrets"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "death_house_upper_floors"
+      location: "death_house"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "find_secret_passage"
+    description: "Discover the hidden passage to the basement dungeon"
+    type: "investigation"
+    status: "pending"
+    target:
+      type: "location"
+      id: "death_house_secret_door"
+      location: "death_house"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "explore_dungeon"
+    description: "Investigate the dungeon beneath the house"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "death_house_dungeon"
+      location: "death_house"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+  - objectiveId: "defeat_shambling_mound"
+    description: "Defeat the shambling mound in the ritual chamber"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "monster"
+      id: "shambling_mound"
+      location: "death_house_ritual_chamber"
+    optional: false
+    completionTrigger:
+      type: "npc_defeated"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "escape_house"
+    description: "Escape Death House before it collapses"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "death_house_exit"
+      location: "death_house"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "death_house"
+        changes:
+          explored: true
+          escaped: true
+          shambling_mound_defeated: true
+
+    triggeredEvents:
+      - eventId: "strahd_letter_delivery"
+        delay: "0"
+
+    unlockedQuests:
+      - "arrival_in_the_village"
+
+    npcReactions: []
+
+  onFailure:
+    stateChanges:
+      - type: "location_state"
+        locationId: "death_house"
+        changes:
+          party_died: true
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 350
+
+  items:
+    - itemId: "letter_from_strahd"
+      quantity: 1
+      source: "death_house_exit"
+
+    - itemId: "rose_durst_doll"
+      quantity: 1
+      source: "death_house_nursery"
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "location_unlocked"
+      locationId: "village_of_barovia"
+
+branches: []
+
+journalEntries:
+  initial: "We've taken shelter in an old townhouse on the outskirts of a foggy village. The place seems abandoned, but I can't shake the feeling that we're being watched. We should explore and see if we can find any clues about where we are."
+
+  updates:
+    - trigger: "explore_upper_floors_complete"
+      entry: "We've discovered the tragic fate of the Durst family. This house holds dark secrets - children's spirits, animated suits of armor, and evidence of terrible rituals. There's a secret door that leads to a dungeon beneath the house. We must investigate."
+
+    - trigger: "find_secret_passage_complete"
+      entry: "We've found the hidden passage to the basement dungeon. The air grows colder and more oppressive as we descend. What horrors await us below?"
+
+    - trigger: "defeat_shambling_mound_complete"
+      entry: "We've defeated the monstrous shambling mound in the ritual chamber. The cult that performed dark rites here is long gone, but their legacy remains. We must escape before this cursed house claims us as well."
+
+  completion: "We've escaped Death House alive, though barely. As we emerged into the fog, a letter from someone calling themselves 'Strahd von Zarovich' was waiting for us. He welcomes us to his land of Barovia and invites us to Castle Ravenloft. This is far from over."
+
+  failure: "We fell to the horrors within Death House. Our journey ends here, claimed by the cursed mansion."
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "death_house_collapse_warning"
+      trigger:
+        type: "event_triggered"
+        eventId: "shambling_mound_defeated"
+      effect:
+        type: "notification"
+        message: "The house begins to shake and groan. You must escape immediately!"
+
+dmGuidance:
+  narrativeHooks:
+    - "The children's ghosts (Rose and Thorn) can guide players through the house, building sympathy before revealing they're spirits"
+    - "Describe the house as increasingly oppressive and dangerous as players descend"
+    - "The nursery and library provide clues about the Durst family's tragic fate"
+    - "The shambling mound is fed by the cult - describe bones and remains in the ritual chamber"
+    - "After defeating the mound, the house itself becomes hostile - animated armor, grasping suits of clothes, collapsing stairs"
+
+  roleplayTips:
+    - "Rose and Thorn speak in childlike voices, asking for help finding their parents"
+    - "The ghosts don't realize they're dead at first"
+    - "Mrs. Durst's specter is malevolent - she blames outsiders for her family's fate"
+    - "The house 'speaks' through creaking boards, slamming doors, and moving objects"
+
+  combatEncounters:
+    - encounter: "animated_armor_ambush"
+      location: "death_house_hall_of_armor"
+      cr: 1
+      monsters:
+        - "animated_armor"
+        - "animated_armor"
+      tactics: "Armor attacks when players pass, blocking escape routes"
+
+    - encounter: "shambling_mound_boss"
+      location: "death_house_ritual_chamber"
+      cr: 5
+      monsters:
+        - "shambling_mound"
+      tactics: "Mound emerges from sacrificial pit, uses engulf on wounded targets, fights to death"
+
+    - encounter: "house_escape_hazards"
+      location: "death_house_entire"
+      cr: 2
+      monsters: []
+      tactics: "After mound defeated: collapsing ceiling (DC 12 DEX), grasping rug (DC 10 STR), animated broom swarm (1d4 damage per turn)"
+
+  commonPitfalls:
+    - "Players may try to rest in the house - emphasize growing danger and hostility"
+    - "Low-level parties can be overwhelmed by shambling mound - allow clever solutions (collapse ceiling, use oil and fire, kite it)"
+    - "Players may get attached to Rose and Thorn - reveal they're ghosts gently, allow emotional goodbye"
+    - "Some players avoid the basement entirely - Rose and Thorn can plead for parents' burial"
+
+  alternatives:
+    - "Players can negotiate with spirits - promise to bury the Durst family properly to calm the house"
+    - "Clever players might set fire to the house instead of fighting the mound (risky but viable)"
+    - "Players can escape through windows if they realize the house is a trap early"
+    - "The letter from Strahd can be delivered by a raven instead of waiting at the exit"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 1
+
+  blocksQuests:
+    - "arrival_in_the_village"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 1
+  challengeRating: 4
+  skillChecks:
+    - skill: "investigation"
+      dc: 12
+      description: "Find the secret door to the dungeon"
+    - skill: "perception"
+      dc: 10
+      description: "Notice the ghostly children"
+    - skill: "dexterity"
+      dc: 12
+      description: "Avoid collapsing ceiling during escape"
+
+lore:
+  background: |
+    Death House was once the home of Gustav and Elizabeth Durst, wealthy members of a dark cult that
+    worshiped an entity they called the 'One who Sleeps in the Walls.' The Dursts performed human
+    sacrifices in the basement, feeding victims to a shambling mound. When the cult was destroyed,
+    the Dursts were killed by their own servants. Their children, Rose and Thorn, were locked in
+    the attic and starved to death. The house itself is now a malevolent entity, luring travelers
+    to their doom.
+
+  connectionToMainStory: |
+    Death House serves as the players' introduction to Barovia's gothic horror. It establishes that
+    this is a land where innocents suffer, where families turn on each other, and where evil
+    corrupts even the noblest intentions. The letter from Strahd at the end makes clear that the
+    players are expected - they've been brought to Barovia for Strahd's amusement.
+
+  historicalContext: |
+    The Durst family was prominent in Barovia's history, owning a windmill (Old Bonegrinder) and
+    extensive lands. Their fall from grace mirrors Barovia's own descent into darkness. The cult
+    they served was likely connected to Strahd's own dark powers, though they didn't realize they
+    worshiped a manifestation of Castle Ravenloft itself.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.211-220"
+  official: true
+  estimatedDuration: "1-2 sessions"
+  tags: ["tutorial", "exploration", "horror", "dungeon", "combat"]
+  notes: "This is designed as the campaign's opening dungeon. Scale difficulty appropriately for level 1-2 parties. The shambling mound is CR 5 - consider reducing HP or allowing environmental advantages."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

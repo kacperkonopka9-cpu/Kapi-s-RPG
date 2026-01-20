@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Story Context: 4-10 Major NPCs Batch 2
+  Epic: 4 (Curse of Strahd Content Implementation)
+  Generated: 2025-11-15
+
+  Purpose: Comprehensive context for implementing Van Richten, Ezmerelda, Baron Vargas, and Rictavio NPC profiles
+  NPCs: Rudolph van Richten (legendary vampire hunter), Ezmerelda d'Avenir (fierce protégé),
+        Baron Vargas Vallakovich (tyrannical burgomaster), Rictavio (Van Richten's disguise)
+
+  New Mechanics: Disguise identity system, roaming NPC mechanics, Tarokka ally integration,
+                 political complexity (antagonist/ally paths), multiclass stat blocks
+-->
+
+<story-context>
+  <story-metadata>
+    <epic>4</epic>
+    <story-id>4-10</story-id>
+    <story-key>major-npcs-batch-2</story-key>
+    <story-title>Major NPCs Batch 2</story-title>
+    <status>drafted</status>
+    <priority>high</priority>
+    <story-points>8</story-points>
+    <acceptance-criteria-count>8</acceptance-criteria-count>
+    <npc-count>4</npc-count>
+    <new-mechanics>
+      <mechanic>disguise_identity_system</mechanic>
+      <mechanic>roaming_npc_mechanics</mechanic>
+      <mechanic>tarokka_ally_integration</mechanic>
+      <mechanic>political_complexity_branching</mechanic>
+      <mechanic>multiclass_stat_blocks</mechanic>
+    </new-mechanics>
+  </story-metadata>
+
+  <!-- DOCUMENTATION ARTIFACTS -->
+  <documentation-artifacts>
+
+    <!-- Epic 4 Technical Specification -->
+    <artifact id="tech-spec-epic-4">
+      <path>docs/tech-spec-epic-4.md</path>
+      <type>technical-specification</type>
+      <relevance>primary</relevance>
+      <key-sections>
+        <section>
+          <name>AC-2: NPC Profiles</name>
+          <summary>Defines 52 total NPC profiles for Curse of Strahd campaign. Story 4-10 creates Van Richten, Ezmerelda, Baron Vargas, and Rictavio as part of Major NPC tier.</summary>
+        </section>
+        <section>
+          <name>Story 4-10 Requirements</name>
+          <summary>Batch of 4 NPCs: Van Richten (ranger/fighter multiclass, disguise mechanics), Ezmerelda (roaming NPC with prosthetic leg), Baron Vargas (political figure with antagonist/ally paths), Rictavio (disguise identity linking to Van Richten).</summary>
+        </section>
+        <section>
+          <name>NPC Profile Template Compliance</name>
+          <summary>All profiles must validate against templates/npc/npc-profile-template.yaml v1.0.0 with required fields: abilities, hitPoints, armorClass, proficiencies, personality, dialogue, relationships, aiBehavior, schedule, metadata.</summary>
+        </section>
+      </key-sections>
+    </artifact>
+
+    <!-- NPC Profile Template -->
+    <artifact id="npc-profile-template">
+      <path>templates/npc/npc-profile-template.yaml</path>
+      <type>schema-template</type>
+      <relevance>primary</relevance>
+      <version>1.0.0</version>
+      <key-fields>
+        <field>name: NPC full name</field>
+        <field>npcId: unique_snake_case_identifier</field>
+        <field>race, class, level, experience, background, alignment, npcType</field>
+        <field>abilities: {strength, dexterity, constitution, intelligence, wisdom, charisma}</field>
+        <field>hitPoints: {max, current, temporary, hitDice}</field>
+        <field>armorClass, proficiencies (armor, weapons, savingThrows, skills, tools, languages)</field>
+        <field>spellcasting: {ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared, cantrips} OR null</field>
+        <field>inventory: {equipped, backpack, currency}, weight</field>
+        <field>conditions, exhaustionLevel, deathSaves, attunement</field>
+        <field>features, specialAbilities, legendaryActions, lairActions</field>
+        <field>personality: {traits, ideals, bonds, flaws, mannerisms, voiceDescription, appearanceNotes}</field>
+        <field>dialogue: {greeting, idle, farewell, questGiving, questComplete, combat, keyQuotes}</field>
+        <field>relationships: {allies, enemies, family, faction}</field>
+        <field>aiBehavior: {combatTactics, goals, motivations, fears, knowledgeSecrets, attitudeTowardPlayer, trustLevel, questInvolvement, specialBehaviors}</field>
+        <field>schedule: [{time, location, activity}]</field>
+        <field>currentLocation, status, canMove, tetheredToLocation</field>
+        <field>metadata: {created, source, pageReference, official, notes, dmReminders, developmentStage}</field>
+        <field>templateVersion, compatibleWith</field>
+      </key-fields>
+    </artifact>
+
+    <!-- Previous NPC Story: Strahd -->
+    <artifact id="story-4-7-strahd">
+      <path>docs/stories/4-7-strahd-npc-profile.md</path>
+      <type>story-documentation</type>
+      <relevance>reference</relevance>
+      <status>done</status>
+      <key-learnings>
+        <learning>First NPC profile established template pattern (650+ lines for legendary creature with 20+ abilities).</learning>
+        <learning>AI behavior notes structured as: combatTactics, goals, motivations, fears, knowledgeSecrets, attitudeTowardPlayer, trustLevel, questInvolvement, specialBehaviors.</learning>
+        <learning>Integration tests validate CharacterManager compatibility, spellcasting modules, legendary actions (63 tests, 100% pass rate).</learning>
+        <learning>Schema compliance critical: templateVersion 1.0.0, all required fields, valid YAML syntax.</learning>
+      </key-learnings>
+    </artifact>
+
+    <!-- Previous NPC Story: Ireena -->
+    <artifact id="story-4-8-ireena">
+      <path>docs/stories/4-8-ireena-npc-profile.md</path>
+      <type>story-documentation</type>
+      <relevance>reference</relevance>
+      <status>done</status>
+      <key-learnings>
+        <learning>Non-combatant NPC pattern: Include combat stats but mark combatTactics as defensive/flee (410 lines, 79 dialogue lines).</learning>
+        <learning>Dynamic state tracking via dynamicState object: bitten_by_strahd_count, current_location, mood, relationship_with_player, trust_level, quest flags.</learning>
+        <learning>Dialogue categories: greeting, idle, farewell, questGiving, questComplete, combat, contextual (strahd, travel, romance), keyQuotes.</learning>
+        <learning>78 integration tests organized by AC, all passing - excellent test coverage model.</learning>
+      </key-learnings>
+    </artifact>
+
+    <!-- Previous NPC Story: Major NPCs Batch 1 -->
+    <artifact id="story-4-9-batch-1">
+      <path>docs/stories/4-9-major-npcs-batch-1.md</path>
+      <type>story-documentation</type>
+      <relevance>primary</relevance>
+      <status>done</status>
+      <key-learnings>
+        <learning>Batch story structure: 4 NPCs in single story (Ismark, Father Lucian, Madam Eva, Dmitri) with 1,566 total YAML lines, 58 tests.</learning>
+        <learning>File size distribution: 327-478 lines per NPC (Madam Eva largest due to Tarokka script and divination spells).</learning>
+        <learning>Spellcaster NPCs: Use spellcasting object with ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared, cantrips (Father Lucian cleric, Madam Eva diviner).</learning>
+        <learning>Quest involvement structure: questId, role (quest_giver/quest_target/helper/obstacle), notes - validates structure even when quests don't exist yet.</learning>
+        <learning>Combined integration test file for all 4 NPCs vs individual files (efficient batch testing approach).</learning>
+      </key-learnings>
+    </artifact>
+
+    <!-- Vallaki Location Documentation -->
+    <artifact id="vallaki-location">
+      <path>game-data/locations/vallaki/</path>
+      <type>location-documentation</type>
+      <relevance>supporting</relevance>
+      <sub-locations>
+        <location>burgomaster-mansion (Baron Vargas residence)</location>
+        <location>blue-water-inn (Rictavio guest location)</location>
+        <location>church-of-st-andral (Father Lucian from Story 4-9)</location>
+        <location>town-square (Festival of the Blazing Sun event)</location>
+      </sub-locations>
+      <npcs>
+        <npc>Baron Vargas Vallakovich (Story 4-10, this story)</npc>
+        <npc>Rictavio (Story 4-10, this story, disguise of Van Richten)</npc>
+        <npc>Father Lucian Petrovich (Story 4-9, created)</npc>
+      </npcs>
+    </artifact>
+
+    <!-- Van Richten's Tower Location -->
+    <artifact id="van-richtens-tower">
+      <path>game-data/locations/van-richtens-tower/</path>
+      <type>location-documentation</type>
+      <relevance>supporting</relevance>
+      <summary>Van Richten's secret base. NPCs.md will reference rudolph_van_richten.yaml profile. Contains vampire hunting equipment, traps, and tower secrets quest hooks.</summary>
+    </artifact>
+
+  </documentation-artifacts>
+
+  <!-- CODE ARTIFACTS -->
+  <code-artifacts>
+
+    <!-- Previous NPC Profile: Strahd -->
+    <artifact id="strahd-profile">
+      <path>game-data/npcs/strahd_von_zarovich.yaml</path>
+      <type>npc-profile-yaml</type>
+      <relevance>reference</relevance>
+      <file-size>650+ lines</file-size>
+      <key-patterns>
+        <pattern>Legendary creature mechanics: legendaryActions, lairActions, legendaryResistance</pattern>
+        <pattern>High-level spellcaster: 9th-level wizard, spell slots 4/3/3/3/2/1/1/1/1, 18 prepared spells</pattern>
+        <pattern>Complex AI behavior: 5-phase tactical combat system (Observation, Testing, Psychological Warfare, Engagement, Retreat)</pattern>
+        <pattern>Relationship network: Ireena (enemy/stalker), Sergei (murdered brother), player (nemesis)</pattern>
+      </key-patterns>
+      <line-ranges>
+        <range>1-50: Basic information, ability scores, hit points, armor class, proficiencies</range>
+        <range>56-94: Spellcasting (9th-level wizard)</range>
+        <range>145-234: Vampire abilities (Charm, Shapeshifting, Misty Escape, Regeneration, etc.)</range>
+        <range>324-352: Legendary actions and lair actions</range>
+        <range>397-565: AI behavior notes (5-phase system, decision tree)</range>
+      </line-ranges>
+    </artifact>
+
+    <!-- Previous NPC Profile: Ireena -->
+    <artifact id="ireena-profile">
+      <path>game-data/npcs/ireena_kolyana.yaml</path>
+      <type>npc-profile-yaml</type>
+      <relevance>reference</relevance>
+      <file-size>410 lines</file-size>
+      <key-patterns>
+        <pattern>Non-combatant noble: AC 12, HP 9, no spellcasting, combat tactics = Dodge/flee</pattern>
+        <pattern>Extensive dialogue (79 lines): greeting, quest, strahd, travel, romance, keyQuotes</pattern>
+        <pattern>Dynamic state tracking: bitten_by_strahd_count, current_location, mood, relationship_with_player, trust_level, quest flags</pattern>
+        <pattern>Quest involvement: 5 quests (bury_burgomaster, escort_to_vallaki, st_andrals_feast, journey_to_krezk, pool_of_reflection)</pattern>
+      </key-patterns>
+      <line-ranges>
+        <range>1-47: Basic info, abilities, HP, AC, proficiencies</range>
+        <range>124-206: Personality and dialogue (79 lines across 8 categories)</range>
+        <range>207-240: Relationship network (7 relationships)</range>
+        <range>242-307: AI behavior notes (Tatyana lore, special behaviors)</range>
+        <range>369-387: Dynamic state tracking variables</range>
+      </line-ranges>
+    </artifact>
+
+    <!-- Previous NPC Profile: Ismark (Batch 1) -->
+    <artifact id="ismark-profile">
+      <path>game-data/npcs/ismark_kolyanovich.yaml</path>
+      <type>npc-profile-yaml</type>
+      <relevance>reference</relevance>
+      <file-size>372 lines</file-size>
+      <key-patterns>
+        <pattern>Fighter stats: Level 3, AC 14 (leather+shield), HP 16, STR 14 DEX 12 CON 13</pattern>
+        <pattern>Combat capable: Features include Second Wind, Action Surge, proficiency in martial weapons</pattern>
+        <pattern>Protective brother personality: 24 dialogue lines focused on Ireena's safety, burden of responsibility</pattern>
+        <pattern>Quest roles: bury_the_burgomaster (quest_giver), escort_ireena_to_vallaki (quest_giver + companion)</pattern>
+      </key-patterns>
+    </artifact>
+
+    <!-- Previous NPC Profile: Madam Eva (Batch 1) -->
+    <artifact id="madam-eva-profile">
+      <path>game-data/npcs/madam_eva.yaml</path>
+      <type>npc-profile-yaml</type>
+      <relevance>reference</relevance>
+      <file-size>478 lines</file-size>
+      <key-patterns>
+        <pattern>High-level diviner: Level 9, WIS 18, spell save DC 16, divination-focused spell list</pattern>
+        <pattern>Tarokka reading script: Extensive dialogue for Tarokka reading system (Story 4-16 integration)</pattern>
+        <pattern>Special ability: Curse (once per day, DC 16 WIS save)</pattern>
+        <pattern>Cryptic oracle personality: 29 dialogue lines with riddles and prophecy, attitudeTowardPlayer = mysterious helper</pattern>
+      </key-patterns>
+    </artifact>
+
+    <!-- StateManager Integration -->
+    <artifact id="state-manager">
+      <path>src/core/state-manager.js</path>
+      <type>core-module</type>
+      <relevance>integration</relevance>
+      <key-apis>
+        <api>loadState(locationId): Loads State.md YAML frontmatter for location state tracking</api>
+        <api>saveState(locationId, stateData): Atomically writes state updates to State.md</api>
+        <api>updateNpcState(locationId, npcId, npcStateData): Updates npc_states object in location State.md</api>
+      </key-apis>
+      <integration-notes>
+        <note>All NPCs should define stateUpdates field in aiBehavior for Epic 1 StateManager integration.</note>
+        <note>NPC location changes update current_location in State.md custom_state.</note>
+      </integration-notes>
+    </artifact>
+
+    <!-- CharacterManager Integration -->
+    <artifact id="character-manager">
+      <path>src/mechanics/character-manager.js</path>
+      <type>mechanics-module</type>
+      <relevance>integration</relevance>
+      <key-apis>
+        <api>loadCharacter(characterId): Loads character/NPC YAML file, validates D&D 5e schema</api>
+        <api>calculateDerivedStats(character): Calculates ability modifiers, proficiency bonus, spell save DC</api>
+        <api>validateCharacter(character): Validates character data against D&D 5e rules</api>
+      </key-apis>
+      <integration-notes>
+        <note>All NPC profiles must parse successfully with CharacterManager (Epic 3 Story 3-2 compatibility).</note>
+        <note>Multiclass NPCs (Van Richten ranger/fighter): Use single class field, document multiclass in background/notes.</note>
+        <note>Proficiency bonus auto-calculated from level: Level 9 = +4, Level 8 = +3, Level 4 = +2.</note>
+      </integration-notes>
+    </artifact>
+
+  </code-artifacts>
+
+  <!-- DEPENDENCIES -->
+  <dependencies>
+    <dependency>
+      <name>js-yaml</name>
+      <version>^4.1.0</version>
+      <usage>YAML parsing for all NPC profiles, validation, and integration tests</usage>
+    </dependency>
+    <dependency>
+      <name>jest</name>
+      <version>^29.7.0</version>
+      <usage>Testing framework for 40-50 integration tests validating all 4 NPC profiles</usage>
+    </dependency>
+    <dependency>
+      <name>date-fns</name>
+      <version>^2.30.0</version>
+      <usage>Date/time handling for NPC schedules (Epic 2 EventScheduler integration)</usage>
+    </dependency>
+  </dependencies>
+
+  <!-- INTERFACES -->
+  <interfaces>
+
+    <!-- NPC Profile Template Schema v1.0.0 -->
+    <interface id="npc-profile-schema">
+      <name>NPC Profile Template v1.0.0</name>
+      <source>templates/npc/npc-profile-template.yaml</source>
+      <description>Schema for all NPC YAML profiles in Epic 4. Defines required and optional fields for D&D 5e character data, personality, dialogue, AI behavior, and metadata.</description>
+      <required-fields>
+        <field>name (string): NPC full name</field>
+        <field>npcId (string): Snake_case unique identifier matching filename</field>
+        <field>abilities (object): Six D&D 5e ability scores {strength, dexterity, constitution, intelligence, wisdom, charisma}</field>
+        <field>hitPoints (object): {max, current, temporary, hitDice: {total, spent, die}}</field>
+        <field>armorClass (number): Total AC including armor, shield, DEX, magical bonuses</field>
+        <field>proficiencies (object): {armor, weapons, savingThrows, skills, tools, languages}</field>
+        <field>proficiencyBonus (number): Auto-calculated from level (level 1-4 = +2, 5-8 = +3, 9-12 = +4, etc.)</field>
+        <field>personality (object): {traits, ideals, bonds, flaws, mannerisms, voiceDescription, appearanceNotes}</field>
+        <field>dialogue (object): {greeting, idle, farewell, questGiving, questComplete, combat, keyQuotes} - arrays of strings</field>
+        <field>relationships (object): {allies, enemies, family, faction}</field>
+        <field>aiBehavior (object): {combatTactics, goals, motivations, fears, knowledgeSecrets, attitudeTowardPlayer, trustLevel, questInvolvement, specialBehaviors}</field>
+        <field>schedule (array): [{time (HH:MM), location (location_id), activity (description)}]</field>
+        <field>currentLocation (string): Location ID where NPC starts</field>
+        <field>status (string): alive|dead|unconscious|missing|undead</field>
+        <field>canMove (boolean): Can NPC move between locations?</field>
+        <field>tetheredToLocation (string|null): If not null, NPC never leaves this location</field>
+        <field>metadata (object): {created, source, pageReference, official, notes, dmReminders, developmentStage}</field>
+        <field>templateVersion (string): "1.0.0"</field>
+        <field>compatibleWith (string): "Epic 3 CharacterManager (Story 3-2)"</field>
+      </required-fields>
+      <optional-fields>
+        <field>spellcasting (object|null): For spellcasters only - {ability, spellSaveDC, spellAttackBonus, spellSlots, spellsPrepared, cantrips, concentration}</field>
+        <field>features (array): Class features with uses/recharge mechanics</field>
+        <field>specialAbilities (array): Racial/monster abilities</field>
+        <field>legendaryActions (object|null): For legendary creatures - {actionsPerRound, actions: [{name, cost, description}]}</field>
+        <field>lairActions (object|null): For creatures with lairs - {initiative, actions: [{name, description}]}</field>
+      </optional-fields>
+    </interface>
+
+    <!-- StateManager API -->
+    <interface id="state-manager-api">
+      <name>StateManager API (Epic 1)</name>
+      <source>src/core/state-manager.js</source>
+      <description>Manages location State.md files with YAML frontmatter for persistent state tracking across sessions.</description>
+      <methods>
+        <method>
+          <signature>async loadState(locationId): Promise&lt;ResultObject&gt;</signature>
+          <returns>{success: boolean, data: {visited, discovered_items, completed_events, npc_states, custom_state, last_updated}, error: string|null}</returns>
+        </method>
+        <method>
+          <signature>async saveState(locationId, stateData): Promise&lt;ResultObject&gt;</signature>
+          <returns>{success: boolean, data: null, error: string|null}</returns>
+        </method>
+        <method>
+          <signature>async updateNpcState(locationId, npcId, npcStateData): Promise&lt;ResultObject&gt;</signature>
+          <description>Updates npc_states[npcId] in location State.md. Used for tracking NPC-specific state (e.g., Baron Vargas mood, Ezmerelda current_location for roaming).</description>
+        </method>
+      </methods>
+    </interface>
+
+    <!-- EventScheduler API -->
+    <interface id="event-scheduler-api">
+      <name>EventScheduler API (Epic 2)</name>
+      <source>src/calendar/event-scheduler.js</source>
+      <description>Triggers timed events based on calendar progression, quest milestones, and NPC schedules.</description>
+      <integration-notes>
+        <note>NPCs with scheduledEvents field: Baron Vargas (Festival of the Blazing Sun), Van Richten (tower investigation triggers).</note>
+        <note>Roaming NPCs (Ezmerelda): Track current_location in State.md, EventScheduler updates location based on schedule or random encounters.</note>
+      </integration-notes>
+    </interface>
+
+    <!-- CharacterManager D&D 5e Validation -->
+    <interface id="character-manager-validation">
+      <name>CharacterManager D&D 5e Stat Validation</name>
+      <source>src/mechanics/character-manager.js</source>
+      <description>Validates NPC stat blocks against D&D 5e rules: ability score ranges (1-30), proficiency bonus by level, spell slots by level, HP calculation, AC calculation.</description>
+      <validation-rules>
+        <rule>Ability scores: 1-30 (3-18 standard range, 19-30 for legendary creatures)</rule>
+        <rule>Proficiency bonus by level: 1-4 = +2, 5-8 = +3, 9-12 = +4, 13-16 = +5, 17-20 = +6</rule>
+        <rule>Hit Points: (hitDice.total * average_die_value) + (CON_modifier * hitDice.total)</rule>
+        <rule>Armor Class: Base 10 + DEX_modifier + armor_bonus + shield_bonus + magical_bonuses</rule>
+        <rule>Spell slots by level: Must match D&D 5e Spellcasting table for caster class/level</rule>
+        <rule>Saving throw proficiencies: Each class has 2 proficient saves (e.g., Fighter = STR/CON, Wizard = INT/WIS)</rule>
+      </validation-rules>
+    </interface>
+
+  </interfaces>
+
+  <!-- CONSTRAINTS -->
+  <constraints>
+
+    <!-- File Size Limits -->
+    <constraint id="file-size-limit">
+      <type>file-size</type>
+      <limit>500 lines per NPC profile</limit>
+      <rationale>Readability and maintainability - Van Richten will be largest (~450-500 lines due to multiclass and vampire hunter lore), others 300-400 lines.</rationale>
+      <enforcement>Validate with `wc -l` during testing, document if exceeds limit with justification.</enforcement>
+    </constraint>
+
+    <!-- Dialogue Count Requirements -->
+    <constraint id="dialogue-count">
+      <type>dialogue-completeness</type>
+      <requirement>20-40 dialogue lines per NPC</requirement>
+      <breakdown>
+        <npc>Van Richten: 25-35 lines (tactical, weary, legendary hunter tone)</npc>
+        <npc>Ezmerelda: 20-30 lines (bold, confident, combat-eager tone)</npc>
+        <npc>Baron Vargas: 30-40 lines (verbose, "All will be well!" catchphrase, tyrannical demands)</npc>
+        <npc>Rictavio: 20-30 lines (completely different from Van Richten - jovial, theatrical, carnival ringmaster)</npc>
+      </breakdown>
+      <categories>greeting, idle, farewell, questGiving, questComplete, combat (if applicable), keyQuotes, contextual (location/quest-specific)</categories>
+    </constraint>
+
+    <!-- Schema Compliance -->
+    <constraint id="schema-compliance">
+      <type>data-schema</type>
+      <requirement>All 4 profiles must validate against templates/npc/npc-profile-template.yaml v1.0.0</requirement>
+      <validation>
+        <step>1. Parse YAML with js-yaml (no syntax errors)</step>
+        <step>2. Verify all required fields present (name, npcId, abilities, hitPoints, armorClass, etc.)</step>
+        <step>3. Verify templateVersion: "1.0.0" and compatibleWith: "Epic 3 CharacterManager"</step>
+        <step>4. Validate data types (strings, numbers, booleans, arrays, objects match template)</step>
+      </validation>
+    </constraint>
+
+    <!-- Epic 1-3 Integration -->
+    <constraint id="epic-integration">
+      <type>system-integration</type>
+      <epic-1>StateManager: All NPCs include stateUpdates field in aiBehavior for location State.md updates</epic-1>
+      <epic-2>EventScheduler: Baron Vargas and Van Richten include scheduledEvents for timed quest triggers (Festival, tower secrets)</epic-2>
+      <epic-3>CharacterManager: All NPCs parse successfully with D&D 5e stat validation (AC, HP, proficiency bonus, spell slots correct)</epic-3>
+      <testing>40-50 integration tests must verify compatibility with Epic 1-3 systems (AC-8 validation)</testing>
+    </constraint>
+
+    <!-- Naming Conventions -->
+    <constraint id="naming-conventions">
+      <type>naming-standards</type>
+      <npc-id>Snake_case, lowercase: rudolph_van_richten, ezmerelda_davenir, baron_vargas_vallakovich, rictavio</npc-id>
+      <file-name>Match npcId: rudolph_van_richten.yaml, ezmerelda_davenir.yaml, baron_vargas_vallakovich.yaml, rictavio.yaml</file-name>
+      <location-id>Existing Epic 1 conventions: van_richtens_tower, vallaki, blue_water_inn</location-id>
+      <quest-id>Kebab-case: hunt-strahd, tower-secrets, festival-of-the-blazing-sun, vallaki-revolution</quest-id>
+    </constraint>
+
+    <!-- Test Coverage Requirements -->
+    <constraint id="test-coverage">
+      <type>testing-requirements</type>
+      <total-tests>40-50 integration tests</total-tests>
+      <per-ac-breakdown>
+        <ac-1>Van Richten: 9 tests (multiclass stats, equipment, abilities, dialogue, quests)</ac-1>
+        <ac-2>Ezmerelda: 8 tests (fighter/ranger stats, roaming mechanics, prosthetic leg, Tarokka ally)</ac-2>
+        <ac-3>Baron Vargas: 6 tests (noble stats, dialogue catchphrase, political complexity)</ac-3>
+        <ac-4>Rictavio: 6 tests (stat block matches Van Richten, disguise identity, dialogue tone difference)</ac-4>
+        <ac-5>Schema Compliance: 8 tests (all 4 NPCs validate against template)</ac-5>
+        <ac-6>Quest Integration: 6 tests (quest IDs, roles, structure)</ac-6>
+        <ac-7>Dialogue Completeness: 6 tests (line counts, contextual variety, Rictavio vs Van Richten tone)</ac-7>
+        <ac-8>Epic Integration: 7 tests (StateManager, EventScheduler, CharacterManager compatibility)</ac-8>
+      </per-ac-breakdown>
+      <pass-rate-target>100% (Story 4-9 achieved 58/58 passing - match this quality)</pass-rate-target>
+    </constraint>
+
+    <!-- Multiclass Mechanics -->
+    <constraint id="multiclass-mechanics">
+      <type>character-rules</type>
+      <van-richten-multiclass>
+        <breakdown>Ranger 5 / Fighter 4 (total level 9)</breakdown>
+        <proficiency-bonus>+4 (level 9)</proficiency-bonus>
+        <hit-dice>9d10 or 9d8 (use average: 5d10 + 4d8 = 55 + 32 + CON modifier)</hit-dice>
+        <features>Favored Enemy (undead), Natural Explorer, Fighting Style: Archery, Action Surge, Second Wind</features>
+        <note>Document multiclass in background/dmGuidance - class field uses primary class "Ranger"</note>
+      </van-richten-multiclass>
+    </constraint>
+
+    <!-- Disguise Identity Mechanics -->
+    <constraint id="disguise-identity">
+      <type>special-mechanics</type>
+      <rictavio-van-richten-link>
+        <rictavio-metadata>true_identity: "rudolph_van_richten", disguise_item: "hat_of_disguise"</rictavio-metadata>
+        <stat-block>Rictavio stats identical to Van Richten (copy AC, HP, abilities) BUT add Performance +6, Deception +4</stat-block>
+        <dialogue>Completely different personality: Rictavio jovial/theatrical vs Van Richten tactical/weary</dialogue>
+        <quest-hook>rictavio_true_identity quest triggers when disguise revealed (Hat removed, wagon sabertooth discovered)</quest-hook>
+        <dm-guidance>Include revelation triggers: Hat of Disguise detection DC 15 Perception, Ezmerelda recognition, carnival wagon investigation</dm-guidance>
+      </rictavio-van-richten-link>
+    </constraint>
+
+    <!-- Roaming NPC Mechanics -->
+    <constraint id="roaming-npc">
+      <type>special-mechanics</type>
+      <ezmerelda-roaming>
+        <metadata>canMove: true, tetheredToLocation: null</metadata>
+        <state-tracking>StateManager tracks current_location in State.md custom_state (not fixed location)</state-tracking>
+        <schedule>Optional schedule entries for suggested roaming pattern, but not strict tethering</schedule>
+        <ai-behavior>AI notes include "seeks Van Richten actively, roams Barovia, protects innocents from undead"</ai-behavior>
+        <dm-guidance>Include suggested roaming locations: Van Richten's Tower, Vallaki, road encounters, Castle Ravenloft (scouting)</dm-guidance>
+      </ezmerelda-roaming>
+    </constraint>
+
+    <!-- Political Complexity -->
+    <constraint id="political-complexity">
+      <type>narrative-branching</type>
+      <baron-vargas-paths>
+        <antagonist-path>Players oppose tyrannical happiness enforcement → vallaki_revolution quest → Baron overthrown</antagonist-path>
+        <ally-path>Players work with Baron for stability → political_alliance quest → Baron helps against Strahd</ally-path>
+        <ai-behavior>AI notes must cover both paths with different combatTactics, goals, attitudeTowardPlayer</ai-behavior>
+        <quest-involvement>Include both vallaki_revolution AND political_alliance in questInvolvement with notes on branching outcomes</quest-involvement>
+      </baron-vargas-paths>
+    </constraint>
+
+    <!-- Tarokka Ally Integration -->
+    <constraint id="tarokka-ally">
+      <type>quest-system-integration</type>
+      <van-richten>Add metadata: tarokka_ally_option: true (prepares for Story 4-16 Tarokka Reading System)</van-richten>
+      <ezmerelda>Add metadata: tarokka_ally_option: true (both Van Richten and Ezmerelda can be drawn as allies)</ezmerelda>
+      <dm-guidance>Include ally-specific benefits when drawn from Tarokka deck (Van Richten: vampire hunter expertise, Ezmerelda: combat prowess)</dm-guidance>
+    </constraint>
+
+  </constraints>
+
+  <!-- TESTING STANDARDS -->
+  <testing-standards>
+
+    <!-- Testing Framework -->
+    <framework>
+      <name>Jest</name>
+      <version>29.7.0</version>
+      <file-location>tests/integration/npcs/major-npcs-batch-2.test.js</file-location>
+      <pattern>Batch integration testing - single test file for all 4 NPCs (follows Story 4-9 pattern)</pattern>
+    </framework>
+
+    <!-- Test Organization -->
+    <organization>
+      <structure>AC-based describe blocks (one per acceptance criteria)</structure>
+      <example>
+describe('Major NPCs Batch 2 - Integration Tests', () => {
+  describe('AC-1: Van Richten - Legendary Vampire Hunter', () => {
+    test('Van Richten multiclass stats (ranger 5/fighter 4)', () => {...});
+    test('Van Richten equipment includes vampire hunting kit', () => {...});
+    test('Van Richten special abilities (Favored Enemy: undead, Colossus Slayer)', () => {...});
+    // ... 9 total tests for AC-1
+  });
+
+  describe('AC-2: Ezmerelda - Fierce Vampire Hunter', () => {
+    test('Ezmerelda roaming NPC mechanics (canMove: true)', () => {...});
+    test('Ezmerelda prosthetic leg equipment', () => {...});
+    test('Ezmerelda Tarokka ally option flag', () => {...});
+    // ... 8 total tests for AC-2
+  });
+
+  // ... AC-3 through AC-8
+});
+      </example>
+    </organization>
+
+    <!-- Test Ideas by AC -->
+    <test-ideas>
+
+      <!-- AC-1: Van Richten -->
+      <ac id="AC-1">
+        <test id="AC-1.1">Van Richten has correct npcId and name ("rudolph_van_richten", "Rudolph van Richten")</test>
+        <test id="AC-1.2">Van Richten is level 9 with multiclass ranger/fighter stats (STR 14, DEX 18, CON 14, INT 16, WIS 16, CHA 10)</test>
+        <test id="AC-1.3">Van Richten stat block: AC 17 (studded leather + Dex), HP 84, proficiency bonus +4</test>
+        <test id="AC-1.4">Van Richten saving throws: +6 Dex, +5 Wis, proficiency in Dex/Str/Con</test>
+        <test id="AC-1.5">Van Richten skills: Insight +8, Investigation +7, Medicine +8, Perception +8, Survival +8</test>
+        <test id="AC-1.6">Van Richten equipment includes: crossbow, silvered bolts, holy water, vampire hunting kit, Hat of Disguise</test>
+        <test id="AC-1.7">Van Richten special abilities: Favored Enemy (undead), Colossus Slayer, Action Surge, Second Wind</test>
+        <test id="AC-1.8">Van Richten dialogue completeness: 25-35 lines with tactical/weary/legendary hunter tone</test>
+        <test id="AC-1.9">Van Richten quest involvement: hunt_strahd, tower_secrets, ezmerelda_reunion, rictavio_reveal</test>
+      </ac>
+
+      <!-- AC-2: Ezmerelda -->
+      <ac id="AC-2">
+        <test id="AC-2.1">Ezmerelda has correct npcId and name ("ezmerelda_davenir", "Ezmerelda d'Avenir")</test>
+        <test id="AC-2.2">Ezmerelda is level 8 fighter/ranger with stats (STR 14, DEX 18, CON 16, INT 12, WIS 13, CHA 14)</test>
+        <test id="AC-2.3">Ezmerelda stat block: AC 17 (studded leather + shield), HP 68, proficiency bonus +3</test>
+        <test id="AC-2.4">Ezmerelda saving throws: +7 Dex, +6 Con, proficiency in Str/Con</test>
+        <test id="AC-2.5">Ezmerelda equipment includes: rapier +1, hand crossbow, silvered ammunition, prosthetic leg (custom item with stats)</test>
+        <test id="AC-2.6">Ezmerelda roaming NPC mechanics: canMove: true, tetheredToLocation: null</test>
+        <test id="AC-2.7">Ezmerelda dialogue completeness: 20-30 lines with bold/confident/combat-eager tone</test>
+        <test id="AC-2.8">Ezmerelda Tarokka ally option: tarokka_ally_option: true in metadata</test>
+      </ac>
+
+      <!-- AC-3: Baron Vargas -->
+      <ac id="AC-3">
+        <test id="AC-3.1">Baron Vargas has correct npcId and name ("baron_vargas_vallakovich", "Baron Vargas Vallakovich")</test>
+        <test id="AC-3.2">Baron Vargas is level 4 noble with stats (STR 10, DEX 12, CON 12, INT 13, WIS 11, CHA 16)</test>
+        <test id="AC-3.3">Baron Vargas stat block: AC 12 (fine clothes + Dex), HP 26, proficiency bonus +2</test>
+        <test id="AC-3.4">Baron Vargas skills: Deception +5, Intimidation +5, Persuasion +5, Insight +3</test>
+        <test id="AC-3.5">Baron Vargas dialogue includes "All will be well!" catchphrase (appears multiple times in 30-40 total lines)</test>
+        <test id="AC-3.6">Baron Vargas political complexity: questInvolvement includes both vallaki_revolution (antagonist) AND political_alliance (ally)</test>
+      </ac>
+
+      <!-- AC-4: Rictavio Disguise -->
+      <ac id="AC-4">
+        <test id="AC-4.1">Rictavio has correct npcId and name ("rictavio", "Rictavio")</test>
+        <test id="AC-4.2">Rictavio disguise identity metadata: true_identity: "rudolph_van_richten", disguise_item: "hat_of_disguise"</test>
+        <test id="AC-4.3">Rictavio stat block matches Van Richten: AC 17, HP 84, same ability scores</test>
+        <test id="AC-4.4">Rictavio has Performance +6 skill (Van Richten doesn't have Performance)</test>
+        <test id="AC-4.5">Rictavio dialogue tone completely different from Van Richten: jovial/theatrical vs tactical/weary (20-30 lines)</test>
+        <test id="AC-4.6">Rictavio quest involvement: rictavio_true_identity, carnival_wagon_mystery, links to Van Richten quests post-reveal</test>
+      </ac>
+
+      <!-- AC-5: Schema Compliance -->
+      <ac id="AC-5">
+        <test id="AC-5.1">Van Richten profile validates against template v1.0.0 (all required fields present)</test>
+        <test id="AC-5.2">Ezmerelda profile validates against template v1.0.0 (all required fields present)</test>
+        <test id="AC-5.3">Baron Vargas profile validates against template v1.0.0 (all required fields present)</test>
+        <test id="AC-5.4">Rictavio profile validates against template v1.0.0 (all required fields present)</test>
+        <test id="AC-5.5">All 4 profiles under 500 line limit (Van Richten largest at ~450-500, others 300-400)</test>
+        <test id="AC-5.6">All 4 profiles have correct naming: npcId snake_case, file name matches npcId</test>
+        <test id="AC-5.7">All 4 profiles have D&D 5e stat compliance: proficiency bonus matches level, ability modifiers correct</test>
+        <test id="AC-5.8">All 4 profiles parse successfully with js-yaml (no YAML syntax errors)</test>
+      </ac>
+
+      <!-- AC-6: Quest Integration -->
+      <ac id="AC-6">
+        <test id="AC-6.1">Van Richten questInvolvement includes: hunt_strahd, tower_secrets, ezmerelda_reunion, rictavio_reveal</test>
+        <test id="AC-6.2">Ezmerelda questInvolvement includes: hunt_strahd, find_van_richten, tarokka_ally</test>
+        <test id="AC-6.3">Baron Vargas questInvolvement includes: festival_of_the_blazing_sun, vallaki_revolution, political_alliance, st_andrals_feast</test>
+        <test id="AC-6.4">Rictavio questInvolvement includes: rictavio_true_identity, carnival_wagon_mystery, links to Van Richten quests</test>
+        <test id="AC-6.5">All quest IDs use kebab-case format (Epic 4 quest naming convention)</test>
+        <test id="AC-6.6">All questInvolvement entries have: questId, role, notes fields (structure validation)</test>
+      </ac>
+
+      <!-- AC-7: Dialogue Completeness -->
+      <ac id="AC-7">
+        <test id="AC-7.1">Van Richten dialogue count: 25-35 lines across required categories</test>
+        <test id="AC-7.2">Ezmerelda dialogue count: 20-30 lines across required categories</test>
+        <test id="AC-7.3">Baron Vargas dialogue count: 30-40 lines across required categories</test>
+        <test id="AC-7.4">Rictavio dialogue count: 20-30 lines across required categories</test>
+        <test id="AC-7.5">All NPCs have contextual dialogue variety: greeting, quest, combat (if applicable), relationship, keyQuotes</test>
+        <test id="AC-7.6">Rictavio dialogue tone validation: jovial/theatrical keywords vs Van Richten tactical/weary keywords (ensure they're different)</test>
+      </ac>
+
+      <!-- AC-8: Epic 1-3 Integration -->
+      <ac id="AC-8">
+        <test id="AC-8.1">All 4 NPCs have stateUpdates field in aiBehavior (StateManager Epic 1 integration)</test>
+        <test id="AC-8.2">Baron Vargas and Van Richten have scheduledEvents field (EventScheduler Epic 2 integration)</test>
+        <test id="AC-8.3">All 4 NPCs parse successfully with CharacterManager (Epic 3 compatibility)</test>
+        <test id="AC-8.4">Van Richten multiclass stats validate with CharacterManager D&D 5e rules</test>
+        <test id="AC-8.5">Ezmerelda prosthetic leg custom item defined in equipment (Epic 3 inventory compatibility)</test>
+        <test id="AC-8.6">Baron Vargas non-combatant AI behavior includes defensive tactics (Epic 3 combat compatibility)</test>
+        <test id="AC-8.7">Rictavio disguise mechanics compatible with StateManager state tracking (reveal triggers update State.md)</test>
+      </ac>
+
+    </test-ideas>
+
+    <!-- Assertion Patterns -->
+    <assertion-patterns>
+      <pattern>Use specific value assertions: expect(profile.level).toBe(9) NOT expect(profile.level).toBeDefined()</pattern>
+      <pattern>Validate arrays with .toContain(): expect(skills).toContain('perception')</pattern>
+      <pattern>Use semantic checks: expect(dialogue.greeting.length).toBeGreaterThanOrEqual(3)</pattern>
+      <pattern>Test data types: expect(typeof profile.npcId).toBe('string')</pattern>
+      <pattern>Validate YAML structure: expect(profile.templateVersion).toBe('1.0.0')</pattern>
+    </assertion-patterns>
+
+  </testing-standards>
+
+  <!-- ACCEPTANCE CRITERIA MAPPING -->
+  <acceptance-criteria>
+
+    <ac id="AC-1">
+      <title>Rudolph van Richten - Legendary Vampire Hunter</title>
+      <summary>Complete NPC profile with level 9 ranger/fighter multiclass stats, vampire hunting equipment, tactical dialogue, quest integration for hunt_strahd and tower_secrets.</summary>
+      <key-requirements>
+        <requirement>Level 9 ranger/fighter multiclass: STR 14, DEX 18, CON 14, INT 16, WIS 16, CHA 10</requirement>
+        <requirement>AC 17 (studded leather + Dex), HP 84, proficiency bonus +4</requirement>
+        <requirement>Saving throws: +6 Dex, +5 Wis, proficiency in Dex/Str/Con</requirement>
+        <requirement>Skills: Insight +8, Investigation +7, Medicine +8, Perception +8, Survival +8</requirement>
+        <requirement>Equipment: crossbow with silvered bolts, holy water, vampire hunting kit, Hat of Disguise</requirement>
+        <requirement>Special abilities: Favored Enemy (undead), Colossus Slayer, Action Surge, Second Wind</requirement>
+        <requirement>25-35 dialogue lines: tactical, weary, legendary hunter, disguise reasoning</requirement>
+        <requirement>Quest involvement: hunt_strahd, tower_secrets, ezmerelda_reunion, rictavio_reveal</requirement>
+      </key-requirements>
+      <test-count>9</test-count>
+    </ac>
+
+    <ac id="AC-2">
+      <title>Ezmerelda d'Avenir - Fierce Vampire Hunter</title>
+      <summary>Complete NPC profile with level 8 fighter/ranger stats, prosthetic leg mechanics, roaming NPC system, Tarokka ally integration, bold dialogue.</summary>
+      <key-requirements>
+        <requirement>Level 8 fighter/ranger: STR 14, DEX 18, CON 16, INT 12, WIS 13, CHA 14</requirement>
+        <requirement>AC 17 (studded leather + shield), HP 68, proficiency bonus +3</requirement>
+        <requirement>Saving throws: +7 Dex, +6 Con, proficiency in Str/Con</requirement>
+        <requirement>Skills: Acrobatics +7, Athletics +5, Perception +5, Survival +5, Stealth +7</requirement>
+        <requirement>Equipment: rapier +1, hand crossbow, silvered ammunition, prosthetic leg (custom item with silvered weapon mechanics)</requirement>
+        <requirement>Roaming NPC: canMove: true, tetheredToLocation: null, StateManager tracks current_location</requirement>
+        <requirement>20-30 dialogue lines: bold, confident, combat-eager, loyal to Van Richten</requirement>
+        <requirement>Tarokka ally option: tarokka_ally_option: true in metadata</requirement>
+      </key-requirements>
+      <test-count>8</test-count>
+    </ac>
+
+    <ac id="AC-3">
+      <title>Baron Vargas Vallakovich - Tyrannical Burgomaster</title>
+      <summary>Complete NPC profile with level 4 noble stats, "All will be well!" personality, political complexity (antagonist/ally paths), Vallaki Festival quest integration.</summary>
+      <key-requirements>
+        <requirement>Level 4 noble: STR 10, DEX 12, CON 12, INT 13, WIS 11, CHA 16</requirement>
+        <requirement>AC 12 (fine clothes + Dex), HP 26, proficiency bonus +2, non-combatant</requirement>
+        <requirement>Skills: Deception +5, Intimidation +5, Persuasion +5, Insight +3</requirement>
+        <requirement>Equipment: ceremonial scepter, fine clothing, Baron's seal, town guard authority</requirement>
+        <requirement>30-40 dialogue lines: forced optimism, "All will be well!" catchphrase, tyrannical demands, paranoia</requirement>
+        <requirement>Political complexity: questInvolvement includes both vallaki_revolution (antagonist) and political_alliance (ally)</requirement>
+        <requirement>NPC relationships: Lydia (spouse), Victor (son), Izek (enforcer), Father Lucian (tension)</requirement>
+      </key-requirements>
+      <test-count>6</test-count>
+    </ac>
+
+    <ac id="AC-4">
+      <title>Rictavio - Van Richten's Carnival Disguise</title>
+      <summary>Complete NPC profile as Van Richten's disguise identity with identical stat block but completely different dialogue/personality, Hat of Disguise mechanics, revelation quest hooks.</summary>
+      <key-requirements>
+        <requirement>Disguise identity metadata: true_identity: "rudolph_van_richten", disguise_item: "hat_of_disguise"</requirement>
+        <requirement>Stat block matches Van Richten: AC 17, HP 84, same ability scores</requirement>
+        <requirement>Skills: Add Performance +6 (Van Richten doesn't have), Deception +4 for maintaining cover</requirement>
+        <requirement>20-30 dialogue lines: jovial, theatrical, storyteller, carnival tales - COMPLETELY DIFFERENT tone from Van Richten</requirement>
+        <requirement>Quest involvement: rictavio_true_identity, carnival_wagon_mystery, links to Van Richten quests post-reveal</requirement>
+        <requirement>Revelation triggers: Hat of Disguise removed/dispelled, carnival wagon investigated (sabertooth tiger), Ezmerelda recognition</requirement>
+        <requirement>Location: Blue Water Inn (Vallaki) - stays as guest, wagon parked outside</requirement>
+      </key-requirements>
+      <test-count>6</test-count>
+    </ac>
+
+    <ac id="AC-5">
+      <title>Schema Compliance - All 4 NPCs</title>
+      <summary>All profiles validate against NPC Profile Template v1.0.0 with required fields, D&D 5e compliance, file size limits, naming conventions.</summary>
+      <key-requirements>
+        <requirement>All profiles include templateVersion: "1.0.0" and compatibleWith: "Epic 3 CharacterManager"</requirement>
+        <requirement>All required fields present: npcId, name, abilities, hitPoints, armorClass, proficiencies, personality, dialogue, relationships, aiBehavior, schedule, metadata</requirement>
+        <requirement>File sizes under 500 lines per NPC (Van Richten ~450-500, others 300-400)</requirement>
+        <requirement>Naming conventions: npcId snake_case, file name matches npcId, location/quest IDs follow Epic standards</requirement>
+        <requirement>D&D 5e stat compliance: proficiency bonus matches level, ability modifiers correct, AC/HP calculations valid</requirement>
+        <requirement>YAML parsing: All profiles parse successfully with js-yaml (no syntax errors)</requirement>
+      </key-requirements>
+      <test-count>8</test-count>
+    </ac>
+
+    <ac id="AC-6">
+      <title>Quest Integration - All 4 NPCs</title>
+      <summary>All NPCs have questInvolvement sections with valid quest IDs, roles, and notes aligned with Epic 4 quest naming conventions.</summary>
+      <key-requirements>
+        <requirement>Van Richten: hunt_strahd, tower_secrets, ezmerelda_reunion, rictavio_reveal (4 quests)</requirement>
+        <requirement>Ezmerelda: hunt_strahd, find_van_richten, tarokka_ally (3 quests)</requirement>
+        <requirement>Baron Vargas: festival_of_the_blazing_sun, vallaki_revolution, political_alliance, st_andrals_feast (4 quests)</requirement>
+        <requirement>Rictavio: rictavio_true_identity, carnival_wagon_mystery, links to Van Richten quests post-reveal (3+ quests)</requirement>
+        <requirement>All quest IDs use kebab-case format (Epic 4 quest naming convention)</requirement>
+        <requirement>Quest involvement structure: questId, role (quest_giver/quest_target/helper/obstacle), notes</requirement>
+      </key-requirements>
+      <test-count>6</test-count>
+    </ac>
+
+    <ac id="AC-7">
+      <title>Dialogue Completeness - All 4 NPCs</title>
+      <summary>Each NPC has 20-40 dialogue lines with contextual variety, personality-consistent tone, and special attention to Rictavio vs Van Richten dialogue tone difference.</summary>
+      <key-requirements>
+        <requirement>Van Richten: 25-35 lines (tactical, weary, legendary hunter tone)</requirement>
+        <requirement>Ezmerelda: 20-30 lines (bold, confident, combat-eager tone)</requirement>
+        <requirement>Baron Vargas: 30-40 lines (forced optimism, "All will be well!" catchphrase, tyrannical tone)</requirement>
+        <requirement>Rictavio: 20-30 lines (jovial, theatrical, storyteller tone - DIFFERENT from Van Richten)</requirement>
+        <requirement>Dialogue categories: greeting, idle, farewell, questGiving, questComplete, combat (if applicable), keyQuotes, contextual</requirement>
+        <requirement>Personality-consistent vocabulary and tone throughout all dialogue lines</requirement>
+      </key-requirements>
+      <test-count>6</test-count>
+    </ac>
+
+    <ac id="AC-8">
+      <title>Epic 1-3 Integration Checkpoint</title>
+      <summary>Integration tests verify StateManager compatibility, EventScheduler triggers, CharacterManager D&D 5e validation, location file updates.</summary>
+      <key-requirements>
+        <requirement>Epic 1 StateManager: All NPCs include stateUpdates field in aiBehavior for location State.md updates</requirement>
+        <requirement>Epic 2 EventScheduler: Baron Vargas and Van Richten include scheduledEvents for timed quest triggers</requirement>
+        <requirement>Epic 3 CharacterManager: All NPCs parse successfully with D&D 5e stat validation (multiclass, prosthetic leg, disguise mechanics)</requirement>
+        <requirement>Integration tests: 40-50 total tests covering all 8 ACs with AC-based organization</requirement>
+        <requirement>Location file updates: Van Richten's Tower, Vallaki (Baron Vargas + Rictavio), roaming documentation for Ezmerelda</requirement>
+        <requirement>Test pass rate: 100% (target matching Story 4-9: 58/58 passing)</requirement>
+      </key-requirements>
+      <test-count>7</test-count>
+    </ac>
+
+  </acceptance-criteria>
+
+  <!-- IMPLEMENTATION NOTES -->
+  <implementation-notes>
+
+    <!-- New Mechanics Introduction -->
+    <new-mechanics>
+
+      <mechanic id="disguise-identity-system">
+        <name>Disguise Identity Mechanics (Rictavio ↔ Van Richten)</name>
+        <description>First NPC with dual identity - Rictavio profile links to Van Richten profile via true_identity metadata field.</description>
+        <implementation>
+          <step>1. Create rudolph_van_richten.yaml as primary profile with full vampire hunter stats/lore</step>
+          <step>2. Create rictavio.yaml as disguise profile with true_identity: "rudolph_van_richten" in metadata</step>
+          <step>3. Copy stat block from Van Richten to Rictavio (AC, HP, abilities identical)</step>
+          <step>4. Add Performance +6 and Deception +4 to Rictavio skills (maintain disguise)</step>
+          <step>5. Write completely different dialogue for Rictavio: jovial/theatrical vs Van Richten tactical/weary</step>
+          <step>6. Add revelation quest hooks: rictavio_true_identity quest, Hat of Disguise mechanics, carnival wagon sabertooth</step>
+        </implementation>
+        <dm-guidance>Rictavio appears first (Blue Water Inn), Van Richten remains hidden until disguise revealed. Post-reveal, use Van Richten profile stats but can reference Rictavio dialogue for cover story.</dm-guidance>
+      </mechanic>
+
+      <mechanic id="roaming-npc-mechanics">
+        <name>Roaming NPC System (Ezmerelda)</name>
+        <description>First roaming NPC not tethered to single location - StateManager tracks current_location dynamically.</description>
+        <implementation>
+          <step>1. Set canMove: true and tetheredToLocation: null in Ezmerelda profile</step>
+          <step>2. Add current_location field to metadata (starting location suggestion)</step>
+          <step>3. StateManager custom_state tracks ezmerelda_current_location in State.md</step>
+          <step>4. Optional schedule entries for suggested roaming pattern (not strict)</step>
+          <step>5. AI behavior notes include "seeks Van Richten actively, roams Barovia, random encounters"</step>
+          <step>6. DM guidance includes suggested locations: Van Richten's Tower, Vallaki, road encounters, Castle Ravenloft scouting</step>
+        </implementation>
+        <epic-2-integration>EventScheduler can trigger Ezmerelda location changes based on: calendar time, quest progression (find_van_richten), random encounter rolls.</epic-2-integration>
+      </mechanic>
+
+      <mechanic id="tarokka-ally-integration">
+        <name>Tarokka Ally Option (Van Richten, Ezmerelda)</name>
+        <description>Prepares NPCs for Story 4-16 Tarokka Reading System - flags indicate NPC can be drawn as party ally from Tarokka deck.</description>
+        <implementation>
+          <step>1. Add tarokka_ally_option: true to Van Richten and Ezmerelda metadata</step>
+          <step>2. Add questInvolvement entry: tarokka_ally quest with role: potential_ally</step>
+          <step>3. DM guidance includes ally-specific benefits: Van Richten (vampire hunter expertise, tactical knowledge), Ezmerelda (combat prowess, fearless protector)</step>
+          <step>4. AI behavior notes include "if drawn from Tarokka, joins party actively vs staying neutral"</step>
+        </implementation>
+        <story-4-16-dependency>Story 4-16 Tarokka Reading System will read these flags and integrate allies into party mechanics. Profiles lay groundwork now.</story-4-16-dependency>
+      </mechanic>
+
+      <mechanic id="political-complexity-branching">
+        <name>Political Complexity System (Baron Vargas)</name>
+        <description>First NPC with antagonist/ally branching paths - questInvolvement includes both vallaki_revolution (oppose) and political_alliance (support).</description>
+        <implementation>
+          <step>1. Add both vallaki_revolution and political_alliance to Baron Vargas questInvolvement</step>
+          <step>2. AI behavior notes cover BOTH paths: antagonist (tyranny opposed, defiant attitude), ally (stability prioritized, grateful attitude)</step>
+          <step>3. Combat tactics differ by path: antagonist (calls guards, flees), ally (non-combatant helper, provides resources)</step>
+          <step>4. Dialogue includes lines for both paths: forced optimism (default), desperate plea (if allied), authoritarian demands (if opposed)</step>
+          <step>5. DM guidance explains branching outcomes: vallaki_revolution → Baron overthrown, Fiona Wachter takes power; political_alliance → Baron helps vs Strahd, Festival succeeds</step>
+        </implementation>
+        <state-tracking>StateManager tracks baron_vargas_relationship: antagonist|ally|neutral in Vallaki State.md custom_state.</state-tracking>
+      </mechanic>
+
+      <mechanic id="multiclass-stat-blocks">
+        <name>Multiclass Stat Blocks (Van Richten Ranger 5 / Fighter 4)</name>
+        <description>First multiclass NPC - combines ranger and fighter features with proper D&D 5e multiclass rules.</description>
+        <implementation>
+          <step>1. Set class: "Ranger" (primary class) and level: 9 (total level)</step>
+          <step>2. Document multiclass breakdown in background or dmGuidance: "Ranger 5 / Fighter 4"</step>
+          <step>3. Proficiency bonus: +4 (level 9)</step>
+          <step>4. Hit Dice: 5d10 (ranger) + 4d8 (fighter) = average 55 + 32 + CON modifier</step>
+          <step>5. Features include BOTH classes: Favored Enemy (ranger), Natural Explorer (ranger), Action Surge (fighter), Second Wind (fighter)</step>
+          <step>6. Saving throw proficiencies: STR (fighter), DEX (ranger), CON (fighter) - take union</step>
+          <step>7. Skills: Choose from ranger + fighter lists (Investigation from fighter, Survival from ranger)</step>
+        </implementation>
+        <validation>CharacterManager must validate multiclass stats correctly - proficiency bonus, hit points, features all match D&D 5e multiclass rules.</validation>
+      </mechanic>
+
+    </new-mechanics>
+
+    <!-- File Structure -->
+    <file-structure>
+      <files-to-create>
+        <file>game-data/npcs/rudolph_van_richten.yaml (~450-500 lines, multiclass + vampire hunter lore)</file>
+        <file>game-data/npcs/ezmerelda_davenir.yaml (~350-400 lines, roaming NPC + prosthetic leg)</file>
+        <file>game-data/npcs/baron_vargas_vallakovich.yaml (~350-400 lines, political complexity + verbose dialogue)</file>
+        <file>game-data/npcs/rictavio.yaml (~300-350 lines, disguise identity + theatrical dialogue)</file>
+        <file>tests/integration/npcs/major-npcs-batch-2.test.js (40-50 test cases)</file>
+      </files-to-create>
+      <files-to-modify>
+        <file>game-data/locations/van-richtens-tower/NPCs.md (add Van Richten profile reference)</file>
+        <file>game-data/locations/vallaki/NPCs.md (add Baron Vargas and Rictavio profile references)</file>
+        <file>docs/roaming-npcs.md (create or update with Ezmerelda roaming mechanics documentation)</file>
+      </files-to-modify>
+    </file-structure>
+
+    <!-- Learnings from Story 4-9 Applied -->
+    <story-4-9-learnings>
+      <learning>Batch size optimization: 4 NPCs per story confirmed optimal (Story 4-9: 1,566 YAML lines, 58 tests - manageable scope)</learning>
+      <learning>File size distribution: Story 4-9 ranged 327-478 lines (Madam Eva largest). Story 4-10 target: Van Richten ~450-500 (most lore-heavy), others 300-400.</learning>
+      <learning>Dialogue best practices: Story 4-9 used 20-35 lines per NPC. Story 4-10: Van Richten 30-35, Ezmerelda 25-30, Baron 35-40 (verbose), Rictavio 25-30.</learning>
+      <learning>Spellcasting NPCs: Story 4-9 set pattern with Father Lucian (cleric) and Madam Eva (diviner). Story 4-10 has no primary spellcasters (Van Richten/Ezmerelda are martial).</learning>
+      <learning>Testing strategy: AC-based organization highly effective (Story 4-9: 58 tests, 100% pass rate). Story 4-10 target: 40-50 tests (10-13 per NPC, 8 for schema, 6 for quests, 7 for Epic integration).</learning>
+      <learning>Quest integration: Story 4-9 NPCs averaged 3 quest involvements each. Story 4-10: Van Richten (4 quests), Ezmerelda (3), Baron (4), Rictavio (3 + links to Van Richten).</learning>
+    </story-4-9-learnings>
+
+  </implementation-notes>
+
+</story-context>

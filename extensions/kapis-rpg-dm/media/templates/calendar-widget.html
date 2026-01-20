@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar Widget</title>
+  <style>
+    /* Gothic Horror Theme - Matching Character Sheet and Quest Tracker */
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: #252525;
+      --bg-highlight: #2d2d2d;
+      --text-primary: #d4c4a8;
+      --text-secondary: #a89880;
+      --text-muted: #6b6256;
+      --border-color: #3d3d3d;
+      --accent-gold: #c9a227;
+      --accent-red: #8b0000;
+      --accent-blue: #1e4a6e;
+
+      /* Urgency colors */
+      --urgency-safe: #2d5a2d;
+      --urgency-soon: #6b5a1e;
+      --urgency-urgent: #6b1e1e;
+
+      /* Moon highlight */
+      --full-moon-glow: #ffdf7e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    /* Header Section */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header h1 {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+    }
+
+    .refresh-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .refresh-btn:hover {
+      background: var(--bg-highlight);
+      color: var(--text-primary);
+      border-color: var(--accent-gold);
+    }
+
+    .refresh-btn.loading {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    /* Date/Time Section */
+    .datetime-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .datetime-section:hover {
+      border-color: var(--accent-gold);
+      background: var(--bg-highlight);
+    }
+
+    .date-display {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.4rem;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .time-display {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .day-season-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .season-badge {
+      background: var(--bg-highlight);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+    }
+
+    /* Moon Section */
+    .moon-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .moon-section.full-moon {
+      border-color: var(--full-moon-glow);
+      box-shadow: 0 0 10px rgba(255, 223, 126, 0.3);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .moon-display {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .moon-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .moon-info {
+      flex: 1;
+    }
+
+    .moon-phase-name {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .moon-countdown {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .full-moon-warning {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: var(--accent-red);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #ffcccc;
+      text-align: center;
+    }
+
+    /* Weather Section */
+    .weather-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .weather-display {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .weather-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .weather-info {
+      flex: 1;
+    }
+
+    .weather-condition {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .weather-temp {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .weather-effect {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: var(--bg-highlight);
+      border-left: 3px solid var(--accent-gold);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Events Section */
+    .events-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .events-list {
+      list-style: none;
+    }
+
+    .event-item {
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: var(--bg-highlight);
+      border-radius: 4px;
+      border-left: 3px solid var(--urgency-safe);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .event-item:hover {
+      background: var(--bg-dark);
+    }
+
+    .event-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .event-item.urgency-safe {
+      border-left-color: #4a9e4a;
+    }
+
+    .event-item.urgency-soon {
+      border-left-color: #d4a520;
+    }
+
+    .event-item.urgency-urgent {
+      border-left-color: #cc3333;
+    }
+
+    .event-name {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .event-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .event-days {
+      font-weight: 600;
+    }
+
+    .event-days.urgency-urgent {
+      color: #ff6666;
+    }
+
+    .event-days.urgency-soon {
+      color: #d4a520;
+    }
+
+    .no-events {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Error Section */
+    .error-section {
+      background: var(--accent-red);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .error-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffcccc;
+    }
+
+    .error-message {
+      font-size: 0.9rem;
+      color: #ffaaaa;
+    }
+
+    /* Loading State */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(26, 26, 26, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .loading-overlay.visible {
+      display: flex;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Clickable hint */
+    .clickable-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Last updated */
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div class="header">
+    <h1>Barovia Calendar</h1>
+    <button class="refresh-btn" id="refreshBtn" title="Refresh calendar data">Refresh</button>
+  </div>
+
+  <div id="errorContainer"></div>
+
+  <div class="datetime-section" id="datetimeSection" title="Click to open calendar.yaml">
+    <div class="date-display" id="dateDisplay">Loading...</div>
+    <div class="time-display" id="timeDisplay"></div>
+    <div class="day-season-row">
+      <span id="dayOfWeek"></span>
+      <span class="season-badge" id="seasonBadge"></span>
+    </div>
+    <div class="clickable-hint">Click to edit calendar</div>
+  </div>
+
+  <div class="moon-section" id="moonSection">
+    <div class="section-title">Moon Phase</div>
+    <div class="moon-display">
+      <span class="moon-icon" id="moonIcon"></span>
+      <div class="moon-info">
+        <div class="moon-phase-name" id="moonPhaseName"></div>
+        <div class="moon-countdown" id="moonCountdown"></div>
+      </div>
+    </div>
+    <div class="full-moon-warning" id="fullMoonWarning" style="display: none;">
+      Strahd is at his most powerful during the full moon!
+    </div>
+  </div>
+
+  <div class="weather-section" id="weatherSection">
+    <div class="section-title">Weather</div>
+    <div class="weather-display">
+      <span class="weather-icon" id="weatherIcon"></span>
+      <div class="weather-info">
+        <div class="weather-condition" id="weatherCondition"></div>
+        <div class="weather-temp" id="weatherTemp"></div>
+      </div>
+    </div>
+    <div class="weather-effect" id="weatherEffect" style="display: none;"></div>
+  </div>
+
+  <div class="events-section" id="eventsSection">
+    <div class="section-title">Upcoming Events</div>
+    <ul class="events-list" id="eventsList">
+      <li class="no-events">Loading events...</li>
+    </ul>
+  </div>
+
+  <div class="last-updated" id="lastUpdated"></div>
+
+  <script nonce="{{nonce}}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+
+      // DOM elements
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const errorContainer = document.getElementById('errorContainer');
+      const dateDisplay = document.getElementById('dateDisplay');
+      const timeDisplay = document.getElementById('timeDisplay');
+      const dayOfWeek = document.getElementById('dayOfWeek');
+      const seasonBadge = document.getElementById('seasonBadge');
+      const moonSection = document.getElementById('moonSection');
+      const moonIcon = document.getElementById('moonIcon');
+      const moonPhaseName = document.getElementById('moonPhaseName');
+      const moonCountdown = document.getElementById('moonCountdown');
+      const fullMoonWarning = document.getElementById('fullMoonWarning');
+      const weatherIcon = document.getElementById('weatherIcon');
+      const weatherCondition = document.getElementById('weatherCondition');
+      const weatherTemp = document.getElementById('weatherTemp');
+      const weatherEffect = document.getElementById('weatherEffect');
+      const eventsList = document.getElementById('eventsList');
+      const lastUpdated = document.getElementById('lastUpdated');
+      const datetimeSection = document.getElementById('datetimeSection');
+
+      // Escape HTML to prevent XSS
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Show loading state
+      function showLoading() {
+        loadingOverlay.classList.add('visible');
+        refreshBtn.classList.add('loading');
+        refreshBtn.disabled = true;
+      }
+
+      // Hide loading state
+      function hideLoading() {
+        loadingOverlay.classList.remove('visible');
+        refreshBtn.classList.remove('loading');
+        refreshBtn.disabled = false;
+      }
+
+      // Render errors
+      function renderErrors(errors) {
+        if (!errors || errors.length === 0) {
+          errorContainer.innerHTML = '';
+          return;
+        }
+
+        errorContainer.innerHTML = errors.map(error => `
+          <div class="error-section">
+            <div class="error-title">Error</div>
+            <div class="error-message">${escapeHtml(error.message)}</div>
+          </div>
+        `).join('');
+      }
+
+      // Render calendar state
+      function renderState(state) {
+        hideLoading();
+
+        if (!state) {
+          renderErrors([{ message: 'No calendar data received' }]);
+          return;
+        }
+
+        if (state.error) {
+          renderErrors([{ message: state.error }]);
+          return;
+        }
+
+        // Render errors first
+        renderErrors(state.errors);
+
+        // Date/Time section
+        dateDisplay.textContent = escapeHtml(state.current?.formattedDate || 'Unknown Date');
+        timeDisplay.textContent = escapeHtml(state.current?.formattedTime || '');
+        dayOfWeek.textContent = escapeHtml(state.current?.dayOfWeek || '');
+        seasonBadge.textContent = (state.current?.seasonIcon || '') + ' ' + escapeHtml(state.current?.season || '');
+
+        // Moon section
+        moonIcon.textContent = state.moon?.icon || '?';
+        moonPhaseName.textContent = escapeHtml(state.moon?.phaseName || 'Unknown');
+
+        if (state.moon?.isFullMoon) {
+          moonCountdown.textContent = 'The moon is full tonight!';
+          moonSection.classList.add('full-moon');
+          fullMoonWarning.style.display = 'block';
+        } else {
+          const daysUntil = state.moon?.daysUntilFull ?? 0;
+          if (daysUntil === 1) {
+            moonCountdown.textContent = 'Full moon tomorrow';
+          } else {
+            moonCountdown.textContent = daysUntil + ' days until full moon';
+          }
+          moonSection.classList.remove('full-moon');
+          fullMoonWarning.style.display = 'none';
+        }
+
+        // Weather section
+        weatherIcon.textContent = state.weather?.icon || '?';
+        weatherCondition.textContent = escapeHtml(state.weather?.conditionName || 'Unknown');
+        weatherTemp.textContent = (state.weather?.temperature ?? '?') + '°C';
+
+        if (state.weather?.gameplayEffect) {
+          weatherEffect.textContent = 'Effect: ' + escapeHtml(state.weather.gameplayEffect);
+          weatherEffect.style.display = 'block';
+        } else {
+          weatherEffect.style.display = 'none';
+        }
+
+        // Events section
+        renderEvents(state.upcomingEvents || []);
+
+        // Last updated
+        if (state.lastUpdated) {
+          const date = new Date(state.lastUpdated);
+          lastUpdated.textContent = 'Last updated: ' + date.toLocaleTimeString();
+        }
+      }
+
+      // Render events list
+      function renderEvents(events) {
+        if (!events || events.length === 0) {
+          eventsList.innerHTML = '<li class="no-events">No upcoming events scheduled</li>';
+          return;
+        }
+
+        eventsList.innerHTML = events.map(event => {
+          const daysText = event.daysUntil === 0 ? 'Today' :
+                          event.daysUntil === 1 ? 'Tomorrow' :
+                          'In ' + event.daysUntil + ' days';
+
+          return `
+            <li class="event-item urgency-${event.urgency}"
+                data-filepath="${escapeHtml(event.filePath || '')}"
+                title="Click to open event file">
+              <div class="event-name">${escapeHtml(event.name)}</div>
+              <div class="event-meta">
+                <span>${escapeHtml(event.triggerDate)}</span>
+                <span class="event-days urgency-${event.urgency}">${daysText}</span>
+              </div>
+            </li>
+          `;
+        }).join('');
+
+        // Add click handlers
+        document.querySelectorAll('.event-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const filePath = item.getAttribute('data-filepath');
+            if (filePath) {
+              vscode.postMessage({ type: 'openEventFile', payload: { filePath } });
+            }
+          });
+        });
+      }
+
+      // Event listeners
+      refreshBtn.addEventListener('click', () => {
+        showLoading();
+        vscode.postMessage({ type: 'refresh' });
+      });
+
+      datetimeSection.addEventListener('click', () => {
+        vscode.postMessage({ type: 'openCalendarFile' });
+      });
+
+      // Handle messages from extension
+      window.addEventListener('message', event => {
+        const message = event.data;
+
+        switch (message.type) {
+          case 'initialize':
+          case 'refresh':
+            renderState(message.payload);
+            break;
+
+          case 'error':
+            hideLoading();
+            renderErrors([{ message: message.payload?.message || 'Unknown error' }]);
+            break;
+        }
+      });
+
+      // Initial loading state
+      showLoading();
+    })();
+  </script>
+</body>
+</html>

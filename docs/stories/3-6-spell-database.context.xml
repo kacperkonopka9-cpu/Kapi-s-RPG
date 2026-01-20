@@ -1,0 +1,245 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>6</storyId>
+    <title>Spell Database</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-6-spell-database.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>game master running D&D 5e spellcasting encounters</asA>
+    <iWant>a spell database that queries and loads spell definitions from the SRD data file</iWant>
+    <soThat>SpellManager can access spell properties (level, damage, effects, components) for casting validation and effect resolution</soThat>
+    <tasks>
+      - Task 1: Analyze Spell Database Requirements (1 hour)
+      - Task 2: Create SpellDatabase Module (30 minutes)
+      - Task 3: Implement loadSpells() Method (2 hours)
+      - Task 4: Implement getSpell() Method (1 hour)
+      - Task 5: Implement getSpellsByLevel() Method (1 hour)
+      - Task 6: Implement getSpellsBySchool() Method (1 hour)
+      - Task 7: Implement getSpellsByClass() Method (1 hour)
+      - Task 8: Implement getAllSpells() Method (30 minutes)
+      - Task 9: Create Spell Data File (2 hours)
+      - Task 10: Create Test Suite (4 hours)
+      - Task 11: Error Handling and Edge Cases (1 hour)
+      - Task 12: Documentation and Examples (30 minutes)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC-1" title="Load Spell Database from YAML File">
+      Load and parse data/srd/spells.yaml, validate spell schema, cache in memory, return error if file missing/invalid, follow Result Object pattern {success, data, error}.
+    </criterion>
+    <criterion id="AC-2" title="Query Spell by ID">
+      getSpell(spellId) returns complete spell object with all properties (id, name, level, school, components, effect), includes damage/healing/save details, returns error if not found, &lt;10ms operation time.
+    </criterion>
+    <criterion id="AC-3" title="Query Spells by Level">
+      getSpellsByLevel(level) returns array of spells at specified level (0-9), includes cantrips at level 0, returns empty array if no matches, &lt;50ms operation time.
+    </criterion>
+    <criterion id="AC-4" title="Query Spells by School">
+      getSpellsBySchool(school) returns array of spells matching D&D school (8 schools: Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, Transmutation), returns empty array if no matches.
+    </criterion>
+    <criterion id="AC-5" title="Query Spells by Class">
+      getSpellsByClass(className) returns array of spells available to specified class (Cleric, Wizard, Druid, Paladin, Ranger, Bard, Sorcerer, Warlock), returns empty array if invalid or no matches.
+    </criterion>
+    <criterion id="AC-6" title="List All Spells">
+      getAllSpells() returns complete array of all loaded spells, includes all properties, &lt;100ms operation time.
+    </criterion>
+    <criterion id="AC-7" title="Spell Data Validation">
+      Validate required fields (id, name, level 0-9, school, castingTime, range, components, duration, description, effect), validate school names (8 D&D schools), validate components (V/S/M with materials), validate effect types (damage/healing/condition/utility/buff/debuff), return validation errors for malformed data.
+    </criterion>
+    <criterion id="AC-8" title="Result Object Pattern and Error Handling">
+      Return {success, data, error} for all operations, no exceptions for expected errors, validate all inputs (IDs, level ranges, school names), descriptive error messages, handle edge cases (empty database, invalid parameters).
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Spell System">
+        Lines 48-57: Spell System requirements - spell slot tracking by level (1st-9th), SRD spell database, spellcasting ability and spell save DC, spell preparation and known spells, cantrips and ritual casting, concentration tracking.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Services and Modules">
+        Line 211: SpellDatabase module - Query spell definitions from SRD, input: spell name/ID, output: spell data, location: src/mechanics/spell-database.js.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Spell Data Model">
+        Lines 334-371: Complete spell data schema with examples (Fireball, Cure Wounds) showing required fields: id, name, level, school, castingTime, range, components, materials, duration, concentration, description, effect (damage/healing with dice), upcastBonus, classes array.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Workflow 3: Cast Healing Spell">
+        Line 812: SpellDatabase.getSpell() integration - workflow shows SpellDatabase queried for spell definition before SpellManager casts spell.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Result Object Pattern">
+        Lines 153-156: All async operations must return {success, data, error} objects with no exceptions thrown for graceful error handling.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Dependency Injection Pattern">
+        Lines 148-152: Accept dependencies as constructor parameters with defaults to enable unit testing with mocked dependencies.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="File-First Design">
+        Line 143-146: Spell database stored at data/srd/spells.yaml in human-readable YAML format for Git compatibility.
+      </doc>
+      <doc path="docs/tech-spec-epic-3.md" title="Epic 3 Technical Specification" section="Performance Requirements">
+        Line 181: Spell database query target &lt; 100ms. Use caching for fast repeated queries.
+      </doc>
+      <doc path="docs/stories/3-5-combat-manager.md" title="Story 3-5: Combat Manager" section="Dev Agent Record - Architectural Patterns">
+        Composition pattern with dependency injection: constructor(deps = {}) { this.dependency = deps.dependency || new DefaultDependency(); }. Result Object pattern for all methods. Memory-based state management using Map. Comprehensive JSDoc documentation. 94.44% test coverage achieved with 35 tests.
+      </doc>
+    </docs>
+    <code>
+      <artifact path="src/mechanics/dice-roller.js" kind="service" symbol="DiceRoller" lines="1-200" reason="Reference for Result Object pattern and testing approach. May be used for spell damage rolls in future stories.">
+        DiceRoller class with roll(notation, options) method. Returns {success, data: {rolls, total}, error}. Supports advantage/disadvantage. Pattern established in Story 3-1.
+      </artifact>
+      <artifact path="src/mechanics/character-manager.js" kind="service" symbol="CharacterManager" lines="1-300" reason="Static methods for character data access patterns. May be referenced for loading character spell lists.">
+        CharacterManager with loadCharacter() and saveCharacter() methods. Provides getAbilityModifier() and getProficiencyBonus() static methods.
+      </artifact>
+      <artifact path="src/mechanics/combat-manager.js" kind="service" symbol="CombatManager" lines="1-360" reason="Reference implementation for Result Object pattern, DI, memory-based caching, and comprehensive error handling.">
+        CombatManager class with Map-based state storage. Pattern: constructor(deps = {}) with DI. All methods return {success, data, error}. Comprehensive input validation. 94.44% test coverage.
+      </artifact>
+      <artifact path="src/mechanics/skill-check-system.js" kind="service" symbol="SkillCheckSystem" lines="1-523" reason="Reference implementation for composition pattern, Result Object pattern, and comprehensive JSDoc documentation.">
+        SkillCheckSystem with composition (uses AbilityCheckHandler as dependency). Result Object pattern throughout. 94.77% test coverage with 47 tests.
+      </artifact>
+      <artifact path="tests/mechanics/combat-manager.test.js" kind="test" symbol="CombatManager tests" lines="1-558" reason="Reference for testing patterns: constructor DI tests, method tests, integration tests, performance tests.">
+        35 tests with 94.44% coverage. Patterns: mock dependencies for deterministic tests, integration tests with real dependencies, performance validation (&lt;100ms).
+      </artifact>
+      <artifact path="tests/mechanics/skill-check-system.test.js" kind="test" symbol="SkillCheckSystem tests" lines="1-769" reason="Reference for comprehensive test suite structure and coverage patterns.">
+        47 tests with 94.77% coverage. Test structure: constructor tests, method tests (all public methods), integration tests, performance tests.
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <dependency name="jest" version="^29.7.0" dev="true" reason="Testing framework for unit and integration tests" />
+        <dependency name="js-yaml" version="^4.1.0" reason="YAML parsing for spell data file (already in package.json from Epic 1/2)" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">
+      Result Object Pattern REQUIRED: All async operations must return {success: boolean, data: any | null, error: string | null}. No exceptions thrown for expected errors.
+    </constraint>
+    <constraint type="architecture">
+      Dependency Injection REQUIRED: Constructor must accept deps parameter with defaults: constructor(deps = {}) { this.fileReader = deps.fileReader || fs.promises; this.yamlParser = deps.yamlParser || yaml; }
+    </constraint>
+    <constraint type="data">
+      File-First Design: Spell database stored at data/srd/spells.yaml in human-readable YAML format. Load once at initialization, cache in memory (Map) for fast queries.
+    </constraint>
+    <constraint type="data">
+      Spell Schema Validation: Validate all required fields (id, name, level 0-9, school, castingTime, range, components, duration, description, effect). Validate school names match 8 D&D schools. Validate components are V, S, or M (with materials if M present).
+    </constraint>
+    <constraint type="dnd-rules">
+      D&D 5e Spell System: Support 8 schools of magic (Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, Transmutation). Spell levels 0-9 (0 = cantrip). Classes array tags spells by class availability.
+    </constraint>
+    <constraint type="performance">
+      Query Performance Targets: getSpell() &lt; 10ms, getSpellsByLevel() &lt; 50ms, getAllSpells() &lt; 100ms. Use Map-based caching for O(1) lookups.
+    </constraint>
+    <constraint type="testing">
+      Test Coverage Target: ≥95% statement coverage. Include unit tests (mocked file system), integration tests (real YAML file), and performance tests.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="SpellDatabase.loadSpells" kind="method">
+      <signature>async loadSpells(filePath): Promise&lt;ResultObject&lt;void&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Load and parse spell data from YAML file, validate schema, cache in memory Map. Called during initialization.</description>
+      <parameters>
+        <param name="filePath" type="string">Path to spells YAML file (default: data/srd/spells.yaml)</param>
+      </parameters>
+      <returns type="ResultObject&lt;void&gt;">
+        {success: true, data: null, error: null} on success, or {success: false, data: null, error: "error message"} on failure
+      </returns>
+    </interface>
+    <interface name="SpellDatabase.getSpell" kind="method">
+      <signature>async getSpell(spellId): Promise&lt;ResultObject&lt;Spell&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Query spell by unique ID. O(1) Map lookup. Used by SpellManager for spell casting.</description>
+      <parameters>
+        <param name="spellId" type="string">Unique spell identifier (e.g., "cure_wounds", "fireball")</param>
+      </parameters>
+      <returns type="ResultObject&lt;Spell&gt;">
+        {success: true, data: {id, name, level, school, components, effect, ...}, error: null} or {success: false, data: null, error: "Spell not found: [spellId]"}
+      </returns>
+    </interface>
+    <interface name="SpellDatabase.getSpellsByLevel" kind="method">
+      <signature>async getSpellsByLevel(level): Promise&lt;ResultObject&lt;Spell[]&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Filter spells by level (0-9). Used for spell preparation and selection.</description>
+      <parameters>
+        <param name="level" type="number">Spell level (0 = cantrip, 1-9 = spell levels)</param>
+      </parameters>
+      <returns type="ResultObject&lt;Spell[]&gt;">
+        {success: true, data: [spell objects], error: null} or {success: false, data: null, error: "Invalid level"} if out of range
+      </returns>
+    </interface>
+    <interface name="SpellDatabase.getSpellsBySchool" kind="method">
+      <signature>async getSpellsBySchool(school): Promise&lt;ResultObject&lt;Spell[]&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Filter spells by school of magic. Used for class feature restrictions (e.g., Evocation Wizard).</description>
+      <parameters>
+        <param name="school" type="string">School name (Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, Transmutation)</param>
+      </parameters>
+      <returns type="ResultObject&lt;Spell[]&gt;">
+        {success: true, data: [spell objects], error: null} or empty array if no matches
+      </returns>
+    </interface>
+    <interface name="SpellDatabase.getSpellsByClass" kind="method">
+      <signature>async getSpellsByClass(className): Promise&lt;ResultObject&lt;Spell[]&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Filter spells by class availability. Used for spell preparation and leveling up.</description>
+      <parameters>
+        <param name="className" type="string">Class name (Cleric, Wizard, Druid, Paladin, Ranger, Bard, Sorcerer, Warlock)</param>
+      </parameters>
+      <returns type="ResultObject&lt;Spell[]&gt;">
+        {success: true, data: [spell objects available to class], error: null} or empty array if invalid class
+      </returns>
+    </interface>
+    <interface name="SpellDatabase.getAllSpells" kind="method">
+      <signature>async getAllSpells(): Promise&lt;ResultObject&lt;Spell[]&gt;&gt;</signature>
+      <path>src/mechanics/spell-database.js</path>
+      <description>Return all loaded spells. Used for spell list displays and debugging.</description>
+      <returns type="ResultObject&lt;Spell[]&gt;">
+        {success: true, data: [all spell objects], error: null}
+      </returns>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest v29.7.0 testing framework. Unit tests with mocked file system (fs.promises) and YAML parser for deterministic behavior. Integration tests with real data/srd/spells.yaml file to verify actual data loading. Performance tests to validate &lt;10ms (getSpell), &lt;50ms (getSpellsByLevel), &lt;100ms (getAllSpells) targets. Mock file system for error cases (file not found, invalid YAML, malformed schema). Use real YAML parser in integration tests. Target: ≥95% statement coverage. Test structure: describe blocks for constructor, each method, error cases, and integration scenarios.
+    </standards>
+    <locations>
+      tests/mechanics/spell-database.test.js (to be created)
+      tests/mechanics/ (existing mechanics test directory)
+      data/srd/spells.yaml (to be created - test data fixture)
+    </locations>
+    <ideas>
+      <test ac="AC-1" idea="Unit test: Load valid YAML file, verify spell cache populated correctly" />
+      <test ac="AC-1" idea="Unit test: File not found error returns proper Result Object with error message" />
+      <test ac="AC-1" idea="Unit test: Invalid YAML syntax returns parse error" />
+      <test ac="AC-1" idea="Unit test: Missing required field (e.g., no 'level') returns validation error" />
+      <test ac="AC-2" idea="Unit test: getSpell('cure_wounds') returns complete spell object with all properties" />
+      <test ac="AC-2" idea="Unit test: getSpell('invalid_id') returns error Result Object" />
+      <test ac="AC-2" idea="Unit test: getSpell('') (empty ID) returns validation error" />
+      <test ac="AC-3" idea="Unit test: getSpellsByLevel(0) returns only cantrips" />
+      <test ac="AC-3" idea="Unit test: getSpellsByLevel(1) returns 1st level spells" />
+      <test ac="AC-3" idea="Unit test: getSpellsByLevel(10) returns error (out of range)" />
+      <test ac="AC-3" idea="Unit test: getSpellsByLevel(5) with no level 5 spells returns empty array" />
+      <test ac="AC-4" idea="Unit test: getSpellsBySchool('Evocation') returns Fireball, Sacred Flame" />
+      <test ac="AC-4" idea="Unit test: getSpellsBySchool('InvalidSchool') returns empty array or error" />
+      <test ac="AC-5" idea="Unit test: getSpellsByClass('Cleric') includes Cure Wounds, excludes Fireball" />
+      <test ac="AC-5" idea="Unit test: getSpellsByClass('Wizard') includes Fireball, excludes Cure Wounds" />
+      <test ac="AC-5" idea="Unit test: getSpellsByClass('InvalidClass') returns empty array" />
+      <test ac="AC-6" idea="Unit test: getAllSpells() returns all loaded spells, verify count matches YAML" />
+      <test ac="AC-7" idea="Unit test: Spell missing 'id' field fails validation" />
+      <test ac="AC-7" idea="Unit test: Spell with invalid school name fails validation" />
+      <test ac="AC-7" idea="Unit test: Spell with 'M' component but no materials field fails validation" />
+      <test ac="AC-8" idea="Unit test: All methods return Result Object format {success, data, error}" />
+      <test ac="AC-8" idea="Integration test: Load real spells.yaml, query known spells, verify properties match" />
+      <test idea="Performance test: getSpell() with 100 spells loaded completes in &lt;10ms" />
+      <test idea="Performance test: getSpellsByLevel() completes in &lt;50ms" />
+      <test idea="Performance test: getAllSpells() completes in &lt;100ms" />
+      <test idea="Integration test: Full workflow - load database, query by ID/level/school/class, verify all return correct spells" />
+    </ideas>
+  </tests>
+</story-context>

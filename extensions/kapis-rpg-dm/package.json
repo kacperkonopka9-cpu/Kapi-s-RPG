@@ -1,0 +1,185 @@
+{
+  "name": "kapis-rpg-dm",
+  "displayName": "Kapi's RPG - DM Assistant",
+  "description": "VS Code extension for managing Curse of Strahd solo RPG sessions with LLM-powered narration",
+  "version": "0.1.0",
+  "publisher": "kapi",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:kapis-rpg-dm.startSession",
+    "onCommand:kapis-rpg-dm.endSession",
+    "onCommand:kapis-rpg-dm.save",
+    "onCommand:kapis-rpg-dm.loadSave",
+    "onCommand:kapis-rpg-dm.travel",
+    "onCommand:kapis-rpg-dm.rest",
+    "onCommand:kapis-rpg-dm.awardXP",
+    "onCommand:kapis-rpg-dm.contextShow",
+    "onCommand:kapis-rpg-dm.contextReload",
+    "onCommand:kapis-rpg-dm.contextReduce",
+    "onCommand:kapis-rpg.showCharacterSheet",
+    "onCommand:kapis-rpg.showQuestTracker",
+    "onCommand:kapis-rpg.showCalendar",
+    "onView:kapis-rpg-locations",
+    "workspaceContains:**/game-data/calendar.yaml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kapis-rpg-dm.startSession",
+        "title": "Kapi's RPG: Start Session"
+      },
+      {
+        "command": "kapis-rpg-dm.endSession",
+        "title": "Kapi's RPG: End Session"
+      },
+      {
+        "command": "kapis-rpg-dm.save",
+        "title": "Kapi's RPG: Create Save Point"
+      },
+      {
+        "command": "kapis-rpg-dm.loadSave",
+        "title": "Kapi's RPG: Load Save Point"
+      },
+      {
+        "command": "kapis-rpg-dm.travel",
+        "title": "Kapi's RPG: Travel to Location"
+      },
+      {
+        "command": "kapis-rpg-dm.rest",
+        "title": "Kapi's RPG: Take Rest (Short/Long)"
+      },
+      {
+        "command": "kapis-rpg-dm.awardXP",
+        "title": "Kapi's RPG: Award XP"
+      },
+      {
+        "command": "kapis-rpg-dm.contextShow",
+        "title": "Kapi's RPG: Show Context Info"
+      },
+      {
+        "command": "kapis-rpg-dm.contextReload",
+        "title": "Kapi's RPG: Reload Context"
+      },
+      {
+        "command": "kapis-rpg-dm.contextReduce",
+        "title": "Kapi's RPG: Reduce Context"
+      },
+      {
+        "command": "kapis-rpg.openLocationDescription",
+        "title": "Open Description"
+      },
+      {
+        "command": "kapis-rpg.travelToLocation",
+        "title": "Travel Here"
+      },
+      {
+        "command": "kapis-rpg.viewLocationDetails",
+        "title": "View Location Details"
+      },
+      {
+        "command": "kapis-rpg.openLocationInExplorer",
+        "title": "Open in Explorer"
+      },
+      {
+        "command": "kapis-rpg.refreshLocationTree",
+        "title": "Kapi's RPG: Refresh Location Tree"
+      },
+      {
+        "command": "kapis-rpg.showCharacterSheet",
+        "title": "Kapi's RPG: Show Character Sheet",
+        "icon": "$(person)"
+      },
+      {
+        "command": "kapis-rpg.showCharacterSheetWith",
+        "title": "Kapi's RPG: Show Character Sheet (Select File)"
+      },
+      {
+        "command": "kapis-rpg.showQuestTracker",
+        "title": "Kapi's RPG: Show Quest Tracker",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "kapis-rpg.showCalendar",
+        "title": "Kapi's RPG: Show Calendar",
+        "icon": "$(calendar)"
+      },
+      {
+        "command": "kapis-rpg.openEntityDefinition",
+        "title": "Kapi's RPG: Open Entity Definition"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "kapis-rpg-locations",
+          "name": "Kapi's RPG - Locations",
+          "icon": "$(map)"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "kapis-rpg.travelToLocation",
+          "when": "view == kapis-rpg-locations && viewItem =~ /location_hasConnections/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "kapis-rpg.viewLocationDetails",
+          "when": "view == kapis-rpg-locations",
+          "group": "navigation@2"
+        },
+        {
+          "command": "kapis-rpg.openLocationInExplorer",
+          "when": "view == kapis-rpg-locations",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "markdown.markdownItPlugins": true,
+    "markdown.previewStyles": [
+      "./media/styles/narrative-theme.css"
+    ],
+    "configuration": {
+      "title": "Kapi's RPG",
+      "properties": {
+        "kapis-rpg.autoSaveInterval": {
+          "type": "number",
+          "default": 300,
+          "description": "Auto-save interval in seconds (0 to disable)",
+          "minimum": 0
+        },
+        "kapis-rpg.narrativeTheme": {
+          "type": "string",
+          "enum": [
+            "gothic",
+            "default"
+          ],
+          "default": "gothic",
+          "description": "Theme for markdown preview styling (gothic = Curse of Strahd dark theme)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "js-yaml": "^4.1.0"
+  }
+}

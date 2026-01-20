@@ -1,0 +1,84 @@
+location_name: "Van Richten's Tower"
+location_type: "building"
+region: "Barovia Valley - Lake Baratok"
+parent_location: null
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Town of Vallaki"
+    direction: "southeast"
+    travel_time: "4 hours"
+    description: "Through forests to town, where Van Richten stays disguised as Rictavio"
+  - name: "Tser Pool Encampment"
+    direction: "east"
+    travel_time: "6 hours"
+    description: "Long journey through wilderness to Vistani camp"
+danger_level: 2
+recommended_level: "5-8"
+size: "Small (five-story tower on island)"
+description_token_count: 800
+quest_critical: true
+quests:
+  - "Find Van Richten"
+  - "Recover Tome of Strahd (if Tarokka indicated)"
+  - "Ally with Ezmerelda d'Avenir"
+  - "Bypass Tower Traps"
+  - "Discover Rictavio's Identity"
+features:
+  - "Heavily trapped vampire hunter's sanctum"
+  - "Clay golem guardian (CR 9)"
+  - "Extensive library on vampires and undead"
+  - "Ezmerelda d'Avenir (optional NPC ally)"
+  - "Van Richten's research and journals"
+  - "Tome of Strahd (possible location per Tarokka)"
+  - "Lake island location (isolated)"
+  - "Trapped Vistani wagon"
+  - "Knowledge hub for vampire hunting"
+population: 1
+npcs:
+  - "Ezmerelda d'Avenir (vampire hunter, PRIMARY, optional)"
+  - "Rudolph van Richten (absent, in Vallaki as Rictavio)"
+  - "Clay Golem (trap guardian)"
+  - "Animated Sword (trap)"
+  - "Wereraven scouts (Keepers observers)"
+enemies:
+  - name: "Clay Golem"
+    type: "construct"
+    cr: 9
+    count: 1
+    notes: "Trap guardian, activates if command word not spoken"
+  - name: "Animated Sword"
+    type: "construct"
+    cr: 0.25
+    count: 1
+    notes: "Animated silvered longsword, upper floor defense"
+allies:
+  - name: "Ezmerelda d'Avenir"
+    type: "vampire_hunter"
+    notes: "Potential ally if approached correctly, CR 8 combatant"
+  - name: "Rudolph van Richten"
+    type: "legendary_vampire_hunter"
+    notes: "Absent but connection unlocked through journal discovery"
+treasure:
+  - "Van Richten's Guide to Vampires (500 gp, tactical advantage)"
+  - "Van Richten's Journal (reveals Rictavio identity)"
+  - "Tome of Strahd (campaign artifact, if indicated)"
+  - "Holy Water (10 vials, 250 gp)"
+  - "Enhanced Wooden Stakes (12, advantage vs vampires)"
+  - "Silvered Shortsword +1 (1000 gp)"
+  - "Ring of Mind Shielding (4000 gp)"
+  - "Sunblade Schematic (essential for Sun Sword quest)"
+  - "Maps and tactical plans (intelligence value)"
+  - "Coinage (300 gp + misc)"
+  - "Alchemical supplies and components (500+ gp)"
+  - "Silvered weapons and ammunition"
+government: "Personal property (Van Richten's sanctum)"
+alignment: "Lawful Good (vampire hunter's refuge)"
+economy: "None (personal refuge, not commercial)"
+defense: "Clay golem trap (CR 9), explosive wagon trap (5d8), animated weapons, isolated location"
+climate: "Cold lake environment, constant mist, isolated"
+fast_travel_available: false
+discovered: false
+first_visit_date: null
+last_validated: "2025-11-12"
+notes: "Van Richten's Tower is knowledge/ally hub rather than combat dungeon. Primary value is information (Van Richten journals, vampire hunting knowledge, possibly Tome of Strahd) and potential allies (Ezmerelda, Van Richten connection). Major trap challenge: clay golem (CR 9) activates if players speak without command word 'Khazan'—deadly for unprepared parties. Command word discoverable via DC 18 Investigation. Wagon has explosive trap (5d8 fire, DC 16 to disarm). Ezmerelda may be present—cautious but recruitable ally. Van Richten absent (disguised as Rictavio in Vallaki)—journal reveals his identity and location. Tome of Strahd may be here if Tarokka reading indicated (1 of 3 campaign artifacts). Tower contains Van Richten's Guide to Vampires (tactical advantage), enhanced anti-vampire weapons, and extensive research. Keepers of the Feather observe location—respectful behavior earns approval, looting damages reputation. Best approach: find command word before entering, don't loot without permission, ally with Ezmerelda, use information to find Van Richten in Vallaki. Tower serves as safe house if party earns Van Richten's trust. Connected to Vallaki (Rictavio), Keepers network, and broader vampire hunting storyline."

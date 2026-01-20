@@ -1,0 +1,509 @@
+# Quest 7: Find the Sunsword
+# Locate and claim the legendary Sunsword artifact
+
+questId: "find_the_sunsword"
+name: "Find the Sunsword"
+type: "main"
+category: "exploration"
+
+questGiver:
+  npcId: "madam_eva"
+  location: "tser_pool_encampment"
+  dialogue: "The Sun Sword - 'a weapon of vengeance, a sleeping prince of ancient power.' The cards have shown where it lies hidden."
+
+questRecipient: "player"
+
+description:
+  short: "Locate the Sunsword using the Tarokka reading's guidance"
+  full: "The Tarokka reading has revealed the location of the Sunsword, a legendary blade forged to destroy vampires. This weapon radiates sunlight and can harm creatures of darkness that resist normal weapons. You must decipher the Tarokka clue, travel to the revealed location, overcome whatever guardians protect the sword, and claim it for the battle against Strahd."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "seek_the_vistani"
+  requiredEvents:
+    - eventId: "tarokka_reading_complete"
+      status: "triggered"
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "tser_pool_encampment"
+
+objectives:
+  - objectiveId: "decipher_tarokka_clue"
+    description: "Interpret the Tarokka card to identify the Sunsword's location"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_location"
+    description: "Travel to the location revealed by the Tarokka reading"
+    type: "exploration"
+    status: "pending"
+    target: null  # Variable based on Tarokka
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "overcome_guardian"
+    description: "Defeat or bypass the guardian protecting the Sunsword"
+    type: "combat"
+    status: "pending"
+    target: null  # Variable based on location
+    optional: false
+    completionTrigger:
+      type: "npc_defeated"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+  - objectiveId: "claim_sunsword"
+    description: "Claim the Sunsword and unlock its power"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "item"
+      id: "sunsword"
+      location: "variable"
+    optional: false
+    completionTrigger:
+      type: "item_obtained"
+    rewards:
+      experience: 700
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "item_status"
+        itemId: "sunsword"
+        status: "claimed"
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "strahd_von_zarovich"
+        attitudeChange: -20
+        dialogue: "So, you've found Sergei's blade. How fitting that you would wield my brother's weapon against me."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 1500
+
+  items:
+    - itemId: "sunsword"
+      quantity: 1
+      source: "quest_reward"
+      attunementRequired: true
+
+  currency:
+    gold: 500  # Treasure at location
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "legendary_weapon"
+      description: "The Sunsword grants advantage against undead and deals radiant damage"
+
+# Tarokka Integration: Card-to-Location Mapping
+tarokkaIntegration:
+  artifactType: "sunsword"
+  determinedBy: "tarokka_reading"
+  cardMappings:
+    - card: "Avenger (Swords)"
+      location: "castle_ravenloft_armory"
+      description: "In the castle's armory, guarded by animated armor"
+    - card: "Mists (High Deck)"
+      location: "castle_ravenloft_sergeis_tomb"
+      description: "In Sergei's tomb beneath the castle"
+    - card: "Enchanter (Stars)"
+      location: "amber_temple_vault_of_shalidor"
+      description: "In the Amber Temple, vault of ancient secrets"
+    - card: "Artifact (High Deck)"
+      location: "argynvostholt_beacon_chamber"
+      description: "At Argynvostholt, where the dragon's beacon once stood"
+    - card: "Innocent (Glyphs)"
+      location: "abbey_of_st_markovia_main_hall"
+      description: "In the Abbey's main hall, blessed ground"
+    - card: "Donjon (High Deck)"
+      location: "castle_ravenloft_north_tower_peak"
+      description: "At the peak of Castle Ravenloft's north tower"
+    - card: "Master (Stars)"
+      location: "van_richtens_tower_top_floor"
+      description: "In Van Richten's Tower, among his arcane collections"
+
+  fallbackLocation: "castle_ravenloft_treasury"
+  fallbackDescription: "If Tarokka reading was skipped, defaults to Castle Ravenloft treasury"
+
+  stateKey: "tarokkaReading.artifactLocations.sunsword"
+  locked: true  # Location cannot change after Tarokka reading complete
+
+# Quest Branching Based on Tarokka Location
+branches:
+  - branchId: "sunsword_location"
+    description: "The Sunsword's location is determined by the Tarokka reading"
+    decision:
+      autoDecide: true
+      condition: "tarokkaReading.artifactLocations.sunsword"
+      outcomes:
+        - conditionValue: "castle_ravenloft_armory"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Castle Ravenloft's armory"
+              target: "castle_ravenloft_armory"
+            - objectiveId: "overcome_guardian"
+              description: "Defeat the animated armor guarding the Sunsword"
+              target: "animated_armor_helmed_horror"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "animated_armor_helmed_horror"
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_armory"
+
+        - conditionValue: "castle_ravenloft_sergeis_tomb"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Sergei's tomb beneath Castle Ravenloft"
+              target: "castle_ravenloft_sergeis_tomb"
+            - objectiveId: "overcome_guardian"
+              description: "Face Sergei's restless spirit and prove your worth"
+              target: "sergeis_spirit"
+          consequences:
+            - type: "npc_interaction"
+              npcId: "sergeis_spirit"
+              interaction: "peaceful_test_of_worth"
+            - type: "lore_revelation"
+              content: "Sergei's spirit grants blessing if worthy"
+
+        - conditionValue: "amber_temple_vault_of_shalidor"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Journey to the Amber Temple in the mountains"
+              target: "amber_temple_vault_of_shalidor"
+            - objectiveId: "overcome_guardian"
+              description: "Defeat the arcanaloth guarding the vault"
+              target: "arcanaloth"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "arcanaloth_vault_guardian"
+            - type: "dark_gift_temptation"
+              description: "Amber Temple's dark gifts tempt the party"
+
+        - conditionValue: "argynvostholt_beacon_chamber"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Argynvostholt, the ruined dragon's lair"
+              target: "argynvostholt_beacon_chamber"
+            - objectiveId: "overcome_guardian"
+              description: "Restore the dragon's beacon to reveal the Sunsword"
+              target: "beacon_puzzle"
+          consequences:
+            - type: "puzzle_solved"
+              puzzleId: "beacon_restoration"
+            - type: "revenant_faction_bonus"
+              faction: "order_of_the_silver_dragon"
+              bonus: "+reputation"
+
+        - conditionValue: "abbey_of_st_markovia_main_hall"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to the Abbey of St. Markovia in Krezk"
+              target: "abbey_of_st_markovia_main_hall"
+            - objectiveId: "overcome_guardian"
+              description: "Negotiate with the Abbot for the Sunsword"
+              target: "the_abbot"
+          consequences:
+            - type: "npc_negotiation"
+              npcId: "the_abbot"
+              requirement: "Fulfill Abbot's request or persuade him"
+
+        - conditionValue: "castle_ravenloft_north_tower_peak"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Ascend to the peak of Castle Ravenloft's north tower"
+              target: "castle_ravenloft_north_tower_peak"
+            - objectiveId: "overcome_guardian"
+              description: "Defeat Strahd's vampire spawn guardians"
+              target: "vampire_spawn_guards"
+          consequences:
+            - type: "guardian_defeated"
+              npcId: "vampire_spawn_guards"
+            - type: "strahd_awareness"
+              description: "Strahd becomes aware of your intrusion"
+
+        - conditionValue: "van_richtens_tower_top_floor"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to Van Richten's Tower near Lake Baratok"
+              target: "van_richtens_tower_top_floor"
+            - objectiveId: "overcome_guardian"
+              description: "Solve Van Richten's magical wards and traps"
+              target: "tower_defenses"
+          consequences:
+            - type: "trap_navigation"
+              trapId: "van_richten_tower_wards"
+            - type: "location_discovered"
+              locationId: "van_richtens_tower"
+
+journalEntries:
+  initial: "The Tarokka reading has revealed the location of the Sunsword, a legendary weapon forged to slay vampires. The blade once belonged to Sergei von Zarovich, Strahd's younger brother, before Strahd murdered him. If we can claim this weapon, it will be invaluable in our final confrontation with Strahd."
+
+  updates:
+    - trigger: "decipher_tarokka_clue_complete"
+      entry: "We've deciphered the Tarokka clue. The Sunsword lies hidden at [LOCATION]. We must journey there and claim it, but we should expect guardians and traps. Strahd knows the sword's location and may have taken steps to prevent anyone from claiming it."
+
+    - trigger: "travel_to_location_complete"
+      entry: "We've reached the location where the Sunsword is hidden. [LOCATION_DESCRIPTION]. The air feels heavy with ancient magic. We must proceed carefully."
+
+  completion: "We've claimed the Sunsword! The blade ignites with brilliant sunlight when drawn, a weapon of pure radiance. With this legendary artifact, we stand a real chance against Strahd. The vampire lord will fear this blade - it was meant to kill him from the beginning."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "The Sunsword was Sergei's blade - emphasize the tragic irony of using it against Strahd"
+    - "The blade is dormant (just a hilt) until properly activated - requires attunement"
+    - "When activated, it shines bright as sunlight - describe the radiant display"
+    - "Strahd reacts strongly to the Sunsword's claiming - he may appear to taunt the party"
+    - "The location varies by Tarokka - adapt description to match chosen location"
+    - "Foreshadow the Sunsword's location with environmental clues matching the Tarokka card"
+
+  roleplayTips:
+    - "If Strahd appears after claiming: He's bitter but impressed, mentions Sergei's betrayal"
+    - "The Sunsword may have guardian spirits who test worthiness"
+    - "Describe the sword's activation as a moment of hope cutting through Barovia's gloom"
+    - "At Sergei's Tomb: Sergei's spirit is sorrowful, not hostile - tests character not combat skill"
+    - "At Abbey: The Abbot is enigmatic, may demand a favor (return Vasilka, retrieve skull)"
+    - "At Van Richten's Tower: Traps are elaborate but non-lethal, designed to deter not kill"
+
+  combatEncounters:
+    - encounter: "location_guardians"
+      location: "variable_by_tarokka"
+      cr: 7
+      monsters: []  # Varies by location
+      tactics: "Guardians test worthiness or prevent Sunsword theft. Type depends on location: Castle = vampire guardians, Abbey = revenants, Amber Temple = arcanaloth, etc."
+
+  # Location Variants Table
+  locationVariants:
+    - location: "castle_ravenloft_armory"
+      card: "Avenger (Swords)"
+      difficulty: "Hard"
+      guardianType: "Animated Armor (Helmed Horror)"
+      guardianCR: 4
+      guardianCount: 2
+      encounterNotes: "Two helmed horrors animate when party approaches weapon rack. Fight in 30x30 armory with weapon displays. Helmed horrors immune to many spells."
+      tactics: "Helmed horrors coordinate attacks, use longswords +6 to hit. Focus on spellcasters. Immune to force damage, charm, fear, paralysis."
+      treasure: "500 gp in ancient coins, 2 potions of healing, Sunsword hilt on ornate stand"
+      accessRequirements: "None - armory accessible from main hall"
+      environmentalHazards: "Falling weapons if area damage used (DC 12 Dex save or 2d6 bludgeoning)"
+      stealthOption: "Possible with DC 15 Stealth check to avoid triggering guardians, but claiming sword always triggers them"
+      narrativeContext: "Strahd stores weapons as trophies. The Sunsword sits among other defeated heroes' arms."
+
+    - location: "castle_ravenloft_sergeis_tomb"
+      card: "Mists (High Deck)"
+      difficulty: "Medium (roleplay)"
+      guardianType: "Sergei's Spirit (NPC interaction)"
+      guardianCR: 5
+      guardianCount: 1
+      encounterNotes: "Sergei's spirit manifests when party enters tomb. Not hostile but tests party's worthiness. Insight DC 14 reveals he's protective, not malicious."
+      tactics: "No combat unless party attacks first. Tests: 1) Why seek blade? 2) Will you use it for vengeance or justice? 3) Can you resist corruption? Failure = temporary curse, not death."
+      treasure: "Sunsword in marble casket, 800 gp worth of burial jewelry, Sergei's wedding ring (quest item)"
+      accessRequirements: "Key from catacombs or Stonework DC 18 to find secret door"
+      environmentalHazards: "Hallowed ground - undead disadvantage on attacks"
+      stealthOption: "No combat to avoid, but respectful approach (DC 12 Persuasion) gets blessing"
+      narrativeContext: "Sergei's tomb is peaceful, a contrast to Barovia's gloom. His spirit wants the sword used to free Barovia, not for revenge."
+
+    - location: "amber_temple_vault_of_shalidor"
+      card: "Enchanter (Stars)"
+      difficulty: "Very Hard"
+      guardianType: "Arcanaloth"
+      guardianCR: 12
+      guardianCount: 1
+      encounterNotes: "Arcanaloth guards vault, willing to negotiate but prefers combat. Uses spells and teleportation. Vault is 40x40 chamber filled with magical energy."
+      tactics: "Arcanaloth uses invisibility, counterspell, finger of death. Teleports when below 50 HP to gain advantage. Targets spellcasters first."
+      treasure: "Sunsword on obsidian pedestal, 2000 gp in gems, 1 spell scroll (6th level), staff of power"
+      accessRequirements: "Amber Temple key or DC 20 Arcana check to bypass ward"
+      environmentalHazards: "Dark Gift temptation (DC 15 Wisdom save or compelled to accept dark gift)"
+      stealthOption: "Arcanaloth has truesight 120 ft - stealth impossible. Negotiation possible (DC 18 Persuasion) for riddle contest instead of combat."
+      narrativeContext: "Amber Temple is place of dark secrets. The Sunsword was hidden here to keep it from Strahd, but the dark gifts corrupt all who enter."
+
+    - location: "argynvostholt_beacon_chamber"
+      card: "Artifact (High Deck)"
+      difficulty: "Medium (puzzle)"
+      guardianType: "Beacon Puzzle + Revenants"
+      guardianCR: 5
+      guardianCount: 3
+      encounterNotes: "Must restore dragon's beacon to reveal Sunsword. Revenants (Order of Silver Dragon) test party's intent. Not immediately hostile."
+      tactics: "Revenants challenge party: prove you oppose Strahd. If party retrieved dragon skull, revenants are allies. Otherwise DC 16 Persuasion to convince. Puzzle: restore beacon with dragon bones/skull."
+      treasure: "Sunsword appears when beacon lit, 1200 gp, platinum dragon holy symbol, beacon's blessing (+2 AC vs undead for 24 hours)"
+      accessRequirements: "None, but Vladimir Horngaard may interfere if approached wrong"
+      environmentalHazards: "Crumbling structure - DC 12 Dex saves to avoid falling rubble (2d10 damage)"
+      stealthOption: "Not applicable - revenants sense living intruders. Diplomacy better than stealth."
+      narrativeContext: "Order of Silver Dragon failed to kill Strahd. Lighting beacon is symbolic victory. Revenants respect those who continue their mission."
+
+    - location: "abbey_of_st_markovia_main_hall"
+      card: "Innocent (Glyphs)"
+      difficulty: "Easy (if negotiation succeeds)"
+      guardianType: "The Abbot (NPC negotiation)"
+      guardianCR: 10
+      guardianCount: 1
+      encounterNotes: "Abbot possesses Sunsword, willing to trade for favor. Not hostile unless provoked. Extremely powerful if combat occurs (deva stats)."
+      tactics: "Abbot wants party to help Vasilka or retrieve items. DC 14 Persuasion for fair trade. Combat only if insulted - uses healing, radiant damage, flight. Nearly unbeatable for level 6 party."
+      treasure: "Sunsword (given freely if favor completed), 600 gp donation, Abbot's blessing"
+      accessRequirements: "Access to Krezk (convince burgomaster) then climb to Abbey"
+      environmentalHazards: "Mongrelfolk may attack if Abbot threatened, but Abbot calls them off"
+      stealthOption: "Stealing from Abbot is blasphemy and near-impossible (truesight). Negotiation strongly recommended."
+      narrativeContext: "Abbot is fallen celestial trying to cure Strahd's curse by creating bride. He sees Sunsword as tool in his plan. Morally complex NPC."
+
+    - location: "castle_ravenloft_north_tower_peak"
+      card: "Donjon (High Deck)"
+      difficulty: "Hard"
+      guardianType: "Vampire Spawn (Strahd's brides)"
+      guardianCR: 5
+      guardianCount: 3
+      encounterNotes: "Three vampire spawn (Strahd's former brides) guard tower peak. Aware of Sunsword's danger to Strahd. Fight to destroy party."
+      tactics: "Vampire spawn use spider climb on tower walls, gang up on isolated targets, bite to drain HP max. Regenerate 10 HP/turn unless radiant damage. Flee in mist form if reduced to 0 HP."
+      treasure: "Sunsword on tower balcony, 900 gp in jewelry (from victims), 3 potions of greater healing"
+      accessRequirements: "Must infiltrate Castle Ravenloft and ascend north tower (6 flights of stairs)"
+      environmentalHazards: "High winds on tower peak (DC 13 Str save or pushed 10 ft), 200 ft drop if fall"
+      stealthOption: "DC 17 Stealth to approach sleeping vampire spawn (sunlight hours only). Combat likely unavoidable."
+      narrativeContext: "Tower peak offers view of all Barovia. Claiming Sunsword here alerts Strahd immediately - he may appear to gloat and taunt."
+
+    - location: "van_richtens_tower_top_floor"
+      card: "Master (Stars)"
+      difficulty: "Medium (traps/puzzles)"
+      guardianType: "Magical Wards and Traps"
+      guardianCR: 6
+      guardianCount: "N/A"
+      encounterNotes: "Van Richten's Tower protected by elaborate non-lethal traps and wards. Designed to deter, not kill. Intelligence and Investigation checks required."
+      tactics: "Trap sequence: 1) Alarm spell (alerts tower), 2) Illusory floor (DC 15 Investigation to detect), 3) Levitation trap (DC 14 Dex save or float to ceiling), 4) Arcane lock on chest. Solution: disable wards with Dispel Magic or solve riddle."
+      treasure: "Sunsword in warded chest, Van Richten's journal (lore), 700 gp, 2 scrolls of protection from undead"
+      accessRequirements: "Find tower near Lake Baratok (hidden, DC 14 Survival to locate)"
+      environmentalHazards: "Elevator trap (animated broom attacks if wrong password), but non-lethal"
+      stealthOption: "Not applicable - tower is abandoned. Puzzle-solving and trap disabling more important than stealth."
+      narrativeContext: "Van Richten stored Sunsword here for safekeeping. Tower is his base of operations. If Van Richten is alive, he may gift sword willingly if party proves they oppose Strahd."
+
+  encounterDifficultyComparison: |
+    EASY: Abbey of St. Markovia (negotiation, avoid combat)
+    MEDIUM: Sergei's Tomb (roleplay test), Argynvostholt (puzzle + diplomacy), Van Richten's Tower (traps/puzzles)
+    HARD: Castle Armory (2 helmed horrors), North Tower (3 vampire spawn)
+    VERY HARD: Amber Temple (CR 12 arcanaloth)
+
+    Party level 6 recommendation: Avoid Amber Temple until level 8+. Abbey is safest if diplomatic. Castle locations are risky (Strahd's domain).
+
+  commonPitfalls:
+    - "Players may not understand Tarokka clue - provide hints through NPCs or environmental details"
+    - "Players may attempt to claim sword at low level - guardians should scale somewhat"
+    - "Players may not attune to sword - emphasize it requires attunement to activate"
+    - "Players may lose sword - Strahd cannot take it directly but may use minions"
+    - "Players may attack Sergei's spirit or the Abbot - these are roleplay encounters, not combat"
+    - "Players may try Amber Temple too early - arcanaloth is CR 12, deadly for level 6 party"
+    - "Players may forget to light Argynvostholt beacon if skull not retrieved - remind them of skull's importance"
+
+  alternatives:
+    - "Players can research Sunsword's history to understand its significance"
+    - "Players can seek guidance from NPCs familiar with location (Ezmerelda, Van Richten, etc.)"
+    - "Players can attempt stealth approach to bypass guardians (varies by location)"
+    - "Players can negotiate with intelligent guardians (Sergei, Abbot, Revenants, Arcanaloth)"
+    - "Players can return later if under-leveled - Tarokka location doesn't change"
+    - "Players can recruit NPC allies (Van Richten, Ezmerelda) for difficult locations"
+    - "Players can use Sunsword immediately once claimed - no additional quest required"
+
+relationships:
+  partOfQuestChain:
+    chainId: "artifact_hunt"
+    position: 1
+
+  blocksQuests:
+    - "destroy_strahd_von_zarovich"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 6
+  challengeRating: 7
+  skillChecks:
+    - skill: "investigation"
+      dc: 14
+      description: "Decipher Tarokka clue accurately"
+    - skill: "arcana"
+      dc: 15
+      description: "Understand Sunsword's activation requirements"
+    - skill: "history"
+      dc: 13
+      description: "Learn about Sergei and the sword's creation"
+
+lore:
+  background: |
+    The Sunsword was forged centuries ago by clerics of the Morninglord as a gift for Sergei von
+    Zarovich on his wedding day. The blade was enchanted to glow with sunlight and destroy undead.
+    When Strahd murdered Sergei and became a vampire, the sword became both a symbol of his
+    brother's innocence and a weapon capable of destroying him. Strahd hid the blade to prevent it
+    from being used against him, but couldn't bring himself to destroy it - his last connection to
+    his brother.
+
+  connectionToMainStory: |
+    The Sunsword represents Strahd's greatest regret - his murder of Sergei. Using the blade
+    against him is poetic justice. The sword is one of three artifacts that significantly increase
+    the party's chances of victory in the final battle. Without it, Strahd's regeneration and
+    resistances make him nearly invincible.
+
+  historicalContext: |
+    Sergei was everything Strahd was not - young, kind, beloved. When Tatyana chose Sergei over
+    Strahd, the elder brother's jealousy consumed him. He made a dark pact, murdered Sergei on his
+    wedding day, and became a vampire. The Sunsword, meant to be a symbol of Sergei's marriage,
+    became an instrument of vengeance.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.81 (Tarokka outcomes)"
+  official: true
+  estimatedDuration: "1-2 sessions depending on location"
+  tags: ["artifact", "exploration", "combat", "legendary_item", "tarokka_variable"]
+  notes: "Sunsword location determined by Tarokka reading. Common locations: Castle Ravenloft treasury, Amber Temple vault, Abbey crypts, etc. Guardians vary by location. Sunsword is hilt only until attuned."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

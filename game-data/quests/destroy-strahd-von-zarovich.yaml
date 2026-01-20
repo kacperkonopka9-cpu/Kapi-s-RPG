@@ -1,0 +1,427 @@
+# Quest 12: Destroy Strahd von Zarovich
+# FINAL QUEST: Confront and defeat the vampire lord
+
+questId: "destroy_strahd_von_zarovich"
+name: "Destroy Strahd von Zarovich"
+type: "main"
+category: "combat"
+
+questGiver:
+  npcId: null
+  location: "castle_ravenloft"
+  dialogue: "The time has come. Strahd awaits in his castle. Only his destruction can free Barovia."
+
+questRecipient: "player"
+
+description:
+  short: "Confront Strahd von Zarovich at Castle Ravenloft and end his reign"
+  full: "You have gathered the three legendary artifacts, recruited your destined ally, and learned Strahd's weakness. Now comes the final trial - infiltrating Castle Ravenloft, navigating to the location revealed by the Tarokka, and confronting Strahd von Zarovich in battle. This vampire lord has ruled Barovia for 400 years. He is a legendary creature with immense power, cunning, and the entire castle as his lair. Victory requires strategy, courage, and perhaps a bit of luck. Defeat him, and Barovia is freed. Fail, and you become his eternal servants."
+
+status: "not_started"
+
+prerequisites:
+  level: 9
+  requiredQuests:
+    completed:
+      - "find_the_sunsword"
+      - "find_the_holy_symbol_of_ravenkind"
+      - "find_the_tome_of_strahd"
+      - "identify_the_ally"
+      - "confront_strahds_weakness"
+  requiredEvents: []
+  requiredNPCs:
+    alive:
+      - "strahd_von_zarovich"
+    dead: []
+  requiredItems:
+    - "sunsword"
+    - "holy_symbol_of_ravenkind"
+    - "tome_of_strahd"
+  requiredLocations:
+    visited: []
+
+objectives:
+  - objectiveId: "prepare_for_assault"
+    description: "Make final preparations before assaulting Castle Ravenloft"
+    type: "social"
+    status: "pending"
+    target: null
+    optional: true
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+  - objectiveId: "enter_castle_ravenloft"
+    description: "Infiltrate Castle Ravenloft"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "castle_ravenloft"
+      location: "castle_ravenloft"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 300
+      items: []
+      currency: {}
+
+  - objectiveId: "navigate_to_weakness_location"
+    description: "Navigate through the castle to the location revealed by Tarokka"
+    type: "exploration"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+  - objectiveId: "destroy_heart_of_sorrow"
+    description: "Destroy the Heart of Sorrow to remove Strahd's regeneration"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "object"
+      id: "heart_of_sorrow"
+      location: "castle_ravenloft_tower"
+    optional: true
+    completionTrigger:
+      type: "object_destroyed"
+    rewards:
+      experience: 1000
+      items: []
+      currency: {}
+
+  - objectiveId: "confront_strahd"
+    description: "Confront Strahd von Zarovich at the weakness location"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "strahd_von_zarovich"
+      location: "variable"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 300
+      items: []
+      currency: {}
+
+  - objectiveId: "defeat_strahd"
+    description: "Defeat Strahd von Zarovich in combat"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "strahd_von_zarovich"
+      location: "variable"
+    optional: false
+    completionTrigger:
+      type: "npc_defeated"
+    rewards:
+      experience: 3000
+      items: []
+      currency: {}
+
+  - objectiveId: "escape_barovia"
+    description: "Escape Castle Ravenloft as it collapses and leave Barovia"
+    type: "exploration"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 700
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "strahd_von_zarovich"
+        status: "destroyed"
+
+      - type: "location_state"
+        locationId: "barovia"
+        changes:
+          curse_lifted: true
+          mists_parted: true
+          escape_possible: true
+
+      - type: "campaign_status"
+        status: "completed"
+
+    triggeredEvents:
+      - eventId: "curse_of_strahd_lifted"
+        delay: "0"
+
+      - eventId: "barovia_mists_part"
+        delay: "0"
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "ireena_kolyana"
+        attitudeChange: 50
+        dialogue: "You've done it... you've freed us all. Barovia can finally heal."
+
+      - npcId: "ismark_kolyanovich"
+        attitudeChange: 50
+        dialogue: "The Devil is dead. I never thought I'd see this day."
+
+  onFailure:
+    stateChanges:
+      - type: "campaign_status"
+        status: "total_party_kill"
+
+    triggeredEvents:
+      - eventId: "party_becomes_strahd_servants"
+        delay: "0"
+
+    npcReactions:
+      - npcId: "strahd_von_zarovich"
+        attitudeChange: 0
+        dialogue: "You fought well, but not well enough. Now you are mine... forever."
+
+    canRetry: false
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: false
+
+rewards:
+  experience: 5000
+
+  items:
+    - itemId: "strahds_treasure_hoard"
+      quantity: 1
+      source: "castle_ravenloft_treasury"
+
+  currency:
+    gold: 10000
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "barovia"
+      change: 100
+
+  specialRewards:
+    - type: "campaign_completion"
+      description: "Curse of Strahd campaign completed - Barovia is freed"
+
+    - type: "legendary_status"
+      description: "Party becomes legendary heroes, saviors of Barovia"
+
+branches:
+  - branchId: "artifact_count"
+    description: "Combat difficulty varies based on artifacts possessed"
+    decision:
+      autoDecide: true
+      condition: "count_possessed_artifacts()"
+      outcomes:
+        - conditionValue: 3
+          description: "All 3 artifacts (optimal fight)"
+          consequences:
+            - type: "combat_modifier"
+              target: "strahd_von_zarovich"
+              modifier: "vulnerability_radiant"
+              description: "Strahd vulnerable to radiant damage from Sunsword and Holy Symbol"
+
+        - conditionValue: 2
+          description: "2 artifacts (balanced fight)"
+          consequences:
+            - type: "combat_modifier"
+              target: "strahd_von_zarovich"
+              modifier: "reduced_regeneration"
+              description: "Strahd's regeneration reduced by 10 HP per turn"
+
+        - conditionValue: "0-1"
+          description: "0-1 artifacts (very difficult fight)"
+          consequences:
+            - type: "combat_modifier"
+              target: "strahd_von_zarovich"
+              modifier: "full_power"
+              description: "Strahd at full power - regeneration, resistances, legendary actions all maximized"
+
+  - branchId: "heart_of_sorrow"
+    description: "Destroying Heart of Sorrow removes Strahd's damage buffer"
+    decision:
+      autoDecide: true
+      condition: "heart_of_sorrow_destroyed"
+      outcomes:
+        - conditionValue: true
+          description: "Heart destroyed"
+          consequences:
+            - type: "combat_modifier"
+              target: "strahd_von_zarovich"
+              modifier: "no_heart_of_sorrow"
+              description: "Strahd loses 50 HP damage buffer from Heart of Sorrow"
+
+        - conditionValue: false
+          description: "Heart intact"
+          consequences:
+            - type: "combat_modifier"
+              target: "strahd_von_zarovich"
+              modifier: "heart_of_sorrow_active"
+              description: "Strahd's Heart of Sorrow absorbs first 50 damage dealt to him"
+
+journalEntries:
+  initial: "The time has come. We have the artifacts, the ally, and the knowledge. Castle Ravenloft looms before us, a monument to Strahd's tyranny. Tonight, we end his reign or die trying. Barovia's fate rests on our shoulders."
+
+  updates:
+    - trigger: "enter_castle_ravenloft_complete"
+      entry: "We've entered Castle Ravenloft. The castle is a labyrinth of death traps, undead guardians, and horrors. Every room could be our last. But we press forward. Strahd awaits."
+
+    - trigger: "destroy_heart_of_sorrow_complete"
+      entry: "We've destroyed the Heart of Sorrow, the giant crystal that absorbs damage meant for Strahd. He's vulnerable now - truly mortal, if a vampire can be called mortal. The castle shudders with his rage."
+
+    - trigger: "confront_strahd_complete"
+      entry: "Face to face with Strahd von Zarovich at last. He's calm, confident, almost amused. He speaks of destiny, of cycles, of Tatyana. But his words are a veil over his rage and fear. He knows this could be his end. The final battle begins now."
+
+  completion: "Strahd von Zarovich is destroyed. As his body crumbles to dust, the castle begins to collapse. We flee through crumbling corridors as the very foundations shake. Outside, the mists part for the first time in centuries. Barovia is free. We've done the impossible - we've defeated the Devil Strahd and lifted his curse. The people of Barovia can finally live without fear. We are heroes, legends, saviors. But the cost was high, and the scars will remain. Still, Barovia has hope now. And that's worth everything."
+
+  failure: "Strahd has defeated us. As darkness takes me, I see his face - triumphant, pitying, almost sad. We join the countless others who thought they could defeat him. Barovia remains cursed. And we... we are his now. Forever."
+
+eventSchedulerIntegration:
+  registeredEvents:
+    - eventId: "castle_collapse_countdown"
+      trigger:
+        type: "event_triggered"
+        eventId: "strahd_defeated"
+      effect:
+        type: "countdown"
+        message: "The castle shakes violently! You have 10 minutes to escape before it collapses completely!"
+
+dmGuidance:
+  narrativeHooks:
+    - "This is the campaign climax - make it epic and memorable"
+    - "Strahd should have a final speech before combat - offer terms, speak of Tatyana, reveal his philosophy"
+    - "Use castle features: lair actions, environmental hazards, undead reinforcements"
+    - "Strahd fights intelligently - uses hit-and-run tactics, charm/dominate, summons minions"
+    - "If Strahd is reduced to 0 HP, he returns to his coffin unless destroyed there"
+    - "Final moment: Strahd's dust dissolves, mists part, sun breaks through, Barovia is freed"
+    - "Reference artifacts in combat: Sunsword burns Strahd, Holy Symbol repels him, Tome knowledge predicts his moves"
+    - "If party has all 3 artifacts, Strahd is genuinely afraid (first time in centuries)"
+
+  roleplayTips:
+    - "Strahd is arrogant but not stupid - he recognizes the threat and fights seriously"
+    - "He may try to turn Ireena against the party or offer her as terms of surrender"
+    - "Strahd uses legendary actions to dominate battlefield - describe each dramatically"
+    - "When defeated: Grant Strahd a final speech - regrets, curses, or peaceful acceptance"
+    - "Strahd comments on artifacts: 'Sergei's blade... Tasha's symbol... my own confessions. You came prepared.'"
+    - "If party read the Tome, reference insights: 'So you know my story. Does it change anything?'"
+
+  artifactUsageInCombat:
+    - artifact: "Sunsword"
+      tacticalAdvantage: "Deals +1d8 radiant vs undead (including Strahd). Emits sunlight (disadvantage for Strahd in 15 ft). Prevents Strahd regeneration while in sunlight."
+      narrativeImpact: "Strahd recoils from the blade's light. He hasn't seen true sunlight in 400 years - it burns like guilt."
+
+    - artifact: "Holy Symbol of Ravenkind"
+      tacticalAdvantage: "Hold Vampires paralyzes Strahd (DC 15 Wis save, once/day). Daylight spell creates sunlight zone. Turn Undead amplifier."
+      narrativeImpact: "Tasha Petrovna wounded Strahd with this symbol 200 years ago. He remembers. He fears."
+
+    - artifact: "Tome of Strahd"
+      tacticalAdvantage: "Advantage on Insight checks vs Strahd. +2 initiative vs Strahd. Advantage vs Charm effects. Understand his tactics and psychology."
+      narrativeImpact: "Party knows Strahd's regrets, obsessions, and patterns. They can predict his moves and counter his arguments."
+
+  allThreeArtifactsBonus:
+    effect: "Strahd loses resistance to non-magical damage (vulnerability to radiant remains). Regeneration reduced by 10/turn. Legendary Resistances reduced to 2 (from 3)."
+    narrative: "Strahd realizes party has everything - weapons, faith, and knowledge. For the first time in centuries, he faces true danger."
+
+  combatEncounters:
+    - encounter: "strahd_von_zarovich_final_battle"
+      location: "variable_by_tarokka"
+      cr: 15
+      monsters:
+        - "strahd_von_zarovich"
+      tactics: "Phase 1: Summons, lair actions, test party strength. If party has Sunsword, avoid its wielder. Phase 2: Direct combat, uses legendary actions aggressively. Targets Holy Symbol wielder to prevent Hold Vampires. Phase 3 (below 50 HP): Desperate tactics, charm attempts, retreat to coffin if possible. If party has all artifacts, Strahd fights more defensively - he knows he can lose. Use environment, minions, and 400 years of accumulated wisdom."
+
+  commonPitfalls:
+    - "Don't let Strahd become a punching bag - use mobility and tactics"
+    - "Party may not destroy coffin - Strahd regenerates if they don't find it"
+    - "Party may not have artifacts - scale Strahd down slightly or provide escape route"
+    - "Combat may drag - use phases and escalating tension"
+    - "Underusing artifacts - remind players of artifact abilities (Daylight, Hold Vampires, Tome insights)"
+    - "Forgetting artifact bonuses - apply radiant damage from Sunsword, advantage from Tome automatically"
+
+  alternatives:
+    - "Ireena can sacrifice herself to redeem Strahd (bittersweet ending)"
+    - "Party can trap Strahd instead of destroying him (temporary solution)"
+    - "Strahd can offer to join party against Dark Powers (twist ending)"
+    - "Party can claim castle and become new dark lords (evil ending)"
+    - "If party has all artifacts + ally, Strahd may surrender honorably (rare, requires high Persuasion)"
+    - "Partial victory: Strahd escapes but mists part temporarily, allowing refugees to flee Barovia"
+
+relationships:
+  partOfQuestChain:
+    chainId: "main_story"
+    position: 12
+
+  blocksQuests: []
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 10
+  challengeRating: 15
+  skillChecks:
+    - skill: "persuasion"
+      dc: 20
+      description: "Convince Strahd to surrender (nearly impossible)"
+    - skill: "insight"
+      dc: 18
+      description: "Predict Strahd's tactics"
+    - skill: "stealth"
+      dc: 16
+      description: "Navigate castle without alerting all guardians"
+
+lore:
+  background: |
+    This is the culmination of 400 years of Strahd's reign. He's fought countless adventurers,
+    crushed rebellions, and watched empires rise and fall. But every cycle, the Tarokka reading
+    returns, prophesying his defeat. This party might be the one to fulfill that prophecy. Strahd
+    fights not just for his existence but for his obsession with Tatyana. If he falls, he loses
+    everything - his power, his castle, and any chance of claiming his lost love.
+
+  connectionToMainStory: |
+    This is THE story. Everything has led to this moment. The village of Barovia suffering under
+    oppression. Ireena hunted as Tatyana reincarnated. The artifacts scattered across the land. The
+    ally recruited. The weakness revealed. All converges here, in Castle Ravenloft, in the final
+    battle against the Devil Strahd.
+
+  historicalContext: |
+    Strahd became a vampire on the night of Sergei's wedding, 400 years ago. He murdered his
+    brother, made a pact with dark powers, and watched Tatyana throw herself from the castle
+    walls. The Dark Powers punished him by trapping him in Barovia forever, cursed to watch
+    Tatyana's soul reborn and die repeatedly. This battle determines whether that curse finally
+    ends.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.231-232 (Strahd stats), p.59-83 (Castle Ravenloft)"
+  official: true
+  estimatedDuration: "2-4 sessions (castle exploration + final battle)"
+  tags: ["final_boss", "combat", "climax", "legendary_creature", "campaign_completion"]
+  notes: "Use full Strahd stat block (CR 15). He has lair actions in castle. Combat should be 6-10 rounds. Allow dramatic moments, last stands, heroic sacrifices. This is the campaign climax - make it memorable."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

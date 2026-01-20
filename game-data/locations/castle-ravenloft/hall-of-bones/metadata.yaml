@@ -1,0 +1,24 @@
+# Location Metadata - Castle Ravenloft: Hall of Bones
+
+location_name: "Castle Ravenloft - Hall of Bones"
+location_type: "dungeon_area"
+danger_level: 3
+recommended_level: "8-9"
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+rooms_included: ["K67: Hall (Main)", "K68-K71: Guard Chambers"]
+room_count: 5
+description_token_count: 900
+npc_count: 2
+item_count: 2
+event_count: 2
+typical_encounters:
+  - name: "Skeletons"
+    cr: 0.25
+    count: "1d4+2"
+  - name: "Wights"
+    cr: 3
+    count: "1d3"
+last_validated: null
+validation_status: "pending"

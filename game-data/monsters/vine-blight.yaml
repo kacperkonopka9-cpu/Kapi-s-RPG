@@ -1,0 +1,202 @@
+# Vine Blight - Entangling Plant Creature
+# Source: Curse of Strahd p.230
+# Evil plant creature with constricting vines, medium blight type
+
+# === BASIC INFORMATION ===
+name: "Vine Blight"
+monsterId: "vine_blight"
+size: "Medium"
+type: "plant"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.5  # CR 1/2
+experiencePoints: 100
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12
+armorType: "natural armor"
+
+hitPoints:
+  max: 26
+  current: 26
+  hitDice: "4d8"
+  hitDiceBonus: 4  # +1 Con modifier * 4 HD = +4
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 15    # +2
+  dexterity: 8    # -1
+  constitution: 12  # +1
+  intelligence: 5   # -3
+  wisdom: 10     # +0
+  charisma: 3    # -4
+
+# === SPEEDS ===
+speed:
+  walk: 10  # Slow but can grapple
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills:
+  stealth: 1  # +0 Wis + 1 (special) - camouflage bonus
+
+damageVulnerabilities: ["fire"]
+damageResistances: []
+damageImmunities: []
+conditionImmunities: ["blinded", "deafened"]
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 60  # Senses through vibrations
+  blindsightNote: "blind beyond this radius"
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "understands but can't speak"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "vine_blight_1"  # Will be set dynamically per instance
+  name: "Vine Blight"
+  dexModifier: -1
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "False Appearance"
+    description: "While the blight remains motionless, it is indistinguishable from a tangle of vines."
+    mechanics:
+      type: "stealth"
+      condition: "motionless"
+      effect: "indistinguishable_from_normal_vines"
+
+# === ACTIONS ===
+actions:
+  - name: "Constrict"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Str + 2 prof
+    reach: 10  # Long vines
+    targets: 1
+    damage:
+      dice: "2d6"
+      bonus: 2  # Str modifier
+      damageType: "bludgeoning"
+    description: "Melee Weapon Attack: +4 to hit, reach 10 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage, and a Large or smaller target is grappled (escape DC 12). Until this grapple ends, the target is restrained, and the blight can't constrict another target."
+    additionalEffects:
+      - type: "grapple"
+        targetSize: "Large_or_smaller"
+        escapeDC: 12
+        effect: "target_restrained_while_grappled"
+        limit: "one_target_at_a_time"
+
+  - name: "Entangling Plants (Recharge 5-6)"
+    description: "Grasping roots and vines sprout in a 15-foot radius centered on the blight, withering away after 1 minute. For the duration, that area is difficult terrain for nonplant creatures. In addition, each creature of the blight's choice in that area when the plants appear must succeed on a DC 12 Strength saving throw or become restrained. A creature can use its action to make a DC 12 Strength check, freeing itself or another entangled creature within reach on a success."
+    mechanics:
+      type: "area_control"
+      recharge: [5, 6]
+      area: "15_ft_radius_centered_on_blight"
+      duration: "1_minute"
+      effect:
+        - "difficult_terrain_for_nonplants"
+        - "restrained_on_failed_save"
+      saveDC: 12
+      saveAbility: "strength"
+      escape: "DC_12_strength_check_as_action"
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "entangling_vines"
+      quantity: "2d4"
+      dropChance: 70
+      note: "Can be used as rope (50 ft length)"
+    - item: "blight_seed"
+      quantity: 1
+      dropChance: 30
+      note: "Cursed seed, grows new blight if planted"
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Ambush predator using False Appearance (indistinguishable from vines when motionless). Entangling Plants (Recharge 5-6) to create 15 ft radius difficult terrain + restrain enemies (DC 12 Str save). Constrict attack (reach 10 ft, 2d6+2 bludgeoning) grapples and restrains one target (escape DC 12). Grappled target is restrained (disadvantage on attacks, advantage against them). Slow speed (10 ft) but long reach (10 ft) and area control. Vulnerable to fire. Pair with needle blights for ranged support."
+  intelligence: "animal_intelligence"
+  aggression: "medium"  # Ambush predator
+  groupTactics: "control"  # Grapple and restrain
+
+  preferredTargets:
+    - "isolated party members"
+    - "spellcasters (grapple to disrupt)"
+    - "nearest threat"
+
+  fleeThreshold: 8  # HP threshold
+  fleeConditions: ["fire_present", "below_30_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Wizard of Wines vineyard, Yester Hill, corrupted forests, vine-choked ruins"
+  organization: "Solitary, pair, or tangle (3-6 vine blights + 6-12 needle blights)"
+
+lore:
+  description: "Vine blights are medium-strength blight creatures, more dangerous than needle blights due to their grappling and area control abilities. They appear as masses of thick, thorny vines twisted into a roughly humanoid shape. Vine blights excel at ambushes, using their False Appearance to blend in with normal vegetation until prey approaches. Once activated, they use Entangling Plants to create zones of difficult terrain filled with grasping roots, then constrict individual targets with their powerful vines. Like all blights, they are spawned by the corruption of Gulthias Trees and serve evil druids and dark forces."
+  weakness: "Vulnerable to fire (double damage). Slow speed (10 ft). Low Dexterity (-1). Blindsight only 60 ft. Once grappling, can't constrict additional targets."
+  behavior: "Ambush predators. Use False Appearance to blend with vines. Entangling Plants to control battlefield. Constrict to grapple and restrain high-priority targets (spellcasters). Restrained condition: Victim has disadvantage on attacks, attackers have advantage against victim. Hold grappled target until dead or help arrives. Flee from fire."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 2
+  encounterSize: "1 vine blight for easy, 2-3 for medium, 4-6 for hard (with needle blights)"
+  terrain: "Wizard of Wines vineyard, Yester Hill, vine-covered ruins, forest undergrowth"
+  tactics: "WIZARD OF WINES DELIVERY QUEST: Vine blights control key areas of vineyard. False Appearance: Appear as normal vines until party gets close. Entangling Plants (Recharge 5-6): 15 ft radius difficult terrain + restrain DC 12. Constrict: Grapple spellcasters (escape DC 12, restrained while grappled). Pair with needle blights (ranged needles) and tree blight (tank). Fire vulnerability - Burning Hands deals double damage to multiple blights."
+
+# === VARIANTS ===
+variants: null
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.230"
+  official: true
+  srdContent: false
+
+  notes: "PRIORITY monster for Wizard of Wines Delivery quest. Medium-strength blight (CR 1/2). Grapple and area control specialist. False Appearance makes excellent ambush. Entangling Plants creates difficult terrain + restrain. Fire vulnerability. Often paired with needle blights (ranged) and tree blight (tank)."
+
+  dmReminders:
+    - "CR 1/2 (100 XP) - medium blight"
+    - "VULNERABLE TO FIRE - double damage"
+    - "False Appearance: Indistinguishable from normal vines when motionless"
+    - "Constrict: Reach 10 ft, 2d6+2 bludgeoning, grapple Large or smaller (escape DC 12)"
+    - "Grappled target is RESTRAINED (disadvantage on attacks, advantage against)"
+    - "Can only grapple one target at a time"
+    - "Entangling Plants (Recharge 5-6): 15 ft radius, difficult terrain + restrain DC 12 Str"
+    - "Speed 10 ft (SLOW) but reach 10 ft and area control"
+    - "HP 26 (moderate for CR 1/2)"
+    - "Blindsight 60 ft (blind beyond)"
+    - "Pair with needle blights for ranged support"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

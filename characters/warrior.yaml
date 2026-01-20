@@ -1,0 +1,110 @@
+# Level 1 Human Fighter
+# Created: 2025-11-29
+
+name: "Warrior"
+race: "Human"
+class: "Fighter"
+level: 1
+experience: 0
+background: "Soldier"
+alignment: "Neutral Good"
+
+abilities:
+  strength: 16      # 15 base + 1 Human
+  dexterity: 14     # 13 base + 1 Human
+  constitution: 15  # 14 base + 1 Human
+  intelligence: 11  # 10 base + 1 Human
+  wisdom: 13        # 12 base + 1 Human
+  charisma: 9       # 8 base + 1 Human
+
+hp: 12              # 10 (d10 max) + 2 (Con modifier) - REQUIRED FIELD
+hitPoints:
+  max: 12
+  current: 12
+  temporary: 0
+  hitDice:
+    total: 1
+    spent: 0
+    die: "d10"
+
+armorClass: 16      # Chain mail (16) - no Dex for heavy armor
+
+proficiencies:
+  armor: ["light", "medium", "heavy", "shields"]
+  weapons: ["simple", "martial"]
+  savingThrows: ["strength", "constitution"]
+  skills: ["athletics", "perception"]
+  tools: ["dice_set", "vehicles_land"]
+  languages: ["Common"]
+
+proficiencyBonus: 2
+
+spellcasting: null
+
+inventory:
+  equipped:
+    armor: "chain_mail"
+    mainHand: "longsword"
+    offHand: "shield"
+    ring1: null
+    ring2: null
+    amulet: null
+    cloak: null
+    boots: null
+    gloves: null
+    helm: null
+  backpack:
+    - item: "rope_hemp_50ft"
+      quantity: 1
+    - item: "rations"
+      quantity: 5
+    - item: "torch"
+      quantity: 3
+    - item: "bedroll"
+      quantity: 1
+    - item: "waterskin"
+      quantity: 1
+  currency:
+    platinum: 0
+    gold: 10
+    electrum: 0
+    silver: 15
+    copper: 0
+
+weight:
+  current: 85
+  capacity: 240     # Str 16 x 15
+  pushDragLift: 480
+
+conditions: []
+
+exhaustionLevel: 0
+
+attunement:
+  items: []
+  max: 3
+
+features:
+  - name: "Fighting Style (Defense)"
+    description: "+1 AC while wearing armor (already included in AC)"
+    uses: null
+    maxUses: null
+    recharge: null
+  - name: "Second Wind"
+    description: "Regain 1d10 + 1 HP as bonus action"
+    uses: 1
+    maxUses: 1
+    recharge: "short_rest"
+
+deathSaves:
+  successes: 0
+  failures: 0
+
+inspiration: false
+
+metadata:
+  created: "2025-11-29T00:00:00Z"
+  lastPlayed: null
+  campaign: "curse-of-strahd"
+  playerId: "player"
+  notes: "A battle-hardened soldier ready to face the horrors of Barovia."

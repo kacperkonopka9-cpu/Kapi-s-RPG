@@ -1,0 +1,30 @@
+# Location Metadata - Reformation Center
+
+location_name: "Reformation Center"
+location_type: "building"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 2
+recommended_level: "3-5"
+
+connected_locations:
+  - name: "Town Square"
+    direction: "north"
+    travel_time: "3 minutes"
+  - name: "Town Gates (West)"
+    direction: "west"
+    travel_time: "2 minutes"
+
+description_token_count: 300
+npc_count: 3
+item_count: 4
+event_count: 2
+
+political_location: true
+prison_facility: true
+guard_post: true
+
+last_validated: null
+validation_status: "pending"

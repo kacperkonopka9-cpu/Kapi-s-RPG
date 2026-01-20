@@ -23,6 +23,9 @@ Pale gray light filters through the fog, but the sun remains invisible above the
 ### Night
 True darkness falls over the Village of Barovia, and with it, a silence deeper than death. Every shutter is barred, every door bolted. No lights show in windows—as if the villagers fear drawing attention from the night itself. Wolves howl in the distance, impossibly close despite the Svalich Wood being miles away. The fog becomes almost solid in the darkness, pressing against you like cold fingers. Only fools and the damned walk the streets of Barovia after sunset.
 
+### Foggy
+The perpetual mist that shrouds the Village of Barovia occasionally thickens into an impenetrable fog so dense you can barely see your hand before your face. Visibility drops to mere feet. Buildings emerge from the gray void like ghost ships, their outlines distorted and menacing. Sound becomes muffled and strange—footsteps echo oddly, voices seem to come from wrong directions. You cannot tell if that shadow ahead is a building, a person, or something worse. The damp cold seeps through every layer of clothing, chilling you to the bone. In this heavy fog, the village feels utterly isolated from all reality, as if the mists have severed it from the world and trapped you in a pocket dimension of endless dread. Even the villagers refuse to venture out when the fog grows this thick, knowing that things move within it that should not be seen.
+
 ## Points of Interest
 - **Old Svalich Road** (leads west toward Tser Pool Encampment)
 - **Blood of the Vine Tavern** (village center, run by Arik the barkeeper)

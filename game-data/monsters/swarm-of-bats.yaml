@@ -1,0 +1,184 @@
+# Swarm of Bats - Flying Bat Swarm
+# Source: D&D 5e Monster Manual p.337
+# Medium swarm of Tiny beasts, common in Castle Ravenloft
+
+# === BASIC INFORMATION ===
+name: "Swarm of Bats"
+monsterId: "swarm_of_bats"
+size: "Medium"  # Swarm of Tiny creatures occupies Medium space
+type: "swarm"
+subtype: "swarm of Tiny beasts"
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 12
+armorType: "natural armor"
+
+hitPoints:
+  max: 22
+  current: 22
+  hitDice: "5d8"
+  hitDiceBonus: 0  # +0 Con modifier * 5 HD = 0
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 5     # -3
+  dexterity: 15   # +2
+  constitution: 10  # +0
+  intelligence: 2   # -4
+  wisdom: 12     # +1
+  charisma: 4    # -3
+
+# === SPEEDS ===
+speed:
+  walk: 0  # Can't walk, only fly
+  fly: 30
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: ["bludgeoning", "piercing", "slashing"]  # Swarm trait
+damageImmunities: []
+conditionImmunities: ["charmed", "frightened", "grappled", "paralyzed", "petrified", "prone", "restrained", "stunned"]  # Swarm trait
+
+# === SENSES ===
+senses:
+  darkvision: null
+  blindsight: 60
+  blindsightNote: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 11
+
+# === LANGUAGES ===
+languages: []
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "swarm_of_bats_1"
+  name: "Swarm of Bats"
+  dexModifier: 2
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Echolocation"
+    description: "The swarm can't use its blindsight while deafened."
+    mechanics:
+      type: "sense_limitation"
+      sense: "blindsight"
+      disabledBy: "deafened_condition"
+
+  - name: "Keen Hearing"
+    description: "The swarm has advantage on Wisdom (Perception) checks that rely on hearing."
+    mechanics:
+      type: "sense_enhancement"
+      advantage: ["perception_checks_hearing"]
+
+  - name: "Swarm"
+    description: "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny bat. The swarm can't regain hit points or gain temporary hit points."
+    mechanics:
+      type: "swarm_mechanics"
+      canOccupySameSpace: true
+      canMoveThroughTinyOpening: true
+      cannotRegainHP: true
+      cannotGainTempHP: true
+
+# === ACTIONS ===
+actions:
+  - name: "Bites"
+    type: "melee_weapon_attack"
+    attackBonus: 4  # +2 Dex + 2 prof
+    reach: 0  # In same space
+    targets: 1
+    damage:
+      dice: "2d4"
+      bonus: 0
+      damageType: "piercing"
+    damageHalfHP:
+      dice: "1d4"
+      bonus: 0
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +4 to hit, reach 0 ft., one creature in the swarm's space. Hit: 5 (2d4) piercing damage, or 2 (1d4) piercing damage if the swarm has half of its hit points or fewer."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional: []
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Swarm mechanics: Occupy same space as enemies. Move through tiny openings. Resistant to physical damage. Immune to most conditions. Bites deal 2d4 damage (half when below 11 HP). Blindsight 60 ft but disabled if deafened. Harass spellcasters by occupying their space."
+  intelligence: "animal_intelligence"
+  aggression: "medium"
+  groupTactics: "swarm"
+
+  preferredTargets:
+    - "spellcasters (occupy space to disrupt)"
+    - "low-HP characters"
+
+  fleeThreshold: 5
+  fleeConditions: ["below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Caves, Castle Ravenloft, ruins, bell towers"
+  organization: "Solitary or colony (2-4 swarms)"
+
+lore:
+  description: "Swarms of bats are common in Castle Ravenloft's towers and caves. They use echolocation to navigate in darkness. While individually harmless, a swarm can overwhelm victims with countless tiny bites."
+  weakness: "Damage reduced by half when at half HP. Deafened condition disables blindsight. Cannot heal."
+  behavior: "Occupy enemy space. Disrupt spellcasters. Move through small gaps. Flee when damaged."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "1 swarm for easy, 2-3 for medium"
+  terrain: "Castle Ravenloft towers, caves"
+  tactics: "Occupy spellcaster space. Resistant to physical damage (encourage spells). Damage halves at 11 HP."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.337"
+  official: true
+  srdContent: true
+
+  notes: "Common Castle Ravenloft hazard. Swarm mechanics disrupt spellcasters. Resistant to martial attacks."
+
+  dmReminders:
+    - "Swarm: Occupy same space, move through tiny gaps"
+    - "Resistant to bludgeoning, piercing, slashing"
+    - "Immune to many conditions (grappled, prone, etc.)"
+    - "Cannot heal or gain temp HP"
+    - "Damage: 2d4 normally, 1d4 at half HP (11 or less)"
+    - "Blindsight 60 ft (disabled if deafened)"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

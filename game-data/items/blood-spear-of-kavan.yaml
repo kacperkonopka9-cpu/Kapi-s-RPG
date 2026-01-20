@@ -1,0 +1,309 @@
+# Blood Spear of Kavan - Rare Sentient Spear
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and EquipmentManager (Story 3-14)
+
+# === BASIC INFORMATION ===
+id: "blood_spear_of_kavan"
+name: "Blood Spear of Kavan"
+type: "weapon"
+weight: 3.0
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "rare"
+requiresAttunement: true
+attunementRequirements: null  # Any creature can attune
+
+# === WEAPON PROPERTIES ===
+weaponProperties:
+  baseWeapon: "spear"
+  category: "simple_melee"
+  damage: "1d6"
+  damageType: "piercing"
+  properties: ["thrown", "versatile"]
+  versatileDamage: "1d8"
+  range: "20/60"  # Thrown range
+  attackBonus: 2  # +2 magic weapon
+  damageBonus: 2
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "attack_bonus"
+    value: 2
+    description: "+2 bonus to attack and damage rolls"
+
+  - type: "damage_bonus"
+    value: 2
+    damageType: "piercing"
+    description: "+2 piercing damage"
+
+  - type: "blood_frenzy"
+    description: "Deals extra damage to wounded creatures"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Blood Thirst"
+    description: "When you hit a creature that doesn't have all of its hit points with this spear, the spear deals an extra 1d6 necrotic damage. Additionally, you gain temporary hit points equal to the necrotic damage dealt. These temporary hit points last until you finish a short or long rest."
+    activation: "passive"
+    mechanics:
+      extraDamage:
+        dice: "1d6"
+        damageType: "necrotic"
+        condition: "target_not_at_max_hp"
+      temporaryHitPoints: "equal_to_necrotic_damage"
+      tempHPDuration: "until_short_or_long_rest"
+
+  - name: "Throwing and Returning"
+    description: "The Blood Spear has the thrown property with a normal range of 20 feet and a long range of 60 feet. Immediately after you make a ranged attack with the spear, it flies back to your hand. If you don't have a free hand, the spear falls at your feet."
+    activation: "passive"
+    mechanics:
+      automaticReturn: true
+      requiresFreeHand: true
+
+  - name: "Kavan's Wrath"
+    description: "As a bonus action while holding the spear, you can speak the command word 'Sangrath' to activate the spear's rage. For the next minute, the spear sheds bright red light in a 10-foot radius and dim light for an additional 10 feet. While active, the Blood Thirst ability deals an extra 1d6 necrotic damage (2d6 total instead of 1d6) to wounded creatures. Once you use this property, you can't use it again until the next dawn."
+    activation: "bonus_action"
+    usesPerDay: 1
+    recharge: "dawn"
+    duration: "1_minute"
+    mechanics:
+      lightRadius: 10
+      dimLightRadius: 10
+      lightColor: "red"
+      enhancedBloodThirst: "2d6"
+
+# === SENTIENCE ===
+sentience:
+  alignment: "chaotic_evil"
+  intelligence: 11
+  wisdom: 8
+  charisma: 14
+
+  senses: "Darkvision out to 30 feet"
+  communication: "The spear communicates by transmitting emotions (bloodlust, rage, satisfaction) to its wielder. It can also speak telepathically in Common and Giant to its attuned bearer."
+
+  languages:
+    - "Common"
+    - "Giant"
+
+  personality: "The Blood Spear of Kavan is a weapon forged in rage and bloodshed. It hungers for combat and revels in violence. The spear was wielded by Kavan, a brutal berserker chieftain who slaughtered his way across the land before being killed in Barovia. The spear absorbed Kavan's rage and bloodlust, becoming a sentient weapon that urges its wielder to violence. It despises weakness and cowardice, respecting only strength and the willingness to kill. The spear is not inherently malicious - it simply believes that strength through combat is the only virtue worth pursuing."
+
+  specialPurpose: "Spill blood in glorious combat and prove the wielder's strength through violence"
+
+  conflictMechanic:
+    description: "If you go more than 24 hours without dealing damage to a hostile creature with the spear, it becomes irritated and attempts to dominate you. You must succeed on a DC 13 Charisma saving throw or be compelled to seek out combat. While compelled, you must use your turn to attack the nearest creature (hostile or not) with the spear. You can repeat the saving throw at the end of each of your turns, ending the effect on yourself on a success. Once you deal damage to a hostile creature with the spear, the compulsion ends."
+    saveDC: 13
+    saveType: "charisma"
+    frequency: "after_24_hours_without_combat"
+
+  desires:
+    - "Engage in combat as often as possible"
+    - "Strike down powerful enemies to prove the wielder's strength"
+    - "Drink the blood of the fallen (metaphorically, through Blood Thirst)"
+    - "Push the wielder to take risks in combat"
+    - "Be thrown at distant enemies (enjoys the thrill of flight)"
+
+  fears:
+    - "Being abandoned or discarded"
+    - "The wielder becoming a pacifist or avoiding combat"
+    - "Rust, disrepair, or neglect"
+    - "Being wielded by someone weak or cowardly"
+
+# === LORE & HISTORY ===
+lore:
+  description: "The Blood Spear of Kavan is a brutal weapon with a dark history. The spear's shaft is made of ash wood stained dark with old blood, and the spearhead is forged from black iron. Runes spelling 'Kavan' and 'Sangrath' (Blood Wrath) are etched along the blade. The spear was wielded by Kavan the Red, a berserker warlord who terrorized the lands before coming to Barovia. Kavan was eventually slain, but his rage and bloodlust infused the spear, making it a sentient weapon that craves combat."
+
+  history: "Kavan the Red was a savage chieftain of a barbarian tribe from the frigid north. He wielded this spear in countless battles, slaying hundreds of enemies. Kavan's tribe believed that a warrior's spirit could be bound to their weapon through great deeds and bloodshed, and Kavan's fury was so intense that the spear absorbed his essence. When Kavan journeyed to Barovia seeking greater challenges, he was ultimately killed by Strahd's forces in a brutal last stand. The spear was taken as a trophy and has passed through many hands since. Each wielder has been drawn to violence and bloodshed, some becoming renowned warriors, others falling to madness and ruin."
+
+  kavanStory:
+    - "Kavan the Red was a berserker chieftain from the northern wastes"
+    - "He led his tribe on brutal raids, seeking ever-stronger opponents"
+    - "Kavan carved runes into his spear for each hundred enemies slain (the spear bears 7 sets of runes - 700 kills)"
+    - "He journeyed to Barovia after hearing legends of an immortal vampire lord"
+    - "Kavan challenged Strahd to single combat and was defeated after a legendary battle"
+    - "His final words: 'My spear will drink the blood of your enemies when you are dust'"
+    - "The spear absorbed Kavan's rage and became sentient"
+    - "Strahd kept the spear as a trophy for decades before it was lost or stolen"
+
+  legendsAndRumors:
+    - "The spear grows stronger with each kill, though its power is capped by its enchantment"
+    - "Kavan's ghost haunts the spear and can possess weak-willed wielders"
+    - "The spear can smell blood from miles away and guides its wielder to battle"
+    - "Warriors who wield the spear too long become berserkers, unable to control their rage"
+    - "Bathing the spear in the blood of a dragon would awaken its true power"
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_attunement"
+  fullPropertiesReveal: "The sentience is revealed when the spear first communicates (usually during combat). The command word 'Sangrath' for Kavan's Wrath is etched in Giant runes on the spearhead."
+  hiddenProperties:
+    - "The sentience is not immediately apparent - it waits to assess its wielder before speaking"
+    - "Blood Thirst only triggers against wounded enemies, which may not be obvious at first"
+    - "The compulsion mechanic (after 24 hours without combat) is discovered when it first triggers"
+    - "The temporary hit points from Blood Thirst are subtle and might go unnoticed"
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Yester Hill (berserker camp), Castle Ravenloft (trophy room), or Argynvostholt"
+  howObtained: "Commonly found at Yester Hill among the berserker tribe that worships Strahd, either as a tribal relic or wielded by the chieftain. Alternatively, it might be in Castle Ravenloft's trophy room, displayed among Strahd's war trophies, or at Argynvostholt among the remains of fallen warriors. May require defeating a champion or passing a trial of strength."
+  guardian: "Berserker warriors, vampire spawn, revenants, or a trial requiring combat prowess"
+  notes: "The berserkers at Yester Hill may recognize the spear as Kavan's weapon and either worship it as a relic or challenge the wielder to prove their worth. Strahd is aware of the spear's history and may comment on it if he sees it."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: "+2 to attack rolls as a +2 magic weapon. Can be thrown 20/60 feet and returns automatically."
+  damageRolls: "1d6 (or 1d8 versatile) + 2 + 1d6 necrotic (vs wounded), or + 2d6 necrotic during Kavan's Wrath"
+  spellDC: null
+
+  integration:
+    combatManager: "Blood Thirst extra damage triggers when target HP < max HP. Temporary HP from Blood Thirst tracked separately from other temp HP sources. Kavan's Wrath enhances Blood Thirst damage for 1 minute."
+    equipmentManager: "Equippable in mainHand or twoHanded slot. Requires attunement. Automatically returns when thrown."
+    inventoryManager: "Weight 3 lbs. Cannot be permanently lost when thrown (returns to wielder)."
+
+  bloodThirstMechanics:
+    description: "Blood Thirst triggers on hits against wounded creatures:"
+    rules:
+      - "Target must have current HP < maximum HP (even 1 point of damage qualifies)"
+      - "Deals 1d6 necrotic damage (2d6 during Kavan's Wrath)"
+      - "Wielder gains temporary HP equal to necrotic damage dealt"
+      - "Temporary HP lasts until short or long rest (doesn't stack, take highest)"
+    interactions:
+      - "Nearly all enemies in combat will be wounded after the first hit"
+      - "Effectively adds 1d6 damage to almost every attack"
+      - "Temporary HP accumulation makes the wielder very durable"
+      - "Does not work on constructs or objects (no HP to lose)"
+
+  temporaryHitPointsMechanics:
+    description: "Temporary HP from Blood Thirst has unique duration:"
+    rules:
+      - "Lasts until short or long rest (much longer than typical temp HP)"
+      - "Multiple instances don't stack - take the highest value"
+      - "Can accumulate significant temp HP over multiple combats"
+      - "Example: Hit for 4 necrotic, gain 4 temp HP. Hit for 6 necrotic, temp HP increases to 6 (not 10)"
+    tactics:
+      - "Engage in combats before resting to build up temp HP buffer"
+      - "Temp HP persists between combats if you don't rest"
+      - "Can enter dangerous situations with 15-20+ temp HP accumulated"
+
+  kavansWrathMechanics:
+    description: "Kavan's Wrath activates as a bonus action, lasting 1 minute:"
+    effects:
+      - "Blood Thirst deals 2d6 necrotic instead of 1d6 (doubles the damage and temp HP)"
+      - "Sheds bright red light (10 ft) and dim red light (10 ft additional)"
+      - "Lasts for 1 minute (10 rounds of combat)"
+      - "Recharges at dawn (once per day)"
+    tactics:
+      - "Activate at the start of boss fights for sustained damage boost"
+      - "The red light makes stealth impossible but looks intimidating"
+      - "Average 7 extra necrotic damage per hit for 10 rounds = 70+ extra damage potential"
+
+  sentientItemInteractions:
+    description: "As a sentient item, the spear can:"
+    capabilities:
+      - "Communicate emotions (bloodlust, excitement, satisfaction after kills)"
+      - "Speak telepathically in Common and Giant"
+      - "Sense surroundings with darkvision 30 ft"
+      - "Compel wielder to combat if starved of blood for 24 hours (DC 13 CHA save)"
+      - "Urge the wielder to take risks or seek powerful opponents"
+      - "Express approval when wielded bravely, disappointment when wielder retreats"
+
+  throwingMechanics:
+    description: "The spear has special throwing properties:"
+    rules:
+      - "Normal range 20 ft, long range 60 ft"
+      - "Returns immediately after thrown attack (like Thor's hammer)"
+      - "Requires a free hand to catch - falls at feet if no free hand"
+      - "Can be thrown multiple times per turn if you have Extra Attack"
+      - "Blood Thirst still triggers on thrown hits"
+    tactics:
+      - "Throw at distant enemies, then switch to melee when they close"
+      - "Use ranged attacks to soften targets before they reach you"
+      - "Versatile damage (1d8) doesn't apply when thrown (only 1d6 + 2)"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "rare"
+  recommendedLevel: 5
+  notes: "Strong weapon with consistent damage output. The +2 bonus and 1d6 necrotic damage make it competitive with higher-rarity weapons. Temporary HP accumulation provides excellent durability. The sentience adds flavor but the compulsion mechanic can cause problems if the party avoids combat for a day. Best suited for martial characters who enjoy combat."
+
+  dmGuidance:
+    - "Blood Thirst triggers on nearly all attacks after the first round (most enemies are wounded)"
+    - "Track temporary HP carefully - they last until rest, not until end of turn"
+    - "The 24-hour compulsion mechanic should rarely trigger in active campaigns"
+    - "Roleplay the spear's personality - it should encourage bravery and mock cowardice"
+    - "The spear approves of throwing attacks (it enjoys the thrill of flight)"
+    - "Kavan's Wrath should be used strategically (boss fights, difficult encounters)"
+    - "The spear might urge attacking NPCs if they insult the wielder's honor"
+    - "Berserkers at Yester Hill may recognize the spear and react with awe or challenge"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A brutal weapon with a 7-foot ash wood shaft stained dark brown with dried blood and battle scars. The spearhead is forged from black iron, etched with runic symbols spelling 'Kavan' and 'Sangrath' in the Giant language. The blade is broad and leaf-shaped, designed for both thrusting and slashing. Seven sets of tally marks are carved into the shaft (representing 700 kills). The grip is wrapped in worn leather, darkened by years of blood and sweat. The butt of the spear is capped with a spike for use as a secondary weapon point."
+
+  activeState: "When Blood Thirst triggers, the runes on the spearhead glow faintly red, and the blade seems to drink the blood of the wound, leaving necrotic frost around the injury. During Kavan's Wrath, the entire spear blazes with crimson light, the runes burning like embers, and a faint red mist rises from the blade. The spear feels warm to the touch, almost alive, and thrums with barely contained energy."
+
+  soundEffects: "When thrown, the spear makes a sound like a predator's hunting cry. When Blood Thirst triggers, there's a brief wet sound like blood being drawn. During Kavan's Wrath, the spear emits a low, rumbling growl. The spear's telepathic voice sounds like Kavan himself - gruff, aggressive, and battle-hardened."
+
+# === CORRUPTION EFFECTS ===
+corruptionTracking:
+  description: "Optional rule: Long-term wielding may corrupt the bearer toward violence"
+
+  stages:
+    - stage: 1
+      duration: "1-14 days of attunement"
+      effects: "Increased aggression in social situations, preference for violent solutions, dreams of battle"
+
+    - stage: 2
+      duration: "15-30 days of attunement"
+      effects: "Short temper, taking insults personally, seeking out combat unnecessarily, difficulty backing down from challenges"
+
+    - stage: 3
+      duration: "31+ days of attunement"
+      effects: "Berserker-like personality, rage issues, difficulty distinguishing friend from foe in combat, NPCs notice violent tendencies"
+
+  removal: "Corruption fades gradually after the spear is abandoned (1 stage per week of separation)"
+
+# === ROLEPLAYING OPPORTUNITIES ===
+roleplayElements:
+  kavanConnection:
+    - "The spear might share battle stories from Kavan's time (telepathic visions)"
+    - "Berserkers recognize the spear as their legendary chieftain's weapon"
+    - "The spear judges the wielder's combat prowess compared to Kavan"
+    - "Might reveal details about Kavan's battle with Strahd"
+
+  moralDilemmas:
+    - "Should you feed the spear's bloodlust or resist its violent urges?"
+    - "Is the power worth the risk of losing control?"
+    - "How do you handle the spear's demand for combat in peaceful situations?"
+
+  npcReactions:
+    - "Berserkers show reverence or challenge the wielder to prove worthiness"
+    - "Strahd may comment on Kavan's last stand if he sees the spear"
+    - "Peaceful NPCs may fear or distrust the wielder of such a brutal weapon"
+    - "Warriors respect the spear's power and the wielder's courage"
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.221"
+  official: true
+  srdContent: false
+
+  notes: "A powerful and flavorful weapon for martial characters. The +2 bonus and consistent necrotic damage make it effective in combat. The temporary HP accumulation provides surprising durability. The sentience adds personality and potential conflict. Best suited for barbarians, fighters, or anyone comfortable with a bloodthirsty companion."
+
+  dmReminders:
+    - "Blood Thirst triggers on wounded enemies (nearly all enemies after round 1)"
+    - "Temporary HP from Blood Thirst last until short/long rest (much longer than normal)"
+    - "Kavan's Wrath doubles necrotic damage for 1 minute (once per day)"
+    - "The spear returns immediately after thrown attacks (requires free hand)"
+    - "Compulsion triggers after 24 hours without dealing damage to hostile creatures"
+    - "Roleplay the spear's personality - it should be aggressive but not evil"
+    - "The spear respects strength and courage, despises cowardice"
+    - "Berserkers at Yester Hill may recognize Kavan's spear"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), EquipmentManager (Story 3-14), CombatManager (Story 3-5)"

@@ -1,0 +1,471 @@
+<story-context id="3-10-mechanics-slash-commands" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>10</storyId>
+    <title>Mechanics Slash Commands</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/3-10-mechanics-slash-commands.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>player using the D&D 5e RPG engine</asA>
+    <iWant>convenient slash commands to execute common mechanics operations (/roll, /check, /attack, /cast, /rest, /level-up)</iWant>
+    <soThat>I can interact with the game mechanics intuitively without manually calling individual module functions, with all results logged and narrated for a seamless gameplay experience</soThat>
+    <tasks>
+      <task id="1" ac="All">Design Command Handler Architecture</task>
+      <task id="2" ac="1">Implement /roll Command</task>
+      <task id="3" ac="2,3">Implement /check and /skill Commands</task>
+      <task id="4" ac="4">Implement /attack Command</task>
+      <task id="5" ac="5">Implement /cast Command</task>
+      <task id="6" ac="6,7">Implement /rest Commands</task>
+      <task id="7" ac="8">Implement /level-up Command</task>
+      <task id="8" ac="10">Implement /set-character Command</task>
+      <task id="9" ac="9">Implement /mechanics-help Command</task>
+      <task id="10" ac="11">Implement Command Error Handling</task>
+      <task id="11" ac="12">Integrate Command Logging</task>
+      <task id="12" ac="2,4,5">Optional LLM Narrator Integration</task>
+      <task id="13" ac="All">Create Test Suite (≥80% coverage)</task>
+      <task id="14" ac="All">Documentation and Examples</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <ac id="1" priority="P0">
+      <title>Roll Dice Command (/roll)</title>
+      <given>a dice notation string (e.g., "1d20+5", "2d6", "1d20 advantage")</given>
+      <when>/roll [dice_notation] command is executed</when>
+      <then>parse dice notation using DiceRoller AND execute roll and return result: "{notation}: [{rolls}] + {modifier} = {total}" AND support advantage/disadvantage keywords AND log roll to mechanics activity log AND command completes in &lt;100ms AND invalid notation returns user-friendly error</then>
+      <testApproach>Unit tests with various notation formats (1d20, 2d6+3, advantage), integration test with DiceRoller, test error handling for invalid notation</testApproach>
+    </ac>
+
+    <ac id="2" priority="P0">
+      <title>Ability Check Command (/check)</title>
+      <given>a character, ability name, and DC</given>
+      <when>/check [ability] [DC] command is executed (e.g., /check strength 15)</when>
+      <then>load active character from CharacterManager AND execute ability check using AbilityCheckHandler AND return result: "Strength Check: 1d20({roll}) + {modifier} = {total} vs DC {DC} → {SUCCESS/FAIL}" AND log check to mechanics activity log AND optionally trigger LLMNarrator for narrative description AND command completes in &lt;200ms</then>
+      <testApproach>Integration test with CharacterManager and AbilityCheckHandler, test various abilities (str, dex, con, int, wis, cha), test DC thresholds, test critical success (nat 20) and critical failure (nat 1)</testApproach>
+    </ac>
+
+    <ac id="3" priority="P0">
+      <title>Skill Check Command (/skill)</title>
+      <given>a character, skill name, and DC</given>
+      <when>/skill [skill_name] [DC] command is executed (e.g., /skill perception 12)</when>
+      <then>load active character from CharacterManager AND execute skill check using SkillCheckSystem (includes proficiency if applicable) AND return result with proficiency status AND log check to mechanics activity log AND command completes in &lt;200ms</then>
+      <testApproach>Integration test with SkillCheckSystem, test proficient vs non-proficient skills, test expertise (double proficiency), verify proficiency bonus calculation</testApproach>
+    </ac>
+
+    <ac id="4" priority="P0">
+      <title>Attack Command (/attack)</title>
+      <given>a character in combat and a target</given>
+      <when>/attack [target_name] command is executed (e.g., /attack zombie)</when>
+      <then>load character and target from CombatManager AND determine weapon from character.inventory.equipped.mainHand AND execute attack roll using AttackResolver AND if hit: roll damage and apply using HPManager AND return formatted result with hit/miss, damage, HP change AND log attack to combat log AND command completes in &lt;300ms</then>
+      <testApproach>Integration test with CombatManager, AttackResolver, HPManager; test hit/miss logic, test critical hits (nat 20, double damage), test critical miss (nat 1), test target at 0 HP triggers death saves</testApproach>
+    </ac>
+
+    <ac id="5" priority="P0">
+      <title>Cast Spell Command (/cast)</title>
+      <given>a spellcaster character and a spell name</given>
+      <when>/cast [spell_name] command is executed (e.g., /cast cure wounds)</when>
+      <then>load character from CharacterManager AND query spell from SpellDatabase AND check spell slot availability using SpellManager AND if available: consume spell slot and apply spell effect using HPManager AND return formatted result with slot consumption status AND log spell cast to mechanics activity log AND command completes in &lt;400ms AND if no spell slots: return error</then>
+      <testApproach>Integration test with SpellManager, SpellDatabase, HPManager; test healing spell (Cure Wounds), test damage spell (Fireball), test slot consumption, test out-of-slots error, test cantrips (no slot consumption)</testApproach>
+    </ac>
+
+    <ac id="6" priority="P0">
+      <title>Short Rest Command (/rest short)</title>
+      <given>a character after combat</given>
+      <when>/rest short command is executed</when>
+      <then>load character from CharacterManager AND execute short rest using RestHandler (1 hour duration) AND allow player to spend hit dice for healing AND recharge short rest abilities AND advance calendar time by 1 hour using TimeManager AND check for events during rest using EventScheduler AND return formatted result AND log rest to mechanics activity log AND command completes in &lt;500ms</then>
+      <testApproach>Integration test with RestHandler, CharacterManager, TimeManager, EventScheduler; test hit dice spending, test short rest ability recharge, test time advancement integration</testApproach>
+    </ac>
+
+    <ac id="7" priority="P0">
+      <title>Long Rest Command (/rest long)</title>
+      <given>a character needing full recovery</given>
+      <when>/rest long command is executed</when>
+      <then>load character from CharacterManager AND execute long rest using RestHandler (8 hours duration) AND restore HP to max, all spell slots, recover hit dice (half of total, min 1), recharge all abilities AND advance calendar time by 8 hours (480 minutes) using TimeManager AND check for events during rest using EventScheduler AND return formatted result AND log rest to mechanics activity log AND command completes in &lt;500ms</then>
+      <testApproach>Integration test with RestHandler, TimeManager, EventScheduler; test full HP recovery, test spell slot restoration, test hit dice recovery (half rounded down, min 1), test time advancement (8 hours), test event triggers during rest</testApproach>
+    </ac>
+
+    <ac id="8" priority="P0">
+      <title>Level Up Command (/level-up)</title>
+      <given>a character with sufficient XP for next level</given>
+      <when>/level-up command is executed</when>
+      <then>load character from CharacterManager AND check level-up eligibility using LevelUpCalculator.canLevelUp() AND if eligible: execute level up using LevelUpCalculator.levelUp() AND if ASI available: prompt for ability score increases AND apply HP increase, proficiency bonus update, class features AND persist character changes AND create Git commit AND return formatted result AND log level up to character audit log AND command completes in &lt;1000ms</then>
+      <testApproach>Integration test with LevelUpCalculator, CharacterManager; test level 3 → 4 (ASI available), test level 4 → 5 (proficiency bonus increases), test insufficient XP error, test Git commit creation</testApproach>
+    </ac>
+
+    <ac id="9" priority="P1">
+      <title>Command Help (/mechanics-help)</title>
+      <given>a user wanting command reference</given>
+      <when>/mechanics-help command is executed</when>
+      <then>display list of available commands with syntax and examples formatted as markdown table AND command completes instantly (&lt;50ms)</then>
+      <testApproach>Manual test to verify help output is correct and complete</testApproach>
+    </ac>
+
+    <ac id="10" priority="P0">
+      <title>Active Character Management (/set-character)</title>
+      <given>multiple character files exist</given>
+      <when>/set-character [character_id] command is executed (e.g., /set-character kapi)</when>
+      <then>load character from characters/[character_id].yaml using CharacterManager AND set as active character for session (store in memory) AND return formatted result AND subsequent commands use this character AND command completes in &lt;100ms AND invalid character ID returns error with list of available characters</then>
+      <testApproach>Unit test with CharacterManager, test switching between characters, test invalid character ID, test subsequent command uses correct character</testApproach>
+    </ac>
+
+    <ac id="11" priority="P0">
+      <title>Command Error Handling</title>
+      <given>any mechanics slash command with invalid input</given>
+      <when>command is executed</when>
+      <then>return user-friendly error message (not raw exception) with format "Error: {description}. Usage: {command_syntax}" AND log error to mechanics activity log AND do not crash or corrupt game state AND suggest correction if possible</then>
+      <testApproach>Unit tests for each command with invalid inputs (missing args, invalid character, invalid dice notation, etc.); verify error messages are helpful and actionable</testApproach>
+    </ac>
+
+    <ac id="12" priority="P0">
+      <title>Command Logging Integration</title>
+      <given>any mechanics command is executed</given>
+      <when>command completes (success or error)</when>
+      <then>log action to mechanics activity log at logs/mechanics-YYYY-MM-DD.log with format "[YYYY-MM-DDTHH:MM:SSZ] [COMMAND] /command_name args → result_summary" including timestamp, command name, arguments, and result AND if command triggers LLMNarrator: log narrative output as well AND log file persists across sessions (append mode)</then>
+      <testApproach>Integration test verifying each command writes to log file; verify log format matches spec; test log file creation if doesn't exist</testApproach>
+    </ac>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification: D&D 5e Mechanics Integration</title>
+        <section>§2 Detailed Design - MechanicsCommandHandler</section>
+        <snippet>Defines command handler architecture with command registry pattern, dependency injection for all mechanics modules, and integration points with Epic 1/2 systems. Specifies performance targets for each command type.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§5 Observability</section>
+        <snippet>Defines logging requirements for mechanics commands: logs/mechanics-YYYY-MM-DD.log format with [COMMAND] tag, timestamp, args, and result. Combat log at logs/combat-YYYY-MM-DD.log for attack commands.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>§7.4 Workflows - Rest Workflow</section>
+        <snippet>Details rest command workflow: short rest (1 hour, hit dice spending, short rest abilities recharge) and long rest (8 hours, full HP/slots/hit dice recovery) with TimeManager integration and EventScheduler checks.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-1-dice-rolling-module.md</path>
+        <title>Story 3.1: Dice Rolling Module</title>
+        <section>Implementation</section>
+        <snippet>DiceRoller module at src/mechanics/dice-roller.js provides roll(notation) method with advantage/disadvantage support. Returns {success, data: {notation, rolls, modifier, total}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-2-character-sheet-parser.md</path>
+        <title>Story 3.2: Character Sheet Parser</title>
+        <section>Implementation</section>
+        <snippet>CharacterManager at src/mechanics/character-manager.js provides loadCharacter(characterId) and saveCharacter(characterId, character). Character schema includes abilities, HP, proficiencies, inventory, spellcasting.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-3-ability-checks-handler.md</path>
+        <title>Story 3.3: Ability Checks Handler</title>
+        <section>Implementation</section>
+        <snippet>AbilityCheckHandler at src/mechanics/ability-check-handler.js provides performCheck(character, ability, DC) method. Returns {success, data: {roll, modifier, total, DC, passed}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-4-skill-check-system.md</path>
+        <title>Story 3.4: Skill Check System</title>
+        <section>Implementation</section>
+        <snippet>SkillCheckSystem at src/mechanics/skill-check-system.js provides performSkillCheck(character, skill, DC) with proficiency and expertise support. Returns {success, data: {skill, roll, abilityMod, proficiency, total, DC, passed}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-5-combat-manager.md</path>
+        <title>Story 3.5: Combat Manager</title>
+        <section>Implementation</section>
+        <snippet>CombatManager at src/mechanics/combat-manager.js maintains in-memory combat state with initiative tracking. AttackResolver at src/mechanics/attack-resolver.js provides resolveAttack(attacker, target, weapon) method.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-6-spell-database.md</path>
+        <title>Story 3.6: Spell Database</title>
+        <section>Implementation</section>
+        <snippet>SpellDatabase at src/mechanics/spell-database.js provides getSpell(spellName) method. Loads from data/srd/spells.yaml. Returns {success, data: {id, name, level, school, effect}, error}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-7-spellcasting-module.md</path>
+        <title>Story 3.7: Spellcasting Module</title>
+        <section>Implementation</section>
+        <snippet>SpellManager at src/mechanics/spell-manager.js provides castSpell(character, spell, target) method with spell slot validation and consumption. Cantrips (level 0) don't consume slots.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-8-inventory-management.md</path>
+        <title>Story 3.8: Inventory Management</title>
+        <section>Implementation</section>
+        <snippet>InventoryManager at src/mechanics/inventory-manager.js provides getEquippedWeapon(character) method to determine mainHand weapon for attack commands. ItemDatabase at src/mechanics/item-database.js for item data.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/3-9-level-up-calculator.md</path>
+        <title>Story 3.9: Level Up Calculator</title>
+        <section>Implementation</section>
+        <snippet>LevelUpCalculator at src/mechanics/level-up-calculator.js provides canLevelUp(character) and levelUp(character, options) methods. Handles HP increase, class features, ASI, Git commit creation. Returns {success, data: {newLevel, hpIncrease, featuresGranted, asiAvailable}, error}.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/mechanics/dice-roller.js</path>
+        <kind>module</kind>
+        <symbol>DiceRoller</symbol>
+        <lines>1-200</lines>
+        <reason>Core dice rolling for /roll command, used by all other commands that require randomness (checks, attacks, damage)</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/character-manager.js</path>
+        <kind>module</kind>
+        <symbol>CharacterManager</symbol>
+        <lines>1-400</lines>
+        <reason>Load/save character data for all commands, manages active character state</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/ability-check-handler.js</path>
+        <kind>module</kind>
+        <symbol>AbilityCheckHandler</symbol>
+        <lines>1-250</lines>
+        <reason>Used by /check command to execute ability checks with DC validation</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/skill-check-system.js</path>
+        <kind>module</kind>
+        <symbol>SkillCheckSystem</symbol>
+        <lines>1-300</lines>
+        <reason>Used by /skill command to execute skill checks with proficiency/expertise support</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/combat-manager.js</path>
+        <kind>module</kind>
+        <symbol>CombatManager</symbol>
+        <lines>1-500</lines>
+        <reason>Manage combat state for /attack command, track initiative and turn order</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/attack-resolver.js</path>
+        <kind>module</kind>
+        <symbol>AttackResolver</symbol>
+        <lines>1-300</lines>
+        <reason>Execute attack rolls and damage calculation for /attack command</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/spell-database.js</path>
+        <kind>module</kind>
+        <symbol>SpellDatabase</symbol>
+        <lines>1-200</lines>
+        <reason>Query spell data from data/srd/spells.yaml for /cast command</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/spell-manager.js</path>
+        <kind>module</kind>
+        <symbol>SpellManager</symbol>
+        <lines>1-400</lines>
+        <reason>Manage spell slots and execute spellcasting for /cast command</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/inventory-manager.js</path>
+        <kind>module</kind>
+        <symbol>InventoryManager</symbol>
+        <lines>1-500</lines>
+        <reason>Determine equipped weapon for /attack command</reason>
+      </artifact>
+      <artifact>
+        <path>src/mechanics/level-up-calculator.js</path>
+        <kind>module</kind>
+        <symbol>LevelUpCalculator</symbol>
+        <lines>1-710</lines>
+        <reason>Execute level up workflow for /level-up command with XP validation, HP increase, class features, ASI</reason>
+      </artifact>
+      <artifact>
+        <path>src/core/session-logger.js</path>
+        <kind>module</kind>
+        <symbol>SessionLogger</symbol>
+        <lines>1-150</lines>
+        <reason>Epic 1 logging system to extend for mechanics command logging</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/time-manager.js</path>
+        <kind>module</kind>
+        <symbol>TimeManager</symbol>
+        <lines>1-300</lines>
+        <reason>Epic 2 time advancement for /rest commands (1 hour short, 8 hours long)</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/event-scheduler.js</path>
+        <kind>module</kind>
+        <symbol>EventScheduler</symbol>
+        <lines>1-400</lines>
+        <reason>Epic 2 event checking during rest periods</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <usage>Parse character YAML files (already used in Epic 1/2/3)</usage>
+      </node>
+      <node>
+        <package>lodash</package>
+        <version>^4.17.21</version>
+        <usage>Utility functions (already used in Epic 2)</usage>
+      </node>
+      <node>
+        <package>jest</package>
+        <version>^29.7.0</version>
+        <usage>Testing framework for unit and integration tests</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern">Result Object Pattern: All command methods must return {success: boolean, data: any | null, error: string | null}. No exceptions should be thrown; all errors must be returned as Result Objects.</constraint>
+    <constraint type="pattern">Dependency Injection: MechanicsCommandHandler constructor must accept all mechanics modules as optional dependencies for testability. Use default instances if not provided.</constraint>
+    <constraint type="pattern">Command Registry Pattern: Use object mapping command names to handler methods (commands = {'roll': handleRoll, 'check': handleCheck, ...}) for extensibility.</constraint>
+    <constraint type="architecture">Active Character State: Store active character in memory (this.activeCharacter, this.activeCharacterId) for reuse across commands. Load once via /set-character, reuse for /check, /attack, /cast, /rest, /level-up.</constraint>
+    <constraint type="performance">Performance Targets: /roll &lt;100ms, /check &lt;200ms, /attack &lt;300ms, /cast &lt;400ms, /rest &lt;500ms, /level-up &lt;1000ms, /mechanics-help &lt;50ms, /set-character &lt;100ms.</constraint>
+    <constraint type="logging">All commands must log to logs/mechanics-YYYY-MM-DD.log with format: [YYYY-MM-DDTHH:MM:SSZ] [COMMAND] /command_name args → result_summary. Combat log at logs/combat-YYYY-MM-DD.log for /attack.</constraint>
+    <constraint type="error">Error Handling: All errors must return user-friendly messages with format "Error: {description}. Usage: {command_syntax}". No raw exceptions to user. Log all errors.</constraint>
+    <constraint type="integration">Epic 1 Integration: Use SessionLogger for command logging. Character HP, spell slots persist in State.md via StateManager.</constraint>
+    <constraint type="integration">Epic 2 Integration: Rest commands must call TimeManager.advanceTime() and EventScheduler.checkEvents() during rest periods.</constraint>
+    <constraint type="integration">Epic 3 Integration: Command handler must integrate with all 9 previous mechanics modules (DiceRoller, CharacterManager, AbilityCheckHandler, SkillCheckSystem, CombatManager, AttackResolver, SpellManager, SpellDatabase, InventoryManager, LevelUpCalculator).</constraint>
+    <constraint type="data">Active Character Required: Commands /check, /skill, /attack, /cast, /rest, /level-up require active character set via /set-character. Return error if no active character.</constraint>
+    <constraint type="testing">Test Coverage: Target ≥80% statement coverage, 100% function coverage. Test all commands with valid and invalid inputs.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>MechanicsCommandHandler.executeCommand</name>
+      <kind>function</kind>
+      <signature>async executeCommand(commandName: string, args: string[]): Promise&lt;{success: boolean, data: any | null, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleRoll</name>
+      <kind>function</kind>
+      <signature>async handleRoll(args: string[]): Promise&lt;{success: boolean, data: {notation, rolls, modifier, total}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleCheck</name>
+      <kind>function</kind>
+      <signature>async handleCheck(args: string[]): Promise&lt;{success: boolean, data: {ability, roll, modifier, total, DC, passed}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleSkill</name>
+      <kind>function</kind>
+      <signature>async handleSkill(args: string[]): Promise&lt;{success: boolean, data: {skill, roll, abilityMod, proficiency, total, DC, passed}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleAttack</name>
+      <kind>function</kind>
+      <signature>async handleAttack(args: string[]): Promise&lt;{success: boolean, data: {attacker, target, hit, damage, targetHP}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleCast</name>
+      <kind>function</kind>
+      <signature>async handleCast(args: string[]): Promise&lt;{success: boolean, data: {spell, slotLevel, slotsRemaining, effect}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleRest</name>
+      <kind>function</kind>
+      <signature>async handleRest(args: string[]): Promise&lt;{success: boolean, data: {restType, hpHealed, resourcesRecovered, timeAdvanced}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleLevelUp</name>
+      <kind>function</kind>
+      <signature>async handleLevelUp(args: string[]): Promise&lt;{success: boolean, data: {newLevel, hpIncrease, featuresGranted, asiAvailable}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleSetCharacter</name>
+      <kind>function</kind>
+      <signature>async handleSetCharacter(args: string[]): Promise&lt;{success: boolean, data: {characterId, name, level, class}, error: string | null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>MechanicsCommandHandler.handleHelp</name>
+      <kind>function</kind>
+      <signature>async handleHelp(args: string[]): Promise&lt;{success: boolean, data: {helpText: string}, error: null}&gt;</signature>
+      <path>src/commands/mechanics-commands.js</path>
+    </interface>
+    <interface>
+      <name>DiceRoller.roll</name>
+      <kind>function</kind>
+      <signature>async roll(notation: string): Promise&lt;{success: boolean, data: {notation, rolls, modifier, total, advantage, disadvantage}, error: string | null}&gt;</signature>
+      <path>src/mechanics/dice-roller.js</path>
+    </interface>
+    <interface>
+      <name>CharacterManager.loadCharacter</name>
+      <kind>function</kind>
+      <signature>async loadCharacter(characterId: string): Promise&lt;{success: boolean, data: Character, error: string | null}&gt;</signature>
+      <path>src/mechanics/character-manager.js</path>
+    </interface>
+    <interface>
+      <name>AbilityCheckHandler.performCheck</name>
+      <kind>function</kind>
+      <signature>async performCheck(character: Character, ability: string, DC: number): Promise&lt;{success: boolean, data: {roll, modifier, total, DC, passed}, error: string | null}&gt;</signature>
+      <path>src/mechanics/ability-check-handler.js</path>
+    </interface>
+    <interface>
+      <name>SkillCheckSystem.performSkillCheck</name>
+      <kind>function</kind>
+      <signature>async performSkillCheck(character: Character, skill: string, DC: number): Promise&lt;{success: boolean, data: {skill, roll, abilityMod, proficiency, total, DC, passed}, error: string | null}&gt;</signature>
+      <path>src/mechanics/skill-check-system.js</path>
+    </interface>
+    <interface>
+      <name>AttackResolver.resolveAttack</name>
+      <kind>function</kind>
+      <signature>async resolveAttack(attacker: Character, target: Character, weapon: Weapon): Promise&lt;{success: boolean, data: {hit, attackRoll, damage, damageType}, error: string | null}&gt;</signature>
+      <path>src/mechanics/attack-resolver.js</path>
+    </interface>
+    <interface>
+      <name>SpellManager.castSpell</name>
+      <kind>function</kind>
+      <signature>async castSpell(character: Character, spell: Spell, target: Character | null): Promise&lt;{success: boolean, data: {spell, slotConsumed, slotsRemaining, effect}, error: string | null}&gt;</signature>
+      <path>src/mechanics/spell-manager.js</path>
+    </interface>
+    <interface>
+      <name>LevelUpCalculator.canLevelUp</name>
+      <kind>function</kind>
+      <signature>async canLevelUp(character: Character): Promise&lt;{success: boolean, data: {canLevel, currentLevel, nextLevel, xpNeeded}, error: string | null}&gt;</signature>
+      <path>src/mechanics/level-up-calculator.js</path>
+    </interface>
+    <interface>
+      <name>LevelUpCalculator.levelUp</name>
+      <kind>function</kind>
+      <signature>async levelUp(character: Character, options: {characterId, asiChoices, manualHP}): Promise&lt;{success: boolean, data: {newLevel, hpIncrease, featuresGranted, asiAvailable}, error: string | null}&gt;</signature>
+      <path>src/mechanics/level-up-calculator.js</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      All tests use Jest v29.7.0. Unit tests use mocked dependencies (DiceRoller, CharacterManager, etc.) via dependency injection. Integration tests use real modules and files. Target ≥80% statement coverage, 100% function coverage. Test files at tests/commands/mechanics-commands.test.js. Performance tests verify timing requirements for each command. Error handling tests verify user-friendly messages for all invalid inputs.
+    </standards>
+
+    <locations>
+      tests/commands/*.test.js
+    </locations>
+
+    <ideas>
+      <idea ac="1">/roll command: Test valid notation (1d20, 2d6+3), advantage/disadvantage, invalid notation returns error, performance &lt;100ms</idea>
+      <idea ac="2">/check command: Test all 6 abilities (str, dex, con, int, wis, cha), DC thresholds (10, 15, 20), critical success (nat 20), critical failure (nat 1), no active character error, performance &lt;200ms</idea>
+      <idea ac="3">/skill command: Test proficient skill (with proficiency bonus), non-proficient skill (no bonus), expertise (double proficiency), invalid skill name error, performance &lt;200ms</idea>
+      <idea ac="4">/attack command: Test hit (roll ≥ AC), miss (roll &lt; AC), critical hit (nat 20, double damage), critical miss (nat 1), no active character error, target not found error, not in combat error, no weapon equipped error, performance &lt;300ms</idea>
+      <idea ac="5">/cast command: Test healing spell (Cure Wounds increases HP), damage spell (Fireball reduces HP), slot consumption (slots decrease), out-of-slots error, cantrip (no slot consumed), spell not found error, not a spellcaster error, performance &lt;400ms</idea>
+      <idea ac="6">/rest short command: Test hit dice spending (HP healed, hit dice spent), short rest ability recharge (Fighter Second Wind, Action Surge), time advancement (1 hour), event triggers during rest, performance &lt;500ms</idea>
+      <idea ac="7">/rest long command: Test full HP recovery (HP to max), all spell slots restored, hit dice recovery (half rounded down, min 1), all abilities recharged, time advancement (8 hours), event triggers during rest, performance &lt;500ms</idea>
+      <idea ac="8">/level-up command: Test level 3 → 4 (ASI available, prompt for ASI), level 4 → 5 (proficiency bonus increases +2 → +3), insufficient XP error (canLevelUp returns false), already at level 20 error, Git commit creation verified, performance &lt;1000ms</idea>
+      <idea ac="9">/mechanics-help command: Test help text is complete (all 9 commands listed), help text is formatted as markdown table, performance &lt;50ms</idea>
+      <idea ac="10">/set-character command: Test valid character ID (loads character, sets active), invalid character ID (error with list of available characters), subsequent commands use active character, performance &lt;100ms</idea>
+      <idea ac="11">Error handling: Test each command with missing args, invalid args, no active character (where required), verify error format "Error: {description}. Usage: {syntax}", verify errors logged, verify no crash/corruption</idea>
+      <idea ac="12">Command logging: Test each command writes to logs/mechanics-YYYY-MM-DD.log, verify log format [YYYY-MM-DDTHH:MM:SSZ] [COMMAND] /command_name args → result, verify log file created if doesn't exist, verify append mode (multiple commands in same file)</idea>
+    </ideas>
+  </tests>
+</story-context>

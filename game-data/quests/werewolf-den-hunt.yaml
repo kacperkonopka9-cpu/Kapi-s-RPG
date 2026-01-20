@@ -1,0 +1,426 @@
+# Quest: Werewolf Den Hunt
+# Major Side Quest - Combat with Moral Choice
+# Deal with werewolf pack - save or kill Emil Toranescu affects outcome
+
+# === BASIC INFORMATION ===
+questId: "werewolf_den_hunt"
+name: "Werewolf Den Hunt"
+type: "side"
+category: "combat"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "szoldar_szoldarovich"
+  location: "vallaki_blue_water_inn"
+  dialogue: "Yevgeni and I have been tracking a werewolf pack for weeks. They've been attacking travelers on the Old Svalich Road. We know where their den is - a cave complex in the Svalich Woods - but we're just hunters, not heroes. If you help us deal with the pack, we'll split the bounty and give you any silvered weapons we find."
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Locate the werewolf den and deal with the pack threatening travelers"
+  full: "Szoldar and Yevgeni, hunters from Vallaki, have been tracking a werewolf pack led by Kiril Stoyanovich. The pack has been attacking travelers on the Old Svalich Road, and the hunters know the location of their den but lack the strength to confront them. The party must travel to the werewolf den, infiltrate the cave complex, and decide how to deal with the pack. Key decision: Emil Toranescu, the pack's former leader, is imprisoned in the caves by Kiril. Saving Emil could turn the pack against Kiril and create werewolf allies; killing Emil cements Kiril's control and makes the pack more dangerous. The choice significantly affects future encounters with Strahd's 'children of the night.'"
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 4
+
+  requiredQuests:
+    completed: []
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive: []
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited: []
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "speak_to_hunters"
+    description: "Speak to Szoldar and Yevgeni about the werewolf pack"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc_group"
+      id: "hunters"
+      location: "vallaki_blue_water_inn"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "locate_werewolf_den"
+    description: "Locate the werewolf den in the Svalich Woods"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "werewolf_den"
+      location: "werewolf_den"
+    optional: false
+    completionTrigger:
+      type: "location_discovered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "infiltrate_den"
+    description: "Enter the werewolf den cave complex"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "werewolf_den_caves"
+      location: "werewolf_den_caves"
+    optional: false
+    completionTrigger:
+      type: "location_entered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "discover_emil"
+    description: "Discover Emil Toranescu imprisoned in the den"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "emil_toranescu"
+      location: "werewolf_den_prison"
+    optional: false
+    completionTrigger:
+      type: "npc_found"
+    rewards:
+      experience: 75
+      items: []
+      currency: {}
+
+  - objectiveId: "decide_emils_fate"
+    description: "Decide whether to save or kill Emil Toranescu"
+    type: "decision"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "emil_toranescu"
+      location: "werewolf_den_prison"
+    optional: false
+    completionTrigger:
+      type: "decision_made"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "confront_kiril"
+    description: "Confront Kiril Stoyanovich, the pack leader"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "kiril_stoyanovich"
+      location: "werewolf_den_main_chamber"
+    optional: false
+    completionTrigger:
+      type: "enemy_defeated"
+    rewards:
+      experience: 250
+      items: []
+      currency: {}
+
+  - objectiveId: "deal_with_pack"
+    description: "Deal with the remaining werewolf pack members"
+    type: "combat"
+    status: "pending"
+    target:
+      type: "enemy_group"
+      id: "werewolf_pack"
+      location: "werewolf_den"
+    optional: false
+    completionTrigger:
+      type: "enemies_defeated_or_negotiated"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "location_state"
+        locationId: "werewolf_den"
+        changes:
+          werewolf_threat_neutralized: true
+          kiril_defeated: true
+
+      - type: "location_state"
+        locationId: "old_svalich_road"
+        changes:
+          werewolf_attacks_reduced: true
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "szoldar_szoldarovich"
+        attitudeChange: +20
+        dialogue: "The werewolf threat is ended! The roads are safer now, thanks to you. Here's your share of the bounty."
+
+  onFailure:
+    stateChanges:
+      - type: "location_state"
+        locationId: "old_svalich_road"
+        changes:
+          werewolf_attacks_increased: true
+
+    triggeredEvents: []
+
+    npcReactions: []
+
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+# === REWARDS ===
+rewards:
+  experience: 600
+
+  items:
+    - itemId: "silvered_shortsword"
+      quantity: 1
+      source: "werewolf_den_treasure"
+    - itemId: "silvered_battleaxe"
+      quantity: 1
+      source: "werewolf_den_treasure"
+    - itemId: "potion_of_healing"
+      quantity: 2
+      source: "werewolf_den_treasure"
+
+  currency:
+    gold: 150
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "vallaki_citizens"
+      change: +10
+
+  specialRewards: []
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "emil_fate_decision"
+    description: "Player decides Emil Toranescu's fate"
+    autoDecide: false
+    decision:
+      prompt: "You find Emil Toranescu chained and starved in a prison cell. He was the pack's previous leader until Kiril overthrew him. Emil claims he opposed Kiril's alliance with Strahd and more brutal tactics. He begs you to free him so he can challenge Kiril. What do you do?"
+      choices:
+        - choiceId: "save_emil"
+          description: "Free Emil and help him challenge Kiril for pack leadership"
+          consequences:
+            - type: "npc_status"
+              npcId: "emil_toranescu"
+              status: "ally"
+            - type: "combat_modifier"
+              encounterId: "kiril_confrontation"
+              modifier: "emil_fights_alongside_party"
+            - type: "faction_change"
+              faction: "werewolf_pack"
+              change: "friendly"
+            - type: "special_reward"
+              description: "Emil becomes pack alpha and offers werewolf pack as allies against Strahd. Pack will aid party once during final battle."
+
+        - choiceId: "kill_emil"
+          description: "Kill Emil to permanently weaken the pack"
+          consequences:
+            - type: "npc_status"
+              npcId: "emil_toranescu"
+              status: "dead"
+            - type: "faction_change"
+              faction: "werewolf_pack"
+              change: "hostile"
+            - type: "reputation"
+              faction: "vallaki_hunters"
+              change: +5
+            - type: "special_consequence"
+              description: "Kiril's leadership is unchallenged. Werewolf pack remains hostile and more dangerous in future encounters."
+
+        - choiceId: "leave_emil_imprisoned"
+          description: "Leave Emil imprisoned and deal with Kiril alone"
+          consequences:
+            - type: "npc_status"
+              npcId: "emil_toranescu"
+              status: "imprisoned"
+            - type: "faction_change"
+              faction: "werewolf_pack"
+              change: "neutral"
+            - type: "special_consequence"
+              description: "Pack scatters after Kiril's death. Some werewolves remain hostile, others retreat deep into the woods."
+
+  - branchId: "pack_confrontation_outcome"
+    description: "Outcome of werewolf pack confrontation based on Emil's fate"
+    autoDecide: true
+    decision:
+      condition: "emil_status"
+      outcomes:
+        - outcomeId: "emil_ally_outcome"
+          condition: "emil_status == 'ally'"
+          consequences:
+            - type: "combat_avoidance"
+              description: "Most pack members side with Emil after Kiril's defeat. Only 4 werewolves must be fought instead of 9."
+            - type: "quest_reward_modifier"
+              modifier: "+100 XP, +wereraven alliance, +future aid"
+
+        - outcomeId: "emil_dead_outcome"
+          condition: "emil_status == 'dead'"
+          consequences:
+            - type: "combat_difficulty"
+              description: "Full pack fights to avenge Emil and defend Kiril. All 9 werewolves plus Kiril must be defeated."
+            - type: "quest_reward_modifier"
+              modifier: "+50 XP for difficulty, but no future allies"
+
+        - outcomeId: "emil_imprisoned_outcome"
+          condition: "emil_status == 'imprisoned'"
+          consequences:
+            - type: "combat_standard"
+              description: "Standard pack encounter. 6 werewolves plus Kiril."
+            - type: "quest_reward_modifier"
+              modifier: "Standard rewards, no bonuses or penalties"
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Szoldar and Yevgeni, hunters from Vallaki, have asked for my help dealing with a werewolf pack that's been attacking travelers. They know the location of the den but aren't strong enough to confront the pack alone. They've offered to split the bounty and share any silvered weapons we find."
+
+  updates:
+    - trigger: "locate_werewolf_den_complete"
+      entry: "I've found the werewolf den - a cave complex deep in the Svalich Woods. I can hear howling from within. I must proceed carefully."
+
+    - trigger: "discover_emil_complete"
+      entry: "I've discovered Emil Toranescu, the pack's former leader, imprisoned in the caves. He claims he was overthrown by Kiril Stoyanovich for opposing the pack's alliance with Strahd. Emil wants me to free him so he can challenge Kiril. I must decide his fate."
+
+    - trigger: "decide_emils_fate_complete"
+      entry: "I have decided Emil's fate. Now I must confront Kiril Stoyanovich and deal with the werewolf pack."
+
+  completion: "The werewolf threat has been neutralized. Kiril Stoyanovich is dead, and the pack is no longer a danger to travelers on the Old Svalich Road. My choice regarding Emil will have lasting consequences for my relationship with the werewolves of Barovia."
+
+  failure: "I was forced to retreat from the werewolf den. The pack remains a threat to travelers, and the roads are more dangerous than ever."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "Emil is desperate, starved, and genuinely opposed to Kiril's brutal methods. He's not inherently evil but is cursed with lycanthropy."
+    - "Kiril is ruthless, ambitious, and serves Strahd willingly in exchange for victims to hunt."
+    - "The choice about Emil is morally complex: he's both a victim and a monster."
+
+  roleplayTips:
+    - "Emil Toranescu: Desperate, ashamed, but defiant. He believes he can lead the pack to be less evil."
+    - "Kiril Stoyanovich: Cruel, arrogant, loyal to Strahd. Sees himself as apex predator."
+    - "Zuleika Toranescu: Emil's wife, torn between loyalty to Emil and fear of Kiril."
+
+  combatEncounters:
+    - encounter: "werewolf_pack_standard"
+      location: "werewolf_den"
+      cr: 5
+      description: "Kiril (CR 3) + 6 werewolves (CR 3 each). Deadly encounter without silvered weapons."
+
+    - encounter: "werewolf_pack_with_emil_ally"
+      location: "werewolf_den"
+      cr: 4
+      description: "Kiril + 4 werewolves (Emil fights alongside party, other werewolves flee or surrender)."
+
+    - encounter: "werewolf_pack_full_hostility"
+      location: "werewolf_den"
+      cr: 6
+      description: "Kiril + 9 werewolves (all fight to the death if Emil is killed). Extremely deadly."
+
+  commonPitfalls:
+    - "Players may not bring silvered weapons. Remind them via Szoldar that normal weapons are resisted."
+    - "Players may attack Emil on sight without learning his story. Give Emil a chance to talk."
+    - "Players may underestimate the moral weight of the decision. Emphasize that Emil is cursed, not evil."
+
+  alternatives:
+    - "Players could try to cure Emil's lycanthropy (remove curse spell or healer's kit)."
+    - "Players could negotiate with Kiril (unlikely to work, but creative roleplaying could earn concessions)."
+    - "Players could lure werewolves out of the den for easier fights."
+
+  lore:
+    - "Lycanthropy in Barovia is a curse, not always voluntary. Some werewolves hate what they've become."
+    - "Kiril allied the pack with Strahd in exchange for victims. Strahd uses werewolves as 'children of the night' to harass enemies."
+    - "Emil's rebellion was crushed when Kiril challenged him and won in single combat, then imprisoned Emil to prevent future challenges."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain: null
+
+  blocksQuests: []
+
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 4
+  challengeRating: 5
+  skillChecks:
+    - skill: "persuasion"
+      dc: 14
+      description: "To convince Emil to trust the party or negotiate with pack members"
+    - skill: "insight"
+      dc: 12
+      description: "To determine if Emil is telling the truth about his opposition to Kiril"
+    - skill: "survival"
+      dc: 13
+      description: "To track the werewolves to their den"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "The werewolf pack has existed in the Svalich Woods for generations, cursed by Strahd's dark influence. Under Emil's leadership, the pack avoided human settlements and hunted animals. Kiril's coup changed that, making the pack more aggressive and directly serving Strahd."
+
+  connectionToMainStory: "The werewolf pack is one of Strahd's tools of terror. By dealing with the pack, the party reduces Strahd's influence and potentially gains werewolf allies. The Emil decision foreshadows later moral choices about cursed or corrupted beings who aren't entirely evil."
+
+  historicalContext: "Emil Toranescu was a woodcutter who was bitten by a werewolf 20 years ago. He embraced the curse but tried to minimize harm. Kiril was born a werewolf and revels in the hunt, seeing it as natural and just."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.201-204"
+  official: true
+
+  estimatedDuration: "1 session"
+
+  tags: ["side", "combat", "moral-choice", "werewolves", "lycanthropy", "silvered-weapons"]
+
+  notes: "This quest presents a morally complex choice with no clearly 'right' answer. The DM should respect whatever decision the players make and enforce the consequences consistently."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 LevelUpCalculator"

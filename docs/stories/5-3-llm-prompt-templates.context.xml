@@ -1,0 +1,337 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>5.3</storyId>
+    <title>LLM Prompt Templates</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-21</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/5-3-llm-prompt-templates.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>LLM-DM integration developer</asA>
+    <iWant>a prompt template system that loads and populates reusable prompt templates with game context variables ({{location}}, {{character}}, {{npcs}}) for consistent narrative generation</iWant>
+    <soThat>Claude Code receives well-structured, contextually appropriate system prompts that guide narrative quality, maintain gothic horror tone, and enforce D&D 5e RAW adherence</soThat>
+    <tasks>
+### Task 1: Create PromptTemplateEngine Module Structure
+- Create src/prompts/ directory
+- Create prompts/templates/ directory for template files
+- Create src/prompts/template-engine.js with PromptTemplateEngine class
+- Implement constructor with dependency injection (fs, path, yaml, estimateTokens function from ContextLoader)
+- Add JSDoc documentation for all public methods
+
+### Task 2: Implement Variable Substitution Engine
+- Implement _parseTemplate(templateContent) method to extract {{variables}}
+- Implement simple variable substitution ({{variable}} → context.variable)
+- Implement nested object substitution ({{object.property}} → context.object.property)
+- Implement array iteration ({{#each items}}...{{this.field}}...{{/each}})
+- Implement optional variables with defaults ({{variable || "default"}})
+- Add unit tests: test all 5 substitution patterns with sample data
+
+### Task 3: Implement renderTemplate() Method
+- Implement renderTemplate(templateId, context) method signature
+- Load template file from prompts/templates/{templateId}.md
+- Parse YAML frontmatter (templateId, priority, tokenBudget)
+- Load DM persona from prompts/dm-persona.md (if not cached)
+- Validate all {{variables}} present in context object
+- Substitute variables using engine from Task 2
+- Prepend dm-persona.md content to rendered template
+- Estimate token count using ContextLoader.estimateTokens()
+- Validate token count against template's tokenBudget (log warning if >10% over)
+- Return Result Object: {success: true, data: {prompt, tokenCount}} or error
+
+### Task 4: Create DM Persona Prompt
+- Create prompts/dm-persona.md file
+- Write tone section (dark, gothic horror, foreboding, immersive)
+- Write style section (literary, descriptive, 2-3 paragraphs, sensory details)
+- Write rules philosophy section (strict D&D 5e RAW, no homebrew, cite rules when needed)
+- Write narrative principles (show don't tell, player agency, environmental reactions)
+- Optimize for token budget (~200 tokens total, lean and concise)
+- Validate token count via estimateTokens(), adjust if needed
+
+### Task 5-9: Create Five Core Templates
+- location-initial-visit.md (P1, ~800 tokens): First visit template with vivid atmospheric description
+- location-return.md (P1, ~600 tokens): Return visit template highlighting changes
+- npc-dialogue.md (P2, ~400 tokens): NPC conversation template with personality-driven dialogue
+- combat-narration.md (P2, ~500 tokens): Combat round narration with dynamic descriptions
+- consistency-validation.md (P3, ~300 tokens): Action validation against world state and D&D 5e rules
+
+### Task 10: Implement Additional Template Engine Methods
+- Implement registerTemplate(templateId, templateContent) for custom templates
+- Implement listTemplates() returning array of {id, description, tokenBudget, priority}
+- Add template caching (load once, cache in memory)
+- Add unit tests: register, list, cache verification
+
+### Task 11: Integration Tests (40+ tests, 100% pass rate)
+- Test Suite 1: Template Rendering (all 5 templates)
+- Test Suite 2: Variable Substitution (simple, nested, arrays, defaults)
+- Test Suite 3: Token Budget Validation (±10% tolerance)
+- Test Suite 4: Missing Variable Handling (error messages)
+- Test Suite 5: Epic Integration (ContextObject from Story 5-1)
+- Test Suite 6: DM Persona Integration (prepended to all prompts)
+- Test Suite 7: Template Caching (verify cache hits)
+- Test Suite 8: Custom Templates (register and render)
+
+### Task 12: Documentation and Story Completion
+- Add JSDoc comments to all methods
+- Create docs/prompt-template-guide.md
+- Update story file with completion notes and file list
+- Run all tests: npm test tests/integration/prompts/
+- Verify all 6 acceptance criteria met with evidence
+- Mark story status as "review" in sprint-status.yaml
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+**AC-1: PromptTemplateEngine Module Implemented**
+- src/prompts/template-engine.js module created with PromptTemplateEngine class
+- renderTemplate(templateId, context) method loads template file, substitutes {{variables}}, returns populated prompt + token count
+- Template files stored in prompts/templates/ directory with YAML frontmatter (templateId, priority, tokenBudget)
+- Variable substitution supports: simple variables ({{variable}}), nested objects ({{object.property}}), arrays with iteration ({{#each items}}...{{/each}})
+- Token budget validation: warns if rendered prompt exceeds template's tokenBudget field
+- Returns Result Object: {success: true, data: {prompt: string, tokenCount: number}} or {success: false, error: string}
+
+**AC-2: Five Core Templates Implemented**
+- location-initial-visit.md: First visit to location (P1 priority, ~800 token budget)
+- location-return.md: Returning to previously visited location (P1 priority, ~600 token budget)
+- npc-dialogue.md: NPC conversation template (P2 priority, ~400 token budget)
+- combat-narration.md: Combat round narration (P2 priority, ~500 token budget)
+- consistency-validation.md: Validate player actions against world state (P3 priority, ~300 token budget)
+
+**AC-3: DM Persona Prompt Implemented**
+- prompts/dm-persona.md file created with comprehensive DM personality definition
+- Content includes: Tone (dark, foreboding, immersive gothic horror), style (literary, descriptive, 2-3 paragraphs per response), rules philosophy (strict D&D 5e RAW adherence, no homebrew unless explicitly agreed), narrative principles (show don't tell, sensory details, player agency)
+- Token budget: ~200 tokens (kept lean for repeated use in every prompt)
+- Loaded and prepended to all rendered templates via PromptTemplateEngine
+
+**AC-4: Template Token Budget Management**
+- Each template's YAML frontmatter includes tokenBudget field (max tokens for rendered output)
+- PromptTemplateEngine.renderTemplate() estimates token count of rendered prompt using ContextLoader.estimateTokens() method (from Story 5-1)
+- If rendered prompt exceeds tokenBudget by >10%, log warning with template ID and actual vs budget tokens
+- Warning does not block rendering (soft limit, not hard failure)
+- Include tokenCount in Result Object metadata for observability
+
+**AC-5: Template Variable Validation**
+- PromptTemplateEngine validates all {{variables}} in template have corresponding values in context object
+- If missing variable detected: return Result Object error {success: false, error: "Missing template variable: {{variableName}}"}
+- Support optional variables with default values: {{variable || "default value"}}
+- Log warning if context object has unused fields (possible typo in template variable names)
+
+**AC-6: Integration Tests with Epic 1-4 Context**
+- Test Suite 1 - Template Rendering: Render all 5 templates with sample context, verify valid markdown output
+- Test Suite 2 - Variable Substitution: Test simple variables, nested objects, array iteration (#each), optional variables with defaults
+- Test Suite 3 - Token Budget Validation: Render templates, verify token counts within budgets (±10% tolerance)
+- Test Suite 4 - Missing Variable Handling: Test templates with incomplete context, verify error messages
+- Test Suite 5 - Epic Integration: Load ContextObject from Story 5-1, render templates, verify all Epic 1-4 data accessible (character, location, NPCs, calendar)
+- Test Suite 6 - DM Persona Integration: Verify dm-persona.md prepended to all rendered prompts
+- Target: 40+ tests, 100% pass rate
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>Epic 5 Technical Specification</title>
+        <section>AC-3: LLM Prompt Templates Implemented (lines 1110-1114)</section>
+        <snippet>PromptTemplateEngine renders templates with {{variable}} substitution. Minimum 5 templates: location-initial-visit, location-return, npc-dialogue, combat-narration, consistency-validation. DM persona loaded from prompts/dm-persona.md with gothic horror tone and D&D 5e RAW adherence.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>PromptTemplate Data Model</title>
+        <section>Data Models (lines 330-364)</section>
+        <snippet>Template structure with YAML frontmatter: templateId, priority (P1/P2/P3), tokenBudget. Variable substitution using {{variable}}, {{object.property}}, {{#each items}}...{{/each}} patterns. Example shows location-initial-visit template with all required variables and gothic horror tone instructions.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-5.md</path>
+        <title>PromptTemplateEngine API</title>
+        <section>APIs and Interfaces (lines 540-566)</section>
+        <snippet>PromptTemplateEngine.renderTemplate(templateId, context) returns {success, data: {prompt, tokenCount}} or error. Loads template from prompts/templates/, substitutes variables, prepends DM persona, validates token budget. Supports registerTemplate() for custom templates and listTemplates() for discovery.</snippet>
+      </doc>
+      <doc>
+        <path>docs/narrative-design.md</path>
+        <title>Narrative Tone and Style</title>
+        <section>Core Themes and Atmosphere (lines 14-33)</section>
+        <snippet>Gothic horror atmosphere: Hope vs. Despair, Obsession and Corruption, Free Will vs. Fate. Writing style: Rich sensory prose (150-300 words), evocative rather than explicit, dark poetry, distinct NPC voices reflecting trauma, silence and absence as narrative tools. Tone: Dark, foreboding, immersive—channel classic gothic horror literature.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-loading-design.md</path>
+        <title>Context Loading Design (Story 5-1)</title>
+        <section>Token Estimation Heuristic (lines 45-52)</section>
+        <snippet>Token estimation: baseTokens = charCount / 4 (~4 chars = 1 token), tokensWithOverhead = Math.ceil(baseTokens * 1.05) for +5% markdown overhead. Accuracy target: ±10% of actual Claude Code token counts. ContextLoader.estimateTokens() method available for reuse.</snippet>
+      </doc>
+      <doc>
+        <path>docs/context-loading-design.md</path>
+        <title>ContextObject Structure</title>
+        <section>ContextObject Data Model (lines 56-120)</section>
+        <snippet>ContextObject returned by ContextLoader contains: metadata (tokenCount, prioritiesLoaded, cacheHitRate), character (compact sheet), location (name, description, state, connections), npcs (array with dialogueContext), events, calendar (date, time, weather, moonPhase), quests, contextMarkdown. Template variables map directly to this structure.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/context/context-loader.js</path>
+        <kind>service</kind>
+        <symbol>ContextLoader</symbol>
+        <lines>1-648</lines>
+        <reason>Story 5-1 module. PromptTemplateEngine receives ContextObject from ContextLoader.loadContext(). Reuse estimateTokens() method for template token budget validation.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/context-loader.js</path>
+        <kind>method</kind>
+        <symbol>estimateTokens(markdown)</symbol>
+        <lines>72-82</lines>
+        <reason>Token estimation method to reuse for template rendering. Already tested and calibrated for ±10% accuracy. Use via dependency injection in PromptTemplateEngine constructor.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/context-cache.js</path>
+        <kind>service</kind>
+        <symbol>ContextCache</symbol>
+        <lines>13-299</lines>
+        <reason>Story 5-2 caching system. Template rendering could use caching for dm-persona.md and template files to avoid repeated file I/O.</reason>
+      </artifact>
+      <artifact>
+        <path>src/context/priority-resolver.js</path>
+        <kind>service</kind>
+        <symbol>PriorityResolver</symbol>
+        <lines>1-170</lines>
+        <reason>Story 5-1 module. Shows NPC filtering and event classification patterns. Template variables will include filtered NPCs and events from PriorityResolver output.</reason>
+      </artifact>
+      <artifact>
+        <path>src/data/location-loader.js</path>
+        <kind>service</kind>
+        <symbol>LocationLoader</symbol>
+        <lines>1-400</lines>
+        <reason>Epic 1 Story 1-2. Loads location data (Description, NPCs, Items, Events, State). Location templates use LocationData structure (locationName, description, npcs array, state).</reason>
+      </artifact>
+      <artifact>
+        <path>src/calendar/calendar-manager.js</path>
+        <kind>service</kind>
+        <symbol>CalendarManager</symbol>
+        <lines>1-300</lines>
+        <reason>Epic 2 Story 2-1. Provides calendar data for templates (currentDate, currentTime, moonPhase, weather). Templates include calendar variables for time-of-day and atmospheric context.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>js-yaml</package>
+        <version>^4.1.0</version>
+        <reason>Parse YAML frontmatter in template files (templateId, priority, tokenBudget)</reason>
+      </node>
+      <node>
+        <package>date-fns</package>
+        <version>^2.30.0</version>
+        <reason>Format calendar dates/times in rendered templates if needed</reason>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Result Object Pattern (Epic 1-5 Standard)**: All async methods return {success: boolean, data?: any, error?: string}. Forces explicit error handling, consistent with ContextLoader.
+    - **Dependency Injection Pattern (Epic 1-5 Standard)**: Constructor accepts {fs, path, yaml, estimateTokens} with defaults to production dependencies. Enables unit testing with mocked dependencies.
+    - **Zero Epic 1-4 Modifications**: Story 5-3 is pure integration and templating layer. Consumes ContextObject from Story 5-1, does not modify context loading logic or Epic 1-4 data structures.
+    - **Template File Format**: Markdown with YAML frontmatter. Structure: YAML block (templateId, priority, tokenBudget) followed by template content with {{variables}}.
+    - **Variable Substitution Syntax**: Handlebars-like. Simple: {{variable}}, Nested: {{object.property}}, Arrays: {{#each items}}...{{this.field}}...{{/each}}, Optional: {{variable || "default"}}.
+    - **Token Budget Validation**: Soft limits only. If rendered prompt exceeds template's tokenBudget by >10%, log warning but do not block rendering. Include tokenCount in Result Object metadata for observability.
+    - **DM Persona Prepending**: All rendered templates must have dm-persona.md content prepended. Load once on first render, cache in memory for subsequent renders.
+    - **Template Caching Strategy**: Load template files once on first render, cache in memory. No cache limit (templates are small, <2KB each, 5 templates = ~10KB total). No cache invalidation in MVP (file changes require app restart).
+    - **Gothic Horror Tone Enforcement**: All location templates must include gothic horror atmosphere instructions. Reference narrative-design.md tone guidance: dark, foreboding, immersive, rich sensory prose, evocative rather than explicit.
+    - **D&D 5e RAW Adherence**: All templates must enforce strict D&D 5e RAW rules. consistency-validation template must cite rule sources when validating player actions.
+    - **No Breaking Changes to Story 5-1**: ContextLoader API unchanged. PromptTemplateEngine is separate module that receives ContextObject but does not modify context loading behavior.
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>PromptTemplateEngine.renderTemplate</name>
+      <kind>method</kind>
+      <signature>async renderTemplate(templateId: string, context: object): Promise&lt;{success: boolean, data?: {prompt: string, tokenCount: number}, error?: string}&gt;</signature>
+      <path>src/prompts/template-engine.js</path>
+    </interface>
+    <interface>
+      <name>PromptTemplateEngine.registerTemplate</name>
+      <kind>method</kind>
+      <signature>registerTemplate(templateId: string, templateContent: string): void</signature>
+      <path>src/prompts/template-engine.js</path>
+    </interface>
+    <interface>
+      <name>PromptTemplateEngine.listTemplates</name>
+      <kind>method</kind>
+      <signature>listTemplates(): Array&lt;{id: string, description: string, tokenBudget: number, priority: string}&gt;</signature>
+      <path>src/prompts/template-engine.js</path>
+    </interface>
+    <interface>
+      <name>ContextLoader.estimateTokens</name>
+      <kind>method</kind>
+      <signature>estimateTokens(markdown: string): number</signature>
+      <path>src/context/context-loader.js (lines 72-82)</path>
+      <description>Reuse for template token budget validation. Inject via dependency injection in PromptTemplateEngine constructor.</description>
+    </interface>
+    <interface>
+      <name>ContextObject</name>
+      <kind>data structure</kind>
+      <signature>{metadata: {tokenCount, prioritiesLoaded, cacheHitRate}, character: {name, level, class, hp, ac, abilities}, location: {locationId, name, description, state, connections}, npcs: [{npcId, name, personality, status, dialogueContext}], events: [], calendar: {currentDate, currentTime, moonPhase, weather}, quests: [], contextMarkdown: string}</signature>
+      <path>src/context/context-loader.js (returned by loadContext method)</path>
+      <description>Template variables map directly to ContextObject structure. Use dot notation for nested access (e.g., {{character.name}}, {{location.description}}).</description>
+    </interface>
+    <interface>
+      <name>Template YAML Frontmatter</name>
+      <kind>data structure</kind>
+      <signature>---\ntemplateId: string\npriority: "P1" | "P2" | "P3"\ntokenBudget: number\n---</signature>
+      <path>prompts/templates/*.md (all template files)</path>
+      <description>Required YAML frontmatter for all templates. Parse using js-yaml library.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Jest framework with AAA pattern (Arrange-Act-Assert). Unit tests: Test PromptTemplateEngine methods in isolation with mocked dependencies (fs, path, yaml, estimateTokens). Integration tests: Test full template rendering with real ContextObject from Story 5-1. Target: 40+ tests, 100% pass rate. Test coverage: 85% for PromptTemplateEngine (critical path module). Use dependency injection for mocking file I/O and token estimation.
+    </standards>
+    <locations>
+      - tests/integration/prompts/template-engine.test.js (main integration test suite, 40+ tests)
+      - tests/unit/prompts/ (unit tests for variable substitution, token budget validation, template caching)
+    </locations>
+    <ideas>
+      <idea ac="AC-1">
+        - Test renderTemplate() with all 5 template types, verify valid markdown output
+        - Test simple variable substitution: {{variable}} → context.variable
+        - Test nested object substitution: {{object.property}} → context.object.property
+        - Test array iteration: {{#each items}}...{{this.field}}...{{/each}}
+        - Test optional variables with defaults: {{variable || "default"}}
+        - Test missing variable detection: Return error if {{variable}} not in context
+        - Test registerTemplate() with custom template, verify renders correctly
+        - Test listTemplates() returns all registered templates with metadata
+        - Test template caching: First load from file, second load from cache
+      </idea>
+      <idea ac="AC-2">
+        - Test location-initial-visit template with sample ContextObject, verify all variables replaced
+        - Test location-return template with stateChanges, verify changes highlighted
+        - Test npc-dialogue template with Ireena NPC data, verify personality-driven output
+        - Test combat-narration template with sword attack data, verify dynamic description
+        - Test consistency-validation template with invalid player action, verify rule citation
+        - Test all 5 templates stay within token budgets (±10% tolerance)
+      </idea>
+      <idea ac="AC-3">
+        - Test dm-persona.md loads and prepends to all rendered templates
+        - Test dm-persona.md token count <200 tokens (lean for repeated use)
+        - Test dm-persona content includes: tone (gothic horror), style (literary, 2-3 paragraphs), rules philosophy (D&D 5e RAW), narrative principles (show don't tell)
+      </idea>
+      <idea ac="AC-4">
+        - Test token budget validation: Render template, compare estimated tokens vs tokenBudget
+        - Test warning logged if rendered prompt exceeds tokenBudget by >10%
+        - Test warning does not block rendering (soft limit)
+        - Test tokenCount included in Result Object metadata
+      </idea>
+      <idea ac="AC-5">
+        - Test missing variable error: Template with {{undefinedVar}}, context without it → error
+        - Test optional variable with default: {{variable || "default"}} → "default" if missing
+        - Test warning logged if context has unused fields (possible typo)
+      </idea>
+      <idea ac="AC-6">
+        - Test Epic integration: Load ContextObject from ContextLoader (Story 5-1), render all 5 templates, verify all Epic 1-4 data accessible
+        - Test character variables: {{character.name}}, {{character.level}}, {{character.hp.current}}
+        - Test location variables: {{location.name}}, {{location.description}}, {{location.weather}}
+        - Test calendar variables: {{calendar.currentDate}}, {{calendar.currentTime}}, {{calendar.moonPhase}}
+        - Test NPC array iteration: {{#each npcs}}{{this.name}}{{/each}}
+      </idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,177 @@
+# Swarm of Rats - Teeming Rat Swarm
+# Source: D&D 5e Monster Manual p.339
+# Medium swarm of Tiny beasts, common in dungeons and sewers
+
+# === BASIC INFORMATION ===
+name: "Swarm of Rats"
+monsterId: "swarm_of_rats"
+size: "Medium"  # Swarm of Tiny creatures occupies Medium space
+type: "swarm"
+subtype: "swarm of Tiny beasts"
+alignment: "unaligned"
+
+# === CHALLENGE RATING ===
+challengeRating: 0.25  # CR 1/4
+experiencePoints: 50
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 10
+armorType: "natural armor"
+
+hitPoints:
+  max: 24
+  current: 24
+  hitDice: "7d8"
+  hitDiceBonus: -7  # -1 Con modifier * 7 HD = -7 (min 7 HP total)
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 9     # -1
+  dexterity: 11   # +0
+  constitution: 9   # -1
+  intelligence: 2   # -4
+  wisdom: 10     # +0
+  charisma: 3    # -4
+
+# === SPEEDS ===
+speed:
+  walk: 30
+  fly: null
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: ["bludgeoning", "piercing", "slashing"]  # Swarm trait
+damageImmunities: []
+conditionImmunities: ["charmed", "frightened", "grappled", "paralyzed", "petrified", "prone", "restrained", "stunned"]  # Swarm trait
+
+# === SENSES ===
+senses:
+  darkvision: 30
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 10
+
+# === LANGUAGES ===
+languages: []
+languageNote: null
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "swarm_of_rats_1"
+  name: "Swarm of Rats"
+  dexModifier: 0
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Keen Smell"
+    description: "The swarm has advantage on Wisdom (Perception) checks that rely on smell."
+    mechanics:
+      type: "sense_enhancement"
+      advantage: ["perception_checks_smell"]
+
+  - name: "Swarm"
+    description: "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny rat. The swarm can't regain hit points or gain temporary hit points."
+    mechanics:
+      type: "swarm_mechanics"
+      canOccupySameSpace: true
+      canMoveThroughTinyOpening: true
+      cannotRegainHP: true
+      cannotGainTempHP: true
+
+# === ACTIONS ===
+actions:
+  - name: "Bites"
+    type: "melee_weapon_attack"
+    attackBonus: 2  # +0 Dex + 2 prof
+    reach: 0  # In same space
+    targets: 1
+    damage:
+      dice: "2d6"
+      bonus: 0
+      damageType: "piercing"
+    damageHalfHP:
+      dice: "1d6"
+      bonus: 0
+      damageType: "piercing"
+    description: "Melee Weapon Attack: +2 to hit, reach 0 ft., one creature in the swarm's space. Hit: 7 (2d6) piercing damage, or 3 (1d6) piercing damage if the swarm has half of its hit points or fewer."
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional: []
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Swarm mechanics: Occupy same space as enemies. Move through tiny openings. Resistant to physical damage. Immune to most conditions. Bites deal 2d6 damage (half when below 12 HP). Harass and overwhelm. Flee when significantly damaged."
+  intelligence: "animal_intelligence"
+  aggression: "medium"
+  groupTactics: "swarm"
+
+  preferredTargets:
+    - "wounded creatures"
+    - "prone targets"
+
+  fleeThreshold: 6
+  fleeConditions: ["below_25_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Dungeons, sewers, ruins, Castle Ravenloft basements"
+  organization: "Solitary or infestation (2-4 swarms)"
+
+lore:
+  description: "Swarms of rats are common in dungeons and ruins. They attack when cornered or extremely hungry. Individually weak, but overwhelming in numbers. Often found in Castle Ravenloft's lower levels."
+  weakness: "Low AC (10). Damage reduced by half when at half HP. Cannot heal."
+  behavior: "Occupy enemy space. Overwhelm through numbers. Move through small gaps. Flee when damaged."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 1
+  encounterSize: "1 swarm for easy, 2-3 for medium"
+  terrain: "Dungeons, sewers, basements"
+  tactics: "Occupy low-HP character space. Resistant to physical damage. Damage halves at 12 HP."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.339"
+  official: true
+  srdContent: true
+
+  notes: "Common dungeon hazard. Swarm mechanics make them annoying. Low threat but encourages resource use."
+
+  dmReminders:
+    - "Swarm: Occupy same space, move through tiny gaps"
+    - "Resistant to bludgeoning, piercing, slashing"
+    - "Immune to many conditions (grappled, prone, etc.)"
+    - "Cannot heal or gain temp HP"
+    - "Damage: 2d6 normally, 1d6 at half HP (12 or less)"
+    - "AC 10 (LOW) - easy to hit"
+    - "Darkvision 30 ft"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

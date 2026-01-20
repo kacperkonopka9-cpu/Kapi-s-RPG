@@ -16,6 +16,7 @@
 #   - ready-for-dev: Draft approved and story context created
 #   - in-progress: Developer actively working on implementation
 #   - review: Under SM review (via code-review workflow)
+#   - needs-fixes: Code review identified issues requiring fixes
 #   - done: Story completed
 #
 # Retrospective Status:
@@ -112,15 +113,15 @@ development_status:
   5-1-intelligent-context-loader: done
   5-2-context-caching-strategy: done
   5-3-llm-prompt-templates: done
-  5-4-enhanced-slash-commands: backlog
-  5-5-vs-code-ui-improvements: backlog
-  5-6-session-management: backlog
-  5-7-performance-optimization: backlog
-  5-8-character-sheet-sidebar: backlog
-  5-9-quest-tracker-panel: backlog
-  5-10-calendar-widget: backlog
-  5-11-markdown-preview-styling: backlog
-  epic-5-retrospective: optional
+  5-4-enhanced-slash-commands: done
+  5-5-vs-code-ui-improvements: done
+  5-6-session-management: done
+  5-7-performance-optimization: done
+  5-8-character-sheet-sidebar: done
+  5-9-quest-tracker-panel: done
+  5-10-calendar-widget: done
+  5-11-markdown-preview-styling: done
+  epic-5-retrospective: completed
 
 
 

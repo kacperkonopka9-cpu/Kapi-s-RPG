@@ -1,0 +1,84 @@
+# Tome of Strahd - Legendary Knowledge Artifact
+# Template stub for Epic 4 Story 4-12 (Artifact Quests)
+# Full mechanics implementation deferred to Epic 5
+
+itemId: "tome_of_strahd"
+name: "Tome of Strahd"
+type: "wondrous_item"
+subtype: "book"
+rarity: "legendary"
+requiresAttunement: false  # No attunement required - anyone can read
+
+description:
+  short: "Strahd's personal journal chronicling his transformation and centuries of undeath"
+  full: |
+    The Tome of Strahd is a leather-bound book with thick parchment pages stained by
+    age and blood. Written in Strahd's own elegant handwriting, it chronicles his life
+    from military conquest of Barovia through his transformation into a vampire and
+    centuries of isolation. The tome begins with accounts of his military campaigns,
+    describes his growing jealousy of Sergei and love for Tatyana, details his pact
+    with dark powers, and continues through 400 years of undeath. The most recent
+    entries describe his encounters with Ireena and his hope that this time, Tatyana
+    will be his. Reading the tome provides profound psychological insight into Strahd.
+
+properties:
+  weight: 5
+  pages: 800
+  language: "Common"
+  canBeDestroyed: false  # Reforms in 1d6 days if destroyed
+
+attunement:
+  required: false
+  restrictions: []
+
+specialAbilities:
+    - name: "Psychological Insight"
+      description: "After reading tome (requires 6 hours total), gain advantage on Insight checks against Strahd and his loyal servants."
+      mechanics: "Advantage on Insight, Persuasion, and Deception checks vs Strahd after reading"
+
+    - name: "Understand Strahd's Tactics"
+      description: "Reading reveals Strahd's fighting style, preferred tactics, and psychological weaknesses."
+      mechanics: "Advantage on saves vs Strahd's Charm effect. +2 to initiative when fighting Strahd."
+
+    - name: "Historical Knowledge"
+      description: "Tome contains complete history of Barovia from Strahd's perspective, including Dark Powers, Tatyana's reincarnations, and castle layout."
+      mechanics: "Advantage on History checks related to Barovia, Strahd, or Von Zarovich family"
+
+    - name: "Emotional Impact"
+      description: "Reading the tome humanizes Strahd. Party may feel sympathy or complex emotions. DM should roleplay revelations."
+      notes: "Strahd was once noble. His fall was tragic. This doesn't excuse his evil but adds depth."
+
+    - name: "Indestructible"
+      description: "Tome cannot be permanently destroyed. Reforms in 1d6 days at original Tarokka location if destroyed."
+
+readingRequirements:
+  timeToRead: "6 hours (can be split into 1-hour sessions)"
+  language: "Common"
+  comprehension: "DC 10 Intelligence check to understand complex philosophical passages"
+
+keyRevelations:
+  - "Strahd regrets killing Sergei but blames Tatyana for choosing his brother"
+  - "The Dark Powers answered Strahd's desperate plea for power to win Tatyana"
+  - "Barovia was claimed by mists immediately after Strahd's transformation - no escape"
+  - "Tatyana has been reborn 19 times; each reincarnation has died or fled"
+  - "Strahd views himself as tragic victim of fate, not evil villain"
+  - "He believes if Tatyana accepts him, the curse will break"
+
+lore:
+  history: "Strahd began writing shortly after his transformation. Entries span 400 years."
+  connectionToStrahd: "This is Strahd's unfiltered inner thoughts - his regrets, hopes, madness."
+  creator: "Strahd von Zarovich himself"
+
+source:
+  book: "Curse of Strahd"
+  page: "p.221, excerpts p.252-253"
+  notes: "One of three artifacts needed to defeat Strahd. Location determined by Tarokka reading. Grants tactical/psychological advantage."
+
+metadata:
+  developmentStage: "stub"  # Full mechanics in Epic 5
+  templateVersion: "1.0.0"
+  createdForStory: "4-12-artifact-quests"
+  compatibleWith: "Quest 9 (Find the Tome of Strahd)"
+
+# STUB: Full item mechanics (reading session tracking, knowledge database integration, buff/advantage tracking)
+# deferred to Epic 5 (Equipment System + Knowledge System, Story 3-14)

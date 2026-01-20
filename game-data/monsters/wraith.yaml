@@ -1,0 +1,222 @@
+# Wraith - Incorporeal Life-Draining Spirit
+# Source: D&D 5e Monster Manual p.302
+# Malevolent spirit that drains life force and passes through walls
+
+# === BASIC INFORMATION ===
+name: "Wraith"
+monsterId: "wraith"
+size: "Medium"
+type: "undead"
+alignment: "neutral evil"
+
+# === CHALLENGE RATING ===
+challengeRating: 5
+experiencePoints: 1800
+
+# === ARMOR CLASS & HIT POINTS ===
+armorClass: 13
+armorType: "natural armor"
+
+hitPoints:
+  max: 67
+  current: 67
+  hitDice: "9d8"
+  hitDiceBonus: 27  # +3 Con modifier * 9 HD = +27
+
+# === ABILITY SCORES ===
+abilities:
+  strength: 6     # -2
+  dexterity: 16   # +3
+  constitution: 16  # +3
+  intelligence: 12  # +1
+  wisdom: 14     # +2
+  charisma: 15   # +2
+
+# === SPEEDS ===
+speed:
+  walk: 0
+  fly: 60  # Hover (doesn't touch ground)
+  swim: null
+  burrow: null
+  climb: null
+
+# === PROFICIENCIES & RESISTANCES ===
+savingThrows: {}
+
+skills: {}
+
+damageVulnerabilities: []
+damageResistances: ["acid", "cold", "fire", "lightning", "thunder", "bludgeoning", "piercing", "slashing from nonmagical attacks"]
+damageImmunities: ["necrotic", "poison"]
+conditionImmunities: ["charmed", "exhaustion", "grappled", "paralyzed", "petrified", "poisoned", "prone", "restrained"]
+
+# === SENSES ===
+senses:
+  darkvision: 120
+  blindsight: null
+  tremorsense: null
+  truesight: null
+  passivePerception: 12  # 10 + Wis (+2)
+
+# === LANGUAGES ===
+languages: ["Common"]
+languageNote: "plus any languages it knew in life"
+
+# === COMBAT MANAGER INTEGRATION ===
+combatStats:
+  id: "wraith_1"  # Will be set dynamically per instance
+  name: "Wraith"
+  dexModifier: 3
+  type: "monster"
+
+# === SPECIAL TRAITS ===
+traits:
+  - name: "Incorporeal Movement"
+    description: "The wraith can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+    mechanics:
+      type: "movement"
+      effect: "move_through_creatures_and_objects"
+      costMultiplier: 2  # Difficult terrain = double movement cost
+      penalty:
+        condition: "ends_turn_inside_object"
+        damage: "1d10"
+        damageType: "force"
+
+  - name: "Sunlight Sensitivity"
+    description: "While in sunlight, the wraith has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+    mechanics:
+      type: "sensitivity"
+      trigger: "in_sunlight"
+      disadvantage: ["attack_rolls", "perception_checks_using_sight"]
+
+# === ACTIONS ===
+actions:
+  - name: "Life Drain"
+    type: "melee_weapon_attack"
+    attackBonus: 6  # +3 Dex + 3 prof
+    reach: 5
+    targets: 1
+    damage:
+      dice: "4d8"
+      bonus: 3  # Dex modifier
+      damageType: "necrotic"
+    description: "Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 21 (4d8 + 3) necrotic damage. The target must succeed on a DC 14 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0. A humanoid slain by this attack rises 24 hours later as a specter under the wraith's control, unless the humanoid is restored to life or its body is destroyed. The wraith can have no more than seven specters under its control at one time."
+    additionalEffects:
+      - type: "max_hp_reduction"
+        saveDC: 14
+        saveAbility: "constitution"
+        amount: "damage_dealt"
+        duration: "until_long_rest"
+        deathCondition: "max_hp_reduced_to_zero"
+      - type: "create_spawn"
+        condition: "humanoid_slain_by_this_attack"
+        spawnType: "specter"
+        spawnDelay: "24_hours"
+        prevention: ["restored_to_life", "body_destroyed"]
+        controlLimit: 7
+
+  - name: "Create Specter"
+    description: "The wraith targets a humanoid within 10 feet of it that has been dead for no longer than 1 minute and died violently. The target's spirit rises as a specter in the space of its corpse or in the nearest unoccupied space. The specter is under the wraith's control. The wraith can have no more than seven specters under its control at one time."
+    mechanics:
+      type: "special_action"
+      range: 10
+      targetConditions: ["humanoid", "dead_less_than_1_minute", "died_violently"]
+      effect: "create_specter"
+      control: true
+      controlLimit: 7
+
+# === LEGENDARY ACTIONS ===
+legendaryActions: null
+
+# === LAIR ACTIONS ===
+lairActions: null
+
+# === REACTIONS ===
+reactions: null
+
+# === EQUIPMENT ===
+equipment: null
+
+# === LOOT ===
+loot:
+  guaranteed: []
+  conditional:
+    - item: "wraith_essence"
+      quantity: 1
+      dropChance: 50
+    - item: "spectral_residue"
+      quantity: 1
+      dropChance: 30
+
+# === AI BEHAVIOR ===
+aiBehavior:
+  combatTactics: "Use Incorporeal Movement to pass through walls and attack from unexpected angles. Target low-HP party members with Life Drain to create specter servants (max 7 controlled). Use terrain to advantage - attack through walls, retreat through solid objects. Avoid sunlight at all costs. Send specter minions to harass while staying incorporeal."
+  intelligence: "cunning"
+  aggression: "high"
+  groupTactics: "strategic"  # Commands specter minions
+
+  preferredTargets:
+    - "low-HP targets (to create specters)"
+    - "isolated party members"
+    - "spellcasters"
+
+  fleeThreshold: 20  # HP threshold
+  fleeConditions: ["in_sunlight", "all_specters_destroyed", "below_30_percent_hp"]
+
+# === ECOLOGY & LORE ===
+ecology:
+  environment: "Crypts, haunted ruins, sites of violent death, Castle Ravenloft towers"
+  organization: "Solitary, gang (1 wraith + 3-7 specters), or pack (2-3 wraiths + 10-15 specters)"
+
+lore:
+  description: "Wraiths are the hateful spirits of those who died under terrible circumstances - betrayed, murdered, or driven to madness. They exist as incorporeal entities of pure malice, appearing as shadowy humanoid figures with glowing eyes. Wraiths are consumed by their hatred of the living and seek to drain life force from any creatures they encounter. Their incorporeal nature allows them to pass through walls and objects, making them nearly impossible to escape. They hunt primarily at night, as sunlight weakens their connection to the mortal world."
+  weakness: "Sunlight Sensitivity gives disadvantage in daylight. Takes force damage if ends turn inside solid objects. No healing abilities. Radiant damage typically effective against undead."
+  behavior: "Intelligent and malevolent. Use incorporeal movement tactically - attack from unexpected angles, retreat through walls when wounded, ambush from inside solid objects. Create specter army from slain victims (max 7 controlled). Hunt in places of violence and death. Absolutely avoid sunlight, retreating to crypts or shadows during day. Specters serve as scouts and expendable minions."
+
+# === ENCOUNTER DESIGN ===
+encounterNotes:
+  recommendedPartyLevel: 5
+  encounterSize: "1 wraith alone for medium, 1 wraith + 4 specters for hard, 2 wraiths + 7 specters for deadly"
+  terrain: "Haunted ruins with walls to phase through, crypts, Castle Ravenloft towers, battlefields"
+  tactics: "Deploy wraith in enclosed space with walls/pillars. Have wraith attack through walls using Incorporeal Movement. Life Drain deals massive damage (4d8+3 avg 21) plus max HP reduction. Creates specters from kills to overwhelm party. Use hit-and-run tactics - attack, phase through wall, repeat. Specters provide flanking and distraction while wraith delivers killing blows."
+
+# === VARIANTS ===
+variants:
+  - name: "Dread Wraith"
+    changes:
+      challengeRating: 7
+      experiencePoints: 2900
+      hitPoints:
+        max: 90
+      damage:
+        dice: "6d8"  # Increased Life Drain
+      saveDC: 15  # Higher save DC
+      lore:
+        description: "More powerful wraith variant. Commands larger specter armies and has stronger Life Drain."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "D&D 5e Monster Manual"
+  pageReference: "MM p.302"
+  official: true
+  srdContent: true
+
+  notes: "Incorporeal Movement makes wraiths terrifying - they can attack through walls and retreat when wounded. Life Drain averages 21 damage plus max HP reduction. DC 14 Con save or lose max HP equal to damage. Creates specters from kills (7 max controlled). Same CR as vampire spawn but different tactical niche - vampire spawn are durable brawlers, wraiths are incorporeal assassins."
+
+  dmReminders:
+    - "Incorporeal Movement: Can move through creatures/objects (difficult terrain cost)"
+    - "Takes 1d10 force damage if ends turn INSIDE an object"
+    - "Life Drain: 4d8+3 necrotic (avg 21), DC 14 CON save or max HP reduced"
+    - "Humanoid killed by Life Drain rises as specter in 24 hours (7 max controlled)"
+    - "Sunlight Sensitivity: Disadvantage on attacks and Perception in sunlight"
+    - "Resistance to nearly everything except force, psychic, radiant, magical weapons"
+    - "Immune to necrotic and poison"
+    - "Immune to many conditions (grappled, paralyzed, prone, restrained, etc.)"
+    - "60 ft fly speed (hover) - never touches ground"
+    - "Use walls/terrain tactically - attack from inside walls"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 CombatManager (Story 3-5)"

@@ -1,0 +1,541 @@
+# Quest 9: Find the Tome of Strahd
+# Locate and claim the Tome containing Strahd's tragic history
+
+questId: "find_the_tome_of_strahd"
+name: "Find the Tome of Strahd"
+type: "main"
+category: "investigation"
+
+questGiver:
+  npcId: "madam_eva"
+  location: "tser_pool_encampment"
+  dialogue: "The Tome - 'knowledge of the ancient, the devil's memoir.' It holds secrets that could turn the tide."
+
+questRecipient: "player"
+
+description:
+  short: "Locate the Tome of Strahd using the Tarokka reading's guidance"
+  full: "The Tarokka reading has revealed the location of the Tome of Strahd, the vampire lord's personal journal chronicling his transformation and descent into darkness. This book contains Strahd's innermost thoughts, his regrets, and potentially clues to his vulnerabilities. Reading the tome provides deep insight into your enemy's mind and grants advantage in the final confrontation."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "seek_the_vistani"
+  requiredEvents:
+    - eventId: "tarokka_reading_complete"
+      status: "triggered"
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited:
+      - "tser_pool_encampment"
+
+objectives:
+  - objectiveId: "decipher_tarokka_clue"
+    description: "Interpret the Tarokka card to identify the Tome's location"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "travel_to_location"
+    description: "Travel to the location revealed by the Tarokka reading"
+    type: "exploration"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "locate_tome"
+    description: "Search the location to find the hidden Tome"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 300
+      items: []
+      currency: {}
+
+  - objectiveId: "claim_tome"
+    description: "Claim the Tome of Strahd"
+    type: "fetch"
+    status: "pending"
+    target:
+      type: "item"
+      id: "tome_of_strahd"
+      location: "variable"
+    optional: false
+    completionTrigger:
+      type: "item_obtained"
+    rewards:
+      experience: 400
+      items: []
+      currency: {}
+
+  - objectiveId: "read_tome"
+    description: "Read the Tome to learn Strahd's history and secrets"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 500
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "item_status"
+        itemId: "tome_of_strahd"
+        status: "claimed"
+
+      - type: "knowledge_gained"
+        knowledge: "strahd_history_complete"
+
+    triggeredEvents: []
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "strahd_von_zarovich"
+        attitudeChange: -15
+        dialogue: "You've read my private thoughts? How... intimate. Now you know what drives me. Does it change anything?"
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 1500
+
+  items:
+    - itemId: "tome_of_strahd"
+      quantity: 1
+      source: "quest_reward"
+      attunementRequired: false
+
+  currency:
+    gold: 200  # Additional items at location
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "knowledge"
+      description: "Understanding Strahd's psychology grants advantage on social interactions and insight into his tactics"
+    - type: "tactical_advantage"
+      description: "Advantage on Insight checks against Strahd and creatures loyal to him"
+
+# ============================================================================
+# TAROKKA INTEGRATION
+# ============================================================================
+tarokkaIntegration:
+  artifactType: "tome_of_strahd"
+  determinedBy: "tarokka_reading"
+
+  cardMappings:
+    - card: "Tome (High Deck)"
+      location: "castle_ravenloft_library"
+      description: "In Castle Ravenloft's ancient library, hidden among countless other books"
+
+    - card: "Necromancer (Stars)"
+      location: "castle_ravenloft_strahd_bedchamber"
+      description: "In Strahd's private bedchamber, locked away in his personal chest"
+
+    - card: "Ghost (Glyphs)"
+      location: "castle_ravenloft_sergeis_tomb"
+      description: "In Sergei's tomb beneath the castle, placed there in mockery or regret"
+
+    - card: "Crypts (Swords)"
+      location: "castle_ravenloft_catacombs"
+      description: "In the catacombs beneath Castle Ravenloft, among Strahd's ancestors"
+
+    - card: "Broken One (Low Deck)"
+      location: "village_of_barovia_burgomaster_mansion"
+      description: "Hidden in the late Burgomaster Kolyan's mansion, entrusted to Barovian nobility"
+
+    - card: "Darklord (High Deck)"
+      location: "amber_temple_vault"
+      description: "In the Amber Temple's forbidden vault, where Strahd made his dark pact"
+
+    - card: "Raven (Glyphs)"
+      location: "wizard_of_wines_secret_library"
+      description: "At the Wizard of Wines winery, hidden in a secret library by the Martikov family"
+
+  fallbackLocation: "castle_ravenloft_library"
+  fallbackDescription: "If Tarokka reading was skipped, defaults to Castle Ravenloft library"
+
+  stateKey: "tarokkaReading.artifactLocations.tome_of_strahd"
+  locked: true  # Location cannot change after Tarokka reading complete
+
+# ============================================================================
+# QUEST BRANCHING (autoDecide based on Tarokka reading)
+# ============================================================================
+branches:
+  - branchId: "tome_location"
+    description: "The Tome's location is determined by the Tarokka reading"
+    decision:
+      autoDecide: true
+      condition: "tarokkaReading.artifactLocations.tome_of_strahd"
+      outcomes:
+        # Outcome 1: Castle Ravenloft Library
+        - conditionValue: "castle_ravenloft_library"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Infiltrate Castle Ravenloft and locate the vast library"
+              target: "castle_ravenloft_library"
+            - objectiveId: "locate_tome"
+              description: "Search thousands of books to find the Tome of Strahd (DC 15 Investigation)"
+              target: "tome_in_library"
+          consequences:
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_library"
+
+        # Outcome 2: Strahd's Bedchamber
+        - conditionValue: "castle_ravenloft_strahd_bedchamber"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Reach Strahd's private bedchamber in Castle Ravenloft's highest tower"
+              target: "castle_ravenloft_strahd_bedchamber"
+            - objectiveId: "locate_tome"
+              description: "Break into Strahd's locked chest to claim the Tome"
+              target: "strahd_chest"
+          consequences:
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_strahd_bedchamber"
+            - type: "state_update"
+              stateKey: "strahd_alerted"
+              value: true
+
+        # Outcome 3: Sergei's Tomb
+        - conditionValue: "castle_ravenloft_sergeis_tomb"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Descend to Sergei's tomb beneath Castle Ravenloft"
+              target: "castle_ravenloft_sergeis_tomb"
+            - objectiveId: "locate_tome"
+              description: "Find the Tome placed upon Sergei's sarcophagus"
+              target: "sergei_sarcophagus"
+          consequences:
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_sergeis_tomb"
+            - type: "npc_interaction"
+              npcId: "sergei_spirit"
+
+        # Outcome 4: Castle Catacombs
+        - conditionValue: "castle_ravenloft_catacombs"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Navigate the catacombs beneath Castle Ravenloft"
+              target: "castle_ravenloft_catacombs"
+            - objectiveId: "locate_tome"
+              description: "Search the Von Zarovich family crypts for the Tome"
+              target: "zarovich_crypts"
+          consequences:
+            - type: "location_discovered"
+              locationId: "castle_ravenloft_catacombs"
+            - type: "guardian_defeated"
+              npcId: "catacomb_wraiths"
+
+        # Outcome 5: Burgomaster Mansion
+        - conditionValue: "village_of_barovia_burgomaster_mansion"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Search the Burgomaster's mansion in the Village of Barovia"
+              target: "village_of_barovia_burgomaster_mansion"
+            - objectiveId: "locate_tome"
+              description: "Find the Tome hidden in Kolyan's secret study (DC 16 Investigation)"
+              target: "kolyan_study"
+          consequences:
+            - type: "location_discovered"
+              locationId: "village_of_barovia_burgomaster_mansion"
+
+        # Outcome 6: Amber Temple Vault
+        - conditionValue: "amber_temple_vault"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Journey to the Amber Temple and reach the forbidden vaults"
+              target: "amber_temple_vault"
+            - objectiveId: "locate_tome"
+              description: "Find the Tome in the vault where Strahd made his pact with darkness"
+              target: "dark_pact_chamber"
+          consequences:
+            - type: "location_discovered"
+              locationId: "amber_temple_vault"
+            - type: "guardian_defeated"
+              npcId: "amber_vault_guardian"
+
+        # Outcome 7: Wizard of Wines Secret Library
+        - conditionValue: "wizard_of_wines_secret_library"
+          objectiveModifications:
+            - objectiveId: "travel_to_location"
+              description: "Travel to the Wizard of Wines winery and find the hidden library"
+              target: "wizard_of_wines_secret_library"
+            - objectiveId: "locate_tome"
+              description: "Gain the Martikov family's trust to access the Tome they've safeguarded"
+              target: "martikov_vault"
+          consequences:
+            - type: "location_discovered"
+              locationId: "wizard_of_wines_secret_library"
+            - type: "npc_interaction"
+              npcId: "davian_martikov"
+
+journalEntries:
+  initial: "The Tarokka reading has revealed the location of Strahd's personal journal - the Tome of Strahd. This book contains his transformation story, his obsession with Tatyana, and his centuries of isolation. Reading it could give us crucial insight into our enemy's mind and weaknesses."
+
+  updates:
+    - trigger: "decipher_tarokka_clue_complete"
+      entry: "The Tome is hidden at [LOCATION]. Strahd has hidden his journal but never destroyed it - perhaps some part of him wants his story told. We must retrieve it carefully; Strahd may have left guardians or alarms."
+
+    - trigger: "claim_tome_complete"
+      entry: "We've found the Tome of Strahd. The leather-bound book is thick with centuries of entries, written in Strahd's own hand. The pages smell of old parchment and blood. We must read this to understand the monster we face."
+
+  completion: "I've read the Tome of Strahd, and it's both tragic and horrifying. Strahd was once a conqueror, a warrior-king who won Barovia through blood and steel. His love for Tatyana drove him to dark pacts and fratricide. He's been trapped in a cycle of obsession for 400 years, watching Tatyana's soul reborn and die over and over. He's a monster, yes, but one born from a moment of terrible weakness. Understanding him doesn't excuse his evil, but it gives us insight into how he thinks and what drives him."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "The Tome is written in flowing script - Strahd's handwriting is elegant but occasionally marred by dried blood"
+    - "Reading the Tome takes several hours - describe key passages aloud"
+    - "The Tome reveals Strahd's humanity before his fall, making him more tragic"
+    - "Players may feel sympathy for Strahd after reading - allow complex emotions"
+    - "Strahd may appear after they read it, curious about their reaction"
+    - "Foreshadow the Tome's location with imagery matching the Tarokka card"
+    - "Each location reflects a different facet of Strahd's psyche - his knowledge, vanity, regret, heritage"
+
+  roleplayTips:
+    - "If Strahd appears: He asks what they think of his story, genuinely curious"
+    - "The Tome shows Strahd's descent: noble warrior → jealous lover → desperate brother → monstrous vampire"
+    - "Key revelation: Strahd regrets killing Sergei but blames Tatyana for choosing his brother"
+    - "At Library: Emphasize the vastness of Strahd's collected knowledge over centuries"
+    - "At Bedchamber: This is Strahd's most private space - violating it alerts him immediately"
+    - "At Sergei's Tomb: Strahd placed the Tome here as penance or mockery - players decide which"
+    - "At Wizard of Wines: The Keepers of the Feather have protected it, waiting for worthy champions"
+
+  locationVariants:
+    - location: "castle_ravenloft_library"
+      card: "Tome (High Deck)"
+      difficulty: "Hard (infiltration + investigation)"
+      guardianType: "None (but Castle hazards apply)"
+      guardianCR: 0
+      guardianCount: 0
+      encounterNotes: "The Tome is hidden among tens of thousands of books in Castle Ravenloft's vast library. No specific guardian, but infiltrating the castle is extremely dangerous. Once in the library, party must succeed on DC 15 Investigation check to find the Tome among identical-looking volumes. The Tome is disguised with a mundane cover ('History of Barovia Vol. XII'). Spend 1d4 hours searching if check fails. May trigger random castle encounters during search."
+      tactics: "No direct combat in library (unless random encounter occurs). Main challenge is: 1) Infiltrating Castle Ravenloft (extremely dangerous), 2) Navigating to library without detection, 3) Searching efficiently. Use Detect Magic (Tome has faint divination aura) or Research proficiency to gain advantage on Investigation. If party takes too long (1+ hours), roll for wandering monster (1d6: 1-2 nothing, 3-4 vampire spawn patrol, 5-6 Strahd himself)."
+      treasure: "Tome of Strahd disguised among books, 200 gp in rare first editions (10 books worth 20 gp each), spell scroll of Legend Lore, ancient map of Barovia (pre-curse)"
+      accessRequirements: "Castle Ravenloft infiltration (Story 4-2). Library is on main floor, relatively accessible. No locks on library door, but castle patrols and wards throughout. Strahd may be present - check lair actions."
+      environmentalHazards: "Castle Ravenloft general hazards apply: random encounters, scrying sensors, lair actions if Strahd present. Library has unstable bookshelves (DC 12 Dex save or 2d6 bludgeoning from falling books if party is careless). Dusty air may cause coughing (disadvantage on Stealth if failed DC 10 Con save)."
+      stealthOption: "DC 16 Stealth to move through library quietly. Advantage if party enters during night (fewer patrols). Knocking over books or using loud spells alerts nearby castle denizens. Invisibility and Silence spells highly recommended."
+      narrativeContext: "The library represents Strahd's thirst for knowledge - centuries of collected wisdom. The Tome sits here as just another book among thousands, suggesting Strahd views his own story as merely one chapter in Barovia's tragic history. Emphasize the library's grandeur and decay - knowledge hoarded but rarely appreciated."
+
+    - location: "castle_ravenloft_strahd_bedchamber"
+      card: "Necromancer (Stars)"
+      difficulty: "Very Hard (most private location)"
+      guardianType: "Strahd's Simulacrum or None"
+      guardianCR: 9
+      guardianCount: 1
+      encounterNotes: "The Tome is locked in an ornate chest in Strahd's bedchamber (highest tower). This is Strahd's most private sanctum. 50% chance Strahd himself is present (resting in his coffin). If not, his simulacrum guards the chamber (use Strahd stat block but half HP: 72 HP). Chest is locked (DC 18 Thieves' Tools or knock spell) and warded with Glyph of Warding (triggers Cloudkill, DC 15 Con save). Taking the Tome automatically alerts Strahd regardless of his location."
+      tactics: "If Simulacrum present: Reduced Strahd tactics. AC 16, 72 HP. Multiattack with Unarmed Strike +9 (1d8+4 + 3d6 necrotic, grapple). Charm, Bite vs grappled. Legendary Resistance (1/day instead of 3). Can summon castle denizens. If reduced below 35 HP, retreats to alert real Strahd. Party should hit-and-run: grab Tome and flee immediately. Fighting Strahd here is suicide for level 6-7 party."
+      treasure: "Tome of Strahd in locked chest, 200 gp in jewelry (Strahd's keepsakes from past loves), Tatyana's portrait (Strahd's prized possession), spell scroll of Scrying, potion of invulnerability"
+      accessRequirements: "Castle Ravenloft infiltration + reaching highest tower (Story 4-2). Multiple floors of ascent, locked doors, elevator traps. This is the hardest location to reach physically. Requires exceptional stealth or combat prowess."
+      environmentalHazards: "Highest castle security: scrying sensors everywhere, wards on doors, Strahd's personal traps. Glyph of Warding on chest (Cloudkill, DC 15 Con save or 5d8 poison damage). If Strahd is present, full lair actions apply. Tower windows overlook sheer 400 ft drop. Taking Tome triggers silent alarm - Strahd knows within 1 round."
+      stealthOption: "DC 20 Stealth required (Strahd's bedchamber has heightened wards). Invisibility helps but not foolproof (Strahd has truesight 120 ft). Best approach: wait until Strahd is confirmed elsewhere, use Silence on chest to muffle Glyph, grab Tome, teleport or flee immediately. Time in chamber should be < 2 minutes total."
+      narrativeContext: "Strahd's bedchamber is his sanctuary - portraits of Tatyana cover the walls, his coffin rests nearby, and the Tome sits in his personal chest. This represents his vanity and obsession. Taking it from here is the ultimate violation of his privacy. He will hunt the party relentlessly afterward. Emphasize the intimacy and danger - they're in the lion's den."
+
+    - location: "castle_ravenloft_sergeis_tomb"
+      card: "Ghost (Glyphs)"
+      difficulty: "Medium (roleplay-focused)"
+      guardianType: "Sergei's Spirit (peaceful)"
+      guardianCR: 0
+      guardianCount: 1
+      encounterNotes: "The Tome rests on Sergei's marble sarcophagus in the tomb beneath Castle Ravenloft. Sergei's spirit manifests when party enters - peaceful, sorrowful. He explains: 'My brother placed his journal here, perhaps seeking my forgiveness. Or perhaps to torment me with his twisted version of our tragedy. Take it - may it help you understand the monster he's become, and the man he once was.' No combat unless party attacks Sergei (strongly discouraged - he's a victim, not enemy). Sergei may warn party about Strahd's tactics."
+      tactics: "No combat intended. If party foolishly attacks: Ghost stat block, AC 11, 45 HP. Horrifying Visage (DC 13 Wis save or frightened + aged 1d4x10 years). Possession (DC 13 Cha save). But Sergei fights only to defend himself, not to kill. He's sorrowful, not vengeful. Better to talk - he provides valuable lore about Strahd's weaknesses and the wedding night massacre."
+      treasure: "Tome of Strahd on sarcophagus, 200 gp in burial jewelry (Sergei's wedding preparation items), Sergei's silver ring (can be given to Ireena for emotional scene), holy symbol of the Morninglord, 2 potions of greater healing (gifts from Sergei)"
+      accessRequirements: "Castle Ravenloft catacombs accessible (Story 4-2). Sergei's tomb is clearly marked, no locks. Strahd permits access - he wants Sergei's spirit to witness Barovia's suffering. Respectful approach recommended."
+      environmentalHazards: "Hallowed ground - undead have disadvantage on attacks. Tomb is peaceful, well-maintained (Strahd visits regularly). No traps. Strahd may appear here if party lingers (50% chance after 10 minutes) - he visits to monologue about his regrets."
+      stealthOption: "Not necessary - tomb is open and Sergei is friendly. However, DC 14 Stealth to avoid alerting castle patrols on the way. Lingering too long (10+ minutes) risks Strahd encounter."
+      narrativeContext: "Sergei's tomb is the emotional heart of the tragedy. Strahd keeps it immaculate, visits regularly, and placed his Tome here as confession or mockery (DM's choice). Sergei's spirit is gentle and tragic - he pities Strahd but can't forgive him. This location makes the tragedy personal. Players should feel the weight of Strahd's crime and Sergei's loss."
+
+    - location: "castle_ravenloft_catacombs"
+      card: "Crypts (Swords)"
+      difficulty: "Hard (undead guardians)"
+      guardianType: "Wraiths"
+      guardianCR: 5
+      guardianCount: 3
+      encounterNotes: "The Tome is hidden in the Von Zarovich family crypt, deep in Castle Ravenloft's catacombs. Three wraiths (Strahd's victims from centuries past) guard the family crypts. They attack intruders on sight, moaning: 'The secrets of Zarovich are not for the living! Join us in death!' Wraiths are aggressive and coordinate attacks. Combat is dangerous but manageable for level 6-7 party with preparation."
+      tactics: "3 wraiths, AC 13, 67 HP each. Incorporeal Movement (move through objects/creatures). Life Drain +6 to hit, 4d8+3 necrotic, DC 14 Con save or max HP reduced (can kill at 0 HP). Resistant to non-magical damage, immune to poison/charm/exhaust. Create Specter if humanoid dies to Life Drain. Coordinate to focus-fire one PC at a time. Use incorporeal movement to ambush from walls/floor. Sunlight causes 20 radiant damage/turn (if party has Daylight). Turn Undead works well (DC to resist)."
+      treasure: "Tome of Strahd in Von Zarovich crypt alcove, 200 gp in ancient coins, 3 gemstones worth 100 gp each, scroll of Speak with Dead, Zarovich family heirloom sword (longsword +1)"
+      accessRequirements: "Castle Ravenloft catacombs (Story 4-2). Catacombs are beneath castle, accessible via stairs from main halls. Dark, maze-like, many side passages. DC 13 Survival or Investigation to navigate to Zarovich crypts. Wraiths are permanently stationed here."
+      environmentalHazards: "Catacombs are dark (total darkness without light source), cold (DC 10 Con save/hour or gain 1 exhaustion), and claustrophobic. Crumbling passages may collapse (DC 14 Dex save or 3d6 bludgeoning if party uses area spells). Wraiths use darkness to advantage (invisible in shadows if no darkvision)."
+      stealthOption: "DC 17 Stealth to sneak past wraiths, but they have high passive Perception (14) and can sense living creatures nearby. Invisibility helps but not foolproof (wraiths detect life force). Better to prepare for combat: radiant damage, Turn Undead, or Daylight spell to weaken them."
+      narrativeContext: "The Von Zarovich crypt represents Strahd's heritage - a noble lineage corrupted. The wraiths are his victims, now forced to guard his family's legacy. Strahd hid the Tome here to keep it with his ancestors, perhaps hoping they'd judge his choices. Emphasize the tragedy: these wraiths were people Strahd killed, now enslaved to protect his secrets."
+
+    - location: "village_of_barovia_burgomaster_mansion"
+      card: "Broken One (Low Deck)"
+      difficulty: "Easy (already accessible)"
+      guardianType: "None"
+      guardianCR: 0
+      guardianCount: 0
+      encounterNotes: "The Tome was entrusted to Burgomaster Kolyan Indirovich by Strahd decades ago - a gesture of respect between lord and subject. After Kolyan's death, the Tome remains hidden in his secret study behind a false wall (DC 16 Investigation to find). No guardians - Ireena doesn't know it's there. If party has befriended Ireena, she may help search the mansion and discover her father's secret study together. Emotional moment when Ireena realizes her father kept Strahd's darkest secrets."
+      tactics: "No combat. Main challenge is Investigation check to find secret study. DC 16 base, advantage if party asks Ireena about her father's habits or studies the mansion layout. Study is behind bookshelf in Kolyan's bedroom. Once found, Tome is in plain sight on desk (Kolyan was reading it when he died)."
+      treasure: "Tome of Strahd on Kolyan's desk, 200 gp in Burgomaster's emergency funds, Kolyan's journal (provides context on Ireena's protection and his final days), spell scroll of Protection from Evil and Good, silver dagger"
+      accessRequirements: "Village of Barovia accessible (Story 4-1). Burgomaster Mansion is central location, no barriers to entry. Ireena lives here and welcomes party. Search can be conducted openly or discreetly."
+      environmentalHazards: "None - mansion is safe. Ireena may become distressed if party reveals they're searching for Strahd-related items (explain sensitively). If party lingers 1+ hour, Strahd may send vampire spawn to attack mansion (random encounter, 30% chance)."
+      stealthOption: "Not necessary if party is open with Ireena. If hiding search from her: DC 12 Stealth and Sleight of Hand to search without arousing suspicion. But honesty is better - Ireena is trustworthy ally."
+      narrativeContext: "This is the 'easiest' location but carries emotional weight. Kolyan was Ireena's father and a good man who tried to protect his people. Strahd trusted him with the Tome, showing even the vampire has some measure of respect for nobility. Finding the Tome here reveals Kolyan's burden - he knew Strahd's full story but couldn't share it. Ireena's reaction to learning her father guarded this secret should be a poignant moment."
+
+    - location: "amber_temple_vault"
+      card: "Darklord (High Deck)"
+      difficulty: "Very Hard (high-level location)"
+      guardianType: "Arcanaloth + Corrupted Spirits"
+      guardianCR: 12
+      guardianCount: 1
+      encounterNotes: "The Tome is in the Amber Temple's forbidden vault - the same chamber where Strahd made his pact with the Dark Powers 400 years ago. An arcanaloth guards the vault, bound by ancient contracts. It offers a deal: 'The book for a price. Accept a dark gift, or defeat me in battle. Choose.' Party can negotiate (DC 18 Persuasion to bargain down to minor favor) or fight (very dangerous for level 6-7). Alternatively, accept a dark gift to gain Tome (consequences per Amber Temple mechanics)."
+      tactics: "If combat: Arcanaloth, AC 17, 104 HP. Spellcasting: 2nd-lvl Invisibility, 3rd-lvl Counterspell, 5th-lvl Dominate Person. Multiattack with Claws +7 (2d4+4 slashing). Teleport 60 ft at will. Magic Resistance. Fiend with truesight 120 ft. Summons 2 flameskulls as reinforcements at 50% HP. Focuses on controlling party with spells, then claws isolated targets. Very intelligent - uses terrain, teleport, counterspell tactically. Party level 6-7 should flee or negotiate if combat goes poorly."
+      treasure: "Tome of Strahd in obsidian case in vault, 200 gp in dark offerings, 3 dark gifts available (Amber Temple mechanics), obsidian dagger (magical +1), scroll of Contact Other Plane"
+      accessRequirements: "Amber Temple accessible (Story 4-5, extremely dangerous journey). Vault is in temple's deepest level. Must navigate temple guardians, traps, and environmental hazards. Recommended level 8+ for Amber Temple."
+      environmentalHazards: "Extreme cold (-30°F, DC 12 Con save/hour or 1 exhaustion). Dark presence (DC 12 Wis save or disadvantage on saves vs dark gifts). Vault has anti-magic field effect on ceiling (DC 18 Arcana to notice, blocks teleportation). Accepting dark gift corrupts character (mechanical flaw + physical corruption)."
+      stealthOption: "DC 19 Stealth to sneak past arcanaloth (truesight 120 ft makes this nearly impossible). Invisibility fails (truesight). Better to negotiate or prepare for combat. If party has completed other Amber Temple quests, arcanaloth may be more cooperative."
+      narrativeContext: "This location is deeply symbolic - the Tome rests where Strahd became a monster. The vault holds the echo of his pact, and claiming the Tome here forces party to confront temptation (dark gifts). Emphasize the oppressive darkness, whispers of power, and the arcanaloth's knowing smirk. This is a test: will party sacrifice something to gain knowledge, as Strahd did?"
+
+    - location: "wizard_of_wines_secret_library"
+      card: "Raven (Glyphs)"
+      difficulty: "Easy (if trusted by Martikovs)"
+      guardianType: "Davian Martikov (friendly NPC)"
+      guardianCR: 0
+      guardianCount: 1
+      encounterNotes: "The Keepers of the Feather (Martikov family, wereraven resistance) have safeguarded the Tome for decades, waiting for worthy heroes. Davian Martikov possesses it in a secret library beneath the winery. If party has helped the winery (defeated druids, recovered gems, earned trust), Davian willingly shares the Tome. If not, DC 16 Persuasion to convince him party is worthy. If party attacks or tries to steal, all Martikovs defend (12 wereravens, CR 2 each - deadly for level 6-7)."
+      tactics: "No combat if party is friendly. If party betrays trust and fights: Davian (wereraven), AC 12, 31 HP. Beak attack +4 (1d4+2 piercing), Raven form (fly 50 ft). Can summon family (2d4 wereravens arrive in 2 rounds). Immune to non-silvered/magical damage. Party is vastly outnumbered and should surrender or flee. Better to earn trust through good deeds."
+      treasure: "Tome of Strahd from secret library, 200 gp gift from Martikovs (gratitude for helping winery), 6 bottles of Purple Grapemash wine (healing properties), wereraven feather token (call Martikovs once for aid), spell scroll of Find Familiar (raven)"
+      accessRequirements: "Wizard of Wines accessible (Story 4-5). Secret library beneath winery, entrance hidden behind wine racks (Davian reveals willingly if trusted). Must complete winery quests or earn Martikovs' respect through good deeds."
+      environmentalHazards: "None if party is friendly. If party fights: winery is fortified, Martikovs use terrain advantage (fly, hit-and-run). Winery has wine barrels that explode if damaged (2d6 fire damage, 10 ft radius)."
+      stealthOption: "DC 15 Stealth to find secret library without Martikov knowledge, but stealing Tome betrays critical ally. Martikovs are the resistance against Strahd - losing their trust is catastrophic long-term. Honest approach is vastly superior."
+      narrativeContext: "The Keepers of the Feather represent hope and resistance in Barovia. They've protected the Tome, knowing it would be needed when true heroes arrived. This location rewards good behavior - party's reputation and actions matter. Davian sharing the Tome should feel like earning a sacred trust, not a transaction. Emphasize the weight of responsibility and the Martikovs' faith in the party."
+
+  encounterDifficultyComparison: |
+    EASY: Burgomaster Mansion (investigation only, no guardians), Wizard of Wines (if trusted by Martikovs)
+    MEDIUM: Sergei's Tomb (peaceful spirit, roleplay-focused)
+    HARD: Castle Library (infiltration + investigation), Castle Catacombs (3 wraiths CR 5)
+    VERY HARD: Strahd's Bedchamber (simulacrum or Strahd himself), Amber Temple (CR 12 arcanaloth + environmental hazards)
+
+    Party level 6-7 recommendation: Avoid Bedchamber and Amber Temple until level 8+ or with artifacts. Burgomaster Mansion and Wizard of Wines are safest. Sergei's Tomb offers best balance of safety and narrative impact.
+
+  combatEncounters:
+    - encounter: "variable_by_tarokka"
+      location: "see_location_variants"
+      cr: 0-12
+      monsters: []
+      tactics: "See location-specific tactics in locationVariants above. Guardian types vary from none (Burgomaster Mansion) to CR 12 arcanaloth (Amber Temple)."
+
+  commonPitfalls:
+    - "Players may skip reading the Tome - emphasize its importance for understanding Strahd (advantage on future checks)"
+    - "Players may destroy the Tome - it can't be destroyed easily, reforms in 1d6 days at original location"
+    - "Players may try to use Tome against Strahd emotionally - he's aware of its contents and unashamed"
+    - "At Bedchamber: Underestimating danger of taking from Strahd's private sanctum - he will hunt party relentlessly"
+    - "At Amber Temple: Accepting dark gifts has permanent consequences - warn players of corruption"
+    - "At Wizard of Wines: Stealing Tome loses critical ally - Martikovs are essential to resistance"
+    - "Not reading the Tome immediately - Strahd may appear to discuss it if party delays"
+
+  alternatives:
+    - "Players can read excerpts aloud to NPCs to explain Strahd's history (improves morale, context)"
+    - "Players can show Tome to Ireena - she may remember past lives or feel sympathy for Tatyana"
+    - "Players can confront Strahd about his own words in the Tome (he'll engage philosophically)"
+    - "Players can use knowledge from Tome to predict Strahd's tactics (advantage on Insight vs Strahd)"
+    - "At Bedchamber: Use Dimension Door or Misty Step to teleport in/out quickly, avoiding patrols"
+    - "At Amber Temple: Negotiate with arcanaloth - offer information, services, or gold instead of combat"
+    - "At Catacombs: Use Turn Undead or Daylight spell to control wraiths, avoid full combat"
+    - "At Wizard of Wines: Complete winery quests first to earn trust organically, making Tome handover smooth"
+
+relationships:
+  partOfQuestChain:
+    chainId: "artifact_hunt"
+    position: 3
+
+  blocksQuests:
+    - "destroy_strahd_von_zarovich"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 6
+  challengeRating: 5
+  skillChecks:
+    - skill: "investigation"
+      dc: 14
+      description: "Find hidden Tome in location"
+    - skill: "insight"
+      dc: 15
+      description: "Understand Strahd's psychological state from Tome"
+    - skill: "history"
+      dc: 12
+      description: "Contextualize historical events mentioned in Tome"
+
+lore:
+  background: |
+    Strahd began writing this journal shortly after his transformation into a vampire. It starts
+    with his military campaigns in Barovia, chronicles his love for Tatyana and jealousy of
+    Sergei, describes in horrific detail his pact and transformation, and continues through
+    centuries of undeath. The most recent entries describe his encounters with Ireena and his hope
+    that this time, Tatyana will be his.
+
+  connectionToMainStory: |
+    The Tome is the least combat-effective of the three artifacts, but perhaps the most important.
+    It provides psychological insight that grants advantage on checks against Strahd. More
+    importantly, it humanizes the villain, showing players that Strahd is a tragic figure as much
+    as an evil one. This complexity makes the final confrontation more meaningful.
+
+  historicalContext: |
+    The Tome contains Barovia's history from Strahd's perspective: his conquest of the valley, the
+    war against King Barov's enemies, Sergei's rise to prominence, Tatyana's arrival, the wedding
+    night massacre, and the Dark Powers claiming Barovia. Strahd writes with increasing bitterness
+    and madness as centuries pass.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.81 (Tarokka outcomes), p.221 (item description)"
+  official: true
+  estimatedDuration: "1 session to find, several hours to read fully"
+  tags: ["artifact", "investigation", "lore", "psychological", "tarokka_variable"]
+  notes: "Tome location determined by Tarokka. Reading the Tome should be roleplayed - share key passages. Players gain advantage on checks against Strahd after reading. Tome has excerpts on p.252-253 of CoS."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

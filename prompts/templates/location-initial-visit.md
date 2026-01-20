@@ -7,9 +7,9 @@ description: First visit to a location - vivid atmospheric description
 
 # Location: {{location.name}}
 
-**Current Date/Time:** {{calendar.currentDate}}, {{calendar.currentTime}} ({{location.timeOfDay || "unknown time"}})
-**Weather:** {{calendar.weather}}
-**Moon Phase:** {{calendar.moonPhase}}
+**Current Date/Time:** {{calendar.current.date}}, {{calendar.current.time}} ({{location.timeOfDay || "unknown time"}})
+**Weather:** {{calendar.weather.current}}
+**Moon Phase:** {{calendar.moon.current_phase}}
 
 ## Player Character
 **{{character.name}}** (Level {{character.level}} {{character.class}})

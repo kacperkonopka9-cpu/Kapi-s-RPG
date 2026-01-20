@@ -1,0 +1,222 @@
+# Quest 10: Identify the Ally
+# Find and recruit the ally revealed by the Tarokka reading
+
+questId: "identify_the_ally"
+name: "Identify the Ally"
+type: "main"
+category: "social"
+
+questGiver:
+  npcId: "madam_eva"
+  location: "tser_pool_encampment"
+  dialogue: "An ally awaits - one who will stand with you against the darkness. The cards have shown their face."
+
+questRecipient: "player"
+
+description:
+  short: "Find and recruit the ally revealed by the Tarokka reading"
+  full: "The Tarokka reading has identified an ally destined to aid you against Strahd. This could be Rudolph van Richten (legendary vampire hunter), Ezmerelda d'Avenir (van Richten's protégé), or another champion. You must decipher the Tarokka clue, locate this ally, and convince them to join your cause."
+
+status: "not_started"
+
+prerequisites:
+  level: null
+  requiredQuests:
+    completed:
+      - "seek_the_vistani"
+  requiredEvents:
+    - eventId: "tarokka_reading_complete"
+      status: "triggered"
+  requiredNPCs:
+    alive: []
+    dead: []
+  requiredItems: []
+  requiredLocations:
+    visited: []
+
+objectives:
+  - objectiveId: "decipher_ally_clue"
+    description: "Interpret the Tarokka card to identify your destined ally"
+    type: "investigation"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 150
+      items: []
+      currency: {}
+
+  - objectiveId: "locate_ally"
+    description: "Find the destined ally's location"
+    type: "exploration"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 250
+      items: []
+      currency: {}
+
+  - objectiveId: "meet_ally"
+    description: "Make contact with the destined ally"
+    type: "dialogue"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 200
+      items: []
+      currency: {}
+
+  - objectiveId: "recruit_ally"
+    description: "Convince the ally to join your cause against Strahd"
+    type: "social"
+    status: "pending"
+    target: null
+    optional: false
+    completionTrigger:
+      type: "event_triggered"
+    rewards:
+      experience: 400
+      items: []
+      currency: {}
+
+timeConstraints:
+  hasDeadline: false
+  deadline: null
+  failOnMissedDeadline: false
+  warningThreshold: null
+
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "variable_ally"
+        status: "recruited"
+
+    triggeredEvents: []
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "variable_ally"
+        attitudeChange: 30
+        dialogue: "Very well. I will stand with you against Strahd. Together, we may succeed where others have failed."
+
+  onFailure:
+    stateChanges: []
+    triggeredEvents: []
+    npcReactions: []
+    canRetry: true
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: true
+
+rewards:
+  experience: 1000
+
+  items: []
+
+  currency:
+    gold: 0
+    silver: 0
+    copper: 0
+
+  reputation: []
+
+  specialRewards:
+    - type: "npc_ally"
+      description: "Destined ally provides combat support, knowledge, and special abilities in final battle"
+
+branches: []
+
+journalEntries:
+  initial: "The Tarokka has revealed a destined ally - someone fated to stand with us against Strahd. We must find this person and convince them to join our cause. An ally of this significance could turn the tide in the final battle."
+
+  updates:
+    - trigger: "meet_ally_complete"
+      entry: "We've found our destined ally: [ALLY NAME]. They're [ALLY DESCRIPTION]. Now we must convince them that our cause is worthy and that together we can defeat Strahd."
+
+  completion: "[ALLY NAME] has agreed to join us! With their expertise and power, our chances against Strahd have improved significantly. They'll fight alongside us in the final battle and provide crucial support."
+
+  failure: null
+
+eventSchedulerIntegration:
+  registeredEvents: []
+
+dmGuidance:
+  narrativeHooks:
+    - "Van Richten (if ally): Reveal Rictavio disguise dramatically"
+    - "Ezmerelda (if ally): She's been hunting Strahd independently, respect her competence"
+    - "Ally should feel significant - a true champion joining the cause"
+    - "Ally provides unique benefits: Van Richten (vampire lore), Ezmerelda (combat prowess)"
+
+  roleplayTips:
+    - "Van Richten: Gruff, experienced, haunted by past failures"
+    - "Ezmerelda: Bold, optimistic despite handicap, eager to prove herself"
+    - "Ally should test party before committing - prove worthiness"
+
+  combatEncounters: []
+
+  commonPitfalls:
+    - "Players may distrust disguised Van Richten - build tension before reveal"
+    - "Players may not value ally - emphasize their legendary status"
+
+  alternatives:
+    - "Ally can provide training montage or knowledge before final battle"
+    - "Ally can have personal quest that strengthens bond"
+
+relationships:
+  partOfQuestChain:
+    chainId: "preparation_for_final_battle"
+    position: 1
+
+  blocksQuests:
+    - "destroy_strahd_von_zarovich"
+
+  conflictsWith: []
+
+difficulty:
+  recommendedLevel: 7
+  challengeRating: 0
+  skillChecks:
+    - skill: "persuasion"
+      dc: 15
+      description: "Convince ally to join"
+    - skill: "investigation"
+      dc: 13
+      description: "Decipher ally identity from Tarokka"
+
+lore:
+  background: |
+    The destined ally is someone with the skills, knowledge, or power to significantly aid in
+    defeating Strahd. Van Richten has hunted vampires for decades. Ezmerelda learned from Van
+    Richten and seeks to surpass her mentor. Whoever the ally is, fate has marked them for this
+    battle.
+
+  connectionToMainStory: |
+    The ally represents hope and reinforcement. Fighting Strahd alone is nearly impossible - having
+    a legendary vampire hunter or skilled warrior provides both practical support and morale boost.
+
+  historicalContext: |
+    Van Richten has fought vampires across multiple lands. Ezmerelda lost her leg to a vampire and
+    replaced it with a prosthetic. Both have personal reasons to oppose Strahd beyond simple duty.
+
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.81 (Tarokka), p.252-253 (Van Richten), p.231 (Ezmerelda)"
+  official: true
+  estimatedDuration: "1 session"
+  tags: ["ally", "social", "recruitment", "tarokka_variable"]
+  notes: "Ally determined by Tarokka. Van Richten disguised as Rictavio in Vallaki. Ezmerelda roams Barovia. Ally joins final battle and provides significant bonuses."
+  developmentStage: "final"
+
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager"

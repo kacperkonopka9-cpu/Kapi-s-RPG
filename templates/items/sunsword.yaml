@@ -1,0 +1,63 @@
+# Sunsword - Legendary Sentient Weapon
+# Template stub for Epic 4 Story 4-12 (Artifact Quests)
+# Full mechanics implementation deferred to Epic 5
+
+itemId: "sunsword"
+name: "Sunsword"
+type: "weapon"
+subtype: "longsword"
+rarity: "legendary"
+requiresAttunement: true
+
+description:
+  short: "The legendary Sunsword, a sentient longsword wielded by Sergei von Zarovich, glows with radiant sunlight"
+  full: |
+    The Sunsword is a unique blade once wielded by Sergei von Zarovich, Strahd's younger brother.
+    The weapon is now a sentient longsword that yearns to destroy Strahd. The sword's
+    luminous blade emits bright sunlight in a 15-foot radius and dim light for an additional
+    15 feet. The sunlight is pure sunlight, harmful to vampires and undead.
+
+properties:
+  damage: "1d8 radiant (versatile 1d10)"  # Base longsword damage becomes radiant
+  attackBonus: +2
+  damageBonus: +2
+  finesse: false
+  versatile: true
+  reach: 5
+  weight: 3
+
+attunement:
+  required: true
+  restrictions:
+    - "Creature of non-evil alignment"
+
+specialAbilities:
+    - name: "Sunlight"
+      description: "Emits bright sunlight in 15 ft radius, dim light 15 ft beyond. True sunlight (harms vampires)."
+
+    - name: "Bonus vs Undead"
+      description: "Advantage on attack rolls against undead. Deals +1d8 radiant damage to undead."
+
+    - name: "Sentience"
+      description: "Sentient weapon. Lawful Good alignment. Communicates telepathically with wielder."
+      personality: "Yearns to destroy Strahd. Urges wielder toward heroic acts and vampire destruction."
+      conflict: "If wielder refuses to fight vampires or acts cowardly, weapon may impose disadvantage."
+
+lore:
+  history: "Wielded by Sergei von Zarovich before his murder by Strahd. Passed through many heroes' hands over centuries."
+  connectionToStrahd: "The sword was present at Sergei's wedding, the night Strahd killed him. It remembers."
+  creator: "Unknown holy order, predating Strahd's conquest of Barovia"
+
+source:
+  book: "Curse of Strahd"
+  page: "p.223"
+  notes: "One of three artifacts needed to defeat Strahd. Location determined by Tarokka reading."
+
+metadata:
+  developmentStage: "stub"  # Full mechanics in Epic 5
+  templateVersion: "1.0.0"
+  createdForStory: "4-12-artifact-quests"
+  compatibleWith: "Quest 7 (Find the Sunsword)"
+
+# STUB: Full item mechanics (inventory integration, equip/unequip, stat modifiers)
+# deferred to Epic 5 (Equipment System, Story 3-14)

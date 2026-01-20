@@ -1,0 +1,133 @@
+location_name: "Amber Temple"
+location_type: temple_dungeon
+location_level: building
+region: balinok_mountains
+parent_location: null
+sub_locations: []
+danger_level: 5
+recommended_level: 9-12
+quest_critical: true
+
+description_short: "An ancient temple built to imprison dark vestiges, offering forbidden knowledge and corrupting dark gifts to desperate seekers."
+
+connected_locations:
+  - name: "Tsolenka Pass"
+    direction: east
+    travel_time: "1 hour on foot"
+    terrain: mountain_path
+    notes: "Only accessible route to temple, guarded by Roc"
+
+points_of_interest:
+  - "Entrance Hall (massive bronze doors, frozen statues)"
+  - "Library (Exethanter's domain, ancient tomes)"
+  - "Shrine of Forbidden Light (4 amber sarcophagi)"
+  - "The Vault (arcanaloth guardian, immense treasure)"
+  - "Catacombs (undead patrols, crypts)"
+  - "Amber Sanctum (Vampyr's sarcophagus)"
+  - "Vilnius's Chamber (mummy lord, Tarrasque scroll)"
+  - "Golem Workshop (deactivated flesh golems)"
+  - "Lost Wing (hidden, sealed section)"
+  - "Exethanter's Hidden Laboratory (reversal ritual)"
+
+major_npcs:
+  - exethanter
+  - amber_temple_arcanaloth
+  - vilnius
+  - amber_temple_flameskulls
+  - the_vestiges
+
+primary_quests:
+  - "Discover Strahd's origin (Vampyr connection)"
+  - "Retrieve Tarokka-indicated artifact (if placed here)"
+  - "Resist or accept dark gifts (moral choice)"
+  - "Defeat or ally with Exethanter"
+
+secondary_quests:
+  - "Restore Exethanter's memories"
+  - "Negotiate with the arcanaloth for vault access"
+  - "Defeat Vilnius and claim Tarrasque scroll"
+  - "Discover ritual to reverse dark gifts"
+  - "Find Exethanter's phylactery"
+  - "Explore the Lost Wing"
+
+environmental_hazards:
+  - "Extreme cold (2d6 damage per hour without protection)"
+  - "Psychic pressure from vestiges (1d6 psychic damage per hour after 4 hours)"
+  - "Thin air (high altitude exhaustion)"
+  - "Vestige corruption (dark gifts carry permanent consequences)"
+  - "Flameskull patrols (CR 4 encounters)"
+  - "Undead in catacombs (wights, mummies)"
+
+available_resources:
+  - "Library (arcane knowledge, spell books)"
+  - "The Eternal Flame (meditation grants corruption resistance)"
+  - "Frozen corpses (equipment from previous seekers)"
+  - "Amber shards (spell components)"
+
+treasure_value: extreme
+treasure_notes: "Vault contains 50,000+ gp, magic items, possible Tarokka artifact. Dark gifts offer power equivalent to very rare magic items but with severe costs."
+
+dark_gifts_available:
+  - "Vampyr: Become true vampire (CR increase, undead type, Strahd rival)"
+  - "Seriach: Fire immunity + hell hound command (smoke from eyes/mouth)"
+  - "Talos: Lightning resistance + Lightning Bolt 1/day (static electricity, metal shocks allies)"
+  - "Yrrga: Darkvision 120 ft. + see invisibility (eyes become black voids, sunlight sensitivity)"
+  - "Savnok: +2 AC + armor proficiency (featureless face)"
+  - "Eight additional vestiges with unique gifts"
+
+boss_encounters:
+  - name: "Exethanter"
+    cr: 14
+    optional: true
+    notes: "Only fights if attacked or sarcophagi threatened"
+  - name: "Arcanaloth"
+    cr: 12
+    optional: negotiable
+    notes: "Can be negotiated with or fought for vault access"
+  - name: "Vilnius"
+    cr: 15
+    optional: true
+    notes: "Dormant unless chamber disturbed, rejuvenates unless jars destroyed"
+
+token_count: 1650
+last_validated: null
+validation_status: pending
+
+lore_significance: |
+  The Amber Temple predates Strahd by millennia. It was built by an ancient order of wizards who discovered
+  entities from before creation—vestiges whose very existence threatened reality. Unable to destroy these
+  god-like beings, the wizards imprisoned them in amber sarcophagi, building a temple to contain and guard
+  them for eternity.
+
+  The irony is profound: The temple built to prevent cosmic evil from corrupting the world became the
+  source of Barovia's greatest evil. Strahd came here centuries ago, desperate for power to win Tatyana's
+  love. He accepted Vampyr's dark gift, becoming the land's first vampire. His curse spawned from this
+  place.
+
+  Now the temple offers the same choice to all who enter: Accept power and corruption, or refuse and remain
+  pure but potentially too weak to defeat the vampire lord.
+
+dm_notes: |
+  The Amber Temple is the campaign's moral climax before the final confrontation. Players will be tempted—
+  some severely. Dark gifts offer genuine mechanical advantages:
+
+  - Vampyr's gift makes a character a full vampire (massive power boost, massive narrative cost)
+  - Other gifts provide benefits equivalent to very rare magic items
+  - Parties feeling under-leveled for Strahd may see dark gifts as necessary
+
+  Key DM considerations:
+  1. Make temptations genuine (don't present only "bad" options)
+  2. Make consequences real (physical mutations manifest, NPCs react with fear)
+  3. Provide redemption path (reversal ritual exists but is costly and painful)
+  4. Track corruption carefully (each gift increases corruption level)
+
+  Exethanter is the heart of the temple's tragedy. He's been alone for millennia, watching seekers corrupt
+  themselves or die, unable to help because he can't remember why he's there. If the party shows him
+  compassion, he becomes invaluable ally. If they attack him, he's a CR 14 lich boss fight.
+
+  The arcanaloth creates fascinating negotiation scenarios. It knows everything, guards immense treasure,
+  and will bargain—but it drives cruel bargains. Players who outsmart it or strike favorable deals will
+  feel accomplished. Those who refuse to deal must fight or sneak.
+
+  Vilnius is pure optional boss content. The Tarrasque scroll is so dangerous it should be locked behind
+  a CR 15 encounter. Only desperate or very confident parties should attempt this.

@@ -1,0 +1,64 @@
+# Location Metadata - Castle Ravenloft
+
+location_name: "Castle Ravenloft"
+location_type: "mega-dungeon"
+region: "Barovia Valley"
+size: "Massive"
+danger_level: 5
+recommended_level: "8-10"
+
+# Location Hierarchy
+parent_location: null  # Castle is top-level location
+sub_locations:  # Major areas within the castle (to be implemented as sub-location folders)
+  - "entrance"
+  - "great-entry"
+  - "chapel"
+  - "dining-hall"
+  - "tower-of-strahd"
+  - "catacombs"
+  - "larders"
+  - "guest-quarters"
+  - "hall-of-bones"
+  - "audience-hall"
+  - "treasury"
+  - "overlook"
+location_level: "building"  # Castle is a building-level location (even though it's large)
+
+# Connected Locations (External connections)
+connected_locations:
+  - name: "Village of Barovia"
+    direction: "South"
+    travel_time: "4 hours"
+    description: "Treacherous path down from pillar to village below"
+  - name: "Tser Pool Encampment"
+    direction: "Southwest"
+    travel_time: "3 hours"
+    description: "Path through woods to Vistani camp"
+  - name: "Svalich Wood"
+    direction: "All directions"
+    travel_time: "Surrounds castle"
+    description: "Dense fog-shrouded forest encircles the pillar"
+
+# Discovery and Visit Tracking
+fast_travel_available: false  # Must physically travel to castle
+discovered: false  # Players haven't reached castle yet
+first_visit_date: null
+
+# Content Metadata
+description_token_count: 1450  # Parent Description.md token estimate
+total_rooms: 60  # Approximate room count across all sub-locations
+sub_location_count: 12  # Minimum sub-locations to implement
+
+# Special Properties
+lair_actions_enabled: true  # Strahd can use lair actions in castle
+heart_of_sorrow_active: true  # Crystal heart provides Strahd protection
+legendary_creature_domain: true  # Strahd is master of this domain
+
+# Campaign Significance
+final_dungeon: true  # This is the campaign's final major location
+legendary_artifacts_present: true  # May contain Sunsword, Holy Symbol, or Tome based on Tarokka
+main_villain_location: true  # Strahd's primary residence
+
+# Validation
+last_validated: "2025-11-11"  # Date location structure validated
+validation_status: "parent_only"  # Parent validated, sub-locations pending implementation

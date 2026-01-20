@@ -1,0 +1,58 @@
+# Location Metadata - Castle Ravenloft: Tower of Strahd
+
+location_name: "Castle Ravenloft - Tower of Strahd"
+location_type: "dungeon_area"
+region: "Barovia Valley"
+size: "Medium"
+danger_level: 5
+recommended_level: "9-10"
+
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+
+connected_locations:
+  - name: "Upper Galleries"
+    direction: "Stairs down"
+  - name: "Overlook Towers"
+    direction: "Secret passage"
+  - name: "Heart Chamber (K20)"
+    direction: "Stairs up"
+
+rooms_included:
+  - "K37: Study"
+  - "K59-K60: Tower Peaks"
+  - "K20: Heart of Sorrow Chamber"
+room_count: 4
+
+discovered: false
+first_visit_date: null
+
+description_token_count: 1600
+npc_count: 4
+item_count: 8
+event_count: 6
+
+strahd_sanctum: true
+heart_of_sorrow_location: true
+high_value_loot: true
+extremely_dangerous: true
+
+typical_encounters:
+  - name: "Strahd + Escher"
+    cr: "15 + 5"
+    xp: 18900
+  - name: "Spectral Guardian (Heart defense)"
+    cr: 7
+    xp: 2900
+total_encounter_xp: "2900-21800 (DEADLY)"
+
+critical_artifact:
+  name: "Heart of Sorrow"
+  effect: "Absorbs 50 damage/round for Strahd"
+  ac: 17
+  hp: 50
+  destruction_impact: "Major strategic advantage"
+
+last_validated: null
+validation_status: "pending"

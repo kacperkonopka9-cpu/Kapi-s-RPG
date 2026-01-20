@@ -1,0 +1,41 @@
+# Quest State Tracking
+# Persists quest status, objectives, and player choices across sessions
+# Updated by QuestManager module
+
+# Map of quest ID to quest state
+quests: {}
+  # Example structure:
+  # escape_from_death_house:
+  #   status: completed
+  #   acceptedDate: '735-10-01'
+  #   acceptedTime: '14:30'
+  #   completedDate: '735-10-01'
+  #   completedTime: '18:45'
+  #   objectives:
+  #     explore_house:
+  #       status: completed
+  #       completedDate: '735-10-01'
+  #     defeat_shambling_mound:
+  #       status: completed
+  #       completedDate: '735-10-01'
+  #     escape_house:
+  #       status: completed
+  #       completedDate: '735-10-01'
+
+# Array of quest IDs with status "active"
+activeQuests: []
+
+# Array of quest IDs with status "completed"
+completedQuests: []
+
+# Player choices for quest branching
+playerChoices: {}
+  # Example structure:
+  # escort_ireena_to_vallaki:
+  #   sanctuary_choice:
+  #     branchId: sanctuary_location
+  #     choiceId: church_of_st_andral
+  #     chosenDate: '735-10-05'
+
+# Last updated timestamp
+lastUpdated: null

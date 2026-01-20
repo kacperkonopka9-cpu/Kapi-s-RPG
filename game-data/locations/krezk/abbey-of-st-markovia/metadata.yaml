@@ -1,0 +1,65 @@
+location_name: "Abbey of St. Markovia"
+location_type: "building"
+region: "Barovia Valley - Western Mountains"
+parent_location: "krezk"
+location_level: "building"
+sub_locations: []
+connected_locations:
+  - name: "Village of Krezk"
+    direction: "downhill"
+    travel_time: "15 minutes"
+    description: "Mountain path descending to Krezk's village gates"
+  - name: "Abbey Courtyard"
+    direction: "through gate"
+    travel_time: "immediate"
+    description: "Overgrown courtyard within abbey walls"
+  - name: "Mountain Peak"
+    direction: "uphill"
+    travel_time: "1 hour"
+    description: "Continuing upward leads to barren mountain peak with view of all Barovia"
+danger_level: 5
+recommended_level: "8-10"
+size: "Large (monastery complex)"
+description_token_count: 1547
+quest_critical: true
+quests:
+  - "Investigate the Abbey"
+  - "Fetch Wedding Dress for Abbot"
+  - "Free the Mongrelfolk"
+  - "Defeat the Abbot"
+  - "Heal Ilya (via Abbot)"
+features:
+  - "Fallen deva boss (CR 15)"
+  - "Flesh golem creation (Vasilka)"
+  - "Mongrelfolk inhabitants"
+  - "Catacombs with saint's remains"
+  - "Surgical workshop"
+  - "Bell tower"
+enemies:
+  - name: "The Abbot"
+    type: "deva (fallen)"
+    cr: 15
+    count: 1
+  - name: "Mongrelfolk"
+    type: "mongrelfolk"
+    cr: 0.25
+    count: 12
+  - name: "Vasilka"
+    type: "flesh golem"
+    cr: 5
+    count: 1
+    conditional: "if animated"
+npcs:
+  - "The Abbot (primary)"
+  - "Otto Belview"
+  - "Zygfrek Belview"
+  - "Vasilka"
+  - "Other mongrelfolk (10)"
+treasure:
+  - "Abbey treasury (800 gp + gems + magic items)"
+  - "Surgical tools (500 gp, cursed)"
+  - "Religious artifacts"
+  - "Healing potions"
+  - "Potential Tarokka artifact location"
+last_validated: "2025-11-12"
+notes: "Abbey is major dungeon location in Krezk with moral complexity. The Abbot is CR 15 deadly encounter but can also be quest giver/healer. Mongrelfolk add tragic element. Vasilka represents Abbot's madness. Multiple resolution paths: combat, negotiation, ignoring. Requires party to make difficult moral choices."

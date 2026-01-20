@@ -1,0 +1,30 @@
+# Location Metadata - Coffin Maker's Shop
+
+location_name: "Coffin Maker's Shop"
+location_type: "building"
+region: "Barovia Valley"
+parent_location: "vallaki"
+sub_locations: []
+location_level: "room"
+danger_level: 5
+recommended_level: "4-6"
+
+connected_locations:
+  - name: "Town Square"
+    direction: "northwest"
+    travel_time: "2 minutes"
+  - name: "Church of St. Andral"
+    direction: "north"
+    travel_time: "3 minutes"
+
+description_token_count: 350
+npc_count: 2
+item_count: 5
+event_count: 3
+
+quest_critical: true
+combat_location: true
+vampire_activity: true
+
+last_validated: null
+validation_status: "pending"

@@ -1,0 +1,187 @@
+# Potion of Greater Healing - Uncommon Consumable
+# Compatible with Epic 3 ItemDatabase (Story 3-6) and CombatManager (Story 3-5)
+
+# === BASIC INFORMATION ===
+id: "potion_of_greater_healing"
+name: "Potion of Greater Healing"
+type: "consumable"
+weight: 0.5
+
+# === MAGIC ITEM PROPERTIES ===
+rarity: "uncommon"
+requiresAttunement: false
+attunementRequirements: null
+
+# === WEAPON PROPERTIES ===
+weaponProperties: null
+
+# === ARMOR PROPERTIES ===
+armorProperties: null
+
+# === MAGIC EFFECTS ===
+effects:
+  - type: "healing"
+    healingDice: "4d4+4"
+    description: "Restores 4d4 + 4 hit points when consumed (8-20 HP, average 14 HP)"
+
+# === SPECIAL ABILITIES ===
+specialAbilities:
+  - name: "Drink Potion"
+    description: "You can drink this potion as an action to regain 4d4 + 4 hit points. You can also administer the potion to another creature as an action (they gain the healing). Once consumed, the potion's magic is expended and the vial becomes a mundane glass container."
+    activation: "action"
+    usesPerDay: 1  # Single use, then expended
+    healingAmount: "4d4+4"
+    range: "self_or_touch"
+
+# === SENTIENCE ===
+sentience: null
+
+# === LORE & HISTORY ===
+lore:
+  description: "A crystal vial containing a vibrant red liquid that sparkles with magical energy. The potion swirls gently on its own, even when at rest, and emits a faint warm glow. When shaken, tiny motes of golden light dance within the liquid. The potion smells sweet and fruity, reminiscent of cherries and cinnamon. Greater healing potions are among the most sought-after consumables by adventurers, capable of saving lives in critical moments."
+
+  history: "Healing potions are created by skilled alchemists, herbalists, and clerics who combine rare herbs, purified water, and healing magic. Greater healing potions require more potent ingredients and stronger enchantments than standard healing potions. They are valuable commodities, often found in healers' shops, temple infirmaries, and the treasure hoards of those wise enough to prepare for danger. In Barovia, where healing magic is precious and clerics are rare, these potions are worth their weight in gold."
+
+  legendsAndRumors: []
+
+# === IDENTIFYING THE ITEM ===
+identification:
+  basePropertiesReveal: "on_inspection"
+  fullPropertiesReveal: "The red color and sweet smell identify this as a healing potion. An Identify spell or Arcana/Medicine check DC 10 confirms it as a Greater Healing Potion (4d4+4)."
+  hiddenProperties: []
+
+# === LOCATION IN CURSE OF STRAHD ===
+locationInfo:
+  whereFound: "Various locations throughout Barovia"
+  howObtained: "May be purchased from the Vistani (if they have stock), found in churches or healers' homes, looted from fallen adventurers, discovered in Castle Ravenloft's stores, or gifted by grateful NPCs. Relatively uncommon but not unique."
+  guardian: null
+  notes: "Healing potions are vital survival tools in Barovia. Smart adventurers stock multiple potions before delving into dangerous locations."
+
+# === GAME MECHANICS NOTES ===
+mechanicsNotes:
+  attackRolls: null
+  damageRolls: null
+  spellDC: null
+
+  integration:
+    combatManager: "Drinking a potion takes an action (or bonus action with Thief rogue's Fast Hands). Healing integrates with HP tracking. Can be used while unconscious if administered by another creature."
+    equipmentManager: "Stored in inventory. Does not require equipping. Can be accessed quickly in combat."
+    inventoryManager: "Weight 0.5 lbs. Single-use consumable. Empty vial remains after use (worth ~1 gp)."
+
+  healingMechanics:
+    healingRoll: "4d4 + 4"
+    minimumHealing: 8
+    maximumHealing: 20
+    averageHealing: 14
+    actionEconomy: "Drinking takes 1 action. Administering to another creature takes 1 action."
+    bonusActionOption: "Thief rogues (Fast Hands feature) can drink potions as bonus action"
+
+  comparisonToOtherPotions:
+    potionOfHealing: "2d4 + 2 (5-10 HP, avg 7)" # Common
+    potionOfGreaterHealing: "4d4 + 4 (8-20 HP, avg 14)" # Uncommon - THIS ITEM
+    potionOfSuperiorHealing: "8d4 + 8 (16-40 HP, avg 28)" # Rare
+    potionOfSupremeHealing: "10d4 + 20 (30-60 HP, avg 45)" # Very Rare
+
+  tacticalUse:
+    bestUsedWhen:
+      - "Character is below half HP in combat"
+      - "Preventing death - healing an unconscious ally"
+      - "Before a big fight to ensure full HP"
+      - "After combat to conserve spell slots"
+
+    actionEconomyConsiderations:
+      - "Using a potion takes an action (cannot attack that turn)"
+      - "Healing Word (bonus action spell) may be more action-efficient in combat"
+      - "Potions don't require spell slots - good for preserving caster resources"
+      - "Thief rogues can drink as bonus action (very powerful combo)"
+
+  administrationRules:
+    selfUse: "Drink as action, regain 4d4+4 HP"
+    helpOther: "Use action to administer to adjacent creature (willing or unconscious)"
+    unconsciousTarget: "Can be administered to unconscious ally (they regain HP and may regain consciousness if HP > 0)"
+    forcedConsumption: "Unwilling creatures can be forced to drink with grapple + action"
+
+# === BALANCE CONSIDERATIONS ===
+balance:
+  powerLevel: "uncommon"
+  recommendedLevel: 3
+  notes: "A solid mid-tier healing consumable. 14 average healing is significant at lower levels (half the HP of a 5th level fighter) but less impactful at higher levels. Single-use nature creates resource management decisions. Widely useful across all character types since it doesn't require spellcasting."
+
+  dmGuidance:
+    - "Greater healing potions are good rewards for completing quests or finding treasure"
+    - "Stock 1-2 potions per character for dungeon delves or major encounters"
+    - "Prices in Barovia: 100-200 gp (if available for purchase at all)"
+    - "NPCs may trade valuable information or services for healing potions"
+    - "The Vistani may sell potions but at inflated prices (200-300 gp)"
+    - "Finding a cache of healing potions can be a reward in itself"
+    - "Don't make potions too scarce - they're a safety net for parties without healers"
+
+# === VISUAL DESCRIPTION ===
+appearance:
+  visual: "A delicate crystal vial, approximately 4 inches tall, with a cork stopper sealed with red wax. The vial contains a vibrant crimson liquid that swirls with inner luminescence. Tiny golden motes drift through the liquid like stars in a red sky. The glass is slightly warm to the touch and the liquid gives off a faint, sweet aroma reminiscent of cherries, cinnamon, and honey. A label (if present) identifies it as 'Greater Healing Potion' in elegant script."
+
+  activeState: "When the cork is removed, the sweet aroma intensifies and the liquid glows brighter. When consumed, the potion tastes like warm honey mixed with spiced fruit - pleasant and comforting. The liquid feels warm going down and spreads a tingling sensation through the body as wounds close and vitality returns."
+
+  soundEffects: "Opening the vial produces a soft 'pop' as the seal breaks. Drinking the potion makes a gentle glug-glug sound. As the magic takes effect, there's a brief sensation of warmth and the sound of a heartbeat growing stronger."
+
+# === PRICING & AVAILABILITY ===
+economicInformation:
+  marketValue: "200 gp (DMG p.135)"
+  barovianAvailability: "Very limited - most shops don't stock healing potions"
+  sources:
+    - "Vistani traders (occasionally, at 2-3x normal price)"
+    - "Churches (may gift to those in need or sell at cost)"
+    - "Looted from treasure hoards"
+    - "Crafted by party alchemist/herbalist (requires time, materials, proficiency)"
+
+  craftingRules:
+    description: "Optional rule: Characters with alchemist's supplies or herbalism kit proficiency can craft healing potions"
+    requirements:
+      - "Proficiency in alchemist's supplies or herbalism kit"
+      - "25 gp of materials per potion"
+      - "1 day of work per potion (downtime activity)"
+      - "DC 15 Intelligence check (alchemist's supplies or herbalism kit)"
+      - "Success: potion created. Failure: materials wasted"
+
+# === TACTICAL SCENARIOS ===
+useCases:
+  scenario1:
+    situation: "Fighter at 15/45 HP in combat with vampire spawn"
+    decision: "Drink potion (action) for ~14 HP vs. Dodge (action) and hope healer acts"
+    outcome: "Drinking potion brings fighter to 29/45 HP, reducing risk of death but sacrificing attack"
+
+  scenario2:
+    situation: "Cleric is unconscious (0 HP) and making death saves"
+    decision: "Rogue uses action to administer potion to cleric"
+    outcome: "Cleric regains ~14 HP, returns to consciousness, can cast healing spells next turn"
+
+  scenario3:
+    situation: "Party is at half HP after tough battle, dungeon delving continues"
+    decision: "Use potions to heal up vs. take short rest and use hit dice"
+    outcome: "Potions provide instant healing, preserving hit dice for later. Short rest takes 1 hour (risk of encounter)."
+
+# === SOURCE & METADATA ===
+metadata:
+  source: "Dungeon Master's Guide"
+  pageReference: "DMG p.187"
+  official: true
+  srdContent: true
+
+  notes: "Potion of Greater Healing is a staple magic item in D&D. It's reliable, universally useful, and doesn't require attunement or special abilities. Every adventuring party should have a few on hand. In Curse of Strahd, where healing is precious, these potions can mean the difference between survival and a TPK."
+
+  dmReminders:
+    - "Single use - expended after consumption"
+    - "Heals 4d4 + 4 HP (8-20, average 14)"
+    - "Drinking takes 1 action (or bonus action for Thief rogues)"
+    - "Can be administered to unconscious allies (action)"
+    - "Does not require attunement or spellcasting ability"
+    - "Works on any creature that can benefit from healing"
+    - "Empty vial remains after use (reusable for crafting)"
+    - "Market value ~200 gp (if available for sale)"
+    - "Potions are universally recognized - no identification needed"
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 3 ItemDatabase (Story 3-6), CombatManager (Story 3-5)"

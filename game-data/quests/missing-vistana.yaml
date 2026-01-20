@@ -1,0 +1,401 @@
+# Quest: Missing Vistana
+# Minor Side Quest - Rescue with Time Pressure
+# Rescue Arabelle, Luvash's daughter, from drowning
+
+# === BASIC INFORMATION ===
+questId: "missing_vistana"
+name: "Missing Vistana"
+type: "side"
+category: "investigation"
+
+# === QUEST GIVERS & RECIPIENTS ===
+questGiver:
+  npcId: "luvash"
+  location: "tser_pool_encampment"
+  dialogue: "My daughter Arabelle is missing! She was playing by the lake this morning and now she's gone. Please, I'll give you anything - gold, treasure, sanctuary - just find her and bring her back safely!"
+
+questRecipient: "player"
+
+# === QUEST DESCRIPTION ===
+description:
+  short: "Find and rescue Arabelle, the missing daughter of Vistani leader Luvash"
+  full: "Luvash, leader of the Vistani at Tser Pool Encampment, is frantic - his 7-year-old daughter Arabelle has disappeared. Investigation reveals that Bluto the fisherman, driven mad by failure and hunger, kidnapped Arabelle and is attempting to sacrifice her to the lake for a good catch. Arabelle is currently in a weighted sack in Lake Zarovich, drowning. The party has limited time to track Bluto, reach the lake, and rescue Arabelle before she drowns. Success earns the eternal gratitude of the Vistani and valuable rewards. Failure turns the Vistani hostile and denies the party future aid. The quest creates intense time pressure once Arabelle's location is discovered."
+
+# === QUEST STATUS ===
+status: "not_started"
+
+# === PREREQUISITES ===
+prerequisites:
+  level: 3
+
+  requiredQuests:
+    completed: []
+
+  requiredEvents: []
+
+  requiredNPCs:
+    alive:
+      - "luvash"
+    dead: []
+
+  requiredItems: []
+
+  requiredLocations:
+    visited:
+      - "tser_pool_encampment"
+
+# === OBJECTIVES ===
+objectives:
+  - objectiveId: "speak_to_luvash"
+    description: "Speak to Luvash about his missing daughter"
+    type: "dialogue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "luvash"
+      location: "tser_pool_encampment"
+    optional: false
+    completionTrigger:
+      type: "dialogue_complete"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "investigate_disappearance"
+    description: "Investigate Arabelle's disappearance at the Vistani camp"
+    type: "investigate"
+    status: "pending"
+    target:
+      type: "location"
+      id: "tser_pool_encampment"
+      location: "tser_pool_encampment"
+    optional: false
+    completionTrigger:
+      type: "investigation_complete"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "track_to_lake"
+    description: "Track Arabelle's trail to Lake Zarovich"
+    type: "exploration"
+    status: "pending"
+    target:
+      type: "location"
+      id: "lake_zarovich"
+      location: "lake_zarovich"
+    optional: false
+    completionTrigger:
+      type: "location_reached"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+  - objectiveId: "find_bluto"
+    description: "Find Bluto the fisherman with Arabelle"
+    type: "investigation"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "bluto"
+      location: "lake_zarovich"
+    optional: false
+    completionTrigger:
+      type: "npc_found"
+    rewards:
+      experience: 25
+      items: []
+      currency: {}
+
+  - objectiveId: "rescue_arabelle"
+    description: "Rescue Arabelle from drowning before it's too late"
+    type: "rescue"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "arabelle"
+      location: "lake_zarovich"
+    optional: false
+    completionTrigger:
+      type: "npc_rescued"
+    rewards:
+      experience: 100
+      items: []
+      currency: {}
+
+  - objectiveId: "return_arabelle_to_luvash"
+    description: "Return Arabelle safely to her father Luvash"
+    type: "escort"
+    status: "pending"
+    target:
+      type: "npc"
+      id: "luvash"
+      location: "tser_pool_encampment"
+    optional: false
+    completionTrigger:
+      type: "npc_delivered"
+    rewards:
+      experience: 50
+      items: []
+      currency: {}
+
+# === TIME CONSTRAINTS ===
+timeConstraints:
+  hasDeadline: true
+
+  deadline:
+    # Arabelle has 10 rounds (1 minute) underwater before drowning
+    note: "Once party locates Bluto at the lake, Arabelle is already in the water drowning. Party has ~10 rounds to rescue her."
+
+  failOnMissedDeadline: true
+
+  warningThreshold: 5  # rounds
+
+# === CONSEQUENCES ===
+consequences:
+  onCompletion:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "arabelle"
+        status: "alive_rescued"
+
+      - type: "location_state"
+        locationId: "tser_pool_encampment"
+        changes:
+          arabelle_safe: true
+          luvash_grateful: true
+
+    triggeredEvents: []
+
+    unlockedQuests: []
+
+    npcReactions:
+      - npcId: "luvash"
+        attitudeChange: +50
+        dialogue: "You saved my precious Arabelle! I owe you a debt I can never repay. The Vistani will always welcome you. Take this treasure - it's small payment for what you've done."
+
+  onFailure:
+    stateChanges:
+      - type: "npc_status"
+        npcId: "arabelle"
+        status: "dead"
+
+      - type: "location_state"
+        locationId: "tser_pool_encampment"
+        changes:
+          arabelle_dead: true
+          luvash_hostile: true
+          vistani_mourn: true
+
+    triggeredEvents: []
+
+    npcReactions:
+      - npcId: "luvash"
+        attitudeChange: -50
+        dialogue: "You let my daughter die! Get out of my sight before I kill you! The Vistani will never help you now!"
+
+    canRetry: false
+
+  onAbandonment:
+    stateChanges: []
+    npcReactions: []
+    canRestart: false
+
+# === REWARDS ===
+rewards:
+  experience: 300
+
+  items:
+    - itemId: "ring_of_warmth"
+      quantity: 1
+      source: "luvash_treasure"
+
+  currency:
+    gold: 250
+    silver: 0
+    copper: 0
+
+  reputation:
+    - faction: "vistani"
+      change: +25
+
+  specialRewards:
+    - type: "sanctuary"
+      description: "Vistani camps become safe havens for the party. Luvash offers aid in future."
+
+# === BRANCHING & CHOICES ===
+branches:
+  - branchId: "rescue_outcome"
+    description: "Quest outcome based on whether Arabelle is saved in time"
+    autoDecide: true
+    decision:
+      condition: "arabelle_rescued_before_drowning"
+      outcomes:
+        - outcomeId: "successful_rescue"
+          condition: "arabelle_rescued == true AND time_remaining > 0"
+          consequences:
+            - type: "quest_status"
+              questId: "missing_vistana"
+              status: "completed"
+            - type: "reputation"
+              faction: "vistani"
+              change: +25
+            - type: "npc_status"
+              npcId: "arabelle"
+              status: "alive"
+
+        - outcomeId: "failed_rescue"
+          condition: "arabelle_rescued == false OR time_remaining <= 0"
+          consequences:
+            - type: "quest_status"
+              questId: "missing_vistana"
+              status: "failed"
+            - type: "reputation"
+              faction: "vistani"
+              change: -30
+            - type: "npc_status"
+              npcId: "arabelle"
+              status: "dead"
+            - type: "special_consequence"
+              description: "Luvash's grief drives him to drink and violence. Vistani become hostile to party."
+
+  - branchId: "bluto_fate"
+    description: "Player decides what to do with Bluto after rescuing Arabelle"
+    autoDecide: false
+    decision:
+      prompt: "Bluto the fisherman kidnapped and tried to drown Arabelle as a sacrifice to the lake. He's clearly mad from hunger and desperation. What do you do with him?"
+      choices:
+        - choiceId: "kill_bluto"
+          description: "Kill Bluto for his crime"
+          consequences:
+            - type: "npc_status"
+              npcId: "bluto"
+              status: "dead"
+            - type: "reputation"
+              faction: "vistani"
+              change: +5
+
+        - choiceId: "spare_bluto"
+          description: "Spare Bluto and let him flee"
+          consequences:
+            - type: "npc_status"
+              npcId: "bluto"
+              status: "fled"
+            - type: "reputation"
+              faction: "vallaki_citizens"
+              change: +5
+
+        - choiceId: "turn_in_bluto"
+          description: "Turn Bluto over to the authorities in Vallaki"
+          consequences:
+            - type: "npc_status"
+              npcId: "bluto"
+              status: "imprisoned"
+            - type: "reputation"
+              faction: "vallaki_guards"
+              change: +5
+
+# === JOURNAL ENTRIES ===
+journalEntries:
+  initial: "Luvash, leader of the Vistani at Tser Pool Encampment, has asked for my help finding his missing daughter Arabelle. She disappeared this morning while playing by the lake. He's offering a generous reward for her safe return."
+
+  updates:
+    - trigger: "investigate_disappearance_complete"
+      entry: "Investigation reveals that Arabelle wandered toward Lake Zarovich following a raven (possibly one of the Keepers of the Feather). Small footprints lead toward the lake, and villagers mentioned seeing Bluto the fisherman acting strangely this morning."
+
+    - trigger: "find_bluto_complete"
+      entry: "I've found Bluto at Lake Zarovich! He's in a rowboat and has just thrown a weighted sack into the water - Arabelle is inside, drowning! I must act immediately to save her!"
+
+    - trigger: "rescue_arabelle_complete"
+      entry: "I pulled Arabelle from the lake just in time. She's alive but shaken. Now I must return her to her father Luvash at the Vistani camp."
+
+  completion: "Arabelle is safe! I returned her to Luvash at Tser Pool Encampment. He was overwhelmed with gratitude and rewarded me generously. The Vistani will remember this act of kindness. Arabelle has a prophetic gift - she mentioned seeing visions of me in her dreams, fighting against darkness."
+
+  failure: "I failed to save Arabelle. By the time I pulled her from the lake, it was too late. Luvash's grief turned to rage, and the Vistani have become hostile. I have made powerful enemies."
+
+# === INTEGRATION WITH EPIC 2 ===
+eventSchedulerIntegration:
+  registeredEvents: []
+
+# === AI DM GUIDANCE ===
+dmGuidance:
+  narrativeHooks:
+    - "Luvash is desperate and grief-stricken. He'll beg, threaten, promise anything to get his daughter back."
+    - "Arabelle is special - she has prophetic visions and saw the party coming. She may have valuable information."
+    - "Bluto is mad from hunger and isolation, not inherently evil. He thought sacrificing a child would bring fish."
+
+  roleplayTips:
+    - "Luvash: Fierce, protective father. Swings between desperate pleading and threatening violence if his daughter isn't found."
+    - "Arabelle: Innocent 7-year-old with unusual wisdom. Has prophetic gift (visions of Tarokka cards)."
+    - "Bluto: Emaciated, wild-eyed, muttering about the lake demanding sacrifice. Pitiable but dangerous."
+
+  combatEncounters:
+    - encounter: "rescue_arabelle"
+      location: "lake_zarovich"
+      cr: 0
+      description: "No combat required if party acts quickly. Bluto is weak (commoner stats) and won't fight seriously. Focus is on rescuing drowning child - Athletics or swim checks."
+
+  commonPitfalls:
+    - "Party may waste time investigating instead of rushing to the lake once they learn Arabelle's location."
+    - "Party may not realize Arabelle is actively drowning. Emphasize urgency."
+    - "Party may kill Bluto without considering he's mentally ill and desperate."
+
+  alternatives:
+    - "Party could use magic (water breathing, levitate) to make rescue easier."
+    - "Party could convince Bluto to pull Arabelle up before attacking him."
+    - "If Arabelle dies, party could use revivify spell (if they have it) to bring her back."
+
+  lore:
+    - "Arabelle has the 'sight' - prophetic visions like Madam Eva. She foresaw the party's arrival."
+    - "Luvash is hotheaded and protective. He nearly killed his brother Arrigal once in a rage."
+    - "The Vistani are outcasts but have strong family bonds. Saving Arabelle earns the entire camp's loyalty."
+
+# === RELATIONSHIP TO OTHER QUESTS ===
+relationships:
+  partOfQuestChain: null
+  blocksQuests: []
+  conflictsWith: []
+
+# === DIFFICULTY & SCALING ===
+difficulty:
+  recommendedLevel: 3
+  challengeRating: 0  # Rescue mission, not combat
+  skillChecks:
+    - skill: "investigation"
+      dc: 12
+      description: "To track Arabelle's trail to the lake"
+    - skill: "athletics"
+      dc: 13
+      description: "To swim to the sack and pull Arabelle out"
+    - skill: "medicine"
+      dc: 10
+      description: "To revive Arabelle after rescue (CPR)"
+
+# === LORE & CONTEXT ===
+lore:
+  background: "Lake Zarovich is cursed and yields few fish. Bluto, driven to desperation by starvation, believed the lake demanded a child sacrifice for a good catch."
+
+  connectionToMainStory: "Arabelle's prophetic visions connect to the Tarokka reading and Madam Eva. Saving her earns Vistani aid, which can be crucial against Strahd. Failing creates powerful enemies and loses a source of information."
+
+  historicalContext: "The Vistani have lived in Barovia for generations. They're the only ones who can come and go from the cursed land, making them valuable allies."
+
+# === METADATA ===
+metadata:
+  source: "Curse of Strahd"
+  pageReference: "CoS p.40-41"
+  official: true
+
+  estimatedDuration: "1 session"
+
+  tags: ["side", "rescue", "time-pressure", "vistani", "lake-zarovich", "child"]
+
+  notes: "This quest creates intense time pressure once Arabelle's location is found. DM should track rounds carefully during the rescue."
+
+  developmentStage: "final"
+
+# === TEMPLATE VERSION ===
+templateVersion: "1.0.0"
+compatibleWith: "Epic 2 EventScheduler (Story 2-3), Epic 1 StateManager, Epic 3 LevelUpCalculator"

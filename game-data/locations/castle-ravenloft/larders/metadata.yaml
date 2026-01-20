@@ -1,0 +1,24 @@
+# Location Metadata - Castle Ravenloft: Larders
+
+location_name: "Castle Ravenloft - Larders (Dungeons)"
+location_type: "dungeon_area"
+danger_level: 4
+recommended_level: "8-10"
+parent_location: "castle-ravenloft"
+sub_locations: []
+location_level: "room"
+rooms_included: ["K72: Rahadin's Office", "K73: Dungeon Hall", "K74: North Dungeon", "K75: South Dungeon", "K76: Elevator Trap"]
+room_count: 5
+description_token_count: 1400
+npc_count: 4
+item_count: 6
+event_count: 5
+typical_encounters:
+  - name: "Rahadin"
+    cr: 10
+    xp: 5900
+  - name: "Vampire Spawn Guards"
+    cr: 5
+    count: "1d3"
+last_validated: null
+validation_status: "pending"
